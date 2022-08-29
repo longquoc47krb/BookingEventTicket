@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import React from "react";
-import SearchBox from "../../presentation/searchbox";
+import SearchBox from "../common/searchbox";
 function HeroBanner() {
   return (
     <div
-      className='h-[245px] bg-red-400 justify-center items-center flex flex-col'
+      className='h-[245px] w-full bg-red-400 justify-center items-center flex flex-col'
       style={{
         backgroundImage: 'url("/hero.jpg")',
       }}>
