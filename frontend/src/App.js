@@ -1,20 +1,19 @@
 import ScrollToTop from "react-scroll-to-top";
 import { BiArrowToTop } from "react-icons/bi";
-import theme from "./shared/theme";
-import EventDashBoard from "./views/EventDashboard";
+import AppStyle from "./assets/AppStyle";
 function App() {
   return (
-    <div>
-      <EventDashBoard />
+    <div className='h-[200vh]'>
       <ScrollToTop
         smooth
-        style={{ background: theme.main }}
+        style={{ background: AppStyle.colors.primary }}
         component={
           <button className='text-white text-2xl'>
             <BiArrowToTop />
           </button>
         }
       />
+      {/* <EventDashBoard /> */}
     </div>
   );
 }
