@@ -1,34 +1,30 @@
-import Event from "./components/container/event";
-import HeroBanner from "./components/container/hero";
-import Header from "./components/presentation/header";
 import ScrollToTop from "react-scroll-to-top";
 import { BiArrowToTop } from "react-icons/bi";
-import theme from "./shared/theme";
+import AppStyle from "./configs/AppStyle";
+import EventDashBoard from "./views/EventDashboard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 function App() {
+  const [events, setEvents] = useState(null);
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get("http://localhost:8000/event");
+      setEvents(res.data);
+    };
+    fetch();
+  }, []);
   return (
-    <div className='container'>
-      <Header />
-      <HeroBanner />
-      <div class='grid-cols-3 gap-y-10 grid px-10 py-5'>
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-        <Event />
-      </div>
+    <div className='h-[200vh]'>
       <ScrollToTop
         smooth
-        style={{ background: theme.main }}
+        style={{ background: AppStyle.colors.primary }}
         component={
           <button className='text-white text-2xl'>
             <BiArrowToTop />
           </button>
         }
       />
+      <EventDashBoard events={events} />
     </div>
   );
 }

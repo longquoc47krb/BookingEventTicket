@@ -1,0 +1,22 @@
+.event {
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+  }
+  &-item-container {
+    width: 360px;
+    height: 260px;
+    padding: 0.5rem;
+    position: relative;
+    border-radius: 0.5rem;
+    box-shadow: 1.2px 0.9px 2.2px rgba(0, 0, 0, 0.025),
+      3px 2.2px 5.3px rgba(0, 0, 0, 0.035),
+      5.6px 4.1px 10px rgba(0, 0, 0, 0.043),
+      10.1px 7.4px 17.9px rgba(0, 0, 0, 0.053),
+      18.8px 13.8px 33.4px rgba(0, 0, 0, 0.069),
+      45px 33px 80px rgba(0, 0, 0, 0.13);
+  }
+}
