@@ -3,7 +3,7 @@ package com.hcmute.bookingevent.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Account")
+@Document("account")
 
 public class Account {
     @Id

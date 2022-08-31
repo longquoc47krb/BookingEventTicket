@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-@Document("Event")
+@Document("event")
 
 public class Event {
     @Id
@@ -22,6 +22,7 @@ public class Event {
 
     public Event() {
     }
+
 
     public Event(String id, String name, String address, LocalDateTime startingTime, LocalDateTime endingTime, String host, String id_category, String description, String background, int totalTicket, int remainingTicket) {
         this.id = id;
