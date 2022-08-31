@@ -4,7 +4,7 @@ import React from "react";
 import Calendar from "../calendar";
 function Event({ event }) {
   return (
-    <div className='w-[360px] h-[260px] event-neumorphism p-2 relative'>
+    <div className='event-item-container'>
       <Image src={event?.image} style={{ height: 130, width: 360 }} />
       <h1 className='w-[290px] font-bold'>{event?.title}</h1>
       <div>

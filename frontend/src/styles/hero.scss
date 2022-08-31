@@ -1,0 +1,28 @@
+.hero {
+  &-container {
+    height: 400px;
+    width: 100%;
+    background: gray;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  &-slogan {
+    font-size: 1.5rem /* 24px */;
+    line-height: 2rem /* 32px */;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 7.1px 7.5px 11.6px -14px rgba(0, 0, 0, 0.129),
+      13.1px 13.8px 20.5px -14px rgba(0, 0, 0, 0.191),
+      18.1px 19px 27.5px -14px rgba(0, 0, 0, 0.228),
+      22.1px 23.3px 33.1px -14px rgba(0, 0, 0, 0.255),
+      25.7px 27px 38.3px -14px rgba(0, 0, 0, 0.279),
+      29.5px 31.1px 44.5px -14px rgba(0, 0, 0, 0.31),
+      36.2px 38px 54.9px -14px rgba(0, 0, 0, 0.362),
+      58px 61px 86px -14px rgba(0, 0, 0, 0.49);
+  }
+}

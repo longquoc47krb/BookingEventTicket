@@ -1,5 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Input } from "antd";
+import PropTypes from "prop-types";
 import React from "react";
 function SearchBox(props) {
   const {
@@ -42,5 +43,10 @@ function SearchBox(props) {
     </AutoComplete>
   );
 }
-
+SearchBox.propTypes = {
+  placeholder: PropTypes.string.isRequired,
+};
+SearchBox.defaultProps = {
+  placeholder: "Tìm kiếm",
+};
 export default SearchBox;

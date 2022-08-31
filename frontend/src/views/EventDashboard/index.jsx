@@ -5,12 +5,13 @@ import HeroBanner from "../../components/hero";
 import PropTypes from "prop-types";
 function EventDashBoard(props) {
   const { events } = props;
+  console.log({ events });
   return (
     <>
       <Header />
       <HeroBanner />
-      <div className='w-[100vw] px-3 bg-red-500 h-[100vh] grid-cols-3 grid'>
-        {events.map((item, index) => (
+      <div className='event-container'>
+        {events?.map((item, index) => (
           <Event event={item} />
         ))}
       </div>

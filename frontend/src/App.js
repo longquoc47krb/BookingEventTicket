@@ -1,7 +1,18 @@
 import ScrollToTop from "react-scroll-to-top";
 import { BiArrowToTop } from "react-icons/bi";
-import AppStyle from "./assets/AppStyle";
+import AppStyle from "./configs/AppStyle";
+import EventDashBoard from "./views/EventDashboard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 function App() {
+  const [events, setEvents] = useState(null);
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get("http://localhost:8000/event");
+      setEvents(res.data);
+    };
+    fetch();
+  }, []);
   return (
     <div className='h-[200vh]'>
       <ScrollToTop
@@ -13,7 +24,7 @@ function App() {
           </button>
         }
       />
-      {/* <EventDashBoard /> */}
+      <EventDashBoard events={events} />
     </div>
   );
 }
