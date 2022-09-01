@@ -1,32 +1,40 @@
 {
-  "event": [
+  "events": [
     {
       "id": 1,
-      "title": "json-server",
-      "image": "https://i.picsum.photos/id/88/536/354.jpg?hmac=9sXz55jNeMZO8qXjYbd9resF7aGeDPG7B1HbOMWTafo",
-      "price": "50.000",
-      "address": "TP. HCM"
-    },
-    {
-      "id": 1,
-      "title": "json-server",
-      "image": "https://i.picsum.photos/id/88/536/354.jpg?hmac=9sXz55jNeMZO8qXjYbd9resF7aGeDPG7B1HbOMWTafo",
-      "price": "50.000",
-      "address": "TP. HCM"
+      "title": "Employer Branding 101 – Khóa học nền tảng về Thương hiệu nhà tuyển dụng",
+      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/22/259BFA.jpg",
+      "price": "599.000 VND",
+      "address": "",
+      "date": "23/08/2022",
+      "categories": ["Khoá học", "Sự kiện"]
     },
     {
       "id": 2,
-      "title": "json-server",
-      "image": "https://i.picsum.photos/id/88/536/354.jpg?hmac=9sXz55jNeMZO8qXjYbd9resF7aGeDPG7B1HbOMWTafo",
-      "price": "50.000",
-      "address": "TP. HCM"
+      "title": "[YAS’ Artspace] – Workshop vẽ tranh sáng tạo cuối tuần",
+      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/14/5913D5.jpg",
+      "price": "549.000 VND",
+      "address": "TP. HCM",
+      "date": "01/09/2022",
+      "categories": ["Khoá học", "Workshop"]
     },
     {
       "id": 3,
-      "title": "json-server",
-      "image": "https://i.picsum.photos/id/88/536/354.jpg?hmac=9sXz55jNeMZO8qXjYbd9resF7aGeDPG7B1HbOMWTafo",
-      "price": "50.000",
-      "address": "TP. HCM"
+      "title": "[LULULOLA SHOW] ƯNG HOÀNG PHÚC - TRỌN VẸN NGHĨA TÌNH",
+      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/27/24F8A5.jpg",
+      "price": "300.000 VND",
+      "address": "TP. HCM",
+      "date": "05/09/2022",
+      "categories": ["Ca nhạc"]
+    },
+    {
+      "id": 3,
+      "title": "[MÂY LANG THANG ĐÀ NẴNG] LIVESHOW TĂNG PHÚC - TRƯƠNG THẢO NHI",
+      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/26/303B4D.jpg",
+      "price": "FREE",
+      "address": "TP. HCM",
+      "date": "01/09/2022",
+      "categories": ["Ca nhạc", "Siuuuuu"]
     }
   ],
   "comments": [
