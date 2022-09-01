@@ -19,14 +19,14 @@
   }
   &-form {
     width: 500px;
-    height: auto;
-    padding: 1.5rem;
+    min-height: 400px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.616);
+    background-color: rgba(0, 0, 0, 0.767);
     button {
       background: $primary-color;
-      padding: 1rem;
+      padding: 0.5rem;
       color: white;
       font-weight: 700;
       font-size: 1.2rem;

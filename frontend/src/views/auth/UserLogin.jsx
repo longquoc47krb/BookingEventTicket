@@ -20,7 +20,7 @@ const UserLogin = () => {
   const responseGoogle = (response) => {
     console.log(response);
   };
-  const { setFieldValue, handleSubmit } = formikLogin;
+  const { handleSubmit } = formikLogin;
   return (
     <div className='login-container'>
       <div className='login-content'>

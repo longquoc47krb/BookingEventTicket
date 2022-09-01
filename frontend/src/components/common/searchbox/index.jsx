@@ -10,7 +10,6 @@ function SearchBox(props) {
     onChange,
     onSelect,
     onPressEnter,
-    width,
     placeholder,
     className,
   } = props;

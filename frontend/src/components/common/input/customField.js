@@ -1,8 +1,7 @@
-import { Button, DatePicker, Form, Input as AntdInput, Select } from "antd";
+import { Form, Input as AntdInput } from "antd";
 import { ErrorMessage } from "formik";
 import React from "react";
 const { Item } = Form;
-const { Option } = Select;
 function Input(props) {
   const {
     field,
@@ -40,7 +39,7 @@ function Input(props) {
           status={errors[name] ? "error" : ""}
           onChange={handleChange}
           style={{ width: width }}
-          className='p-[0.5rem] rounded-md'
+          className='p-[0.5rem]'
         />
         <p className='error-message'>
           <ErrorMessage name={name} />
@@ -50,15 +49,7 @@ function Input(props) {
   );
 }
 function InputPassword(props) {
-  const {
-    field,
-    form,
-    label,
-    width,
-    uppercase,
-    onChange: onChangeCustom,
-    disabled,
-  } = props;
+  const { field, form, label, uppercase, onChange: onChangeCustom } = props;
   const { value, onChange, onBlur, name } = field;
   const { errors } = form;
   const handleChange = (e) => {
@@ -82,9 +73,9 @@ function InputPassword(props) {
           name={name}
           value={value}
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={handleChange}
           status={errors[name] ? "error" : ""}
-          className='p-[0.5rem] rounded-md'
+          className='p-[0.5rem]'
         />
         <p className='error-message'>
           <ErrorMessage name={name} />
