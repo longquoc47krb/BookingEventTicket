@@ -1,13 +1,6 @@
 import * as Yup from "yup";
-
+const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 const validateLoginForm = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string()
-    .required("Required")
-    .min(8, "Min length 8")
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z_@./#&+-]{6,}$/,
-      "At least 1 number, at least 1 lowercase, at least 1 uppercase"
-    ),
+  phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
 });
 export { validateLoginForm };

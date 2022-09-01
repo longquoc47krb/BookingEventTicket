@@ -9,8 +9,7 @@ import {
 import { GoogleLogin } from "react-google-login";
 const UserLogin = () => {
   const initialValues = {
-    email: "",
-    password: "",
+    phone: "",
   };
   const formikLogin = useFormik({
     initialValues: initialValues,
@@ -29,15 +28,10 @@ const UserLogin = () => {
             <Row gutter={16} className='leading-8'>
               <h1 className='login-title mb-2 pl-[5px]'>Đăng nhập</h1>
               <Col span={24}>
-                <FastField component={Input} label='Email' name='email' />
-              </Col>
-            </Row>
-            <Row gutter={16} className='leading-8'>
-              <Col span={24}>
                 <FastField
-                  component={InputPassword}
-                  label='Password'
-                  name='password'
+                  component={Input}
+                  label='Số Điện Thoại'
+                  name='phone'
                 />
               </Col>
             </Row>
