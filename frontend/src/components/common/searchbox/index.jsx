@@ -22,9 +22,6 @@ function SearchBox(props) {
       notFoundContent={notFoundContent}
       dropdownClassName='certain-category-search-dropdown'
       dropdownMatchSelectWidth={300}
-      style={{
-        width: width,
-      }}
       onSelect={onSelect}
       onChange={onChange}
       options={dataSource}

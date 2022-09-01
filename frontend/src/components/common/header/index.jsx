@@ -3,16 +3,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import AppStyle from "../../../configs/AppStyle";
+import { Link } from "react-router-dom";
 import { Avatar } from "antd";
+import { AppConfig } from "../../../configs/AppConfig";
 function Header(props) {
   const { isAuthenticated, logo } = props;
+  const { ROUTES } = AppConfig;
   return (
     <div className='header-container'>
       <img className='w-[30px] h-auto' src={logo} />
       <div className='header-auth'>
         {!isAuthenticated ? (
           <>
-            <a className='border-r-2 border-white px-3'>Đăng nhập</a>
+            <Link to={ROUTES.LOGIN}>
+              <a className='border-r-2 border-white px-3'>Đăng nhập</a>
+            </Link>
             <a className='px-3'>Đăng ký</a>
           </>
         ) : (
