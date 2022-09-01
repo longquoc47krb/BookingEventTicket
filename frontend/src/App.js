@@ -1,10 +1,8 @@
-import ScrollToTopPage from "./components/scroll-to-top";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import EventDashBoard from "./views/event-dashboard";
 import { Components } from "./configs/routes";
-import Loading from "./components/loading";
+import PublicLayout from "./views/layouts/PublicLayout";
 function App() {
   const [events, setEvents] = useState(null);
   const currentUser = localStorage.getItem("user");
@@ -32,10 +30,13 @@ function App() {
     return (
       <Routes>
         <Route path='*' element={<Navigate to='/login' replace />} />
-        <Route
-          path='/events'
-          element={<Components.EventDashBoardPage events={events} />}
-        />
+        <Route path='/' element={<PublicLayout />}>
+          <Route
+            path='/events'
+            element={<Components.EventDashBoardPage events={events} />}
+          />
+          <Route path='/' element={<Components.HomePage />} />
+        </Route>
         <Route path='/login' element={<Components.LoginPage />} />
         <Route path='/admin-login' element={<Components.AdminLoginPage />} />
       </Routes>

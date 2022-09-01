@@ -1,5 +1,4 @@
 import Loadable from "react-loadable";
-import UnauthenticatedRoute from "../components/layouts/UnauthenticatedLayout";
 import Loading from "../components/loading";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
@@ -13,10 +12,14 @@ const EventDashBoardPage = Loadable({
   loader: () => import("../views/event-dashboard"),
   loading: Loading,
 });
-
+const HomePage = Loadable({
+  loader: () => import("../views/home"),
+  loading: Loading,
+});
 const Components = {
   LoginPage,
   AdminLoginPage,
   EventDashBoardPage,
+  HomePage,
 };
 export { Components };

@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 import PropTypes from "prop-types";
-import AppStyle from "../../../configs/AppStyle";
 import { Link } from "react-router-dom";
 import { Avatar } from "antd";
 import { AppConfig } from "../../../configs/AppConfig";
