@@ -2,23 +2,25 @@ package com.hcmute.bookingevent.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document("account")
 
 public class Account {
     @Id
     private String id;
+
     private String name;
-    private int phone;
+    private String phone;
     private String gmail;
     private int role;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public Account(String id, String name, String phone, String gmail, int role) {
         this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.gmail = gmail;
+        this.role = role;
     }
 
     public String getName() {
@@ -29,11 +31,12 @@ public class Account {
         this.name = name;
     }
 
-    public int getPhone() {
+
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -53,14 +56,18 @@ public class Account {
         this.role = role;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Account() {
     }
 
-    public Account(String id, String name, int phone, String gmail, int role) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.gmail = gmail;
-        this.role = role;
-    }
+
+
+
 }
