@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import useScript from "../../hooks/useScript";
 
-// https://github.com/anthonyjgrove/react-google-login/issues/502
-// https://developers.google.com/identity/gsi/web/reference/js-reference#CredentialResponse
 export default function GoogleLogin({
   onGoogleSignIn = () => {},
   text = "signin_with",

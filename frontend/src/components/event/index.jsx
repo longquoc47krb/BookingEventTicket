@@ -11,12 +11,9 @@ function Event({ event }) {
     window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
   };
   let categoriesArr = event.categories;
-  const [selectedId, setSelectedId] = useState(null);
-  const selectedTag = categoriesArr[selectedId];
-  useEffect(() => {
-    handleClickTag(selectedTag);
-  }, [selectedTag]);
-  console.log({ categoriesArr });
+
+  // const [selectedId, setSelectedId] = useState(null);
+  // const selectedTag = categoriesArr[selectedId];
   return (
     <div className="event-item-container ">
       <Image
@@ -44,7 +41,7 @@ function Event({ event }) {
         {categoriesArr.map((item, index) => (
           <p
             key={index}
-            onClick={() => setSelectedId(index)}
+            onClick={() => handleClickTag(item)}
             className="event-category"
           >
             {item}

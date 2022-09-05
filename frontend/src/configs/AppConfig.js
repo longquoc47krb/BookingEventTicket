@@ -1,3 +1,8 @@
+import { AiOutlineHome, AiOutlineBook } from "react-icons/ai";
+import { IoMusicalNotesOutline } from "react-icons/io5";
+import { MdOutlineSportsSoccer, MdOutlineTheaterComedy } from "react-icons/md";
+import { GiWineBottle } from "react-icons/gi";
+import { TbPlaneDeparture } from "react-icons/tb";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -41,6 +46,76 @@ const ROUTES = {
   LOGIN: "/login",
   ADMIN_LOGIN: "/admin-login",
 };
+const MENU = [
+  {
+    label: "Trang chủ",
+    key: "home",
+    link: "/",
+    icon: <AiOutlineHome />,
+  },
+  {
+    label: "Âm nhạc",
+    key: "music",
+    link: "/events",
+    icon: <IoMusicalNotesOutline />,
+  },
+  {
+    label: "Sân khấu",
+    key: "theater",
+    link: "/events",
+    icon: <MdOutlineTheaterComedy />,
+  },
+  {
+    label: "Nightlife",
+    key: "nightlife",
+    link: "/events",
+    icon: <GiWineBottle />,
+  },
+  {
+    label: "Khoá học",
+    key: "courses",
+    link: "/events",
+    icon: <AiOutlineBook />,
+  },
+  {
+    label: "Thể thao",
+    key: "sports",
+    link: "/events",
+    icon: <MdOutlineSportsSoccer />,
+  },
+  {
+    label: "Du lịch",
+    key: "travel",
+    link: "/events",
+    icon: <TbPlaneDeparture />,
+  },
+];
+const CAROUSEL_SETTINGS = [
+  {
+    breakpoint: 1300,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      infinite: true,
+      dots: true,
+    },
+  },
+  {
+    breakpoint: 1200,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    },
+  },
+  {
+    breakpoint: 900,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    },
+  },
+];
+
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -48,5 +123,7 @@ const AppConfig = {
   ROUTES,
   REACT_SLICK,
   LOGIN_BACKGROUND,
+  MENU,
+  CAROUSEL_SETTINGS,
 };
 export { AppConfig };

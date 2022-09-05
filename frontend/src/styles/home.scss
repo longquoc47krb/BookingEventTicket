@@ -1,11 +1,11 @@
 .home {
   &-container {
-    width: 100%;
     height: 100vh;
+    display: flex;
+    justify-content: space-between;
   }
-  &-sider {
-    width: 20%;
-    height: 100%;
-    background: $primary-color;
+  &-content {
+    position: relative;
+    width: 100%;
   }
 }
