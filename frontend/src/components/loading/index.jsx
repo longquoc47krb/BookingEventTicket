@@ -2,16 +2,10 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className='flex justify-center items-center w-full h-[100vh]'>
-      <div className='flex flex-col items-center'>
-        <div>
-          <div class='loadingio-spinner-rolling-yy726xt8scc'>
-            <div class='ldio-ugbylpcr1j'>
-              <div></div>
-            </div>
-          </div>
-        </div>
-        <p className='text-2xl'>Loading ... </p>
+    <div className="loading-container">
+      <div class="ring">
+        Loading
+        <span></span>
       </div>
     </div>
   );

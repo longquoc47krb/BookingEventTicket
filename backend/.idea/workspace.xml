@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1d320735-4728-4a9e-9f5c-dcdc15f03fc8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/assets/picture.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/common/input/customField.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/common/input/customField.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/event/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/event/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/configs/AppConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/configs/AppConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/animation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles/animation.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles/global.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles/login.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/views/auth/UserLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/auth/UserLogin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/views/event-dashboard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/event-dashboard/index.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2EKaaEDxW2POgrmAh9mCgrYJ2Fe" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Long/OneDrive - 8mg2x6/Learning/Reactjs/BookingEventTicket/backend&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1d320735-4728-4a9e-9f5c-dcdc15f03fc8" name="Changes" comment="" />
+      <created>1662346792873</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662346792873</updated>
+      <workItem from="1662346797955" duration="970000" />
+      <workItem from="1662355554299" duration="22000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
