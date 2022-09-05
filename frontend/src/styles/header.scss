@@ -16,8 +16,8 @@
     display: flex;
     justify-content: center;
     gap: 0 1rem;
-    color: white;
     a {
+      color: white !important;
       &:hover {
         color: $primary-color;
       }
