@@ -11,6 +11,7 @@ function Event({ event }) {
     window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
   };
   let categoriesArr = event.categories;
+
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
   return (
