@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Loading from "./components/loading";
 import { Components } from "./configs/routes";
 import PublicLayout from "./views/layouts/PublicLayout";
 function App() {
@@ -20,7 +21,7 @@ function App() {
     return (
       <Routes>
         <Route
-          path='/events'
+          path="/events"
           element={<Components.EventDashBoardPage events={events} />}
         />
       </Routes>
@@ -29,16 +30,17 @@ function App() {
   function GuessRoutes() {
     return (
       <Routes>
-        <Route path='*' element={<Navigate to='/login' replace />} />
-        <Route path='/' element={<PublicLayout />}>
+        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<PublicLayout />}>
           <Route
-            path='/events'
+            path="/events"
             element={<Components.EventDashBoardPage events={events} />}
           />
-          <Route path='/' element={<Components.HomePage />} />
+          <Route path="/" element={<Components.HomePage />} />
+          <Route path="/test" element={<Loading />} />
         </Route>
-        <Route path='/login' element={<Components.LoginPage />} />
-        <Route path='/admin-login' element={<Components.AdminLoginPage />} />
+        <Route path="/login" element={<Components.LoginPage />} />
+        <Route path="/admin-login" element={<Components.AdminLoginPage />} />
       </Routes>
     );
   }
@@ -47,7 +49,7 @@ function App() {
       <>
         <BrowserRouter>
           <Routes>
-            <Route path='/*' element={<GuessRoutes />} />
+            <Route path="/*" element={<GuessRoutes />} />
           </Routes>
         </BrowserRouter>
       </>
@@ -56,7 +58,7 @@ function App() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path='/*' element={<AdminRoutes />} />
+          <Route path="/*" element={<AdminRoutes />} />
         </Routes>
       </BrowserRouter>
     );
@@ -64,7 +66,7 @@ function App() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path='/*' element={<UserRoutes />} />
+          <Route path="/*" element={<UserRoutes />} />
         </Routes>
       </BrowserRouter>
     );

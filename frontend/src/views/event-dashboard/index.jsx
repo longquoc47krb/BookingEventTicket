@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Header from "../../components/common/header";
 import Event from "../../components/event";
 import HeroBanner from "../../components/hero";
 function EventDashBoard(props) {
@@ -9,7 +8,7 @@ function EventDashBoard(props) {
   return (
     <>
       <HeroBanner />
-      <div className='event-container'>
+      <div className="event-container">
         {events?.map((event, index) => (
           <Event event={event} key={index} />
         ))}

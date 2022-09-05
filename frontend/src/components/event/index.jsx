@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Image, Tag } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "../calendar";
 import { BiCategory } from "react-icons/bi";
 import PropTypes from "prop-types";
@@ -13,24 +13,27 @@ function Event({ event }) {
   let categoriesArr = event.categories;
   const [selectedId, setSelectedId] = useState(null);
   const selectedTag = categoriesArr[selectedId];
-  handleClickTag(selectedTag);
+  useEffect(() => {
+    handleClickTag(selectedTag);
+  }, [selectedTag]);
   console.log({ categoriesArr });
   return (
-    <div className='event-item-container '>
+    <div className="event-item-container ">
       <Image
         src={event?.image}
         style={{ height: 130, width: 360 }}
-        className='event-item-image'
+        className="event-item-image"
       />
       <h1
-        className='w-[calc(100%-80px)] font-bold event-title'
-        onClick={() => handleClickTag(event.title)}>
+        className="w-[calc(100%-80px)] font-bold event-title"
+        onClick={() => handleClickTag(event.title)}
+      >
         {event.title}
       </h1>
       <div>
-        <strong className='text-xl'>{event.price}</strong>
+        <strong className="text-xl">{event.price}</strong>
       </div>
-      <div className='flex items-center'>
+      <div className="flex items-center">
         {event.address ? (
           <Tag onClick={() => handleClickTag(event.address)}>
             {event.address}
@@ -42,12 +45,13 @@ function Event({ event }) {
           <p
             key={index}
             onClick={() => setSelectedId(index)}
-            className='event-category'>
+            className="event-category"
+          >
             {item}
           </p>
         ))}
       </div>
-      <Calendar className='absolute right-5 bottom-5' calendar={event.date} />
+      <Calendar className="absolute right-5 bottom-5" calendar={event.date} />
     </div>
   );
 }
