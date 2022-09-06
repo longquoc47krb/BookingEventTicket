@@ -6,6 +6,7 @@ import React from "react";
 import Avatar from "react-avatar";
 import { Link, useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
+import { BiLogOut } from "react-icons/bi";
 function Header(props) {
   const { currentUser } = props;
   const { ROUTES } = AppConfig;
@@ -16,9 +17,16 @@ function Header(props) {
   };
   const menu = (
     <Menu
+      style={{
+        width: "auto",
+        textAlign: "left",
+        display: "flex",
+        alignItems: "center",
+      }}
       items={[
         {
-          label: <p onClick={clearLocalStorage}>Đăng xuất</p>,
+          icon: <BiLogOut />,
+          label: <span onClick={clearLocalStorage}>Đăng xuất</span>,
           key: "0",
         },
       ]}
@@ -38,7 +46,7 @@ function Header(props) {
         ) : (
           <>
             <span className="text-white font-medium text-base">
-              {currentUser.given_name}
+              {currentUser.family_name} {currentUser.given_name}
             </span>
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
@@ -46,6 +54,7 @@ function Header(props) {
                 src={currentUser.picture}
                 size="35"
                 round={true}
+                name={currentUser.family_name}
                 className="header-auth-avatar"
               />
             </Dropdown>
