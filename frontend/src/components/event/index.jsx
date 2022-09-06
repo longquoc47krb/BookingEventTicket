@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Image, Tag } from "antd";
-import React, { useEffect, useState } from "react";
-import Calendar from "../calendar";
-import { BiCategory } from "react-icons/bi";
 import PropTypes from "prop-types";
+import React from "react";
+import { BiCategory } from "react-icons/bi";
 import { AppConfig } from "../../configs/AppConfig";
+import Calendar from "../calendar";
 function Event({ event }) {
   const handleClickTag = (value) => {
     console.log("value", value);
     window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
   };
   let categoriesArr = event.categories;
-
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
   return (

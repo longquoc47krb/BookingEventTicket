@@ -1,11 +1,26 @@
 import { Col, Divider, Row } from "antd";
+import jwt_decode from "jwt-decode";
 import { FastField, Form, FormikProvider, useFormik } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../../components/common/input/customField";
 import GoogleLogin from "../../components/google-button";
 import { validateLoginForm } from "../../helpers/validate";
 const UserLogin = () => {
+  const navigate = useNavigate();
+  const handleGoogleSignIn = async ({ credential }) => {
+    const profileObj = jwt_decode(credential);
+    localStorage.setItem("user", JSON.stringify(profileObj));
+    const { name, sub: googleId, picture: imageUrl } = profileObj;
+    const user = {
+      _id: googleId,
+      _type: "user",
+      userName: name,
+      image: imageUrl,
+    };
+    console.log({ user });
+    navigate("/");
+  };
   const initialValues = {
     phone: "",
   };
@@ -18,6 +33,10 @@ const UserLogin = () => {
   return (
     <>
       <div className="login-container">
+        <p
+          className="website-logo website-logo-login absolute top-5 left-5"
+          onClick={() => navigate("/")}
+        ></p>
         <div className="login-content">
           <FormikProvider value={formikLogin}>
             <Form className="login-form" onSubmit={handleSubmit}>
@@ -35,7 +54,9 @@ const UserLogin = () => {
               <Divider style={{ color: "black", border: "gray" }}>
                 hoặc đăng nhập bằng Google
               </Divider>
-              <GoogleLogin />
+              <div className="flex justify-center">
+                <GoogleLogin onGoogleSignIn={handleGoogleSignIn} />
+              </div>
               <Link to="/forget-password">
                 <span className="login-form-forget-password">
                   Quên mật khẩu?

@@ -13,7 +13,7 @@ function Input(props) {
     disabled,
   } = props;
   const { value, onChange, onBlur, name } = field;
-  const { errors } = form;
+  const { errors, touched } = form;
   const handleChange = (e) => {
     const { value } = e.target;
     var customEvent = {
@@ -30,7 +30,7 @@ function Input(props) {
   return (
     <>
       <Item>
-        <h1 className="font-bold text-black text-base mb-2">{label}</h1>
+        <h1 className="font-medium text-black text-base mb-2">{label}</h1>
         <AntdInput
           disabled={disabled}
           name={name}

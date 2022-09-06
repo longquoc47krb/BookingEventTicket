@@ -1,18 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import { Dropdown, Menu } from "antd";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Avatar } from "antd";
+import React from "react";
+import Avatar from "react-avatar";
+import { Link, useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 function Header(props) {
-  const { isAuthenticated, logo } = props;
+  const { currentUser } = props;
   const { ROUTES } = AppConfig;
+  const navigate = useNavigate();
+  const clearLocalStorage = () => {
+    localStorage.clear();
+    window.location.reload(); //like here
+  };
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: <p onClick={clearLocalStorage}>Đăng xuất</p>,
+          key: "0",
+        },
+      ]}
+    />
+  );
   return (
     <div className="header-container">
-      <img className="w-[30px] h-auto" src={logo} />
+      <p className="website-logo" onClick={() => navigate("/")}></p>
       <div className="header-auth">
-        {!isAuthenticated ? (
+        {!currentUser ? (
           <>
             <Link to={ROUTES.LOGIN}>
               <a className="border-r-2 border-white px-3">Đăng nhập</a>
@@ -20,22 +36,31 @@ function Header(props) {
             <a className="px-3">Đăng ký</a>
           </>
         ) : (
-          <Avatar
-            src="https://i.pravatar.cc/40"
-            size="large"
-            className="header-auth-avatar"
-          />
+          <>
+            <span className="text-white font-medium text-base">
+              {currentUser.given_name}
+            </span>
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <Avatar
+                googleId={currentUser.sub}
+                src={currentUser.picture}
+                size="35"
+                round={true}
+                className="header-auth-avatar"
+              />
+            </Dropdown>
+          </>
         )}
       </div>
     </div>
   );
 }
 Header.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object,
   logo: PropTypes.string.isRequired,
 };
 Header.defaultProps = {
-  isAuthenticated: false,
+  currentUser: JSON.parse(localStorage.getItem("user")) ?? null,
   logo: process.env.PUBLIC_URL + "ticketLogo.png",
 };
 export default Header;
