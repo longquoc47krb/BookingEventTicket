@@ -1,0 +1,81 @@
+.login {
+  &-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    padding-right: 3rem;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-image: url("../assets/background-login-2.png");
+    object-position: top 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  &-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  &-form {
+    width: 500px;
+    min-height: 80%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07);
+
+    button {
+      background: $primary-color;
+      padding: 0.5rem;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      &:hover {
+        filter: brightness(80%);
+      }
+    }
+    &-forget-password {
+      position: absolute;
+      left: 50%;
+      margin-top: 1rem;
+      transform: translateX(-50%);
+      font-weight: 700;
+    }
+    input {
+      font-family: Verdana;
+    }
+    input[type="password"] {
+      font-family: Verdana;
+      letter-spacing: 0.125em;
+    }
+  }
+  &-title {
+    font-size: 2rem;
+    color: $primary-color;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  &-google {
+    border-radius: 5px;
+    span {
+      font-weight: 700;
+    }
+  }
+}
+.error-message {
+  color: red;
+  font-style: italic;
+  font-size: 1rem;
+}

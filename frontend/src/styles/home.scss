@@ -1,0 +1,11 @@
+.home {
+  &-container {
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+  }
+  &-content {
+    position: relative;
+    width: 100%;
+  }
+}
