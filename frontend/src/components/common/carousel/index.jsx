@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "antd/dist/antd.css";
-import { Carousel as AntdCarousel } from "antd";
-import Item from "./item";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { AppConfig } from "../../../configs/AppConfig";
+import { Carousel as AntdCarousel } from "antd";
+import "antd/dist/antd.css";
 import PropTypes from "prop-types";
+import React from "react";
+import { AppConfig } from "../../../configs/AppConfig";
+import Item from "./item";
 export default function Carousel(props) {
   const { data, className } = props;
 
@@ -12,7 +12,7 @@ export default function Carousel(props) {
     // console.log(a, b, c);
   }
   const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
+    const {  style, onClick } = props;
     return (
       <div
         style={{
@@ -62,11 +62,10 @@ export default function Carousel(props) {
         {...settings}
         color={"black"}
         style={{
-          width: "1100px",
+          width: "1000px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "0 1rem",
         }}
       >
         {data?.map((card, i) => (

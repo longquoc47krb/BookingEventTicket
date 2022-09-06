@@ -30,21 +30,20 @@ function App() {
   function GuessRoutes() {
     return (
       <Routes>
-        <Route path="*" element={<Navigate to="/login" replace />} />
         <Route path="/" element={<PublicLayout />}>
           <Route
             path="/events"
             element={<Components.EventDashBoardPage events={events} />}
           />
           <Route path="/" element={<Components.HomePage />} />
-          <Route path="/test" element={<Loading />} />
+          {/* <Route path="/test" element={<Loading />} /> */}
         </Route>
         <Route path="/login" element={<Components.LoginPage />} />
         <Route path="/admin-login" element={<Components.AdminLoginPage />} />
       </Routes>
     );
   }
-  if (!currentUser) {
+  if (!currentUser || currentUser) {
     return (
       <>
         <BrowserRouter>

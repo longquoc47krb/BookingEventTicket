@@ -1,5 +1,4 @@
-import { Tag } from "antd";
-import React, { useState } from "react";
+import React from "react";
 
 const Item = ({ imageSrc, className }) => {
   return (
