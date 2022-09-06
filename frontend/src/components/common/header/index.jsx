@@ -21,7 +21,6 @@ function Header(props) {
         width: "auto",
         textAlign: "left",
         display: "flex",
-        alignItems: "center",
       }}
       items={[
         {
