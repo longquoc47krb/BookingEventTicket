@@ -13,14 +13,14 @@ public class Account {
     private String name;
     private String phone;
     private String gmail;
-    private int role;
 
-    public Account(String id, String name, String phone, String gmail, int role) {
+
+    public Account(String id, String name, String phone, String gmail) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.gmail = gmail;
-        this.role = role;
+
     }
 
     public String getName() {
@@ -48,13 +48,7 @@ public class Account {
         this.gmail = gmail;
     }
 
-    public int getRole() {
-        return role;
-    }
 
-    public void setRole(int role) {
-        this.role = role;
-    }
 
     public String getId() {
         return id;

@@ -17,6 +17,12 @@ public class AccountController {
     @Autowired
     AccountRepository accountRepository;
 
+    @PostMapping("/create")
+    public ResponseEntity<ResponseObject> createAccount(@RequestBody Account newAccount) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Create account successfully ",  accountRepository.save(newAccount)));
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseObject> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount) {
         //      Account account = accountRepository.findById(String.valueOf(id)).orElseThrow(RuntimeException::new);
@@ -28,11 +34,12 @@ public class AccountController {
                     new ResponseObject(true, "Save data successfully ", accountRepository.save(account.get())));
 
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data fail ", ""));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Save data fail with id:" + id, ""));
         }
 
         // return ResponseEntity.ok(accountRepository.save(account) );
     }
+
 
 }
