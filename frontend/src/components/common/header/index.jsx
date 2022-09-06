@@ -1,14 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
-import Avatar from "react-avatar";
-import { AppConfig } from "../../../configs/AppConfig";
 import { Dropdown, Menu } from "antd";
-import { useLocation } from "react-use";
+import PropTypes from "prop-types";
+import React from "react";
+import Avatar from "react-avatar";
+import { Link, useNavigate } from "react-router-dom";
+import { AppConfig } from "../../../configs/AppConfig";
 function Header(props) {
-  const { currentUser, logo } = props;
+  const { currentUser } = props;
   const { ROUTES } = AppConfig;
   const navigate = useNavigate();
   const clearLocalStorage = () => {

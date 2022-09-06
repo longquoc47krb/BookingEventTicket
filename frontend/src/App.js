@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Loading from "./components/loading";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Components } from "./configs/routes";
 import PublicLayout from "./views/layouts/PublicLayout";
 function App() {
