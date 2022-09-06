@@ -10,3 +10,4 @@ body {
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 @import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap");

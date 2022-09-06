@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 import { AppConfig } from "../../../configs/AppConfig";
 import { Dropdown, Menu } from "antd";
+import { useLocation } from "react-use";
 function Header(props) {
   const { currentUser, logo } = props;
   const { ROUTES } = AppConfig;
-  const [state, setState] = React.useState(currentUser);
-
+  const navigate = useNavigate();
   const clearLocalStorage = () => {
     localStorage.clear();
     window.location.reload(); //like here
@@ -27,7 +27,7 @@ function Header(props) {
   );
   return (
     <div className="header-container">
-      <img className="w-[30px] h-auto" src={logo} />
+      <p className="website-logo" onClick={() => navigate("/")}></p>
       <div className="header-auth">
         {!currentUser ? (
           <>
@@ -47,7 +47,7 @@ function Header(props) {
                 src={currentUser.picture}
                 size="35"
                 round={true}
-                // className="header-auth-avatar"
+                className="header-auth-avatar"
               />
             </Dropdown>
           </>

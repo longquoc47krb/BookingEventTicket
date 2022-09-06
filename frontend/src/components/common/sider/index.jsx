@@ -27,7 +27,10 @@ function SiderBar() {
         >
           {MENU.map((item, index) => (
             <Menu.Item key={index} style={{ color: "white" }}>
-              <Link to={item.link} className="flex items-center gap-x-2">
+              <Link
+                to={`${item.link}?category=${item.key}`}
+                className="flex items-center gap-x-2"
+              >
                 {item.icon}
                 {item.label}
               </Link>

@@ -8,7 +8,7 @@ import GoogleLogin from "../../components/google-button";
 import { validateLoginForm } from "../../helpers/validate";
 const UserLogin = () => {
   const navigate = useNavigate();
-  const handleGoogleSignIn = ({ credential }) => {
+  const handleGoogleSignIn = async ({ credential }) => {
     const profileObj = jwt_decode(credential);
     localStorage.setItem("user", JSON.stringify(profileObj));
     const { name, sub: googleId, picture: imageUrl } = profileObj;
@@ -33,6 +33,10 @@ const UserLogin = () => {
   return (
     <>
       <div className="login-container">
+        <p
+          className="website-logo website-logo-login absolute top-5 left-5"
+          onClick={() => navigate("/")}
+        ></p>
         <div className="login-content">
           <FormikProvider value={formikLogin}>
             <Form className="login-form" onSubmit={handleSubmit}>
