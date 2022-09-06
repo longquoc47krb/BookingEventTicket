@@ -2,14 +2,15 @@ package com.hcmute.bookingevent.controllers;
 
 
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -26,21 +27,43 @@ public class EventController {
     }
 
     @PostMapping("/createEvent")
-    public Event createEvents(@RequestBody Event event) {
-        return eventRepository.save(event);
+    public ResponseEntity<ResponseObject> createEvent(@RequestBody Event event) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Save data successfully ", eventRepository.save(event)));
+
+
+        //  return eventRepository.save(event);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseObject> deleteEvent(@PathVariable String id) {
+        boolean checkExist = eventRepository.existsById(id);
+        if (checkExist) {
+
+            eventRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Delete data successfully ", ""));
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Delete data fail with id:" + id, ""));
+        }
+        //  return eventRepository.save(event);
+    }
+
     @GetMapping("/findname/{name}")
-    public Optional<Event> getEventByName(@PathVariable String name)
-    {
-        Optional<Event> event = eventRepository.findByName(name);
-        if( eventRepository.findByName(name).isPresent())
-        {
-            return event;
-        }
-        else
-        {
-            return Optional.empty();
-        }
+    public Event getEventByName(@PathVariable String name) {
+        return eventRepository.findByName(name).orElseThrow(() -> new RuntimeException("cannot find that  name is " + name));
+
+        //Optional<Event> event =
+//        if( eventRepository.findByName(name).isPresent())
+//        {
+//            return event;
+//        }
+//        else
+//        {
+//            return Optional.empty();
+//        }
     }
 
 }
