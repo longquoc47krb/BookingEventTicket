@@ -1,5 +1,4 @@
 # Dự án xây dựng hệ thống đặt vé sự kiện
--------------------------
 ## Các công nghệ được sử dụng trong dự án
  - Frontend: [ReactJS](https://reactjs.org)
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
