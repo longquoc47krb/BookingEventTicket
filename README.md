@@ -1,4 +1,5 @@
 # Dự án xây dựng hệ thống đặt vé sự kiện
+### Một nền tảng cho phép doanh nghiệp tổ chức bán vé sự kiện, người dùng có thể đặt vé qua hệ thống này.
 -------------------------
 ## Các công nghệ được sử dụng trong dự án
  - Frontend: [ReactJS](https://reactjs.org)
