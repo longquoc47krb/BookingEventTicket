@@ -1,0 +1,34 @@
+.footer {
+  &-container {
+    width: 100%;
+    background: $primary-footer-color;
+  }
+  &-top {
+  }
+  &-bottom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    &-left {
+      color: gray;
+      display: flex;
+      align-items: center;
+      gap: 0 1rem;
+    }
+    &-right {
+      display: flex;
+      color: gray;
+      gap: 0 1rem;
+      span {
+        width: auto;
+        text-align: right;
+      }
+      img {
+        width: 120px;
+      }
+    }
+  }
+}

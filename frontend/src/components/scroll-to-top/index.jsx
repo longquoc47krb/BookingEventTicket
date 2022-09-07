@@ -9,9 +9,9 @@ const ScrollToTopPage = ({ top }) => {
       smooth
       style={{ background: AppStyle.colors.primary, width: 50, height: 50 }}
       top={top}
-      className='heartbeat'
+      className="heartbeat mb-16"
       component={
-        <button className='text-white text-[2rem] '>
+        <button className="text-white text-[2rem] ">
           <BiArrowToTop />
         </button>
       }

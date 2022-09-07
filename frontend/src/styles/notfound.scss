@@ -1,0 +1,14 @@
+.notfound {
+  &-container {
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 4rem;
+      &:first-child {
+        font-size: 10rem;
+      }
+    }
+  }
+}

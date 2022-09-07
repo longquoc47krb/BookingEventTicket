@@ -12,13 +12,13 @@ export default function Carousel(props) {
     // console.log(a, b, c);
   }
   const SampleNextArrow = (props) => {
-    const {  style, onClick } = props;
+    const { style, onClick } = props;
     return (
       <div
         style={{
           ...style,
           color: "black",
-          fontSize: "2rem",
+          fontSize: "1rem",
           lineHeight: "1.5715",
         }}
         onClick={onClick}
@@ -35,7 +35,7 @@ export default function Carousel(props) {
         style={{
           ...style,
           color: "black",
-          fontSize: "2rem",
+          fontSize: "1rem",
           lineHeight: "1.5715",
         }}
         onClick={onClick}
