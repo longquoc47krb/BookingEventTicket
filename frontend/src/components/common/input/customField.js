@@ -1,5 +1,6 @@
 import { Form, Input as AntdInput } from "antd";
 import { ErrorMessage } from "formik";
+import MaskedInput from "antd-mask-input";
 import React from "react";
 const { Item } = Form;
 function Input(props) {
@@ -84,4 +85,26 @@ function InputPassword(props) {
     </>
   );
 }
-export { Input, InputPassword };
+const DUMB_PHONE = "+84111111111";
+function InputMask(props) {
+  const { field, label, value } = props;
+  const { name, onBlur, onChange } = field;
+  return (
+    <>
+      <Item>
+        <h1 className="title">{label}</h1>
+        <MaskedInput
+          mask={DUMB_PHONE}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <p className="error-message">
+          <ErrorMessage name={name} />
+        </p>
+      </Item>
+    </>
+  );
+}
+export { Input, InputPassword, InputMask };
