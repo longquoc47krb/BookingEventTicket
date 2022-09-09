@@ -20,7 +20,7 @@ export default function GoogleLogin({
         size: "large",
         shape: "circular",
         logo_alignment: "center",
-        width: "100%",
+        width: "100vw",
       } // customization attributes
     );
   });

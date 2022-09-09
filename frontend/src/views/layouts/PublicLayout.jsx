@@ -9,7 +9,6 @@ const { Content } = Layout;
 const PublicLayout = () => {
   return (
     <Layout>
-      <Header />
       <Layout>
         <Content>
           <Outlet />
