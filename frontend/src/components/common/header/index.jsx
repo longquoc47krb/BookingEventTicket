@@ -40,7 +40,9 @@ function Header(props) {
             <Link to={ROUTES.LOGIN}>
               <a className="border-r-2 border-white px-3">Đăng nhập</a>
             </Link>
-            <a className="px-3">Đăng ký</a>
+            <a className="px-3" href="/event-detail">
+              Đăng ký
+            </a>
           </>
         ) : (
           <>

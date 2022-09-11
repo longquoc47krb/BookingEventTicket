@@ -1,13 +1,1 @@
-body {
-  margin: 0;
-  font-family: "Montserrat", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-@import "~antd/dist/antd.css";
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap");
+@import "./styles/global.scss";

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
+import "../../styles/event.scss";
 import HeroBanner from "../../components/hero";
 function EventDashBoard(props) {
   const { events } = props;

@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Loading from "./components/loading";
 import { Components } from "./configs/routes";
+import EventDetail from "./views/event-detail";
 import PublicLayout from "./views/layouts/PublicLayout";
 function App() {
   const [events, setEvents] = useState(null);
@@ -34,8 +36,9 @@ function App() {
             path="/events"
             element={<Components.EventDashBoardPage events={events} />}
           />
+          <Route path="/event-detail" element={<EventDetail />} />
           <Route path="/" element={<Components.HomePage />} />
-          {/* <Route path="/test" element={<Loading />} /> */}
+          <Route path="/test" element={<Loading />} />
         </Route>
         <Route path="/login" element={<Components.LoginPage />} />
         <Route path="/admin-login" element={<Components.AdminLoginPage />} />

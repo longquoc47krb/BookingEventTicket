@@ -11,3 +11,18 @@
 @import "./carousel.scss";
 @import "./footer.scss";
 @import "./notfound.scss";
+@import "./event-detail.scss";
+@import "./loading.scss";
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+@import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap");

@@ -15,13 +15,13 @@ function Calendar(props) {
   };
   return (
     <div className={`calendar-container ${className}`}>
-      <div className="calendar-top">
-        <h1 className="text-[0.8rem] text-white">
+      <div className="calendar-upper">
+        <h1 className="text-[0.8rem] text-white calendar-month">
           {AppUtils.titleCase(calendarObj.month)}
         </h1>
       </div>
-      <h1 className="text-[1.2rem] font-bold">{calendarObj.day}</h1>
-      <h1 className="text-[0.8rem]">
+      <h1 className="font-bold calendar-day">{calendarObj.day}</h1>
+      <h1 className="text-[0.7rem] font-bold calendar-dayOfWeek">
         {AppUtils.titleCase(calendarObj.dayOfWeek)}
       </h1>
     </div>

@@ -5,6 +5,7 @@ import theme from "../../../shared/theme";
 const CustomButton = styled(AntdButton)`
   color: ${(props) => (props.color ? props.color : props.theme.text)};
   font-weight: normal;
+  font-size: ${(props) => (props.size ? props.size : "16px")};
   background: ${(props) =>
     props.background ? props.background : props.theme.main};
   :focus {

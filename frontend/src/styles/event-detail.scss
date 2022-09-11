@@ -1,0 +1,107 @@
+.event-detail {
+  &-container {
+    width: 100%;
+    height: 100%;
+    background: gray;
+  }
+  &-overview {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  &-tab {
+    font-size: 16px;
+    background: white;
+    a {
+      color: black;
+    }
+  }
+  &-info {
+    width: 70%;
+    height: auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 100px 3fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas: "calendar title" "calendar date" "calendar address";
+  }
+  &-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+  &-address,
+  &-date {
+    display: flex;
+    align-items: center;
+    gap: 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  &-calendar {
+    align-self: center;
+    scale: 1.5;
+    grid-area: calendar;
+  }
+  &-button {
+    width: auto;
+    .buy-now,
+    .interests {
+      display: block;
+      width: 200px;
+      padding: 0.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      font-size: 1.125rem;
+    }
+    .buy-now {
+      background: $primary-color;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    .interests {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0 0.5rem;
+      color: $primary-color;
+      border: 1px solid $primary-color;
+    }
+  }
+  &-wrapper {
+    padding: 1.5rem;
+    background-color: rgb(214, 214, 214);
+    width: 100vw;
+  }
+  &-content {
+    background: white;
+    border-radius: 5px;
+    width: 60%;
+    height: auto;
+    p {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .introduce,
+    .info,
+    .organization {
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding-top: 1rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      border-bottom: 1px solid rgb(175, 175, 175);
+    }
+  }
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: white;
+  font-weight: 700;
+  background-color: $primary-color;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
