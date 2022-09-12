@@ -3,6 +3,15 @@
     height: 100vh;
     display: flex;
     justify-content: space-between;
+    .sider {
+      display: block;
+      @include for-phone {
+        display: none;
+      }
+      @include for-tablet {
+        display: none;
+      }
+    }
   }
   &-content {
     position: relative;

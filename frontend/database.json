@@ -7,7 +7,10 @@
       "price": "599.000 VND",
       "address": "",
       "date": "23/08/2022",
-      "categories": ["Khoá học", "Sự kiện"]
+      "categories": [
+        "Khoá học",
+        "Sự kiện"
+      ]
     },
     {
       "id": 2,
@@ -16,7 +19,10 @@
       "price": "549.000 VND",
       "address": "TP. HCM",
       "date": "01/09/2022",
-      "categories": ["Khoá học", "Workshop"]
+      "categories": [
+        "Khoá học",
+        "Workshop"
+      ]
     },
     {
       "id": 3,
@@ -25,7 +31,9 @@
       "price": "300.000 VND",
       "address": "TP. HCM",
       "date": "05/09/2022",
-      "categories": ["Ca nhạc"]
+      "categories": [
+        "Ca nhạc"
+      ]
     },
     {
       "id": 3,
@@ -34,7 +42,24 @@
       "price": "FREE",
       "address": "TP. HCM",
       "date": "01/09/2022",
-      "categories": ["Ca nhạc", "Siuuuuu"]
+      "categories": [
+        "Ca nhạc",
+        "Siuuuuu"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Những Thành Phố Mơ Màng – Autumn 2022",
+      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/09/06/93A027.jpg",
+      "price": "500.000 VND",
+      "address": "Hà Nội",
+      "date": "11/09/2022",
+      "categories": [
+        "Ca nhạc"
+      ],
+      "organization": "NTPMM ENTERTAINMENT",
+      "organization_logo": "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
+      "organization_description": "Những Thành Phố Mơ Màng là thành phố của tuổi trẻ, nơi những giấc mơ sẽ được chúng tớ cùng các cậu tạo nên trên nền nhạc những bài hát Indie và Underground."
     }
   ],
   "comments": [

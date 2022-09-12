@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Calendar from "../../components/calendar";
 import { GoLocation, GoClock } from "react-icons/go";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import Header from "../../components/common/header";
 import Footer from "../../components/common/footer";
 import { Affix } from "antd";
@@ -10,7 +10,9 @@ import { useRef } from "react";
 import { paragraph } from "../../services/constants";
 import Nav from "react-bootstrap/Nav";
 import { useEffect } from "react";
+import ReadMore from "../../components/common/read-more";
 function EventDetail(props) {
+  console.log({ props });
   const { event } = props;
   const introduce = useRef(null);
   const info = useRef(null);
@@ -119,19 +121,60 @@ function EventDetail(props) {
           </Affix>
         </div>
         <div className="event-detail-wrapper">
-          <div className="event-detail-content">
-            <div ref={introduce} className="introduce">
-              Giới thiệu
+          <div className="event-detail-wrapper-left">
+            <div className="event-detail-content">
+              <div ref={introduce} className="introduce">
+                Giới thiệu
+              </div>
+              <ReadMore>{paragraph}</ReadMore>
             </div>
-            <p>{paragraph}</p>
-            <div ref={info} className="info">
-              Thông tin vé
+            <div className="event-detail-content">
+              <div ref={info} className="info">
+                Thông tin vé
+              </div>
+              <ReadMore>{paragraph}</ReadMore>
             </div>
-            <p>{paragraph}</p>
-            <div ref={organization} className="organization">
-              Nhà tổ chức
+            <div className="event-detail-content">
+              <div ref={organization} className="organization">
+                Nhà tổ chức
+              </div>
+              <div className="event-detail-organization">
+                <img src={event.organization_logo} alt="logo" />
+                <h1>{event.organization}</h1>
+                <p>{event.organization_description}</p>
+                <button className="event-detail-organization-contact">
+                  <AiOutlineMail />
+                  Liên hệ
+                </button>
+              </div>
             </div>
-            <p>{paragraph}</p>
+          </div>
+          <div className="event-detail-wrapper-right">
+            <Affix offsetTop={60}>
+              <div className="event-detail-booking">
+                <div ref={introduce} className="introduce">
+                  {event.title}
+                </div>
+                <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
+                  <h1 className="flex text-base items-center font-semibold gap-x-2">
+                    <GoClock className="text-gray-500" />
+                    {event.date}
+                  </h1>
+                  <div>
+                    <h1 className="flex text-base items-center font-semibold gap-x-2">
+                      <GoLocation className="text-gray-500" />
+                      {event.address}
+                    </h1>
+                    <p className="event-detail-address-note">
+                      {event.address_detail}
+                    </p>
+                  </div>
+                </div>
+                <button className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl">
+                  Mua vé ngay
+                </button>
+              </div>
+            </Affix>
           </div>
         </div>
       </div>
@@ -146,6 +189,9 @@ EventDetail.propTypes = {
     date: PropTypes.string,
     address: PropTypes.string,
     address_detail: PropTypes.string,
+    organization: PropTypes.string,
+    organization_logo: PropTypes.string,
+    organization_description: PropTypes.string,
   }),
 };
 EventDetail.defaultProps = {
@@ -156,6 +202,11 @@ EventDetail.defaultProps = {
     date: "Chủ nhật, 11 Tháng 9 2022 (06:00 PM - 10:00 PM)",
     address: "Công viên Yên Sở",
     address_detail: "Gamuda Central, Hoàng Mai, Hà Nội",
+    organization: "NTPMM ENTERTAINMENT",
+    organization_logo:
+      "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
+    organization_description:
+      "Những Thành Phố Mơ Màng là thành phố của tuổi trẻ, nơi những giấc mơ sẽ được chúng tớ cùng các cậu tạo nên trên nền nhạc những bài hát Indie và Underground.",
   },
 };
 export default EventDetail;

@@ -1,5 +1,6 @@
 import React from "react";
 import Carousel from "../../components/common/carousel";
+import UncontrolledExample from "../../components/common/carousel/demo";
 import Header from "../../components/common/header";
 import SiderBar from "../../components/common/sider";
 function Home() {
@@ -9,7 +10,7 @@ function Home() {
       <div className="home-container">
         <SiderBar />
         <div className="home-content">
-          <Carousel className="flex justify-center mt-5" />
+          <Carousel />
         </div>
       </div>
     </>
