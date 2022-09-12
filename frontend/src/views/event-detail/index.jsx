@@ -11,6 +11,8 @@ import { paragraph } from "../../services/constants";
 import Nav from "react-bootstrap/Nav";
 import { useEffect } from "react";
 import ReadMore from "../../components/common/read-more";
+import { withRouter } from "../../hoc/withRouter";
+import httpRequest from "../../services/httpRequest";
 function EventDetail(props) {
   console.log({ props });
   const { event } = props;
@@ -19,12 +21,27 @@ function EventDetail(props) {
   const organization = useRef(null);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
+  const [eventData, setEventData] = useState(null);
   const scrollToSection = (elementRef) => {
     window.scrollTo({
       top: elementRef.current.offsetTop - 25,
       behavior: "smooth",
     });
   };
+  useEffect(() => {
+    async function fetchEvent() {
+      const response = await httpRequest({
+        url: "/events",
+        method: "GET",
+        params: {
+          id: 1,
+        },
+      });
+      setEventData(response);
+    }
+    fetchEvent();
+  }, []);
+  console.log({ eventData });
   useEffect(() => {
     const handleYPosition = (e) => {
       setYPosition(window.scrollY);
@@ -209,4 +226,4 @@ EventDetail.defaultProps = {
       "Những Thành Phố Mơ Màng là thành phố của tuổi trẻ, nơi những giấc mơ sẽ được chúng tớ cùng các cậu tạo nên trên nền nhạc những bài hát Indie và Underground.",
   },
 };
-export default EventDetail;
+export default withRouter(EventDetail);
