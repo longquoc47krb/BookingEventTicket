@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Components } from "./configs/routes";
+import Loading from "./components/loading";
+import {
+  AdminLoginPage,
+  EventDashBoardPage,
+  EventDetailPage,
+  HomePage,
+  LoginPage,
+} from "./configs/routes";
 import PublicLayout from "./views/layouts/PublicLayout";
 function App() {
   const [events, setEvents] = useState(null);
@@ -21,7 +28,7 @@ function App() {
       <Routes>
         <Route
           path="/events"
-          element={<Components.EventDashBoardPage events={events} />}
+          element={<EventDashBoardPage events={events} />}
         />
       </Routes>
     );
@@ -32,13 +39,14 @@ function App() {
         <Route path="/" element={<PublicLayout />}>
           <Route
             path="/events"
-            element={<Components.EventDashBoardPage events={events} />}
+            element={<EventDashBoardPage events={events} />}
           />
-          <Route path="/" element={<Components.HomePage />} />
-          {/* <Route path="/test" element={<Loading />} /> */}
+          <Route path="/event/:id" element={<EventDetailPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/test" element={<Loading />} />
         </Route>
-        <Route path="/login" element={<Components.LoginPage />} />
-        <Route path="/admin-login" element={<Components.AdminLoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
       </Routes>
     );
   }

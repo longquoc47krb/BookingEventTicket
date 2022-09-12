@@ -8,7 +8,7 @@ const { MENU } = AppConfig;
 function SiderBar() {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="sider">
       <Sider width={250}>
         <Menu style={{ minHeight: "100vh", height: "100%" }}>
           {MENU.map((item, index) => (

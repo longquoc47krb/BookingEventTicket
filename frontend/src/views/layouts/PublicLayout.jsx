@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/common/header";
+import ScrollToTopPage from "../../components/scroll-to-top";
 const { Content } = Layout;
 const PublicLayout = () => {
   return (
@@ -14,6 +15,7 @@ const PublicLayout = () => {
           <Outlet />
         </Content>
       </Layout>
+      <ScrollToTopPage />
     </Layout>
   );
 };

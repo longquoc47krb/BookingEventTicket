@@ -40,22 +40,26 @@ function Header(props) {
             <Link to={ROUTES.LOGIN}>
               <a className="border-r-2 border-white px-3">Đăng nhập</a>
             </Link>
-            <a className="px-3">Đăng ký</a>
+            <Link to="/event-detail">
+              <a className="px-3">Đăng ký</a>
+            </Link>
           </>
         ) : (
           <>
-            <span className="text-white font-medium text-base">
-              {currentUser.family_name} {currentUser.given_name}
-            </span>
             <Dropdown overlay={menu} trigger={["click"]}>
-              <Avatar
-                googleId={currentUser.sub}
-                src={currentUser.picture}
-                size="35"
-                round={true}
-                name={currentUser.family_name}
-                className="header-auth-avatar"
-              />
+              <strong className="inline-flex items-center bg-gray-100 px-5 py-1.5 rounded-full">
+                <span className="text-base font-medium text-black">
+                  {currentUser.family_name} {currentUser.given_name}
+                </span>
+                <Avatar
+                  googleId={currentUser.sub}
+                  src={currentUser.picture}
+                  size="35"
+                  round={true}
+                  name={currentUser.family_name}
+                  className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5"
+                />
+              </strong>
             </Dropdown>
           </>
         )}

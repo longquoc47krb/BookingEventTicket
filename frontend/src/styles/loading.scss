@@ -1,0 +1,41 @@
+.loading {
+  &-container {
+    span {
+      color: $primary-color;
+      font-size: 1rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -150%);
+    }
+  }
+}
+
+.progress {
+  width: 120px;
+  height: 22px;
+  border-radius: 20px;
+  color: $primary-color;
+  border: 2px solid;
+  position: relative;
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  &::before {
+    content: "";
+    position: absolute;
+    margin: 2px;
+    inset: 0 100% 0 0;
+    border-radius: inherit;
+    background: currentColor;
+    animation: p6 2s infinite;
+  }
+}
+
+@keyframes p6 {
+  100% {
+    inset: 0;
+  }
+}

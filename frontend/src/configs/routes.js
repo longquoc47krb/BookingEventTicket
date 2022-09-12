@@ -16,10 +16,15 @@ const HomePage = Loadable({
   loader: () => import("../views/home"),
   loading: Loading,
 });
-const Components = {
+const EventDetailPage = Loadable({
+  loader: () => import("../views/event-detail"),
+  loading: Loading,
+});
+
+export {
   LoginPage,
   AdminLoginPage,
   EventDashBoardPage,
   HomePage,
+  EventDetailPage,
 };
-export { Components };
