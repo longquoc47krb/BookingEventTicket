@@ -1,12 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import lincense from "../../../assets/license.png";
 function Footer() {
+  const navigate = useNavigate();
   return (
     <footer className="footer-container">
       <div className="footer-top"></div>
       <div className="footer-bottom">
         <div className="footer-bottom-left">
-          <p className="website-logo "></p>
+          <img
+            src="/logo.png"
+            alt="logo"
+            className="brand-logo"
+            onClick={() => navigate("/")}
+          />
           <div className="flex flex-col">
             <span>
               Hệ thống quản lý và phân phối vé sự kiện số 1 Võ Văn Ngân

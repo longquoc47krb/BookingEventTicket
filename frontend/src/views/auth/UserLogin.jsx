@@ -1,21 +1,20 @@
 import { Col, Divider, Row } from "antd";
-import jwt_decode from "jwt-decode";
 import { FastField, Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
+import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import Button from "../../components/common/button";
 import { Input } from "../../components/common/input/customField";
 import GoogleLogin from "../../components/google-button";
-import { validateLoginForm, YupValidator } from "../../helpers/validate";
-import { Authentication } from "../../configs/firebaseConfig";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import Button from "../../components/common/button";
-import * as Yup from "yup";
+import { YupValidator } from "../../helpers/validate";
 const UserLogin = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [confirmResult, setConfirmResult] = useState("");
-  const [verficationCode, setVerificationCode] = useState("");
-  const [userId, setUserId] = useState("");
-  const [isSend, setIsSend] = useState(false);
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  // const [confirmResult, setConfirmResult] = useState("");
+  // const [verficationCode, setVerificationCode] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [isSend, setIsSend] = useState(false);
   const navigate = useNavigate();
   const handleGoogleSignIn = async ({ credential }) => {
     const profileObj = jwt_decode(credential);
@@ -44,11 +43,17 @@ const UserLogin = () => {
   const { values, handleSubmit } = formikLogin;
   return (
     <>
+      <Helmet>
+        <title>Đăng nhập</title>
+        <meta name="description" content="Login page" />
+      </Helmet>
       <div className="login-container">
-        <p
-          className="website-logo website-logo-login absolute top-5 left-5"
+        <img
+          src={process.env.PUBLIC_URL + "logo.png"}
+          alt="logo"
+          className="brand-logo absolute top-5 left-5 w-[300px]"
           onClick={() => navigate("/")}
-        ></p>
+        />
         <div className="login-content">
           <FormikProvider value={formikLogin}>
             <Form className="login-form" onSubmit={handleSubmit}>

@@ -33,14 +33,20 @@ function Header(props) {
   );
   return (
     <div className="header-container">
-      <p className="website-logo" onClick={() => navigate("/")}></p>
+      {/* <p className="website-logo" onClick={() => navigate("/")}></p> */}
+      <img
+        src="/logo.png"
+        alt="logo"
+        className="brand-logo"
+        onClick={() => navigate("/")}
+      />
       <div className="header-auth">
         {!currentUser ? (
           <>
             <Link to={ROUTES.LOGIN}>
               <a className="border-r-2 border-white px-3">Đăng nhập</a>
             </Link>
-            <Link to="/event-detail">
+            <Link to="/event/:id">
               <a className="px-3">Đăng ký</a>
             </Link>
           </>
@@ -69,10 +75,8 @@ function Header(props) {
 }
 Header.propTypes = {
   currentUser: PropTypes.object,
-  logo: PropTypes.string.isRequired,
 };
 Header.defaultProps = {
   currentUser: JSON.parse(localStorage.getItem("user")) ?? null,
-  logo: process.env.PUBLIC_URL + "ticketLogo.png",
 };
 export default Header;
