@@ -75,7 +75,7 @@ function EventDetail(props) {
       setActiveSection(null);
     }
     console.log({ activeSection });
-  }, [introduce, info, organization, yPosition]);
+  }, [introduce, info, organization, yPosition, activeSection]);
   return (
     <>
       <Header />
