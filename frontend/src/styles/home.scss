@@ -5,6 +5,9 @@
     justify-content: space-between;
     .sider {
       display: block;
+      padding: 1rem;
+      padding-left: 0;
+      height: auto;
       @include for-phone {
         display: none;
       }
@@ -17,4 +20,10 @@
     position: relative;
     width: 100%;
   }
+}
+.typo {
+  font-size: 4rem;
+  background: -webkit-linear-gradient($primary-color, #008eca);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

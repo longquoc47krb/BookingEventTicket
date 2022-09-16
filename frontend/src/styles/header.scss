@@ -5,10 +5,12 @@
     color: white;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    background: black;
+    background: rgba($color: #000000, $alpha: 1);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 10;
+    width: 100%;
   }
   &-auth {
     display: flex;
