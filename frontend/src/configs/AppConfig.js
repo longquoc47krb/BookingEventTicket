@@ -1,8 +1,10 @@
-import { AiOutlineHome, AiOutlineBook } from "react-icons/ai";
-import { IoMusicalNotesOutline } from "react-icons/io5";
-import { MdOutlineSportsSoccer, MdOutlineTheaterComedy } from "react-icons/md";
-import { GiWineBottle } from "react-icons/gi";
-import { TbPlaneDeparture } from "react-icons/tb";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import MusicNoteRoundedIcon from "@mui/icons-material/MusicNoteRounded";
+import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded";
+import LiquorRoundedIcon from "@mui/icons-material/LiquorRounded";
+import SportsSoccerRoundedIcon from "@mui/icons-material/SportsSoccerRounded";
+import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
+import LibraryBooksRoundedIcon from "@mui/icons-material/LibraryBooksRounded";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -51,43 +53,43 @@ const MENU = [
     label: "Trang chủ",
     key: "home",
     link: "/",
-    icon: <AiOutlineHome />,
+    icon: <HomeRoundedIcon fontSize="medium" />,
   },
   {
     label: "Âm nhạc",
     key: "music",
     link: "/events",
-    icon: <IoMusicalNotesOutline />,
+    icon: <MusicNoteRoundedIcon fontSize="medium" />,
   },
   {
     label: "Sân khấu",
     key: "theater",
     link: "/events",
-    icon: <MdOutlineTheaterComedy />,
+    icon: <TheaterComedyRoundedIcon fontSize="medium" />,
   },
   {
     label: "Nightlife",
     key: "nightlife",
     link: "/events",
-    icon: <GiWineBottle />,
+    icon: <LiquorRoundedIcon fontSize="medium" />,
   },
   {
     label: "Khoá học",
     key: "courses",
     link: "/events",
-    icon: <AiOutlineBook />,
+    icon: <LibraryBooksRoundedIcon fontSize="medium" />,
   },
   {
     label: "Thể thao",
     key: "sports",
     link: "/events",
-    icon: <MdOutlineSportsSoccer />,
+    icon: <SportsSoccerRoundedIcon fontSize="medium" />,
   },
   {
     label: "Du lịch",
     key: "travel",
     link: "/events",
-    icon: <TbPlaneDeparture />,
+    icon: <FlightTakeoffRoundedIcon fontSize="medium" />,
   },
 ];
 const CAROUSEL_SETTINGS = [

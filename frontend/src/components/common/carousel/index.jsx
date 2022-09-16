@@ -9,7 +9,7 @@ export default function Carousel(props) {
       {data.map((image, index) => (
         <CarouselBootstrap.Item interval={1000}>
           <img
-            className="w-full h-auto"
+            className="w-full h-auto p-[1rem]"
             src={image}
             alt={`carousel-${index}`}
           />
@@ -25,6 +25,7 @@ Carousel.defaultProps = {
   data: [
     "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/08/22/1ABA64.jpg",
     "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/08/04/B7BF02.jpg",
-    "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/09/05/677CE0.jpg",
+    "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/23/4911B4.jpg",
+    "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/09/15/BE1528.jpg",
   ],
 };

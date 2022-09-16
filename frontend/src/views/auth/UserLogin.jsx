@@ -1,34 +1,64 @@
-import { Col, Divider, Row } from "antd";
+import { GoogleLogin } from "@react-oauth/google";
+import { Col, Divider, Row, Select } from "antd";
 import { FastField, Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import Button from "../../components/common/button";
 import { Input } from "../../components/common/input/customField";
-import GoogleLogin from "../../components/google-button";
 import { YupValidator } from "../../helpers/validate";
-const UserLogin = () => {
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  // const [confirmResult, setConfirmResult] = useState("");
-  // const [verficationCode, setVerificationCode] = useState("");
-  // const [userId, setUserId] = useState("");
-  // const [isSend, setIsSend] = useState(false);
+import { setGoogleProfile } from "../../redux/slices/googleSlice";
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { authentication } from "../../configs/firebaseConfig";
+import { countryCode } from "../../components/country-code";
+const UserLogin = (props) => {
   const navigate = useNavigate();
-  const handleGoogleSignIn = async ({ credential }) => {
-    const profileObj = jwt_decode(credential);
-    localStorage.setItem("user", JSON.stringify(profileObj));
-    const { name, sub: googleId, picture: imageUrl } = profileObj;
-    const user = {
-      _id: googleId,
-      _type: "user",
-      userName: name,
-      image: imageUrl,
-    };
-    console.log({ user });
-    navigate("/");
+  const dispatch = useDispatch();
+  // login phone number
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "visible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // onSignInSubmit();
+          console.log(response, "-----------responss");
+        },
+        "expired-callback": (response) => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          // ...
+          console.log(response, "expired-callback-----");
+        },
+      },
+      authentication
+    );
   };
+
+  const requestOTP = async (e) => {
+    const code = document.querySelector(".country-Dropdown").value;
+    console.log(code, "code");
+    e.preventDefault();
+    generateRecaptcha();
+    let appVerifier = window.recaptchaVerifier;
+    await signInWithPhoneNumber(
+      authentication,
+      `${code} ${values.phone}`,
+      appVerifier
+    )
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        navigate("/loginotp", { state: { phoneNumber: values.phone } });
+      })
+      .catch((error) => {
+        // window.location.reload();
+        console.log(window.recaptchaVerifier, "----window.recaptchaVerifier");
+        console.log(error, "error by firebase");
+      });
+  };
+
   const initialValues = {
     phone: "",
     otp: "",
@@ -38,6 +68,8 @@ const UserLogin = () => {
     validationSchema: Yup.object().shape({
       phone: YupValidator.phone,
     }),
+    validateOnChange: true,
+    validateOnBlur: true,
     onSubmit: async (values) => {},
   });
   const { values, handleSubmit } = formikLogin;
@@ -57,29 +89,69 @@ const UserLogin = () => {
         <div className="login-content">
           <FormikProvider value={formikLogin}>
             <Form className="login-form" onSubmit={handleSubmit}>
-              <Row gutter={16} className="leading-8">
+              <Row className="leading-8">
                 <h1 className="login-title mb-2 pl-[5px]">Đăng nhập</h1>
-                <Col span={24}>
-                  <FastField
-                    component={Input}
-                    label="Số Điện Thoại"
-                    name="phone"
-                  />
+              </Row>
+              <Row align="middle" style={{ height: "auto" }}>
+                <Col flex={1}>
+                  <Select
+                    showSearch
+                    placeholder="Mã vùng"
+                    optionFilterProp="children"
+                    onChange={(value) => {
+                      console.log(`selected ${value}`);
+                    }}
+                    onSearch={(value) => {
+                      console.log("search:", value);
+                    }}
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                  >
+                    {countryCode.map((option, index) => (
+                      <Select.Option
+                        style={{ padding: "0.5rem", height: "100%" }}
+                        value={option.dial_code}
+                        key={index}
+                      >
+                        {option.dial_code}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Col>
+                <Col flex={4}>
+                  <FastField component={Input} name="phone" width="100%" />
                 </Col>
               </Row>
-              <Button>Gửi mã OTP</Button>
+              <Col span={24}>
+                <button className="w-full py-2 bg-[#256d85] text-white">
+                  Gửi mã OTP
+                </button>
+              </Col>
               <Divider style={{ color: "black", border: "gray" }}>
                 hoặc đăng nhập bằng Google
               </Divider>
               <div className="flex justify-center">
-                <GoogleLogin onGoogleSignIn={handleGoogleSignIn} />
+                <GoogleLogin
+                  shape="circle"
+                  size="large"
+                  width="100%"
+                  onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse.credential);
+                    var decoded = jwt_decode(credentialResponse.credential);
+                    console.log(decoded);
+                    dispatch(setGoogleProfile(decoded));
+                    localStorage.setItem("userInfo", JSON.stringify(decoded));
+                    navigate("/");
+                  }}
+                  onError={() => {
+                    alert("Login Failed");
+                  }}
+                />
               </div>
               <div id="recaptcha-container"></div>
-              <Link to="/forget-password">
-                <span className="login-form-forget-password">
-                  Quên mật khẩu?
-                </span>
-              </Link>
             </Form>
           </FormikProvider>
         </div>

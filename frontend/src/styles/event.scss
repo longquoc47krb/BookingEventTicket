@@ -37,10 +37,15 @@
       18.8px 13.8px 33.4px rgba(0, 0, 0, 0.069),
       45px 33px 80px rgba(0, 0, 0, 0.13);
   }
+  &-item-category {
+    display: flex;
+    align-items: center;
+  }
   &-category {
     cursor: pointer;
     margin-right: 2px;
     margin-left: 2px;
+    margin-bottom: 0;
   }
   &-item-image {
     object-fit: cover;

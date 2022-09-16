@@ -1,29 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Menu } from "antd";
-import Sider from "antd/lib/layout/Sider";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import MenuList from "@mui/material/MenuList";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import { Link, useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
+import Paper from "@mui/material/Paper";
 const { MENU } = AppConfig;
-function SiderBar() {
+function SiderBar(props) {
+  const { className } = props;
   const navigate = useNavigate();
   return (
-    <div className="sider">
-      <Sider width={250}>
-        <Menu style={{ minHeight: "100vh", height: "100%" }}>
+    <div className={className}>
+      <Paper sx={{ width: 250, minHeight: "100%" }}>
+        <MenuList>
           {MENU.map((item, index) => (
-            <Menu.Item key={index} style={{ color: "white" }}>
-              <a
-                onClick={() => navigate(`${item.link}`)}
-                className="flex items-center gap-x-2"
-              >
-                {item.icon}
-                {item.label}
-              </a>
-            </Menu.Item>
+            <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText>{item.label}</ListItemText>
+            </MenuItem>
           ))}
-        </Menu>
-      </Sider>
+        </MenuList>
+      </Paper>
     </div>
   );
 }
