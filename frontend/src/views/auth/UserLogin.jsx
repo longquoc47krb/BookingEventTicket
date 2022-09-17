@@ -92,7 +92,14 @@ const UserLogin = (props) => {
               <Row className="leading-8">
                 <h1 className="login-title mb-2 pl-[5px]">Đăng nhập</h1>
               </Row>
-              <Row align="middle" style={{ height: "auto" }}>
+              <Row
+                align="middle"
+                style={{
+                  height: "auto",
+                  display: "flex",
+                  alignContent: "center",
+                }}
+              >
                 <Col flex={1}>
                   <Select
                     showSearch

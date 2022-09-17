@@ -5,6 +5,10 @@ import LiquorRoundedIcon from "@mui/icons-material/LiquorRounded";
 import SportsSoccerRoundedIcon from "@mui/icons-material/SportsSoccerRounded";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import LibraryBooksRoundedIcon from "@mui/icons-material/LibraryBooksRounded";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import LocalActivityRoundedIcon from "@mui/icons-material/LocalActivityRounded";
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -92,6 +96,32 @@ const MENU = [
     icon: <FlightTakeoffRoundedIcon fontSize="medium" />,
   },
 ];
+const USER_PROFILE_MENU = [
+  {
+    label: "Thông tin cá nhân",
+    key: "profile",
+    link: "/user/profile",
+    icon: <AccountCircleRoundedIcon fontSize="medium" />,
+  },
+  {
+    label: "Đơn hàng đã mua",
+    key: "order",
+    link: "/purchase-order",
+    icon: <LocalActivityRoundedIcon fontSize="medium" />,
+  },
+  {
+    label: "Sự kiện yêu thích",
+    key: "wishlist",
+    link: "/wishlist",
+    icon: <BookmarkRoundedIcon fontSize="medium" />,
+  },
+  {
+    label: "Đăng xuất",
+    key: "logout",
+    link: "/logout",
+    icon: <LoginRoundedIcon fontSize="medium" />,
+  },
+];
 const CAROUSEL_SETTINGS = [
   {
     breakpoint: 1300,
@@ -127,5 +157,6 @@ const AppConfig = {
   LOGIN_BACKGROUND,
   MENU,
   CAROUSEL_SETTINGS,
+  USER_PROFILE_MENU,
 };
 export { AppConfig };

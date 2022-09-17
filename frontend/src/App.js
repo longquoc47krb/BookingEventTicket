@@ -10,6 +10,7 @@ import {
   LoginPage,
 } from "./configs/routes";
 import PublicLayout from "./views/layouts/PublicLayout";
+import UserProfile from "./views/user-profile";
 function App() {
   const [events, setEvents] = useState(null);
   const currentUser = localStorage.getItem("user");
@@ -30,6 +31,7 @@ function App() {
           path="/events"
           element={<EventDashBoardPage events={events} />}
         />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     );
   }
@@ -46,6 +48,7 @@ function App() {
           <Route path="/test" element={<Loading />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/admin-login" element={<AdminLoginPage />} />
       </Routes>
     );
