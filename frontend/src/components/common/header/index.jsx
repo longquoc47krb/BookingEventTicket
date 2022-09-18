@@ -1,18 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { Dropdown, Menu } from "antd";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
-import { BiLogOut } from "react-icons/bi";
-import { CgProfile } from "react-icons/cg";
 import {
   logOutGoogle,
   userInfoSelector,
 } from "../../../redux/slices/googleSlice";
-import { useDispatch, useSelector } from "react-redux";
+const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
   const { ROUTES } = AppConfig;
@@ -20,48 +24,35 @@ function Header(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
+  function onLogout() {
+    dispatch(logOutGoogle());
+    localStorage.clear();
+  }
   useEffect(() => {
     setCurrent(userInfo);
   }, [userInfo]);
+  console.log({ current });
   const menu = (
-    <Menu
-      style={{
-        width: "auto",
-        textAlign: "left",
-        fontWeight: 700,
-        fontSize: "16px",
-      }}
-      items={[
-        {
-          icon: <CgProfile />,
-          label: (
-            <Link to="/profile">
-              <span>Thông tin cá nhân</span>
-            </Link>
-          ),
-        },
-        {
-          icon: <BiLogOut />,
-          label: (
-            <span
-              onClick={() => {
-                setTimeout(() => {
-                  dispatch(logOutGoogle());
-                  localStorage.clear();
-                }, 1000);
-              }}
-            >
-              Đăng xuất
-            </span>
-          ),
-          key: "0",
-        },
-      ]}
-    />
+    <MenuList style={{ background: "white" }}>
+      {USER_PROFILE_MENU.map((item, index) => (
+        <>
+          <MenuItem
+            className="mb-2"
+            onClick={
+              item.key === "logout" ? onLogout : () => navigate(item?.link)
+            }
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText>{item.label}</ListItemText>
+          </MenuItem>
+
+          <Divider style={{ width: "100%" }} />
+        </>
+      ))}
+    </MenuList>
   );
   return (
     <div className="header-container">
-      {/* <p className="website-logo" onClick={() => navigate("/")}></p> */}
       <img
         src="/logo.png"
         alt="logo"
@@ -71,12 +62,16 @@ function Header(props) {
       <div className="header-auth">
         {!current ? (
           <>
-            <Link to={ROUTES.LOGIN}>
-              <a className="border-r-2 border-white px-3">Đăng nhập</a>
-            </Link>
-            <Link to="/event/:id">
-              <a className="px-3">Đăng ký</a>
-            </Link>
+            <a
+              className="border-r-2 border-white px-3"
+              onClick={() => navigate(ROUTES.LOGIN)}
+            >
+              Đăng nhập
+            </a>
+
+            <a className="px-3" onClick={() => navigate(ROUTES.EVENT.Detail)}>
+              Đăng ký
+            </a>
           </>
         ) : (
           <>

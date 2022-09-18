@@ -6,6 +6,8 @@ import { Helmet } from "react-helmet";
 import { userInfoSelector } from "../../redux/slices/googleSlice";
 import Footer from "../../components/common/footer";
 import Typography from "../../components/common/typography";
+import Event from "../../components/event";
+import PropTypes from "prop-types";
 function Home() {
   return (
     <>
@@ -19,7 +21,7 @@ function Home() {
         <div className="home-content">
           <Carousel />
           <div className="home-popular">
-            {/* <Typography>Sự kiện nổi bật</Typography> */}
+            <Typography className="text-center">Sự kiện nổi bật</Typography>
           </div>
         </div>
       </div>
