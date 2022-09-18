@@ -150,7 +150,10 @@ const UserLogin = (props) => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     console.log(decoded);
                     dispatch(setGoogleProfile(decoded));
-                    localStorage.setItem("userInfo", JSON.stringify(decoded));
+                    localStorage.setItem(
+                      "currentUser",
+                      JSON.stringify(decoded)
+                    );
                     navigate("/");
                   }}
                   onError={() => {

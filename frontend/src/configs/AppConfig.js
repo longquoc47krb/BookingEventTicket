@@ -9,6 +9,9 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LocalActivityRoundedIcon from "@mui/icons-material/LocalActivityRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
+import { logOutGoogle } from "../redux/slices/googleSlice";
+import { useDispatch } from "react-redux";
+
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -51,6 +54,10 @@ const LOGIN_BACKGROUND = [
 const ROUTES = {
   LOGIN: "/login",
   ADMIN_LOGIN: "/admin-login",
+  EVENT: {
+    Detail: "/event/:id",
+    All: "/events",
+  },
 };
 const MENU = [
   {
@@ -100,7 +107,8 @@ const USER_PROFILE_MENU = [
   {
     label: "Thông tin cá nhân",
     key: "profile",
-    link: "/user/profile",
+    link: "/profile",
+    // link: "/:username/profile",
     icon: <AccountCircleRoundedIcon fontSize="medium" />,
   },
   {
@@ -118,7 +126,7 @@ const USER_PROFILE_MENU = [
   {
     label: "Đăng xuất",
     key: "logout",
-    link: "/logout",
+    link: null,
     icon: <LoginRoundedIcon fontSize="medium" />,
   },
 ];
