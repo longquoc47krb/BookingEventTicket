@@ -1,18 +1,18 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row, Select } from "antd";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { FastField, Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
-import React, { useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Input } from "../../components/common/input/customField";
+import { countryCode } from "../../components/country-code";
+import { authentication } from "../../configs/firebaseConfig";
 import { YupValidator } from "../../helpers/validate";
 import { setGoogleProfile } from "../../redux/slices/googleSlice";
-import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-import { authentication } from "../../configs/firebaseConfig";
-import { countryCode } from "../../components/country-code";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

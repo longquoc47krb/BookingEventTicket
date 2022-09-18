@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { Dropdown } from "antd";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import Avatar from "react-avatar";
-import { Link, useNavigate } from "react-router-dom";
-import { AppConfig } from "../../../configs/AppConfig";
-import {
-  logOutGoogle,
-  userInfoSelector,
-} from "../../../redux/slices/googleSlice";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import { Dropdown } from "antd";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import Avatar from "react-avatar";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AppConfig } from "../../../configs/AppConfig";
+import {
+  logOutGoogle,
+  userInfoSelector,
+} from "../../../redux/slices/googleSlice";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
