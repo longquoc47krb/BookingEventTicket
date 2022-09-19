@@ -7,7 +7,6 @@ function Calendar(props) {
   const { className, calendar } = props;
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
   moment.locale("vi");
-  console.log({ calendar });
   const calendarObj = {
     dayOfWeek: moment(calendar, dateFormat).format("dddd"),
     day: moment(calendar, dateFormat).format("D"),
