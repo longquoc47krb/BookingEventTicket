@@ -12,25 +12,14 @@ import {
 import PublicLayout from "./views/layouts/PublicLayout";
 import UserProfile from "./views/user-profile";
 function App() {
-  const [events, setEvents] = useState(null);
   const currentUser = localStorage.getItem("user");
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await axios.get("http://localhost:8000/events");
-      setEvents(res.data);
-    };
-    fetch();
-  }, []);
   function AdminRoutes() {
     return;
   }
   function UserRoutes() {
     return (
       <Routes>
-        <Route
-          path="/events"
-          element={<EventDashBoardPage events={events} />}
-        />
+        <Route path="/events" element={<EventDashBoardPage />} />
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
     );
@@ -39,11 +28,8 @@ function App() {
     return (
       <Routes>
         <Route path="/" element={<PublicLayout />}>
-          <Route
-            path="/events"
-            element={<EventDashBoardPage events={events} />}
-          />
-          <Route path="/event/:id" element={<EventDetailPage />} />
+          <Route path="/events" element={<EventDashBoardPage />} />
+          <Route path="/event/:eventId" element={<EventDetailPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/test" element={<Loading />} />
         </Route>
