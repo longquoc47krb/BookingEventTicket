@@ -3,6 +3,8 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
+import com.hcmute.bookingevent.Implement.IAccountService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,27 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "/account")
 public class AccountController {
     @Autowired
     AccountRepository accountRepository;
 
+
+    private  final  IAccountService iAccountService;
+
+
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll() {
+        return iAccountService.findAll();
+
+    }
+
+
     @PostMapping("/create")
-    public ResponseEntity<ResponseObject> createAccount(@RequestBody Account newAccount) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Create account successfully ",  accountRepository.save(newAccount)));
+    public ResponseEntity<?> createAccount(@RequestBody Account newAccount) {
+        return iAccountService.createAccount(newAccount);
     }
 
     @PutMapping("/update/{id}")
