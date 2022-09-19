@@ -8,13 +8,36 @@ import IconButton from "@mui/material/IconButton";
 import React from "react";
 import theme from "../../shared/theme";
 import { AppConfig } from "../../configs/AppConfig";
+import { FastField, Field, FormikProvider, useFormik } from "formik";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Header from "../../components/common/header";
-import { Typography } from "antd";
+import { Col, Form, Row, Typography } from "antd";
 import { Helmet } from "react-helmet";
+import * as Yup from "yup";
+import { YupValidator } from "../../helpers/validate";
+import { Input } from "../../components/common/input/customField";
+import { useState } from "react";
 function UserProfile(props) {
   const { user } = props;
+  const [isEditting, setIsEditing] = useState(false);
+  const initialValues = {
+    id: user?.id ?? "",
+    avatar: user?.avatar,
+    fullName: user?.fullName,
+    email: user?.email,
+    phone: user?.phone,
+  };
+  // formik
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: Yup.object().shape({
+      fullName: YupValidator.fullName,
+      email: YupValidator.email,
+    }),
+    onSubmit: (values) => {},
+  });
+  const { setValues, setFieldValue, values, errors } = formik;
   return (
     <>
       <Helmet>
@@ -105,6 +128,62 @@ function UserProfile(props) {
             >
               Thông tin người dùng
             </Typography>
+            <FormikProvider value={formik}>
+              <Form
+                style={{
+                  width: "100%",
+                  paddingLeft: 50,
+                  paddingRight: 50,
+                }}
+              >
+                <Row gutter={[48, 40]} className="leading-8">
+                  <Col span={24}>
+                    <Field
+                      name="fullName"
+                      component={Input}
+                      label="Họ và tên"
+                      disabled={isEditting ? false : true}
+                    />
+                    <Field
+                      component={Input}
+                      label="Email"
+                      name="email"
+                      disabled={isEditting ? false : true}
+                    />
+                    <Field
+                      component={Input}
+                      label="Số điện thoại"
+                      name="phone"
+                      disabled={isEditting ? false : true}
+                    />
+                  </Col>
+                </Row>
+                <Row gutter={[48, 40]}>
+                  <Col span={8}>
+                    {isEditting ? (
+                      <div className="flex items-center gap-x-2">
+                        <button
+                          className="w-24 py-[7px] bg-white text-[#256d85] border-[#256d85] border-[1px]"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Huỷ
+                        </button>
+                        <button className="w-24 py-2 bg-[#256d85] text-white">
+                          Cập nhật
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        className="w-24 py-2 bg-[#256d85] text-white"
+                        onClick={() => setIsEditing(true)}
+                      >
+                        Chỉnh sửa
+                      </button>
+                    )}
+                  </Col>
+                </Row>
+              </Form>
+            </FormikProvider>
           </Paper>
         </Box>
       </div>
@@ -116,6 +195,7 @@ UserProfile.propTypes = {
     avatar: PropTypes.string,
     fullName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
   }),
 };
 const mapStateToProps = (state) => ({
@@ -123,6 +203,7 @@ const mapStateToProps = (state) => ({
     avatar: state.google.userInfo.picture,
     fullName: state.google.userInfo.name,
     email: state.google.userInfo.email,
+    phone: "",
   },
 });
 export default connect(mapStateToProps)(UserProfile);
