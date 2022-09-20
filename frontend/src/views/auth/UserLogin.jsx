@@ -19,6 +19,7 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const handleGoogleSignIn = async ({ credential }) => {
     const profileObj = jwt_decode(credential);
+    console.log(profileObj)
     localStorage.setItem("user", JSON.stringify(profileObj));
     const { name, sub: googleId, picture: imageUrl } = profileObj;
     const user = {
