@@ -4,12 +4,12 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { FastField, Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
 import React from "react";
-import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Input } from "../../components/common/input/customField";
 import { countryCode } from "../../components/country-code";
+import HelmetHeader from "../../components/helmet";
 import { authentication } from "../../configs/firebaseConfig";
 import { YupValidator } from "../../helpers/validate";
 import { setGoogleProfile } from "../../redux/slices/googleSlice";
@@ -75,10 +75,7 @@ const UserLogin = (props) => {
   const { values, handleSubmit } = formikLogin;
   return (
     <>
-      <Helmet>
-        <title>Đăng nhập</title>
-        <meta name="description" content="Login page" />
-      </Helmet>
+      <HelmetHeader title="Đăng nhập" content="Login" />
       <div className="login-container">
         <img
           src={process.env.PUBLIC_URL + "logo.png"}

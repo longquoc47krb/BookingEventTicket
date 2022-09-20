@@ -20,6 +20,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+.cursor {
+  cursor: url("../assets/pointer.png"), auto;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

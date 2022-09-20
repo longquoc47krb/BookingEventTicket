@@ -7,6 +7,7 @@ const httpRequest = async ({ url, method, data, params, ...rest }) => {
       method,
       data,
       params,
+      withCredentials: true,
       ...rest,
     });
     return response;

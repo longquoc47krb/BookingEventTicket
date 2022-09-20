@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
-import "../../styles/event.scss";
+import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
-import { Helmet } from "react-helmet";
-import { connect, useDispatch } from "react-redux";
 import { getEvents } from "../../redux/slices/eventSlice";
+import "../../styles/event.scss";
 function EventDashBoard(props) {
   const { events } = props;
   const dispatch = useDispatch();
@@ -16,16 +17,13 @@ function EventDashBoard(props) {
   console.log({ events });
   return (
     <>
-      <Helmet>
-        <title>Sự kiện</title>
-        <meta name="description" content="Event Dashboard page" />
-      </Helmet>
+      <HelmetHeader title="Sự kiện" content="Event Dashboard" />
       <Header />
       <HeroBanner />
       <div className="event-container">
-        {events?.map((event, index) => (
+        {/* {events?.map((event, index) => (
           <Event event={event} key={event.id} />
-        ))}
+        ))} */}
       </div>
     </>
   );
