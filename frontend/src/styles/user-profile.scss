@@ -1,0 +1,10 @@
+.user-profile {
+  &-container {
+    background: $gray-background;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+.ant-input[disabled] {
+  color: black !important;
+}

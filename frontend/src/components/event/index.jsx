@@ -3,13 +3,18 @@ import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../configs/AppConfig";
+import { getEventById, setSelectedEvent } from "../../redux/slices/eventSlice";
 import Calendar from "../calendar";
 function Event({ event }) {
-  const handleClickTag = (value) => {
-    console.log("value", value);
-    window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const handleClickTag = (value) => {
+  //   console.log("value", value);
+  //   window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
+  // };
   let categoriesArr = event.categories;
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
@@ -22,7 +27,10 @@ function Event({ event }) {
       />
       <h1
         className="w-[calc(100%-80px)] font-bold event-title"
-        onClick={() => handleClickTag(event.title)}
+        onClick={() => {
+          dispatch(getEventById(event.id));
+          navigate(`/event/${event.id}`);
+        }}
       >
         {event.title}
       </h1>
@@ -30,19 +38,11 @@ function Event({ event }) {
         <strong className="text-xl">{event.price}</strong>
       </div>
       <div className="flex items-center">
-        {event.address ? (
-          <Tag onClick={() => handleClickTag(event.address)}>
-            {event.address}
-          </Tag>
-        ) : null}
+        {event.address ? <Tag>{event.address}</Tag> : null}
 
         <BiCategory />
         {categoriesArr.map((item, index) => (
-          <p
-            key={index}
-            onClick={() => handleClickTag(item)}
-            className="event-category"
-          >
+          <p key={index} className="event-category">
             {item}
           </p>
         ))}

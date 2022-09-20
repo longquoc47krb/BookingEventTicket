@@ -1,24 +1,30 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Calendar from "../../components/calendar";
-import { GoLocation, GoClock } from "react-icons/go";
-import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
-import Header from "../../components/common/header";
-import Footer from "../../components/common/footer";
 import { Affix } from "antd";
-import { useRef } from "react";
-import { paragraph } from "../../services/constants";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { useEffect } from "react";
+import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
+import { GoClock, GoLocation } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Calendar from "../../components/calendar";
+import Footer from "../../components/common/footer";
+import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
-function EventDetail(props) {
-  console.log({ props });
-  const { event } = props;
+import { getEventById } from "../../redux/slices/eventSlice";
+import { paragraph } from "../../services/constants";
+import httpRequest from "../../services/httpRequest";
+function EventDetail() {
+  const { eventId } = useParams();
+  const dispatch = useDispatch();
+  const event = useSelector((state) => state.event.selectedEvent);
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
+  useEffect(() => {
+    dispatch(getEventById(eventId));
+  }, []);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
+  const [eventData, setEventData] = useState(null);
   const scrollToSection = (elementRef) => {
     window.scrollTo({
       top: elementRef.current.offsetTop - 25,
@@ -26,22 +32,31 @@ function EventDetail(props) {
     });
   };
   useEffect(() => {
+    async function fetchEvent() {
+      const response = await httpRequest({
+        url: "/events",
+        method: "GET",
+        params: {
+          id: 1,
+        },
+      });
+      setEventData(response);
+    }
+    fetchEvent();
+  }, []);
+  useEffect(() => {
     const handleYPosition = (e) => {
       setYPosition(window.scrollY);
     };
 
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
-  console.log({ yPosition });
   useEffect(() => {
     const sectionPosition = {
       introduce: introduce.current.offsetTop,
       info: info.current.offsetTop,
       organization: organization.current.offsetTop,
     };
-    console.log("intro", sectionPosition.introduce);
-    console.log("info", sectionPosition.info);
-    console.log("organization", sectionPosition.organization);
     if (
       yPosition >= sectionPosition.introduce - 30 &&
       yPosition < sectionPosition.info - 30
@@ -57,8 +72,7 @@ function EventDetail(props) {
     } else {
       setActiveSection(null);
     }
-    console.log({ activeSection });
-  }, [introduce, info, organization, yPosition]);
+  }, [introduce, info, organization, yPosition, activeSection]);
   return (
     <>
       <Header />
@@ -182,31 +196,5 @@ function EventDetail(props) {
     </>
   );
 }
-EventDetail.propTypes = {
-  event: PropTypes.shape({
-    image: PropTypes.string,
-    title: PropTypes.string,
-    date: PropTypes.string,
-    address: PropTypes.string,
-    address_detail: PropTypes.string,
-    organization: PropTypes.string,
-    organization_logo: PropTypes.string,
-    organization_description: PropTypes.string,
-  }),
-};
-EventDetail.defaultProps = {
-  event: {
-    image:
-      "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/09/06/93A027.jpg",
-    title: "Những Thành Phố Mơ Màng – Autumn 2022",
-    date: "Chủ nhật, 11 Tháng 9 2022 (06:00 PM - 10:00 PM)",
-    address: "Công viên Yên Sở",
-    address_detail: "Gamuda Central, Hoàng Mai, Hà Nội",
-    organization: "NTPMM ENTERTAINMENT",
-    organization_logo:
-      "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
-    organization_description:
-      "Những Thành Phố Mơ Màng là thành phố của tuổi trẻ, nơi những giấc mơ sẽ được chúng tớ cùng các cậu tạo nên trên nền nhạc những bài hát Indie và Underground.",
-  },
-};
+
 export default EventDetail;

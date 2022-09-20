@@ -18,9 +18,10 @@ export function Select(props) {
         value={value}
         onChange={handleChange}
         style={{ width: width }}
-        mode={mode}>
+        mode={mode}
+      >
         {options.map((item, index) => (
-          <Option key={index + 1} value={item.key}>
+          <Option key={index + 1} value={item.value}>
             {item.value}
           </Option>
         ))}
