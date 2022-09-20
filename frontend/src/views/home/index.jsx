@@ -1,20 +1,14 @@
 import React from "react";
 import Carousel from "../../components/common/carousel";
+import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SiderBar from "../../components/common/sider";
-import { Helmet } from "react-helmet";
-import { userInfoSelector } from "../../redux/slices/googleSlice";
-import Footer from "../../components/common/footer";
 import Typography from "../../components/common/typography";
-import Event from "../../components/event";
-import PropTypes from "prop-types";
+import HelmetHeader from "../../components/helmet";
 function Home() {
   return (
     <>
-      <Helmet>
-        <title>Trang chủ</title>
-        <meta name="description" content="Home page" />
-      </Helmet>
+      <HelmetHeader title="Trang chủ" content="Home page" />
       <Header />
       <div className="home-container">
         <SiderBar className="sider" />

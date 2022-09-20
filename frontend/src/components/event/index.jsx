@@ -3,14 +3,11 @@ import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../configs/AppConfig";
-import { getEventById, setSelectedEvent } from "../../redux/slices/eventSlice";
 import Calendar from "../calendar";
 function Event({ event }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   // const handleClickTag = (value) => {
   //   console.log("value", value);
   //   window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
@@ -28,7 +25,6 @@ function Event({ event }) {
       <h1
         className="w-[calc(100%-80px)] font-bold event-title"
         onClick={() => {
-          dispatch(getEventById(event.id));
           navigate(`/event/${event.id}`);
         }}
       >
