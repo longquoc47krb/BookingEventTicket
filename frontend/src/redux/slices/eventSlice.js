@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { EventAPI } from "../../api/event";
 import httpRequest from "../../services/httpRequest";
 
 export const getEvents = createAsyncThunk("event/getEvents", async () => {
-  const res = await httpRequest({
-    url: "/events",
-    method: "GET",
-  });
+  const res = await httpRequest(EventAPI.getAllEvents);
+  console.log("events list: ", res);
   return res;
 });
 const initialState = {
