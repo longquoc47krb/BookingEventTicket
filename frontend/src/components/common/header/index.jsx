@@ -26,6 +26,7 @@ function Header(props) {
   const userInfo = useSelector(userInfoSelector);
   function onLogout() {
     dispatch(logOutGoogle());
+    navigate("/");
     localStorage.clear();
   }
   useEffect(() => {
@@ -76,8 +77,8 @@ function Header(props) {
         ) : (
           <>
             <Dropdown overlay={menu} trigger={["click"]}>
-              <strong className="inline-flex items-center px-3 py-1.5">
-                <span className="text-base font-medium text-white">
+              <strong className="inline-flex items-center px-3 py-1.5 cursor-pointer">
+                <span className="text-base font-medium text-white ">
                   {current.family_name} {current.given_name}
                 </span>
                 <Avatar
@@ -86,7 +87,7 @@ function Header(props) {
                   size="35"
                   round={true}
                   name={current.family_name}
-                  className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5"
+                  className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 "
                 />
               </strong>
             </Dropdown>

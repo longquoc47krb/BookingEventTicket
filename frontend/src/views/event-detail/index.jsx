@@ -3,47 +3,30 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
-import { getEventById } from "../../redux/slices/eventSlice";
+import HelmetHeader from "../../components/helmet";
+import { selectEventById } from "../../redux/slices/eventSlice";
 import { paragraph } from "../../services/constants";
-import httpRequest from "../../services/httpRequest";
 function EventDetail() {
   const { eventId } = useParams();
-  const dispatch = useDispatch();
-  const event = useSelector((state) => state.event.selectedEvent);
+  const event = useSelector(selectEventById(eventId));
+  console.log({ event });
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  useEffect(() => {
-    dispatch(getEventById(eventId));
-  }, []);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
-  const [eventData, setEventData] = useState(null);
   const scrollToSection = (elementRef) => {
     window.scrollTo({
       top: elementRef.current.offsetTop - 25,
       behavior: "smooth",
     });
   };
-  useEffect(() => {
-    async function fetchEvent() {
-      const response = await httpRequest({
-        url: "/events",
-        method: "GET",
-        params: {
-          id: 1,
-        },
-      });
-      setEventData(response);
-    }
-    fetchEvent();
-  }, []);
   useEffect(() => {
     const handleYPosition = (e) => {
       setYPosition(window.scrollY);
@@ -75,12 +58,13 @@ function EventDetail() {
   }, [introduce, info, organization, yPosition, activeSection]);
   return (
     <>
+      <HelmetHeader title={event.title} />
       <Header />
       <div className="event-detail-container">
         <img src={event.image} alt="" />
         <div className="event-detail-overview">
           <div className="event-detail-info">
-            <Calendar className="event-detail-calendar" />
+            <Calendar className="event-detail-calendar" calendar={event.date} />
             <h1 className="event-detail-title">{event.title}</h1>
             <h1 className="event-detail-date">
               <GoClock className="text-gray-500" />
