@@ -21,9 +21,9 @@ function EventDashBoard(props) {
       <Header />
       <HeroBanner />
       <div className="event-container">
-        {/* {events?.map((event, index) => (
+        {events?.map((event, index) => (
           <Event event={event} key={event.id} />
-        ))} */}
+        ))}
       </div>
     </>
   );

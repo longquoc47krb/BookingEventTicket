@@ -3,19 +3,25 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
-import { selectEventById } from "../../redux/slices/eventSlice";
+import { decode } from "url-encode-decode";
+import {
+  getEventByName,
+  selectEventById,
+  selectEventByName,
+} from "../../redux/slices/eventSlice";
 import { paragraph } from "../../services/constants";
 function EventDetail() {
-  const { eventId } = useParams();
-  const event = useSelector(selectEventById(eventId));
-  console.log({ event });
+  const { eventName } = useParams();
+  const _eventName = useSelector((state) => state.event.selectedEventName);
+  const event = useSelector(selectEventByName(_eventName));
+  console.log("event detail:", event);
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
@@ -58,25 +64,28 @@ function EventDetail() {
   }, [introduce, info, organization, yPosition, activeSection]);
   return (
     <>
-      <HelmetHeader title={event.title} />
+      <HelmetHeader title={event?.name} />
       <Header />
       <div className="event-detail-container">
-        <img src={event.image} alt="" />
+        <img src={event?.background} alt="" />
         <div className="event-detail-overview">
           <div className="event-detail-info">
-            <Calendar className="event-detail-calendar" calendar={event.date} />
-            <h1 className="event-detail-title">{event.title}</h1>
+            <Calendar
+              className="event-detail-calendar"
+              calendar={event?.date}
+            />
+            <h1 className="event-detail-title">{event?.name}</h1>
             <h1 className="event-detail-date">
               <GoClock className="text-gray-500" />
-              {event.date}
+              {event?.date}
             </h1>
             <div>
               <h1 className="event-detail-address">
                 <GoLocation className="text-gray-500" />
-                {event.address}
+                {event?.address}
               </h1>
               <p className="event-detail-address-note">
-                {event.address_detail}
+                {event?.address_detail}
               </p>
             </div>
           </div>
@@ -137,9 +146,9 @@ function EventDetail() {
                 Nhà tổ chức
               </div>
               <div className="event-detail-organization">
-                <img src={event.organization_logo} alt="logo" />
-                <h1>{event.organization}</h1>
-                <p>{event.organization_description}</p>
+                <img src={event?.organization_logo} alt="logo" />
+                <h1>{event?.organization}</h1>
+                <p>{event?.organization_description}</p>
                 <button className="event-detail-organization-contact">
                   <AiOutlineMail />
                   Liên hệ
@@ -151,20 +160,20 @@ function EventDetail() {
             <Affix offsetTop={60}>
               <div className="event-detail-booking">
                 <div ref={introduce} className="introduce">
-                  {event.title}
+                  {event?.name}
                 </div>
                 <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
                   <h1 className="flex text-base items-center font-semibold gap-x-2">
                     <GoClock className="text-gray-500" />
-                    {event.date}
+                    {event?.date}
                   </h1>
                   <div>
                     <h1 className="flex text-base items-center font-semibold gap-x-2">
                       <GoLocation className="text-gray-500" />
-                      {event.address}
+                      {event?.address}
                     </h1>
                     <p className="event-detail-address-note">
-                      {event.address_detail}
+                      {event?.address_detail}
                     </p>
                   </div>
                 </div>
