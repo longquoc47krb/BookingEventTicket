@@ -143,7 +143,7 @@ const UserLogin = (props) => {
                   size="large"
                   width="100%"
                   onSuccess={(credentialResponse) => {
-                    console.log(credentialResponse.credential);
+                    console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
                     console.log(decoded);
                     dispatch(setGoogleProfile(decoded));
