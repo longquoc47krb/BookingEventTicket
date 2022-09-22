@@ -97,7 +97,7 @@ const UserLogin = (props) => {
                   alignContent: "center",
                 }}
               >
-                <Col flex={1}>
+                {/* <Col flex={1}>
                   <Select
                     showSearch
                     placeholder="Mã vùng"
@@ -124,7 +124,7 @@ const UserLogin = (props) => {
                       </Select.Option>
                     ))}
                   </Select>
-                </Col>
+                </Col> */}
                 <Col flex={4}>
                   <FastField component={Input} name="phone" width="100%" />
                 </Col>

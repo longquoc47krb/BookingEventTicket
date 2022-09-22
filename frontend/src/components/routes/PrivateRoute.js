@@ -1,52 +1,14 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Navigate, useLocation } from "react-router-dom";
+const PrivateRoute = ({ children }, props) => {
+  const { isAuthenticated } = props;
+  const location = useLocation();
 
-const propTypes = {
-  isAuthenticated: PropTypes.bool,
-  children: PropTypes.object,
-  component: PropTypes.func,
-  redirect: PropTypes.string,
-  restricted: PropTypes.bool,
+  if (isAuthenticated) {
+    return children;
+  } else {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 };
-
-const defaultProps = {
-  restricted: false,
-  redirect: "/login",
-  isAuthenticated: false,
-};
-
-const PrivateRoute = ({
-  isAuthenticated,
-  component: Component,
-  redirect: pathname,
-  restricted,
-  children,
-  ...rest
-}) => {
-  if (!children && !Component)
-    throw new Error(
-      "Please pass component props or children in PrivateRoute Component."
-    );
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated && !restricted ? (
-          Component ? (
-            <Component {...props} />
-          ) : (
-            children
-          )
-        ) : (
-          <Navigate to={{ pathname, state: { from: props.location } }} />
-        )
-      }
-    />
-  );
-};
-
-PrivateRoute.propTypes = propTypes;
-PrivateRoute.defaultProps = defaultProps;
 
 export default PrivateRoute;

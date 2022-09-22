@@ -20,6 +20,7 @@
     "firebase": "^9.9.4",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "node-sass": "^7.0.1",
     "prop-types": "^15.8.1",
