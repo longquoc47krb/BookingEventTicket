@@ -19,7 +19,7 @@ public class EventController {
     EventRepository eventRepository;
 
     //get all events
-    @GetMapping("/showall")
+    @GetMapping("/showAll")
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
@@ -49,7 +49,7 @@ public class EventController {
         //  return eventRepository.save(event);
     }
 
-    @GetMapping("/findname/{name}")
+    @GetMapping("/findName/{name}")
     public Event getEventByName(@PathVariable String name) {
         return eventRepository.findByName(name).orElseThrow(() -> new RuntimeException("cannot find that  name is " + name));
 
