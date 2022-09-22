@@ -6,11 +6,12 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import MenuList from "@mui/material/MenuList";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
+import { BsFillBagFill } from "react-icons/bs";
+import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
@@ -35,7 +36,7 @@ function Header(props) {
     setCurrent(userInfo);
   }, [userInfo]);
   console.log({ current });
-  var wishList = [1, 3, 4, 5, 4];
+  var wishList = [];
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
@@ -69,15 +70,28 @@ function Header(props) {
             <a className=" px-3" onClick={() => navigate(ROUTES.LOGIN)}>
               Đăng nhập
             </a>
-            {/* 
-            <a className="px-3" onClick={() => navigate(ROUTES.EVENT.Detail)}>
-              Đăng ký
-            </a> */}
           </>
         ) : (
           <>
-            <Badge badgeContent={wishList.length} color="error">
-              <BookmarkIcon fontSize="medium" />
+            <Badge
+              badgeContent={100}
+              color="error"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              <BsFillBagFill className="text-2xl" attributeName="Giỏ hàng" />
+            </Badge>
+            <Badge
+              badgeContent={100}
+              color="error"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              <RiBookmark3Fill className="text-2xl" />
             </Badge>
 
             <Dropdown overlay={menu} trigger={["click"]}>

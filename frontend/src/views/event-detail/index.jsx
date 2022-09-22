@@ -19,8 +19,8 @@ import {
 import { paragraph } from "../../services/constants";
 function EventDetail() {
   const { eventName } = useParams();
-  const _eventName = useSelector((state) => state.event.selectedEventName);
-  const event = useSelector(selectEventByName(_eventName));
+  console.log("eventname params", eventName);
+  const event = useSelector(selectEventByName(eventName));
   console.log("event detail:", event);
   const introduce = useRef(null);
   const info = useRef(null);

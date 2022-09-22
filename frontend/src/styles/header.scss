@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0 0.5rem;
+    gap: 0 1.5rem;
     a {
       color: white !important;
       &:hover {
@@ -53,8 +53,13 @@
 }
 .brand-logo {
   height: auto;
-  width: 150px;
-  -webkit-filter: drop-shadow(5px 5px 5px white);
-  filter: drop-shadow(5px 1px 15px rgb(0, 0, 0));
+  width: 5rem;
   cursor: pointer;
+}
+.css-ujyhhw-MuiBadge-badge {
+  font-weight: 700 !important;
+  font-size: 0.5rem !important;
+  min-width: 1rem !important;
+  height: 1rem !important;
+  transform: scale(1) translate(61%, 61%) !important;
 }

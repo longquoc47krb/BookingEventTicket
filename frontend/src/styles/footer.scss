@@ -1,26 +1,24 @@
 .footer {
   &-container {
     width: 100%;
-    background: $primary-footer-color;
+    background: linear-gradient(-45deg, rgb(12, 50, 107), rgb(44, 71, 145));
   }
   &-top {
   }
   &-bottom {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1rem;
     &-left {
-      color: gray;
+      color: white;
       display: flex;
       align-items: center;
       gap: 0 1rem;
     }
     &-right {
       display: flex;
-      color: gray;
+      color: white;
       gap: 0 1rem;
       span {
         width: auto;

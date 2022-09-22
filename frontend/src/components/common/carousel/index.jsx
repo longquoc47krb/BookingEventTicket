@@ -18,19 +18,20 @@ function Carousel(props) {
   const navigate = useNavigate();
   return (
     <CarouselBootstrap>
-      {newData?.map((item, index) => (
-        <CarouselBootstrap.Item interval={1000} key={item.id}>
-          <img
-            onClick={() => {
-              dispatch(setSelectedEventName(item.name));
-              navigate(`/event/${toSlug(item.name)}`);
-            }}
-            className="w-full h-auto p-[1rem]"
-            src={item.background}
-            alt={`carousel-${index}`}
-          />
-        </CarouselBootstrap.Item>
-      ))}
+      {newData &&
+        newData.map((item, index) => (
+          <CarouselBootstrap.Item interval={2000} key={item.id}>
+            <img
+              onClick={() => {
+                dispatch(setSelectedEventName(item.name));
+                navigate(`/event/${item.name}`);
+              }}
+              className="w-full h-auto p-[1rem]"
+              src={item.background}
+              alt={`carousel-${index}`}
+            />
+          </CarouselBootstrap.Item>
+        ))}
     </CarouselBootstrap>
   );
 }

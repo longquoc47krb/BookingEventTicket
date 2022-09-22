@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import { YupValidator } from "../../helpers/validate";
 import { Input } from "../../components/common/input/customField";
 import { useState } from "react";
+import HelmetHeader from "../../components/helmet";
 function UserProfile(props) {
   const { user } = props;
   const [isEditting, setIsEditing] = useState(false);
@@ -40,10 +41,7 @@ function UserProfile(props) {
   const { setValues, setFieldValue, values, errors } = formik;
   return (
     <>
-      <Helmet>
-        <title>Thông tin người dùng</title>
-        <meta name="description" content="Profile page" />
-      </Helmet>
+      <HelmetHeader title={user.fullName} content="User Profile" />
       <Header />
       <div className="user-profile-container">
         <Box
@@ -93,7 +91,7 @@ function UserProfile(props) {
                   src={user.avatar}
                   size="35"
                   round={true}
-                  name={user.name}
+                  name={user.fullName}
                   style={{
                     width: "150px",
                     height: "auto",

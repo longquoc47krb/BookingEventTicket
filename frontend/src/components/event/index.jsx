@@ -32,7 +32,7 @@ function Event({ event }) {
         className="w-[calc(100%-80px)] font-bold event-title"
         onClick={() => {
           dispatch(setSelectedEventName(event.name));
-          navigate(`/event/${toSlug(event.name)}`);
+          navigate(`/event/${event.name}`);
         }}
       >
         {event.name}
