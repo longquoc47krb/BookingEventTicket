@@ -78,9 +78,9 @@ const UserLogin = (props) => {
       <HelmetHeader title="Đăng nhập" content="Login" />
       <div className="login-container">
         <img
-          src={process.env.PUBLIC_URL + "logo.png"}
+          src={process.env.PUBLIC_URL + "logo-color.png"}
           alt="logo"
-          className="brand-logo absolute top-5 left-5 w-[300px]"
+          className="brand-logo absolute top-5 left-5 w-[200px]"
           onClick={() => navigate("/")}
         />
         <div className="login-content">

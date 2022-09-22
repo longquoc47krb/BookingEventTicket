@@ -7,7 +7,7 @@ function HelmetHeader(props) {
     <Helmet>
       <title>
         {title}
-        {` | Lotuticket`}
+        {` | Lotus Ticket`}
       </title>
       <meta name="description" content={content} />
     </Helmet>

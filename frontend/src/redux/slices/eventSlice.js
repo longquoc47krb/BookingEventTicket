@@ -20,6 +20,7 @@ export const getEventByName = createAsyncThunk(
 );
 const initialState = {
   events: [],
+  loading: true,
   selectedEvent: {},
   selectedEventName: "",
 };
@@ -37,16 +38,26 @@ const eventSlice = createSlice({
   },
   extraReducers: {
     [getEvents.pending]: (state) => {
+      state.loading = true;
       state.events = null;
     },
     [getEvents.fulfilled]: (state, action) => {
+      state.loading = false;
       state.events = action.payload;
     },
+    [getEvents.rejected]: (state, action) => {
+      state.loading = false;
+    },
     [getEventByName.pending]: (state) => {
+      state.loading = true;
       state.selectedEvent = null;
     },
     [getEventByName.fulfilled]: (state, action) => {
+      state.loading = false;
       state.selectedEvent = action.payload;
+    },
+    [getEventByName.rejected]: (state, action) => {
+      state.loading = false;
     },
   },
 });
