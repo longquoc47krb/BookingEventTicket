@@ -18,8 +18,8 @@ public class Event {
     private String id;
     private String name;
     private String address;
-    private LocalDateTime startingTime;
-    private LocalDateTime endingTime;
+    private String startingTime;
+    private String endingTime;
     private String host;
     private String id_category;
     private String description;
