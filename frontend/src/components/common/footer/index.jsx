@@ -18,7 +18,7 @@ function Footer() {
             <span>
               Hệ thống quản lý và phân phối vé sự kiện số 1 Võ Văn Ngân
             </span>
-            <span>LotuTicket Co. Ltd. © 2022</span>
+            <span>Lotus Ticket Co. Ltd. © 2022</span>
           </div>
         </div>
         <div className="footer-bottom-right">

@@ -13,9 +13,11 @@
 @import "./event-detail.scss";
 @import "./loading.scss";
 @import "./user-profile.scss";
+* {
+  font-family: "Montserrat", sans-serif !important;
+}
 body {
   margin: 0;
-  font-family: "Montserrat", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

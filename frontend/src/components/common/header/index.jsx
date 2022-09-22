@@ -4,11 +4,14 @@ import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
+import Badge from "@mui/material/Badge";
 import MenuList from "@mui/material/MenuList";
 import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
+import { BsFillBagFill } from "react-icons/bs";
+import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
@@ -33,6 +36,7 @@ function Header(props) {
     setCurrent(userInfo);
   }, [userInfo]);
   console.log({ current });
+  var wishList = [];
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
@@ -63,33 +67,42 @@ function Header(props) {
       <div className="header-auth">
         {!current ? (
           <>
-            <a
-              className="border-r-2 border-white px-3"
-              onClick={() => navigate(ROUTES.LOGIN)}
-            >
+            <a className=" px-3" onClick={() => navigate(ROUTES.LOGIN)}>
               Đăng nhập
-            </a>
-
-            <a className="px-3" onClick={() => navigate(ROUTES.EVENT.Detail)}>
-              Đăng ký
             </a>
           </>
         ) : (
           <>
+            <Badge
+              badgeContent={100}
+              color="error"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              <BsFillBagFill className="text-2xl" attributeName="Giỏ hàng" />
+            </Badge>
+            <Badge
+              badgeContent={100}
+              color="error"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+            >
+              <RiBookmark3Fill className="text-2xl" />
+            </Badge>
+
             <Dropdown overlay={menu} trigger={["click"]}>
-              <strong className="inline-flex items-center px-3 py-1.5 cursor-pointer">
-                <span className="text-base font-medium text-white ">
-                  {current.family_name} {current.given_name}
-                </span>
-                <Avatar
-                  googleId={current.sub}
-                  src={current.picture}
-                  size="35"
-                  round={true}
-                  name={current.family_name}
-                  className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 "
-                />
-              </strong>
+              <Avatar
+                googleId={current.sub}
+                src={current.picture}
+                size="35"
+                round={true}
+                name={current.family_name}
+                className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 mr-3"
+              />
             </Dropdown>
           </>
         )}

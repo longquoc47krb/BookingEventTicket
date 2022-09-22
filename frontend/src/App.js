@@ -29,7 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PublicLayout />}>
           <Route path="/events" element={<EventDashBoardPage />} />
-          <Route path="/event/:eventId" element={<EventDetailPage />} />
+          <Route path="/event/:eventName" element={<EventDetailPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/test" element={<Loading />} />
         </Route>

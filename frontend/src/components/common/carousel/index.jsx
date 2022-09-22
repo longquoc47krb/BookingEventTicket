@@ -1,31 +1,46 @@
 import { Carousel as CarouselBootstrap } from "react-bootstrap";
-import "antd/dist/antd.css";
 import PropTypes from "prop-types";
 import React from "react";
-export default function Carousel(props) {
+import { connect, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AppUtils } from "../../../utils/AppUtils";
+import { setSelectedEventName } from "../../../redux/slices/eventSlice";
+
+const { toSlug } = AppUtils;
+function Carousel(props) {
   const { data } = props;
+  const newData = data?.map(({ id, name, background }) => ({
+    id,
+    name,
+    background,
+  }));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <CarouselBootstrap>
-      {data.map((image, index) => (
-        <CarouselBootstrap.Item interval={1000}>
-          <img
-            className="w-full h-auto p-[1rem]"
-            src={image}
-            alt={`carousel-${index}`}
-          />
-        </CarouselBootstrap.Item>
-      ))}
+      {newData &&
+        newData.map((item, index) => (
+          <CarouselBootstrap.Item interval={2000} key={item.id}>
+            <img
+              onClick={() => {
+                dispatch(setSelectedEventName(item.name));
+                navigate(`/event/${item.name}`);
+              }}
+              className="w-full h-auto p-[1rem]"
+              src={item.background}
+              alt={`carousel-${index}`}
+            />
+          </CarouselBootstrap.Item>
+        ))}
     </CarouselBootstrap>
   );
 }
 Carousel.propTypes = {
   data: PropTypes.array,
 };
-Carousel.defaultProps = {
-  data: [
-    "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/08/22/1ABA64.jpg",
-    "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/08/04/B7BF02.jpg",
-    "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/23/4911B4.jpg",
-    "https://images.tkbcdn.com/1/780/300/Upload/eventcover/2022/09/15/BE1528.jpg",
-  ],
-};
+Carousel.defaultProps = {};
+
+const mapStateToProps = (state) => ({
+  data: state.event.events,
+});
+export default connect(mapStateToProps)(Carousel);

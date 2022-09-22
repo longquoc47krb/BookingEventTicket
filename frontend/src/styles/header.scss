@@ -1,11 +1,14 @@
 .header {
   &-container {
     height: auto;
-    min-height: 56px;
+    padding: 0.5rem;
     color: white;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    background: rgba($color: #000000, $alpha: 1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background: linear-gradient(-45deg, rgb(12, 50, 107), rgb(44, 71, 145));
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,7 +18,8 @@
   &-auth {
     display: flex;
     justify-content: center;
-    gap: 0 1rem;
+    align-items: center;
+    gap: 0 1.5rem;
     a {
       color: white !important;
       &:hover {
@@ -49,6 +53,13 @@
 }
 .brand-logo {
   height: auto;
-  width: 150px;
+  width: 5rem;
   cursor: pointer;
+}
+.css-ujyhhw-MuiBadge-badge {
+  font-weight: 700 !important;
+  font-size: 0.5rem !important;
+  min-width: 1rem !important;
+  height: 1rem !important;
+  transform: scale(1) translate(61%, 61%) !important;
 }

@@ -94,9 +94,9 @@ const UserLogin = (props) => {
       <HelmetHeader title="Đăng nhập" content="Login" />
       <div className="login-container">
         <img
-          src={process.env.PUBLIC_URL + "logo.png"}
+          src={process.env.PUBLIC_URL + "logo-color.png"}
           alt="logo"
-          className="brand-logo absolute top-5 left-5 w-[300px]"
+          className="brand-logo absolute top-5 left-5 w-[200px]"
           onClick={() => navigate("/")}
         />
         <div className="login-content">
@@ -113,7 +113,7 @@ const UserLogin = (props) => {
                   alignContent: "center",
                 }}
               >
-                <Col flex={1}>
+                {/* <Col flex={1}>
                   <Select
                     showSearch
                     placeholder="Mã vùng"
@@ -140,7 +140,7 @@ const UserLogin = (props) => {
                       </Select.Option>
                     ))}
                   </Select>
-                </Col>
+                </Col> */}
                 <Col flex={4}>
                   <FastField component={Input} name="phone" width="100%" />
                 </Col>
@@ -159,7 +159,7 @@ const UserLogin = (props) => {
                   size="large"
                   width="100%"
                   onSuccess={(credentialResponse) => {
-                    console.log(credentialResponse.credential);
+                    console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
                     console.log(decoded);
                     dispatch(setGoogleProfile(decoded));

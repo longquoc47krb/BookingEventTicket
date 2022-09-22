@@ -3,9 +3,14 @@ import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../configs/AppConfig";
+import { setSelectedEventName } from "../../redux/slices/eventSlice";
+import { AppUtils } from "../../utils/AppUtils";
 import Calendar from "../calendar";
+
+const { toSlug, randomNumber } = AppUtils;
 function Event({ event }) {
   const navigate = useNavigate();
   // const handleClickTag = (value) => {
@@ -15,20 +20,22 @@ function Event({ event }) {
   let categoriesArr = event.categories;
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
+  const dispatch = useDispatch();
   return (
     <div className="event-item-container ">
       <Image
-        src={event?.image}
+        src={event?.background}
         style={{ height: 130, width: 360 }}
         className="event-item-image"
       />
       <h1
         className="w-[calc(100%-80px)] font-bold event-title"
         onClick={() => {
-          navigate(`/event/${event.id}`);
+          dispatch(setSelectedEventName(event.name));
+          navigate(`/event/${event.name}`);
         }}
       >
-        {event.title}
+        {event.name}
       </h1>
       <div>
         <strong className="text-xl">{event.price}</strong>
@@ -37,13 +44,13 @@ function Event({ event }) {
         {event.address ? <Tag>{event.address}</Tag> : null}
 
         <BiCategory />
-        {categoriesArr.map((item, index) => (
+        {categoriesArr?.map((item, index) => (
           <p key={index} className="event-category">
             {item}
           </p>
         ))}
       </div>
-      <Calendar className="absolute right-5 bottom-5" calendar={event.date} />
+      <Calendar className="absolute right-5 bottom-5" calendar={event?.date} />
     </div>
   );
 }
