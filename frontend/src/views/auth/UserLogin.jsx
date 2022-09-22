@@ -11,25 +11,11 @@ import { Input } from "../../components/common/input/customField";
 import { countryCode } from "../../components/country-code";
 import HelmetHeader from "../../components/helmet";
 import { authentication } from "../../configs/firebaseConfig";
+import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
 import { setGoogleProfile } from "../../redux/slices/googleSlice";
 const UserLogin = (props) => {
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const handleGoogleSignIn = async ({ credential }) => {
-    const profileObj = jwt_decode(credential);
-    console.log(profileObj)
-    localStorage.setItem("user", JSON.stringify(profileObj));
-    const { name, sub: googleId, picture: imageUrl } = profileObj;
-    const user = {
-      _id: googleId,
-      _type: "user",
-      userName: name,
-      image: imageUrl,
-    };
-    console.log({ user });
-    navigate("/");
-=======
   const dispatch = useDispatch();
   // login phone number
   const generateRecaptcha = () => {
@@ -50,7 +36,6 @@ const UserLogin = (props) => {
       },
       authentication
     );
->>>>>>> 5bb186aa688560ee09e949f5a98eca4afe0de413
   };
 
   const requestOTP = async (e) => {
@@ -161,7 +146,8 @@ const UserLogin = (props) => {
                   onSuccess={(credentialResponse) => {
                     console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
-                    console.log(decoded);
+                    decoded["role"] = Role.User;
+                    console.log({ decoded });
                     dispatch(setGoogleProfile(decoded));
                     localStorage.setItem(
                       "currentUser",
