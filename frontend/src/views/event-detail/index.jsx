@@ -1,7 +1,7 @@
 import { Affix } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMail, AiFillHeart } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import {
 import { paragraph } from "../../services/constants";
 function EventDetail() {
   const { eventName } = useParams();
+  const [isFav, setIsFav] = useState(false);
   console.log("eventname params", eventName);
   const event = useSelector(selectEventByName(eventName));
   console.log("event detail:", event);
@@ -91,8 +92,8 @@ function EventDetail() {
           </div>
           <div className="event-detail-button">
             <button className="buy-now">Mua vé ngay</button>
-            <button className="interests">
-              <AiOutlineHeart />
+            <button className="interests" onClick={() => setIsFav(!isFav)}>
+              {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
               Quan tâm
             </button>
           </div>

@@ -11,6 +11,7 @@ import { Input } from "../../components/common/input/customField";
 import { countryCode } from "../../components/country-code";
 import HelmetHeader from "../../components/helmet";
 import { authentication } from "../../configs/firebaseConfig";
+import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
 import { setGoogleProfile } from "../../redux/slices/googleSlice";
 const UserLogin = (props) => {
@@ -145,7 +146,8 @@ const UserLogin = (props) => {
                   onSuccess={(credentialResponse) => {
                     console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
-                    console.log(decoded);
+                    decoded["role"] = Role.User;
+                    console.log({ decoded });
                     dispatch(setGoogleProfile(decoded));
                     localStorage.setItem(
                       "currentUser",

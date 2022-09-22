@@ -10,7 +10,6 @@ import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
-import { BsFillBagFill } from "react-icons/bs";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +35,6 @@ function Header(props) {
     setCurrent(userInfo);
   }, [userInfo]);
   console.log({ current });
-  var wishList = [];
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
@@ -73,16 +71,6 @@ function Header(props) {
           </>
         ) : (
           <>
-            <Badge
-              badgeContent={100}
-              color="error"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            >
-              <BsFillBagFill className="text-2xl" attributeName="Giỏ hàng" />
-            </Badge>
             <Badge
               badgeContent={100}
               color="error"
