@@ -17,10 +17,10 @@ class BookingEventApplicationTests {
 	private OrganizationRepository organizationRepository;
 	@Test
 	void contextLoads() {
-		Event event = new Event("ev_1","to chuc A","55555 address", LocalDateTime.now(),LocalDateTime.now(),"host","01","No Description","No Background",300,150);
-		List<Event> eventList =new ArrayList<Event>();
-		eventList.add(event);
-		Organization organization = new Organization("001","1234 address", eventList);
+//		Event event = new Event("ev_1","to chuc A","55555 address", "1:00","3:00","host","01","No Description",,"No Background",300,150);
+//		List<Event> eventList =new ArrayList<Event>();
+//		eventList.add(event);
+//		Organization organization = new Organization("001","1234 address", eventList);
 
 	}
 

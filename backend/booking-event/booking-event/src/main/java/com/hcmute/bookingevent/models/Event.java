@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Document("event")
 @Getter
 @Setter
@@ -21,11 +24,12 @@ public class Event {
     private String startingTime;
     private String endingTime;
     private String host;
-    private String id_category;
+    //private String id_category;
     private String description;
     private String background;
     private int totalTicket;
     private int remainingTicket;
-
+    @DocumentReference
+    private List<String> id_category;
 
 }
