@@ -22,9 +22,9 @@ public class EventController {
 
 
     //get all events
-    @GetMapping("/showAll")
+    @GetMapping("/findAll")
     public ResponseEntity<?> findAllEvents() {
-        return iEventService.getAllEvents();
+        return iEventService.findAllEvents();
     }
 
     @PostMapping("/createEvent")
@@ -41,12 +41,13 @@ public class EventController {
 
     @GetMapping("/findName")
     public ResponseEntity<?>  findEventByName(@RequestParam(value="name")  String name) {
-        return iEventService.getEventByName(name);
+        return iEventService.searchEvents(name);
 
     }
     @GetMapping("/findName/{id}")
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
-        return iEventService.getEventById(id);
-
+        return iEventService.findEventById(id);
     }
+
+
 }

@@ -1,16 +1,14 @@
 package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.payload.ResponseObject;
-import com.hcmute.bookingevent.responsitory.AccountRepository;
+
 import com.hcmute.bookingevent.Implement.IAccountService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+
 
 @RestController
 @AllArgsConstructor
@@ -23,25 +21,23 @@ public class AccountController {
 
     }
     @GetMapping("/findAccount")
-    public ResponseEntity<?> findAccountByPhone(@RequestParam(value="phone")  String phoneNumber) {
-        return iAccountService.findAccountByPhoneNumber(phoneNumber);
+    public ResponseEntity<?> findAccountByPhoneOrNameOrGmail(@RequestParam(value="value")  String value) {
+        return iAccountService.findByPhoneOrNameOrGmail(value);
 
     }
-    @GetMapping("/findAccount")
-    public ResponseEntity<?> findAccountByGmail(@RequestParam(value="gmail") String gmail) {
-        return iAccountService.findAccountByGmail(gmail);
 
-    }
-    @GetMapping("/findAccount")
-    public ResponseEntity<?> findAccountByName(@RequestParam(value="name") String name) {
-        return iAccountService.findAccountByName(name);
-
-    }
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<?> createAccount(@RequestBody Account newAccount) {
         return iAccountService.createAccount(newAccount);
     }
-
+    @PostMapping("/registerByPhone")
+    public ResponseEntity<?> createAccountByPhone(@RequestBody String phone) {
+        return iAccountService.registerAccountByPhone(phone);
+    }
+    @GetMapping("/loginByPhone")
+    public ResponseEntity<?> loginAccountByPhone(@RequestBody String phone) {
+        return iAccountService.loginAccountbyPhone(phone);
+    }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount) {
         return iAccountService.updateAccount(id,updatedAccount);

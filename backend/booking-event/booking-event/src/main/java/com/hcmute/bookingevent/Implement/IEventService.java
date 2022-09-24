@@ -11,8 +11,10 @@ import java.util.Optional;
 
 public interface IEventService {
     ResponseEntity<?> createEvent(Event event);
-    ResponseEntity<?> getAllEvents();
+    ResponseEntity<?> findAllEvents();
     ResponseEntity<?> deleteEvent( String id);
-    ResponseEntity<?> getEventByName( String name);
-    ResponseEntity<?> getEventById(String id);
+
+    ResponseEntity<?> findEventById(String id);
+    ResponseEntity<?> searchEvents(String key);
+    ResponseEntity<?> findEventListById(String id);
 }
