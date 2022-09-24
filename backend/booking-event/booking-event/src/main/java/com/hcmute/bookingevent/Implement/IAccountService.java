@@ -9,5 +9,8 @@ public interface IAccountService {
     ResponseEntity<?> updateAccount(String id,Account account);
     ResponseEntity<?> findAccountByName(String name);
     ResponseEntity<?> findAccountByGmail(String gmail);
-    ResponseEntity<?> findAccountByPhoneNumber(String phoneNumber);
+    ResponseEntity<?> findByPhoneOrNameOrGmail(String phoneNumber);
+    ResponseEntity<?> registerAccountByPhone(String phone);
+    ResponseEntity<?> loginAccountbyPhone(String phone);
+
 }

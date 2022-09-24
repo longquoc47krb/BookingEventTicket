@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface IOrganizationService {
      ResponseEntity<?> createOrganization(Organization organization);
+     ResponseEntity<?> findAll();
 }
