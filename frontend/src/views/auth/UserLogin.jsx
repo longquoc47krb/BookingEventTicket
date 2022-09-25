@@ -1,68 +1,62 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { Col, Divider, Row, Select } from "antd";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { FastField, Form, FormikProvider, useFormik } from "formik";
+import { Col, Divider, Modal, Row } from "antd";
+import {
+  ErrorMessage,
+  FastField,
+  Field,
+  Form,
+  FormikProvider,
+  useFormik,
+} from "formik";
 import jwt_decode from "jwt-decode";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { Input } from "../../components/common/input/customField";
-import { countryCode } from "../../components/country-code";
+import "react-phone-number-input/style.css";
 import HelmetHeader from "../../components/helmet";
-import { authentication } from "../../configs/firebaseConfig";
+import { useUserAuth } from "../../context/UserAuthContext";
 import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
-import { setGoogleProfile } from "../../redux/slices/googleSlice";
+import { setAccountProfile } from "../../redux/slices/accountSlice";
+import PhoneInput from "react-phone-number-input";
+import OtpInput from "react-otp-input-2";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // login phone number
-  const generateRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "visible",
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // onSignInSubmit();
-          console.log(response, "-----------responss");
-        },
-        "expired-callback": (response) => {
-          // Response expired. Ask user to solve reCAPTCHA again.
-          // ...
-          console.log(response, "expired-callback-----");
-        },
-      },
-      authentication
-    );
+  const [phone, setPhone] = useState("");
+  const { setUpRecaptha } = useUserAuth();
+  const [result, setResult] = useState("");
+  const [flag, setFlag] = useState(false);
+  const getOtp = async (e) => {
+    console.log("phone getOtp", values.phone);
+    setFieldError("phone", "");
+    try {
+      const response = await setUpRecaptha(values.phone);
+      setResult(response);
+      setFieldError("phone", response);
+      setFlag(true);
+      console.log("flag", flag);
+    } catch (err) {
+      setFieldError("phone", err.message);
+    }
   };
 
-  const requestOTP = async (e) => {
-    const code = document.querySelector(".country-Dropdown").value;
-    console.log(code, "code");
-    e.preventDefault();
-    generateRecaptcha();
-    let appVerifier = window.recaptchaVerifier;
-    await signInWithPhoneNumber(
-      authentication,
-      `${code} ${values.phone}`,
-      appVerifier
-    )
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        navigate("/loginotp", { state: { phoneNumber: values.phone } });
-      })
-      .catch((error) => {
-        // window.location.reload();
-        console.log(window.recaptchaVerifier, "----window.recaptchaVerifier");
-        console.log(error, "error by firebase");
-      });
+  const verifyOtp = async (e) => {
+    setFieldError("otp", "");
+    if (values.otp === "" || values.otp === null) return;
+    try {
+      await result.confirm(values.otp);
+      console.log({ result });
+      navigate("/");
+    } catch (err) {
+      setFieldError("otp", err.message);
+    }
   };
-
   const initialValues = {
     phone: "",
-    otp: "",
+    otp: null,
   };
   const formikLogin = useFormik({
     initialValues: initialValues,
@@ -71,9 +65,17 @@ const UserLogin = (props) => {
     }),
     validateOnChange: true,
     validateOnBlur: true,
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      if (values.phone && !values.otp) {
+        getOtp();
+      }
+      if (values.otp) {
+        verifyOtp();
+      }
+    },
   });
-  const { values, handleSubmit } = formikLogin;
+  const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
+  console.log("formik values", values);
   return (
     <>
       <HelmetHeader title="Đăng nhập" content="Login" />
@@ -98,40 +100,34 @@ const UserLogin = (props) => {
                   alignContent: "center",
                 }}
               >
-                {/* <Col flex={1}>
-                  <Select
-                    showSearch
-                    placeholder="Mã vùng"
-                    optionFilterProp="children"
-                    onChange={(value) => {
-                      console.log(`selected ${value}`);
-                    }}
-                    onSearch={(value) => {
-                      console.log("search:", value);
-                    }}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
-                  >
-                    {countryCode.map((option, index) => (
-                      <Select.Option
-                        style={{ padding: "0.5rem", height: "100%" }}
-                        value={option.dial_code}
-                        key={index}
-                      >
-                        {option.dial_code}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Col> */}
                 <Col flex={4}>
-                  <FastField component={Input} name="phone" width="100%" />
+                  <h1 className="font-medium text-black text-lg mb-2">
+                    Số điện thoại
+                  </h1>
+                  <PhoneInput
+                    defaultCountry="VN"
+                    value={values.phone}
+                    key="phone"
+                    onChange={(value) =>
+                      formikLogin.setFieldValue("phone", value)
+                    }
+                    onBlur={handleBlur}
+                    style={{
+                      border: "2px solid darkgray",
+                      padding: 8,
+                      borderRadius: 5,
+                      marginBottom: 16,
+                    }}
+                    placeholder="Enter Phone Number"
+                  />
+                  <div id="recaptcha-container"></div>
                 </Col>
               </Row>
               <Col span={24}>
-                <button className="w-full py-2 bg-[#256d85] text-white">
+                <button
+                  className="w-full py-2 bg-[#256d85] text-white"
+                  type="submit"
+                >
                   Gửi mã OTP
                 </button>
               </Col>
@@ -148,7 +144,7 @@ const UserLogin = (props) => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     decoded["role"] = Role.User;
                     console.log({ decoded });
-                    dispatch(setGoogleProfile(decoded));
+                    dispatch(setAccountProfile(decoded));
                     localStorage.setItem(
                       "currentUser",
                       JSON.stringify(decoded)
@@ -160,7 +156,26 @@ const UserLogin = (props) => {
                   }}
                 />
               </div>
-              <div id="recaptcha-container"></div>
+              <Modal
+                open={flag}
+                title="Xác nhận mã OTP"
+                onOk={handleSubmit}
+                closable={false}
+                onCancel={() => setFlag(!flag)}
+              >
+                <Form onSubmit={handleSubmit}>
+                  <Col span={12}>
+                    <OtpInput
+                      value={values.otp}
+                      onChange={(value) =>
+                        formikLogin.setFieldValue("otp", value)
+                      }
+                      numInputs={6}
+                      separator={<span>-</span>}
+                    />
+                  </Col>
+                </Form>
+              </Modal>
             </Form>
           </FormikProvider>
         </div>

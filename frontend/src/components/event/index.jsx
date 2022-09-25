@@ -50,7 +50,10 @@ function Event({ event }) {
           </p>
         ))}
       </div>
-      <Calendar className="absolute right-5 bottom-5" calendar={event?.date} />
+      <Calendar
+        className="absolute right-2 bottom-5"
+        calendar={event?.startingTime}
+      />
     </div>
   );
 }

@@ -17,11 +17,21 @@ import {
   selectEventByName,
 } from "../../redux/slices/eventSlice";
 import { paragraph } from "../../services/constants";
+import moment from "moment";
+import { AppUtils } from "../../utils/AppUtils";
+const { titleCase } = AppUtils;
 function EventDetail() {
   const { eventName } = useParams();
   const [isFav, setIsFav] = useState(false);
   console.log("eventname params", eventName);
   const event = useSelector(selectEventByName(eventName));
+  // handle date
+  const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
+  moment.locale("vi");
+  const eventStartingTime = moment(event?.startingTime, dateFormat).format(
+    "LLLL"
+  );
+
   console.log("event detail:", event);
   const introduce = useRef(null);
   const info = useRef(null);
@@ -73,12 +83,12 @@ function EventDetail() {
           <div className="event-detail-info">
             <Calendar
               className="event-detail-calendar"
-              calendar={event?.date}
+              calendar={event?.startingTime}
             />
             <h1 className="event-detail-title">{event?.name}</h1>
             <h1 className="event-detail-date">
               <GoClock className="text-gray-500" />
-              {event?.date}
+              {titleCase(eventStartingTime)}
             </h1>
             <div>
               <h1 className="event-detail-address">
@@ -166,7 +176,7 @@ function EventDetail() {
                 <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
                   <h1 className="flex text-base items-center font-semibold gap-x-2">
                     <GoClock className="text-gray-500" />
-                    {event?.date}
+                    {titleCase(eventStartingTime)}
                   </h1>
                   <div>
                     <h1 className="flex text-base items-center font-semibold gap-x-2">

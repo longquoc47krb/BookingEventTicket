@@ -41,7 +41,10 @@ function UserProfile(props) {
   const { setValues, setFieldValue, values, errors } = formik;
   return (
     <>
-      <HelmetHeader title={user.fullName} content="User Profile" />
+      <HelmetHeader
+        title={user.fullName ?? "Thong tin nguoi dung"}
+        content="User Profile"
+      />
       <Header />
       <div className="user-profile-container">
         <Box
@@ -191,17 +194,17 @@ function UserProfile(props) {
 UserProfile.propTypes = {
   user: PropTypes.shape({
     avatar: PropTypes.string,
-    fullName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    fullName: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
   }),
 };
 const mapStateToProps = (state) => ({
   user: {
-    avatar: state.google.userInfo.picture,
-    fullName: state.google.userInfo.name,
-    email: state.google.userInfo.email,
-    phone: "",
+    avatar: state.account.userInfo.picture ?? null,
+    fullName: state.account.userInfo.name ?? null,
+    email: state.account.userInfo.email ?? null,
+    phone: state.account.userInfo.phoneNumber ?? null,
   },
 });
 export default connect(mapStateToProps)(UserProfile);

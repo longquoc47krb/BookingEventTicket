@@ -2,6 +2,7 @@ import { Form, Input as AntdInput } from "antd";
 import { ErrorMessage } from "formik";
 import MaskedInput from "antd-mask-input";
 import React from "react";
+import "antd/dist/antd.css";
 const { Item } = Form;
 function Input(props) {
   const {
@@ -31,7 +32,7 @@ function Input(props) {
   return (
     <>
       <Item>
-        <h1 className="font-bold text-black text-lg mb-2">{label}</h1>
+        <h1 className="font-medium text-black text-lg mb-2">{label}</h1>
         <AntdInput
           disabled={disabled}
           name={name}
@@ -49,6 +50,7 @@ function Input(props) {
     </>
   );
 }
+
 function InputPassword(props) {
   const { field, form, label, uppercase, onChange: onChangeCustom } = props;
   const { value, onChange, onBlur, name } = field;

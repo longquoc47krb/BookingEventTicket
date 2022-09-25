@@ -15,9 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import {
-  logOutGoogle,
+  logOutAccount,
   userInfoSelector,
-} from "../../../redux/slices/googleSlice";
+} from "../../../redux/slices/accountSlice";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
@@ -27,7 +27,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   function onLogout() {
-    dispatch(logOutGoogle());
+    dispatch(logOutAccount());
     navigate("/");
     localStorage.clear();
   }
@@ -102,6 +102,6 @@ Header.propTypes = {
   currentUser: PropTypes.object,
 };
 Header.defaultProps = {
-  currentUser: JSON.parse(localStorage.getItem("userInfo")) ?? null,
+  // currentUser: JSON.parse(localStorage.getItem("userInfo")) ?? null,
 };
 export default Header;

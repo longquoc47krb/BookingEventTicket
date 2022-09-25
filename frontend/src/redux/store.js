@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import googleReducer from "./slices/googleSlice";
+import accountReducer from "./slices/accountSlice";
 import eventReducer from "./slices/eventSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -13,7 +13,7 @@ const eventPersistConfig = {
 const eventPersistedReducer = persistReducer(eventPersistConfig, eventReducer);
 export const store = configureStore({
   reducer: {
-    google: googleReducer,
+    account: accountReducer,
     event: eventPersistedReducer,
   },
 });
