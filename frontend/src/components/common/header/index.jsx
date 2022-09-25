@@ -9,7 +9,6 @@ import MenuList from "@mui/material/MenuList";
 import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import Avatar from "react-avatar";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +17,7 @@ import {
   logOutAccount,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
+import Avatar from "../avatar";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
@@ -85,12 +85,8 @@ function Header(props) {
 
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
-                googleId={current.sub}
-                src={current.picture}
-                size="35"
-                round={true}
-                name={current.family_name}
-                className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 mr-3"
+                className="w-8 h-8 ml-2.5 mr-3 cursor-pointer"
+                avatar={current.picture}
               />
             </Dropdown>
           </>

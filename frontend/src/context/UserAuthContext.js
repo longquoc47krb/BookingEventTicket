@@ -48,6 +48,7 @@ export function UserAuthContextProvider({ children }) {
     const unsubscribe = onAuthStateChanged(authentication, (currentuser) => {
       console.log("Auth", currentuser);
       currentuser.role = Role.User;
+      dispatch(setAccountProfile(currentuser));
       localStorage.setItem("currentUser", JSON.stringify(currentuser));
       setUser(currentuser);
     });
