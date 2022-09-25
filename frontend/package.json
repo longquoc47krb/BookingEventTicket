@@ -53,6 +53,7 @@
     "url-encode-decode": "^1.0.0",
     "web-vitals": "^2.1.4",
     "world_countries_lists": "^2.6.0",
+    "yarn": "^1.22.19",
     "yup": "^0.32.11"
   },
   "scripts": {
@@ -86,6 +87,7 @@
     "postcss": "^8.4.16",
     "postcss-nesting": "^10.1.10",
     "tailwindcss": "^3.1.8"
-  },
-  "proxy": "http://localhost:8080"
+  }
+
+  
 }
