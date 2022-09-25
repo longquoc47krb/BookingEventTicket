@@ -22,7 +22,7 @@ public class Account {
     private String phone;
     @Indexed(unique = true)
     private String gmail;
-
+    private String avatar;
     public Account(String name, String phone, String gmail) {
         this.name = name;
         this.phone = phone;

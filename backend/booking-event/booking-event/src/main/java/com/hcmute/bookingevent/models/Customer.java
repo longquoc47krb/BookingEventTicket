@@ -21,9 +21,9 @@ public class Customer {
     private int ticketAmount;
 
 
-    @DBRef
-    private List<Ticket> tickets;
-    @DBRef
-    private List<Event> wishList;
+
+    private List<String> ticketList;
+
+    private List<String> eventWishList;
 
 }
