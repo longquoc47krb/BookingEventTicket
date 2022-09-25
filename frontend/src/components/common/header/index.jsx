@@ -38,8 +38,9 @@ function Header(props) {
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
-        <>
+        <div key={index}>
           <MenuItem
+            key={index}
             className="mb-2"
             onClick={
               item.key === "logout" ? onLogout : () => navigate(item?.link)
@@ -50,7 +51,7 @@ function Header(props) {
           </MenuItem>
 
           <Divider style={{ width: "100%" }} />
-        </>
+        </div>
       ))}
     </MenuList>
   );

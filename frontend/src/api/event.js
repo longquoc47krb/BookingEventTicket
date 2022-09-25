@@ -1,6 +1,6 @@
 export const EventAPI = {
   getAllEvents: {
-    url: "/event/showAll",
+    url: "/event/findAll",
     method: "GET",
   },
   getEventByName: (name) => ({
