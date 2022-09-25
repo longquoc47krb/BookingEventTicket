@@ -13,7 +13,8 @@ function Home() {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.event.events);
   const loading = useSelector((state) => state.event.loading);
-  // console.log({ loading });
+
+  console.log({ events });
   useEffect(() => {
     dispatch(getEvents());
   }, []);

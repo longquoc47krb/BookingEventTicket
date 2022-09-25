@@ -12,7 +12,7 @@ function EventDashBoard(props) {
   const { events } = props;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getEvents());
+    // dispatch(getEvents());
   }, []);
   console.log({ events });
   return (
