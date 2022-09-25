@@ -19,6 +19,5 @@ public class EventCategory {
     @Id
     private String id;
     private String name;
-    @DocumentReference
-    private List<Event> events;
+
 }

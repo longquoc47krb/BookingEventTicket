@@ -21,8 +21,9 @@ public class Customer {
     private int ticketAmount;
 
 
-    @DocumentReference
+    @DBRef
     private List<Ticket> tickets;
-
+    @DBRef
+    private List<Event> wishList;
 
 }

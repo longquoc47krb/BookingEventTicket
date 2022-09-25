@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -19,12 +20,12 @@ public class Account {
 
     private String name;
     private String phone;
+    @Indexed(unique = true)
     private String gmail;
 
-
-
-
-
-
-
+    public Account(String name, String phone, String gmail) {
+        this.name = name;
+        this.phone = phone;
+        this.gmail = gmail;
+    }
 }
