@@ -18,12 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 public class Organization {
 
-    @Id
+
     private String id;
     private String address;
 
-    @DocumentReference
-    private List<Event> events;
-
-
+    private List<String> eventID;
+    public Organization(String id) {
+        this.id = id;
+    }
 }

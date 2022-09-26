@@ -1,6 +1,8 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
+import com.hcmute.bookingevent.config.CloudinaryConfig;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.payload.ResponseObject;
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +23,7 @@ import java.util.Optional;
 public class AccountService implements IAccountService {
     @Autowired
     private final AccountRepository accountRepository;
-
+    private final CloudinaryConfig cloudinary;
     @Override
     public ResponseEntity<?> findAll() {
 
@@ -81,7 +85,7 @@ public class AccountService implements IAccountService {
         if(newAccount!=null)
         {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Create account successfully ", accountRepository.save(newAccount)));
+                    new ResponseObject(true, "Create account successfully ", account));
 
         }
          throw new NotFoundException("Can not create any account");
@@ -128,8 +132,25 @@ public class AccountService implements IAccountService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject(false, "Save data fail with id:" + id, ""));
         }
-
-
+    }
+    @Override
+    public ResponseEntity<?> updateAvatar(String id, MultipartFile file) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()) {
+            if (file != null && !file.isEmpty()) {
+                try {
+                    String imgUrl = cloudinary.uploadImage(file, account.get().getAvatar());
+                    account.get().setAvatar(imgUrl);
+                    accountRepository.save(account.get());
+                } catch (IOException e) {
+                    throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), "Error when upload image");
+                }
+            }
+            //UserRes res = userMapper.toUserRes(account.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Update user success", account));
+        }
+        throw new NotFoundException("Can not found user with id " + id );
     }
 
 }

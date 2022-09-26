@@ -1,13 +1,17 @@
 package com.hcmute.bookingevent.controllers;
 
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -42,6 +46,17 @@ public class AccountController {
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount) {
         return iAccountService.updateAccount(id,updatedAccount);
     }
+
+//    @PostMapping(path = "/users/avatar/{userId}")
+//    public ResponseEntity<?> updateUser (@PathVariable("userId") String userId,
+//                                         HttpServletRequest request,
+//                                         @RequestParam MultipartFile file){
+//        User user = jwtUtils.getUserFromJWT(jwtUtils.getJwtFromHeader(request));
+//        if (user.getId().equals(userId) || !user.getId().isBlank())
+//            return userService.updateUserAvatar(userId, file);
+//        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+//    }
+
 
 
 }
