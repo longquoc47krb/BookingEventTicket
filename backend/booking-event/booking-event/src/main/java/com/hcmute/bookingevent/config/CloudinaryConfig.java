@@ -41,12 +41,12 @@ public class CloudinaryConfig {
     public String uploadImage(MultipartFile file, String urlDestroy) throws IOException {
         Map params = ObjectUtils.asMap(
                 "resource_type", "auto",
-                "folder", "fashion"
+                "folder", "booking"
         );
         Map map = cloudinary().uploader().upload(ImageUtils.convertMultiPartToFile(file),params);
-        if (urlDestroy!= null && urlDestroy.startsWith("https://res.cloudinary.com/dmlt1eshx/image/upload")) {
-            deleteImage(urlDestroy);
-        }
+//        if (urlDestroy!= null && urlDestroy.startsWith("https://res.cloudinary.com/dmlt1eshx/image/upload")) {
+//            deleteImage(urlDestroy);
+//        }
         ImageUtils.deleteMultipartFile(ImageUtils.convertMultiPartToFile(file));
         return map.get("secure_url").toString();
     }

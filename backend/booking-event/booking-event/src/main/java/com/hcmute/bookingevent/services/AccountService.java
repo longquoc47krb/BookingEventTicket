@@ -148,7 +148,7 @@ public class AccountService implements IAccountService {
             }
             //UserRes res = userMapper.toUserRes(account.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update user success", account));
+                    new ResponseObject(true, "Update avatar success", account));
         }
         throw new NotFoundException("Can not found user with id " + id );
     }
