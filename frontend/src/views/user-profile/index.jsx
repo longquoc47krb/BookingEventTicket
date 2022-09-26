@@ -159,7 +159,7 @@ UserProfile.propTypes = {
 const mapStateToProps = (state) => ({
   user: {
     avatar: state.account.userInfo.picture ?? null,
-    fullName: state.account.userInfo.name ?? null,
+    fullName: state.account.userInfo.name ?? "Chưa đặt tên",
     email: state.account.userInfo.email ?? null,
     phone: state.account.userInfo.phoneNumber ?? null,
   },
