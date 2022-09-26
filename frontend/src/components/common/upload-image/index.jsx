@@ -7,10 +7,10 @@ import { Badge } from "@mui/material";
 import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import axios from "axios";
-import { useEffect } from "react";
 function UploadImage({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
+  const [showCameraButton, setShowCameraButton] = useState(true);
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -20,12 +20,15 @@ function UploadImage({ avatar }) {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
+    setShowCameraButton(false);
   };
   const deleteAvatar = (e) => {
+    setShowCameraButton(true);
     setAvatarPreview(null);
-    setAvatarFile(null);
+    setAvatarFile(avatar);
   };
   const uploadImage = async () => {
+    setShowCameraButton(true);
     console.log({ avatarFile });
     const formData = new FormData();
     formData.append("file", avatarFile);
@@ -36,11 +39,8 @@ function UploadImage({ avatar }) {
         formData
       )
       .then(function (response) {
-        // if (response.status === 200) {
-        //   // const indexItem = imageFile.indexOf(item);
-        //   // dataImg[indexItem] = { mau: item.color, image };
-        // }
         console.log({ response });
+        setAvatarFile(response.data.url);
         return response.data.url;
       })
       .catch(function (error) {
@@ -57,7 +57,7 @@ function UploadImage({ avatar }) {
             horizontal: "right",
           }}
           badgeContent={
-            avatarPreview ? (
+            !showCameraButton ? (
               <>
                 <img
                   src={CrossIcon}
@@ -114,7 +114,7 @@ function UploadImage({ avatar }) {
             />
           </IconButton>
           <Avatar
-            avatar={avatarPreview ? avatarPreview : avatar}
+            avatar={avatarPreview ? avatarPreview : avatarFile}
             className="object-cover rounded-full w-[120px] h-[120px]"
           />
         </Badge>

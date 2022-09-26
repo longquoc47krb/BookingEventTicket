@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as Yup from "yup";
-import Avatar from "../../components/common/avatar";
 import Header from "../../components/common/header";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
