@@ -3,22 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiOutlineHeart, AiOutlineMail, AiFillHeart } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
-import { decode } from "url-encode-decode";
-import {
-  getEventByName,
-  selectEventById,
-  selectEventByName,
-} from "../../redux/slices/eventSlice";
+import { selectEventByName } from "../../redux/slices/eventSlice";
 import { paragraph } from "../../services/constants";
 import moment from "moment";
 import { AppUtils } from "../../utils/AppUtils";
+import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
 function EventDetail() {
   const { eventName } = useParams();
@@ -144,7 +140,8 @@ function EventDetail() {
               <div ref={introduce} className="introduce">
                 Giới thiệu
               </div>
-              <ReadMore>{paragraph}</ReadMore>
+              {/* <ReadMore>{paragraph}</ReadMore> */}
+              <TextEditor />
             </div>
             <div className="event-detail-content">
               <div ref={info} className="info">

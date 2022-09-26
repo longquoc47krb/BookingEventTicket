@@ -1,5 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { async } from "rxjs";
+import { AccountAPI } from "../../api/account";
+import httpRequest from "../../services/httpRequest";
 
+export const getAllAccounts = createAsyncThunk(
+  "account/getAllAccounts",
+  async () => {
+    const res = await httpRequest(AccountAPI.findAllAccounts);
+    return res;
+  }
+);
+export const getAccountByEmailOrPhone = createAsyncThunk(
+  "account/getAccountByEmailOrPhone",
+  async (params) => {
+    const res = await httpRequest(AccountAPI.findAccountByEmailOrPhone(params));
+    return res;
+  }
+);
 const currentUser = localStorage.getItem("currentUser")
   ? JSON.parse(localStorage.getItem("currentUser"))
   : null;
@@ -7,6 +24,8 @@ export const accountSlice = createSlice({
   name: "account",
   initialState: {
     userInfo: currentUser,
+    accountList: null,
+    queriedUser: null,
   },
   reducers: {
     setAccountProfile: (state, action) => {
@@ -14,6 +33,17 @@ export const accountSlice = createSlice({
     },
     logOutAccount: (state, action) => {
       state.userInfo = null;
+    },
+  },
+  extraReducers: {
+    [getAllAccounts.pending]: (state, action) => {
+      state.accountList = null;
+    },
+    [getAllAccounts.rejected]: (state, action) => {
+      state.accountList = null;
+    },
+    [getAllAccounts.fulfilled]: (state, action) => {
+      state.accountList = action.payload.data;
     },
   },
 });
