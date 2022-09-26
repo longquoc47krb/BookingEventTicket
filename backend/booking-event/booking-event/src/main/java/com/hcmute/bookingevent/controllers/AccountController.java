@@ -47,15 +47,16 @@ public class AccountController {
         return iAccountService.updateAccount(id,updatedAccount);
     }
 
-//    @PostMapping(path = "/users/avatar/{userId}")
-//    public ResponseEntity<?> updateUser (@PathVariable("userId") String userId,
-//                                         HttpServletRequest request,
-//                                         @RequestParam MultipartFile file){
-//        User user = jwtUtils.getUserFromJWT(jwtUtils.getJwtFromHeader(request));
-//        if (user.getId().equals(userId) || !user.getId().isBlank())
-//            return userService.updateUserAvatar(userId, file);
-//        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
-//    }
+    @PostMapping(path = "/users/avatar/{userId}")
+    public ResponseEntity<?> updateUser (@PathVariable("userId") String userId,
+                                         //HttpServletRequest request,
+                                         @RequestParam MultipartFile file){
+        return iAccountService.updateAvatar(userId,file);
+        //User user = jwtUtils.getUserFromJWT(jwtUtils.getJwtFromHeader(request));
+        //if (user.getId().equals(userId) || !user.getId().isBlank())
+         //   return userService.updateUserAvatar(userId, file);
+        //throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
 
 
 
