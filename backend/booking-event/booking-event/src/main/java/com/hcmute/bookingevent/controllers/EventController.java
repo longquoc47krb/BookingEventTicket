@@ -44,7 +44,7 @@ public class EventController {
         return iEventService.searchEvents(name);
 
     }
-    @GetMapping("/findName/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
         return iEventService.findEventById(id);
     }
