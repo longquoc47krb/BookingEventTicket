@@ -18,7 +18,6 @@ const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // login phone number
-  const [phone, setPhone] = useState("");
   const { setUpRecaptha } = useUserAuth();
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
@@ -154,7 +153,10 @@ const UserLogin = (props) => {
                 title="Xác nhận mã OTP"
                 onOk={handleSubmit}
                 closable={false}
-                onCancel={() => setFlag(!flag)}
+                onCancel={() => {
+                  setFlag(!flag);
+                }}
+                maskClosable={false}
               >
                 <Form onSubmit={handleSubmit}>
                   <Col span={12}>

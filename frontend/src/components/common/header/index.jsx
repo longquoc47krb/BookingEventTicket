@@ -9,25 +9,29 @@ import MenuList from "@mui/material/MenuList";
 import { Dropdown } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import Avatar from "react-avatar";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
+import placeholderImg from "../../../assets/fallback-avatar.png";
 import {
   logOutAccount,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
-import Avatar from "../avatar";
+import { useUserAuth } from "../../../context/UserAuthContext";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
+  const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   function onLogout() {
     dispatch(logOutAccount());
+    logOut();
     navigate("/");
     localStorage.clear();
   }
@@ -85,8 +89,12 @@ function Header(props) {
 
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
-                className="w-8 h-8 ml-2.5 mr-3 cursor-pointer"
-                avatar={current.picture}
+                googleId={current.sub}
+                src={current.picture ?? placeholderImg}
+                size="35"
+                round={true}
+                name={current.family_name}
+                className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 mr-3"
               />
             </Dropdown>
           </>
@@ -99,6 +107,6 @@ Header.propTypes = {
   currentUser: PropTypes.object,
 };
 Header.defaultProps = {
-  // currentUser: JSON.parse(localStorage.getItem("userInfo")) ?? null,
+  currentUser: JSON.parse(localStorage.getItem("currentUser")) ?? null,
 };
 export default Header;
