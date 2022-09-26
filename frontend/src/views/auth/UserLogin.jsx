@@ -1,13 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Modal, Row } from "antd";
-import {
-  ErrorMessage,
-  FastField,
-  Field,
-  Form,
-  FormikProvider,
-  useFormik,
-} from "formik";
+import { Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,12 +13,11 @@ import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
 import { setAccountProfile } from "../../redux/slices/accountSlice";
 import PhoneInput from "react-phone-number-input";
-import OtpInput from "react-otp-input-2";
+import OTPInput, { ResendOTP } from "otp-input-react";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // login phone number
-  const [phone, setPhone] = useState("");
   const { setUpRecaptha } = useUserAuth();
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
@@ -161,18 +153,30 @@ const UserLogin = (props) => {
                 title="Xác nhận mã OTP"
                 onOk={handleSubmit}
                 closable={false}
-                onCancel={() => setFlag(!flag)}
+                onCancel={() => {
+                  setFlag(!flag);
+                }}
+                maskClosable={false}
               >
                 <Form onSubmit={handleSubmit}>
                   <Col span={12}>
-                    <OtpInput
-                      value={values.otp}
-                      onChange={(value) =>
-                        formikLogin.setFieldValue("otp", value)
-                      }
-                      numInputs={6}
-                      separator={<span>-</span>}
-                    />
+                    <>
+                      <OTPInput
+                        inputClassName="otp-input"
+                        value={values.otp}
+                        onChange={(value) =>
+                          formikLogin.setFieldValue("otp", value)
+                        }
+                        autoFocus
+                        OTPLength={6}
+                        otpType="number"
+                        disabled={false}
+                        secure={false}
+                      />
+                      <ResendOTP
+                        onResendClick={() => console.log("Resend clicked")}
+                      />
+                    </>
                   </Col>
                 </Form>
               </Modal>

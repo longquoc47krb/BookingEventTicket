@@ -1,6 +1,5 @@
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import Divider from "@mui/material/Divider";
@@ -19,6 +18,7 @@ import { YupValidator } from "../../helpers/validate";
 import { Input } from "../../components/common/input/customField";
 import { useState } from "react";
 import HelmetHeader from "../../components/helmet";
+import Avatar from "../../components/common/avatar";
 function UserProfile(props) {
   const { user } = props;
   const [isEditting, setIsEditing] = useState(false);
@@ -91,17 +91,8 @@ function UserProfile(props) {
                 }
               >
                 <Avatar
-                  src={user.avatar}
-                  size="35"
-                  round={true}
-                  name={user.fullName}
-                  style={{
-                    width: "150px",
-                    height: "auto",
-                    display: "block",
-                    margin: "0 auto",
-                  }}
-                  className="object-cover rounded-full ml-2.5 -mr-2.5"
+                  avatar={user.avatar}
+                  className="object-cover rounded-full ml-2.5 -mr-2.5 w-[120px] h-[120px]"
                 />
               </Badge>
             </IconButton>
