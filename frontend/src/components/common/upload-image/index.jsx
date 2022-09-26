@@ -7,10 +7,14 @@ import { Badge } from "@mui/material";
 import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import httpRequest from "../../../services/httpRequest";
+import { AccountAPI } from "../../../api/account";
 function UploadImage({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
+  const userInfo = useSelector((state) => state.account.userInfo);
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -33,19 +37,10 @@ function UploadImage({ avatar }) {
     const formData = new FormData();
     formData.append("file", avatarFile);
     formData.append("upload_preset", "admin_preset");
-    return axios
-      .post(
-        "https://api.cloudinary.com/v1_1/lotus-ticket-2022/image/upload",
-        formData
-      )
-      .then(function (response) {
-        console.log({ response });
-        setAvatarFile(response.data.url);
-        return response.data.url;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const response = await httpRequest(
+      AccountAPI.uploadAvatar(userInfo.id, formData)
+    );
+    setAvatarFile(response.data.avatar);
   };
   return (
     <div>
@@ -82,6 +77,7 @@ function UploadImage({ avatar }) {
                   hidden
                   accept="image/png, image/jpeg, image/jpg"
                   type="file"
+                  name="file"
                   onChange={updateProfileDataChange}
                 />
                 <CameraAltRoundedIcon

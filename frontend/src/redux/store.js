@@ -11,9 +11,18 @@ const eventPersistConfig = {
   storage,
 };
 const eventPersistedReducer = persistReducer(eventPersistConfig, eventReducer);
+const accountPersistConfig = {
+  key: "account",
+  version: 1,
+  storage,
+};
+const accountPersistedReducer = persistReducer(
+  accountPersistConfig,
+  accountReducer
+);
 export const store = configureStore({
   reducer: {
-    account: accountReducer,
+    account: accountPersistedReducer,
     event: eventPersistedReducer,
   },
 });

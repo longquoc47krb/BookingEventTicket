@@ -3,7 +3,7 @@ import { Col, Divider, Modal, Row } from "antd";
 import { Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import "react-phone-number-input/style.css";
@@ -11,7 +11,10 @@ import HelmetHeader from "../../components/helmet";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
-import { setAccountProfile } from "../../redux/slices/accountSlice";
+import {
+  createAccount,
+  setAccountProfile,
+} from "../../redux/slices/accountSlice";
 import PhoneInput from "react-phone-number-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
 const UserLogin = (props) => {
@@ -19,6 +22,7 @@ const UserLogin = (props) => {
   const dispatch = useDispatch();
   // login phone number
   const { setUpRecaptha } = useUserAuth();
+  const userInfo = useSelector((state) => state.account.userInfo);
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
   const getOtp = async (e) => {
@@ -136,10 +140,12 @@ const UserLogin = (props) => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     decoded["role"] = Role.User;
                     console.log({ decoded });
-                    dispatch(setAccountProfile(decoded));
-                    localStorage.setItem(
-                      "currentUser",
-                      JSON.stringify(decoded)
+                    dispatch(
+                      createAccount({
+                        avatar: decoded.picture,
+                        gmail: decoded.email,
+                        name: decoded.name,
+                      })
                     );
                     navigate("/");
                   }}

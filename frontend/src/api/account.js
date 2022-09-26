@@ -18,4 +18,9 @@ export const AccountAPI = {
     method: "PUT",
     data,
   }),
+  uploadAvatar: (id, data) => ({
+    url: `/account/users/avatar/${id}`,
+    method: "POST",
+    data,
+  }),
 };

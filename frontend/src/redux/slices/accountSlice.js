@@ -17,13 +17,18 @@ export const getAccountByEmailOrPhone = createAsyncThunk(
     return res;
   }
 );
-const currentUser = localStorage.getItem("currentUser")
-  ? JSON.parse(localStorage.getItem("currentUser"))
-  : null;
+export const createAccount = createAsyncThunk(
+  "account/createAccount",
+  async (data) => {
+    const res = await httpRequest(AccountAPI.createAccount(data));
+    return res;
+  }
+);
+
 export const accountSlice = createSlice({
   name: "account",
   initialState: {
-    userInfo: currentUser,
+    userInfo: null,
     accountList: null,
     queriedUser: null,
   },
@@ -44,6 +49,15 @@ export const accountSlice = createSlice({
     },
     [getAllAccounts.fulfilled]: (state, action) => {
       state.accountList = action.payload.data;
+    },
+    [createAccount.pending]: (state, action) => {
+      state.userInfo = null;
+    },
+    [createAccount.rejected]: (state, action) => {
+      state.userInfo = null;
+    },
+    [createAccount.fulfilled]: (state, action) => {
+      state.userInfo = action.payload.data;
     },
   },
 });

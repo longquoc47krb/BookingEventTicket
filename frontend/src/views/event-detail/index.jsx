@@ -140,8 +140,8 @@ function EventDetail() {
               <div ref={introduce} className="introduce">
                 Giới thiệu
               </div>
-              {/* <ReadMore>{paragraph}</ReadMore> */}
-              <TextEditor />
+              <ReadMore>{event?.description}</ReadMore>
+              {/* <TextEditor /> */}
             </div>
             <div className="event-detail-content">
               <div ref={info} className="info">

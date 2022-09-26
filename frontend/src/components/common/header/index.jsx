@@ -90,10 +90,10 @@ function Header(props) {
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
                 googleId={current.sub}
-                src={current.picture ?? placeholderImg}
+                src={current.avatar ?? placeholderImg}
                 size="35"
                 round={true}
-                name={current.family_name}
+                name={current.name}
                 className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 mr-3"
               />
             </Dropdown>
