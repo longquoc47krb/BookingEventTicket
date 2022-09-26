@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Modal, Row } from "antd";
 import { Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -67,7 +67,7 @@ const UserLogin = (props) => {
     },
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
-  console.log("formik values", values);
+  console.log("formik values", formikLogin);
   return (
     <>
       <HelmetHeader title="Đăng nhập" content="Login" />
@@ -173,6 +173,9 @@ const UserLogin = (props) => {
                         disabled={false}
                         secure={false}
                       />
+                      {formikLogin.errors.otp && (
+                        <p className="text-red-500">{formikLogin.errors.otp}</p>
+                      )}
                       <ResendOTP
                         onResendClick={() => console.log("Resend clicked")}
                       />

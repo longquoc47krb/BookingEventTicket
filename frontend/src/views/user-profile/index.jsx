@@ -1,24 +1,19 @@
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Badge from "@mui/material/Badge";
-import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import React from "react";
-import theme from "../../shared/theme";
-import { AppConfig } from "../../configs/AppConfig";
-import { FastField, Field, FormikProvider, useFormik } from "formik";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Header from "../../components/common/header";
+import Paper from "@mui/material/Paper";
 import { Col, Form, Row, Typography } from "antd";
-import { Helmet } from "react-helmet";
+import { Field, FormikProvider, useFormik } from "formik";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import * as Yup from "yup";
-import { YupValidator } from "../../helpers/validate";
-import { Input } from "../../components/common/input/customField";
-import { useState } from "react";
-import HelmetHeader from "../../components/helmet";
 import Avatar from "../../components/common/avatar";
+import Header from "../../components/common/header";
+import { Input } from "../../components/common/input/customField";
+import UploadImage from "../../components/common/upload-image";
+import HelmetHeader from "../../components/helmet";
+import { YupValidator } from "../../helpers/validate";
+import theme from "../../shared/theme";
 function UserProfile(props) {
   const { user } = props;
   const [isEditting, setIsEditing] = useState(false);
@@ -38,7 +33,7 @@ function UserProfile(props) {
     }),
     onSubmit: (values) => {},
   });
-  const { setValues, setFieldValue, values, errors } = formik;
+  // const { setValues, setFieldValue, values, errors } = formik;
   return (
     <>
       <HelmetHeader
@@ -66,36 +61,8 @@ function UserProfile(props) {
               flexDirection: "column",
             }}
           >
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-            >
-              <input hidden accept="image/*" type="file" />
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={
-                  <CameraAltRoundedIcon
-                    fontSize="medium"
-                    style={{
-                      background: theme.main,
-                      width: 25,
-                      height: 25,
-                      color: "white",
-                      padding: 5,
-                      borderRadius: 50,
-                      cursor: "pointer",
-                    }}
-                  />
-                }
-              >
-                <Avatar
-                  avatar={user.avatar}
-                  className="object-cover rounded-full ml-2.5 -mr-2.5 w-[120px] h-[120px]"
-                />
-              </Badge>
-            </IconButton>
+            <UploadImage avatar={user.avatar} />
+            {/* <Avatar avatar={user.avatar} /> */}
             <h1 className="font-bold text-2xl">{user.fullName}</h1>
             <h2 className="font-medium text-gray-500 text-[14px]">
               {user.email}
