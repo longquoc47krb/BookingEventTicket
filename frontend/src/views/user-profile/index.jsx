@@ -158,10 +158,10 @@ UserProfile.propTypes = {
 };
 const mapStateToProps = (state) => ({
   user: {
-    avatar: state.account.userInfo.picture ?? null,
+    avatar: state.account.userInfo.avatar ?? null,
     fullName: state.account.userInfo.name ?? "Chưa đặt tên",
-    email: state.account.userInfo.email ?? null,
-    phone: state.account.userInfo.phoneNumber ?? null,
+    email: state.account.userInfo.gmail ?? null,
+    phone: state.account.userInfo.phone ?? null,
   },
 });
 export default connect(mapStateToProps)(UserProfile);
