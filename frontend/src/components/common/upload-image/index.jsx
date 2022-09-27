@@ -6,7 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import httpRequest from "../../../services/httpRequest";
 import { AccountAPI } from "../../../api/account";

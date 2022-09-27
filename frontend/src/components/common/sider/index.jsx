@@ -4,7 +4,7 @@ import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import Paper from "@mui/material/Paper";
 const { MENU } = AppConfig;

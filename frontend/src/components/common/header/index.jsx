@@ -93,7 +93,7 @@ function Header(props) {
                 size="35"
                 round={true}
                 name={current.name}
-                className="object-cover w-6 h-6 rounded-full ml-2.5 -mr-2.5 mr-3"
+                className="object-cover w-6 h-6 rounded-full ml-2.5 mr-3"
               />
             </Dropdown>
           </>
