@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../../../shared/theme";
 import Avatar from "../avatar";
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
@@ -33,7 +33,6 @@ function UploadImage({ avatar }) {
   };
   const uploadImage = async () => {
     setShowCameraButton(true);
-    console.log({ avatarFile });
     const formData = new FormData();
     formData.append("file", avatarFile);
     formData.append("upload_preset", "admin_preset");
@@ -42,6 +41,10 @@ function UploadImage({ avatar }) {
     );
     setAvatarFile(response.data.avatar);
   };
+  useEffect(() => {
+    console.log(">> avatarPreview", avatarPreview);
+    console.log(">> avatarFile", avatarFile);
+  }, [avatarPreview, avatarFile]);
   return (
     <div>
       <div>

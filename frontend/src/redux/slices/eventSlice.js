@@ -4,7 +4,6 @@ import httpRequest from "../../services/httpRequest";
 
 export const getEvents = createAsyncThunk("event/getEvents", async () => {
   const res = await httpRequest(EventAPI.getAllEvents);
-  console.log("events list: ", res);
   return res;
 });
 export const getEventByName = createAsyncThunk(

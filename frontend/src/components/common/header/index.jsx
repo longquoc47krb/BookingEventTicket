@@ -38,7 +38,6 @@ function Header(props) {
   useEffect(() => {
     setCurrent(userInfo);
   }, [userInfo]);
-  console.log({ current });
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
