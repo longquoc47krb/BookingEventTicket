@@ -83,7 +83,7 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.8",
+    "autoprefixer": "^10.4.12",
     "file-loader": "^6.2.0",
     "postcss": "^8.4.16",
     "postcss-nesting": "^10.1.10",

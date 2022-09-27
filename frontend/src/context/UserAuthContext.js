@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -49,7 +50,6 @@ export function UserAuthContextProvider({ children }) {
       console.log("Auth", currentuser);
       currentuser.role = Role.User;
       dispatch(setAccountProfile(currentuser));
-      localStorage.setItem("currentUser", JSON.stringify(currentuser));
       setUser(currentuser);
     });
 

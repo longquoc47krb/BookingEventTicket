@@ -22,5 +22,6 @@ export const AccountAPI = {
     url: `/account/users/avatar/${id}`,
     method: "POST",
     data,
+    headers: { "Content-Type": "multipart/form-data" },
   }),
 };

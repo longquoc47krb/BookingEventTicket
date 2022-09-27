@@ -10,10 +10,7 @@ export const getEvents = createAsyncThunk("event/getEvents", async () => {
 export const getEventByName = createAsyncThunk(
   "event/getEventByName",
   async (name) => {
-    const res = await httpRequest({
-      url: `${EventAPI.getEventByName.url}${name}`,
-      method: EventAPI.getEventByName.method,
-    });
+    const res = await httpRequest(EventAPI.getEventByName(name));
     console.log("events list: ", res);
     return res;
   }
