@@ -14,7 +14,7 @@ import { selectEventByName } from "../../redux/slices/eventSlice";
 import { paragraph } from "../../services/constants";
 import moment from "moment";
 import { AppUtils } from "../../utils/AppUtils";
-import { TextEditor } from "../../components/common/editor";
+// import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
 function EventDetail() {
   const { eventName } = useParams();
