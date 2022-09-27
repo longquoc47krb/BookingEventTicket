@@ -20,8 +20,6 @@ export const TextEditor = ({
   const handleChange = (editorState) => {
     const contentState = stateToHTML(editorState.getCurrentContent());
 
-    console.log("--------contentState", contentState);
-
     setlong_description(contentState);
   };
 

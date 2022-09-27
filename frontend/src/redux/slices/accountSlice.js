@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { async } from "rxjs";
 import { AccountAPI } from "../../api/account";
 import httpRequest from "../../services/httpRequest";
 
@@ -30,7 +29,7 @@ export const accountSlice = createSlice({
   initialState: {
     userInfo: null,
     accountList: null,
-    queriedUser: null,
+    queriedUser: {},
   },
   reducers: {
     setAccountProfile: (state, action) => {
@@ -59,9 +58,21 @@ export const accountSlice = createSlice({
     [createAccount.fulfilled]: (state, action) => {
       state.userInfo = action.payload.data;
     },
+    [getAccountByEmailOrPhone.pending]: (state, action) => {
+      state.queriedUser = null;
+    },
+    [getAccountByEmailOrPhone.rejected]: (state, action) => {
+      state.queriedUser = null;
+    },
+    [getAccountByEmailOrPhone.fulfilled]: (state, action) => {
+      state.queriedUser = action.payload.data[0];
+    },
   },
 });
 
 export const { setAccountProfile, logOutAccount } = accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
+export const selectUserInfoByEmail = (email) => (state) => {
+  return state.account.accountList.find((acc) => acc.gmail === email);
+};
 export default accountSlice.reducer;

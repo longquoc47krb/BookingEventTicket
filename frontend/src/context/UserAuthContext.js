@@ -47,7 +47,6 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(authentication, (currentuser) => {
-      console.log("Auth", currentuser);
       currentuser.role = Role.User;
       dispatch(setAccountProfile(currentuser));
       setUser(currentuser);

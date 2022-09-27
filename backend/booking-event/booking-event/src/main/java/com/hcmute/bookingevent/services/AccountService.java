@@ -82,6 +82,7 @@ public class AccountService implements IAccountService {
     public ResponseEntity<?> createAccount(Account newAccount) {
         Account account = accountRepository.save(newAccount);
         System.out.println(account.getId());
+
         if(newAccount!=null)
         {
             return ResponseEntity.status(HttpStatus.OK).body(

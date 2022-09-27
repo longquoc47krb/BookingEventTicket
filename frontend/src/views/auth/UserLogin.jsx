@@ -13,16 +13,19 @@ import { Role } from "../../helpers/role";
 import { YupValidator } from "../../helpers/validate";
 import {
   createAccount,
-  setAccountProfile,
+  getAccountByEmailOrPhone,
 } from "../../redux/slices/accountSlice";
 import PhoneInput from "react-phone-number-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
+import { includes } from "lodash";
+import { useEffect } from "react";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // login phone number
   const { setUpRecaptha } = useUserAuth();
   const userInfo = useSelector((state) => state.account.userInfo);
+  const queriedUser = useSelector((state) => state.account.queriedUser);
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
   const getOtp = async (e) => {
@@ -71,7 +74,6 @@ const UserLogin = (props) => {
     },
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
-  console.log("formik values", formikLogin);
   return (
     <>
       <HelmetHeader title="Đăng nhập" content="Login" />
@@ -138,16 +140,29 @@ const UserLogin = (props) => {
                   onSuccess={(credentialResponse) => {
                     console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
+
                     decoded["role"] = Role.User;
                     console.log({ decoded });
-                    dispatch(
-                      createAccount({
-                        avatar: decoded.picture,
-                        gmail: decoded.email,
-                        name: decoded.name,
-                      })
-                    );
-                    navigate("/");
+                    console.log("email", decoded.email);
+                    dispatch(getAccountByEmailOrPhone(decoded.email));
+                    console.log({ queriedUser });
+
+                    const isDuplicated = includes(queriedUser, decoded.email);
+                    console.log({ isDuplicated });
+                    console.log({ userInfo });
+
+                    if (!isDuplicated) {
+                      dispatch(
+                        createAccount({
+                          avatar: decoded.picture,
+                          gmail: decoded.email,
+                          name: decoded.name,
+                        })
+                      );
+                      navigate("/");
+                    } else {
+                      alert("email bị trùng");
+                    }
                   }}
                   onError={() => {
                     alert("Login Failed");

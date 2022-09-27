@@ -2,7 +2,9 @@ export const AccountAPI = {
   findAccountByEmailOrPhone: (params) => ({
     url: "/account/findAccount",
     method: "GET",
-    params,
+    params: {
+      value: params,
+    },
   }),
   findAllAccounts: {
     url: "/account/findAll",
@@ -22,6 +24,6 @@ export const AccountAPI = {
     url: `/account/users/avatar/${id}`,
     method: "POST",
     data,
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { "content-type": "multipart/form-data" },
   }),
 };

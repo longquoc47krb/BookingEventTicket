@@ -25,9 +25,13 @@ public class CloudinaryConfig {
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dipedzg4p",
-                "api_key", "372629287772691",
-                "api_secret", "MR81jdHAC21aig5t4p4XfuMvmZU",
+//                "cloud_name", "dipedzg4p",
+//                "api_key", "372629287772691",
+//                "api_secret", "MR81jdHAC21aig5t4p4XfuMvmZU",
+//                "secure",true
+                "cloud_name", "lotus-ticket-2022",
+                "api_key", "384861659534396",
+                "api_secret", "n0sVazP5psBPi04s5IUEDQ6tprI",
                 "secure",true
         ));
     }
