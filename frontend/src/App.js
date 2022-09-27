@@ -1,8 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Loading from "./components/loading";
-import { UserRoute } from "./components/routes/UserRoute";
 import {
   AdminLoginPage,
   EventDashBoardPage,
@@ -11,7 +7,6 @@ import {
   LoginPage,
 } from "./configs/routes";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import { Role } from "./helpers/role";
 import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
 function App() {

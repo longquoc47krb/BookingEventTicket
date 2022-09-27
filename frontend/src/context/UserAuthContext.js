@@ -13,7 +13,7 @@ import {
 import { authentication } from "../configs/firebaseConfig";
 import { Role } from "../helpers/role";
 import { useDispatch } from "react-redux";
-import { setAccountProfile } from "../redux/slices/accountSlice";
+import { createAccount } from "../redux/slices/accountSlice";
 
 const userAuthContext = createContext();
 
@@ -48,7 +48,13 @@ export function UserAuthContextProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(authentication, (currentuser) => {
       currentuser.role = Role.User;
-      dispatch(setAccountProfile(currentuser));
+      dispatch(
+        createAccount({
+          gmail: "",
+          name: "Tuấn Kùi",
+          phone: currentuser.phoneNumber,
+        })
+      );
       setUser(currentuser);
     });
 

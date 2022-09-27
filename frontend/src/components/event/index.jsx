@@ -9,22 +9,23 @@ import { AppConfig } from "../../configs/AppConfig";
 import { setSelectedEventName } from "../../redux/slices/eventSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import Calendar from "../calendar";
-
-const { toSlug, randomNumber } = AppUtils;
+import PlaceholderCover from "../../assets/cover-fallback.jpg";
+import moment from "moment";
+const { checkURL } = AppUtils;
 function Event({ event }) {
   const navigate = useNavigate();
   // const handleClickTag = (value) => {
   //   console.log("value", value);
   //   window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
   // };
-  let categoriesArr = event.categories;
+  let categoriesArr = event?.eventCategoryList;
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
   const dispatch = useDispatch();
   return (
     <div className="event-item-container ">
       <Image
-        src={event?.background}
+        src={checkURL(event?.background) ? event?.background : PlaceholderCover}
         style={{ height: 130, width: 360 }}
         className="event-item-image"
       />
@@ -46,13 +47,17 @@ function Event({ event }) {
         <BiCategory />
         {categoriesArr?.map((item, index) => (
           <p key={index} className="event-category">
-            {item}
+            {item.name}
           </p>
         ))}
       </div>
       <Calendar
         className="absolute right-2 bottom-5"
-        calendar={event?.startingTime}
+        calendar={
+          moment(event?.startingTime, "DD/MM/YYYY", true).isValid()
+            ? event?.startingTime
+            : "31/12/2022"
+        }
       />
     </div>
   );

@@ -59,4 +59,7 @@ export const AppUtils = {
   randomNumber: () => {
     return Math.floor(Math.random() * (1000 - 1)) + 1;
   },
+  checkURL: (url) => {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  },
 };

@@ -18,7 +18,6 @@ import {
 import PhoneInput from "react-phone-number-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { includes } from "lodash";
-import { useEffect } from "react";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -126,7 +125,7 @@ const UserLogin = (props) => {
                   className="w-full py-2 bg-[#256d85] text-white"
                   type="submit"
                 >
-                  Gửi mã OTP
+                  Đăng nhập bằng số điện thoại
                 </button>
               </Col>
               <Divider style={{ color: "black", border: "gray" }}>

@@ -15,7 +15,7 @@ function Input(props) {
     disabled,
   } = props;
   const { value, onChange, onBlur, name } = field;
-  const { errors, touched } = form;
+  const { errors } = form;
   const handleChange = (e) => {
     const { value } = e.target;
     var customEvent = {

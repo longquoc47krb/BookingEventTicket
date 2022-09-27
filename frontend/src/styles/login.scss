@@ -17,7 +17,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
   }
   &-form {
     width: 500px;
@@ -82,7 +82,7 @@
 .PhoneInputInput {
   outline: none !important;
 }
-.otp-input{
+.otp-input {
   border-radius: 5px;
   padding: 0.2rem;
   border: 1px solid gray;

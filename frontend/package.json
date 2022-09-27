@@ -62,6 +62,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "db": "json-server --watch -p 8000 database.json",
+    "postinstall": "node script.js",
     "deploy": "firebase deploy"
   },
   "eslintConfig": {
