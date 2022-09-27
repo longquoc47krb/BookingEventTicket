@@ -77,6 +77,7 @@ const UserLogin = (props) => {
     <>
       <HelmetHeader title="Đăng nhập" content="Login" />
       <div className="login-container">
+        <div className="login-background-slide"></div>
         <img
           src={process.env.PUBLIC_URL + "logo-color.png"}
           alt="logo"
