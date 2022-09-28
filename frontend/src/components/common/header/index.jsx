@@ -20,7 +20,6 @@ import {
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 import { useUserAuth } from "../../../context/UserAuthContext";
-import SearchBox from "../searchbox";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser } = props;
@@ -67,9 +66,9 @@ function Header(props) {
         className="brand-logo"
         onClick={() => navigate("/")}
       />
-      <div className="w-[80%]">
+      {/* <div className="w-[80%]">
         <SearchBox className="w-[50%]" />
-      </div>
+      </div> */}
       <div className="header-auth">
         {!current ? (
           <>
