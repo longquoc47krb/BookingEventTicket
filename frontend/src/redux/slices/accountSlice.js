@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AccountAPI } from "../../api/account";
+import { AccountAPI } from "../../api/configs/account";
 import httpRequest from "../../services/httpRequest";
 
 export const getAllAccounts = createAsyncThunk(

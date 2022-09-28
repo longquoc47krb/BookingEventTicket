@@ -4,12 +4,14 @@ export const EventAPI = {
     method: "GET",
   },
   getEventByName: (name) => ({
-    url: `/event/findname/${name}`,
+    url: `/event/findName`,
+    method: "GET",
+    params: {
+      name,
+    },
+  }),
+  getEventById: (id) => ({
+    url: `/event/find/${id}`,
     method: "GET",
   }),
-  eventById: {
-    url: "/event",
-    method: "GET",
-    params: "{id}",
-  },
 };

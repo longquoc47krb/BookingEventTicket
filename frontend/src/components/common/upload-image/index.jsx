@@ -8,7 +8,7 @@ import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import { useSelector } from "react-redux";
 import httpRequest from "../../../services/httpRequest";
-import { AccountAPI } from "../../../api/account";
+import { AccountAPI } from "../../../api/configs/account";
 function UploadImage({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
