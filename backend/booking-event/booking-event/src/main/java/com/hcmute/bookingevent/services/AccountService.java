@@ -5,8 +5,10 @@ import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
+import com.hcmute.bookingevent.responsitory.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ public class AccountService implements IAccountService {
     @Autowired
     private final AccountRepository accountRepository;
     private final CloudinaryConfig cloudinary;
+    private final CustomerRepository customerRepository;
+
     @Override
     public ResponseEntity<?> findAll() {
 
@@ -91,34 +95,40 @@ public class AccountService implements IAccountService {
         }
          throw new NotFoundException("Can not create any account");
     }
-
     @Override
-    public ResponseEntity<?> registerAccountByPhone(String phone) {
-        Optional <Account> account = accountRepository.findByPhone(phone);
-        //System.out.println(account.getId());
-        if(account==null)
-        {
-            account.get().setPhone(phone);
+    public ResponseEntity<?> loginAccountByGmail(Account account) {
 
+        Optional <Account> newAccount =accountRepository.findByGmail(account.getGmail());
+
+        System.out.println(account.getId());
+
+        if(newAccount.isEmpty())
+        {
+            accountRepository.save(newAccount.get());
+            Customer customer = new Customer( newAccount.get().getId() );
+            customerRepository.save(customer);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Register account by Phone successfully ", accountRepository.save(account.get())));
+                    new ResponseObject(true, "Create account successfully ", account));
 
         }
-        throw new NotFoundException("Can not register by phone");
+        throw new NotFoundException("Gmail has already existed");
     }
+
     @Override
-    public ResponseEntity<?> loginAccountbyPhone(String phone) {
-        Optional <Account> account = accountRepository.findByPhone(phone);
-        //System.out.println(account.getId());
-        if(account!=null)
+    public ResponseEntity<?> loginAccountbyPhone(Account account) {
+        Optional <Account> newAccount =accountRepository.findByPhone(account.getPhone());
+
+        if(newAccount.isEmpty())
         {
-            account.get().setPhone(phone);
+            accountRepository.save(newAccount.get());
+            Customer customer = new Customer( newAccount.get().getId() );
+            customerRepository.save(customer);
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Login account by Phone successfully ",""));
+                    new ResponseObject(true, "Login account by Phone successfully ",account));
 
         }
-        throw new NotFoundException("Can not register by phone");
+        throw new NotFoundException("Phone has already existed");
     }
     @Override
     public ResponseEntity<?> updateAccount(String id, Account updatedAccount) {

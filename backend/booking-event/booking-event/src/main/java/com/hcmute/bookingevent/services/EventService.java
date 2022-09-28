@@ -70,16 +70,16 @@ public class EventService implements IEventService {
 //        }
 //
 //    }
-@Override
-public ResponseEntity<?> searchEvents(String key) {
-    List<Event> eventList = eventRepository.findAllBy(TextCriteria
-            .forDefaultLanguage().matchingAny(key)
-    );
-    if (eventList.size() > 0)
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Search " + key + " success", eventList));
-    throw new NotFoundException("Can not found any product with: " + key);
-}
+    @Override
+    public ResponseEntity<?> searchEvents(String key) {
+        List<Event> eventList = eventRepository.findAllBy(TextCriteria
+                .forDefaultLanguage().matchingAny(key)
+        );
+        if (eventList.size() > 0)
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Search " + key + " success", eventList));
+        throw new NotFoundException("Can not found any product with: " + key);
+    }
 
 
     @Override
