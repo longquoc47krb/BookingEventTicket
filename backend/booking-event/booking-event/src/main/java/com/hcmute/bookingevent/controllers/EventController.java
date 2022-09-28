@@ -39,9 +39,9 @@ public class EventController {
 
     }
 
-    @GetMapping("/findName")
-    public ResponseEntity<?>  findEventByName(@RequestParam(value="name")  String name) {
-        return iEventService.searchEvents(name);
+    @GetMapping("/searchEvents")
+    public ResponseEntity<?>  searchEvents(@RequestParam(value="value")  String value) {
+        return iEventService.searchEvents(value);
 
     }
     @GetMapping("/find/{id}")

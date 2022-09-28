@@ -21,9 +21,13 @@ public class Customer {
     private int ticketAmount;
 
 
-
+    private int role;
     private List<String> ticketList;
 
     private List<String> eventWishList;
-
+    public Customer(String id)
+    {
+        this.id=id;
+        this.role=1;
+    }
 }
