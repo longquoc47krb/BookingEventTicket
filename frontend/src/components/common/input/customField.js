@@ -2,7 +2,7 @@ import { Form, Input as AntdInput } from "antd";
 import { ErrorMessage } from "formik";
 import MaskedInput from "antd-mask-input";
 import React from "react";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 const { Item } = Form;
 function Input(props) {
   const {
