@@ -34,13 +34,14 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@RequestBody Account newAccount) {
         return iAccountService.createAccount(newAccount);
     }
-    @PostMapping("/registerByPhone")
-    public ResponseEntity<?> createAccountByPhone(@RequestBody String phone) {
-        return iAccountService.registerAccountByPhone(phone);
+
+    @PostMapping("/loginByPhone")
+    public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
+        return iAccountService.loginAccountbyPhone(newAccount);
     }
-    @GetMapping("/loginByPhone")
-    public ResponseEntity<?> loginAccountByPhone(@RequestBody String phone) {
-        return iAccountService.loginAccountbyPhone(phone);
+    @PostMapping("/loginByGmail")
+    public ResponseEntity<?> loginAccountByGmail(@RequestBody Account newAccount) {
+        return iAccountService.loginAccountByGmail(newAccount);
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount) {

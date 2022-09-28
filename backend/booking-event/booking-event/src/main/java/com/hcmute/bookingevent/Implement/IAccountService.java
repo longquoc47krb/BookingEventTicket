@@ -11,7 +11,8 @@ public interface IAccountService {
     ResponseEntity<?> findAccountByName(String name);
     ResponseEntity<?> findAccountByGmail(String gmail);
     ResponseEntity<?> findByPhoneOrNameOrGmail(String phoneNumber);
-    ResponseEntity<?> registerAccountByPhone(String phone);
-    ResponseEntity<?> loginAccountbyPhone(String phone);
+
     ResponseEntity<?> updateAvatar(String id, MultipartFile file);
+    ResponseEntity<?> loginAccountByGmail(Account account);
+    ResponseEntity<?> loginAccountbyPhone(Account account);
 }
