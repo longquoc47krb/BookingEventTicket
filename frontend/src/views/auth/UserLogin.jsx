@@ -27,6 +27,7 @@ const UserLogin = (props) => {
   const queriedUser = useSelector((state) => state.account.queriedUser);
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
+
   const getOtp = async (e) => {
     console.log("phone getOtp", values.phone);
     setFieldError("phone", "");
