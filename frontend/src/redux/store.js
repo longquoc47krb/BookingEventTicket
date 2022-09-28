@@ -23,7 +23,7 @@ const accountPersistedReducer = persistReducer(
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
-    event: eventPersistedReducer,
+    event: eventReducer,
   },
 });
 export const persistor = persistStore(store);

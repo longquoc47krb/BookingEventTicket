@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { EventAPI } from "../../api/event";
+import { EventAPI } from "../../api/configs/event";
 import httpRequest from "../../services/httpRequest";
 
 export const getEvents = createAsyncThunk("event/getEvents", async () => {
