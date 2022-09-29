@@ -2,7 +2,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllEvents } from "../../api/eventApi";
 import Carousel from "../../components/common/carousel";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
@@ -12,8 +11,8 @@ import HelmetHeader from "../../components/helmet";
 import { useFetchEvents } from "../../hooks/eventHooks";
 import { eventsSelector, getEvents } from "../../redux/slices/eventSlice";
 function Home() {
-  // const { data: events } = useFetchEvents();
-  // console.log({ events });
+  const { data: eventQuery } = useFetchEvents();
+  console.log({ eventQuery });
   const dispatch = useDispatch();
   const events = useSelector(eventsSelector);
   useEffect(() => {
