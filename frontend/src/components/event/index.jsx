@@ -32,7 +32,7 @@ function Event({ event }) {
       <h1
         className="w-[calc(100%-80px)] font-bold event-title"
         onClick={() => {
-          dispatch(setSelectedEventName(event.name));
+          dispatch(setSelectedEventName(event?.name));
           navigate(`/event/${event.name}`);
         }}
       >
@@ -47,7 +47,7 @@ function Event({ event }) {
         <BiCategory />
         {categoriesArr?.map((item, index) => (
           <p key={index} className="event-category">
-            {item.name}
+            {item?.name}
           </p>
         ))}
       </div>

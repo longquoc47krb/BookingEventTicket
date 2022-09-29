@@ -17,14 +17,13 @@ import { AppUtils } from "../../utils/AppUtils";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllEvents, getEventByName } from "../../api/eventApi";
 import { getEvents, selectEventByName } from "../../redux/slices/eventSlice";
-import { useFetchEventById, useFetchEvents } from "../../hooks/useFetchEvents";
+import { useFetchEventById, useFetchEvents } from "../../hooks/eventHooks";
 // import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
 function EventDetail() {
-  const { eventId } = useParams();
+  const { eventName } = useParams();
   const [isFav, setIsFav] = useState(false);
-  const { data: event } = useFetchEventById(eventId);
-  console.log({ event });
+  const event = useSelector(selectEventByName(eventName));
   // handle date
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
   moment.locale("vi");
