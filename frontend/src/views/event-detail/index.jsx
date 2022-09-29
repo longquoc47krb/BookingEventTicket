@@ -15,9 +15,10 @@ import { paragraph } from "../../services/constants";
 import moment from "moment";
 import { AppUtils } from "../../utils/AppUtils";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllEvents, getEventByName } from "../../api/eventApi";
 import { getEvents, selectEventByName } from "../../redux/slices/eventSlice";
 import { useFetchEventById, useFetchEvents } from "../../hooks/eventHooks";
+import eventServices from "../../api/services/eventServices";
+
 // import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
 function EventDetail() {

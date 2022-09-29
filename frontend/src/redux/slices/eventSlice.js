@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { EventAPI } from "../../api/configs/event";
-import { fetchAllEvents } from "../../api/eventApi";
+import eventServices from "../../api/services/eventServices";
 import httpRequest from "../../services/httpRequest";
-
+const { fetchAllEvents } = eventServices;
 export const getEvents = createAsyncThunk("event/getEvents", fetchAllEvents);
 export const getEventByName = createAsyncThunk(
   "event/getEventByName",

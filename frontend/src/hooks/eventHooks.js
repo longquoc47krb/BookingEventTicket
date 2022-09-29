@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchAllEvents, getEventById } from "../api/eventApi";
-
+import eventServices from "../api/services/eventServices";
+const { fetchAllEvents, getEventById } = eventServices;
 const useFetchEvents = () => {
   const queryClient = useQueryClient();
   return useQuery(
@@ -8,7 +8,7 @@ const useFetchEvents = () => {
     ["events"],
     fetchAllEvents,
     {
-      staleTime: 60000,
+      staleTime: 100000,
       onSuccess: (events) => {
         events.forEach((event) => {
           queryClient.setQueryData(["event", event.name], event);
@@ -19,7 +19,7 @@ const useFetchEvents = () => {
 };
 const useFetchEventById = (id) => {
   return useQuery(["event", id], () => getEventById(id), {
-    staleTime: 60000,
+    staleTime: 100000,
   });
 };
 export { useFetchEvents, useFetchEventById };
