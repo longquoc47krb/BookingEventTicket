@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { EventAPI } from "../../api/configs/event";
+import { fetchAllEvents } from "../../api/eventApi";
 import httpRequest from "../../services/httpRequest";
 
-export const getEvents = createAsyncThunk("event/getEvents", async () => {
-  const res = await httpRequest(EventAPI.getAllEvents);
-  return res;
-});
+export const getEvents = createAsyncThunk("event/getEvents", fetchAllEvents);
 export const getEventByName = createAsyncThunk(
   "event/getEventByName",
   async (name) => {
@@ -65,6 +63,7 @@ export const selectEventById = (id) => (state) => {
 export const selectEventByName = (name) => (state) => {
   return state.event.events.find((event) => event.name === name);
 };
+export const eventsSelector = (state) => state.event.events;
 export const selectedEventSelector = (state) => state.event.selectedEvent;
 
 export default eventSlice.reducer;

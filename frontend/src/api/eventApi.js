@@ -13,3 +13,7 @@ export const getEventById = async (id) => {
   const response = await httpRequest(EventAPI.getEventById(id));
   return response;
 };
+export const createEvent = async (body) => {
+  const response = await httpRequest(EventAPI.createEvent(body));
+  return response;
+};

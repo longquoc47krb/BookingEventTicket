@@ -14,4 +14,9 @@ export const EventAPI = {
     url: `/event/find/${id}`,
     method: "GET",
   }),
+  createEvent: (data) => ({
+    url: "/event/createEvent",
+    method: "POST",
+    data,
+  }),
 };
