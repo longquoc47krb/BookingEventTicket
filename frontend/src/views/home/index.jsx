@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "../../components/common/carousel";
