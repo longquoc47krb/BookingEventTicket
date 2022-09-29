@@ -1,23 +1,19 @@
 import { Affix } from "antd";
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { AiOutlineHeart, AiOutlineMail, AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
-import { decoded } from "url-encode-decode";
-import { paragraph } from "../../services/constants";
-import moment from "moment";
+import { selectEventByName } from "../../redux/slices/eventSlice";
+import { paragraph } from "../../utils/constants";
 import { AppUtils } from "../../utils/AppUtils";
-import { useQuery } from "@tanstack/react-query";
-import { getEvents, selectEventByName } from "../../redux/slices/eventSlice";
-import { useFetchEventById, useFetchEvents } from "../../hooks/eventHooks";
-import eventServices from "../../api/services/eventServices";
 
 // import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
@@ -31,7 +27,7 @@ function EventDetail() {
   const eventStartingTime = moment(event?.startingTime, dateFormat).format(
     "LLLL"
   );
-
+  // scroll to section
   console.log("event detail:", event);
   const introduce = useRef(null);
   const info = useRef(null);
