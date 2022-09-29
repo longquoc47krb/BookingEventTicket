@@ -8,3 +8,4 @@
 /dataSources.local.xml
 *.xml
 **/.idea
+/frontend/firebase-debug.log
