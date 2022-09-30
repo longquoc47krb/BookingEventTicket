@@ -1,8 +1,12 @@
 /* eslint-disable no-undef */
 import React from "react";
-import SearchBox from "../common/searchbox";
 import PropTypes from "prop-types";
+import Search from "../common/searchbox";
+import { useSelector } from "react-redux";
+import { eventsSelector } from "../../redux/slices/eventSlice";
 function HeroBanner({ heroSlogan, heroBackground }) {
+  const events = useSelector(eventsSelector);
+  console.log({ events });
   return (
     <section
       role="img"
@@ -11,7 +15,7 @@ function HeroBanner({ heroSlogan, heroBackground }) {
     >
       <img className="hero-image" src={heroBackground} alt="img" />
       <h1 className="hero-slogan">{heroSlogan}</h1>
-      <SearchBox className="hero-search" />
+      <Search data={events} />
     </section>
   );
 }

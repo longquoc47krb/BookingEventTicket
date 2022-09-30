@@ -20,7 +20,7 @@ function Carousel(props) {
       {newData &&
         newData.map((item, index) => (
           <CarouselBootstrap.Item interval={2000} key={item.id}>
-            <Link to={`/event/${item.name}`}>
+            <Link to={`/event/${item.name}`} target="_blank">
               <img
                 onClick={() => {
                   dispatch(setSelectedEventName(item.name));
@@ -37,4 +37,12 @@ function Carousel(props) {
     </CarouselBootstrap>
   );
 }
-export default Carousel;
+Carousel.propTypes = {
+  data: PropTypes.array,
+};
+Carousel.defaultProps = {};
+
+const mapStateToProps = (state) => ({
+  data: state.event.events,
+});
+export default connect(mapStateToProps)(Carousel);

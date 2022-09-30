@@ -27,7 +27,5 @@
 .typo {
   font-size: 4rem;
   font-weight: 800;
-  background: -webkit-linear-gradient($primary-color, #008eca);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: $primary-color;
 }
