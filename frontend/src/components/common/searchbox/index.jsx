@@ -35,7 +35,7 @@ const Search = ({ data, searchKey }) => {
   const formatResult = (item) => {
     return (
       <div className="flex gap-x-2">
-        <img src={item.background} className="w-auto h-[50px]" />
+        <img src={item.background} className="w-auto h-[50px]" alt="Event" />
         <div className="flex flex-col">
           <span
             style={{ display: "block", textAlign: "left", fontWeight: 700 }}
