@@ -10,8 +10,10 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TextEditor } from "./components/common/editor";
 
 const queryClient = new QueryClient();
+
 function App() {
   // Create a client
   return (
@@ -37,6 +39,7 @@ function App() {
               //   }
             />
             <Route path="/admin-login" element={<AdminLoginPage />} />
+            <Route path="/test" element={<TextEditor />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </UserAuthContextProvider>

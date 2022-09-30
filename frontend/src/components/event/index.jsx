@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -22,31 +22,44 @@ function Event({ event }) {
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
   const dispatch = useDispatch();
+  const imageRef = useRef();
+  const categoryRef = useRef();
+  const addressRef = useRef();
   return (
-    <div className="event-item-container ">
+    <div
+      className="event-item-container"
+      onClick={(e) => {
+        e.preventDefault();
+        dispatch(setSelectedEventName(event?.name));
+        navigate(`/event/${event.name}`);
+      }}
+    >
       <Image
         src={checkURL(event?.background) ? event?.background : PlaceholderCover}
         style={{ height: 130, width: 360 }}
+        onClick={(event) => event.stopPropagation()}
         className="event-item-image"
       />
-      <h1
-        className="w-[calc(100%-80px)] font-bold event-title"
-        onClick={() => {
-          dispatch(setSelectedEventName(event?.name));
-          navigate(`/event/${event.name}`);
-        }}
-      >
+      <h1 className="w-[calc(100%-80px)] font-bold event-title">
         {event.name}
       </h1>
       <div>
         <strong className="text-xl">{event.price}</strong>
       </div>
       <div className="flex items-center">
-        {event.address ? <Tag>{event.address}</Tag> : null}
+        {event.address ? (
+          <Tag onClick={(event) => event.stopPropagation()}>
+            {event.address}
+          </Tag>
+        ) : null}
 
         <BiCategory />
         {categoriesArr?.map((item, index) => (
-          <p key={index} className="event-category">
+          <p
+            key={index}
+            className="event-category"
+            onClick={(event) => event.stopPropagation()}
+          >
             {item?.name}
           </p>
         ))}
