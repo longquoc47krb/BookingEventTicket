@@ -12,11 +12,11 @@ import { eventsSelector, getEvents } from "../../redux/slices/eventSlice";
 function Home() {
   const { data: eventQuery } = useFetchEvents();
   console.log({ eventQuery });
-  // const dispatch = useDispatch();
-  // const events = useSelector(eventsSelector);
-  // useEffect(() => {
-  //   dispatch(getEvents());
-  // }, []);
+  const dispatch = useDispatch();
+  const events = useSelector(eventsSelector);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, []);
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
@@ -24,7 +24,7 @@ function Home() {
       <div className="home-container">
         <SiderBar className="sider" />
         <div className="home-content">
-          {/* <Carousel data={events} /> */}
+          <Carousel data={events} />
 
           <div className="home-popular">
             <Typography className="text-center">Sự kiện nổi bật</Typography>
