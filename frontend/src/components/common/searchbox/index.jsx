@@ -7,7 +7,7 @@ const Search = ({ data, searchKey }) => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const fuseOptions = {
-    keys: ["name", "address", "startingTime"],
+    keys: ["name", "address", "startingTime", "eventCategoryList.name"],
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Search = ({ data, searchKey }) => {
   const formatResult = (item) => {
     return (
       <div className="flex gap-x-2">
-        <img src={item.background} className="w-auto h-[50px]" />
+        <img src={item.background} className="w-auto h-[50px]" alt="Event" />
         <div className="flex flex-col">
           <span
             style={{ display: "block", textAlign: "left", fontWeight: 700 }}
@@ -57,7 +57,7 @@ const Search = ({ data, searchKey }) => {
         onSearch={handleOnSearch}
         onSelect={handleOnSelect}
         inputSearchString={query}
-        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ,..."
+        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại..."
         maxResults={5}
         inputDebounce={200}
         fuseOptions={fuseOptions}

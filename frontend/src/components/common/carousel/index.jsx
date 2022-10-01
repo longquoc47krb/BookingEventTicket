@@ -16,7 +16,7 @@ function Carousel(props) {
   }));
   const dispatch = useDispatch();
   return (
-    <CarouselBootstrap>
+    <CarouselBootstrap fade={true}>
       {newData &&
         newData.map((item, index) => (
           <CarouselBootstrap.Item interval={2000} key={item.id}>
