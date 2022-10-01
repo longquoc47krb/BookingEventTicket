@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
-import React, { useRef } from "react";
+import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +22,6 @@ function Event({ event }) {
   // const [selectedId, setSelectedId] = useState(null);
   // const selectedTag = categoriesArr[selectedId];
   const dispatch = useDispatch();
-  const imageRef = useRef();
-  const categoryRef = useRef();
-  const addressRef = useRef();
   return (
     <div
       className="event-item-container"

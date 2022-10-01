@@ -7,7 +7,7 @@ const Search = ({ data, searchKey }) => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const fuseOptions = {
-    keys: ["name", "address", "startingTime"],
+    keys: ["name", "address", "startingTime", "eventCategoryList.name"],
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Search = ({ data, searchKey }) => {
         onSearch={handleOnSearch}
         onSelect={handleOnSelect}
         inputSearchString={query}
-        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ,..."
+        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại..."
         maxResults={5}
         inputDebounce={200}
         fuseOptions={fuseOptions}
