@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IAccountService {
     ResponseEntity<?> findAll();
-    ResponseEntity<?> createAccount(Account newAccount);
+
     ResponseEntity<?> updateAccount(String id,Account account);
     ResponseEntity<?> findAccountByName(String name);
     ResponseEntity<?> findAccountByGmail(String gmail);

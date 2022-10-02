@@ -82,19 +82,7 @@ public class AccountService implements IAccountService {
                     new ResponseObject(false, "Cannot find data with gmail:" + gmail, ""));
         }
     }
-    @Override
-    public ResponseEntity<?> createAccount(Account newAccount) {
-        Account account = accountRepository.save(newAccount);
-        System.out.println(account.getId());
 
-        if(newAccount!=null)
-        {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Create account successfully ", account));
-
-        }
-         throw new NotFoundException("Can not create any account");
-    }
     @Override
     public ResponseEntity<?> loginAccountByGmail(Account account) {
 
@@ -104,11 +92,12 @@ public class AccountService implements IAccountService {
 
         if(newAccount.isEmpty())
         {
-            accountRepository.save(newAccount.get());
-            Customer customer = new Customer( newAccount.get().getId() );
+
+            accountRepository.save(account);
+            Customer customer = new Customer( account.getId() );
             customerRepository.save(customer);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Create account successfully ", account));
+                    new ResponseObject(true, "Log in account successfully ", account));
 
         }
         throw new NotFoundException("Gmail has already existed");
@@ -120,12 +109,12 @@ public class AccountService implements IAccountService {
 
         if(newAccount.isEmpty())
         {
-            accountRepository.save(newAccount.get());
-            Customer customer = new Customer( newAccount.get().getId() );
+            accountRepository.save(account);
+            Customer customer = new Customer( account.getId() );
             customerRepository.save(customer);
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Login account by Phone successfully ",account));
+                    new ResponseObject(true, "Log in account successfully by Phone successfully ",account));
 
         }
         throw new NotFoundException("Phone has already existed");
