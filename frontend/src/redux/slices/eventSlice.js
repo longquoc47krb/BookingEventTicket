@@ -8,7 +8,6 @@ export const getEventByName = createAsyncThunk(
   "event/getEventByName",
   async (name) => {
     const res = await httpRequest(EventAPI.getEventByName(name));
-    console.log("events list: ", res);
     return res;
   }
 );

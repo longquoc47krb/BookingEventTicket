@@ -23,20 +23,17 @@ const UserLogin = (props) => {
   const dispatch = useDispatch();
   // login phone number
   const { setUpRecaptha } = useUserAuth();
-  const userInfo = useSelector((state) => state.account.userInfo);
+  // const userInfo = useSelector((state) => state.account.userInfo);
   const queriedUser = useSelector((state) => state.account.queriedUser);
   const [result, setResult] = useState("");
   const [flag, setFlag] = useState(false);
 
   const getOtp = async (e) => {
-    console.log("phone getOtp", values.phone);
     setFieldError("phone", "");
     try {
       const response = await setUpRecaptha(values.phone);
       setResult(response);
-      setFieldError("phone", response);
       setFlag(true);
-      console.log("flag", flag);
     } catch (err) {
       setFieldError("phone", err.message);
     }
@@ -47,7 +44,6 @@ const UserLogin = (props) => {
     if (values.otp === "" || values.otp === null) return;
     try {
       await result.confirm(values.otp);
-      console.log({ result });
       navigate("/");
     } catch (err) {
       setFieldError("otp", err.message);
@@ -139,18 +135,12 @@ const UserLogin = (props) => {
                   size="large"
                   width="100%"
                   onSuccess={(credentialResponse) => {
-                    console.log({ credentialResponse });
                     var decoded = jwt_decode(credentialResponse.credential);
 
                     decoded["role"] = Role.User;
-                    console.log({ decoded });
-                    console.log("email", decoded.email);
                     dispatch(getAccountByEmailOrPhone(decoded.email));
-                    console.log({ queriedUser });
 
                     const isDuplicated = includes(queriedUser, decoded.email);
-                    console.log({ isDuplicated });
-                    console.log({ userInfo });
 
                     if (!isDuplicated) {
                       dispatch(

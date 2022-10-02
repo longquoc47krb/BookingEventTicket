@@ -11,10 +11,10 @@
     justify-content: center;
     cursor: pointer;
     @include for-phone {
-      grid-template-columns: auto;
+      grid-template-columns: auto !important;
     }
     @include for-tablet {
-      grid-template-columns: auto auto;
+      grid-template-columns: auto auto !important;
     }
   }
   &-title {

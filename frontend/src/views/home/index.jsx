@@ -27,7 +27,9 @@ function Home() {
           <Carousel data={events} />
 
           <div className="home-popular">
-            <Typography className="text-center">Sự kiện nổi bật</Typography>
+            <h1 className="text-center home-popular-text typo">
+              Sự kiện nổi bật
+            </h1>
           </div>
         </div>
       </div>

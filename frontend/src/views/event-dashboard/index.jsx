@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import Pagination from "../../components/pagination";
+import { resultSelector } from "../../redux/slices/searchSlice";
 function EventDashBoard(props) {
   const { events } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(6);
-
+  const results = useSelector(resultSelector);
+  console.log({ results });
   // Get current posts
   const indexOfLastPost = currentPage * eventsPerPage;
   const indexOfFirstPost = indexOfLastPost - eventsPerPage;
