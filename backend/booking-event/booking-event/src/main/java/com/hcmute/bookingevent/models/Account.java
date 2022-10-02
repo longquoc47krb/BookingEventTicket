@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.models;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.lang.Nullable;
+
 
 @Document("account")
 @Getter
@@ -19,9 +21,10 @@ public class Account {
     private String id;
 
     private String name;
-    @Indexed(unique = true)
+    //@Nullable
+    //@Indexed(unique = true)
     private String phone;
-    @Indexed(unique = true)
+    //@Indexed(unique = true)
     private String gmail;
     private String avatar;
     public Account(String name, String phone, String gmail) {
