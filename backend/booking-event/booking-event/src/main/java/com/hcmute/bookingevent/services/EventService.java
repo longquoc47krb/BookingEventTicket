@@ -2,11 +2,14 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +34,15 @@ public class EventService implements IEventService {
         }
         throw new NotFoundException("Can not Create event with : " + event);
     }
-
+    @Override
+    public ResponseEntity<?> eventPagination(Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findAll(pageable);
+        List<Event> eventList = eventPage.toList();
+        if (eventList.size() > 0)
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Get all event", eventList));
+        throw new NotFoundException("Can not find any event");
+    }
     @Override
     public ResponseEntity<?> findAllEvents() {
         return ResponseEntity.status(HttpStatus.OK).body(

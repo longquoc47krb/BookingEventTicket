@@ -11,6 +11,8 @@ import com.hcmute.bookingevent.responsitory.AccountRepository;
 import com.hcmute.bookingevent.responsitory.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
@@ -37,7 +40,15 @@ public class AccountService implements IAccountService {
                     new ResponseObject(true, "Get all Account", list));
         throw new NotFoundException("Can not found any account");
     }
-
+    @Override
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        Page<Account> users = accountRepository.findAll(pageable);
+        List<Account> userResList = users.toList();
+        if (userResList.size() > 0)
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Get all user success", userResList));
+        throw new NotFoundException("Can not find any user");
+    }
 
     @Override
     public ResponseEntity<?> findAccountByName(String name) {
@@ -100,7 +111,13 @@ public class AccountService implements IAccountService {
                     new ResponseObject(true, "Log in account successfully ", account));
 
         }
-        throw new NotFoundException("Gmail has already existed");
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Log in account successfully ", account));
+
+        }
+      //  throw new ResponseObject(true, "Log in account successfully ", account));
     }
 
     @Override
@@ -117,7 +134,12 @@ public class AccountService implements IAccountService {
                     new ResponseObject(true, "Log in account successfully by Phone successfully ",account));
 
         }
-        throw new NotFoundException("Phone has already existed");
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Log in account successfully by Phone successfully ", account));
+
+        }
     }
     @Override
     public ResponseEntity<?> updateAccount(String id, Account updatedAccount) {
