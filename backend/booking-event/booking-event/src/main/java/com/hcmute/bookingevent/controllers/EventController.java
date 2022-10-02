@@ -7,6 +7,8 @@ import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,10 @@ public class EventController {
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
         return iEventService.findEventById(id);
     }
-
+    @GetMapping(path = "/eventPage")
+    public ResponseEntity<?> eventPagination (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        return iEventService.eventPagination(pageable);
+    }
 
 }
