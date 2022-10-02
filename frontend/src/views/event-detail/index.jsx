@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
@@ -14,6 +15,10 @@ import HelmetHeader from "../../components/helmet";
 import { selectEventByName } from "../../redux/slices/eventSlice";
 import { paragraph } from "../../utils/constants";
 import { AppUtils } from "../../utils/AppUtils";
+import {
+  addToWishList,
+  // removeFromWishList,
+} from "../../redux/slices/wishlistSlice";
 
 // import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
@@ -21,6 +26,7 @@ function EventDetail() {
   const { eventName } = useParams();
   const [isFav, setIsFav] = useState(false);
   const event = useSelector(selectEventByName(eventName));
+  const dispatch = useDispatch();
   // handle date
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
   moment.locale("vi");
@@ -28,12 +34,16 @@ function EventDetail() {
     "LLLL"
   );
   // scroll to section
-  console.log("event detail:", event);
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
+  useEffect(() => {
+    if (isFav) {
+      dispatch(addToWishList(event));
+    }
+  }, [isFav]);
   const scrollToSection = (elementRef) => {
     window.scrollTo({
       top: elementRef.current.offsetTop - 25,
@@ -98,7 +108,12 @@ function EventDetail() {
           </div>
           <div className="event-detail-button">
             <button className="buy-now">Mua vé ngay</button>
-            <button className="interests" onClick={() => setIsFav(!isFav)}>
+            <button
+              className="interests"
+              onClick={() => {
+                setIsFav(!isFav);
+              }}
+            >
               {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
               Quan tâm
             </button>
