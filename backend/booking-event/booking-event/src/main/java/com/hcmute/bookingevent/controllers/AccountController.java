@@ -29,12 +29,6 @@ public class AccountController {
         return iAccountService.findByPhoneOrNameOrGmail(value);
 
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> createAccount(@RequestBody Account newAccount) {
-        return iAccountService.createAccount(newAccount);
-    }
-
     @PostMapping("/loginByPhone")
     public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
         return iAccountService.loginAccountbyPhone(newAccount);
