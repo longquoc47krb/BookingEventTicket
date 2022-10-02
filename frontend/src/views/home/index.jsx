@@ -5,7 +5,6 @@ import Carousel from "../../components/common/carousel";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SiderBar from "../../components/common/sider";
-import Typography from "../../components/common/typography";
 import HelmetHeader from "../../components/helmet";
 import { useFetchEvents } from "../../hooks/eventHooks";
 import { eventsSelector, getEvents } from "../../redux/slices/eventSlice";
