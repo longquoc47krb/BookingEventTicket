@@ -59,9 +59,7 @@ export const { setSelectedEvent, setSelectedEventName } = eventSlice.actions;
 export const selectEventById = (id) => (state) => {
   return state.event.events.find((event) => event.id === parseInt(id));
 };
-export const selectEventByName = (name) => (state) => {
-  return state.event.events.find((event) => event.name === name);
-};
+export const eventNameSelector = (state) => state.event.selectedEventName;
 export const eventsSelector = (state) => state.event.events;
 export const selectedEventSelector = (state) => state.event.selectedEvent;
 

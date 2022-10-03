@@ -32,12 +32,7 @@ export const useFetchEvents = () => {
     ["events"],
     fetchAllEvents,
     {
-      staleTime: 100000,
-      // onSuccess: (events) => {
-      //   events.forEach((event) => {
-      //     queryClient.setQueryData(["event", event.name], event);
-      //   });
-      // },
+      retry: 10,
     }
   );
 };
@@ -50,10 +45,17 @@ export const useFetchEventsForPagination = (params) => {
     }
   );
 };
-export const useFetchEventById = (id) => {
-  return useQuery(["event", id], () => getEventById(id), {
-    staleTime: 100000,
-  });
+export const useEventDetails = (eventName, options = {}) => {
+  return useQuery(
+    ["getEventDetail", eventName],
+    () => getEventByName(eventName),
+    {
+      ...options,
+      enabled: !!eventName,
+      cacheTime: 0,
+      staleTime: 0,
+    }
+  );
 };
 
 const eventServices = {
