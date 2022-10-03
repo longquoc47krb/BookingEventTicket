@@ -10,13 +10,14 @@ import HelmetHeader from "../../components/helmet";
 import { useFetchEvents } from "../../hooks/eventHooks";
 import { eventsSelector, getEvents } from "../../redux/slices/eventSlice";
 function Home() {
-  const { data: eventQuery } = useFetchEvents();
-  console.log({ eventQuery });
+  // const { data: eventQuery } = useFetchEvents();
+  // console.log({ eventQuery });
   const dispatch = useDispatch();
   const events = useSelector(eventsSelector);
   useEffect(() => {
     dispatch(getEvents());
   }, []);
+  console.log({ events });
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
