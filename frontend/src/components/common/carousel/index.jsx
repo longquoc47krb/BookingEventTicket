@@ -25,7 +25,7 @@ function Carousel(props) {
                 onClick={() => {
                   dispatch(setSelectedEventName(item.name));
                 }}
-                className="w-full h-auto p-[1rem]"
+                className="w-full h-auto p-2"
                 src={
                   checkURL(item.background) ? item.background : PlaceholderCover
                 }

@@ -9,10 +9,10 @@
       padding-left: 0;
       height: auto;
       @include for-phone {
-        display: none;
+        display: none !important;
       }
       @include for-tablet {
-        display: none;
+        display: none !important;
       }
     }
   }
@@ -22,10 +22,15 @@
   }
   &-popular {
     width: 100%;
+    &-text {
+      font-size: 4rem;
+      @include for-phone {
+        font-size: 2.5rem !important;
+      }
+    }
   }
 }
 .typo {
-  font-size: 4rem;
   font-weight: 800;
   color: $primary-color;
 }
