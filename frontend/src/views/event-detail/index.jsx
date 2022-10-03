@@ -17,6 +17,7 @@ import { paragraph } from "../../utils/constants";
 import { AppUtils } from "../../utils/AppUtils";
 import {
   addToWishList,
+  removeFromWishList,
   // removeFromWishList,
 } from "../../redux/slices/wishlistSlice";
 

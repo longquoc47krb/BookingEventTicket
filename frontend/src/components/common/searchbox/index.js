@@ -33,8 +33,7 @@ const SearchBox = (props) => {
     [data]
   );
 
-  const results = fuse.search(filterValue);
-  const resultState = useSelector(resultSelector);
+  const results = fuse?.search(filterValue);
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
@@ -51,10 +50,10 @@ const SearchBox = (props) => {
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2">
-              Kết quả tìm kiếm: <strong>{results.length}</strong> kết quả
+              Kết quả tìm kiếm: <strong>{results?.length}</strong> kết quả
             </p>
           )}
-          {results.slice(0, 3).map((row) => {
+          {results?.slice(0, 3).map((row) => {
             return (
               <div
                 className="flex gap-x-2 SearchBox_Results_List_Item"
@@ -84,12 +83,12 @@ const SearchBox = (props) => {
               </div>
             );
           })}
-          {!results.length ? (
+          {!results?.length ? (
             <li className="SearchBox_Results_List_Item px-2 py-0">
               Không tìm thấy
             </li>
           ) : null}
-          {results.length > 3 ? (
+          {results?.length > 3 ? (
             <li
               className="SearchBox_Results_List_Item flex gap-x-2 items-end"
               onClick={() => {

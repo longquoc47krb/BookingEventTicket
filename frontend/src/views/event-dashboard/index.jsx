@@ -17,7 +17,7 @@ function EventDashBoard(props) {
   // Get current posts
   const indexOfLastPost = currentPage * eventsPerPage;
   const indexOfFirstPost = indexOfLastPost - eventsPerPage;
-  const currentEvents = events.slice(indexOfFirstPost, indexOfLastPost);
+  const currentEvents = events?.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -28,20 +28,20 @@ function EventDashBoard(props) {
       <HeroBanner />
       <div className="event-container">
         {events &&
-          currentEvents.map((event, index) => (
+          currentEvents?.map((event, index) => (
             <Event event={event} key={event.id} />
           ))}
       </div>
       <Pagination
         postsPerPage={eventsPerPage}
-        totalPosts={events.length}
+        totalPosts={events?.length}
         paginate={paginate}
       />
     </>
   );
 }
 EventDashBoard.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  events: PropTypes.arrayOf(PropTypes.object),
 };
 const mapStateToProps = (state) => ({
   events: state.event.events,

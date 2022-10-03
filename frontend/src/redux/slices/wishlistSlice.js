@@ -5,8 +5,9 @@ const wishlistSlice = createSlice({
   initialState: [],
   reducers: {
     addToWishList: (state, action) => {
-      if (state.indexOf(action.payload) !== -1) {
-        state = state.concat(action.payload);
+      console.log("index of state", state.indexOf(action.payload));
+      if (state.indexOf(action.payload) === -1) {
+        state = state.push(action.payload);
       }
     },
     removeFromWishList: (state, action) =>
