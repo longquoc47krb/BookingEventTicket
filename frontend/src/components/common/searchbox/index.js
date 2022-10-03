@@ -45,6 +45,7 @@ const SearchBox = (props) => {
         value={filterValue}
         placeholder={placeholder}
         onChange={(e) => setFilterValue(e.target.value)}
+        allowClear
       />
       {filterValue && expand ? (
         <ul className="SearchBox_Results_List">

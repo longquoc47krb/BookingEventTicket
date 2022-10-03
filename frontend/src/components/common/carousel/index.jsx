@@ -14,6 +14,7 @@ function Carousel(props) {
     name,
     background,
   }));
+  console.log({ newData });
   const dispatch = useDispatch();
   return (
     <CarouselBootstrap fade={true}>

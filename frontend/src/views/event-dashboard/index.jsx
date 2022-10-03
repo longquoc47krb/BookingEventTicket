@@ -10,7 +10,8 @@ import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-function EventDashBoard(props) {
+import Footer from "../../components/common/footer";
+function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   // const results = useSelector(resultSelector);
   const { data: eventsPaginated, isFetching } =
@@ -31,14 +32,13 @@ function EventDashBoard(props) {
         {isFetching
           ? [...Array(6)].map((i) => (
               <Skeleton width={360} height={260} key={i} />
-              // <div className="h-[260px] w-[360px] bg-red-500"></div>
             ))
           : eventsPaginated &&
             eventsPaginated.data?.map((event, index) => (
               <Event event={event} key={event.id} />
             ))}
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mb-10">
         {isFetching ? null : (
           <Pagination
             current={currentPage + 1}
@@ -48,6 +48,7 @@ function EventDashBoard(props) {
           />
         )}
       </div>
+      <Footer />
     </>
   );
 }

@@ -18,15 +18,11 @@ function HeroBanner({ heroSlogan, heroBackground }) {
     >
       <img className="hero-image" src={heroBackground} alt="img" />
       <h1 className="hero-slogan">{heroSlogan}</h1>
-      {/* <Search data={events} /> */}
-      {isFetching ? (
-        <Spinner />
-      ) : (
-        <SearchBox
-          data={events}
-          placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
-        />
-      )}
+
+      <SearchBox
+        data={events?.data}
+        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
+      />
     </section>
   );
 }

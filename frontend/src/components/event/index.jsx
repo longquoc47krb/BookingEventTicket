@@ -12,7 +12,8 @@ import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
 const { checkURL } = AppUtils;
-function Event({ event }) {
+function Event(props) {
+  const { event } = props;
   const navigate = useNavigate();
   // const handleClickTag = (value) => {
   //   console.log("value", value);

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import Skeleton from "react-loading-skeleton";
 import { Spinner } from "reactstrap";
 import { useFetchEvents } from "../../api/services/eventServices";
 import Carousel from "../../components/common/carousel";
@@ -10,8 +9,8 @@ import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
 
 function Home() {
-  const { data: events, isFetching } = useFetchEvents();
-  const loading = true;
+  const { data: events, isFetching, isLoading } = useFetchEvents();
+
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
@@ -24,7 +23,7 @@ function Home() {
               <Spinner className="w-[50px] h-[50px]" />
             </div>
           ) : (
-            <Carousel data={events.data} />
+            <Carousel data={events?.data} />
           )}
 
           <div className="home-popular">
