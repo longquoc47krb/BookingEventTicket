@@ -9,11 +9,11 @@ const useFetchEvents = () => {
     fetchAllEvents,
     {
       staleTime: 100000,
-      onSuccess: (events) => {
-        events.forEach((event) => {
-          queryClient.setQueryData(["event", event.name], event);
-        });
-      },
+      // onSuccess: (events) => {
+      //   events.forEach((event) => {
+      //     queryClient.setQueryData(["event", event.name], event);
+      //   });
+      // },
     }
   );
 };

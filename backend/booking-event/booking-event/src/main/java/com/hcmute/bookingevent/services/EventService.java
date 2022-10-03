@@ -2,8 +2,8 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.NotFoundException;
-import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
@@ -38,9 +38,11 @@ public class EventService implements IEventService {
     public ResponseEntity<?> eventPagination(Pageable pageable) {
         Page<Event> eventPage = eventRepository.findAll(pageable);
         List<Event> eventList = eventPage.toList();
+        List<Event> eventList2 = eventRepository.findAll();
+
         if (eventList.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Get all event", eventList));
+                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList2.size(),eventList));
         throw new NotFoundException("Can not find any event");
     }
     @Override

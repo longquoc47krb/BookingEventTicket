@@ -12,7 +12,16 @@ import UserProfile from "./views/user-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TextEditor } from "./components/common/editor";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      networkMode: "offlineFirst",
+    },
+    mutations: {
+      networkMode: "offlineFirst",
+    },
+  },
+});
 
 function App() {
   // Create a client

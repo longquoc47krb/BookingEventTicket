@@ -17,7 +17,7 @@ function HeroBanner({ heroSlogan, heroBackground }) {
       <h1 className="hero-slogan">{heroSlogan}</h1>
       {/* <Search data={events} /> */}
       <SearchBox
-        data={events}
+        data={events || null}
         placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
       />
     </section>

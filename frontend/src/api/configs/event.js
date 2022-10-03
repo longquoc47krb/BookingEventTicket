@@ -3,6 +3,14 @@ export const EventAPI = {
     url: "/event/findAll",
     method: "GET",
   },
+  getAllEventsWithPagination: (currentPage) => ({
+    url: "/event/eventPage",
+    method: "GET",
+    params: {
+      currentPage,
+      pageSize: 5,
+    },
+  }),
   getEventByName: (name) => ({
     url: `/event/findName`,
     method: "GET",
