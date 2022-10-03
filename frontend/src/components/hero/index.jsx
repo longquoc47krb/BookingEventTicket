@@ -5,8 +5,11 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { eventsSelector } from "../../redux/slices/eventSlice";
 import SearchBox from "../common/searchbox";
+import { useFetchEvents } from "../../api/services/eventServices";
+import { Spinner } from "reactstrap";
 function HeroBanner({ heroSlogan, heroBackground }) {
-  const events = useSelector(eventsSelector);
+  // const events = useSelector(eventsSelector);
+  const { data: events, isFetching } = useFetchEvents();
   return (
     <section
       role="img"
@@ -16,10 +19,14 @@ function HeroBanner({ heroSlogan, heroBackground }) {
       <img className="hero-image" src={heroBackground} alt="img" />
       <h1 className="hero-slogan">{heroSlogan}</h1>
       {/* <Search data={events} /> */}
-      <SearchBox
-        data={events || null}
-        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
-      />
+      {isFetching ? (
+        <Spinner />
+      ) : (
+        <SearchBox
+          data={events}
+          placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
+        />
+      )}
     </section>
   );
 }
