@@ -7,11 +7,11 @@ const ScrollToTopPage = ({ top }) => {
   return (
     <ScrollToTop
       smooth
-      style={{ background: AppStyle.colors.primary, width: 50, height: 50 }}
+      style={{ background: AppStyle.colors.primary, width: 40, height: 40 }}
       top={top}
       className="heartbeat mb-16"
       component={
-        <button className="text-white text-[2rem] ">
+        <button className="text-white text-[1.5rem] ">
           <BiArrowToTop />
         </button>
       }
@@ -22,6 +22,6 @@ ScrollToTopPage.propTypes = {
   top: PropTypes.number,
 };
 ScrollToTopPage.defaultProps = {
-  top: 100,
+  top: 10000,
 };
 export default ScrollToTopPage;

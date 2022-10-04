@@ -1,15 +1,17 @@
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import LibraryBooksRoundedIcon from "@mui/icons-material/LibraryBooksRounded";
-import LiquorRoundedIcon from "@mui/icons-material/LiquorRounded";
-import LocalActivityRoundedIcon from "@mui/icons-material/LocalActivityRounded";
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import MusicNoteRoundedIcon from "@mui/icons-material/MusicNoteRounded";
-import SportsSoccerRoundedIcon from "@mui/icons-material/SportsSoccerRounded";
-import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded";
-
+import { AiOutlineHome, AiOutlineQuestionCircle } from "react-icons/ai";
+import { FaTheaterMasks } from "react-icons/fa";
+import { IoWineOutline } from "react-icons/io5";
+import { BiBookBookmark, BiPhoneCall } from "react-icons/bi";
+import { HiOutlineMusicNote } from "react-icons/hi";
+import {
+  MdSportsSoccer,
+  MdOutlineAccountCircle,
+  MdAttachMoney,
+  MdExitToApp,
+} from "react-icons/md";
+import { BsBookmarkHeart } from "react-icons/bs";
+import { TbPlaneInflight } from "react-icons/tb";
+import { GrContactInfo } from "react-icons/gr";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -62,43 +64,43 @@ const MENU = [
     label: "Trang chủ",
     key: "home",
     link: "/",
-    icon: <HomeRoundedIcon fontSize="medium" />,
+    icon: <AiOutlineHome fontSize={16} />,
   },
   {
     label: "Âm nhạc",
     key: "music",
     link: "/events",
-    icon: <MusicNoteRoundedIcon fontSize="medium" />,
+    icon: <HiOutlineMusicNote fontSize={16} />,
   },
   {
     label: "Sân khấu",
     key: "theater",
     link: "/events",
-    icon: <TheaterComedyRoundedIcon fontSize="medium" />,
+    icon: <FaTheaterMasks fontSize={16} />,
   },
   {
     label: "Nightlife",
     key: "nightlife",
     link: "/events",
-    icon: <LiquorRoundedIcon fontSize="medium" />,
+    icon: <IoWineOutline fontSize={16} />,
   },
   {
     label: "Khoá học",
     key: "courses",
     link: "/events",
-    icon: <LibraryBooksRoundedIcon fontSize="medium" />,
+    icon: <BiBookBookmark fontSize={16} />,
   },
   {
     label: "Thể thao",
     key: "sports",
     link: "/events",
-    icon: <SportsSoccerRoundedIcon fontSize="medium" />,
+    icon: <MdSportsSoccer fontSize={16} />,
   },
   {
     label: "Du lịch",
     key: "travel",
     link: "/events",
-    icon: <FlightTakeoffRoundedIcon fontSize="medium" />,
+    icon: <TbPlaneInflight fontSize={16} />,
   },
 ];
 const USER_PROFILE_MENU = [
@@ -107,25 +109,25 @@ const USER_PROFILE_MENU = [
     key: "profile",
     link: "/profile",
     // link: "/:username/profile",
-    icon: <AccountCircleRoundedIcon fontSize="medium" />,
+    icon: <MdOutlineAccountCircle fontSize={16} />,
   },
   {
     label: "Đơn hàng đã mua",
     key: "order",
     link: "/purchase-order",
-    icon: <LocalActivityRoundedIcon fontSize="medium" />,
+    icon: <MdAttachMoney fontSize={16} />,
   },
   {
     label: "Sự kiện yêu thích",
     key: "wishlist",
     link: "/wishlist",
-    icon: <BookmarkRoundedIcon fontSize="medium" />,
+    icon: <BsBookmarkHeart fontSize={16} />,
   },
   {
     label: "Đăng xuất",
     key: "logout",
     link: null,
-    icon: <LoginRoundedIcon fontSize="medium" />,
+    icon: <MdExitToApp fontSize={16} />,
   },
 ];
 const CAROUSEL_SETTINGS = [
@@ -153,7 +155,26 @@ const CAROUSEL_SETTINGS = [
     },
   },
 ];
-
+const MENU_ORG = [
+  {
+    label: "Liên hệ",
+    key: "contact",
+    link: "/contact",
+    icon: <BiPhoneCall fontSize={16} />,
+  },
+  {
+    label: "Câu hỏi thường gặp",
+    key: "faq",
+    link: "/faq",
+    icon: <AiOutlineQuestionCircle fontSize={16} />,
+  },
+  {
+    label: "Về chúng tôi",
+    key: "about",
+    link: "/about",
+    icon: <GrContactInfo fontSize={16} />,
+  },
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -162,6 +183,7 @@ const AppConfig = {
   REACT_SLICK,
   LOGIN_BACKGROUND,
   MENU,
+  MENU_ORG,
   CAROUSEL_SETTINGS,
   USER_PROFILE_MENU,
 };

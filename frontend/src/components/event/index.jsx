@@ -38,9 +38,9 @@ function Event(props) {
         <strong className="text-xl">{event.price}</strong>
       </div>
       <div className="flex items-center">
-        {event.address ? (
+        {event.province ? (
           <Tag onClick={(event) => event.stopPropagation()}>
-            {event.address}
+            {event.province}
           </Tag>
         ) : null}
 
@@ -58,8 +58,8 @@ function Event(props) {
       <Calendar
         className="absolute right-2 bottom-5"
         calendar={
-          moment(event?.startingTime, "DD/MM/YYYY", true).isValid()
-            ? event?.startingTime
+          moment(event?.startingDate, "DD/MM/YYYY", true).isValid()
+            ? event?.startingDate
             : "31/12/2022"
         }
       />

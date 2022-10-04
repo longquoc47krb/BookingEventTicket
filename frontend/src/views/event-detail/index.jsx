@@ -17,7 +17,7 @@ import Loading from "../../components/loading";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import { paragraph } from "../../utils/constants";
-const { titleCase } = AppUtils;
+const { titleCase, displayDate, displayTime } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
@@ -26,11 +26,11 @@ function EventDetail() {
   // handle date
   let event = eventTemp?.data;
   console.log({ event });
-  const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
   moment.locale("vi");
-  const eventStartingTime = moment(event?.startingTime, dateFormat).format(
-    "LLLL"
-  );
+  const eventStartingDate = displayDate(event?.startingDate);
+  const eventEndingDate = displayDate(event?.endingDate);
+  const eventStartingTime = displayTime(event?.startingTime);
+  const eventEndingTime = displayTime(event?.endingTime);
   // scroll to section
   const introduce = useRef(null);
   const info = useRef(null);
@@ -95,20 +95,25 @@ function EventDetail() {
             <div className="event-detail-info">
               <Calendar
                 className="event-detail-calendar"
-                calendar={event?.startingTime}
+                calendar={event?.startingDate}
               />
               <h1 className="event-detail-title">{event?.name}</h1>
               <h1 className="event-detail-date">
                 <GoClock className="text-gray-500" />
-                {titleCase(eventStartingTime)}
+                {eventEndingDate && eventEndingDate !== eventStartingDate
+                  ? `${titleCase(eventStartingDate)} - ${titleCase(
+                      eventEndingDate
+                    )}`
+                  : titleCase(eventStartingDate)}{" "}
+                ({eventStartingTime}-{eventEndingTime})
               </h1>
               <div>
                 <h1 className="event-detail-address">
                   <GoLocation className="text-gray-500" />
-                  {event?.address}
+                  {event?.venue}
                 </h1>
                 <p className="event-detail-address-note">
-                  {event?.address_detail}
+                  {event?.venue_address}
                 </p>
               </div>
             </div>
@@ -162,7 +167,6 @@ function EventDetail() {
                   Giới thiệu
                 </div>
                 <ReadMore>{event?.description}</ReadMore>
-                {/* <TextEditor /> */}
               </div>
               <div className="event-detail-content">
                 <div ref={info} className="info">
@@ -191,18 +195,18 @@ function EventDetail() {
                   <div ref={introduce} className="introduce">
                     {event?.name}
                   </div>
-                  <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
+                  <div className="px-[1rem] mt-2">
                     <h1 className="flex text-base items-center font-semibold gap-x-2">
                       <GoClock className="text-gray-500" />
-                      {titleCase(eventStartingTime)}
+                      {`${eventStartingTime} - ${eventEndingTime}`}
                     </h1>
                     <div>
                       <h1 className="flex text-base items-center font-semibold gap-x-2">
                         <GoLocation className="text-gray-500" />
-                        {event?.address}
+                        {event?.venue}
                       </h1>
                       <p className="event-detail-address-note">
-                        {event?.address_detail}
+                        {event?.venue_address}
                       </p>
                     </div>
                   </div>

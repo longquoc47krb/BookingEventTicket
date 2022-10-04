@@ -13,6 +13,9 @@
     padding: 2rem;
     padding-left: 3rem;
     padding-right: 3rem;
+    @include for-phone {
+      flex-direction: column !important;
+    }
   }
   &-tab {
     font-size: 16px;
@@ -29,6 +32,11 @@
     grid-template-columns: 100px 3fr;
     grid-template-rows: repeat(3, auto);
     grid-template-areas: "calendar title" "calendar date" "calendar address";
+    @include for-phone {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
   }
   &-title {
     font-size: 1.8rem;
@@ -42,13 +50,27 @@
     font-size: 1.2rem;
     font-weight: 700;
   }
+
+  &-address-note {
+    padding-left: 1rem;
+    font-size: 1rem;
+  }
   &-calendar {
-    align-self: center;
+    align-self: flex-start;
+    margin-top: 1.5rem;
     scale: 1.5;
     grid-area: calendar;
+    @include for-phone {
+      display: none !important;
+    }
   }
   &-button {
     width: auto;
+    @include for-phone {
+      display: flex;
+      align-items: center;
+      gap: 0 1rem;
+    }
     .buy-now,
     .interests {
       display: block;
@@ -62,6 +84,9 @@
       background: $primary-color;
       color: white;
       margin-bottom: 0.5rem;
+      @include for-phone {
+        margin-bottom: 0 !important;
+      }
     }
     .interests {
       background: white;
@@ -80,6 +105,11 @@
     display: flex;
     &-left {
       width: auto;
+    }
+    &-right {
+      @include for-phone {
+        display: none;
+      }
     }
   }
   &-content,
