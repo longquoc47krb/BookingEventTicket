@@ -29,11 +29,13 @@ import Loading from "../../components/loading";
 // import { TextEditor } from "../../components/common/editor";
 const { titleCase } = AppUtils;
 function EventDetail() {
+  const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
-  const eventName = useSelector(eventNameSelector);
-  const { data: event, status, isFetching } = useEventDetails(eventName);
+  const { data: eventTemp, status, isFetching } = useEventDetails(eventId);
   const dispatch = useDispatch();
   // handle date
+  let event = eventTemp?.data;
+  console.log({ event });
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
   moment.locale("vi");
   const eventStartingTime = moment(event?.startingTime, dateFormat).format(
@@ -51,10 +53,12 @@ function EventDetail() {
     }
   }, [isFav]);
   const scrollToSection = (elementRef) => {
-    window.scrollTo({
-      top: elementRef.current.offsetTop - 25,
-      behavior: "smooth",
-    });
+    if (status !== "loading") {
+      window.scrollTo({
+        top: elementRef.current.offsetTop - 25,
+        behavior: "smooth",
+      });
+    }
   };
   useEffect(() => {
     const handleYPosition = (e) => {
@@ -64,166 +68,166 @@ function EventDetail() {
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
   useEffect(() => {
-    const sectionPosition = {
-      introduce: introduce.current.offsetTop,
-      info: info.current.offsetTop,
-      organization: organization.current.offsetTop,
-    };
-    if (
-      yPosition >= sectionPosition.introduce - 30 &&
-      yPosition < sectionPosition.info - 30
-    ) {
-      setActiveSection("introduce");
-    } else if (
-      yPosition >= sectionPosition.info - 30 &&
-      yPosition < sectionPosition.organization - 30
-    ) {
-      setActiveSection("info");
-    } else if (yPosition >= sectionPosition.organization - 30) {
-      setActiveSection("organization");
-    } else {
-      setActiveSection(null);
+    if (status !== "loading") {
+      const sectionPosition = {
+        introduce: introduce.current.offsetTop,
+        info: info.current.offsetTop,
+        organization: organization.current.offsetTop,
+      };
+      if (
+        yPosition >= sectionPosition.introduce - 30 &&
+        yPosition < sectionPosition.info - 30
+      ) {
+        setActiveSection("introduce");
+      } else if (
+        yPosition >= sectionPosition.info - 30 &&
+        yPosition < sectionPosition.organization - 30
+      ) {
+        setActiveSection("info");
+      } else if (yPosition >= sectionPosition.organization - 30) {
+        setActiveSection("organization");
+      } else {
+        setActiveSection(null);
+      }
     }
-  }, [introduce, info, organization, yPosition, activeSection]);
+  }, [introduce, info, organization, yPosition, activeSection, status]);
   console.log({ event, status, isFetching });
-  return (
-    <>
-      {!eventName || status === "loading" || isFetching ? (
-        <Loading />
-      ) : (
-        <>
-          <HelmetHeader title={event?.name} />
-          <Header />
-          <div className="event-detail-container">
-            <img src={event?.background} alt="" />
-            <div className="event-detail-overview">
-              <div className="event-detail-info">
-                <Calendar
-                  className="event-detail-calendar"
-                  calendar={event?.startingTime}
-                />
-                <h1 className="event-detail-title">{event?.name}</h1>
-                <h1 className="event-detail-date">
-                  <GoClock className="text-gray-500" />
-                  {titleCase(eventStartingTime)}
+  if (status === "loading") {
+    return <Loading />;
+  } else {
+    return (
+      <>
+        <HelmetHeader title={event?.name} />
+        <Header />
+        <div className="event-detail-container">
+          <img src={event?.background} alt="" />
+          <div className="event-detail-overview">
+            <div className="event-detail-info">
+              <Calendar
+                className="event-detail-calendar"
+                calendar={event?.startingTime}
+              />
+              <h1 className="event-detail-title">{event?.name}</h1>
+              <h1 className="event-detail-date">
+                <GoClock className="text-gray-500" />
+                {titleCase(eventStartingTime)}
+              </h1>
+              <div>
+                <h1 className="event-detail-address">
+                  <GoLocation className="text-gray-500" />
+                  {event?.address}
                 </h1>
-                <div>
-                  <h1 className="event-detail-address">
-                    <GoLocation className="text-gray-500" />
-                    {event?.address}
-                  </h1>
-                  <p className="event-detail-address-note">
-                    {event?.address_detail}
-                  </p>
-                </div>
-              </div>
-              <div className="event-detail-button">
-                <button className="buy-now">Mua vé ngay</button>
-                <button
-                  className="interests"
-                  onClick={() => {
-                    setIsFav(!isFav);
-                  }}
-                >
-                  {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
-                  Quan tâm
-                </button>
+                <p className="event-detail-address-note">
+                  {event?.address_detail}
+                </p>
               </div>
             </div>
-            <div className="event-detail-tab">
-              <Affix>
-                <Nav variant="tabs" className="bg-white w-[100vw] px-[1.5rem]">
-                  <Nav.Item>
-                    <Nav.Link
-                      onClick={() => scrollToSection(introduce)}
-                      active={activeSection === "introduce" ? true : false}
-                    >
-                      Giới thiệu
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link
-                      onClick={() => scrollToSection(info)}
-                      active={activeSection === "info" ? true : false}
-                    >
-                      Thông tin vé
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link
-                      onClick={() => scrollToSection(organization)}
-                      active={activeSection === "organization" ? true : false}
-                    >
-                      Nhà tổ chức
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </Affix>
-            </div>
-            <div className="event-detail-wrapper">
-              <div className="event-detail-wrapper-left">
-                <div className="event-detail-content">
-                  <div ref={introduce} className="introduce">
-                    Giới thiệu
-                  </div>
-                  <ReadMore>{event?.description}</ReadMore>
-                  {/* <TextEditor /> */}
-                </div>
-                <div className="event-detail-content">
-                  <div ref={info} className="info">
-                    Thông tin vé
-                  </div>
-                  <ReadMore>{paragraph}</ReadMore>
-                </div>
-                <div className="event-detail-content">
-                  <div ref={organization} className="organization">
-                    Nhà tổ chức
-                  </div>
-                  <div className="event-detail-organization">
-                    <img src={event?.organization_logo} alt="logo" />
-                    <h1>{event?.organization}</h1>
-                    <p>{event?.organization_description}</p>
-                    <button className="event-detail-organization-contact">
-                      <AiOutlineMail />
-                      Liên hệ
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="event-detail-wrapper-right">
-                <Affix offsetTop={60}>
-                  <div className="event-detail-booking">
-                    <div ref={introduce} className="introduce">
-                      {event?.name}
-                    </div>
-                    <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
-                      <h1 className="flex text-base items-center font-semibold gap-x-2">
-                        <GoClock className="text-gray-500" />
-                        {titleCase(eventStartingTime)}
-                      </h1>
-                      <div>
-                        <h1 className="flex text-base items-center font-semibold gap-x-2">
-                          <GoLocation className="text-gray-500" />
-                          {event?.address}
-                        </h1>
-                        <p className="event-detail-address-note">
-                          {event?.address_detail}
-                        </p>
-                      </div>
-                    </div>
-                    <button className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl">
-                      Mua vé ngay
-                    </button>
-                  </div>
-                </Affix>
-              </div>
+            <div className="event-detail-button">
+              <button className="buy-now">Mua vé ngay</button>
+              <button
+                className="interests"
+                onClick={() => {
+                  setIsFav(!isFav);
+                }}
+              >
+                {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
+                Quan tâm
+              </button>
             </div>
           </div>
-          <Footer />
-        </>
-      )}
-    </>
-  );
+          <div className="event-detail-tab">
+            <Affix>
+              <Nav variant="tabs" className="bg-white w-[100vw] px-[1.5rem]">
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={() => scrollToSection(introduce)}
+                    active={activeSection === "introduce" ? true : false}
+                  >
+                    Giới thiệu
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={() => scrollToSection(info)}
+                    active={activeSection === "info" ? true : false}
+                  >
+                    Thông tin vé
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={() => scrollToSection(organization)}
+                    active={activeSection === "organization" ? true : false}
+                  >
+                    Nhà tổ chức
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Affix>
+          </div>
+          <div className="event-detail-wrapper">
+            <div className="event-detail-wrapper-left">
+              <div className="event-detail-content">
+                <div ref={introduce} className="introduce">
+                  Giới thiệu
+                </div>
+                <ReadMore>{event?.description}</ReadMore>
+                {/* <TextEditor /> */}
+              </div>
+              <div className="event-detail-content">
+                <div ref={info} className="info">
+                  Thông tin vé
+                </div>
+                <ReadMore>{paragraph}</ReadMore>
+              </div>
+              <div className="event-detail-content">
+                <div ref={organization} className="organization">
+                  Nhà tổ chức
+                </div>
+                <div className="event-detail-organization">
+                  <img src={event?.organization_logo} alt="logo" />
+                  <h1>{event?.organization}</h1>
+                  <p>{event?.organization_description}</p>
+                  <button className="event-detail-organization-contact">
+                    <AiOutlineMail />
+                    Liên hệ
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="event-detail-wrapper-right">
+              <Affix offsetTop={60}>
+                <div className="event-detail-booking">
+                  <div ref={introduce} className="introduce">
+                    {event?.name}
+                  </div>
+                  <div className="px-[1rem] mt-2 grid grid-rows-2 gap-y-4">
+                    <h1 className="flex text-base items-center font-semibold gap-x-2">
+                      <GoClock className="text-gray-500" />
+                      {titleCase(eventStartingTime)}
+                    </h1>
+                    <div>
+                      <h1 className="flex text-base items-center font-semibold gap-x-2">
+                        <GoLocation className="text-gray-500" />
+                        {event?.address}
+                      </h1>
+                      <p className="event-detail-address-note">
+                        {event?.address_detail}
+                      </p>
+                    </div>
+                  </div>
+                  <button className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl">
+                    Mua vé ngay
+                  </button>
+                </div>
+              </Affix>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 }
 
 export default EventDetail;

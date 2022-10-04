@@ -25,7 +25,7 @@ const accountPersistedReducer = persistReducer(
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
-    event: eventPersistedReducer,
+    event: eventReducer,
     search: searchReducer,
     wishlist: wishlistReducer,
   },

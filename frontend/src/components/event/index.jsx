@@ -3,10 +3,8 @@ import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../configs/AppConfig";
-import { setSelectedEventName } from "../../redux/slices/eventSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
@@ -15,21 +13,16 @@ const { checkURL } = AppUtils;
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
-  // const handleClickTag = (value) => {
-  //   console.log("value", value);
-  //   window.open(AppConfig.GOOGLE_SEARCH_BY_IMAGE(value));
-  // };
   let categoriesArr = event?.eventCategoryList;
-  // const [selectedId, setSelectedId] = useState(null);
-  // const selectedTag = categoriesArr[selectedId];
-  const dispatch = useDispatch();
+  const goToEventDetail = () => {
+    navigate(`/event/${event.id}`);
+  };
   return (
     <div
       className="event-item-container"
       onClick={(e) => {
         e.preventDefault();
-        dispatch(setSelectedEventName(event?.name));
-        navigate(`/event/${event.name}`);
+        goToEventDetail();
       }}
     >
       <Image
