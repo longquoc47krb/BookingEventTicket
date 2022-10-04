@@ -19,6 +19,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       cacheTime: 1000 * 60 * 60 * 12,
+      staleTime: 1000,
     },
   },
 });

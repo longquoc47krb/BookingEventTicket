@@ -16,11 +16,8 @@ function EventDashBoard() {
   // const results = useSelector(resultSelector);
   const { data: eventsPaginated, isFetching } =
     useFetchEventsForPagination(currentPage);
-
-  console.log({ eventsPaginated, isFetching });
   // Change page
   const onChange = (page) => {
-    console.log(page);
     setCurrentPage(page - 1);
   };
   return (
