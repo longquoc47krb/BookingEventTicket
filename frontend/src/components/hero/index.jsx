@@ -9,7 +9,7 @@ import { useFetchEvents } from "../../api/services/eventServices";
 import { Spinner } from "reactstrap";
 function HeroBanner({ heroSlogan, heroBackground }) {
   // const events = useSelector(eventsSelector);
-  const { data: events, isFetching } = useFetchEvents();
+  const { data: events } = useFetchEvents();
   return (
     <section
       role="img"

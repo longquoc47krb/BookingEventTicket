@@ -32,7 +32,7 @@ export const useFetchEvents = () => {
     ["events"],
     fetchAllEvents,
     {
-      retry: 10,
+      staleTime: 60000,
     }
   );
 };
@@ -45,17 +45,10 @@ export const useFetchEventsForPagination = (params) => {
     }
   );
 };
-export const useEventDetails = (eventName, options = {}) => {
-  return useQuery(
-    ["getEventDetail", eventName],
-    () => getEventByName(eventName),
-    {
-      ...options,
-      enabled: !!eventName,
-      cacheTime: 0,
-      staleTime: 0,
-    }
-  );
+export const useEventDetails = (id) => {
+  return useQuery(["getEventDetail", id], () => getEventById(id), {
+    staleTime: 60000,
+  });
 };
 
 const eventServices = {

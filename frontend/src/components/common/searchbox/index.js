@@ -59,7 +59,7 @@ const SearchBox = (props) => {
               <div
                 className="flex gap-x-2 SearchBox_Results_List_Item"
                 onClick={() => {
-                  navigate(`/event/${row.item.name}`);
+                  navigate(`/event/${row.item.id}`);
                 }}
               >
                 <img

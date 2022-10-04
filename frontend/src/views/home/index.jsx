@@ -9,8 +9,9 @@ import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
 
 function Home() {
-  const { data: events, isFetching, isLoading } = useFetchEvents();
-
+  const { data: events, isFetching, status } = useFetchEvents();
+  console.log({ events, status });
+  console.log("event data", events.data);
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
@@ -18,12 +19,12 @@ function Home() {
       <div className="home-container">
         <SiderBar className="sider" />
         <div className="home-content">
-          {isFetching ? (
+          {isFetching && status === "loading" ? (
             <div className="w-full h-[60%] mt-4 flex justify-center items-center">
               <Spinner className="w-[50px] h-[50px]" />
             </div>
           ) : (
-            <Carousel data={events?.data} />
+            <Carousel data={events.data} name="testing" />
           )}
 
           <div className="home-popular">
