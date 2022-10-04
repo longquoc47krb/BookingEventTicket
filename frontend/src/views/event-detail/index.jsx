@@ -5,28 +5,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
-import {
-  eventNameSelector,
-  selectEventByName,
-} from "../../redux/slices/eventSlice";
-import { paragraph } from "../../utils/constants";
-import { AppUtils } from "../../utils/AppUtils";
-import {
-  addToWishList,
-  removeFromWishList,
-  // removeFromWishList,
-} from "../../redux/slices/wishlistSlice";
-import { useEventDetails } from "../../api/services/eventServices";
 import Loading from "../../components/loading";
-
-// import { TextEditor } from "../../components/common/editor";
+import { addToWishList } from "../../redux/slices/wishlistSlice";
+import { AppUtils } from "../../utils/AppUtils";
+import { paragraph } from "../../utils/constants";
 const { titleCase } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
