@@ -11,7 +11,6 @@ import HelmetHeader from "../../components/helmet";
 function Home() {
   const { data: events, isFetching, status } = useFetchEvents();
   console.log({ events, status });
-  console.log("event data", events.data);
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
@@ -24,7 +23,7 @@ function Home() {
               <Spinner className="w-[50px] h-[50px]" />
             </div>
           ) : (
-            <Carousel data={events.data} name="testing" />
+            <Carousel data={events?.data} name="testing" />
           )}
 
           <div className="home-popular">

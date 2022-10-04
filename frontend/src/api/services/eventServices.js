@@ -27,14 +27,9 @@ const fetchEventsForPagination = async (params) => {
 // React Query
 
 export const useFetchEvents = () => {
-  return useQuery(
-    // định danh
-    ["events"],
-    fetchAllEvents,
-    {
-      staleTime: 60000,
-    }
-  );
+  return useQuery(["events"], fetchAllEvents, {
+    staleTime: 60000,
+  });
 };
 export const useFetchEventsForPagination = (params) => {
   return useQuery(
