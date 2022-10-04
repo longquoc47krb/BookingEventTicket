@@ -8,7 +8,7 @@ export const EventAPI = {
     method: "GET",
     params: {
       currentPage,
-      pageSize: 5,
+      pageSize: 6,
     },
   }),
   getEventByName: (name) => ({

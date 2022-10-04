@@ -11,20 +11,31 @@ import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TextEditor } from "./components/common/editor";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { useEffect } from "react";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      networkMode: "offlineFirst",
-    },
-    mutations: {
-      networkMode: "offlineFirst",
+      cacheTime: 1000 * 60 * 60 * 12,
+      staleTime: 1000,
     },
   },
 });
 
 function App() {
   // Create a client
+  useEffect(() => {
+    const localStoragePersister = createSyncStoragePersister({
+      storage: window.localStorage,
+    });
+
+    persistQueryClient({
+      queryClient,
+      persister: localStoragePersister,
+    });
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -32,7 +43,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<EventDashBoardPage />} />
-            <Route path="/event/:eventName" element={<EventDetailPage />} />
+            <Route path="/event/:eventId" element={<EventDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route
               path="/profile"
@@ -53,6 +64,7 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

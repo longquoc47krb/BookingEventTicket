@@ -45,6 +45,7 @@ const SearchBox = (props) => {
         value={filterValue}
         placeholder={placeholder}
         onChange={(e) => setFilterValue(e.target.value)}
+        allowClear
       />
       {filterValue && expand ? (
         <ul className="SearchBox_Results_List">
@@ -58,7 +59,7 @@ const SearchBox = (props) => {
               <div
                 className="flex gap-x-2 SearchBox_Results_List_Item"
                 onClick={() => {
-                  navigate(`/event/${row.item.name}`);
+                  navigate(`/event/${row.item.id}`);
                 }}
               >
                 <img

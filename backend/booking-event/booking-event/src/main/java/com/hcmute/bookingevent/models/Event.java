@@ -26,12 +26,12 @@ public class Event {
     private String address;
     private String startingTime;
     private String endingTime;
+    private String startingDate;
+    private String endingDate;
     private String host;
-    //private String id_category;
     private String description;
     private String background;
     private String status;
-
     private int totalTicket;
     private int remainingTicket;
     @DBRef

@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import httpRequest from "../../services/httpRequest";
 import { EventAPI } from "../configs/event";
 
@@ -18,7 +18,7 @@ const createEvent = async (body) => {
   const response = await httpRequest(EventAPI.createEvent(body));
   return response;
 };
-const getAllEventsWithPagination = async (params) => {
+const fetchEventsForPagination = async (params) => {
   const response = await httpRequest(
     EventAPI.getAllEventsWithPagination(params)
   );
@@ -26,24 +26,29 @@ const getAllEventsWithPagination = async (params) => {
 };
 // React Query
 
-export const useStudents = (options, page) => {
-  const queryClient = useQueryClient();
-
+export const useFetchEvents = () => {
+  return useQuery(["events"], fetchAllEvents, {
+    staleTime: 60000,
+  });
+};
+export const useFetchEventsForPagination = (params) => {
   return useQuery(
-    ["eventsWithPagination", page],
-    () => getAllEventsWithPagination(page),
+    ["eventsPaginated", params],
+    () => fetchEventsForPagination(params),
     {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      ...options,
-      onSuccess: () => {
-        queryClient.invalidateQueries(["searchStudents"]);
-      },
+      staleTime: 60000,
     }
   );
 };
+export const useEventDetails = (id) => {
+  return useQuery(["getEventDetail", id], () => getEventById(id), {
+    staleTime: 60000,
+  });
+};
+
 const eventServices = {
   fetchAllEvents,
+  fetchEventsForPagination,
   getEventByName,
   getEventById,
   createEvent,
