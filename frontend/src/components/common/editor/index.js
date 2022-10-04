@@ -1,42 +1,30 @@
 import React, { useState } from "react";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, ContentState, convertFromHTML } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+//import './App.css';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import CKEditor from "@ckeditor/ckeditor5-react"
+import CKEditor from "@ckeditor/ckeditor5-react";
+import parse from "html-react-parser";
 
-export const TextEditor = ({
-  setlong_description,
-  long_description,
-  update,
-}) => {
-  const [editorState, setEditorState] = useState(
-    update
-      ? EditorState.createWithContent(
-          ContentState.createFromBlockArray(convertFromHTML(long_description))
-        )
-      : EditorState.createEmpty()
-  );
-
-  const handleChange = (editorState) => {
-    const contentState = stateToHTML(editorState.getCurrentContent());
-
-    setlong_description(contentState);
-  };
-
+function TextEditor() {
+  const [text, setText] = useState("");
   return (
-    <div className="My-Editor">
-      <Editor
-        onEditorStateChange={(editorState) => {
-          setEditorState(editorState);
-          handleChange(editorState);
-        }}
-        editorState={editorState}
-        wrapperClassName="wrapper-class"
-        editorClassName="editor-class"
-        toolbarClassName="toolbar-class"
-        // defaultEditorState={stateToHTML(editorState.getCurrentContent())}
-      />
-      {/* <textarea>{ description }</textarea> */}
+    <div className="App">
+      <div className="editer">
+        <CKEditor
+          editor={ClassicEditor}
+          data={text}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setText(data);
+          }}
+        />
+      </div>
+      <div className="">
+        {/*<h2>Content</h2>
+       <p>{parse(text)}</p>*/}
+      </div>
     </div>
   );
-};
+}
+
+export default TextEditor;

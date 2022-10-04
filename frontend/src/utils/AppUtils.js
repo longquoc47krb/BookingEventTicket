@@ -1,4 +1,8 @@
+import moment from "moment";
+
 /* eslint-disable no-unused-expressions */
+const dateFormat = "DD/MM/YYYY";
+const timeFormat = "HH:mm";
 export const AppUtils = {
   titleCase: (str) => {
     var splitStr = str.toLowerCase().split(" ");
@@ -61,5 +65,20 @@ export const AppUtils = {
   },
   checkURL: (url) => {
     return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  },
+  displayDate: (date) => {
+    return moment(date, dateFormat).format("dddd, DD MMMM, YYYY");
+  },
+  displayTime: (time) => {
+    return moment(time, timeFormat).format("LT");
+  },
+  nextDateFromNow: (date) => {
+    var thatDay = moment(date);
+    var today = moment().format(dateFormat);
+    if (thatDay.isSame(today)) {
+      return "Đang diễn ra";
+    } else {
+      return `Còn ${thatDay.diff(today, "days")} nữa!`;
+    }
   },
 };

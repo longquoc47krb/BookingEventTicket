@@ -51,6 +51,22 @@
     object-fit: cover;
     object-position: top 10px;
   }
+  &-home-item {
+    &-container {
+      width: 230px;
+      min-height: 260px;
+      padding: 0.5rem;
+      background-color: rgb(245, 245, 245);
+      border-radius: 1rem;
+      line-height: 1.5rem;
+    }
+    &-image {
+      width: 100%;
+      border-radius: 1rem;
+      height: auto;
+      object-fit: cover;
+    }
+  }
 }
 .event-title:hover,
 .event-category:hover {

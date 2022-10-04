@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { AppConfig } from "../../configs/AppConfig";
-import { AppUtils } from "../../utils/AppUtils";
-import Calendar from "../calendar";
-import PlaceholderCover from "../../assets/cover-fallback.jpg";
+import { AppConfig } from "../../../configs/AppConfig";
+import { AppUtils } from "../../../utils/AppUtils";
+import Calendar from "../../calendar";
+import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import moment from "moment";
 const { checkURL } = AppUtils;
-function Event(props) {
+function EventHomeItem(props) {
   const { event } = props;
   const navigate = useNavigate();
   let categoriesArr = event?.eventCategoryList;
@@ -19,7 +19,7 @@ function Event(props) {
   };
   return (
     <div
-      className="event-item-container"
+      className="event-home-item-container"
       onClick={(e) => {
         e.preventDefault();
         goToEventDetail();
@@ -29,51 +29,27 @@ function Event(props) {
         src={checkURL(event?.background) ? event?.background : PlaceholderCover}
         style={{ height: 130, width: 360 }}
         onClick={(event) => event.stopPropagation()}
-        className="event-item-image"
+        className="event-home-item-image"
       />
-      <h1 className="w-[calc(100%-80px)] font-bold event-title">
-        {event.name}
-      </h1>
+      <h1 className="w-full font-extrabold text-lg mb-0">{event.name}</h1>
+      <span className="font-medium text-sm">{event.startingDate}</span>
+      {event.eventCategoryList.map((item, index) => (
+        <h2 className="font-thin text-sm text-gray-400">{item.name}</h2>
+      ))}
       <div>
         <strong className="text-xl">{event.price}</strong>
       </div>
-      <div className="flex items-center">
-        {event.province ? (
-          <Tag onClick={(event) => event.stopPropagation()}>
-            {event.province}
-          </Tag>
-        ) : null}
-
-        <BiCategory />
-        {categoriesArr?.map((item, index) => (
-          <p
-            key={index}
-            className="event-category"
-            onClick={(event) => event.stopPropagation()}
-          >
-            {item?.name}
-          </p>
-        ))}
-      </div>
-      <Calendar
-        className="absolute right-2 bottom-5"
-        calendar={
-          moment(event?.startingDate, "DD/MM/YYYY", true).isValid()
-            ? event?.startingDate
-            : "31/12/2022"
-        }
-      />
     </div>
   );
 }
-Event.propTypes = {
+EventHomeItem.propTypes = {
   event: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.string,
   }),
 };
-Event.defaultProps = {
+EventHomeItem.defaultProps = {
   event: PropTypes.shape({
     image: AppConfig.DEFAULT_PROPS.EVENT.image,
     title: AppConfig.DEFAULT_PROPS.EVENT.title,
@@ -81,4 +57,4 @@ Event.defaultProps = {
     categories: AppConfig.DEFAULT_PROPS.EVENT.categories,
   }),
 };
-export default Event;
+export default EventHomeItem;

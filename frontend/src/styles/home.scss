@@ -1,6 +1,5 @@
 .home {
   &-container {
-    height: 100vh;
     display: flex;
     justify-content: space-between;
     .sider {
@@ -28,9 +27,21 @@
         font-size: 2.5rem !important;
       }
     }
+    &-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0 0.1rem;
+    }
   }
 }
 .typo {
   font-weight: 800;
   color: $primary-color;
+}
+.be-an-organization {
+  background-image: linear-gradient(
+    112.1deg,
+    rgba(32, 38, 57, 1) 11.4%,
+    rgba(63, 76, 119, 1) 70.2%
+  );
 }
