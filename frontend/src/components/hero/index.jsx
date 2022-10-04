@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
-import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { eventsSelector } from "../../redux/slices/eventSlice";
-import SearchBox from "../common/searchbox";
+import React, { useRef, useState } from "react";
 import { useFetchEvents } from "../../api/services/eventServices";
-import { Spinner } from "reactstrap";
 import { useHandleClickOutside } from "../../hooks/useHandleClickOutside";
+import SearchBox from "../common/searchbox";
 function HeroBanner({ heroSlogan, heroBackground }) {
   // const events = useSelector(eventsSelector);
   const { data: events } = useFetchEvents();

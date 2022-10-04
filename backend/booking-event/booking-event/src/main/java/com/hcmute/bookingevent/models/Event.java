@@ -23,7 +23,9 @@ public class Event {
     private String id;
     @TextIndexed
     private String name;
-    private String address;
+    private String province;
+    private String venue; // địa điểm tổ chức
+    private String venue_address; // địa chỉ của địa điểm tổ chức
     private String startingTime;
     private String endingTime;
     private String startingDate;
