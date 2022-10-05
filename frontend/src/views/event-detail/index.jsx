@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch } from "react-redux";
-import { Route, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
