@@ -20,7 +20,7 @@ function NotFoundPage() {
         {isFetching ? null : <SearchBox data={events?.data} />}
 
         <button onClick={() => navigate(previousPathName)}>
-          Trở về trang gần nhất
+          Trở về trang trước đó
         </button>
       </div>
       <Footer />

@@ -12,44 +12,57 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Footer from "../../components/common/footer";
 import { setPathName } from "../../redux/slices/locationSlice";
+import Loading from "../../components/loading";
+import { useNavigate } from "react-router-dom";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   dispatch(setPathName(window.location.pathname));
-  const { data: eventsPaginated, isFetching } =
-    useFetchEventsForPagination(currentPage);
+  const {
+    data: eventsPaginated,
+    status,
+    isFetching,
+  } = useFetchEventsForPagination(currentPage);
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
-  return (
-    <>
-      <HelmetHeader title="Sự kiện" content="Event Dashboard" />
-      <Header showSearchBox={false} />
-      <HeroBanner />
-      <div className="event-container">
-        {isFetching
-          ? [...Array(6)].map((i) => (
-              <Skeleton width={360} height={260} key={i} />
-            ))
-          : eventsPaginated &&
-            eventsPaginated.data?.map((event, index) => (
-              <Event event={event} key={event.id} />
-            ))}
-      </div>
-      <div className="w-full flex justify-center mb-10">
-        {isFetching ? null : (
-          <Pagination
-            current={currentPage + 1}
-            onChange={onChange}
-            total={eventsPaginated?.totalItems}
-            pageSize={6}
-          />
-        )}
-      </div>
-      <Footer />
-    </>
-  );
+  if (status === "loading") {
+    return <Loading />;
+  } else if (status === "error") {
+    navigate("/not-found");
+    return null;
+  } else {
+    return (
+      <>
+        <HelmetHeader title="Sự kiện" content="Event Dashboard" />
+        <Header showSearchBox={false} />
+        <HeroBanner />
+        <div className="event-container">
+          {isFetching
+            ? [...Array(6)].map((i) => (
+                <Skeleton width={360} height={260} key={i} />
+              ))
+            : eventsPaginated &&
+              eventsPaginated.data?.map((event, index) => (
+                <Event event={event} key={event.id} />
+              ))}
+        </div>
+        <div className="w-full flex justify-center mb-10">
+          {isFetching ? null : (
+            <Pagination
+              current={currentPage + 1}
+              onChange={onChange}
+              total={eventsPaginated?.totalItems}
+              pageSize={6}
+            />
+          )}
+        </div>
+        <Footer />
+      </>
+    );
+  }
 }
 EventDashBoard.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object),

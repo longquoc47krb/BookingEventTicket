@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Route, useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import Footer from "../../components/common/footer";
@@ -22,9 +22,16 @@ const { titleCase, displayDate, displayTime } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
-  const { data: eventTemp, status, isFetching } = useEventDetails(eventId);
+  const {
+    data: eventTemp,
+    status,
+    isFetching,
+    error,
+  } = useEventDetails(eventId);
+  console.log({ error });
   const dispatch = useDispatch();
-  dispatch(setPathName(window.location.pathname));
+  const navigate = useNavigate();
+
   // handle date
   let event = eventTemp?.data;
   console.log({ event });
@@ -60,7 +67,7 @@ function EventDetail() {
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
   useEffect(() => {
-    if (status !== "loading") {
+    if (status !== "loading" && status !== "error") {
       const sectionPosition = {
         introduce: introduce.current.offsetTop,
         info: info.current.offsetTop,
@@ -86,7 +93,11 @@ function EventDetail() {
   console.log({ event, status, isFetching });
   if (status === "loading") {
     return <Loading />;
+  } else if (status === "error") {
+    navigate("/not-found");
+    return null;
   } else {
+    dispatch(setPathName(window.location.pathname));
     return (
       <>
         <HelmetHeader title={event?.name} />

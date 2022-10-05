@@ -10,11 +10,12 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import ScrollToTopPage from "./components/scroll-to-top";
+import { Navigate } from "react-router-dom";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -59,11 +60,15 @@ function App() {
               //   }
             />
             <Route path="/admin-login" element={<AdminLoginPage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/page-not-found" element={<NotFoundPage />} />
+            <Route
+              path="/*"
+              element={<Navigate to="/page-not-found" replace />}
+            />
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
-      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+      <ReactQueryDevtools initialIsOpen={true} />
       <ScrollToTopPage top={800} />
     </QueryClientProvider>
   );
