@@ -33,7 +33,7 @@ const SearchBox = (props) => {
         threshold: 0.6,
         location: 0,
         distance: 100,
-        keys: ["name", "address", "startingTime", "eventCategoryList.name"],
+        keys: ["name", "venue", "startingDate", "eventCategoryList.name"],
       }),
     [data || events?.data]
   );
