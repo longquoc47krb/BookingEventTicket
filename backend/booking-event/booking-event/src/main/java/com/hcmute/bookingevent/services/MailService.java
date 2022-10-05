@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 @Service
@@ -30,12 +31,19 @@ public class MailService {
 
         message.setContent(htmlMsg, "text/html");
 
-        helper.setTo(Constants.FRIEND_EMAIL);
+        helper.setTo(nameRecipient);
 
         helper.setSubject("Test send HTML email");
 
+        try
+        {
+            this.emailSender.send(message);
+        }catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, e.toString(), ""));
+        }
 
-        this.emailSender.send(message);
 
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject(true, "Email sent", ""));
