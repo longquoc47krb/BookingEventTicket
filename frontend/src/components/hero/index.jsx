@@ -21,12 +21,7 @@ function HeroBanner({ heroSlogan, heroBackground }) {
       <img className="hero-image" src={heroBackground} alt="img" />
       <h1 className="hero-slogan">{heroSlogan}</h1>
 
-      <SearchBox
-        ref={ref}
-        expand={isOpen}
-        data={events?.data}
-        placeholder="Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,..."
-      />
+      <SearchBox ref={ref} expand={isOpen} data={events?.data} />
     </section>
   );
 }

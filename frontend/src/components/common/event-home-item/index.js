@@ -1,34 +1,37 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Image, Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
-import { BiCategory } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import { AppConfig } from "../../../configs/AppConfig";
 import { AppUtils } from "../../../utils/AppUtils";
-import Calendar from "../../calendar";
-import PlaceholderCover from "../../../assets/cover-fallback.jpg";
-import moment from "moment";
 const { checkURL } = AppUtils;
 function EventHomeItem(props) {
-  const { event } = props;
+  const { event, status } = props;
   const navigate = useNavigate();
-  let categoriesArr = event?.eventCategoryList;
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
   return (
     <div
-      className="event-home-item-container"
+      className="event-home-item-container cursor-test"
       onClick={(e) => {
         e.preventDefault();
         goToEventDetail();
       }}
     >
-      <Image
+      {/* <div class="ribbon">
+        <i>
+          <span>
+            <s></s>
+            {status}
+            <s></s>
+          </span>
+        </i>
+      </div> */}
+      <img
         src={checkURL(event?.background) ? event?.background : PlaceholderCover}
         style={{ height: 130, width: 360 }}
-        onClick={(event) => event.stopPropagation()}
         className="event-home-item-image"
       />
       <h1 className="w-full font-extrabold text-lg mb-0">{event.name}</h1>
@@ -48,6 +51,7 @@ EventHomeItem.propTypes = {
     title: PropTypes.string,
     price: PropTypes.string,
   }),
+  status: PropTypes.string,
 };
 EventHomeItem.defaultProps = {
   event: PropTypes.shape({
@@ -56,5 +60,6 @@ EventHomeItem.defaultProps = {
     price: AppConfig.DEFAULT_PROPS.EVENT.price,
     categories: AppConfig.DEFAULT_PROPS.EVENT.categories,
   }),
+  status: "HOT",
 };
 export default EventHomeItem;

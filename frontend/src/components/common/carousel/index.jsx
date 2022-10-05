@@ -15,13 +15,13 @@ function Carousel({ data }) {
   }));
 
   return (
-    <CarouselBootstrap fade={true}>
+    <CarouselBootstrap fade={true} autoPlay>
       {newData &&
         newData.map((item, index) => (
           <CarouselBootstrap.Item interval={2000} key={item.id}>
             <Link to={`/event/${item.id}`} target="_blank">
               <img
-                className="w-full h-auto p-3"
+                className="w-full h-auto px-0 py-3"
                 src={
                   checkURL(item.background) ? item.background : PlaceholderCover
                 }

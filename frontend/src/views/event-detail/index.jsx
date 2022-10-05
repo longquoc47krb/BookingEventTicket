@@ -14,6 +14,7 @@ import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
+import { setPathName } from "../../redux/slices/locationSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import { paragraph } from "../../utils/constants";
@@ -23,6 +24,7 @@ function EventDetail() {
   const [isFav, setIsFav] = useState(false);
   const { data: eventTemp, status, isFetching } = useEventDetails(eventId);
   const dispatch = useDispatch();
+  dispatch(setPathName(window.location.pathname));
   // handle date
   let event = eventTemp?.data;
   console.log({ event });

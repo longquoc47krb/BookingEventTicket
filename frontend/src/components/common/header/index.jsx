@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import {
@@ -20,9 +20,13 @@ import {
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 import { useUserAuth } from "../../../context/UserAuthContext";
+import SearchBox from "../searchbox";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
-  const { currentUser } = props;
+  const { currentUser, showSearchBox } = props;
+  const location = useLocation();
+  const { pathname } = location;
+  console.log("pathname:", pathname);
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
   const { logOut } = useUserAuth();
@@ -60,13 +64,15 @@ function Header(props) {
   );
   return (
     <div className="header-container">
-      <img
-        src="/logo.png"
-        alt="logo"
-        className="brand-logo"
-        onClick={() => navigate("/")}
-      />
-
+      <div className="w-[60%] flex gap-x-4 items-center">
+        <img
+          src="/logo.png"
+          alt="logo"
+          className="brand-logo"
+          onClick={() => navigate("/")}
+        />
+        {showSearchBox ? <SearchBox /> : null}
+      </div>
       <div className="header-auth">
         {!current ? (
           <>
@@ -104,8 +110,10 @@ function Header(props) {
 }
 Header.propTypes = {
   currentUser: PropTypes.object,
+  showSearchBox: PropTypes.bool,
 };
 Header.defaultProps = {
   currentUser: JSON.parse(localStorage.getItem("currentUser")) ?? null,
+  showSearchBox: true,
 };
 export default Header;

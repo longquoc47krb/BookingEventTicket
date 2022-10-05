@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -10,14 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { resultSelector, setResults } from "../../../redux/slices/searchSlice";
+import { useFetchEvents } from "../../../api/services/eventServices";
 const SearchBox = (props) => {
   const { value, data, placeholder, expand, ref } = props;
   const [filterValue, setFilterValue] = useState(value || "");
+  const { data: events } = useFetchEvents();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const fuse = useMemo(
+  let fuse;
+  fuse = useMemo(
     () =>
-      new Fuse(data, {
+      new Fuse(data || events?.data, {
         isCaseSensitive: false,
         findAllMatches: false,
         includeMatches: false,
@@ -30,7 +35,7 @@ const SearchBox = (props) => {
         distance: 100,
         keys: ["name", "address", "startingTime", "eventCategoryList.name"],
       }),
-    [data]
+    [data || events?.data]
   );
 
   const results = fuse?.search(filterValue);
@@ -50,7 +55,7 @@ const SearchBox = (props) => {
       {filterValue && expand ? (
         <ul className="SearchBox_Results_List">
           {results && (
-            <p className="p-2">
+            <p className="p-2 text-black">
               Kết quả tìm kiếm: <strong>{results?.length}</strong> kết quả
             </p>
           )}
@@ -78,7 +83,7 @@ const SearchBox = (props) => {
                     {row.item.name}
                   </span>
                   <span style={{ display: "block", textAlign: "left" }}>
-                    {row.item.address}
+                    {row.item.venue}
                   </span>
                 </div>
               </div>
@@ -106,8 +111,10 @@ const SearchBox = (props) => {
 };
 SearchBox.propTypes = {
   expand: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 SearchBox.defaultProps = {
   expand: true,
+  placeholder: "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,...",
 };
 export default SearchBox;

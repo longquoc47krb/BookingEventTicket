@@ -1,5 +1,6 @@
 .home {
   &-container {
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     .sider {
@@ -22,7 +23,10 @@
   &-popular {
     width: 100%;
     &-text {
-      font-size: 4rem;
+      font-size: 3rem;
+      font-weight: 800;
+      padding-left: 1rem;
+      border-left: 0.5rem solid $primary-color;
       @include for-phone {
         font-size: 2.5rem !important;
       }
@@ -30,7 +34,10 @@
     &-content {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0 0.1rem;
+      gap: 0;
+      @include for-phone {
+        grid-template-columns: auto !important;
+      }
     }
   }
 }

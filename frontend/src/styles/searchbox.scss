@@ -1,5 +1,5 @@
 .SearchBox {
-  z-index: 3;
+  z-index: 5;
   width: 50%;
   @include for-phone {
     width: 80% !important;
@@ -17,6 +17,7 @@
     &_Item {
       cursor: pointer;
       padding: 0.8rem;
+      color: black;
       &:hover {
         background-color: $primary-color;
         color: white;

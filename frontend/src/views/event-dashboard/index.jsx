@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Pagination } from "antd";
 import { useFetchEventsForPagination } from "../../api/services/eventServices";
 import Header from "../../components/common/header";
@@ -11,9 +11,11 @@ import HeroBanner from "../../components/hero";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Footer from "../../components/common/footer";
+import { setPathName } from "../../redux/slices/locationSlice";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
-  // const results = useSelector(resultSelector);
+  const dispatch = useDispatch();
+  dispatch(setPathName(window.location.pathname));
   const { data: eventsPaginated, isFetching } =
     useFetchEventsForPagination(currentPage);
   // Change page
@@ -23,7 +25,7 @@ function EventDashBoard() {
   return (
     <>
       <HelmetHeader title="Sự kiện" content="Event Dashboard" />
-      <Header />
+      <Header showSearchBox={false} />
       <HeroBanner />
       <div className="event-container">
         {isFetching
