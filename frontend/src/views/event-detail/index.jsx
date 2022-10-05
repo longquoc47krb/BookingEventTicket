@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
+import { convertFromHTML, convertToRaw } from "draft-js";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch } from "react-redux";
-import { Route, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
+import DraftEditor from "../../components/common/editor";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
@@ -18,9 +20,11 @@ import { setPathName } from "../../redux/slices/locationSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import { paragraph } from "../../utils/constants";
+import parse from "html-react-parser";
 const { titleCase, displayDate, displayTime } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
+  const [content, setContent] = useState("");
   const [isFav, setIsFav] = useState(false);
   const {
     data: eventTemp,
@@ -179,7 +183,14 @@ function EventDetail() {
                 <div ref={introduce} className="introduce">
                   Giới thiệu
                 </div>
-                <ReadMore>{event?.description}</ReadMore>
+                <div className="event-detail-long-content">
+                  {parse(event?.description)}
+                </div>
+
+                {/* <DraftEditor
+                  content={content.length > 0 ? content : ""}
+                  setContent={setContent}
+                /> */}
               </div>
               <div className="event-detail-content">
                 <div ref={info} className="info">
