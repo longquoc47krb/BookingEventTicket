@@ -11,8 +11,24 @@ import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
 
 function Home() {
+<<<<<<< .mine
+  // const { data: eventQuery } = useFetchEvents();
+  // console.log({ eventQuery });
+  const dispatch = useDispatch();
+  const events = useSelector(eventsSelector);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, []);
+=======
   const { data: events, isFetching, status } = useFetchEvents();
   console.log({ events, status });
+
+
+
+
+
+>>>>>>> .theirs
+  console.log({ events });
   return (
     <>
       <HelmetHeader title="Trang chủ" content="Home page" />
