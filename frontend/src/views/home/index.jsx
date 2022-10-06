@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Spinner } from "reactstrap";
 import { useFetchEvents } from "../../api/services/eventServices";
 import Carousel from "../../components/common/carousel";
@@ -10,13 +11,11 @@ import Header from "../../components/common/header";
 import SectionTitle from "../../components/common/section-title";
 import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
-import { setPathName } from "../../redux/slices/locationSlice";
 import Loading from "../../components/loading";
-import { useNavigate } from "react-router-dom";
+import { setPathName } from "../../redux/slices/locationSlice";
 import { orderByDate } from "../../utils/utils";
-import { Affix } from "antd";
 function Home() {
-  const { data: events, isFetching, status } = useFetchEvents();
+  const { data: events, isFetching, status } = useFetchEvents(1000);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [container, setContainer] = useState(null);

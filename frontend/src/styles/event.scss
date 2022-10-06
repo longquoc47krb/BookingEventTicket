@@ -2,19 +2,18 @@
 @import "./variables.scss";
 .event {
   &-container {
-    display: grid;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    grid-template-columns: auto auto auto;
-    grid-gap: 2rem;
-    padding: 1rem;
-    justify-content: center;
-    cursor: pointer;
-    @include for-phone {
-      grid-template-columns: auto !important;
-    }
-    @include for-tablet {
-      grid-template-columns: auto auto !important;
+    padding: 2rem;
+    &-grid {
+      display: grid;
+      justify-content: center;
+      grid-template-columns: auto auto auto;
+      grid-gap: 2rem;
+      @include for-phone {
+        grid-template-columns: auto !important;
+      }
+      @include for-tablet {
+        grid-template-columns: auto auto !important;
+      }
     }
   }
   &-title {

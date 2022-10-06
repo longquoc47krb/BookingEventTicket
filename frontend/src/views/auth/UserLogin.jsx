@@ -10,7 +10,6 @@ import "react-phone-number-input/style.css";
 import HelmetHeader from "../../components/helmet";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { Role } from "../../helpers/role";
-import { YupValidator } from "../../helpers/validate";
 import {
   createAccount,
   getAccountByEmailOrPhone,
@@ -18,6 +17,7 @@ import {
 import PhoneInput from "react-phone-number-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { includes } from "lodash";
+import { YupValidations } from "../../utils/validate";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const UserLogin = (props) => {
   const formikLogin = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
-      phone: YupValidator.phone,
+      phone: YupValidations.phone,
     }),
     validateOnChange: true,
     validateOnBlur: true,

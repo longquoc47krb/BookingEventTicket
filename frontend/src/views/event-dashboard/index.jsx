@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Pagination } from "antd";
+import { Divider, Pagination } from "antd";
 import { useFetchEventsForPagination } from "../../api/services/eventServices";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
@@ -14,6 +14,7 @@ import Footer from "../../components/common/footer";
 import { setPathName } from "../../redux/slices/locationSlice";
 import Loading from "../../components/loading";
 import { useNavigate } from "react-router-dom";
+import { orderByDate } from "../../utils/utils";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
@@ -40,14 +41,21 @@ function EventDashBoard() {
         <Header showSearchBox={false} />
         <HeroBanner />
         <div className="event-container">
-          {isFetching
-            ? [...Array(6)].map((i) => (
-                <Skeleton width={360} height={260} key={i} />
-              ))
-            : eventsPaginated &&
-              eventsPaginated.data?.map((event, index) => (
-                <Event event={event} key={event.id} />
-              ))}
+          <Divider style={{ color: "black", border: "gray" }}>
+            <h1 className="flex justify-center text-[#004c6d] font-bold text-5xl">
+              Danh sách Sự kiện{" "}
+            </h1>
+          </Divider>
+          <div className="event-container-grid">
+            {isFetching
+              ? [...Array(6)].map((i) => (
+                  <Skeleton width={360} height={260} key={i} />
+                ))
+              : eventsPaginated &&
+                orderByDate(eventsPaginated.data, "startingDate").map(
+                  (event, index) => <Event event={event} key={event.id} />
+                )}
+          </div>
         </div>
         <div className="w-full flex justify-center mb-10">
           {isFetching ? null : (

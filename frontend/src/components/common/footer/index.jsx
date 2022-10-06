@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import lincense from "../../../assets/license.png";
 function Footer() {
   const navigate = useNavigate();
   return (
@@ -13,6 +12,7 @@ function Footer() {
               src={process.env.PUBLIC_URL + "/logo.png"}
               class="mr-3 h-12"
               alt="Lotus Ticket Logo"
+              onClick={() => navigate("/")}
             />
             <span
               style={{ fontFamily: "Montserrat" }}

@@ -15,6 +15,7 @@
 @import "./loading.scss";
 @import "./login.scss";
 @import "./notfound.scss";
+@import "./organization.scss";
 @import "./readmore.scss";
 @import "./searchbox.scss";
 @import "./user-profile.scss";
@@ -34,4 +35,4 @@ body {
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 @import "~antd/dist/antd.min.css";
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
