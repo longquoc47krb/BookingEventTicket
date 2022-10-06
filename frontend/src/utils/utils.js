@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import cloneDeep from "lodash/cloneDeep";
 import forOwn from "lodash/forOwn";
 import isEqual from "lodash/isEqual";

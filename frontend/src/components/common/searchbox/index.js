@@ -22,7 +22,7 @@ const SearchBox = (props) => {
   let fuse;
   fuse = useMemo(
     () =>
-      new Fuse(data || events?.data, {
+      new Fuse(data || events.data, {
         isCaseSensitive: false,
         findAllMatches: false,
         includeMatches: false,
@@ -35,7 +35,7 @@ const SearchBox = (props) => {
         distance: 100,
         keys: ["name", "venue", "startingDate", "eventCategoryList.name"],
       }),
-    [data || events?.data]
+    [data || events.data]
   );
 
   const results = fuse?.search(filterValue);

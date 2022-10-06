@@ -66,10 +66,7 @@ function App() {
             />
             "
             <Route path="/page-not-found" element={<NotFoundPage />} />
-            <Route
-              path="/*"
-              element={<Navigate to="/page-not-found" replace />}
-            />
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>

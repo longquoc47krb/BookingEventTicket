@@ -13,7 +13,7 @@ function EventHomeItem(props) {
   };
   return (
     <div
-      className="event-home-item-container cursor-test float"
+      className="event-home-item-container cursor-test float cursor-pointer"
       onClick={(e) => {
         e.preventDefault();
         goToEventDetail();

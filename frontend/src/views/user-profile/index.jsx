@@ -11,8 +11,8 @@ import Header from "../../components/common/header";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
-import { YupValidator } from "../../helpers/validate";
 import theme from "../../shared/theme";
+import { YupValidations } from "../../utils/validate";
 function UserProfile(props) {
   const { user } = props;
   const [isEditting, setIsEditing] = useState(false);
@@ -27,8 +27,8 @@ function UserProfile(props) {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
-      fullName: YupValidator.fullName,
-      email: YupValidator.email,
+      fullName: YupValidations.name,
+      email: YupValidations.email,
     }),
     onSubmit: (values) => {},
   });
