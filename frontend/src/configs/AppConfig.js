@@ -175,6 +175,29 @@ const MENU_ORG = [
     icon: <GrContactInfo fontSize={16} />,
   },
 ];
+const SWAL_OPTIONS = [
+  {
+    title: "Thất bại!",
+    text: "Bạn chưa đăng nhập.",
+    icon: "error",
+    buttons: {
+      cancel: {
+        text: "No, cancel plx!",
+        value: null,
+        visible: true,
+        className: "",
+        closeModal: false,
+      },
+      confirm: {
+        text: "Yes, delete it!",
+        value: true,
+        visible: true,
+        className: "bg-danger",
+        closeModal: false,
+      },
+    },
+  },
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -186,5 +209,6 @@ const AppConfig = {
   MENU_ORG,
   CAROUSEL_SETTINGS,
   USER_PROFILE_MENU,
+  SWAL_OPTIONS,
 };
 export { AppConfig };
