@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
-import { convertFromHTML, convertToRaw } from "draft-js";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
@@ -10,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import DraftEditor from "../../components/common/editor";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import ReadMore from "../../components/common/read-more";
@@ -24,7 +22,6 @@ import parse from "html-react-parser";
 const { titleCase, displayDate, displayTime } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
-  const [content, setContent] = useState("");
   const [isFav, setIsFav] = useState(false);
   const {
     data: eventTemp,

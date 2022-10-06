@@ -11,7 +11,7 @@ import SectionTitle from "../../components/common/section-title";
 import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
 import { setPathName } from "../../redux/slices/locationSlice";
-import { sort } from "radash";
+import { alphabetical } from "radash";
 import Loading from "../../components/loading";
 import { useNavigate } from "react-router-dom";
 function Home() {
@@ -44,7 +44,7 @@ function Home() {
             <div className="home-popular">
               <SectionTitle>Sự kiện nổi bật</SectionTitle>
               <div className="home-popular-content">
-                {sort(events?.data, (event) => event.startingDate).map(
+                {alphabetical(events?.data, (event) => event.name).map(
                   (event, index) => (
                     <EventHomeItem event={event} />
                   )

@@ -19,7 +19,7 @@ function Event(props) {
   };
   return (
     <div
-      className="event-item-container"
+      className="event-item-container float"
       onClick={(e) => {
         e.preventDefault();
         goToEventDetail();

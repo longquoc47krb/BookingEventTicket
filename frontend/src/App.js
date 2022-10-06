@@ -16,6 +16,7 @@ import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import ScrollToTopPage from "./components/scroll-to-top";
 import { Navigate } from "react-router-dom";
+import OrganizeRegistration from "./views/be-an-organization";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -60,6 +61,11 @@ function App() {
               //   }
             />
             <Route path="/admin-login" element={<AdminLoginPage />} />
+            <Route
+              path="/be-an-organization"
+              element={<OrganizeRegistration />}
+            />
+            "
             <Route path="/page-not-found" element={<NotFoundPage />} />
             <Route
               path="/*"
