@@ -74,7 +74,7 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={true} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ScrollToTopPage top={800} />
     </QueryClientProvider>
   );

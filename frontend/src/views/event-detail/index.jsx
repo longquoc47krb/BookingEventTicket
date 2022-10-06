@@ -217,7 +217,9 @@ function EventDetail() {
                 <div ref={info} className="info">
                   Thông tin vé
                 </div>
-                <ReadMore>{paragraph}</ReadMore>
+                <ReadMoreLess className="event-detail-long-content">
+                  {paragraph}
+                </ReadMoreLess>
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">
