@@ -1,38 +1,36 @@
 import parse from "html-react-parser";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
-import $ from "jquery";
 function ReadMoreLess(props) {
   const { children, className } = props;
   const [expanded, setExpanded] = useState(false);
+  const readmoreRef = useRef(null);
   useEffect(() => {
-    $(".readmore-link").click(function (e) {
-      // record if our text is expanded
-      var expanded = $(e.target).hasClass("expand");
+    console.log({ expanded });
+  }, [expanded]);
+  const handleReadMoreLess = (event) => {
+    if (event.currentTarget.classList.contains("expand")) {
+      event.currentTarget.classList.remove("expand");
+      readmoreRef.current.classList.remove("expand");
+      setExpanded(false);
+    } else {
+      event.currentTarget.classList.add("expand");
+      readmoreRef.current.classList.add("expand");
       setExpanded(true);
-      //close all open paragraphs
-      $(".readmore.expand").removeClass("expand");
-      $(".readmore-link.expand").removeClass("expand");
-      // if target wasn't expand, then expand it
-      if (!expanded) {
-        $(e.target).parent(".readmore").addClass("expand");
-        $(e.target).addClass("expand");
-        setExpanded(false);
-      }
-    });
-  }, []);
+    }
+  };
   return (
-    <div className={`readmore ${className}`}>
+    <div className={`readmore ${className}`} ref={readmoreRef}>
       {parse(children)}
-      <div className="readmore-link">
+      <div className="readmore-link" onClick={handleReadMoreLess}>
         {expanded ? (
-          <BsChevronDoubleDown
+          <BsChevronDoubleUp
             fontSize={30}
-            className="flex justify-center w-full"
+            className="flex justify-center w-full "
             onClick={(e) => e.preventDefault()}
           />
         ) : (
-          <BsChevronDoubleUp
+          <BsChevronDoubleDown
             fontSize={30}
             className="flex justify-center w-full"
             onClick={(e) => e.preventDefault()}
