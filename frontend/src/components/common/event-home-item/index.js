@@ -4,8 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import { AppConfig } from "../../../configs/AppConfig";
-import { AppUtils } from "../../../utils/AppUtils";
-const { checkURL } = AppUtils;
+import { checkURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, status } = props;
   const navigate = useNavigate();

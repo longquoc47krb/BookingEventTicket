@@ -9,34 +9,23 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
+import { AlertError } from "../../components/common/alert";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
-import ReadMore from "../../components/common/read-more";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
+import ReadMoreLess from "../../components/read-more";
+import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/locationSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
-import { AppUtils } from "../../utils/AppUtils";
 import { paragraph } from "../../utils/constants";
-import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
-import parse from "html-react-parser";
-import { useUserAuth } from "../../context/UserAuthContext";
-import { AlertError } from "../../components/common/alert";
-import $ from "jquery";
-import ReadMoreLess from "../../components/read-more";
-const { titleCase, displayDate, displayTime } = AppUtils;
+import { displayDate, displayTime, titleCase } from "../../utils/utils";
 function EventDetail() {
   const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
-  const [expanded, setExpanded] = useState(false);
-  const {
-    data: eventTemp,
-    status,
-    isFetching,
-    error,
-  } = useEventDetails(eventId);
+  const { data: eventTemp, status } = useEventDetails(eventId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -51,7 +40,6 @@ function EventDetail() {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  const readMoreLessRef = useRef(null);
   useEffect(() => {
     if (isFav) {
       dispatch(addToWishList(event));

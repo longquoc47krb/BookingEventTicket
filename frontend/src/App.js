@@ -10,7 +10,6 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
@@ -74,7 +73,6 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ScrollToTopPage top={800} />
     </QueryClientProvider>
   );

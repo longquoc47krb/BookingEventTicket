@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React from "react";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import Paper from "@mui/material/Paper";
 import { GoOrganization } from "react-icons/go";
-import { AlertQuestion, AlertSuccess } from "../alert";
+import { AlertQuestion } from "../alert";
 
 const { MENU, MENU_ORG } = AppConfig;
 function SiderBar(props) {
