@@ -50,7 +50,7 @@ export function UserAuthContextProvider({ children }) {
       dispatch(
         createAccount({
           gmail: "",
-          name: "Tuấn Kùi",
+          name: "NONAME",
           phone: currentuser.phoneNumber,
         })
       );

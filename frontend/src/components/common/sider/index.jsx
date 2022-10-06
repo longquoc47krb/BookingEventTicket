@@ -7,25 +7,22 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import Paper from "@mui/material/Paper";
-import { BsFillBriefcaseFill } from "react-icons/bs";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+import { GoOrganization } from "react-icons/go";
+import { AlertQuestion, AlertSuccess } from "../alert";
+
 const { MENU, MENU_ORG } = AppConfig;
 function SiderBar(props) {
   const { className } = props;
   const navigate = useNavigate();
   const handleOpenSwal = () => {
-    Swal.fire({
-      title: "Bạn muốn trở thành Nhà Tổ Chức?",
+    AlertQuestion({
+      title: "Trở thành nhà tổ chức",
       text: "Nhấn OK để chuyển đến trang Đăng ký",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#004C6D",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "OK",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/be-an-organization");
-      }
+      callback: (result) => {
+        if (result.isConfirmed) {
+          navigate("/be-an-organization");
+        }
+      },
     });
   };
   return (
@@ -53,7 +50,7 @@ function SiderBar(props) {
           className="be-an-organization p-2 text-[#FFD933] text-base font-semibold rounded gap-x-2 flex items-center justify-center mb-3 ml-3"
           onClick={handleOpenSwal}
         >
-          <BsFillBriefcaseFill color="#FFD933" />
+          <GoOrganization color="#FFD933" />
           Trở thành nhà tổ chức
         </button>
       </Paper>

@@ -1,20 +1,23 @@
-@import "./event.scss";
-@import "./hero.scss";
 @import "./variables.scss";
-@import "./header.scss";
-@import "./calendar.scss";
 @import "./mixin.scss";
+
+/* alphabetical sort */
 @import "./animation.scss";
-@import "./login.scss";
-@import "./home.scss";
-@import "./footer.scss";
-@import "./notfound.scss";
-@import "./event-detail.scss";
-@import "./loading.scss";
-@import "./user-profile.scss";
-@import "./editor.scss";
-@import "./searchbox.scss";
+@import "./calendar.scss";
 @import "./carousel.scss";
+@import "./editor.scss";
+@import "./event.scss";
+@import "./event-detail.scss";
+@import "./footer.scss";
+@import "./header.scss";
+@import "./hero.scss";
+@import "./home.scss";
+@import "./loading.scss";
+@import "./login.scss";
+@import "./notfound.scss";
+@import "./readmore.scss";
+@import "./searchbox.scss";
+@import "./user-profile.scss";
 * {
   font-family: "Montserrat", sans-serif !important;
 }
@@ -24,11 +27,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
-.cursor-test {
-  cursor: url("../assets/pointer.png"), auto !important;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
