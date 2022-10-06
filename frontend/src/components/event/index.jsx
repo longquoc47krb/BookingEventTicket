@@ -5,11 +5,10 @@ import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../configs/AppConfig";
-import { AppUtils } from "../../utils/AppUtils";
 import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
-const { checkURL } = AppUtils;
+import { checkURL } from "../../utils/utils";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();

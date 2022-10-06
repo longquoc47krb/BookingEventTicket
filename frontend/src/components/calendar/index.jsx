@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import "moment/locale/vi";
-import { AppUtils } from "../../utils/AppUtils";
+import { titleCase } from "../../utils/utils";
 function Calendar(props) {
   const { className, calendar } = props;
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
@@ -16,12 +16,12 @@ function Calendar(props) {
     <div className={`calendar-container ${className}`}>
       <div className="calendar-upper">
         <h1 className="text-[0.8rem] text-white calendar-month">
-          {AppUtils.titleCase(calendarObj.month)}
+          {titleCase(calendarObj.month)}
         </h1>
       </div>
       <h1 className="font-bold calendar-day">{calendarObj.day}</h1>
       <h1 className="text-[0.7rem] font-bold calendar-dayOfWeek">
-        {AppUtils.titleCase(calendarObj.dayOfWeek)}
+        {titleCase(calendarObj.dayOfWeek)}
       </h1>
     </div>
   );

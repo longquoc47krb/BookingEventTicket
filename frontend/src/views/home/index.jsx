@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Spinner } from "reactstrap";
 import { useFetchEvents } from "../../api/services/eventServices";
@@ -11,13 +11,15 @@ import SectionTitle from "../../components/common/section-title";
 import SiderBar from "../../components/common/sider";
 import HelmetHeader from "../../components/helmet";
 import { setPathName } from "../../redux/slices/locationSlice";
-import { alphabetical } from "radash";
 import Loading from "../../components/loading";
 import { useNavigate } from "react-router-dom";
+import { orderByDate } from "../../utils/utils";
+import { Affix } from "antd";
 function Home() {
   const { data: events, isFetching, status } = useFetchEvents();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [container, setContainer] = useState(null);
   dispatch(setPathName(window.location.pathname));
   if (status === "loading") {
     return <Loading />;
@@ -25,11 +27,12 @@ function Home() {
     navigate("/not-found");
     return null;
   } else {
+    console.log({ container });
     return (
       <>
         <HelmetHeader title="Trang chủ" content="Home page" />
         <Header />
-        <div className="home-container">
+        <div className="home-container" ref={setContainer}>
           <SiderBar className="sider" />
 
           <div className="home-content">
@@ -44,11 +47,9 @@ function Home() {
             <div className="home-popular">
               <SectionTitle>Sự kiện nổi bật</SectionTitle>
               <div className="home-popular-content">
-                {alphabetical(events?.data, (event) => event.name).map(
-                  (event, index) => (
-                    <EventHomeItem event={event} />
-                  )
-                )}
+                {orderByDate(events.data, "startingDate").map((event) => (
+                  <EventHomeItem event={event} />
+                ))}
               </div>
             </div>
           </div>
