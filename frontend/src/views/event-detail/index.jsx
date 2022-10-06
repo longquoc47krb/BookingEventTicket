@@ -18,24 +18,30 @@ import { setPathName } from "../../redux/slices/locationSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { AppUtils } from "../../utils/AppUtils";
 import { paragraph } from "../../utils/constants";
+import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 import parse from "html-react-parser";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { AlertError } from "../../components/common/alert";
+import $ from "jquery";
+import ReadMoreLess from "../../components/read-more";
 const { titleCase, displayDate, displayTime } = AppUtils;
 function EventDetail() {
   const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
+  const [yPosition, setYPosition] = useState(window.scrollY);
+  const [activeSection, setActiveSection] = useState(null);
+  const [expanded, setExpanded] = useState(false);
   const {
     data: eventTemp,
     status,
     isFetching,
     error,
   } = useEventDetails(eventId);
-  console.log({ error });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { user } = useUserAuth();
   // handle date
   let event = eventTemp?.data;
-  console.log({ event });
   moment.locale("vi");
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);
@@ -45,8 +51,7 @@ function EventDetail() {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  const [yPosition, setYPosition] = useState(window.scrollY);
-  const [activeSection, setActiveSection] = useState(null);
+  const readMoreLessRef = useRef(null);
   useEffect(() => {
     if (isFav) {
       dispatch(addToWishList(event));
@@ -67,6 +72,22 @@ function EventDetail() {
 
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
+  const handleCheckAuthenticated = () => {
+    console.log(user.length);
+    if (user.length === 0 || user.length === undefined) {
+      AlertError({
+        title: "Bạn chưa đăng nhập",
+        text: `Nhấn "OK" để đăng nhập ngay`,
+        callback: (result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        },
+      });
+    } else {
+      console.log("go to payment page ...");
+    }
+  };
   useEffect(() => {
     if (status !== "loading" && status !== "error") {
       const sectionPosition = {
@@ -91,7 +112,6 @@ function EventDetail() {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
-  console.log({ event, status, isFetching });
   if (status === "loading") {
     return <Loading />;
   } else if (status === "error") {
@@ -132,11 +152,16 @@ function EventDetail() {
               </div>
             </div>
             <div className="event-detail-button">
-              <button className="buy-now">Mua vé ngay</button>
+              <button onClick={handleCheckAuthenticated} className="buy-now">
+                Mua vé ngay
+              </button>
               <button
                 className="interests"
                 onClick={() => {
-                  setIsFav(!isFav);
+                  handleCheckAuthenticated();
+                  if (user && user.length > 0) {
+                    setIsFav(!isFav);
+                  }
                 }}
               >
                 {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -180,10 +205,9 @@ function EventDetail() {
                 <div ref={introduce} className="introduce">
                   Giới thiệu
                 </div>
-                <div className="event-detail-long-content">
-                  {parse(event?.description)}
-                </div>
-
+                <ReadMoreLess className="event-detail-long-content">
+                  {event?.description}
+                </ReadMoreLess>
                 {/* <DraftEditor
                   content={content.length > 0 ? content : ""}
                   setContent={setContent}
@@ -231,7 +255,10 @@ function EventDetail() {
                       </p>
                     </div>
                   </div>
-                  <button className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl">
+                  <button
+                    onClick={handleCheckAuthenticated}
+                    className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                  >
                     Mua vé ngay
                   </button>
                 </div>

@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import {
@@ -24,9 +24,6 @@ import SearchBox from "../searchbox";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
-  const location = useLocation();
-  const { pathname } = location;
-  console.log("pathname:", pathname);
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
   const { logOut } = useUserAuth();
