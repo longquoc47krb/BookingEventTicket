@@ -14,7 +14,10 @@ function Footer() {
               class="mr-3 h-12"
               alt="Lotus Ticket Logo"
             />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span
+              style={{ fontFamily: "Montserrat" }}
+              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >
               Lotus Ticket
             </span>
           </a>
