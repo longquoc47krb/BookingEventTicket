@@ -4,8 +4,8 @@ const initialState = {
   previousPathname: "",
 };
 
-const locationSlice = createSlice({
-  name: "location",
+const routeSlice = createSlice({
+  name: "route",
   initialState,
   reducers: {
     setPathName: (state, action) => {
@@ -14,6 +14,6 @@ const locationSlice = createSlice({
   },
 });
 
-export const { setPathName } = locationSlice.actions;
-export const pathNameSelector = (state) => state.location.previousPathname;
-export default locationSlice.reducer;
+export const { setPathName } = routeSlice.actions;
+export const pathNameSelector = (state) => state.route.previousPathname;
+export default routeSlice.reducer;

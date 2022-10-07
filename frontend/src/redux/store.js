@@ -3,7 +3,7 @@ import accountReducer from "./slices/accountSlice";
 import eventReducer from "./slices/eventSlice";
 import searchReducer from "./slices/searchSlice";
 import wishlistReducer from "./slices/wishlistSlice";
-import locationReducer from "./slices/locationSlice";
+import routeReducer from "./slices/routeSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -13,8 +13,8 @@ const accountPersistConfig = {
   version: 1,
   storage,
 };
-const locationPersistConfig = {
-  key: "location",
+const routePersistConfig = {
+  key: "route",
   version: 1,
   storage,
 };
@@ -22,15 +22,12 @@ const accountPersistedReducer = persistReducer(
   accountPersistConfig,
   accountReducer
 );
-const locationPersistedReducer = persistReducer(
-  locationPersistConfig,
-  locationReducer
-);
+const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
     event: eventReducer,
-    location: locationPersistedReducer,
+    route: routePersistedReducer,
     search: searchReducer,
     wishlist: wishlistReducer,
   },

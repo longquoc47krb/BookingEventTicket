@@ -11,7 +11,7 @@ import HeroBanner from "../../components/hero";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Footer from "../../components/common/footer";
-import { setPathName } from "../../redux/slices/locationSlice";
+import { setPathName } from "../../redux/slices/routeSlice";
 import Loading from "../../components/loading";
 import { useNavigate } from "react-router-dom";
 import { orderByDate } from "../../utils/utils";

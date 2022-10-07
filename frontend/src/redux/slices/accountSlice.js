@@ -39,35 +39,6 @@ export const accountSlice = createSlice({
       state.userInfo = null;
     },
   },
-  extraReducers: {
-    [getAllAccounts.pending]: (state, action) => {
-      state.accountList = null;
-    },
-    [getAllAccounts.rejected]: (state, action) => {
-      state.accountList = null;
-    },
-    [getAllAccounts.fulfilled]: (state, action) => {
-      state.accountList = action.payload.data;
-    },
-    [createAccount.pending]: (state, action) => {
-      state.userInfo = null;
-    },
-    [createAccount.rejected]: (state, action) => {
-      state.userInfo = null;
-    },
-    [createAccount.fulfilled]: (state, action) => {
-      state.userInfo = action.payload.data;
-    },
-    [getAccountByEmailOrPhone.pending]: (state, action) => {
-      state.queriedUser = null;
-    },
-    [getAccountByEmailOrPhone.rejected]: (state, action) => {
-      state.queriedUser = null;
-    },
-    [getAccountByEmailOrPhone.fulfilled]: (state, action) => {
-      state.queriedUser = action.payload.data[0];
-    },
-  },
 });
 
 export const { setAccountProfile, logOutAccount } = accountSlice.actions;

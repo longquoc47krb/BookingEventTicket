@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Input } from "antd";
 import Fuse from "fuse.js";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { resultSelector, setResults } from "../../../redux/slices/searchSlice";
 import { useFetchEvents } from "../../../api/services/eventServices";
+import { debounce } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { value, data, placeholder, expand, ref } = props;
   const [filterValue, setFilterValue] = useState(value || "");
@@ -42,6 +43,10 @@ const SearchBox = (props) => {
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
+  const handleSearch = (value) => {
+    setFilterValue(value);
+  };
+  const debounceChange = useCallback(debounce(handleSearch, 1000), []);
   return (
     <div className="SearchBox" ref={ref}>
       <Input
@@ -49,7 +54,7 @@ const SearchBox = (props) => {
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
         value={filterValue}
         placeholder={placeholder}
-        onChange={(e) => setFilterValue(e.target.value)}
+        onChange={(e) => debounceChange(e.target.value)}
         allowClear
       />
       {filterValue && expand ? (
