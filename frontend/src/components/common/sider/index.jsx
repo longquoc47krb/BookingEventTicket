@@ -15,10 +15,7 @@ function SiderBar(props) {
   const navigate = useNavigate();
   return (
     <div className={className}>
-      <Paper
-        sx={{ width: 250, height: "auto", padding: "0.2rem" }}
-        className="relative"
-      >
+      <div style={{ width: 250, height: "auto", padding: "0.2rem" }}>
         <MenuList>
           {MENU.map((item, index) => (
             <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
@@ -41,7 +38,7 @@ function SiderBar(props) {
           <GoOrganization color="#FFD933" />
           Trở thành nhà tổ chức
         </button>
-      </Paper>
+      </div>
     </div>
   );
 }

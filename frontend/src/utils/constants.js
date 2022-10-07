@@ -3,5 +3,11 @@ export const paragraph =
 const ORGANIZATION_MESSAGES = [
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 ];
-const constants = { ORGANIZATION_MESSAGES };
+const provinceMapping = new Map();
+provinceMapping.set("SG", "TP. Hồ Chí Minh");
+provinceMapping.set("HN", "Hà Nội");
+provinceMapping.set("HP", "Hải Phòng");
+provinceMapping.set("DN", "Đà Nẵng");
+provinceMapping.set("35", "Lâm Đồng");
+const constants = { ORGANIZATION_MESSAGES, provinceMapping };
 export default constants;

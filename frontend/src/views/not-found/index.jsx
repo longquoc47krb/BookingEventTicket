@@ -6,7 +6,7 @@ import NotFoundImage from "../../assets/404.svg";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SearchBox from "../../components/common/searchbox";
-import { pathNameSelector } from "../../redux/slices/locationSlice";
+import { pathNameSelector } from "../../redux/slices/routeSlice";
 function NotFoundPage() {
   const { data: events, isFetching } = useFetchEvents();
   const navigate = useNavigate();

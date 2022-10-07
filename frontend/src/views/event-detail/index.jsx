@@ -16,7 +16,7 @@ import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { setPathName } from "../../redux/slices/locationSlice";
+import { setPathName } from "../../redux/slices/routeSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
 import { displayDate, displayTime, titleCase } from "../../utils/utils";

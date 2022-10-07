@@ -1,13 +1,14 @@
 .home {
   &-container {
-    width: 100vw;
+    width: 100%;
+    height: auto;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 2rem;
     .sider {
       display: block;
       padding: 1rem;
       padding-left: 0;
-      height: auto;
       @include for-phone {
         display: none !important;
       }
@@ -20,8 +21,9 @@
     position: relative;
     width: 100%;
   }
-  &-popular {
-    width: 100%;
+  &-popular,
+  &-event-near-you {
+    width: 90%;
     &-text {
       font-size: 3rem;
       font-weight: 800;

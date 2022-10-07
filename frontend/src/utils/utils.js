@@ -391,3 +391,10 @@ export const toSlug = (str) => {
   // return
   return str;
 };
+export const debounce = (callback, delay = 200) => {
+  let timeId;
+  return (...args) => {
+    clearTimeout(timeId);
+    timeId = setTimeout(() => callback(...args), delay);
+  };
+};

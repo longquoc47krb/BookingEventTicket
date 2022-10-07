@@ -1,17 +1,19 @@
-import { AiOutlineHome, AiOutlineQuestionCircle } from "react-icons/ai";
-import { FaTheaterMasks } from "react-icons/fa";
+import {
+  AiOutlineHome,
+  AiOutlineQuestionCircle,
+  AiOutlinePicture,
+} from "react-icons/ai";
+import { FaTheaterMasks, FaInfo } from "react-icons/fa";
 import { IoWineOutline } from "react-icons/io5";
 import { BiBookBookmark, BiPhoneCall } from "react-icons/bi";
 import { HiOutlineMusicNote } from "react-icons/hi";
 import {
   MdSportsSoccer,
   MdOutlineAccountCircle,
-  MdAttachMoney,
   MdExitToApp,
 } from "react-icons/md";
-import { BsBookmarkHeart } from "react-icons/bs";
+import { BsBookmarkHeart, BsCashCoin, BsBriefcase } from "react-icons/bs";
 import { TbPlaneInflight } from "react-icons/tb";
-import { GrContactInfo } from "react-icons/gr";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -79,6 +81,12 @@ const MENU = [
     icon: <FaTheaterMasks fontSize={16} />,
   },
   {
+    label: "Triển lãm",
+    key: "exhibition",
+    link: "/events",
+    icon: <AiOutlinePicture fontSize={16} />,
+  },
+  {
     label: "Nightlife",
     key: "nightlife",
     link: "/events",
@@ -89,6 +97,12 @@ const MENU = [
     key: "courses",
     link: "/events",
     icon: <BiBookBookmark fontSize={16} />,
+  },
+  {
+    label: "Hội thảo",
+    key: "seminar",
+    link: "/events",
+    icon: <BsBriefcase fontSize={16} />,
   },
   {
     label: "Thể thao",
@@ -108,14 +122,13 @@ const USER_PROFILE_MENU = [
     label: "Thông tin cá nhân",
     key: "profile",
     link: "/profile",
-    // link: "/:username/profile",
     icon: <MdOutlineAccountCircle fontSize={16} />,
   },
   {
     label: "Đơn hàng đã mua",
     key: "order",
     link: "/purchase-order",
-    icon: <MdAttachMoney fontSize={16} />,
+    icon: <BsCashCoin fontSize={16} />,
   },
   {
     label: "Sự kiện yêu thích",
@@ -172,7 +185,7 @@ const MENU_ORG = [
     label: "Về chúng tôi",
     key: "about",
     link: "/about",
-    icon: <GrContactInfo fontSize={16} />,
+    icon: <FaInfo fontSize={16} />,
   },
 ];
 const SWAL_OPTIONS = [

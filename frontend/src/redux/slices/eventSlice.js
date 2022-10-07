@@ -16,6 +16,7 @@ const initialState = {
   loading: true,
   selectedEvent: {},
   selectedEventName: "",
+  location: "",
 };
 
 const eventSlice = createSlice({
@@ -27,6 +28,9 @@ const eventSlice = createSlice({
     },
     setSelectedEventName: (state, action) => {
       state.selectedEventName = action.payload;
+    },
+    setLocation: (state, action) => {
+      state.location = action.payload;
     },
   },
   extraReducers: {
@@ -54,13 +58,15 @@ const eventSlice = createSlice({
     },
   },
 });
-export const { setSelectedEvent, setSelectedEventName } = eventSlice.actions;
+export const { setSelectedEvent, setSelectedEventName, setLocation } =
+  eventSlice.actions;
 
 export const selectEventById = (id) => (state) => {
   return state.event.events.find((event) => event.id === parseInt(id));
 };
 export const eventNameSelector = (state) => state.event.selectedEventName;
 export const eventsSelector = (state) => state.event.events;
+export const locationSelector = (state) => state.event.location;
 export const selectedEventSelector = (state) => state.event.selectedEvent;
 
 export default eventSlice.reducer;
