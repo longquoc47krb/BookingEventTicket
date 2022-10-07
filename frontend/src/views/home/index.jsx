@@ -59,7 +59,7 @@ function Home() {
             <div className="home-popular">
               <SectionTitle>Sự kiện nổi bật</SectionTitle>
               <div className="home-popular-content">
-                {orderByDate(events.data, "startingDate").map((event) => (
+                {events.data.map((event) => (
                   <EventHomeItem event={event} />
                 ))}
               </div>

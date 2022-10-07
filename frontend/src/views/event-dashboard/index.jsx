@@ -52,9 +52,9 @@ function EventDashBoard() {
                   <Skeleton width={360} height={260} key={i} />
                 ))
               : eventsPaginated &&
-                orderByDate(eventsPaginated.data, "startingDate").map(
-                  (event, index) => <Event event={event} key={event.id} />
-                )}
+                eventsPaginated.data.map((event, index) => (
+                  <Event event={event} key={event.id} />
+                ))}
           </div>
         </div>
         <div className="w-full flex justify-center mb-10">
