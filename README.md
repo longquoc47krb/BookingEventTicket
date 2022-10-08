@@ -1,4 +1,4 @@
-# Build a booking event website
+# Build a booking event web application
 ## Technologies used in the project
  - Frontend: [ReactJS](https://reactjs.org)
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
