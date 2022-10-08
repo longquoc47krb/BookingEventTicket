@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Divider, Pagination } from "antd";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { connect, useDispatch } from "react-redux";
-import { Divider, Pagination } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useFetchEventsForPagination } from "../../api/services/eventServices";
+import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import Footer from "../../components/common/footer";
-import { setPathName } from "../../redux/slices/routeSlice";
 import Loading from "../../components/loading";
-import { useNavigate } from "react-router-dom";
-import { orderByDate } from "../../utils/utils";
+import { setPathName } from "../../redux/slices/routeSlice";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();

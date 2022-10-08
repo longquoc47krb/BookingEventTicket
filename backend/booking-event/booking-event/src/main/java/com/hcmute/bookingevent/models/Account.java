@@ -25,11 +25,11 @@ public class Account {
     //@Indexed(unique = true)
     private String phone;
     //@Indexed(unique = true)
-    private String gmail;
+    private String email;
     private String avatar;
-    public Account(String name, String phone, String gmail) {
+    public Account(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;
-        this.gmail = gmail;
+        this.email = email;
     }
 }

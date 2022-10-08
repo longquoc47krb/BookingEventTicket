@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {
+import routes, {
   AdminLoginPage,
   EventDashBoardPage,
   EventDetailPage,
@@ -9,19 +9,22 @@ import {
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import NotFoundPage from "./views/not-found";
 import UserProfile from "./views/user-profile";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import ScrollToTopPage from "./components/scroll-to-top";
-import { Navigate } from "react-router-dom";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import OrganizeRegistration from "./views/be-an-organization";
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      cacheTime: 1000 * 60 * 60 * 12,
-      staleTime: 1000,
-    },
+    staleTime: 5000,
+    cacheTime: 1500,
   },
 });
 
@@ -42,14 +45,10 @@ function App() {
       <BrowserRouter>
         <UserAuthContextProvider>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/events" element={<EventDashBoardPage />} />
-            <Route path="/event/:eventId" element={<EventDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/profile"
-              element={<UserProfile />}
-              // <Route
+            {routes.map((route) => (
+              <Route path={route.path} element={route.element} />
+            ))}
+            {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
               //   element={
@@ -57,20 +56,12 @@ function App() {
               //       roles={[Role.User]}
               //       component={UserProfile}
               //     ></UserRoute>
-              //   }
-            />
-            <Route path="/admin-login" element={<AdminLoginPage />} />
-            <Route
-              path="/be-an-organization"
-              element={<OrganizeRegistration />}
-            />
-            "
-            <Route path="/page-not-found" element={<NotFoundPage />} />
-            <Route path="/*" element={<NotFoundPage />} />
+              //   } */}
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
       <ScrollToTopPage top={800} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

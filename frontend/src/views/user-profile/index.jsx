@@ -11,15 +11,20 @@ import Header from "../../components/common/header";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
+import {
+  UserAuthContextProvider,
+  useUserAuth,
+} from "../../context/UserAuthContext";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
 function UserProfile(props) {
-  const { user } = props;
+  // const { user } = props;
+  const { user } = useUserAuth();
   const [isEditting, setIsEditing] = useState(false);
   const initialValues = {
     id: user?.id ?? "",
     avatar: user?.avatar,
-    fullName: user?.fullName,
+    name: user?.name,
     email: user?.email,
     phone: user?.phone,
   };
@@ -27,7 +32,7 @@ function UserProfile(props) {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
-      fullName: YupValidations.name,
+      name: YupValidations.name,
       email: YupValidations.email,
     }),
     onSubmit: (values) => {},
@@ -36,7 +41,7 @@ function UserProfile(props) {
   return (
     <>
       <HelmetHeader
-        title={user.fullName ?? "Thong tin nguoi dung"}
+        title={user.name ?? "Thong tin nguoi dung"}
         content="User Profile"
       />
       <Header />
@@ -62,7 +67,7 @@ function UserProfile(props) {
           >
             <UploadImage avatar={user.avatar} />
             {/* <Avatar avatar={user.avatar} /> */}
-            <h1 className="font-bold text-2xl">{user.fullName}</h1>
+            <h1 className="font-bold text-2xl">{user.name}</h1>
             <h2 className="font-medium text-gray-500 text-[14px]">
               {user.email}
             </h2>
@@ -97,14 +102,14 @@ function UserProfile(props) {
                 <Row gutter={[48, 40]} className="leading-8">
                   <Col span={24}>
                     <Field
-                      name="fullName"
+                      name="name"
                       component={Input}
                       label="Họ và tên"
                       disabled={isEditting ? false : true}
                     />
                     <Field
                       component={Input}
-                      label="Email"
+                      label="email"
                       name="email"
                       disabled={isEditting ? false : true}
                     />
@@ -148,20 +153,25 @@ function UserProfile(props) {
     </>
   );
 }
-UserProfile.propTypes = {
-  user: PropTypes.shape({
-    avatar: PropTypes.string,
-    fullName: PropTypes.string,
-    email: PropTypes.string,
-    phone: PropTypes.string,
-  }),
-};
-const mapStateToProps = (state) => ({
-  user: {
-    avatar: state.account.userInfo.avatar ?? null,
-    fullName: state.account.userInfo.name ?? "Chưa đặt tên",
-    email: state.account.userInfo.gmail ?? null,
-    phone: state.account.userInfo.phone ?? null,
-  },
-});
-export default connect(mapStateToProps)(UserProfile);
+// UserProfile.propTypes = {
+//   user: PropTypes.shape({
+//     avatar: PropTypes.string,
+//     name: PropTypes.string,
+//     email: PropTypes.string,
+//     phone: PropTypes.string,
+//   }),
+// };
+export default UserProfile;
+// const mapStateToProps = (state) => ({
+//   user: {
+//     avatar: state.account.userInfo.avatar ?? "",
+//     name: state.account.userInfo.name ?? "Chưa đặt tên",
+//     email: state.account.userInfo.gmail ?? "",
+//     phone: state.account.userInfo.phone ?? "",
+//   },
+// });
+// export default connect(mapStateToProps)((props) => (
+//   <UserAuthContextProvider>
+//     {({ user }) => <UserProfile {...props} user={user} />}
+//   </UserAuthContextProvider>
+// ));

@@ -67,10 +67,10 @@ public class AccountService implements IAccountService {
 
 
     @Override
-    public ResponseEntity<?> findByPhoneOrNameOrGmail(String value) {
+    public ResponseEntity<?> findByPhoneOrNameOrEmail(String value) {
 
         //cái này phải bỏ vào tương ứng 3 tham số mà pk
-        List<Account> account = accountRepository.findByPhoneOrNameOrGmail(value,value,value);
+        List<Account> account = accountRepository.findByPhoneOrNameOrEmail(value,value,value);
         if (account.size()>0) {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save data successfully ", account));
@@ -81,23 +81,23 @@ public class AccountService implements IAccountService {
         }
     }
     @Override
-    public ResponseEntity<?> findAccountByGmail(String gmail) {
+    public ResponseEntity<?> findAccountByEmail(String email) {
 
-        Optional<Account> account = accountRepository.findByGmail(gmail);
+        Optional<Account> account = accountRepository.findByEmail(email);
         if (account.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save data successfully ", account));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Cannot find data with gmail:" + gmail, ""));
+                    new ResponseObject(false, "Cannot find data with gmail:" + email, ""));
         }
     }
 
     @Override
-    public ResponseEntity<?> loginAccountByGmail(Account account) {
+    public ResponseEntity<?> loginAccountByEmail(Account account) {
 
-        Optional <Account> newAccount =accountRepository.findByGmail(account.getGmail());
+        Optional <Account> newAccount =accountRepository.findByEmail(account.getEmail());
 
         System.out.println(account.getId());
 

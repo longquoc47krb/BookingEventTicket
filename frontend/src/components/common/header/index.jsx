@@ -30,7 +30,8 @@ function Header(props) {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = useSelector(userInfoSelector);
+  const { user } = useUserAuth();
+  console.log({ user });
   function onLogout() {
     dispatch(logOutAccount());
     logOut();
@@ -38,8 +39,8 @@ function Header(props) {
     localStorage.clear();
   }
   useEffect(() => {
-    setCurrent(userInfo);
-  }, [userInfo]);
+    setCurrent(user);
+  }, [user]);
   const menu = (
     <MenuList style={{ background: "white" }}>
       {USER_PROFILE_MENU.map((item, index) => (
