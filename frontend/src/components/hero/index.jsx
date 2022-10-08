@@ -30,7 +30,7 @@ HeroBanner.propTypes = {
   heroBackground: PropTypes.string.isRequired,
 };
 HeroBanner.defaultProps = {
-  heroSlogan: "Bạn chỉ việc nhập, tìm kiếm sự kiện cứ để tui ><",
+  heroSlogan: "Thế giới giải trí đặc sắc",
   heroBackground:
     "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
 };

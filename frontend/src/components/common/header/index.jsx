@@ -22,6 +22,9 @@ import {
 import { useUserAuth } from "../../../context/UserAuthContext";
 import SearchBox from "../searchbox";
 import Location from "../../location";
+import { setPathName } from "../../../redux/slices/routeSlice";
+import { useMedia } from "react-use";
+import { isNotEmpty } from "../../../utils/utils";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
@@ -31,7 +34,8 @@ function Header(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useUserAuth();
-  console.log({ user });
+  const isMobile = useMedia("(max-width: 767px)");
+  console.log("mobile:", isMobile);
   function onLogout() {
     dispatch(logOutAccount());
     logOut();
@@ -39,7 +43,9 @@ function Header(props) {
     localStorage.clear();
   }
   useEffect(() => {
-    setCurrent(user);
+    if (isNotEmpty(user)) {
+      setCurrent(user);
+    }
   }, [user]);
   const menu = (
     <MenuList style={{ background: "white" }}>
@@ -49,7 +55,12 @@ function Header(props) {
             key={index}
             className="mb-2"
             onClick={
-              item.key === "logout" ? onLogout : () => navigate(item?.link)
+              item.key === "logout"
+                ? onLogout
+                : () => {
+                    dispatch(setPathName(window.location.pathname));
+                    navigate(item?.link);
+                  }
             }
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
@@ -70,7 +81,7 @@ function Header(props) {
           className="brand-logo"
           onClick={() => navigate("/")}
         />
-        {showSearchBox ? (
+        {isMobile ? null : showSearchBox ? (
           <div className="flex items-center gap-x-2 w-full">
             <SearchBox /> <Location />
           </div>
@@ -83,6 +94,17 @@ function Header(props) {
               Đăng nhập
             </a>
           </>
+        ) : isMobile ? (
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Avatar
+              googleId={current.sub}
+              src={current.avatar ?? placeholderImg}
+              size="35"
+              round={true}
+              name={current.name}
+              className="header-avatar"
+            />
+          </Dropdown>
         ) : (
           <>
             <Badge

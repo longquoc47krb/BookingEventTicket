@@ -26,7 +26,6 @@ function Event(props) {
     >
       <Image
         src={checkURL(event?.background) ? event?.background : PlaceholderCover}
-        style={{ height: 130, width: 360 }}
         onClick={(event) => event.stopPropagation()}
         className="event-item-image"
       />

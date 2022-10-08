@@ -56,7 +56,7 @@ function EventDashBoard() {
                 ))}
           </div>
         </div>
-        <div className="w-full flex justify-center mb-10">
+        <div className="event-pagination">
           {isFetching ? null : (
             <Pagination
               current={currentPage + 1}

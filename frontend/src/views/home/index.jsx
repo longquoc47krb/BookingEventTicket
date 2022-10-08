@@ -23,7 +23,6 @@ function Home() {
   const { data: location, status: locationStatus } = useLocationName();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log({ events, location, status, locationStatus, isFetching });
   dispatch(setPathName(window.location.pathname));
   if (status === "loading" || locationStatus === "loading") {
     return <Loading />;
