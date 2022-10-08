@@ -1,12 +1,12 @@
-# Dự án xây dựng hệ thống đặt vé sự kiện
-## Các công nghệ được sử dụng trong dự án
+# Build a booking event website
+## Technologies used in the project
  - Frontend: [ReactJS](https://reactjs.org)
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
  - Database: [MongoDB](https://www.mongodb.com) 
-## Các chức năng chính của dự án
+## Main features
    Đang phát triển ...
-## Thông tin liên hệ
- - Thành viên:
+## Contacts
+ - Members:
    - **Nguyễn Quốc Long**
      - [Github](https://github.com/longquoc47krb)
      - [Facebook](https://www.facebook.com/long.quoc.0702)
