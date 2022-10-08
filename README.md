@@ -4,7 +4,7 @@
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
  - Database: [MongoDB](https://www.mongodb.com) 
 ## Main features
-   Đang phát triển ...
+   On developing ...
 ## Contacts
  - Members:
    - **Nguyễn Quốc Long**
