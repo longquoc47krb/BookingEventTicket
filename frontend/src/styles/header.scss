@@ -17,6 +17,16 @@
     z-index: 10;
     width: 100%;
   }
+  &-avatar {
+    object-fit: cover;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50rem;
+    @include for-phone {
+      width: 3rem !important;
+      height: 3rem !important;
+    }
+  }
   &-auth {
     display: flex;
     justify-content: center;

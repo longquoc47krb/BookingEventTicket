@@ -10,10 +10,25 @@
       grid-gap: 2rem;
       @include for-phone {
         grid-template-columns: auto !important;
+        grid-row-gap: 4.5rem !important;
       }
       @include for-tablet {
         grid-template-columns: auto auto !important;
       }
+    }
+    @include for-phone {
+      padding: 1rem !important;
+    }
+  }
+  &-pagination {
+    width: 100%;
+    display: flex;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+    @include for-phone {
+      margin-top: 5rem !important;
+      margin-bottom: 5rem !important;
     }
   }
   &-title {
@@ -35,6 +50,10 @@
       10.1px 7.4px 17.9px rgba(0, 0, 0, 0.053),
       18.8px 13.8px 33.4px rgba(0, 0, 0, 0.069),
       45px 33px 80px rgba(0, 0, 0, 0.13);
+    @include for-phone {
+      width: 100% !important;
+      height: 130% !important;
+    }
   }
   &-item-category {
     display: flex;
@@ -47,8 +66,14 @@
     margin-bottom: 0;
   }
   &-item-image {
+    height: 130px;
+    width: 360px;
     object-fit: cover;
     object-position: top 10px;
+    @include for-phone {
+      width: 100% !important;
+      height: auto !important;
+    }
   }
   &-home-item {
     &-container {
@@ -63,12 +88,18 @@
         skew(0deg, 0deg);
       z-index: 2;
       margin-bottom: 1rem;
+      @include for-phone {
+        width: 100% !important;
+        height: 40vh !important;
+      }
     }
     &-image {
       width: 100%;
       border-radius: 1rem;
       height: auto;
       object-fit: cover;
+      @include for-phone {
+      }
     }
   }
 }
