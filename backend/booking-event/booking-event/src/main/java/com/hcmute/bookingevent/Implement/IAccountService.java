@@ -10,10 +10,10 @@ public interface IAccountService {
     ResponseEntity<?> findAll(Pageable pageable);
     ResponseEntity<?> updateAccount(String id,Account account);
     ResponseEntity<?> findAccountByName(String name);
-    ResponseEntity<?> findAccountByGmail(String gmail);
-    ResponseEntity<?> findByPhoneOrNameOrGmail(String phoneNumber);
+    ResponseEntity<?> findAccountByEmail(String email);
+    ResponseEntity<?> findByPhoneOrNameOrEmail(String phoneNumber);
 
     ResponseEntity<?> updateAvatar(String id, MultipartFile file);
-    ResponseEntity<?> loginAccountByGmail(Account account);
+    ResponseEntity<?> loginAccountByEmail(Account account);
     ResponseEntity<?> loginAccountbyPhone(Account account);
 }

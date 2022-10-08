@@ -14,7 +14,7 @@ function Location() {
       <div className="flex items-center">
         <IoLocationSharp fontSize={30} />
         <span className="text-white font-semibold">
-          {location ? provinceMapping.get(location.region) : null}
+          {location ? `${provinceMapping.get(location.region)}` : null}
         </span>
       </div>
     );

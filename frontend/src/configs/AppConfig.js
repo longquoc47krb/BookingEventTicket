@@ -178,7 +178,7 @@ const MENU_ORG = [
   {
     label: "Câu hỏi thường gặp",
     key: "faq",
-    link: "/faq",
+    link: "/help-center",
     icon: <AiOutlineQuestionCircle fontSize={16} />,
   },
   {

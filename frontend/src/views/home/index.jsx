@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Affix } from "antd";
-import React, { useRef } from "react";
+import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -24,29 +23,22 @@ function Home() {
   const { data: location, status: locationStatus } = useLocationName();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const container = useRef();
+  console.log({ events, location, status, locationStatus, isFetching });
   dispatch(setPathName(window.location.pathname));
-  if (status === "loading" && locationStatus === "loading") {
+  if (status === "loading" || locationStatus === "loading") {
     return <Loading />;
-  } else if (status === "error" && locationStatus === "error") {
+  } else if (status === "error" || locationStatus === "error") {
     navigate("/not-found");
     return null;
   } else {
-    console.log(
-      orderByDate(events.data, "startingDate").filter(
-        (event) =>
-          event.province ===
-          provinceMapping.get(location ? location.region : "")
-      )
-    );
     return (
       <>
         <HelmetHeader title="Trang chủ" content="Home page" />
         <Header />
-        <div className="home-container" ref={container}>
-          <Affix offsetTop={0} target={() => container.current}>
+        <div className="home-container">
+          <div className="h-auto">
             <SiderBar className="sider" />
-          </Affix>
+          </div>
           <div className="home-content">
             {isFetching && status === "loading" ? (
               <div className="w-full h-[60%] mt-4 flex justify-center items-center">
@@ -67,21 +59,21 @@ function Home() {
             <div className="home-event-near-you">
               <SectionTitle>
                 Ở{" "}
-                {provinceMapping.get(location ? location.region : "") ||
-                  location.city}{" "}
+                {provinceMapping.get(location ? location?.region : "") ||
+                  location?.city}{" "}
                 có gì ta?
               </SectionTitle>
               <div className="home-event-near-you-content">
                 {orderByDate(events.data, "startingDate").filter(
                   (event) =>
                     event.province ===
-                    provinceMapping.get(location ? location.region : "")
+                    provinceMapping.get(location ? location?.region : "")
                 ).length !== 0 ? (
                   orderByDate(events.data, "startingDate")
                     .filter(
                       (event) =>
                         event.province ===
-                        provinceMapping.get(location ? location.region : "")
+                        provinceMapping.get(location ? location?.region : "")
                     )
                     .map((event) => <EventHomeItem event={event} />)
                 ) : (

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import { AlertError } from "../../components/common/alert";
+import { AlertError, AlertSuccess } from "../../components/common/alert";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
@@ -19,7 +19,13 @@ import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
-import { displayDate, displayTime, titleCase } from "../../utils/utils";
+import {
+  displayDate,
+  displayTime,
+  isEmpty,
+  isNotEmpty,
+  titleCase,
+} from "../../utils/utils";
 function EventDetail() {
   const { eventId } = useParams();
   const [isFav, setIsFav] = useState(false);
@@ -29,6 +35,7 @@ function EventDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
+  console.log({ user });
   // handle date
   let event = eventTemp?.data;
   moment.locale("vi");
@@ -61,8 +68,7 @@ function EventDetail() {
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
   const handleCheckAuthenticated = () => {
-    console.log(user.length);
-    if (user.length === 0 || user.length === undefined) {
+    if (isEmpty(user)) {
       AlertError({
         title: "Bạn chưa đăng nhập",
         text: `Nhấn "OK" để đăng nhập ngay`,
@@ -73,7 +79,10 @@ function EventDetail() {
         },
       });
     } else {
-      console.log("go to payment page ...");
+      AlertSuccess({
+        title: "Huuuuuurayyy",
+        text: "Bạn đã đăng nhập",
+      });
     }
   };
   useEffect(() => {
@@ -147,7 +156,7 @@ function EventDetail() {
                 className="interests"
                 onClick={() => {
                   handleCheckAuthenticated();
-                  if (user && user.length > 0) {
+                  if (isNotEmpty(user)) {
                     setIsFav(!isFav);
                   }
                 }}

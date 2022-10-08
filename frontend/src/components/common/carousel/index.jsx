@@ -4,15 +4,17 @@ import { Carousel as CarouselBootstrap } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import "react-loading-skeleton/dist/skeleton.css";
-// import { shuffle } from "radash";
+import { shuffle } from "radash";
 import { checkURL } from "../../../utils/utils";
 function Carousel({ data }) {
   var newData = [];
-  newData = data.slice(0, 5).map(({ id, name, background }) => ({
-    id,
-    name,
-    background,
-  }));
+  newData = shuffle(data)
+    .slice(0, 5)
+    .map(({ id, name, background }) => ({
+      id,
+      name,
+      background,
+    }));
 
   return (
     <CarouselBootstrap fade={true} autoPlay>

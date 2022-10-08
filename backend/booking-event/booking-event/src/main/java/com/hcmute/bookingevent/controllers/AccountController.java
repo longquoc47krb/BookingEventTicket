@@ -1,21 +1,15 @@
 package com.hcmute.bookingevent.controllers;
 
-import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
 import lombok.AllArgsConstructor;
 
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -34,16 +28,16 @@ public class AccountController {
         return iAccountService.findAll();
     }
     @GetMapping("/findAccount")
-    public ResponseEntity<?> findAccountByPhoneOrNameOrGmail(@RequestParam(value="value")  String value) {
-        return iAccountService.findByPhoneOrNameOrGmail(value);
+    public ResponseEntity<?> findAccountByPhoneOrNameOrEmail(@RequestParam(value="value")  String value) {
+        return iAccountService.findByPhoneOrNameOrEmail(value);
     }
     @PostMapping("/loginByPhone")
     public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
         return iAccountService.loginAccountbyPhone(newAccount);
     }
-    @PostMapping("/loginByGmail")
-    public ResponseEntity<?> loginAccountByGmail(@RequestBody Account newAccount) {
-        return iAccountService.loginAccountByGmail(newAccount);
+    @PostMapping("/loginByEmail")
+    public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
+        return iAccountService.loginAccountByEmail(newAccount);
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount) {

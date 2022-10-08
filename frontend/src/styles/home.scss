@@ -9,6 +9,8 @@
       display: block;
       padding: 1rem;
       padding-left: 0;
+      position: sticky;
+      top: 0;
       @include for-phone {
         display: none !important;
       }
