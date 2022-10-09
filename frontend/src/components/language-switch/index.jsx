@@ -9,7 +9,6 @@ const LanguageSwitch = (props) => {
   const { className } = props;
   const { t, i18n } = useTranslation();
   const changeLanguage = async (e) => {
-    console.log("language:", e.target.value);
     await i18n.changeLanguage(e.target.value);
   };
   return (

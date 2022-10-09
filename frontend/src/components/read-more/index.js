@@ -1,13 +1,10 @@
 import parse from "html-react-parser";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 function ReadMoreLess(props) {
   const { children, className } = props;
   const [expanded, setExpanded] = useState(false);
   const readmoreRef = useRef(null);
-  useEffect(() => {
-    console.log({ expanded });
-  }, [expanded]);
   const handleReadMoreLess = (event) => {
     if (event.currentTarget.classList.contains("expand")) {
       event.currentTarget.classList.remove("expand");

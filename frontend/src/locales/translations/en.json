@@ -1,7 +1,8 @@
 {
   "pages": {
     "home": "Homepage",
-    "events": "Events"
+    "events": "Events",
+    "login": "Login"
   },
   "event": {
     "list": "Events",
@@ -10,6 +11,7 @@
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue"
   },
+  "wishlist": "Favorite events",
   "search": {
     "result": "Search results: {{val, number}} results",
     "empty": "No results",
@@ -38,6 +40,7 @@
   "ticket-info": "Ticket Information",
   "organizer": "Organizer",
   "interest": "Interest",
+  "interested": "Interested",
   "user": {
     "profile": "Profile",
     "purchased": "Purchased orders",
