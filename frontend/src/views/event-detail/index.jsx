@@ -52,14 +52,14 @@ function EventDetail() {
   const wishlist = useSelector(wishlistSelector);
   const event = status === "success" && eventTemp.data;
   // check if event have interested yet ?
-  const isFound = wishlist.some((element) => {
+  const isInterested = wishlist.some((element) => {
     if (element.id === event.id) {
       return true;
     }
 
     return false;
   });
-  const [interest, setInterest] = useState(isFound);
+  const [interest, setInterest] = useState(isInterested);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -78,8 +78,10 @@ function EventDetail() {
   const handleClickInterest = () => {
     if (!interest) {
       dispatch(addEventToWishList(event));
+      window.location.reload();
     } else {
       dispatch(removeEventToWishList(event.id));
+      window.location.reload();
     }
   };
   const scrollToSection = (elementRef) => {

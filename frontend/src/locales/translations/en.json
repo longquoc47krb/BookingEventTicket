@@ -11,7 +11,6 @@
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue"
   },
-  "wishlist": "Favorite events",
   "search": {
     "result": "Search results: {{val, number}} results",
     "empty": "No results",
