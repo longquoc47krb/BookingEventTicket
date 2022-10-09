@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Paper from "@mui/material/Paper";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { GoOrganization } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { AppConfig } from "../../../configs/AppConfig";
@@ -12,6 +13,7 @@ import { AppConfig } from "../../../configs/AppConfig";
 const { MENU, MENU_ORG } = AppConfig;
 function SiderBar(props) {
   const { className } = props;
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className={className}>
@@ -20,7 +22,7 @@ function SiderBar(props) {
           {MENU.map((item, index) => (
             <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText>{item.label}</ListItemText>
+              <ListItemText>{t(item.label)}</ListItemText>
             </MenuItem>
           ))}
         </MenuList>
@@ -28,7 +30,7 @@ function SiderBar(props) {
         {MENU_ORG.map((item, index) => (
           <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{item.label}</ListItemText>
+            <ListItemText>{t(item.label)}</ListItemText>
           </MenuItem>
         ))}
         <button
@@ -36,7 +38,7 @@ function SiderBar(props) {
           onClick={() => navigate("/be-an-organization")}
         >
           <GoOrganization color="#FFD933" />
-          Trở thành nhà tổ chức
+          {t("org.become-an-org")}
         </button>
       </div>
     </div>

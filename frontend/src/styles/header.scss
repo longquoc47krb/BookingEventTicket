@@ -2,10 +2,11 @@
   &-container {
     height: auto;
     width: 100%;
-    padding: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.2rem;
     color: white;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
       rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
       rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -31,7 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0 1.5rem;
+
     a {
       color: white !important;
       &:hover {
@@ -74,4 +75,23 @@
   min-width: 1rem !important;
   height: 1rem !important;
   transform: scale(1) translate(61%, 61%) !important;
+}
+.language {
+  &-select {
+    span {
+      display: none;
+    }
+    border-radius: 0 !important;
+    border-left: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right bottom, #c3c3c3, #797979);
+  }
+  .MuiSelect-select {
+    border: 0px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border: 0px !important;
+  }
 }

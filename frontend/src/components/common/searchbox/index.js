@@ -4,21 +4,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Input } from "antd";
 import Fuse from "fuse.js";
+import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import { resultSelector, setResults } from "../../../redux/slices/searchSlice";
 import { useFetchEvents } from "../../../api/services/eventServices";
+import { setResults } from "../../../redux/slices/searchSlice";
 import { debounce } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { value, data, placeholder, expand, ref } = props;
   const [filterValue, setFilterValue] = useState(value || "");
   const { data: events } = useFetchEvents();
-
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   let fuse;
   fuse = useMemo(
@@ -34,7 +35,13 @@ const SearchBox = (props) => {
         threshold: 0.6,
         location: 0,
         distance: 100,
-        keys: ["name", "venue", "startingDate", "eventCategoryList.name"],
+        keys: [
+          "name",
+          "venue",
+          "startingDate",
+          "eventCategoryList.name",
+          "province",
+        ],
       }),
     [data || events.data]
   );
@@ -43,8 +50,8 @@ const SearchBox = (props) => {
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
-  const handleSearch = (value) => {
-    setFilterValue(value);
+  const handleSearch = (e) => {
+    setFilterValue(e.target.value);
   };
   const debounceChange = useCallback(debounce(handleSearch, 1000), []);
   return (
@@ -54,14 +61,14 @@ const SearchBox = (props) => {
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
         value={filterValue}
         placeholder={placeholder}
-        onChange={(e) => debounceChange(e.target.value)}
+        onChange={handleSearch}
         allowClear
       />
       {filterValue && expand ? (
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2 text-black">
-              Kết quả tìm kiếm: <strong>{results?.length}</strong> kết quả
+              {t("search.result", { val: results?.length })}
             </p>
           )}
           {results?.slice(0, 3).map((row) => {
@@ -96,7 +103,7 @@ const SearchBox = (props) => {
           })}
           {!results?.length ? (
             <li className="SearchBox_Results_List_Item px-2 py-0">
-              Không tìm thấy
+              {t("search.empty")}
             </li>
           ) : null}
           {results?.length > 3 ? (
@@ -106,7 +113,8 @@ const SearchBox = (props) => {
                 navigate(`/events`);
               }}
             >
-              Xem tất cả <GrMore />
+              {t("search.view-all")}
+              <GrMore />
             </li>
           ) : null}
         </ul>
@@ -120,6 +128,5 @@ SearchBox.propTypes = {
 };
 SearchBox.defaultProps = {
   expand: true,
-  placeholder: "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại,...",
 };
 export default SearchBox;

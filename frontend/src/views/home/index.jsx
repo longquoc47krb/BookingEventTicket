@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ const { provinceMapping } = constants;
 function Home() {
   const { data: events, isFetching, status } = useFetchEvents(1000);
   const { data: location, status: locationStatus } = useLocationName();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   dispatch(setPathName(window.location.pathname));
@@ -32,7 +34,7 @@ function Home() {
   } else {
     return (
       <>
-        <HelmetHeader title="Trang chủ" content="Home page" />
+        <HelmetHeader title={t("pages.home")} content="Home page" />
         <Header />
         <div className="home-container">
           <div className="h-auto">
@@ -48,7 +50,7 @@ function Home() {
             )}
             <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
             <div className="home-popular">
-              <SectionTitle>Sự kiện nổi bật</SectionTitle>
+              <SectionTitle>{t("event.trending")}</SectionTitle>
               <div className="home-popular-content">
                 {events.data.map((event) => (
                   <EventHomeItem event={event} />
@@ -56,12 +58,7 @@ function Home() {
               </div>
             </div>
             <div className="home-event-near-you">
-              <SectionTitle>
-                Ở{" "}
-                {provinceMapping.get(location ? location?.region : "") ||
-                  location?.city}{" "}
-                có gì ta?
-              </SectionTitle>
+              <SectionTitle>{t("event.near-you")}</SectionTitle>
               <div className="home-event-near-you-content">
                 {orderByDate(events.data, "startingDate").filter(
                   (event) =>

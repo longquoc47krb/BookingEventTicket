@@ -20,9 +20,10 @@ const userAuthContext = createContext();
 export function UserAuthContextProvider({ children }) {
   const dispatch = useDispatch();
   const [user, setUser] = useState({
-    // avatar: "https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg",
-    // name: "Leo Messi",
-    // email: "leomessi@leomessi.com",
+    avatar: "https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg",
+    name: "Leo Messi",
+    email: "leomessi@leomessi.com",
+    phone: "0359426238",
   });
 
   function logIn(email, password) {

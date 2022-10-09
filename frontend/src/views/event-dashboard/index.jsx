@@ -2,6 +2,7 @@
 import { Divider, Pagination } from "antd";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { connect, useDispatch } from "react-redux";
@@ -18,6 +19,7 @@ function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   dispatch(setPathName(window.location.pathname));
   const {
     data: eventsPaginated,
@@ -36,13 +38,13 @@ function EventDashBoard() {
   } else {
     return (
       <>
-        <HelmetHeader title="Sự kiện" content="Event Dashboard" />
+        <HelmetHeader title={t("pages.events")} content="Event Dashboard" />
         <Header showSearchBox={false} />
         <HeroBanner />
         <div className="event-container">
           <Divider style={{ color: "black", border: "gray" }}>
             <h1 className="flex justify-center text-[#004c6d] font-bold text-5xl">
-              Danh sách Sự kiện{" "}
+              {t("event.list")}
             </h1>
           </Divider>
           <div className="event-container-grid">
