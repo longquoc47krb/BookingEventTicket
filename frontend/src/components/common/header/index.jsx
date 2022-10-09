@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import MenuList from "@mui/material/MenuList";
-import { Dropdown } from "antd";
+import { Dropdown, Empty } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
@@ -27,18 +27,21 @@ import { useMedia } from "react-use";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
 import { useTranslation } from "react-i18next";
+import { wishlistSelector } from "../../../redux/slices/wishlistSlice";
+import WishListItem from "../wishlist-item";
+import { GrMore } from "react-icons/gr";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
+  const wishList = useSelector(wishlistSelector);
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { user } = useUserAuth();
   const isMobile = useMedia("(max-width: 767px)");
-  console.log("mobile:", isMobile);
   function onLogout() {
     dispatch(logOutAccount());
     logOut();
@@ -73,6 +76,52 @@ function Header(props) {
           <Divider style={{ width: "100%" }} />
         </div>
       ))}
+    </MenuList>
+  );
+  const wishListMenu = (
+    <MenuList style={{ background: "white" }}>
+      <h1 className="font-bold text-xl px-3 flex justify-center ">
+        {t("user.wishlist")}
+      </h1>
+      {isNotEmpty(wishList) ? (
+        wishList.map((item, index) => (
+          <div key={index}>
+            <MenuItem
+              key={index}
+              className="mb-2"
+              onClick={() => {
+                dispatch(setPathName(window.location.pathname));
+                navigate(`/event/${item.id}`);
+              }}
+            >
+              <WishListItem event={item} />
+            </MenuItem>
+
+            <Divider style={{ width: "100%" }} />
+          </div>
+        ))
+      ) : (
+        <MenuItem>
+          <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{
+              height: 60,
+              width: 300,
+              display: "flex",
+              justifyContent: "center",
+            }}
+            description={<span>{t("search.empty")}</span>}
+          ></Empty>
+        </MenuItem>
+      )}
+      {isNotEmpty(wishList) ? (
+        <MenuItem>
+          <div className="flex items-end gap-x-2">
+            {t("search.view-all")}
+            <GrMore />
+          </div>
+        </MenuItem>
+      ) : null}
     </MenuList>
   );
   return (
@@ -112,7 +161,9 @@ function Header(props) {
           </Dropdown>
         ) : (
           <div className="flex items-center gap-x-2">
-            <RiBookmark3Fill className="text-2xl" />
+            <Dropdown overlay={wishListMenu} trigger={["click"]}>
+              <RiBookmark3Fill className="text-2xl" />
+            </Dropdown>
 
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar

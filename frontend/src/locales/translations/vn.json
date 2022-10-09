@@ -1,7 +1,8 @@
 {
   "pages": {
     "home": "Trang chủ",
-    "events": "Sự kiện"
+    "events": "Sự kiện",
+    "login": "Đăng nhập"
   },
   "event": {
     "list": "Danh sách sự kiện",
@@ -11,7 +12,7 @@
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại"
   },
   "search": {
-    "result": "Kết quả tìm kiếm: <strong>{{val, number}}</strong> kết quả",
+    "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
     "empty": "Không tìm thấy",
     "view-all": "Xem tất cả kết quả"
   },
@@ -38,6 +39,7 @@
   "ticket-info": "Thông tin vé",
   "organizer": "Nhà tổ chức",
   "interest": "Quan tâm",
+  "interested": "Đã quan tâm",
   "user": {
     "profile": "Thông tin cá nhân",
     "purchased": "Đơn hàng đã mua",

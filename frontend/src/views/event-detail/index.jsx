@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
@@ -16,11 +16,21 @@ import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
+import {
+  useUserActionContext,
+  useUserActionDispatchContext,
+} from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { eventsSelector } from "../../redux/slices/eventSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { addToWishList } from "../../redux/slices/wishlistSlice";
+import {
+  addEventToWishList,
+  removeEventToWishList,
+  wishlistSelector,
+} from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
 import {
+  containsObject,
   displayDate,
   displayTime,
   isEmpty,
@@ -29,22 +39,33 @@ import {
 } from "../../utils/utils";
 function EventDetail() {
   const { eventId } = useParams();
-  const [isFav, setIsFav] = useState(false);
+  // const wishList = useSelector(wishlistSelector);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
   const { data: eventTemp, status } = useEventDetails(eventId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
-  console.log({ user });
   const { t } = useTranslation();
   // handle date
-  let event = eventTemp?.data;
+  // wishlist
+  const wishlist = useSelector(wishlistSelector);
+  const event = status === "success" && eventTemp.data;
+  // check if event have interested yet ?
+  const isFound = wishlist.some((element) => {
+    if (element.id === event.id) {
+      return true;
+    }
+
+    return false;
+  });
+  const [interest, setInterest] = useState(isFound);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
     moment.locale("vi");
   }
+  // display date
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);
   const eventStartingTime = displayTime(event?.startingTime);
@@ -53,11 +74,14 @@ function EventDetail() {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  useEffect(() => {
-    if (isFav) {
-      dispatch(addToWishList(event));
+
+  const handleClickInterest = () => {
+    if (!interest) {
+      dispatch(addEventToWishList(event));
+    } else {
+      dispatch(removeEventToWishList(event.id));
     }
-  }, [isFav]);
+  };
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
       window.scrollTo({
@@ -83,11 +107,6 @@ function EventDetail() {
             navigate("/login");
           }
         },
-      });
-    } else {
-      AlertSuccess({
-        title: "Huuuuuurayyy",
-        text: "Bạn đã đăng nhập",
       });
     }
   };
@@ -162,13 +181,21 @@ function EventDetail() {
                 className="interests"
                 onClick={() => {
                   handleCheckAuthenticated();
+                  handleClickInterest();
                   if (isNotEmpty(user)) {
-                    setIsFav(!isFav);
+                    setInterest(!interest);
                   }
                 }}
               >
-                {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
-                {t("interest")}
+                {interest ? (
+                  <div className="flex items-center gap-x-2">
+                    <AiFillHeart /> <span>{t("interested")}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-x-2">
+                    <AiOutlineHeart /> <span>{t("interest")}</span>
+                  </div>
+                )}
               </button>
             </div>
           </div>

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Input } from "antd";
+import { Empty, Input } from "antd";
 import Fuse from "fuse.js";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -103,7 +103,18 @@ const SearchBox = (props) => {
           })}
           {!results?.length ? (
             <li className="SearchBox_Results_List_Item px-2 py-0">
-              {t("search.empty")}
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 60,
+                  width: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                description={
+                  <span className="text-xl ">{t("search.empty")}</span>
+                }
+              ></Empty>
             </li>
           ) : null}
           {results?.length > 3 ? (
