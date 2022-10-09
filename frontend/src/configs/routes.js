@@ -55,10 +55,6 @@ const routes = [
     exact: true,
   },
   {
-    element: <HelpCenterPage />,
-    path: "/help-center",
-  },
-  {
     element: <LoginPage />,
     path: "/login",
   },

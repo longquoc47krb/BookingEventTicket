@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import PropTypes from "prop-types";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import { AppConfig } from "../../../configs/AppConfig";
@@ -8,6 +9,7 @@ import { checkURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, status } = props;
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
@@ -35,9 +37,12 @@ function EventHomeItem(props) {
       />
       <h1 className="w-full font-extrabold text-lg mb-0">{event.name}</h1>
       <span className="font-medium text-sm">{event.startingDate}</span>
-      {event.eventCategoryList.map((item, index) => (
-        <h2 className="font-thin text-sm text-gray-400">{item.name}</h2>
-      ))}
+      <div className="flex items-center gap-x-2">
+        {event.eventCategoryList.map((item, index) => (
+          <h2 className="font-thin text-sm text-gray-400">{t(item.name)}</h2>
+        ))}
+      </div>
+
       <div>
         <strong className="text-xl">{event.price}</strong>
       </div>

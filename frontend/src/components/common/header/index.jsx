@@ -25,6 +25,8 @@ import Location from "../../location";
 import { setPathName } from "../../../redux/slices/routeSlice";
 import { useMedia } from "react-use";
 import { isNotEmpty } from "../../../utils/utils";
+import LanguageSwitch from "../../language-switch";
+import { useTranslation } from "react-i18next";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
@@ -33,6 +35,7 @@ function Header(props) {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { user } = useUserAuth();
   const isMobile = useMedia("(max-width: 767px)");
   console.log("mobile:", isMobile);
@@ -64,7 +67,7 @@ function Header(props) {
             }
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{item.label}</ListItemText>
+            <ListItemText>{t(item.label)}</ListItemText>
           </MenuItem>
 
           <Divider style={{ width: "100%" }} />
@@ -83,16 +86,18 @@ function Header(props) {
         />
         {isMobile ? null : showSearchBox ? (
           <div className="flex items-center gap-x-2 w-full">
-            <SearchBox /> <Location />
+            <SearchBox placeholder={t("event.placeholder-searchbox")} />{" "}
+            <Location />
           </div>
         ) : null}
       </div>
       <div className="header-auth">
         {!current ? (
           <>
-            <a className=" px-3" onClick={() => navigate(ROUTES.LOGIN)}>
+            <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
               Đăng nhập
             </a>
+            <LanguageSwitch />
           </>
         ) : isMobile ? (
           <Dropdown overlay={menu} trigger={["click"]}>
@@ -106,28 +111,21 @@ function Header(props) {
             />
           </Dropdown>
         ) : (
-          <>
-            <Badge
-              color="error"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            >
-              <RiBookmark3Fill className="text-2xl" />
-            </Badge>
+          <div className="flex items-center gap-x-2">
+            <RiBookmark3Fill className="text-2xl" />
 
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
                 googleId={current.sub}
                 src={current.avatar ?? placeholderImg}
-                size="35"
                 round={true}
+                size={40}
                 name={current.name}
-                className="object-cover w-6 h-6 rounded-full ml-2.5 mr-3"
+                className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
               />
             </Dropdown>
-          </>
+            <LanguageSwitch />
+          </div>
         )}
       </div>
     </div>

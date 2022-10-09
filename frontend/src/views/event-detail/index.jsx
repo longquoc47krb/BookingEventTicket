@@ -3,6 +3,7 @@ import { Affix } from "antd";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
+import { useTranslation } from "react-i18next";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch } from "react-redux";
@@ -36,9 +37,14 @@ function EventDetail() {
   const navigate = useNavigate();
   const { user } = useUserAuth();
   console.log({ user });
+  const { t } = useTranslation();
   // handle date
   let event = eventTemp?.data;
-  moment.locale("vi");
+  if (localStorage.getItem("i18nextLng") === "en") {
+    moment.locale("en");
+  } else {
+    moment.locale("vi");
+  }
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);
   const eventStartingTime = displayTime(event?.startingTime);
@@ -150,7 +156,7 @@ function EventDetail() {
             </div>
             <div className="event-detail-button">
               <button onClick={handleCheckAuthenticated} className="buy-now">
-                Mua vé ngay
+                {t("buy-now")}
               </button>
               <button
                 className="interests"
@@ -162,7 +168,7 @@ function EventDetail() {
                 }}
               >
                 {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
-                Quan tâm
+                {t("interest")}
               </button>
             </div>
           </div>
@@ -174,7 +180,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(introduce)}
                     active={activeSection === "introduce" ? true : false}
                   >
-                    Giới thiệu
+                    {t("introduce")}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -182,7 +188,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(info)}
                     active={activeSection === "info" ? true : false}
                   >
-                    Thông tin vé
+                    {t("ticket-info")}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -190,7 +196,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(organization)}
                     active={activeSection === "organization" ? true : false}
                   >
-                    Nhà tổ chức
+                    {t("organizer")}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -200,7 +206,7 @@ function EventDetail() {
             <div className="event-detail-wrapper-left">
               <div className="event-detail-content">
                 <div ref={introduce} className="introduce">
-                  Giới thiệu
+                  {t("introduce")}
                 </div>
                 <ReadMoreLess className="event-detail-long-content">
                   {event?.description}
@@ -212,7 +218,7 @@ function EventDetail() {
               </div>
               <div className="event-detail-content">
                 <div ref={info} className="info">
-                  Thông tin vé
+                  {t("ticket-info")}
                 </div>
                 <ReadMoreLess className="event-detail-long-content">
                   {paragraph}
@@ -220,7 +226,7 @@ function EventDetail() {
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">
-                  Nhà tổ chức
+                  {t("organizer")}
                 </div>
                 <div className="event-detail-organization">
                   <img src={event?.organization_logo} alt="logo" />
@@ -228,7 +234,7 @@ function EventDetail() {
                   <p>{event?.organization_description}</p>
                   <button className="event-detail-organization-contact">
                     <AiOutlineMail />
-                    Liên hệ
+                    {t("org.contact")}
                   </button>
                 </div>
               </div>
@@ -258,7 +264,7 @@ function EventDetail() {
                     onClick={handleCheckAuthenticated}
                     className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                   >
-                    Mua vé ngay
+                    {t("buy-now")}
                   </button>
                 </div>
               </Affix>

@@ -108,6 +108,7 @@
     display: flex;
     &-left {
       width: auto;
+      min-width: 65vw;
     }
     &-right {
       @include for-phone {
