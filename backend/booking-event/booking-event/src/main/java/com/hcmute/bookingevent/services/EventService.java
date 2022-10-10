@@ -44,12 +44,12 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
         Page<Event> eventPage = eventRepository.findAll(pageable);
-        List<Event> eventList = eventPage.toList();
-        List<Event> eventList2 = eventRepository.findAll();
+        List<Event> eventsPerPage = eventPage.toList();
+        List<Event> eventList = eventRepository.findAll();
 
-        if (eventList.size() > 0)
+        if (eventsPerPage.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList2.size(),eventList));
+                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList.size(),eventsPerPage));
         throw new NotFoundException("Can not find any event");
     }
     @Override
