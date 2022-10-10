@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsSuitHeartFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { useEventDetails } from "../../../api/services/eventServices";
 import { useUserActionContext } from "../../../context/UserActionContext";
@@ -8,9 +9,7 @@ import theme from "../../../shared/theme";
 
 function WishListItem({ id }) {
   const [interest, setInterest] = useState(true);
-  const { wishlist, addToWishlist, removeFromWishlist } =
-    useUserActionContext();
-  const dispatch = useDispatch();
+  const { removeFromWishlist } = useUserActionContext();
   const { data: eventQuery, status, isFetching } = useEventDetails(id);
   console.log({ id });
 
@@ -34,7 +33,7 @@ function WishListItem({ id }) {
           </span>
           <span>{event.venue}</span>
         </div>
-        {interest ? (
+        {interest && (
           <div
             className="absolute right-2 top-4"
             onClick={(e) => {
@@ -42,17 +41,7 @@ function WishListItem({ id }) {
               removeFromWishlist(event.id);
             }}
           >
-            <AiFillHeart fontSize={30} color={theme.main} />
-          </div>
-        ) : (
-          <div
-            className="absolute right-2 top-5"
-            onClick={(e) => {
-              e.stopPropagation();
-              setInterest(!interest);
-            }}
-          >
-            <AiOutlineHeart fontSize={30} color={theme.main} />
+            <BsSuitHeartFill fontSize={30} color={theme.main} />
           </div>
         )}
       </div>
