@@ -11,7 +11,6 @@
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue"
   },
-  "wishlist": "Favorite events",
   "search": {
     "result": "Search results: {{val, number}} results",
     "empty": "No results",
@@ -50,6 +49,7 @@
     "phone": "Phone number"
   },
   "submit": "Submit",
+  "remove-all": "Remove All",
   "404": {
     "title": "Page not found.",
     "go-back": "Go back to the previous page"

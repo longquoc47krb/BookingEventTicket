@@ -6,22 +6,17 @@ import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import { AlertError, AlertSuccess } from "../../components/common/alert";
+import { AlertError } from "../../components/common/alert";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
-import {
-  useUserActionContext,
-  useUserActionDispatchContext,
-} from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { eventsSelector } from "../../redux/slices/eventSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import {
   addEventToWishList,
@@ -30,7 +25,6 @@ import {
 } from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
 import {
-  containsObject,
   displayDate,
   displayTime,
   isEmpty,
@@ -52,14 +46,14 @@ function EventDetail() {
   const wishlist = useSelector(wishlistSelector);
   const event = status === "success" && eventTemp.data;
   // check if event have interested yet ?
-  const isFound = wishlist.some((element) => {
+  const isInterested = wishlist.some((element) => {
     if (element.id === event.id) {
       return true;
     }
 
     return false;
   });
-  const [interest, setInterest] = useState(isFound);
+  const [interest, setInterest] = useState(isInterested);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -78,8 +72,9 @@ function EventDetail() {
   const handleClickInterest = () => {
     if (!interest) {
       dispatch(addEventToWishList(event));
+      window.location.reload();
     } else {
-      dispatch(removeEventToWishList(event.id));
+      window.location.reload();
     }
   };
   const scrollToSection = (elementRef) => {

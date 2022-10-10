@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { containsObject } from "../../utils/utils";
 
 const wishlistSlice = createSlice({
   name: "wishlist",
