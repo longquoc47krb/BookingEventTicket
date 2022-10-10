@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
-import com.hcmute.bookingevent.Implement.ISequenceGeneratorService;
+import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
@@ -11,18 +11,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
@@ -32,12 +28,13 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 public class EventService implements IEventService {
     @Autowired
     private final EventRepository eventRepository;
-    private final ISequenceGeneratorService sequenceGeneratorService;
+    private final IEventSlugGeneratorService sequenceGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
         if (event != null
         ) {
-            event.setId(sequenceGeneratorService.generateSequence(toSlug(event.getName())));
+            int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
+            event.setId(sequenceGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save data successfully ", eventRepository.save(event)));
 
