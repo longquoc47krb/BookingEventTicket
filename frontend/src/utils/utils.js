@@ -370,7 +370,7 @@ export const orderByDate = (data, key, type = "asc") => {
     return data.reverse();
   }
 };
-export const checkURL = (url) => {
+export const checkImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };
 export const displayDate = (date) => {

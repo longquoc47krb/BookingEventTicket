@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import { AppConfig } from "../../../configs/AppConfig";
-import { checkURL } from "../../../utils/utils";
+import { checkImageURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, status } = props;
   const navigate = useNavigate();
@@ -31,7 +31,11 @@ function EventHomeItem(props) {
         </i>
       </div> */}
       <img
-        src={checkURL(event?.background) ? event?.background : PlaceholderCover}
+        src={
+          checkImageURL(event?.background)
+            ? event?.background
+            : PlaceholderCover
+        }
         style={{ height: 130, width: 360 }}
         className="event-home-item-image"
       />

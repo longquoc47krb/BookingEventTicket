@@ -6,13 +6,12 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 
-
 @Data
 @AllArgsConstructor
-public class DatabaseSequence {
+public class EventSlug {
     @Id
     private String id;
 
-    private String sequence;
+    private String slug;
 
 }

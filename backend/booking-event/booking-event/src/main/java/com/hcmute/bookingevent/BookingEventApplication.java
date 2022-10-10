@@ -11,7 +11,7 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 public class BookingEventApplication {
 
 	public static void main(String[] args) {
-		String test = toSlug("[YÊN | HOÀNG DŨNG");
+		String test = toSlug("[YÊN | HOÀNG DŨNG Bước qua cơn Đau");
 		System.out.println(test);
 		SpringApplication.run(BookingEventApplication.class, args);
 	}

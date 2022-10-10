@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import "react-loading-skeleton/dist/skeleton.css";
 import { shuffle } from "radash";
-import { checkURL } from "../../../utils/utils";
+import { checkImageURL } from "../../../utils/utils";
 function Carousel({ data }) {
   var newData = [];
   newData = shuffle(data)
@@ -25,7 +25,9 @@ function Carousel({ data }) {
               <img
                 className="w-full h-auto px-0 py-3"
                 src={
-                  checkURL(item.background) ? item.background : PlaceholderCover
+                  checkImageURL(item.background)
+                    ? item.background
+                    : PlaceholderCover
                 }
                 alt={`carousel-${index}`}
               />

@@ -24,7 +24,8 @@
     "courses": "Courses",
     "sports": "Sports",
     "seminar": "Seminar",
-    "travel": "Travel"
+    "travel": "Travel",
+    "conference": "Conference"
   },
   "org": {
     "contact": "Contact",

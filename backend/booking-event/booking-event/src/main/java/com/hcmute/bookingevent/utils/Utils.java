@@ -11,7 +11,8 @@ public class Utils {
 
     public static String toSlug(String input) {
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+        String replace = nowhitespace.replaceAll("Đ","d").replaceAll("đ","d");
+        String normalized = Normalizer.normalize(replace, Normalizer.Form.NFD);
         String slug = NONLATIN.matcher(normalized).replaceAll("");
         return slug.toLowerCase(Locale.ENGLISH);
     }
