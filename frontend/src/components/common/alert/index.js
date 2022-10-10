@@ -22,6 +22,15 @@ export function AlertSuccess({ title, text, callback }) {
     confirmButtonText: "OK",
   }).then(callback);
 }
+export function AlertPopup({ title, text, callback }) {
+  return Swal.fire({
+    title,
+    text,
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  }).then(callback);
+}
 export function AlertError({ title, text, callback }) {
   return Swal.fire({
     title,

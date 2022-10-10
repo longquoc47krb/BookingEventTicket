@@ -27,19 +27,16 @@ import { useMedia } from "react-use";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
 import { useTranslation } from "react-i18next";
-import {
-  clearWishList,
-  wishlistSelector,
-} from "../../../redux/slices/wishlistSlice";
 import WishListItem from "../wishlist-item";
 import { GrMore } from "react-icons/gr";
 import { BiX } from "react-icons/bi";
+import { useUserActionContext } from "../../../context/UserActionContext";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
-  const wishList = useSelector(wishlistSelector);
+  const { wishlist, clearWishlist } = useUserActionContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -88,8 +85,8 @@ function Header(props) {
         {t("user.wishlist")}
       </h1>
       <hr style={{ width: "100%" }} />
-      {isNotEmpty(wishList) ? (
-        wishList.map((item, index) => (
+      {isNotEmpty(wishlist) ? (
+        wishlist.map((item, index) => (
           <div key={index}>
             <MenuItem
               key={index}
@@ -99,7 +96,7 @@ function Header(props) {
                 navigate(`/event/${item.id}`);
               }}
             >
-              <WishListItem event={item} />
+              <WishListItem id={item} />
             </MenuItem>
 
             <Divider style={{ width: "100%" }} />
@@ -111,7 +108,7 @@ function Header(props) {
             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
             imageStyle={{
               height: 60,
-              width: 300,
+              width: 480,
               display: "flex",
               justifyContent: "center",
             }}
@@ -119,14 +116,13 @@ function Header(props) {
           ></Empty>
         </MenuItem>
       )}
-      {isNotEmpty(wishList) ? (
+      {isNotEmpty(wishlist) ? (
         <>
           <MenuItem>
             <div
               className="flex items-center gap-x-2 justify-center w-full"
               onClick={() => {
-                dispatch(clearWishList());
-                window.location.reload();
+                clearWishlist();
               }}
             >
               {t("remove-all")}
