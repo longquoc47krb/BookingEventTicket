@@ -49,6 +49,16 @@
     "name": "Họ và tên",
     "phone": "Số điện thoại"
   },
+  "wishlist": {
+    "add": {
+      "title": "Thêm sự kiện thành công",
+      "text": "Sự kiện đã được thêm vào danh sách yêu thích"
+    },
+    "remove": {
+      "title": "Bỏ yêu thích thành công",
+      "text": "Sự kiện đã được loại bỏ khỏi danh sách yêu thích"
+    }
+  },
   "submit": "Hoàn thành",
   "remove-all": "Xóa tất cả",
   "404": {

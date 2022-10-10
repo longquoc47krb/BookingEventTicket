@@ -4,9 +4,10 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
-import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail } from "react-icons/ai";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { GoClock, GoLocation } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
@@ -16,13 +17,9 @@ import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
+import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import {
-  addEventToWishList,
-  removeEventToWishList,
-  wishlistSelector,
-} from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
 import {
   displayDate,
@@ -41,20 +38,9 @@ function EventDetail() {
   const navigate = useNavigate();
   const { user } = useUserAuth();
   const { t } = useTranslation();
-  // handle date
-  // wishlist
-  const wishlist = useSelector(wishlistSelector);
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useUserActionContext();
   const event = status === "success" && eventTemp.data;
-  // check if event have interested yet ?
-  const isInterested = wishlist.some((element) => {
-    if (element.id === event.id) {
-      return true;
-    }
-
-    return false;
-  });
-  console.log({ isInterested });
-  const [interest, setInterest] = useState(isInterested);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -70,15 +56,6 @@ function EventDetail() {
   const info = useRef(null);
   const organization = useRef(null);
 
-  const handleClickInterest = () => {
-    if (!interest) {
-      dispatch(addEventToWishList(event));
-      window.location.reload();
-    } else {
-      dispatch(removeEventToWishList(event.id));
-      window.location.reload();
-    }
-  };
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
       window.scrollTo({
@@ -91,7 +68,6 @@ function EventDetail() {
     const handleYPosition = (e) => {
       setYPosition(window.scrollY);
     };
-
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
   const handleCheckAuthenticated = () => {
@@ -174,26 +150,38 @@ function EventDetail() {
               <button onClick={handleCheckAuthenticated} className="buy-now">
                 {t("buy-now")}
               </button>
-              <button
-                className="interests"
-                onClick={() => {
-                  handleCheckAuthenticated();
-                  handleClickInterest();
-                  if (isNotEmpty(user)) {
-                    setInterest(!interest);
-                  }
-                }}
-              >
-                {interest ? (
+              {wishlist &&
+              wishlist.length > 0 &&
+              wishlist.find((e) => e === event.id) ? (
+                <button
+                  className="interests"
+                  onClick={(e) => {
+                    removeFromWishlist(event.id);
+                  }}
+                >
                   <div className="flex items-center gap-x-2">
-                    <AiFillHeart /> <span>{t("interested")}</span>
+                    <IoMdHeart /> <span>{t("interested")}</span>
                   </div>
-                ) : (
+                </button>
+              ) : (
+                <button
+                  className="interests"
+                  onClick={(e) => {
+                    if (isNotEmpty(user)) {
+                      addToWishlist(event.id);
+                    } else {
+                      AlertError({
+                        title: t("unauthenticated.title"),
+                        text: t("unauthenticated.text"),
+                      });
+                    }
+                  }}
+                >
                   <div className="flex items-center gap-x-2">
-                    <AiOutlineHeart /> <span>{t("interest")}</span>
+                    <IoMdHeartEmpty /> <span>{t("interest")}</span>
                   </div>
-                )}
-              </button>
+                </button>
+              )}
             </div>
           </div>
           <div className="event-detail-tab">

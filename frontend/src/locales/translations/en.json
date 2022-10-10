@@ -49,6 +49,16 @@
     "name": "Full name",
     "phone": "Phone number"
   },
+  "wishlist": {
+    "add": {
+      "title": "Added event!",
+      "text": "Event added to your favourite list"
+    },
+    "remove": {
+      "title": "Removed event!",
+      "text": "Event remove from your favourite list"
+    }
+  },
   "submit": "Submit",
   "remove-all": "Remove All",
   "404": {
