@@ -99,6 +99,8 @@
       height: auto;
       object-fit: cover;
       @include for-phone {
+        width: 100vw !important;
+        height: 25vh !important;
       }
     }
   }

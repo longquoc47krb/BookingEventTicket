@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
+
 @Service
 @AllArgsConstructor
 public class EventService implements IEventService {
@@ -53,11 +55,9 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Comparator<Event> comparator = Comparator.comparing(events -> LocalDate.parse(events.getStartingDate(), formatter));
-        List<Event> eventSet = eventRepository.findAll().stream().sorted(comparator).collect(Collectors.toList());
+        List<Event> events = sortEventByDateAsc(eventRepository);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully ", eventSet));
+                new ResponseObject(true, "Show data successfully ", events));
 
     }
 
