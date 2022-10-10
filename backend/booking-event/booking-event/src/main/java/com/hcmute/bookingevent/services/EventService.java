@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
+import com.hcmute.bookingevent.Implement.ISequenceGeneratorService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
@@ -24,17 +25,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
+import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
 @Service
 @AllArgsConstructor
 public class EventService implements IEventService {
     @Autowired
     private final EventRepository eventRepository;
-
+    private final ISequenceGeneratorService sequenceGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
         if (event != null
         ) {
+            event.setId(sequenceGeneratorService.generateSequence(toSlug(event.getName())));
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save data successfully ", eventRepository.save(event)));
 
