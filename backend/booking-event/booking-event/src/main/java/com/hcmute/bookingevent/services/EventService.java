@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
+
 @Service
 @AllArgsConstructor
 public class EventService implements IEventService {
@@ -42,22 +44,20 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
         Page<Event> eventPage = eventRepository.findAll(pageable);
-        List<Event> eventList = eventPage.toList();
-        List<Event> eventList2 = eventRepository.findAll();
+        List<Event> eventsPerPage = eventPage.toList();
+        List<Event> eventList = eventRepository.findAll();
 
-        if (eventList.size() > 0)
+        if (eventsPerPage.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList2.size(),eventList));
+                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList.size(),eventsPerPage));
         throw new NotFoundException("Can not find any event");
     }
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Comparator<Event> comparator = Comparator.comparing(events -> LocalDate.parse(events.getStartingDate(), formatter));
-        List<Event> eventSet = eventRepository.findAll().stream().sorted(comparator).collect(Collectors.toList());
+        List<Event> events = sortEventByDateAsc(eventRepository);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully ", eventSet));
+                new ResponseObject(true, "Show data successfully ", events));
 
     }
 

@@ -43,7 +43,7 @@ function EventDashBoard() {
         <HeroBanner />
         <div className="event-container">
           <Divider style={{ color: "black", border: "gray" }}>
-            <h1 className="flex justify-center text-[#004c6d] font-bold text-5xl">
+            <h1 className="flex justify-center text-[#004c6d] font-bold text-3xl md:text-5xl">
               {t("event.list")}
             </h1>
           </Divider>

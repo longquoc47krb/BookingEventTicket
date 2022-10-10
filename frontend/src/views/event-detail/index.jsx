@@ -53,6 +53,7 @@ function EventDetail() {
 
     return false;
   });
+  console.log({ isInterested });
   const [interest, setInterest] = useState(isInterested);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
@@ -74,6 +75,7 @@ function EventDetail() {
       dispatch(addEventToWishList(event));
       window.location.reload();
     } else {
+      dispatch(removeEventToWishList(event.id));
       window.location.reload();
     }
   };
