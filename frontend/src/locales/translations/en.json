@@ -49,6 +49,7 @@
     "phone": "Phone number"
   },
   "submit": "Submit",
+  "remove-all": "Remove All",
   "404": {
     "title": "Page not found.",
     "go-back": "Go back to the previous page"

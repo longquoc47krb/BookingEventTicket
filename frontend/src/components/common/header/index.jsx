@@ -27,9 +27,13 @@ import { useMedia } from "react-use";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
 import { useTranslation } from "react-i18next";
-import { wishlistSelector } from "../../../redux/slices/wishlistSlice";
+import {
+  clearWishList,
+  wishlistSelector,
+} from "../../../redux/slices/wishlistSlice";
 import WishListItem from "../wishlist-item";
 import { GrMore } from "react-icons/gr";
+import { BiX } from "react-icons/bi";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
@@ -83,6 +87,7 @@ function Header(props) {
       <h1 className="font-bold text-xl px-3 flex justify-center ">
         {t("user.wishlist")}
       </h1>
+      <hr style={{ width: "100%" }} />
       {isNotEmpty(wishList) ? (
         wishList.map((item, index) => (
           <div key={index}>
@@ -115,12 +120,26 @@ function Header(props) {
         </MenuItem>
       )}
       {isNotEmpty(wishList) ? (
-        <MenuItem>
-          <div className="flex items-end gap-x-2">
-            {t("search.view-all")}
-            <GrMore />
-          </div>
-        </MenuItem>
+        <>
+          <MenuItem>
+            <div
+              className="flex items-center gap-x-2 justify-center w-full"
+              onClick={() => {
+                dispatch(clearWishList());
+                window.location.reload();
+              }}
+            >
+              {t("remove-all")}
+              <BiX fontSize={30} className="cursor-pointer" />
+            </div>
+          </MenuItem>
+          <MenuItem>
+            <div className="flex items-end gap-x-2">
+              {t("search.view-all")}
+              <GrMore />
+            </div>
+          </MenuItem>
+        </>
       ) : null}
     </MenuList>
   );

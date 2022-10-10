@@ -5,6 +5,7 @@ import {
   removeEventToWishList,
   wishlistSelector,
 } from "../../../redux/slices/wishlistSlice";
+import theme from "../../../shared/theme";
 
 function WishListItem({ event }) {
   const [interest, setInterest] = useState(true);
@@ -33,7 +34,7 @@ function WishListItem({ event }) {
             window.location.reload();
           }}
         >
-          <AiFillHeart />
+          <AiFillHeart fontSize={30} color={theme.main} />
         </div>
       ) : (
         <div
@@ -43,7 +44,7 @@ function WishListItem({ event }) {
             setInterest(!interest);
           }}
         >
-          <AiOutlineHeart />
+          <AiOutlineHeart fontSize={30} color={theme.main} />
         </div>
       )}
     </div>

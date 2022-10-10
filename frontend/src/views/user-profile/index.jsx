@@ -1,16 +1,13 @@
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import { Col, Form, Row, Typography } from "antd";
 import { Field, FormikProvider, useFormik } from "formik";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import Header from "../../components/common/header";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
@@ -40,7 +37,7 @@ function UserProfile() {
     }),
     onSubmit: (values) => {},
   });
-  const { setValues, setFieldValue, values, errors } = formik;
+  const { values } = formik;
   return (
     <>
       <HelmetHeader

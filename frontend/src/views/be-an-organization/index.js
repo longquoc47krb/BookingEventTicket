@@ -1,9 +1,9 @@
+import { useFormik } from "formik";
 import React from "react";
+import * as Yup from "yup";
+import Organization from "../../assets/organization.svg";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
-import Organization from "../../assets/organization.svg";
-import { FastField, Field, FormikProvider, useFormik } from "formik";
-import * as Yup from "yup";
 import { YupValidations } from "../../utils/validate";
 function OrganizeRegistration() {
   const initialValues = {
