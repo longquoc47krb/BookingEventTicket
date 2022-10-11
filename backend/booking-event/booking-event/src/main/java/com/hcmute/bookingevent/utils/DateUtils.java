@@ -23,12 +23,11 @@ public class DateUtils {
     /**
      * get current time
      *
-     * @param dateFormat time format
      * @return converted time format
      */
-    public static String getStringToday(String dateFormat) {
+    public static String getStringToday() {
         Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = formatter.format(currentTime);
         return dateString;
     }
@@ -37,11 +36,10 @@ public class DateUtils {
      * Convert string date to date
      *
      * @param dateStr string date
-     * @param dateFormat date format
      * @return
      */
-    public static Date stringToDate(String dateStr, String dateFormat) {
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+    public static Date stringToDate(String dateStr) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
             return formatter.parse(dateStr);
         } catch (ParseException e) {
@@ -53,11 +51,10 @@ public class DateUtils {
      * date to string
      *
      * @param date
-     * @param dateFormat
      * @return
      */
-    public static String dateToString(Date date, String dateFormat) {
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+    public static String dateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }
 
@@ -83,17 +80,27 @@ public class DateUtils {
     }
     public static boolean isAfterToday(String date ){
         Date today = new Date();
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date startDate = null;
         try {
-            startDate = formatter.parse(date);
-            if(startDate.after(today)){
+            startDate = stringToDate(date);
+
+            if(startDate.after(today) || isToday(date)){
                 return true;
             }
             return false;
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+    public static boolean isToday(String date) throws ParseException {
+        Calendar today = Calendar.getInstance();
+        Calendar specifiedDate  = Calendar.getInstance();
+        Date startDate = stringToDate(date);
+        specifiedDate.setTime(startDate);
+
+        return today.get(Calendar.DAY_OF_MONTH) == specifiedDate.get(Calendar.DAY_OF_MONTH)
+                &&  today.get(Calendar.MONTH) == specifiedDate.get(Calendar.MONTH)
+                &&  today.get(Calendar.YEAR) == specifiedDate.get(Calendar.YEAR);
     }
     /**
      * Get the time after the specified interval in minutes

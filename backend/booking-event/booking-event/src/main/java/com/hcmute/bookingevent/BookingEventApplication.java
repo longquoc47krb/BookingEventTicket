@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static com.hcmute.bookingevent.utils.DateUtils.isAfterToday;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
 @EnableSwagger2
@@ -18,15 +19,8 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 public class BookingEventApplication {
 
 	public static void main(String[] args) throws ParseException {
-		String startDateString = "11/10/2022";
 
-		// This object can interpret strings representing dates in the format MM/dd/yyyy
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-		// Convert from String to Date
-		Date startDate = df.parse(startDateString);
-
-		System.out.println("Date in format dd/MM/yyyy: " + startDate);
+		System.out.println(isAfterToday("10/10/2022"));
 		SpringApplication.run(BookingEventApplication.class, args);
 	}
 
