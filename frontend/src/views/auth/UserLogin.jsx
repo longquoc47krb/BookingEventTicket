@@ -18,9 +18,12 @@ import PhoneInput from "react-phone-number-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { includes } from "lodash";
 import { YupValidations } from "../../utils/validate";
+import { useTranslation } from "react-i18next";
+import { pathNameSelector } from "../../redux/slices/routeSlice";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   // login phone number
   const { setUpRecaptha } = useUserAuth();
   // const userInfo = useSelector((state) => state.account.userInfo);
@@ -70,9 +73,10 @@ const UserLogin = (props) => {
     },
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
+
   return (
     <>
-      <HelmetHeader title="Đăng nhập" content="Login" />
+      <HelmetHeader title={t("pages.login")} content="Login" />
       <div className="login-container">
         <div className="login-background-slide"></div>
         <img

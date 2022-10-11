@@ -14,6 +14,8 @@ import {
 } from "react-icons/md";
 import { BsBookmarkHeart, BsCashCoin, BsBriefcase } from "react-icons/bs";
 import { TbPlaneInflight } from "react-icons/tb";
+import VietnamFlag from "../assets/vietnam-flag.png";
+import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -63,55 +65,55 @@ const ROUTES = {
 };
 const MENU = [
   {
-    label: "Trang chủ",
+    label: "home",
     key: "home",
     link: "/",
     icon: <AiOutlineHome fontSize={16} />,
   },
   {
-    label: "Âm nhạc",
+    label: "category.music",
     key: "music",
     link: "/events",
     icon: <HiOutlineMusicNote fontSize={16} />,
   },
   {
-    label: "Sân khấu",
+    label: "category.theater",
     key: "theater",
     link: "/events",
     icon: <FaTheaterMasks fontSize={16} />,
   },
   {
-    label: "Triển lãm",
+    label: "category.exhibition",
     key: "exhibition",
     link: "/events",
     icon: <AiOutlinePicture fontSize={16} />,
   },
   {
-    label: "Nightlife",
+    label: "category.nightlife",
     key: "nightlife",
     link: "/events",
     icon: <IoWineOutline fontSize={16} />,
   },
   {
-    label: "Khoá học",
+    label: "category.courses",
     key: "courses",
     link: "/events",
     icon: <BiBookBookmark fontSize={16} />,
   },
   {
-    label: "Hội thảo",
+    label: "category.seminar",
     key: "seminar",
     link: "/events",
     icon: <BsBriefcase fontSize={16} />,
   },
   {
-    label: "Thể thao",
+    label: "category.sports",
     key: "sports",
     link: "/events",
     icon: <MdSportsSoccer fontSize={16} />,
   },
   {
-    label: "Du lịch",
+    label: "category.travel",
     key: "travel",
     link: "/events",
     icon: <TbPlaneInflight fontSize={16} />,
@@ -119,25 +121,25 @@ const MENU = [
 ];
 const USER_PROFILE_MENU = [
   {
-    label: "Thông tin cá nhân",
+    label: "user.profile",
     key: "profile",
     link: "/profile",
     icon: <MdOutlineAccountCircle fontSize={16} />,
   },
   {
-    label: "Đơn hàng đã mua",
+    label: "user.purchased",
     key: "order",
     link: "/purchase-order",
     icon: <BsCashCoin fontSize={16} />,
   },
   {
-    label: "Sự kiện yêu thích",
+    label: "user.wishlist",
     key: "wishlist",
     link: "/wishlist",
     icon: <BsBookmarkHeart fontSize={16} />,
   },
   {
-    label: "Đăng xuất",
+    label: "user.logout",
     key: "logout",
     link: null,
     icon: <MdExitToApp fontSize={16} />,
@@ -170,22 +172,36 @@ const CAROUSEL_SETTINGS = [
 ];
 const MENU_ORG = [
   {
-    label: "Liên hệ",
+    label: "org.contact",
     key: "contact",
     link: "/contact",
     icon: <BiPhoneCall fontSize={16} />,
   },
   {
-    label: "Câu hỏi thường gặp",
+    label: "org.faq",
     key: "faq",
     link: "/help-center",
     icon: <AiOutlineQuestionCircle fontSize={16} />,
   },
   {
-    label: "Về chúng tôi",
+    label: "org.about",
     key: "about",
     link: "/about",
     icon: <FaInfo fontSize={16} />,
+  },
+];
+const LANGUAGE_OPTIONS = [
+  {
+    key: "en",
+    value: "en",
+    label: "language.english",
+    image: UnitedKingdomFlag,
+  },
+  {
+    key: "vn",
+    value: "vn",
+    label: "language.vietnamese",
+    image: VietnamFlag,
   },
 ];
 const SWAL_OPTIONS = [
@@ -223,5 +239,6 @@ const AppConfig = {
   CAROUSEL_SETTINGS,
   USER_PROFILE_MENU,
   SWAL_OPTIONS,
+  LANGUAGE_OPTIONS,
 };
 export { AppConfig };

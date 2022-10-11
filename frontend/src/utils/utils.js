@@ -64,6 +64,34 @@ export const isBoolean = (input) => typeOf(input, "Boolean");
 
 export const isString = (input) => typeOf(input, "String");
 
+export const isShallowEqual = (obj1, obj2) => {
+  const obj1Keys = Object.keys(obj1);
+  const obj2Keys = Object.keys(obj2);
+
+  if (obj1Keys.length !== obj2Keys.length) {
+    return false;
+  }
+
+  for (let key of obj1Keys) {
+    if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+  return true;
+};
+// check if object contains array
+
+export const containsObject = (obj, list) => {
+  const isFound = list.some((element) => {
+    if (element.id === obj.id) {
+      return true;
+    }
+
+    return false;
+  });
+  isFound();
+};
+
 export const isNumber = (input) =>
   typeOf(input, "Number") && !Number.isNaN(input) && Number.isFinite(input);
 
@@ -342,7 +370,7 @@ export const orderByDate = (data, key, type = "asc") => {
     return data.reverse();
   }
 };
-export const checkURL = (url) => {
+export const checkImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };
 export const displayDate = (date) => {

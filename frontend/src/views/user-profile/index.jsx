@@ -1,15 +1,13 @@
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import { Col, Form, Row, Typography } from "antd";
 import { Field, FormikProvider, useFormik } from "formik";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import Header from "../../components/common/header";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
@@ -22,6 +20,7 @@ function UserProfile() {
   const { user } = useUserAuth();
   const navigate = useNavigate();
   const previousPathname = useSelector(pathNameSelector);
+  const { t } = useTranslation();
   const initialValues = {
     id: user?.id ?? "",
     avatar: user?.avatar,
@@ -38,7 +37,7 @@ function UserProfile() {
     }),
     onSubmit: (values) => {},
   });
-  const { setValues, setFieldValue, values, errors } = formik;
+  const { values } = formik;
   return (
     <>
       <HelmetHeader
@@ -64,7 +63,7 @@ function UserProfile() {
               className="font-bold text-3xl"
               style={{ color: theme.main }}
             >
-              Thông tin người dùng
+              {t("user.profile")}
             </Typography>
             <FormikProvider value={formik}>
               <Form
@@ -80,11 +79,15 @@ function UserProfile() {
                       <UploadImage avatar={user.avatar} />
                     </div>
 
-                    <Field name="name" component={Input} label="Họ và tên" />
+                    <Field
+                      name="name"
+                      component={Input}
+                      label={t("user.name")}
+                    />
                     <Field component={Input} label="Email" name="email" />
                     <Field
                       component={Input}
-                      label="Số điện thoại"
+                      label={t("user.phone")}
                       name="phone"
                       disabled={isEmpty(values.phone) ? false : true}
                     />
@@ -96,7 +99,7 @@ function UserProfile() {
                       className="w-full py-2 bg-[#256d85] text-white"
                       // onClick={() =>}
                     >
-                      Hoàn thành
+                      {t("submit")}
                     </button>
                   </Col>
                 </Row>

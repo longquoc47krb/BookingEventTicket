@@ -6,7 +6,12 @@ import { titleCase } from "../../utils/utils";
 function Calendar(props) {
   const { className, calendar } = props;
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
-  moment.locale("vi");
+  var language = localStorage.getItem("i18nextLng");
+  if (language === "en") {
+    moment.locale("en");
+  } else {
+    moment.locale("vi");
+  }
   const calendarObj = {
     dayOfWeek: moment(calendar, dateFormat).format("dddd"),
     day: moment(calendar, dateFormat).format("D"),

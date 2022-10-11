@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import MenuList from "@mui/material/MenuList";
-import { Dropdown } from "antd";
+import { Dropdown, Empty } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
@@ -25,17 +25,24 @@ import Location from "../../location";
 import { setPathName } from "../../../redux/slices/routeSlice";
 import { useMedia } from "react-use";
 import { isNotEmpty } from "../../../utils/utils";
+import LanguageSwitch from "../../language-switch";
+import { useTranslation } from "react-i18next";
+import WishListItem from "../wishlist-item";
+import { GrMore } from "react-icons/gr";
+import { BiX } from "react-icons/bi";
+import { useUserActionContext } from "../../../context/UserActionContext";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
+  const { wishlist, clearWishlist } = useUserActionContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { user } = useUserAuth();
   const isMobile = useMedia("(max-width: 767px)");
-  console.log("mobile:", isMobile);
   function onLogout() {
     dispatch(logOutAccount());
     logOut();
@@ -64,12 +71,72 @@ function Header(props) {
             }
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{item.label}</ListItemText>
+            <ListItemText>{t(item.label)}</ListItemText>
           </MenuItem>
 
           <Divider style={{ width: "100%" }} />
         </div>
       ))}
+    </MenuList>
+  );
+  const wishListMenu = (
+    <MenuList style={{ background: "white" }}>
+      <h1 className="font-bold text-xl px-3 flex justify-center ">
+        {t("user.wishlist")}
+      </h1>
+      <hr style={{ width: "100%" }} />
+      {isNotEmpty(wishlist) ? (
+        wishlist.map((item, index) => (
+          <div key={index}>
+            <MenuItem
+              key={index}
+              className="mb-2"
+              onClick={() => {
+                dispatch(setPathName(window.location.pathname));
+                navigate(`/event/${item.id}`);
+              }}
+            >
+              <WishListItem id={item} />
+            </MenuItem>
+
+            <Divider style={{ width: "100%" }} />
+          </div>
+        ))
+      ) : (
+        <MenuItem>
+          <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{
+              height: 60,
+              width: 480,
+              display: "flex",
+              justifyContent: "center",
+            }}
+            description={<span>{t("search.empty")}</span>}
+          ></Empty>
+        </MenuItem>
+      )}
+      {isNotEmpty(wishlist) ? (
+        <>
+          <MenuItem>
+            <div
+              className="flex items-center gap-x-2 justify-center w-full"
+              onClick={() => {
+                clearWishlist();
+              }}
+            >
+              {t("remove-all")}
+              <BiX fontSize={30} className="cursor-pointer" />
+            </div>
+          </MenuItem>
+          <MenuItem>
+            <div className="flex items-end gap-x-2">
+              {t("search.view-all")}
+              <GrMore />
+            </div>
+          </MenuItem>
+        </>
+      ) : null}
     </MenuList>
   );
   return (
@@ -83,16 +150,18 @@ function Header(props) {
         />
         {isMobile ? null : showSearchBox ? (
           <div className="flex items-center gap-x-2 w-full">
-            <SearchBox /> <Location />
+            <SearchBox placeholder={t("event.placeholder-searchbox")} />{" "}
+            <Location />
           </div>
         ) : null}
       </div>
       <div className="header-auth">
         {!current ? (
           <>
-            <a className=" px-3" onClick={() => navigate(ROUTES.LOGIN)}>
-              Đăng nhập
+            <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
+              {t("signin")}
             </a>
+            <LanguageSwitch />
           </>
         ) : isMobile ? (
           <Dropdown overlay={menu} trigger={["click"]}>
@@ -106,28 +175,23 @@ function Header(props) {
             />
           </Dropdown>
         ) : (
-          <>
-            <Badge
-              color="error"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            >
+          <div className="flex items-center gap-x-2">
+            <Dropdown overlay={wishListMenu} trigger={["click"]}>
               <RiBookmark3Fill className="text-2xl" />
-            </Badge>
+            </Dropdown>
 
             <Dropdown overlay={menu} trigger={["click"]}>
               <Avatar
                 googleId={current.sub}
                 src={current.avatar ?? placeholderImg}
-                size="35"
                 round={true}
+                size={40}
                 name={current.name}
-                className="object-cover w-6 h-6 rounded-full ml-2.5 mr-3"
+                className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
               />
             </Dropdown>
-          </>
+            <LanguageSwitch />
+          </div>
         )}
       </div>
     </div>

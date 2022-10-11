@@ -21,6 +21,7 @@ import { useEffect } from "react";
 import ScrollToTopPage from "./components/scroll-to-top";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import OrganizeRegistration from "./views/be-an-organization";
+import { UserActionContextProvider } from "./context/UserActionContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     staleTime: 5000,
@@ -44,11 +45,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <UserAuthContextProvider>
-          <Routes>
-            {routes.map((route) => (
-              <Route path={route.path} element={route.element} />
-            ))}
-            {/* // <Route
+          <UserActionContextProvider>
+            <Routes>
+              {routes.map((route) => (
+                <Route path={route.path} element={route.element} />
+              ))}
+              {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
               //   element={
@@ -57,7 +59,8 @@ function App() {
               //       component={UserProfile}
               //     ></UserRoute>
               //   } */}
-          </Routes>
+            </Routes>
+          </UserActionContextProvider>
         </UserAuthContextProvider>
       </BrowserRouter>
       <ScrollToTopPage top={800} />

@@ -1,5 +1,6 @@
 import Loadable from "react-loadable";
 import Loading from "../components/loading";
+import EventDetail from "../views/event-detail";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
   loading: Loading,
@@ -46,17 +47,13 @@ const routes = [
     path: "/events",
   },
   {
-    element: <EventDetailPage />,
+    element: <EventDetail />,
     path: "/event/:eventId",
   },
   {
     element: <HomePage />,
     path: "/",
     exact: true,
-  },
-  {
-    element: <HelpCenterPage />,
-    path: "/help-center",
   },
   {
     element: <LoginPage />,
@@ -73,6 +70,7 @@ const routes = [
   {
     element: <UserProfilePage />,
     path: "/profile",
+    protected: true,
   },
 ];
 export {

@@ -23,6 +23,7 @@ export function UserAuthContextProvider({ children }) {
     // avatar: "https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg",
     // name: "Leo Messi",
     // email: "leomessi@leomessi.com",
+    // phone: "0359426238",
   });
 
   function logIn(email, password) {

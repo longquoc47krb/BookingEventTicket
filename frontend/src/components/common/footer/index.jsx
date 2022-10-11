@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 function Footer() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <footer class="p-4 bg-white sm:p-6 dark:bg-gray-900 footer-container">
       <div class="md:flex md:justify-between">
@@ -21,9 +23,7 @@ function Footer() {
               Lotus Ticket
             </span>
           </a>
-          <h1 className="text-white text-base mt-2">
-            Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân
-          </h1>
+          <h1 className="text-white text-base mt-2">{t("slogan")}</h1>{" "}
           <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
           {/* <img src={lincense} alt="" className="h-16 absolute top-24 left-4" /> */}
         </div>

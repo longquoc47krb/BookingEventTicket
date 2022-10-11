@@ -1,70 +1,80 @@
 {
-  "translation": {
-    "lang": "Ngôn ngữ",
-    "VN": "Tiếng Việt",
-    "JP": "Tiếng Nhật",
-    "EN": "Tiếng Anh"
+  "language": {
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
   },
-  "user-login": "Đăng nhập vai trò User",
-  "user": "Người dùng",
-  "admin-login": "Đăng nhập vai trò Admin",
-  "client-ip": "IP của Khách",
-  "company-domain": "Tên miền của công ty",
-  "login": "Đăng nhập",
-  "switch-to": "Chuyển đến trang",
-  "profile": "Thông tin",
-  "company-id": "ID Công ty",
-  "name": "Tên",
-  "domain": "Tên miền",
-  "role-level": "Cấp độ quyền",
-  "be-user-id": "Be user ID",
-  "card-number": "Số thẻ",
-  "token-api-key": "Token API key",
-  "log-out": "Đăng xuất",
-  "group": "Nhóm",
-  "group-content": "Nội dung của nhóm",
-  "number-of-contents": "Số lượng nội dung",
-  "action": "Hoạt động",
-  "file-name": "Tên của tệp",
-  "cancel": "Huỷ",
-  "ok": "Đồng ý",
-  "file-management": "Quản lý tệp",
-  "user-group-management": "Quản lý nhóm người dùng",
-  "users-management": "Quản lý người dùng",
-  "message-management": "Quản lý tin nhắn",
-  "dashboard": "Bảng điều khiển",
-  "add-user-group": "Thêm nhóm người dùng",
-  "max-user": "SL người dùng tối đa",
-  "session": "Phiên",
-  "staff-id": "ID Nhân viên",
-  "created-date": "Ngày tạo",
-  "add-user": "Thêm người dùng",
-  "contract-start": "Ngày hợp đồng bắt đầu",
-  "contract-end": "Ngày hợp đồng kết thúc",
-  "suspension": "Đình chỉ",
-  "no-data": "Không có dữ liệu",
-  "page-title": "Tiêu đề trang",
-  "search-box": "Thanh tìm kiếm",
-  "layout": "Bố cục",
-  "title-of-search-page": "Tiêu đề của trang tìm kiếm",
-  "add-search-box": "Thêm thanh tìm kiếm",
-  "label": "Nhãn",
-  "search-fields": "Các trường tìm kiếm",
-  "operation": "Hoạt động",
-  "match-value": "Giá trị đối sánh",
-  "tab-layout": "Bố cục của tab",
-  "add-tab": "Thêm Tab",
-  "preview": "Xem trước",
-  "list-search-box": "Danh sách thanh tìm kiếm",
-  "selected-search-box": "Thanh tìm kiếm được chọn",
-  "search-by-author": "Tìm kiếm theo tác giả",
-  "search-by-title": "Tìm kiếm theo tiêu đề",
-  "filter-by-date-range": "Lọc theo khoảng thời gian",
-  "filter-by-group": "Lọc theo nhóm",
-  "number-of-search-box": "Số lượng thanh tìm kiếm",
-  "search-results": "Kết quả tìm kiếm",
-  "login-success": "Đăng nhập thành công",
-  "logout-msg": "Bạn chưa đăng nhập",
-  "delete-msg": "Bạn có muốn xoá ",
-  "auto-detect-ip": "Tự động tìm kiếm địa chỉ IP"
+  "pages": {
+    "home": "Trang chủ",
+    "events": "Sự kiện",
+    "login": "Đăng nhập"
+  },
+  "event": {
+    "list": "Danh sách sự kiện",
+    "trending": "Sự kiện nổi bật",
+    "near-you": "Sự kiện gần bạn",
+    "hero-slogan": "Thế giới giải trí đặc sắc",
+    "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
+    "buy-now": "Mua vé ngay",
+    "sold-out": "Hết vé",
+    "completed": "Đã kết thúc",
+    "interest": "Quan tâm",
+    "interested": "Đã quan tâm",
+    "view-more": "Xem thêm"
+  },
+  "search": {
+    "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
+    "empty": "Không tìm thấy",
+    "view-all": "Xem tất cả kết quả"
+  },
+  "category": {
+    "music": "Âm nhạc",
+    "theater": "Sân khấu",
+    "exhibition": "Triển lãm",
+    "nightlife": "Nightlife",
+    "courses": "Khóa học",
+    "sports": "Thể thao",
+    "seminar": "Hội thảo",
+    "travel": "Du lịch",
+    "conference": "Hội nghị"
+  },
+  "org": {
+    "contact": "Liên hệ",
+    "about": "Về chúng tôi",
+    "faq": "Câu hỏi thường gặp",
+    "become-an-org": "Trờ thành nhà tổ chức"
+  },
+  "home": "Trang chủ",
+  "signin": "Đăng nhập",
+  "introduce": "Giới thiệu",
+  "ticket-info": "Thông tin vé",
+  "organizer": "Nhà tổ chức",
+  "user": {
+    "profile": "Thông tin cá nhân",
+    "purchased": "Đơn hàng đã mua",
+    "wishlist": "Sự kiện yêu thích",
+    "logout": "Đăng xuất",
+    "name": "Họ và tên",
+    "phone": "Số điện thoại",
+    "unauthenticated": {
+      "title": "Chưa đăng nhập",
+      "text": "Vui lòng đăng nhập"
+    }
+  },
+  "wishlist": {
+    "add": {
+      "title": "Thêm sự kiện thành công",
+      "text": "Sự kiện đã được thêm vào danh sách yêu thích"
+    },
+    "remove": {
+      "title": "Bỏ yêu thích thành công",
+      "text": "Sự kiện đã được loại bỏ khỏi danh sách yêu thích"
+    }
+  },
+  "submit": "Hoàn thành",
+  "remove-all": "Xóa tất cả",
+  "404": {
+    "title": "Nội dung không tồn tại hoặc đã bị xóa?",
+    "go-back": "Trở về trang trước đó"
+  },
+  "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân"
 }

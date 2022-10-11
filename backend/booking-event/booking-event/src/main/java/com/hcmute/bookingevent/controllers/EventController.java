@@ -3,17 +3,11 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.payload.ResponseObject;
-import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -34,7 +28,11 @@ public class EventController {
         return iEventService.createEvent(event);
 
     }
+    @GetMapping("/highlightEvent")
+    public ResponseEntity<?> findHighlightEvents(){
+        return iEventService.findEventAfterToday();
 
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable String id) {
         return iEventService.deleteEvent(id);

@@ -1,70 +1,80 @@
 {
-  "translation": {
-    "lang": "Language",
-    "VN": "Vietnamese",
-    "JP": "Japanese",
-    "EN": "English"
+  "language": {
+    "english": "English",
+    "vietnamese": "Vietnamese"
   },
-  "user-login": "User Login",
-  "user": "User",
-  "admin-login": "Admin Login",
-  "client-ip": "Client IP",
-  "company-domain": "Company Domain",
-  "login": "Login",
-  "switch-to": "Switch to",
-  "profile": "Profile",
-  "company-id": "Company ID",
-  "name": "Name",
-  "domain": "Domain",
-  "role-level": "Role Level",
-  "be-user-id": "Be user ID",
-  "card-number": "Card Number",
-  "token-api-key": "Token API key",
-  "log-out": "Log out",
-  "group": "Group",
-  "group-content": "Group Content",
-  "number-of-contents": "Number of contents",
-  "action": "Action",
-  "file-name": "File name",
-  "cancel": "Cancel",
-  "ok": "OK",
-  "file-management": "File Management",
-  "user-group-management": "User Group Management",
-  "users-management": "Users Management",
-  "message-management": "Messages Management",
-  "dashboard": "Dashboard",
-  "add-user-group": "Add User Group",
-  "max-user": "Max User",
-  "session": "Session",
-  "staff-id": "Staff ID",
-  "created-date": "Created Date",
-  "add-user": "Add User",
-  "contract-start": "Contract Start",
-  "contract-end": "Contract End",
-  "suspension": "Suspension",
-  "no-data": "No Data",
-  "page-title": "Page Title",
-  "search-box": "Search Box",
-  "layout": "Layout",
-  "title-of-search-page": "Title of Search Page",
-  "add-search-box": "Add Search Box",
-  "label": "Label",
-  "search-fields": "Search Fields",
-  "operation": "Operation",
-  "match-value": "Match Value",
-  "tab-layout": "Tab Layout",
-  "add-tab": "Add Tab",
-  "preview": "Preview",
-  "list-search-box": "List Search Box",
-  "selected-search-box": "Selected Search Box",
-  "search-by-author": "Search by Author",
-  "search-by-title": "Search by Title",
-  "filter-by-date-range": "Filter by Date Range",
-  "filter-by-group": "Filter by Group",
-  "number-of-search-box": "Number of Search Box",
-  "search-results": "Search Results",
-  "login-success": "Successfully logged in",
-  "logout-msg": "You haven't logged in yet",
-  "delete-msg": "Are you sure, you want to delete ",
-  "auto-detect-ip": "Automatically detect IP Address"
+  "pages": {
+    "home": "Homepage",
+    "events": "Events",
+    "login": "Login"
+  },
+  "event": {
+    "list": "Events",
+    "trending": "Featured events",
+    "near-you": "Events near you",
+    "hero-slogan": "Discovering premier entertainment events",
+    "placeholder-searchbox": "Search events by name, category, venue",
+    "buy-now": "Buy Now",
+    "sold-out": "Sold out",
+    "completed": "Completed",
+    "interest": "Interest",
+    "interested": "Interested",
+    "view-more": "View more"
+  },
+  "search": {
+    "result": "Search results: {{val, number}} results",
+    "empty": "No results",
+    "view-all": "View all results"
+  },
+  "category": {
+    "music": "Music",
+    "theater": "Theater",
+    "exhibition": "Exhibition",
+    "nightlife": "Nightlife",
+    "courses": "Courses",
+    "sports": "Sports",
+    "seminar": "Seminar",
+    "travel": "Travel",
+    "conference": "Conference"
+  },
+  "org": {
+    "contact": "Contact",
+    "about": "About",
+    "faq": "FAQs",
+    "become-an-org": "Be an Event Organizer"
+  },
+  "home": "Home",
+  "signin": "Sign in",
+  "introduce": "Introduction",
+  "ticket-info": "Ticket Information",
+  "organizer": "Organizer",
+  "user": {
+    "profile": "Profile",
+    "purchased": "Purchased orders",
+    "wishlist": "Favorite events",
+    "logout": "Logout",
+    "name": "Full name",
+    "phone": "Phone number",
+    "unauthenticated": {
+      "title": "Unauthenticated",
+      "text": "Please log in to add event to wishlist"
+    }
+  },
+  "wishlist": {
+    "add": {
+      "title": "Added event!",
+      "text": "Event added to your favourite list"
+    },
+    "remove": {
+      "title": "Removed event!",
+      "text": "Event remove from your favourite list"
+    }
+  },
+  "submit": "Submit",
+  "remove-all": "Remove All",
+  "404": {
+    "title": "Page not found.",
+    "go-back": "Go back to the previous page"
+  },
+  "slogan": "Vo Van Ngan's premier ticketing platform for events"
 }

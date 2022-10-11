@@ -3,21 +3,23 @@ import { Affix } from "antd";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
+import { AiOutlineMail } from "react-icons/ai";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { GoClock, GoLocation } from "react-icons/go";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import { AlertError, AlertSuccess } from "../../components/common/alert";
+import { AlertError, AlertErrorPopup } from "../../components/common/alert";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
+import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { addToWishList } from "../../redux/slices/wishlistSlice";
 import { paragraph } from "../../utils/constants";
 import {
   displayDate,
@@ -26,19 +28,27 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-function EventDetail() {
+import PropTypes from "prop-types";
+function EventDetail(props) {
   const { eventId } = useParams();
-  const [isFav, setIsFav] = useState(false);
+  const { organizer } = props;
+  // const wishList = useSelector(wishlistSelector);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
   const { data: eventTemp, status } = useEventDetails(eventId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
-  console.log({ user });
-  // handle date
-  let event = eventTemp?.data;
-  moment.locale("vi");
+  const { t } = useTranslation();
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useUserActionContext();
+  const event = status === "success" && eventTemp.data;
+  if (localStorage.getItem("i18nextLng") === "en") {
+    moment.locale("en");
+  } else {
+    moment.locale("vi");
+  }
+  // display date
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);
   const eventStartingTime = displayTime(event?.startingTime);
@@ -47,11 +57,7 @@ function EventDetail() {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  useEffect(() => {
-    if (isFav) {
-      dispatch(addToWishList(event));
-    }
-  }, [isFav]);
+
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
       window.scrollTo({
@@ -64,27 +70,17 @@ function EventDetail() {
     const handleYPosition = (e) => {
       setYPosition(window.scrollY);
     };
-
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
   const handleCheckAuthenticated = () => {
     if (isEmpty(user)) {
-      AlertError({
-        title: "Bạn chưa đăng nhập",
-        text: `Nhấn "OK" để đăng nhập ngay`,
-        callback: (result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
-        },
-      });
-    } else {
-      AlertSuccess({
-        title: "Huuuuuurayyy",
-        text: "Bạn đã đăng nhập",
+      AlertErrorPopup({
+        title: t("user.unauthenticated.title"),
+        text: t("user.unauthenticated.text"),
       });
     }
   };
+
   useEffect(() => {
     if (status !== "loading" && status !== "error") {
       const sectionPosition = {
@@ -116,6 +112,41 @@ function EventDetail() {
     return null;
   } else {
     dispatch(setPathName(window.location.pathname));
+    const renderStatus = (status) => {
+      switch (status) {
+        case "available":
+          return (
+            <button onClick={handleCheckAuthenticated} className="buy-now">
+              {t("event.buy-now")}
+            </button>
+          );
+        case "soldout":
+          return (
+            <button
+              onClick={handleCheckAuthenticated}
+              disabled
+              className="disabled-button"
+            >
+              {t("event.sold-out")}
+            </button>
+          );
+        case "complete":
+          return (
+            <button
+              onClick={handleCheckAuthenticated}
+              className="disabled-button"
+            >
+              {t("event.complete")}
+            </button>
+          );
+        default:
+          return (
+            <button onClick={handleCheckAuthenticated} className="buy-now">
+              {t("event.buy-now")}
+            </button>
+          );
+      }
+    };
     return (
       <>
         <HelmetHeader title={event?.name} />
@@ -149,21 +180,36 @@ function EventDetail() {
               </div>
             </div>
             <div className="event-detail-button">
-              <button onClick={handleCheckAuthenticated} className="buy-now">
-                Mua vé ngay
-              </button>
-              <button
-                className="interests"
-                onClick={() => {
-                  handleCheckAuthenticated();
-                  if (isNotEmpty(user)) {
-                    setIsFav(!isFav);
-                  }
-                }}
-              >
-                {isFav ? <AiFillHeart /> : <AiOutlineHeart />}
-                Quan tâm
-              </button>
+              {renderStatus("soldout")}
+              {wishlist &&
+              wishlist.length > 0 &&
+              wishlist.find((e) => e === event.id) ? (
+                <button
+                  className="interests"
+                  onClick={(e) => {
+                    removeFromWishlist(event.id);
+                  }}
+                >
+                  <div className="flex items-center gap-x-2">
+                    <IoMdHeart /> <span>{t("event.interested")}</span>
+                  </div>
+                </button>
+              ) : (
+                <button
+                  className="interests"
+                  onClick={(e) => {
+                    if (isNotEmpty(user)) {
+                      addToWishlist(event.id);
+                    } else {
+                      handleCheckAuthenticated();
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-x-2">
+                    <IoMdHeartEmpty /> <span>{t("event.interest")}</span>
+                  </div>
+                </button>
+              )}
             </div>
           </div>
           <div className="event-detail-tab">
@@ -174,7 +220,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(introduce)}
                     active={activeSection === "introduce" ? true : false}
                   >
-                    Giới thiệu
+                    {t("introduce")}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -182,7 +228,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(info)}
                     active={activeSection === "info" ? true : false}
                   >
-                    Thông tin vé
+                    {t("ticket-info")}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -190,7 +236,7 @@ function EventDetail() {
                     onClick={() => scrollToSection(organization)}
                     active={activeSection === "organization" ? true : false}
                   >
-                    Nhà tổ chức
+                    {t("organizer")}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -200,7 +246,7 @@ function EventDetail() {
             <div className="event-detail-wrapper-left">
               <div className="event-detail-content">
                 <div ref={introduce} className="introduce">
-                  Giới thiệu
+                  {t("introduce")}
                 </div>
                 <ReadMoreLess className="event-detail-long-content">
                   {event?.description}
@@ -212,7 +258,7 @@ function EventDetail() {
               </div>
               <div className="event-detail-content">
                 <div ref={info} className="info">
-                  Thông tin vé
+                  {t("ticket-info")}
                 </div>
                 <ReadMoreLess className="event-detail-long-content">
                   {paragraph}
@@ -220,15 +266,18 @@ function EventDetail() {
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">
-                  Nhà tổ chức
+                  {t("organizer")}
                 </div>
                 <div className="event-detail-organization">
-                  <img src={event?.organization_logo} alt="logo" />
-                  <h1>{event?.organization}</h1>
-                  <p>{event?.organization_description}</p>
-                  <button className="event-detail-organization-contact">
+                  <img src={organizer.logo} alt="logo" />
+                  <h1>{organizer.name}</h1>
+                  <p>{organizer.description}</p>
+                  <button
+                    className="event-detail-organization-contact"
+                    href="mailto:xyz@something.com"
+                  >
                     <AiOutlineMail />
-                    Liên hệ
+                    {t("org.contact")}
                   </button>
                 </div>
               </div>
@@ -258,7 +307,7 @@ function EventDetail() {
                     onClick={handleCheckAuthenticated}
                     className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                   >
-                    Mua vé ngay
+                    {t("event.buy-now")}
                   </button>
                 </div>
               </Affix>
@@ -270,5 +319,15 @@ function EventDetail() {
     );
   }
 }
-
+EventDetail.propTypes = {
+  organizer: PropTypes.object.isRequired,
+};
+EventDetail.defaultProps = {
+  organizer: {
+    logo: "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
+    name: "AMAZING SHOW",
+    description:
+      "Amazing Show là đơn vị tổ chức sự kiện, biểu diễn âm nhạc hàng tuần tại Đà Lạt. Follow Amazing show: - Youtube: https://bit.ly/3pw3XPT - Tiktok: https://bit.ly/32rlQXv - Website: amazingshow.vn - Địa Chỉ: Số 14 Đống Đa, Phường 3, Đà Lạt",
+  },
+};
 export default EventDetail;

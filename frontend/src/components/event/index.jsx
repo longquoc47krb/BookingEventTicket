@@ -8,10 +8,12 @@ import { AppConfig } from "../../configs/AppConfig";
 import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
-import { checkURL } from "../../utils/utils";
+import { checkImageURL } from "../../utils/utils";
+import { useTranslation } from "react-i18next";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
+  const { t } = useTranslation();
   let categoriesArr = event?.eventCategoryList;
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
@@ -25,7 +27,11 @@ function Event(props) {
       }}
     >
       <Image
-        src={checkURL(event?.background) ? event?.background : PlaceholderCover}
+        src={
+          checkImageURL(event?.background)
+            ? event?.background
+            : PlaceholderCover
+        }
         onClick={(event) => event.stopPropagation()}
         className="event-item-image"
       />
@@ -49,7 +55,7 @@ function Event(props) {
             className="event-category"
             onClick={(event) => event.stopPropagation()}
           >
-            {item?.name}
+            {t(item?.name)}
           </p>
         ))}
       </div>

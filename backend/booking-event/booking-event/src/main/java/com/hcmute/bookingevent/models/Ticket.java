@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Document("Ticket")
 @Getter
 @Setter
@@ -20,6 +22,7 @@ public class Ticket {
     private String typeOfTicket;
     private LocalDateTime openingDoor;
     private String seatNumber;
-
-    private String id_event;
+    private String customer_id;
+    private String event_id;
+    private String host_id;
 }
