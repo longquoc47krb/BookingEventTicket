@@ -8,6 +8,7 @@ import { AppConfig } from "../../../configs/AppConfig";
 import { checkImageURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, status } = props;
+  console.log({ event });
   const navigate = useNavigate();
   const { t } = useTranslation();
   const goToEventDetail = () => {
@@ -42,8 +43,10 @@ function EventHomeItem(props) {
       <h1 className="w-full font-extrabold text-lg mb-0">{event.name}</h1>
       <span className="font-medium text-sm">{event.startingDate}</span>
       <div className="flex items-center gap-x-2">
-        {event.eventCategoryList.map((item, index) => (
-          <h2 className="font-thin text-sm text-gray-400">{t(item.name)}</h2>
+        {event.eventCategoryList.map((category, index) => (
+          <h2 className="font-thin text-sm text-gray-400">
+            {t(category.name)}
+          </h2>
         ))}
       </div>
 
