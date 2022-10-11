@@ -15,6 +15,7 @@ import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SectionTitle from "../../components/common/section-title";
 import SiderBar from "../../components/common/sider";
+import ViewMoreButton from "../../components/common/view-more-button";
 import EmptyData from "../../components/empty";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
@@ -66,6 +67,7 @@ function Home() {
                   <EventHomeItem event={event} />
                 ))}
               </div>
+              <ViewMoreButton />
             </div>
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>

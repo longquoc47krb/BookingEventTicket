@@ -74,17 +74,13 @@ function EventDetail(props) {
   }, [yPosition]);
   const handleCheckAuthenticated = () => {
     if (isEmpty(user)) {
-      AlertError({
-        title: "Bạn chưa đăng nhập",
-        text: `Nhấn "OK" để đăng nhập ngay`,
-        callback: (result) => {
-          if (result.isConfirmed) {
-            navigate("/login");
-          }
-        },
+      AlertErrorPopup({
+        title: t("user.unauthenticated.title"),
+        text: t("user.unauthenticated.text"),
       });
     }
   };
+
   useEffect(() => {
     if (status !== "loading" && status !== "error") {
       const sectionPosition = {
@@ -116,6 +112,41 @@ function EventDetail(props) {
     return null;
   } else {
     dispatch(setPathName(window.location.pathname));
+    const renderStatus = (status) => {
+      switch (status) {
+        case "available":
+          return (
+            <button onClick={handleCheckAuthenticated} className="buy-now">
+              {t("event.buy-now")}
+            </button>
+          );
+        case "soldout":
+          return (
+            <button
+              onClick={handleCheckAuthenticated}
+              disabled
+              className="disabled-button"
+            >
+              {t("event.sold-out")}
+            </button>
+          );
+        case "complete":
+          return (
+            <button
+              onClick={handleCheckAuthenticated}
+              className="disabled-button"
+            >
+              {t("event.complete")}
+            </button>
+          );
+        default:
+          return (
+            <button onClick={handleCheckAuthenticated} className="buy-now">
+              {t("event.buy-now")}
+            </button>
+          );
+      }
+    };
     return (
       <>
         <HelmetHeader title={event?.name} />
@@ -149,9 +180,7 @@ function EventDetail(props) {
               </div>
             </div>
             <div className="event-detail-button">
-              <button onClick={handleCheckAuthenticated} className="buy-now">
-                {t("buy-now")}
-              </button>
+              {renderStatus("soldout")}
               {wishlist &&
               wishlist.length > 0 &&
               wishlist.find((e) => e === event.id) ? (
@@ -162,7 +191,7 @@ function EventDetail(props) {
                   }}
                 >
                   <div className="flex items-center gap-x-2">
-                    <IoMdHeart /> <span>{t("interested")}</span>
+                    <IoMdHeart /> <span>{t("event.interested")}</span>
                   </div>
                 </button>
               ) : (
@@ -172,15 +201,12 @@ function EventDetail(props) {
                     if (isNotEmpty(user)) {
                       addToWishlist(event.id);
                     } else {
-                      AlertErrorPopup({
-                        title: t("user.unauthenticated.title"),
-                        text: t("user.unauthenticated.text"),
-                      });
+                      handleCheckAuthenticated();
                     }
                   }}
                 >
                   <div className="flex items-center gap-x-2">
-                    <IoMdHeartEmpty /> <span>{t("interest")}</span>
+                    <IoMdHeartEmpty /> <span>{t("event.interest")}</span>
                   </div>
                 </button>
               )}
@@ -281,7 +307,7 @@ function EventDetail(props) {
                     onClick={handleCheckAuthenticated}
                     className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                   >
-                    {t("buy-now")}
+                    {t("event.buy-now")}
                   </button>
                 </div>
               </Affix>

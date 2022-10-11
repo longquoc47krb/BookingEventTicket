@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useTranslation, withTranslation } from "react-i18next";
-import { CircleFlag } from "react-circle-flags";
-import { Form } from "react-bootstrap";
-import { AppConfig } from "../../configs/AppConfig";
 import { MenuItem, Select } from "@mui/material";
+import React from "react";
+import { useTranslation, withTranslation } from "react-i18next";
+import { AppConfig } from "../../configs/AppConfig";
 const { LANGUAGE_OPTIONS } = AppConfig;
 const LanguageSwitch = (props) => {
   const { className } = props;
@@ -23,7 +21,7 @@ const LanguageSwitch = (props) => {
           <MenuItem value={lang.value}>
             <div className="flex gap-x-1 w-full items-center">
               <img src={lang.image} className="w-8 h-auto" alt={lang.label} />
-              <span>{lang.label}</span>
+              <span>{t(lang.label)}</span>
             </div>
           </MenuItem>
         ))}

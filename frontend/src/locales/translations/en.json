@@ -1,4 +1,8 @@
 {
+  "language": {
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  },
   "pages": {
     "home": "Homepage",
     "events": "Events",
@@ -6,10 +10,16 @@
   },
   "event": {
     "list": "Events",
-    "trending": "Trending events",
-    "near-you": "Events near where you live",
+    "trending": "Featured events",
+    "near-you": "Events near you",
     "hero-slogan": "Discovering premier entertainment events",
-    "placeholder-searchbox": "Search events by name, category, venue"
+    "placeholder-searchbox": "Search events by name, category, venue",
+    "buy-now": "Buy Now",
+    "sold-out": "Sold out",
+    "completed": "Completed",
+    "interest": "Interest",
+    "interested": "Interested",
+    "view-more": "View more"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -35,12 +45,9 @@
   },
   "home": "Home",
   "signin": "Sign in",
-  "buy-now": "Buy Now",
   "introduce": "Introduction",
   "ticket-info": "Ticket Information",
   "organizer": "Organizer",
-  "interest": "Interest",
-  "interested": "Interested",
   "user": {
     "profile": "Profile",
     "purchased": "Purchased orders",
