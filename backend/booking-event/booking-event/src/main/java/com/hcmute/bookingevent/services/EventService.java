@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.hcmute.bookingevent.utils.DateUtils.isAfterToday;
 import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
@@ -68,19 +69,10 @@ public class EventService implements IEventService {
         // get all highlight events
         List<Event> events = sortEventByDateAsc(eventRepository);
         List<Event> eventList = new ArrayList<>();
-        Date today = new Date();
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         for(Event event : events){
-            Date startDate = null;
-            try {
-                startDate = formatter.parse(event.getStartingDate());
-                if(startDate.after(today)){
-                    eventList.add(event);
-                }
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            if(isAfterToday(event.getStartingDate())){
+                eventList.add(event);
             }
-
         }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", eventList));

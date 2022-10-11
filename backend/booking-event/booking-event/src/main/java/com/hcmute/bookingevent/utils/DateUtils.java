@@ -4,14 +4,12 @@ import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DateUtils {
@@ -83,7 +81,20 @@ public class DateUtils {
         dif = Math.abs(dif);
         return dif / 60000;
     }
-
+    public static boolean isAfterToday(String date ){
+        Date today = new Date();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date startDate = null;
+        try {
+            startDate = formatter.parse(date);
+            if(startDate.after(today)){
+                return true;
+            }
+            return false;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * Get the time after the specified interval in minutes
      *
