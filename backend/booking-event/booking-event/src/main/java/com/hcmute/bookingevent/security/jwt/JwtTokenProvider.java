@@ -1,6 +1,8 @@
 package com.hcmute.bookingevent.security.jwt;
 
-import com.hcmute.bookingevent.security.user.UserPrincipal;
+import com.hcmute.bookingevent.models.Account;
+
+import com.hcmute.bookingevent.payload.LoginReq;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +22,14 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
 //    Tạo ra token từ chuỗi authentication
-    public String generateToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    public String generateToken(LoginReq account) {
+        //UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         //mã hóa token
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setSubject(String.format("%s,%s", account.getUsername(), account.getPassword())) // mã hóa user name và password
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
