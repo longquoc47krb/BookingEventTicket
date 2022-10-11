@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
@@ -59,6 +61,29 @@ public class EventService implements IEventService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully ", events));
 
+    }
+
+    @Override
+    public ResponseEntity<?> findEventAfterToday() {
+        // get all highlight events
+        List<Event> events = sortEventByDateAsc(eventRepository);
+        List<Event> eventList = new ArrayList<>();
+        Date today = new Date();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for(Event event : events){
+            Date startDate = null;
+            try {
+                startDate = formatter.parse(event.getStartingDate());
+                if(startDate.after(today)){
+                    eventList.add(event);
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", eventList));
     }
 
     @Override
