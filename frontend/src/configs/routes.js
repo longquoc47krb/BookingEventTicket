@@ -70,6 +70,7 @@ const routes = [
   {
     element: <UserProfilePage />,
     path: "/profile",
+    protected: true,
   },
 ];
 export {

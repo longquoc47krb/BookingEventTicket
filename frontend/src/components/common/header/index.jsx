@@ -159,7 +159,7 @@ function Header(props) {
         {!current ? (
           <>
             <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
-              Đăng nhập
+              {t("signin")}
             </a>
             <LanguageSwitch />
           </>

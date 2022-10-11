@@ -14,6 +14,5 @@ public interface IEventService {
     ResponseEntity<?> deleteEvent(String id);
     ResponseEntity<?> findEventById(String id);
     ResponseEntity<?> searchEvents(String key);
-    ResponseEntity<?> findEventListById(String id);
     ResponseEntity<?> eventPagination(Pageable pageable);
 }

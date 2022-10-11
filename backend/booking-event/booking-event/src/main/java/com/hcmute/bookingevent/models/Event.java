@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Document("event")
@@ -30,12 +32,14 @@ public class Event {
     private String endingTime;
     private String startingDate;
     private String endingDate;
-    private String host;
+    private String host_id;
     private String description;
     private String background;
     private String status;
     private int totalTicket;
     private int remainingTicket;
+    @CreatedDate
+    private Date createdDate;
     @DBRef
     private List<EventCategory> eventCategoryList;
 

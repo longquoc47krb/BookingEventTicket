@@ -19,6 +19,7 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { includes } from "lodash";
 import { YupValidations } from "../../utils/validate";
 import { useTranslation } from "react-i18next";
+import { pathNameSelector } from "../../redux/slices/routeSlice";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ const UserLogin = (props) => {
     },
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
+
   return (
     <>
       <HelmetHeader title={t("pages.login")} content="Login" />

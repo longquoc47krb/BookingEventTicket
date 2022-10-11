@@ -5,19 +5,40 @@
 import { Empty, Input } from "antd";
 import Fuse from "fuse.js";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useClickAway, useDebounce } from "react-use";
 import { useFetchEvents } from "../../../api/services/eventServices";
 import { setResults } from "../../../redux/slices/searchSlice";
 import { debounce } from "../../../utils/utils";
 const SearchBox = (props) => {
-  const { value, data, placeholder, expand, ref } = props;
+  const { value, data, placeholder } = props;
   const [filterValue, setFilterValue] = useState(value || "");
+  const [debouncedValue, setDebouncedValue] = useState("");
   const { data: events } = useFetchEvents();
+  const [expand, setExpand] = useState(true);
+  const ref = useRef();
+  useClickAway(ref, () => {
+    setExpand(false);
+  });
+  const [, cancel] = useDebounce(
+    () => {
+      setDebouncedValue(filterValue);
+      setExpand(true);
+    },
+    1000,
+    [filterValue]
+  );
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -46,14 +67,10 @@ const SearchBox = (props) => {
     [data || events.data]
   );
 
-  const results = fuse?.search(filterValue);
+  const results = fuse?.search(debouncedValue);
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
-  const handleSearch = (e) => {
-    setFilterValue(e.target.value);
-  };
-  const debounceChange = useCallback(debounce(handleSearch, 1000), []);
   return (
     <div className="SearchBox" ref={ref}>
       <Input
@@ -61,10 +78,12 @@ const SearchBox = (props) => {
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
         value={filterValue}
         placeholder={placeholder}
-        onChange={handleSearch}
+        onChange={({ currentTarget }) => {
+          setFilterValue(currentTarget.value);
+        }}
         allowClear
       />
-      {filterValue && expand ? (
+      {debouncedValue && expand ? (
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2 text-black">

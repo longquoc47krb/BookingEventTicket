@@ -1,4 +1,8 @@
 {
+  "language": {
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  },
   "pages": {
     "home": "Homepage",
     "events": "Events",
@@ -6,10 +10,16 @@
   },
   "event": {
     "list": "Events",
-    "trending": "Trending events",
-    "near-you": "Events near where you live",
+    "trending": "Featured events",
+    "near-you": "Events near you",
     "hero-slogan": "Discovering premier entertainment events",
-    "placeholder-searchbox": "Search events by name, category, venue"
+    "placeholder-searchbox": "Search events by name, category, venue",
+    "buy-now": "Buy Now",
+    "sold-out": "Sold out",
+    "completed": "Completed",
+    "interest": "Interest",
+    "interested": "Interested",
+    "view-more": "View more"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -31,23 +41,24 @@
     "contact": "Contact",
     "about": "About",
     "faq": "FAQs",
-    "become-an-org": "Become an organizer"
+    "become-an-org": "Be an Event Organizer"
   },
   "home": "Home",
   "signin": "Sign in",
-  "buy-now": "Buy Now",
   "introduce": "Introduction",
   "ticket-info": "Ticket Information",
   "organizer": "Organizer",
-  "interest": "Interest",
-  "interested": "Interested",
   "user": {
     "profile": "Profile",
     "purchased": "Purchased orders",
     "wishlist": "Favorite events",
     "logout": "Logout",
     "name": "Full name",
-    "phone": "Phone number"
+    "phone": "Phone number",
+    "unauthenticated": {
+      "title": "Unauthenticated",
+      "text": "Please log in to add event to wishlist"
+    }
   },
   "wishlist": {
     "add": {

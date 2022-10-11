@@ -194,13 +194,13 @@ const LANGUAGE_OPTIONS = [
   {
     key: "en",
     value: "en",
-    label: "English",
+    label: "language.english",
     image: UnitedKingdomFlag,
   },
   {
     key: "vn",
     value: "vn",
-    label: "Tiếng Việt",
+    label: "language.vietnamese",
     image: VietnamFlag,
   },
 ];

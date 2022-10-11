@@ -1,4 +1,8 @@
 {
+  "language": {
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  },
   "pages": {
     "home": "Trang chủ",
     "events": "Sự kiện",
@@ -9,7 +13,13 @@
     "trending": "Sự kiện nổi bật",
     "near-you": "Sự kiện gần bạn",
     "hero-slogan": "Thế giới giải trí đặc sắc",
-    "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại"
+    "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
+    "buy-now": "Mua vé ngay",
+    "sold-out": "Hết vé",
+    "completed": "Đã kết thúc",
+    "interest": "Quan tâm",
+    "interested": "Đã quan tâm",
+    "view-more": "Xem thêm"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
@@ -35,19 +45,20 @@
   },
   "home": "Trang chủ",
   "signin": "Đăng nhập",
-  "buy-now": "Mua vé ngay",
   "introduce": "Giới thiệu",
   "ticket-info": "Thông tin vé",
   "organizer": "Nhà tổ chức",
-  "interest": "Quan tâm",
-  "interested": "Đã quan tâm",
   "user": {
     "profile": "Thông tin cá nhân",
     "purchased": "Đơn hàng đã mua",
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
     "name": "Họ và tên",
-    "phone": "Số điện thoại"
+    "phone": "Số điện thoại",
+    "unauthenticated": {
+      "title": "Chưa đăng nhập",
+      "text": "Vui lòng đăng nhập"
+    }
   },
   "wishlist": {
     "add": {
