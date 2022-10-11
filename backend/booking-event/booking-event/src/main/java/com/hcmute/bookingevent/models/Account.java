@@ -27,6 +27,11 @@ public class Account {
     //@Indexed(unique = true)
     private String email;
     private String avatar;
+
+    private String userName;
+    private String passWord;
+    private String role;
+
     public Account(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;

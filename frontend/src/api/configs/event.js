@@ -11,6 +11,10 @@ export const EventAPI = {
       pageSize: 6,
     },
   }),
+  getHighlightEvents: {
+    url: "/event/highlightEvent",
+    method: "GET",
+  },
   getEventByName: (name) => ({
     url: `/event/findName`,
     method: "GET",
