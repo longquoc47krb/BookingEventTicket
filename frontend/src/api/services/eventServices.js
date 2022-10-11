@@ -6,6 +6,10 @@ const fetchAllEvents = async () => {
   const response = await httpRequest(EventAPI.getAllEvents);
   return response;
 };
+const fetchHighlightEvents = async () => {
+  const response = await httpRequest(EventAPI.getHighlightEvents);
+  return response;
+};
 const getEventByName = async (name) => {
   const response = await httpRequest(EventAPI.getEventByName(name));
   return response;
@@ -28,6 +32,11 @@ const fetchEventsForPagination = async (params) => {
 
 export const useFetchEvents = (staleTime = 60000) => {
   return useQuery(["events"], fetchAllEvents, {
+    staleTime,
+  });
+};
+export const useFetchHighlightEvents = (staleTime = 60000) => {
+  return useQuery(["highlightEvents"], fetchHighlightEvents, {
     staleTime,
   });
 };
