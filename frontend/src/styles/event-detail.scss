@@ -151,7 +151,7 @@
   &-organization {
     display: grid;
     height: auto;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: auto 3fr;
     padding: 1rem;
     grid-auto-rows: auto;
     gap: 0 1rem;
@@ -177,7 +177,7 @@
     img {
       grid-area: logo;
       width: auto;
-      height: auto;
+      height: 8rem;
     }
     h1 {
       font-size: 1.5rem;

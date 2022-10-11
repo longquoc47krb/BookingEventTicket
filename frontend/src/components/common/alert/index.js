@@ -42,3 +42,12 @@ export function AlertError({ title, text, callback }) {
     confirmButtonText: "OK",
   }).then(callback);
 }
+export function AlertErrorPopup({ title, text, callback }) {
+  return Swal.fire({
+    title,
+    text,
+    icon: "error",
+    showConfirmButton: false,
+    timer: 2000,
+  }).then(callback);
+}

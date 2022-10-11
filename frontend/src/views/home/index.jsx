@@ -20,7 +20,6 @@ import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants from "../../utils/constants";
-import { orderByDate } from "../../utils/utils";
 const { provinceMapping } = constants;
 function Home() {
   const { data: events, isFetching, status } = useFetchEvents();
@@ -58,13 +57,7 @@ function Home() {
             <SiderBar className="sider" />
           </div>
           <div className="home-content">
-            {isFetching && status === "loading" ? (
-              <div className="w-full h-[60%] mt-4 flex justify-center items-center">
-                <Skeleton width={1000} height={400} />
-              </div>
-            ) : (
-              <Carousel data={events?.data} />
-            )}
+            <Carousel data={highlightEvents?.data} />
             <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
             <div className="home-popular">
               <SectionTitle>{t("event.trending")}</SectionTitle>

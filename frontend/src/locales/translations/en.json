@@ -31,7 +31,7 @@
     "contact": "Contact",
     "about": "About",
     "faq": "FAQs",
-    "become-an-org": "Become an organizer"
+    "become-an-org": "Be an Event Organizer"
   },
   "home": "Home",
   "signin": "Sign in",
@@ -47,7 +47,11 @@
     "wishlist": "Favorite events",
     "logout": "Logout",
     "name": "Full name",
-    "phone": "Phone number"
+    "phone": "Phone number",
+    "unauthenticated": {
+      "title": "Unauthenticated",
+      "text": "Please log in to add event to wishlist"
+    }
   },
   "wishlist": {
     "add": {

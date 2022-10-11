@@ -8,7 +8,6 @@ import { AppConfig } from "../../../configs/AppConfig";
 import { checkImageURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, status } = props;
-  console.log({ event });
   const navigate = useNavigate();
   const { t } = useTranslation();
   const goToEventDetail = () => {

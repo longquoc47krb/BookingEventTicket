@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface EventRepository extends MongoRepository<Event,String> {
-    Optional<Event> findByName(String name);
     List<Event> findAllBy(TextCriteria textCriteria);
 
 

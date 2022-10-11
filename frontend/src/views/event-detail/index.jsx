@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import { AlertError } from "../../components/common/alert";
+import { AlertError, AlertErrorPopup } from "../../components/common/alert";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
@@ -28,8 +28,10 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-function EventDetail() {
+import PropTypes from "prop-types";
+function EventDetail(props) {
   const { eventId } = useParams();
+  const { organizer } = props;
   // const wishList = useSelector(wishlistSelector);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
@@ -170,9 +172,9 @@ function EventDetail() {
                     if (isNotEmpty(user)) {
                       addToWishlist(event.id);
                     } else {
-                      AlertError({
-                        title: t("unauthenticated.title"),
-                        text: t("unauthenticated.text"),
+                      AlertErrorPopup({
+                        title: t("user.unauthenticated.title"),
+                        text: t("user.unauthenticated.text"),
                       });
                     }
                   }}
@@ -241,10 +243,13 @@ function EventDetail() {
                   {t("organizer")}
                 </div>
                 <div className="event-detail-organization">
-                  <img src={event?.organization_logo} alt="logo" />
-                  <h1>{event?.organization}</h1>
-                  <p>{event?.organization_description}</p>
-                  <button className="event-detail-organization-contact">
+                  <img src={organizer.logo} alt="logo" />
+                  <h1>{organizer.name}</h1>
+                  <p>{organizer.description}</p>
+                  <button
+                    className="event-detail-organization-contact"
+                    href="mailto:xyz@something.com"
+                  >
                     <AiOutlineMail />
                     {t("org.contact")}
                   </button>
@@ -288,5 +293,15 @@ function EventDetail() {
     );
   }
 }
-
+EventDetail.propTypes = {
+  organizer: PropTypes.object.isRequired,
+};
+EventDetail.defaultProps = {
+  organizer: {
+    logo: "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
+    name: "AMAZING SHOW",
+    description:
+      "Amazing Show là đơn vị tổ chức sự kiện, biểu diễn âm nhạc hàng tuần tại Đà Lạt. Follow Amazing show: - Youtube: https://bit.ly/3pw3XPT - Tiktok: https://bit.ly/32rlQXv - Website: amazingshow.vn - Địa Chỉ: Số 14 Đống Đa, Phường 3, Đà Lạt",
+  },
+};
 export default EventDetail;

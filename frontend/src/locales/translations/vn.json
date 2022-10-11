@@ -47,7 +47,11 @@
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
     "name": "Họ và tên",
-    "phone": "Số điện thoại"
+    "phone": "Số điện thoại",
+    "unauthenticated": {
+      "title": "Chưa đăng nhập",
+      "text": "Vui lòng đăng nhập"
+    }
   },
   "wishlist": {
     "add": {
