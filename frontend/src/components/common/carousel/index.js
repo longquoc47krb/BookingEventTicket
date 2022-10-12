@@ -25,11 +25,13 @@ import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 export default function Carousel(props) {
   const { data } = props;
   var newData = [];
-  newData = shuffle(data).map(({ id, name, background }) => ({
-    id,
-    name,
-    background,
-  }));
+  newData = shuffle(data)
+    .slice(0, 5)
+    .map(({ id, name, background }) => ({
+      id,
+      name,
+      background,
+    }));
   return (
     <>
       <Swiper
