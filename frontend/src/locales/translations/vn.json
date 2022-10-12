@@ -19,7 +19,8 @@
     "completed": "Đã kết thúc",
     "interest": "Quan tâm",
     "interested": "Đã quan tâm",
-    "view-more": "Xem thêm"
+    "view-more": "Xem thêm",
+    "recommend-for-you": "Sự kiện dành cho bạn"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",

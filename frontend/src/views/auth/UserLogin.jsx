@@ -2,26 +2,25 @@ import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Modal, Row } from "antd";
 import { Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
+import { includes } from "lodash";
+import OTPInput, { ResendOTP } from "otp-input-react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import "react-phone-number-input/style.css";
 import HelmetHeader from "../../components/helmet";
+import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { Role } from "../../helpers/role";
 import {
   createAccount,
   getAccountByEmailOrPhone,
 } from "../../redux/slices/accountSlice";
-import PhoneInput from "react-phone-number-input";
-import OTPInput, { ResendOTP } from "otp-input-react";
-import { includes } from "lodash";
-import { YupValidations } from "../../utils/validate";
-import { useTranslation } from "react-i18next";
-import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
-import LanguageSwitch from "../../components/language-switch";
+import { YupValidations } from "../../utils/validate";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

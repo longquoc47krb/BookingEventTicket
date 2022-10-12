@@ -5,10 +5,12 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
-import { useFetchHighlightEvents } from "../../api/services/eventServices";
+import {
+  useEventsByProvince,
+  useFetchFeaturedEvents,
+} from "../../api/services/eventServices";
 import { useLocationName } from "../../api/services/otherSevices";
 import Carousel from "../../components/common/carousel";
-import CarouselMobile from "../../components/common/carousel-mobile";
 import AppDrawer from "../../components/common/drawer";
 import EventHomeItem from "../../components/common/event-home-item";
 import Footer from "../../components/common/footer";
@@ -24,23 +26,35 @@ import constants from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
   const { data: highlightEvents, status: highlightStatus } =
-    useFetchHighlightEvents();
+    useFetchFeaturedEvents();
   const { data: location, status: locationStatus } = useLocationName();
+  const {
+    data: eventsByProvince,
+    isFetching,
+    status: eventsByProvinceStatus,
+  } = useEventsByProvince(
+    provinceMapping.get(location ? location?.region : "")
+  );
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
-  if (highlightStatus === "loading" || locationStatus === "loading") {
+  if (
+    highlightStatus === "loading" ||
+    locationStatus === "loading" ||
+    eventsByProvinceStatus === "loading"
+  ) {
     return <Loading />;
-  } else if (highlightStatus === "error" || locationStatus === "error") {
+  } else if (
+    highlightStatus === "error" ||
+    locationStatus === "error" ||
+    eventsByProvinceStatus === "error"
+  ) {
     navigate("/not-found");
     return null;
   } else {
-    const date = moment("11/10/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
-    const today = moment().format("DD/MM/YYYY");
-
-    console.log(today === date);
+    console.log({ eventsByProvince, eventsByProvinceStatus });
     return (
       <>
         <HelmetHeader title={t("pages.home")} content="Home page" />
@@ -52,9 +66,9 @@ function Home() {
           </div>
           <div className="home-content">
             {isMobile ? (
-              <CarouselMobile data={highlightEvents.data} />
+              <Carousel data={highlightEvents.data} />
             ) : (
-              <Carousel data={highlightEvents?.data} />
+              <Carousel data={highlightEvents?.data} loop={false} />
             )}
             <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
             <div className="home-popular">
@@ -69,21 +83,9 @@ function Home() {
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>
               <div className="home-event-near-you-content">
-                {highlightEvents.data.filter(
-                  (event) =>
-                    event.province ===
-                    provinceMapping.get(location ? location?.region : "")
-                ).length !== 0 ? (
-                  highlightEvents.data
-                    .filter(
-                      (event) =>
-                        event.province ===
-                        provinceMapping.get(location ? location?.region : "")
-                    )
-                    .map((event) => <EventHomeItem event={event} />)
-                ) : (
-                  <EmptyData />
-                )}
+                {eventsByProvince?.map((event) => (
+                  <EventHomeItem event={event} />
+                ))}
               </div>
             </div>
           </div>
