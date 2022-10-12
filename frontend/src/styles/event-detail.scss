@@ -107,9 +107,16 @@
     background-color: rgb(214, 214, 214);
     width: 100vw;
     display: flex;
+    @include for-phone {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
     &-left {
       width: auto;
       min-width: 65vw;
+      @include for-phone {
+        width: 100% !important;
+      }
     }
     &-right {
       @include for-phone {
@@ -127,7 +134,9 @@
     box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
     -webkit-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
     -moz-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
-
+    @include for-phone {
+      width: 100% !important;
+    }
     p {
       padding-left: 1rem;
       padding-right: 1rem;
@@ -184,10 +193,16 @@
       font-size: 1.5rem;
       font-weight: 900;
       grid-area: title;
+      @include for-phone {
+        font-size: 1rem !important;
+      }
     }
     p {
       grid-area: desc;
       padding-left: 0;
+      @include for-phone {
+        font-size: 0.875rem !important;
+      }
     }
   }
 }

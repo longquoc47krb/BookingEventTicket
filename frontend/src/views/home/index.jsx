@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import moment from "moment";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  useFetchEvents,
-  useFetchHighlightEvents,
-} from "../../api/services/eventServices";
+import { useMedia } from "react-use";
+import { useFetchHighlightEvents } from "../../api/services/eventServices";
 import { useLocationName } from "../../api/services/otherSevices";
 import Carousel from "../../components/common/carousel";
+import CarouselMobile from "../../components/common/carousel-mobile";
+import AppDrawer from "../../components/common/drawer";
 import EventHomeItem from "../../components/common/event-home-item";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
@@ -23,42 +23,39 @@ import { setPathName } from "../../redux/slices/routeSlice";
 import constants from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
-  const { data: events, isFetching, status } = useFetchEvents();
-  const {
-    data: highlightEvents,
-    isFetching: highlightFetching,
-    status: highlightStatus,
-  } = useFetchHighlightEvents();
+  const { data: highlightEvents, status: highlightStatus } =
+    useFetchHighlightEvents();
   const { data: location, status: locationStatus } = useLocationName();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
-  if (
-    status === "loading" ||
-    highlightStatus === "loading" ||
-    locationStatus === "loading"
-  ) {
+  if (highlightStatus === "loading" || locationStatus === "loading") {
     return <Loading />;
-  } else if (
-    status === "error" ||
-    highlightStatus === "error" ||
-    locationStatus === "error"
-  ) {
+  } else if (highlightStatus === "error" || locationStatus === "error") {
     navigate("/not-found");
     return null;
   } else {
-    console.log({ events, highlightEvents });
+    const date = moment("11/10/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
+    const today = moment().format("DD/MM/YYYY");
+
+    console.log(today === date);
     return (
       <>
         <HelmetHeader title={t("pages.home")} content="Home page" />
         <Header />
         <div className="home-container">
+          <AppDrawer />
           <div className="h-auto">
             <SiderBar className="sider" />
           </div>
           <div className="home-content">
-            <Carousel data={highlightEvents?.data} />
+            {isMobile ? (
+              <CarouselMobile data={highlightEvents.data} />
+            ) : (
+              <Carousel data={highlightEvents?.data} />
+            )}
             <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
             <div className="home-popular">
               <SectionTitle>{t("event.trending")}</SectionTitle>

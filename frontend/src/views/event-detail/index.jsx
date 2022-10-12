@@ -29,6 +29,7 @@ import {
   titleCase,
 } from "../../utils/utils";
 import PropTypes from "prop-types";
+import AppDrawer from "../../components/common/drawer";
 function EventDetail(props) {
   const { eventId } = useParams();
   const { organizer } = props;
@@ -152,6 +153,7 @@ function EventDetail(props) {
         <HelmetHeader title={event?.name} />
         <Header />
         <div className="event-detail-container">
+          <AppDrawer />
           <img src={event?.background} alt="" />
           <div className="event-detail-overview">
             <div className="event-detail-info">
@@ -180,7 +182,7 @@ function EventDetail(props) {
               </div>
             </div>
             <div className="event-detail-button">
-              {renderStatus("soldout")}
+              {renderStatus(event.status)}
               {wishlist &&
               wishlist.length > 0 &&
               wishlist.find((e) => e === event.id) ? (
@@ -214,7 +216,10 @@ function EventDetail(props) {
           </div>
           <div className="event-detail-tab">
             <Affix>
-              <Nav variant="tabs" className="bg-white w-[100vw] px-[1.5rem]">
+              <Nav
+                variant="tabs"
+                className="bg-white w-[100vw] md:px-[1.5rem] px-0 text-base"
+              >
                 <Nav.Item>
                   <Nav.Link
                     onClick={() => scrollToSection(introduce)}

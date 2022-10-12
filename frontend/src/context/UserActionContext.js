@@ -8,9 +8,12 @@ const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [wishlistEvent, setWishlistEvent] = useState();
+  const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
+  console.log({ showDrawer });
   const getWishlist = () => {
     setWishlistEvent([]);
+
     const list = reactLocalStorage.getObject("userWishlist");
     const userWishlist = list.wishlist;
     setWishlist(list.wishlist);
@@ -77,6 +80,8 @@ export const UserActionContextProvider = ({ children }) => {
         removeFromWishlist,
         getWishlist,
         clearWishlist,
+        showDrawer,
+        setShowDrawer,
       }}
     >
       {children}
