@@ -1,5 +1,11 @@
 export const paragraph = "";
 
+export const TicketStatus = {
+  COMPLETED: "completed",
+  SOLDOUT: "sold out",
+  AVAILABLE: "available",
+};
+
 const provinceMapping = new Map();
 provinceMapping.set("SG", "TP. Hồ Chí Minh");
 provinceMapping.set("HN", "Hà Nội");
@@ -12,5 +18,5 @@ provinceMapping.set("26", "Thừa Thiên Huế");
 provinceMapping.set("33", "Đắk Lắk");
 provinceMapping.set("CT", "Cần Thơ");
 
-const constants = { provinceMapping };
+const constants = { provinceMapping, TicketStatus };
 export default constants;

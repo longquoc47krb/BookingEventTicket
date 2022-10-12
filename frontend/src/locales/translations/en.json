@@ -19,7 +19,8 @@
     "completed": "Completed",
     "interest": "Interest",
     "interested": "Interested",
-    "view-more": "View more"
+    "view-more": "View more",
+    "recommend-for-you": "Recommend for you"
   },
   "search": {
     "result": "Search results: {{val, number}} results",

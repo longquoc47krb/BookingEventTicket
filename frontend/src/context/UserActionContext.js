@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import eventServices from "../api/services/eventServices";
-import { AlertPopup, AlertSuccess } from "../components/common/alert";
+import { AlertPopup } from "../components/common/alert";
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {

@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
 import moment from "moment";
+import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
 import { AiOutlineMail } from "react-icons/ai";
-import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { GoClock, GoLocation } from "react-icons/go";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEventDetails } from "../../api/services/eventServices";
+import {
+  useEventDetails,
+  useFetchFeaturedEvents,
+} from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
-import { AlertError, AlertErrorPopup } from "../../components/common/alert";
+import { AlertErrorPopup } from "../../components/common/alert";
+import Carousel from "../../components/common/carousel";
+import AppDrawer from "../../components/common/drawer";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
@@ -20,7 +26,7 @@ import ReadMoreLess from "../../components/read-more";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { paragraph } from "../../utils/constants";
+import { paragraph, TicketStatus } from "../../utils/constants";
 import {
   displayDate,
   displayTime,
@@ -28,8 +34,6 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-import PropTypes from "prop-types";
-import AppDrawer from "../../components/common/drawer";
 function EventDetail(props) {
   const { eventId } = useParams();
   const { organizer } = props;
@@ -37,6 +41,9 @@ function EventDetail(props) {
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
   const { data: eventTemp, status } = useEventDetails(eventId);
+  const { data: featuredEventsTemp } = useFetchFeaturedEvents();
+  const buttonGroupRef = useRef(null);
+  const rightWrapperRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -44,6 +51,7 @@ function EventDetail(props) {
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
   const event = status === "success" && eventTemp.data;
+  const featuredEvent = status === "success" && featuredEventsTemp.data;
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -113,36 +121,78 @@ function EventDetail(props) {
     return null;
   } else {
     dispatch(setPathName(window.location.pathname));
-    const renderStatus = (status) => {
+    console.log("buttonRef", buttonGroupRef);
+    console.log("rightWrapperRef", rightWrapperRef);
+    const renderStatus = (status, ref) => {
       switch (status) {
-        case "available":
-          return (
-            <button onClick={handleCheckAuthenticated} className="buy-now">
-              {t("event.buy-now")}
-            </button>
-          );
-        case "soldout":
+        case TicketStatus.AVAILABLE:
+          if (ref === buttonGroupRef.current) {
+            return (
+              <button onClick={handleCheckAuthenticated} className="buy-now">
+                {t("event.buy-now")}
+              </button>
+            );
+          }
           return (
             <button
               onClick={handleCheckAuthenticated}
-              disabled
-              className="disabled-button"
+              className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+            >
+              {t("event.buy-now")}
+            </button>
+          );
+
+        case TicketStatus.SOLDOUT:
+          if (ref === buttonGroupRef.current) {
+            return (
+              <button
+                onClick={handleCheckAuthenticated}
+                className="disabled-button"
+              >
+                {t("event.sold-out")}
+              </button>
+            );
+          }
+          return (
+            <button
+              onClick={handleCheckAuthenticated}
+              className="disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
             >
               {t("event.sold-out")}
             </button>
           );
-        case "complete":
+        case TicketStatus.COMPLETED:
+          if (ref === buttonGroupRef.current) {
+            return (
+              <button
+                onClick={handleCheckAuthenticated}
+                className="disabled-button"
+              >
+                {t("event.completed")}
+              </button>
+            );
+          }
           return (
             <button
               onClick={handleCheckAuthenticated}
-              className="disabled-button"
+              className="disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
             >
-              {t("event.complete")}
+              {t("event.completed")}
             </button>
           );
         default:
+          if (ref === buttonGroupRef.current) {
+            return (
+              <button onClick={handleCheckAuthenticated} className="buy-now">
+                {t("event.buy-now")}
+              </button>
+            );
+          }
           return (
-            <button onClick={handleCheckAuthenticated} className="buy-now">
+            <button
+              onClick={handleCheckAuthenticated}
+              className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+            >
               {t("event.buy-now")}
             </button>
           );
@@ -181,8 +231,8 @@ function EventDetail(props) {
                 </p>
               </div>
             </div>
-            <div className="event-detail-button">
-              {renderStatus(event.status)}
+            <div className="event-detail-button" ref={buttonGroupRef}>
+              {renderStatus(event.status, buttonGroupRef.current)}
               {wishlist &&
               wishlist.length > 0 &&
               wishlist.find((e) => e === event.id) ? (
@@ -289,7 +339,7 @@ function EventDetail(props) {
             </div>
             <div className="event-detail-wrapper-right">
               <Affix offsetTop={60}>
-                <div className="event-detail-booking">
+                <div className="event-detail-booking" ref={rightWrapperRef}>
                   <div ref={introduce} className="introduce">
                     {event?.name}
                   </div>
@@ -308,12 +358,7 @@ function EventDetail(props) {
                       </p>
                     </div>
                   </div>
-                  <button
-                    onClick={handleCheckAuthenticated}
-                    className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-                  >
-                    {t("event.buy-now")}
-                  </button>
+                  {renderStatus(event.status, rightWrapperRef.current)}
                 </div>
               </Affix>
             </div>

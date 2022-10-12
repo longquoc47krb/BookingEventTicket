@@ -35,7 +35,7 @@ function Event(props) {
         onClick={(event) => event.stopPropagation()}
         className="event-item-image"
       />
-      <h1 className="w-[calc(100%-80px)] font-bold event-title">
+      <h1 className="w-[calc(100%-80px)] font-bold event-title cursor-pointer">
         {event.name}
       </h1>
       <div>
@@ -43,7 +43,10 @@ function Event(props) {
       </div>
       <div className="flex items-center">
         {event.province ? (
-          <Tag onClick={(event) => event.stopPropagation()}>
+          <Tag
+            onClick={(event) => event.stopPropagation()}
+            className="cursor-pointer"
+          >
             {event.province}
           </Tag>
         ) : null}
@@ -52,7 +55,7 @@ function Event(props) {
         {categoriesArr?.map((item, index) => (
           <p
             key={index}
-            className="event-category"
+            className="event-category cursor-pointer"
             onClick={(event) => event.stopPropagation()}
           >
             {t(item?.name)}

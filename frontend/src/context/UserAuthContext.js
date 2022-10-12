@@ -1,19 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
   GoogleAuthProvider,
-  signInWithPopup,
   RecaptchaVerifier,
+  signInWithEmailAndPassword,
   signInWithPhoneNumber,
+  signInWithPopup,
+  signOut,
 } from "firebase/auth";
-import { authentication } from "../configs/firebaseConfig";
-import { Role } from "../helpers/role";
+import { createContext, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createAccount } from "../redux/slices/accountSlice";
+import { authentication } from "../configs/firebaseConfig";
 
 const userAuthContext = createContext();
 
