@@ -85,7 +85,7 @@
       font-size: 1.125rem;
     }
     .buy-now {
-      background: $primary-color;
+      background: linear-gradient(-45deg, #1f3e82, #2c4791);
       color: white;
       margin-bottom: 0.5rem;
       @include for-phone {

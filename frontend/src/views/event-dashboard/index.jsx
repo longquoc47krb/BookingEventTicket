@@ -28,6 +28,7 @@ function EventDashBoard() {
     status,
     isFetching,
   } = useFetchEventsForPagination(currentPage);
+
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);

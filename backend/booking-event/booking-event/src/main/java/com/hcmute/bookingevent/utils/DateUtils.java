@@ -13,16 +13,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DateUtils {
+
     public static List<Event> sortEventByDateAsc(EventRepository eventRepository) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Comparator<Event> comparator = Comparator.comparing(events -> LocalDate.parse(events.getStartingDate(), formatter));
         List<Event> eventList = eventRepository.findAll().stream().sorted(comparator).collect(Collectors.toList());
-        return eventList;
-    }
-    public static List<Event> sortEventByDateAsc(List<Event> events){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Comparator<Event> comparator = Comparator.comparing(event -> LocalDate.parse(event.getStartingDate(), formatter));
-        List<Event> eventList = events.stream().sorted(comparator).collect(Collectors.toList());
         return eventList;
     }
     /**
@@ -96,6 +91,15 @@ public class DateUtils {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }public static boolean isBeforeToday(String date ){
+        Date today = new Date();
+        Date startDate = null;
+        startDate = stringToDate(date);
+
+        if(startDate.before(today)){
+            return true;
+        }
+        return false;
     }
     public static boolean isToday(String date) throws ParseException {
         Calendar today = Calendar.getInstance();

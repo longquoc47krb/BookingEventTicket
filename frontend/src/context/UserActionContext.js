@@ -1,8 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
-import eventServices from "../api/services/eventServices";
+import eventServices, {
+  useCompletedEvents,
+  useEventsByProvince,
+  useFetchFeaturedEvents,
+} from "../api/services/eventServices";
+import { useLocationName } from "../api/services/generalServices";
 import { AlertPopup } from "../components/common/alert";
+import constants from "../utils/constants";
+const { provinceMapping } = constants;
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
@@ -11,6 +18,7 @@ export const UserActionContextProvider = ({ children }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
   console.log({ showDrawer });
+
   const getWishlist = () => {
     setWishlistEvent([]);
 

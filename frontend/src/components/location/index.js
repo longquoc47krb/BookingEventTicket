@@ -1,6 +1,6 @@
 import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
-import { useLocationName } from "../../api/services/otherSevices";
+import { useLocationName } from "../../api/services/generalServices";
 import constants from "../../utils/constants";
 const { provinceMapping } = constants;
 function Location() {

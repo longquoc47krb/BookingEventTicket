@@ -11,7 +11,11 @@ export const EventAPI = {
       pageSize: 6,
     },
   }),
-  getHighlightEvents: {
+  getCompletedEvents: {
+    url: "/event/findCompletedEvents",
+    method: "GET",
+  },
+  getFeaturedEvents: {
     url: "/event/findEventAfterToday",
     method: "GET",
   },

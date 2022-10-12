@@ -1,6 +1,5 @@
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,10 +7,11 @@ import ScrollToTopPage from "./components/scroll-to-top";
 import routes from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
+import { UserFetchDataContextProvider } from "./context/UserFetchDateContext";
 const queryClient = new QueryClient({
   defaultOptions: {
-    staleTime: 5000,
-    cacheTime: 1500,
+    staleTime: 1000,
+    cacheTime: 1000 * 60 * 60 * 24,
   },
 });
 
@@ -30,13 +30,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <UserAuthContextProvider>
-          <UserActionContextProvider>
-            <Routes>
-              {routes.map((route) => (
-                <Route path={route.path} element={route.element} />
-              ))}
-              {/* // <Route
+        <UserFetchDataContextProvider>
+          <UserAuthContextProvider>
+            <UserActionContextProvider>
+              <Routes>
+                {routes.map((route) => (
+                  <Route path={route.path} element={route.element} />
+                ))}
+                {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
               //   element={
@@ -45,12 +46,13 @@ function App() {
               //       component={UserProfile}
               //     ></UserRoute>
               //   } */}
-            </Routes>
-          </UserActionContextProvider>
-        </UserAuthContextProvider>
+              </Routes>
+            </UserActionContextProvider>
+          </UserAuthContextProvider>
+        </UserFetchDataContextProvider>
       </BrowserRouter>
       <ScrollToTopPage top={800} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }

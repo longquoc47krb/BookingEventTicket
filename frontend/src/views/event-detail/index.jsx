@@ -36,8 +36,7 @@ function EventDetail(props) {
   // const wishList = useSelector(wishlistSelector);
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
-  const { data: eventTemp, status } = useEventDetails(eventId);
-  // const { data: featuredEventsTemp } = useFetchFeaturedEvents();
+  const { data: event, status } = useEventDetails(eventId);
   const buttonGroupRef = useRef(null);
   const rightWrapperRef = useRef(null);
   const dispatch = useDispatch();
@@ -46,7 +45,6 @@ function EventDetail(props) {
   const { t } = useTranslation();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
-  const event = status === "success" && eventTemp.data;
   // const featuredEvent = status === "success" && featuredEventsTemp.data;
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
@@ -117,8 +115,9 @@ function EventDetail(props) {
     return null;
   } else {
     dispatch(setPathName(window.location.pathname));
-    console.log("buttonRef", buttonGroupRef);
-    console.log("rightWrapperRef", rightWrapperRef);
+
+    console.log("event", event.data);
+    console.log("status", status);
     const renderStatus = (status, ref) => {
       switch (status) {
         case TicketStatus.AVAILABLE:

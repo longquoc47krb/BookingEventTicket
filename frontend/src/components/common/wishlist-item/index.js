@@ -7,7 +7,7 @@ import theme from "../../../shared/theme";
 function WishListItem({ id }) {
   const [interest] = useState(true);
   const { removeFromWishlist } = useUserActionContext();
-  const { data: eventQuery, status, isFetching } = useEventDetails(id);
+  const { data: event, status, isFetching } = useEventDetails(id);
   console.log({ id });
 
   if (status === "loading" || isFetching) {
@@ -15,7 +15,6 @@ function WishListItem({ id }) {
   } else if (status === "error" || isFetching) {
     return null;
   } else {
-    const event = eventQuery.data;
     return (
       <div
         className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1 rounded-[1rem]"

@@ -3,8 +3,9 @@
     width: 100%;
     height: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 2rem;
+    padding: 0 !important;
     .sider {
       display: block;
       padding: 1rem;
@@ -22,7 +23,7 @@
   &-content {
     position: relative;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1254px;
   }
   &-popular,
   &-event-near-you {
@@ -40,7 +41,7 @@
     }
     &-content {
       display: grid;
-      grid-template-columns: repeat(4, auto);
+      grid-template-columns: repeat(4, 1fr);
       gap: 0;
       @include for-tablet {
         grid-template-columns: auto auto auto !important;
