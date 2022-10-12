@@ -30,7 +30,7 @@ function EventHomeItem(props) {
         style={{ height: 130, width: 360 }}
         className="event-home-item-image"
       />
-      <h1 className="w-full mb-0">{event.name}</h1>
+      <h1 className="w-full mb- event-home-item-name">{event.name}</h1>
       <span className="font-medium text-sm">{event.startingDate}</span>
       <div className="flex items-center gap-x-2">
         {event.eventCategoryList.map((category, index) => (
