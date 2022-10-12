@@ -10,13 +10,9 @@ import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  useEventDetails,
-  useFetchFeaturedEvents,
-} from "../../api/services/eventServices";
+import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
-import Carousel from "../../components/common/carousel";
 import AppDrawer from "../../components/common/drawer";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
@@ -41,7 +37,7 @@ function EventDetail(props) {
   const [yPosition, setYPosition] = useState(window.scrollY);
   const [activeSection, setActiveSection] = useState(null);
   const { data: eventTemp, status } = useEventDetails(eventId);
-  const { data: featuredEventsTemp } = useFetchFeaturedEvents();
+  // const { data: featuredEventsTemp } = useFetchFeaturedEvents();
   const buttonGroupRef = useRef(null);
   const rightWrapperRef = useRef(null);
   const dispatch = useDispatch();
@@ -51,7 +47,7 @@ function EventDetail(props) {
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
   const event = status === "success" && eventTemp.data;
-  const featuredEvent = status === "success" && featuredEventsTemp.data;
+  // const featuredEvent = status === "success" && featuredEventsTemp.data;
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {

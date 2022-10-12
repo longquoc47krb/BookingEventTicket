@@ -77,26 +77,26 @@
   }
   &-home-item {
     &-container {
-      background: #ffffff;
+      background: transparent;
       width: 300px;
       height: auto;
-      max-height: 12rem;
+      max-height: 14.75rem;
       border-radius: 1rem;
       padding: 1rem;
       z-index: 2;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       @include for-phone {
         width: 100% !important;
       }
       h1 {
         font-size: 1.125rem;
         font-weight: 800;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         @include for-phone {
           font-size: 0.875rem !important;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
         }
       }
     }
