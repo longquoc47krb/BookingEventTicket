@@ -4,39 +4,36 @@ import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import Badge from "@mui/material/Badge";
 import MenuList from "@mui/material/MenuList";
 import { Dropdown, Empty } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
+import { useTranslation } from "react-i18next";
+import { BiX } from "react-icons/bi";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppConfig } from "../../../configs/AppConfig";
-import placeholderImg from "../../../assets/fallback-avatar.png";
-import {
-  logOutAccount,
-  userInfoSelector,
-} from "../../../redux/slices/accountSlice";
-import { useUserAuth } from "../../../context/UserAuthContext";
-import SearchBox from "../searchbox";
-import Location from "../../location";
-import { setPathName } from "../../../redux/slices/routeSlice";
 import { useMedia } from "react-use";
+import placeholderImg from "../../../assets/fallback-avatar.png";
+import { AppConfig } from "../../../configs/AppConfig";
+import { useUserActionContext } from "../../../context/UserActionContext";
+import { useUserAuth } from "../../../context/UserAuthContext";
+import { logOutAccount } from "../../../redux/slices/accountSlice";
+import { setPathName } from "../../../redux/slices/routeSlice";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
-import { useTranslation } from "react-i18next";
+import Location from "../../location";
+import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
-import { GrMore } from "react-icons/gr";
-import { BiX } from "react-icons/bi";
-import { useUserActionContext } from "../../../context/UserActionContext";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
-  const { wishlist, clearWishlist } = useUserActionContext();
+  const { wishlist, clearWishlist, setShowDrawer } = useUserActionContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -85,63 +82,73 @@ function Header(props) {
         {t("user.wishlist")}
       </h1>
       <hr style={{ width: "100%" }} />
-      {isNotEmpty(wishlist) ? (
-        wishlist.map((item, index) => (
-          <div key={index}>
-            <MenuItem
-              key={index}
-              className="mb-2"
-              onClick={() => {
-                dispatch(setPathName(window.location.pathname));
-                navigate(`/event/${item.id}`);
-              }}
-            >
-              <WishListItem id={item} />
-            </MenuItem>
+      <div className="max-h-[25rem] overflow-y-auto">
+        {isNotEmpty(wishlist) ? (
+          wishlist.map((item, index) => (
+            <div key={index}>
+              <MenuItem
+                key={index}
+                className="mb-2"
+                onClick={() => {
+                  dispatch(setPathName(window.location.pathname));
+                  navigate(`/event/${item.id}`);
+                }}
+              >
+                <WishListItem id={item} />
+              </MenuItem>
 
-            <Divider style={{ width: "100%" }} />
-          </div>
-        ))
-      ) : (
-        <MenuItem>
-          <Empty
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            imageStyle={{
-              height: 60,
-              width: 480,
-              display: "flex",
-              justifyContent: "center",
-            }}
-            description={<span>{t("search.empty")}</span>}
-          ></Empty>
-        </MenuItem>
-      )}
-      {isNotEmpty(wishlist) ? (
-        <>
+              <Divider style={{ width: "100%" }} />
+            </div>
+          ))
+        ) : (
           <MenuItem>
-            <div
-              className="flex items-center gap-x-2 justify-center w-full"
-              onClick={() => {
-                clearWishlist();
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 60,
+                width: 480,
+                display: "flex",
+                justifyContent: "center",
               }}
-            >
-              {t("remove-all")}
-              <BiX fontSize={30} className="cursor-pointer" />
-            </div>
+              description={<span>{t("search.empty")}</span>}
+            ></Empty>
           </MenuItem>
-          <MenuItem>
-            <div className="flex items-end gap-x-2">
-              {t("search.view-all")}
-              <GrMore />
-            </div>
-          </MenuItem>
-        </>
-      ) : null}
+        )}
+        {isNotEmpty(wishlist) ? (
+          <>
+            <MenuItem>
+              <div
+                className="flex items-center gap-x-2 justify-center w-full"
+                onClick={() => {
+                  clearWishlist();
+                }}
+              >
+                {t("remove-all")}
+                <BiX fontSize={30} className="cursor-pointer" />
+              </div>
+            </MenuItem>
+            <MenuItem>
+              <div className="flex items-end gap-x-2">
+                {t("search.view-all")}
+                <GrMore />
+              </div>
+            </MenuItem>
+          </>
+        ) : null}
+      </div>
     </MenuList>
   );
   return (
     <div className="header-container">
-      <div className="w-[60%] flex gap-x-4 items-center">
+      <div className="w-[60%] flex md:gap-x-4 items-center justify-between">
+        {isMobile ? (
+          <>
+            <BsFillGrid3X3GapFill
+              fontSize={30}
+              onClick={() => setShowDrawer(true)}
+            />
+          </>
+        ) : null}
         <img
           src="/logo.png"
           alt="logo"

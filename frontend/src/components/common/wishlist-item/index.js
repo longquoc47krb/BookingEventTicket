@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsSuitHeartFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
 import { useEventDetails } from "../../../api/services/eventServices";
 import { useUserActionContext } from "../../../context/UserActionContext";
-import { removeEventToWishList } from "../../../redux/slices/eventSlice";
 import theme from "../../../shared/theme";
 
 function WishListItem({ id }) {
-  const [interest, setInterest] = useState(true);
+  const [interest] = useState(true);
   const { removeFromWishlist } = useUserActionContext();
   const { data: eventQuery, status, isFetching } = useEventDetails(id);
   console.log({ id });
@@ -21,21 +18,26 @@ function WishListItem({ id }) {
     const event = eventQuery.data;
     return (
       <div
-        className="flex items-start gap-x-2 w-[30rem] relative"
+        className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1 rounded-[1rem]"
         onClick={(e) => {
           e.preventDefault();
         }}
       >
-        <img src={event.background} className="w-28 h-auto" alt={event.name} />
+        <img
+          src={event.background}
+          className="w-32 h-20 object-cover mr-1 rounded-[1rem]"
+          alt={event.name}
+        />
         <div className="flex flex-col w-full">
-          <span className="font-semibold text-lg inline-block w-[350px] text-ellipsis overflow-hidden">
+          <span className="font-semibold text-lg inline-block w-[250px] text-ellipsis overflow-hidden">
             {event.name}
           </span>
+          <span>{event.startingDate}</span>
           <span>{event.venue}</span>
         </div>
         {interest && (
           <div
-            className="absolute right-2 top-4"
+            className="absolute right-2 bottom-2"
             onClick={(e) => {
               e.stopPropagation();
               removeFromWishlist(event.id);

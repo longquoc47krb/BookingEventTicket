@@ -19,7 +19,8 @@
     "completed": "Đã kết thúc",
     "interest": "Quan tâm",
     "interested": "Đã quan tâm",
-    "view-more": "Xem thêm"
+    "view-more": "Xem thêm",
+    "recommend-for-you": "Sự kiện dành cho bạn"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
@@ -55,10 +56,16 @@
     "logout": "Đăng xuất",
     "name": "Họ và tên",
     "phone": "Số điện thoại",
+    "phone-placeholder": "Nhập số điện thoại của bạn",
+    "login-by-phone": "Đăng nhập bằng số điện thoại",
+    "login-by-google": "Đăng nhập bằng Google",
     "unauthenticated": {
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
     }
+  },
+  "date": {
+    "today": "Hôm nay"
   },
   "wishlist": {
     "add": {

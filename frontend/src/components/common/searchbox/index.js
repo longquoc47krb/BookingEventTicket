@@ -25,7 +25,7 @@ const SearchBox = (props) => {
   const { value, data, placeholder } = props;
   const [filterValue, setFilterValue] = useState(value || "");
   const [debouncedValue, setDebouncedValue] = useState("");
-  const { data: events } = useFetchEvents();
+  const { data: events, status } = useFetchEvents();
   const [expand, setExpand] = useState(true);
   const ref = useRef();
   useClickAway(ref, () => {
@@ -66,7 +66,6 @@ const SearchBox = (props) => {
       }),
     [data || events.data]
   );
-
   const results = fuse?.search(debouncedValue);
   useEffect(() => {
     dispatch(setResults(results));
@@ -160,3 +159,4 @@ SearchBox.defaultProps = {
   expand: true,
 };
 export default SearchBox;
+

@@ -12,7 +12,7 @@ export const EventAPI = {
     },
   }),
   getHighlightEvents: {
-    url: "/event/highlightEvent",
+    url: "/event/findEventAfterToday",
     method: "GET",
   },
   getEventByName: (name) => ({
@@ -20,6 +20,13 @@ export const EventAPI = {
     method: "GET",
     params: {
       name,
+    },
+  }),
+  getEventByProvince: (province) => ({
+    url: `/event/findEventByProvince`,
+    method: "GET",
+    params: {
+      province,
     },
   }),
   getEventById: (id) => ({

@@ -2,24 +2,25 @@ import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Modal, Row } from "antd";
 import { Form, FormikProvider, useFormik } from "formik";
 import jwt_decode from "jwt-decode";
+import { includes } from "lodash";
+import OTPInput, { ResendOTP } from "otp-input-react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import "react-phone-number-input/style.css";
 import HelmetHeader from "../../components/helmet";
+import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { Role } from "../../helpers/role";
 import {
   createAccount,
   getAccountByEmailOrPhone,
 } from "../../redux/slices/accountSlice";
-import PhoneInput from "react-phone-number-input";
-import OTPInput, { ResendOTP } from "otp-input-react";
-import { includes } from "lodash";
+import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
-import { useTranslation } from "react-i18next";
-import { pathNameSelector } from "../../redux/slices/routeSlice";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -85,11 +86,14 @@ const UserLogin = (props) => {
           className="brand-logo absolute top-5 left-5 w-[200px]"
           onClick={() => navigate("/")}
         />
+        <LanguageSwitch className="absolute top-5 right-5" />
         <div className="login-content">
           <FormikProvider value={formikLogin}>
             <Form className="login-form" onSubmit={handleSubmit}>
               <Row className="leading-8">
-                <h1 className="login-title mb-2 pl-[5px]">Đăng nhập</h1>
+                <h1 className="login-title mb-2 pl-[5px]">
+                  {t("pages.login")}
+                </h1>
               </Row>
               <Row
                 align="middle"
@@ -101,7 +105,7 @@ const UserLogin = (props) => {
               >
                 <Col flex={4}>
                   <h1 className="font-medium text-black text-lg mb-2">
-                    Số điện thoại
+                    {t("user.phone")}
                   </h1>
                   <PhoneInput
                     defaultCountry="VN"
@@ -117,21 +121,21 @@ const UserLogin = (props) => {
                       borderRadius: 5,
                       marginBottom: 16,
                     }}
-                    placeholder="Enter Phone Number"
+                    placeholder={t("user.phone-placeholder")}
                   />
                   <div id="recaptcha-container"></div>
                 </Col>
               </Row>
               <Col span={24}>
                 <button
-                  className="w-full py-2 bg-[#256d85] text-white"
+                  className={`w-full py-2 bg-[${theme.main}] text-white`}
                   type="submit"
                 >
-                  Đăng nhập bằng số điện thoại
+                  {t("user.login-by-phone")}
                 </button>
               </Col>
               <Divider style={{ color: "black", border: "gray" }}>
-                hoặc đăng nhập bằng Google
+                {t("user.login-by-google")}
               </Divider>
               <div className="flex justify-center">
                 <GoogleLogin

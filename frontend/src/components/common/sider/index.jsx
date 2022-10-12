@@ -3,7 +3,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import Paper from "@mui/material/Paper";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { GoOrganization } from "react-icons/go";

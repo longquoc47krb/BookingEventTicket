@@ -80,27 +80,36 @@
       background: #ffffff;
       width: 300px;
       height: auto;
-      top: 260.5px;
-      left: 494.5px;
+      max-height: 12rem;
       border-radius: 1rem;
       padding: 1rem;
-      transform: translate3d(0px, 0px, 0px) scale3d(1, 0.9999999999999999, 1)
-        skew(0deg, 0deg);
       z-index: 2;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       @include for-phone {
         width: 100% !important;
-        height: 40vh !important;
+      }
+      h1 {
+        font-size: 1.125rem;
+        font-weight: 800;
+        @include for-phone {
+          font-size: 0.875rem !important;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
       }
     }
+
     &-image {
       width: 100%;
       border-radius: 1rem;
       height: auto;
       object-fit: cover;
+      margin-bottom: 0.2rem;
       @include for-phone {
-        width: 100vw !important;
-        height: 25vh !important;
+        width: 40vw !important;
+        height: 20vw !important;
       }
     }
   }
@@ -174,72 +183,4 @@
   border-top-left-radius: 0.2em;
   margin: auto;
   font-family: "Kite One", sans-serif;
-}
-
-.ribbon i {
-  width: 90%;
-  height: 120%;
-  display: block;
-  margin: auto;
-  z-index: 100;
-  position: relative;
-  border-right: dashed 0.0625em #333;
-  border-left: dashed 0.0625em #333;
-  overflow: hidden;
-}
-i span {
-  color: #fff;
-  display: block;
-  text-align: center;
-  font-size: 1.5rem;
-  top: 50%;
-  color: yellow;
-  margin-top: -2em;
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  position: relative;
-  text-shadow: 0.0625em 0.0625em 0.0625em #333;
-  font-style: normal;
-  font-weight: bold;
-}
-s {
-  width: 0.625em;
-  height: 0.625em;
-  background: #333;
-  top: 50%;
-  margin-top: -0.3125em;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  display: block;
-  position: absolute;
-  opacity: 0.5;
-}
-
-s:nth-of-type(1) {
-  margin-left: -1.25em;
-  left: 0;
-}
-s:nth-of-type(2) {
-  right: 0;
-  margin-right: -1.25em;
-}
-.ribbon:before {
-  content: "";
-  position: absolute;
-  bottom: -2.4em;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-top: 2.5em solid #990000;
-  border-right: 2.5em solid transparent;
-}
-.ribbon:after {
-  content: "";
-  position: absolute;
-  bottom: -2.4em;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-top: 2.5em solid #990000;
-  border-left: 2.5em solid transparent;
 }

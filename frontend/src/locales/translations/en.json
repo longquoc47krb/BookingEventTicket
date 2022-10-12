@@ -6,7 +6,7 @@
   "pages": {
     "home": "Homepage",
     "events": "Events",
-    "login": "Login"
+    "login": "Log in"
   },
   "event": {
     "list": "Events",
@@ -19,7 +19,8 @@
     "completed": "Completed",
     "interest": "Interest",
     "interested": "Interested",
-    "view-more": "View more"
+    "view-more": "View more",
+    "recommend-for-you": "Recommend for you"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -55,10 +56,16 @@
     "logout": "Logout",
     "name": "Full name",
     "phone": "Phone number",
+    "phone-placeholder": "Enter Phone Number",
+    "login-by-phone": "Login by phone number",
+    "login-by-google": "Login by Google",
     "unauthenticated": {
       "title": "Unauthenticated",
       "text": "Please log in to add event to wishlist"
     }
+  },
+  "date": {
+    "today": "Today"
   },
   "wishlist": {
     "add": {

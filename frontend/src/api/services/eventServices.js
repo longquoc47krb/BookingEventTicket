@@ -28,6 +28,10 @@ const fetchEventsForPagination = async (params) => {
   );
   return response;
 };
+const fetchEventsByProvince = async (params) => {
+  const response = await httpRequest(EventAPI.getEventByProvince(params));
+  return response.data;
+};
 // React Query
 
 export const useFetchEvents = (staleTime = 60000) => {
@@ -35,7 +39,7 @@ export const useFetchEvents = (staleTime = 60000) => {
     staleTime,
   });
 };
-export const useFetchHighlightEvents = (staleTime = 60000) => {
+export const useFetchFeaturedEvents = (staleTime = 60000) => {
   return useQuery(["highlightEvents"], fetchHighlightEvents, {
     staleTime,
   });
@@ -54,12 +58,22 @@ export const useEventDetails = (id) => {
     staleTime: 60000,
   });
 };
+export const useEventsByProvince = (province) => {
+  return useQuery(
+    ["getEventsByProvince", province],
+    () => fetchEventsByProvince(province),
+    {
+      staleTime: 60000,
+    }
+  );
+};
 
 const eventServices = {
   fetchAllEvents,
   fetchEventsForPagination,
   getEventByName,
   getEventById,
+  fetchEventsByProvince,
   createEvent,
 };
 export default eventServices;

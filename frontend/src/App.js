@@ -1,27 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import routes, {
-  AdminLoginPage,
-  EventDashBoardPage,
-  EventDetailPage,
-  HomePage,
-  LoginPage,
-} from "./configs/routes";
-import { UserAuthContextProvider } from "./context/UserAuthContext";
-import NotFoundPage from "./views/not-found";
-import UserProfile from "./views/user-profile";
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTopPage from "./components/scroll-to-top";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import OrganizeRegistration from "./views/be-an-organization";
+import routes from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     staleTime: 5000,
