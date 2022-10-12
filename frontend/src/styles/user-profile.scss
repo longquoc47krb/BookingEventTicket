@@ -8,3 +8,18 @@
 .ant-input[disabled] {
   color: black !important;
 }
+.profile {
+  height: 90vh;
+  width: 40vw;
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 1px;
+  position: relative;
+  @include for-phone {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

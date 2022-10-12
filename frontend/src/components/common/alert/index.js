@@ -1,12 +1,13 @@
 // ** Third Party Components
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import theme from "../../../shared/theme";
 export function AlertQuestion({ title, text, callback }) {
   return Swal.fire({
     title,
     text,
     icon: "question",
     showCancelButton: true,
-    confirmButtonColor: "#004C6D",
+    confirmButtonColor: theme.main,
     cancelButtonColor: "#d33",
     confirmButtonText: "OK",
   }).then(callback);

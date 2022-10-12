@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { Input } from "../../components/common/input/customField";
 import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
+import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
@@ -45,6 +46,7 @@ function UserProfile() {
         content="User Profile"
       />
       <div className="user-profile-container">
+        <LanguageSwitch className="absolute top-5 right-5" />
         <Box
           sx={{
             p: 2,

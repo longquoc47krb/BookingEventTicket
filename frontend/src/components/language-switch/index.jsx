@@ -10,7 +10,7 @@ const LanguageSwitch = (props) => {
     await i18n.changeLanguage(e.target.value);
   };
   return (
-    <div className="language">
+    <div className={`language ${className}`}>
       <Select
         defaultValue={i18n.language}
         inputProps={{ "aria-label": "Without label" }}
