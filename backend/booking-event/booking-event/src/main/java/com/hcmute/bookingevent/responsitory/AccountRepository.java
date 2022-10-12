@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface AccountRepository extends MongoRepository<Account,String> {
     List<Account> findAll();
     Optional<Account> findById(String id);
+    Optional<Account> findByUserName(String username);
     Optional<Account> findByName(String name);
     Optional<Account> findByEmail(String email);
     Optional<Account> findByPhone(String name);
