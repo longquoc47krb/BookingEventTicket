@@ -3,15 +3,20 @@ package com.hcmute.bookingevent.security.jwt;
 import com.hcmute.bookingevent.models.Account;
 
 import com.hcmute.bookingevent.payload.LoginReq;
+
+import com.hcmute.bookingevent.security.user.UserDetailsImpl;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.security.SignatureException;
 import java.util.Date;
-
+@Component
+@Slf4j
 public class JwtTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
@@ -35,18 +40,29 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+    public String generateJwtToken(Authentication authentication) {
+
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
+        return Jwts.builder()
+                .setSubject((userPrincipal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationInMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
 
     //Lấy id_user từ token đã được mã hóa
-    public int getUserIdFromJWT(String token) {
+    public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
-        return (int) Long.parseLong(claims.getSubject());
+        return claims.getSubject();
     }
 
     //check token
-    public boolean validateToken(String authToken) throws SignatureException {
+    public boolean validateJwtToken(String authToken)  {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;

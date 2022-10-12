@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 
-@RequestMapping(path = "/eventCategory")
+@RequestMapping(path = "/api/eventCategory")
 public class EventCategoryController {
     private  final IEventCategory iEventCategory;
 

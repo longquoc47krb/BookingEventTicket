@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/event")
+@RequestMapping(path = "/api/event")
 public class EventController {
     private final IEventService iEventService;
 
