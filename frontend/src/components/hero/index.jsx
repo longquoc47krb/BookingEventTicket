@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetchEvents } from "../../api/services/eventServices";
+import { useUserFetchDataContext } from "../../context/UserFetchDateContext";
 import { useHandleClickOutside } from "../../hooks/useHandleClickOutside";
 import SearchBox from "../common/searchbox";
 function HeroBanner({ heroSlogan, heroBackground }) {
   const { t } = useTranslation();
   // const events = useSelector(eventsSelector);
-  const { data: events } = useFetchEvents();
+  const { allEvents, successStatus } = useUserFetchDataContext();
   const [isOpen, setIsOpen] = useState(true);
   const ref = useRef();
   useHandleClickOutside(ref, () => setIsOpen(false));
@@ -26,7 +27,7 @@ function HeroBanner({ heroSlogan, heroBackground }) {
       <SearchBox
         ref={ref}
         expand={isOpen}
-        data={events?.data}
+        data={successStatus && allEvents}
         placeholder={t("event.placeholder-searchbox")}
       />
     </section>

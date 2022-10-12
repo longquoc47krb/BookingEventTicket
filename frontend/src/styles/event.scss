@@ -6,7 +6,7 @@
     &-grid {
       display: grid;
       justify-content: center;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: repeat(3, auto);
       grid-gap: 2rem;
       @include for-phone {
         grid-template-columns: auto !important;
@@ -44,6 +44,8 @@
     position: relative;
     border-radius: 0.5rem;
     background: white;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: 1.2px 0.9px 2.2px rgba(0, 0, 0, 0.025),
       3px 2.2px 5.3px rgba(0, 0, 0, 0.035),
       5.6px 4.1px 10px rgba(0, 0, 0, 0.043),
@@ -87,6 +89,7 @@
       margin-bottom: 1rem;
       @include for-phone {
         width: 100% !important;
+        margin-bottom: 0 !important;
       }
       h1 {
         font-size: 1.125rem;

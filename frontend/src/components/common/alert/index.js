@@ -18,7 +18,7 @@ export function AlertSuccess({ title, text, callback }) {
     text,
     icon: "success",
     showCancelButton: true,
-    confirmButtonColor: "#004C6D",
+    confirmButtonColor: "#1F3E82",
     cancelButtonColor: "#d33",
     confirmButtonText: "OK",
   }).then(callback);
@@ -38,7 +38,7 @@ export function AlertError({ title, text, callback }) {
     text,
     icon: "error",
     showCancelButton: true,
-    confirmButtonColor: "#004C6D",
+    confirmButtonColor: "#1F3E82",
     cancelButtonColor: "#d33",
     confirmButtonText: "OK",
   }).then(callback);

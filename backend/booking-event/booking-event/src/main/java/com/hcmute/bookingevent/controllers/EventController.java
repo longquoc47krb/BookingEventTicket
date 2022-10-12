@@ -27,11 +27,19 @@ public class EventController {
     public ResponseEntity<?> createEvent(@RequestBody Event event) {
         return iEventService.createEvent(event);
 
-    }
-    @GetMapping("/highlightEvent")
-    public ResponseEntity<?> findHighlightEvents(){
+    }  @GetMapping("/findEventAfterToday")
+    public ResponseEntity<?> findEventAfterToday(){
         return iEventService.findEventAfterToday();
 
+    }
+    @GetMapping("/findCompletedEvents")
+    public ResponseEntity<?> findCompletedEvents(){
+        return iEventService.findCompletedEvents();
+
+    }
+    @GetMapping("/findEventByProvince")
+    public ResponseEntity<?> findEventByProvince(@RequestParam(value="province") String province){
+        return iEventService.findEventsByProvince(province);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable String id) {

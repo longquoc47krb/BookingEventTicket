@@ -5,18 +5,22 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 0.5rem;
-    padding-right: 0.2rem;
+    padding-right: 0 rem;
     color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
       rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
       rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    background: linear-gradient(-45deg, rgb(12, 50, 107), rgb(44, 71, 145));
+    background: linear-gradient(-45deg, #1f3e82, #2c4791);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0 0.5rem;
     z-index: 10;
     width: 100%;
+    @include for-phone {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
   &-avatar {
     object-fit: cover;

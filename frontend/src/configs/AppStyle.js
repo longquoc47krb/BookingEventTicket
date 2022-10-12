@@ -1,6 +1,6 @@
 const AppStyle = {
   colors: {
-    primary: "#004c6d",
+    primary: "#1F3E82",
     success: "#00ff0d",
     info: "#0544e6",
     warning: "#e6b70c",

@@ -20,7 +20,6 @@ public class BookingEventApplication {
 
 	public static void main(String[] args) throws ParseException {
 
-		System.out.println(isAfterToday("10/10/2022"));
 		SpringApplication.run(BookingEventApplication.class, args);
 	}
 
