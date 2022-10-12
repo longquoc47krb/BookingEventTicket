@@ -22,10 +22,13 @@
   &-content {
     position: relative;
     width: 100%;
+    max-width: 1200px;
   }
   &-popular,
   &-event-near-you {
-    width: 90%;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
     &-text {
       font-size: 3rem;
       font-weight: 800;
@@ -37,10 +40,13 @@
     }
     &-content {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, auto);
       gap: 0;
+      @include for-tablet {
+        grid-template-columns: auto auto auto !important;
+      }
       @include for-phone {
-        grid-template-columns: auto !important;
+        grid-template-columns: auto auto !important;
         justify-content: center;
       }
     }

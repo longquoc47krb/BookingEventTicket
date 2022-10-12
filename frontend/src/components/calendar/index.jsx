@@ -3,17 +3,28 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import "moment/locale/vi";
 import { titleCase } from "../../utils/utils";
+import { useTranslation } from "react-i18next";
 function Calendar(props) {
   const { className, calendar } = props;
   const dateFormat = (moment.defaultFormat = "DD/MM/YYYY");
+  const { t } = useTranslation();
   var language = localStorage.getItem("i18nextLng");
   if (language === "en") {
     moment.locale("en");
   } else {
     moment.locale("vi");
   }
+  var isToday = false;
+  if (
+    moment(calendar, dateFormat).format(dateFormat) ===
+    moment().format(dateFormat)
+  ) {
+    isToday = true;
+  }
   const calendarObj = {
-    dayOfWeek: moment(calendar, dateFormat).format("dddd"),
+    dayOfWeek: isToday
+      ? t("date.today")
+      : moment(calendar, dateFormat).format("dddd"),
     day: moment(calendar, dateFormat).format("D"),
     month: moment(calendar, dateFormat).format("MMMM"),
   };

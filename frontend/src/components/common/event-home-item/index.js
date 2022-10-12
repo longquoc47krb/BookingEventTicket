@@ -7,7 +7,7 @@ import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import { AppConfig } from "../../../configs/AppConfig";
 import { checkImageURL } from "../../../utils/utils";
 function EventHomeItem(props) {
-  const { event, status } = props;
+  const { event } = props;
   const navigate = useNavigate();
   const { t } = useTranslation();
   const goToEventDetail = () => {
@@ -21,15 +21,6 @@ function EventHomeItem(props) {
         goToEventDetail();
       }}
     >
-      {/* <div class="ribbon">
-        <i>
-          <span>
-            <s></s>
-            {status}
-            <s></s>
-          </span>
-        </i>
-      </div> */}
       <img
         src={
           checkImageURL(event?.background)
@@ -39,7 +30,7 @@ function EventHomeItem(props) {
         style={{ height: 130, width: 360 }}
         className="event-home-item-image"
       />
-      <h1 className="w-full font-extrabold text-lg mb-0">{event.name}</h1>
+      <h1 className="w-full mb-0">{event.name}</h1>
       <span className="font-medium text-sm">{event.startingDate}</span>
       <div className="flex items-center gap-x-2">
         {event.eventCategoryList.map((category, index) => (

@@ -8,6 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFetchEventsForPagination } from "../../api/services/eventServices";
+import AppDrawer from "../../components/common/drawer";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
@@ -15,6 +16,7 @@ import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import Loading from "../../components/loading";
 import { setPathName } from "../../redux/slices/routeSlice";
+import theme from "../../shared/theme";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const dispatch = useDispatch();
@@ -42,8 +44,11 @@ function EventDashBoard() {
         <Header showSearchBox={false} />
         <HeroBanner />
         <div className="event-container">
+          <AppDrawer />
           <Divider style={{ color: "black", border: "gray" }}>
-            <h1 className="flex justify-center text-[#004c6d] font-bold text-3xl md:text-5xl">
+            <h1
+              className={`flex justify-center text-[${theme.main}] font-bold text-3xl md:text-5xl`}
+            >
               {t("event.list")}
             </h1>
           </Divider>
