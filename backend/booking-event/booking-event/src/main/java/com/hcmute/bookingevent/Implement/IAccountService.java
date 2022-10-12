@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IAccountService {
-    ResponseEntity<?> login(LoginReq req);
+
     ResponseEntity<?> findAll();
     ResponseEntity<?> findAll(Pageable pageable);
     ResponseEntity<?> updateAccount(String id,Account account);

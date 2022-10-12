@@ -17,7 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = "/organization")
+@RequestMapping(path = "/api/organization")
 public class OrganizationController {
     IOrganizationService iOrganizationService;
 

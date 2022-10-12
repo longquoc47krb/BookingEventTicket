@@ -17,13 +17,10 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/account")
+@RequestMapping(path = "/api/account")
 public class AccountController {
     private  final  IAccountService iAccountService;
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
-        return iAccountService.login(loginReq);
-    }
+
     @GetMapping(path = "/admin/manage/users")
     public ResponseEntity<?> findAll (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
