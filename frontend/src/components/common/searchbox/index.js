@@ -36,7 +36,7 @@ const SearchBox = (props) => {
       setDebouncedValue(filterValue);
       setExpand(true);
     },
-    500,
+    1000,
     [filterValue]
   );
   const navigate = useNavigate();
@@ -69,7 +69,6 @@ const SearchBox = (props) => {
         }),
       [data || events.data]
     );
-
     const results = fuse?.search(debouncedValue);
     useEffect(() => {
       dispatch(setResults(results));
