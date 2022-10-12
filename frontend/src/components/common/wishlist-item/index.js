@@ -18,12 +18,16 @@ function WishListItem({ id }) {
     const event = eventQuery.data;
     return (
       <div
-        className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1"
+        className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1 rounded-[1rem]"
         onClick={(e) => {
           e.preventDefault();
         }}
       >
-        <img src={event.background} className="w-auto h-20" alt={event.name} />
+        <img
+          src={event.background}
+          className="w-32 h-20 object-cover mr-1 rounded-[1rem]"
+          alt={event.name}
+        />
         <div className="flex flex-col w-full">
           <span className="font-semibold text-lg inline-block w-[250px] text-ellipsis overflow-hidden">
             {event.name}

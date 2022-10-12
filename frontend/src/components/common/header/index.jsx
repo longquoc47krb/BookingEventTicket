@@ -77,65 +77,65 @@ function Header(props) {
     </MenuList>
   );
   const wishListMenu = (
-    <MenuList
-      style={{ background: "white", overflowY: "scroll", maxHeight: "25rem" }}
-    >
+    <MenuList style={{ background: "white" }}>
       <h1 className="font-bold text-xl px-3 flex justify-center ">
         {t("user.wishlist")}
       </h1>
       <hr style={{ width: "100%" }} />
-      {isNotEmpty(wishlist) ? (
-        wishlist.map((item, index) => (
-          <div key={index}>
-            <MenuItem
-              key={index}
-              className="mb-2"
-              onClick={() => {
-                dispatch(setPathName(window.location.pathname));
-                navigate(`/event/${item.id}`);
-              }}
-            >
-              <WishListItem id={item} />
-            </MenuItem>
+      <div className="max-h-[25rem] overflow-y-auto">
+        {isNotEmpty(wishlist) ? (
+          wishlist.map((item, index) => (
+            <div key={index}>
+              <MenuItem
+                key={index}
+                className="mb-2"
+                onClick={() => {
+                  dispatch(setPathName(window.location.pathname));
+                  navigate(`/event/${item.id}`);
+                }}
+              >
+                <WishListItem id={item} />
+              </MenuItem>
 
-            <Divider style={{ width: "100%" }} />
-          </div>
-        ))
-      ) : (
-        <MenuItem>
-          <Empty
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            imageStyle={{
-              height: 60,
-              width: 480,
-              display: "flex",
-              justifyContent: "center",
-            }}
-            description={<span>{t("search.empty")}</span>}
-          ></Empty>
-        </MenuItem>
-      )}
-      {isNotEmpty(wishlist) ? (
-        <>
+              <Divider style={{ width: "100%" }} />
+            </div>
+          ))
+        ) : (
           <MenuItem>
-            <div
-              className="flex items-center gap-x-2 justify-center w-full"
-              onClick={() => {
-                clearWishlist();
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 60,
+                width: 480,
+                display: "flex",
+                justifyContent: "center",
               }}
-            >
-              {t("remove-all")}
-              <BiX fontSize={30} className="cursor-pointer" />
-            </div>
+              description={<span>{t("search.empty")}</span>}
+            ></Empty>
           </MenuItem>
-          <MenuItem>
-            <div className="flex items-end gap-x-2">
-              {t("search.view-all")}
-              <GrMore />
-            </div>
-          </MenuItem>
-        </>
-      ) : null}
+        )}
+        {isNotEmpty(wishlist) ? (
+          <>
+            <MenuItem>
+              <div
+                className="flex items-center gap-x-2 justify-center w-full"
+                onClick={() => {
+                  clearWishlist();
+                }}
+              >
+                {t("remove-all")}
+                <BiX fontSize={30} className="cursor-pointer" />
+              </div>
+            </MenuItem>
+            <MenuItem>
+              <div className="flex items-end gap-x-2">
+                {t("search.view-all")}
+                <GrMore />
+              </div>
+            </MenuItem>
+          </>
+        ) : null}
+      </div>
     </MenuList>
   );
   return (

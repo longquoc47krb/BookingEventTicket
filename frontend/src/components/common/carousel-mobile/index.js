@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -7,8 +7,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-cube";
-
-// import "./styles.css";
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper";
@@ -32,6 +30,7 @@ export default function CarouselMobile(props) {
       <Swiper
         spaceBetween={0}
         centeredSlides={true}
+        loop={true}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
