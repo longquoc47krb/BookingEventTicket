@@ -1,9 +1,9 @@
 export const paragraph = "";
 
 export const TicketStatus = {
-  COMPLETED: "completed",
-  SOLDOUT: "sold out",
-  AVAILABLE: "available",
+  COMPLETED: "event.completed",
+  SOLDOUT: "event.sold-out",
+  AVAILABLE: "event.available",
 };
 
 const provinceMapping = new Map();

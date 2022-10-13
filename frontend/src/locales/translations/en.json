@@ -20,7 +20,9 @@
     "interest": "Interest",
     "interested": "Interested",
     "view-more": "View more",
-    "recommend-for-you": "Recommend for you"
+    "recommend-for-you": "Recommend for you",
+    "remain": "Remaing",
+    "ticket": "tickets"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -69,11 +71,11 @@
   },
   "wishlist": {
     "add": {
-      "title": "Added event!",
+      "title": "Add event!",
       "text": "Event added to your favourite list"
     },
     "remove": {
-      "title": "Removed event!",
+      "title": "Remove event!",
       "text": "Event remove from your favourite list"
     }
   },

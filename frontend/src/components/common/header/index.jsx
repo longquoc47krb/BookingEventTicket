@@ -16,7 +16,6 @@ import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
-import { useFetchEvents } from "../../../api/services/eventServices";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import { AppConfig } from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
@@ -26,7 +25,6 @@ import { logOutAccount } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
-import Location from "../../location";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
 const { USER_PROFILE_MENU } = AppConfig;
@@ -34,7 +32,7 @@ function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
-  const { wishlist, clearWishlist, setShowDrawer } = useUserActionContext();
+  const { wishlist, clearWishlist } = useUserActionContext();
   const { allEvents, successStatus } = useUserFetchDataContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
@@ -179,9 +177,8 @@ function Header(props) {
           ) : (
             <div className="flex items-center gap-x-2">
               <Dropdown overlay={wishListMenu} trigger={["click"]}>
-                <RiBookmark3Fill className="text-2xl" />
+                <RiBookmark3Fill className="text-2xl cursor-pointer" />
               </Dropdown>
-
               <Dropdown overlay={menu} trigger={["click"]}>
                 <Avatar
                   googleId={current.sub}
@@ -192,6 +189,7 @@ function Header(props) {
                   className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
                 />
               </Dropdown>
+              <span>{current.name}</span>
               <LanguageSwitch />
             </div>
           )}
