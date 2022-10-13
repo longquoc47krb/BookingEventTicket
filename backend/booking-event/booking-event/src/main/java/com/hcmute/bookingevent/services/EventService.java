@@ -59,15 +59,23 @@ public class EventService implements IEventService {
         throw new NotFoundException("Can not find any event");
     }
     @Override
-    public ResponseEntity<?> findCompletedEvents(){
+    public ResponseEntity<?> checkEventStatus(){
         List<Event> events = sortEventByDateAsc(eventRepository);
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
-            if(isBeforeToday(event.getStartingDate())) {
+            if(isBeforeToday(event.getEndingDate())) {
                 event.setStatus(TicketStatus.COMPLETED);
                 eventList.add(event);
-                eventRepository.save(event);
             }
+            else if(event.getRemainingTicket() == 0){
+                event.setStatus(TicketStatus.SOLD_OUT);
+                eventList.add(event);
+            }
+            else{
+                event.setStatus(TicketStatus.AVAILABLE);
+                eventList.add(event);
+            }
+            eventRepository.save(event);
 
         }
         return ResponseEntity.status(HttpStatus.OK).body(

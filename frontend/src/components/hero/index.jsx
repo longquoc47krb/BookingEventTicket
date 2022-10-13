@@ -14,7 +14,6 @@ function HeroBanner({ heroSlogan, heroBackground }) {
   const [isOpen, setIsOpen] = useState(true);
   const ref = useRef();
   useHandleClickOutside(ref, () => setIsOpen(false));
-  console.log("open: ", isOpen);
   return (
     <section
       role="img"

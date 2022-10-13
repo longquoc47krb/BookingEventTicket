@@ -16,7 +16,7 @@ public interface IEventService {
     ResponseEntity<?> searchEvents(String key);
     ResponseEntity<?> findEventListById(String id);
     ResponseEntity<?> eventPagination(Pageable pageable);
-    ResponseEntity<?> findCompletedEvents();
+    ResponseEntity<?> checkEventStatus();
 
     ResponseEntity<?> findEventsByCategory(String category);
     ResponseEntity<?> findEventsByProvince(String province);

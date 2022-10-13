@@ -11,8 +11,8 @@ export const EventAPI = {
       pageSize: 6,
     },
   }),
-  getCompletedEvents: {
-    url: "/event/findCompletedEvents",
+  checkEventStatus: {
+    url: "/event/checkEventStatus",
     method: "GET",
   },
   getFeaturedEvents: {

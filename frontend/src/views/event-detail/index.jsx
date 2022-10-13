@@ -83,7 +83,6 @@ function EventDetail(props) {
       });
     }
   };
-
   useEffect(() => {
     if (status !== "loading" && status !== "error") {
       const sectionPosition = {
@@ -116,9 +115,8 @@ function EventDetail(props) {
   } else {
     dispatch(setPathName(window.location.pathname));
 
-    console.log("event", event.data);
-    console.log("status", status);
-    const renderStatus = (status, ref) => {
+    function renderStatus(status, ref) {
+      console.log({ status });
       switch (status) {
         case TicketStatus.AVAILABLE:
           if (ref === buttonGroupRef.current) {
@@ -192,7 +190,7 @@ function EventDetail(props) {
             </button>
           );
       }
-    };
+    }
     return (
       <>
         <HelmetHeader title={event?.name} />
@@ -227,7 +225,17 @@ function EventDetail(props) {
               </div>
             </div>
             <div className="event-detail-button" ref={buttonGroupRef}>
-              {renderStatus(event.status, buttonGroupRef.current)}
+              <button
+                onClick={handleCheckAuthenticated}
+                className={
+                  event.status === "event.sold-out" ||
+                  event.status === "event.completed"
+                    ? "disabled-button"
+                    : "buy-now"
+                }
+              >
+                {t(event.status)}
+              </button>
               {wishlist &&
               wishlist.length > 0 &&
               wishlist.find((e) => e === event.id) ? (
@@ -353,7 +361,17 @@ function EventDetail(props) {
                       </p>
                     </div>
                   </div>
-                  {renderStatus(event.status, rightWrapperRef.current)}
+                  <button
+                    onClick={handleCheckAuthenticated}
+                    className={
+                      event.status === "event.sold-out" ||
+                      event.status === "event.completed"
+                        ? "disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                        : "buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                    }
+                  >
+                    {t(event.status)}
+                  </button>
                 </div>
               </Affix>
             </div>

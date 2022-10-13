@@ -42,7 +42,6 @@ function Header(props) {
   const { t } = useTranslation();
   const { user } = useUserAuth();
   const isMobile = useMedia("(max-width: 767px)");
-  console.log({ allEvents, successStatus });
   function onLogout() {
     dispatch(logOutAccount());
     logOut();

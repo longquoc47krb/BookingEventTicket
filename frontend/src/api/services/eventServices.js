@@ -6,8 +6,8 @@ const fetchAllEvents = async () => {
   const response = await httpRequest(EventAPI.getAllEvents);
   return response.data;
 };
-const fetchCompletedEvents = async () => {
-  const response = await httpRequest(EventAPI.getCompletedEvents);
+const setEventStatus = async () => {
+  const response = await httpRequest(EventAPI.checkEventStatus);
   return response.data;
 };
 const fetchFeaturedEvents = async () => {
@@ -43,9 +43,10 @@ export const useFetchEvents = (staleTime = 60000) => {
     staleTime,
   });
 };
-export const useCompletedEvents = (staleTime = 60000) => {
-  return useQuery(["completedEvents"], fetchCompletedEvents, {
-    staleTime,
+export const useCheckEventsStatus = () => {
+  return useQuery(["checkEventStatus"], setEventStatus, {
+    staleTime: 0,
+    cacheTime: 0,
   });
 };
 export const useFetchFeaturedEvents = (staleTime = 60000) => {
@@ -83,7 +84,7 @@ const eventServices = {
   getEventByName,
   getEventById,
   fetchEventsByProvince,
-  fetchCompletedEvents,
+  setEventStatus,
   fetchFeaturedEvents,
   createEvent,
 };

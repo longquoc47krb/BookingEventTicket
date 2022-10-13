@@ -32,9 +32,9 @@ public class EventController {
         return iEventService.findEventAfterToday();
 
     }
-    @GetMapping("/findCompletedEvents")
-    public ResponseEntity<?> findCompletedEvents(){
-        return iEventService.findCompletedEvents();
+    @GetMapping("/checkEventStatus")
+    public ResponseEntity<?> checkEventStatus(){
+        return iEventService.checkEventStatus();
 
     }
     @GetMapping("/findEventByProvince")

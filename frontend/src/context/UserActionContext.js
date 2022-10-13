@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import eventServices, {
-  useCompletedEvents,
+  useCheckEventsStatus,
   useEventsByProvince,
   useFetchFeaturedEvents,
 } from "../api/services/eventServices";
@@ -17,7 +17,6 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
-  console.log({ showDrawer });
 
   const getWishlist = () => {
     setWishlistEvent([]);
@@ -36,13 +35,10 @@ export const UserActionContextProvider = ({ children }) => {
   };
 
   const addToWishlist = (eventId) => {
-    console.log(eventId);
     setWishlist((prev) => {
       return [...prev, eventId];
     });
 
-    console.log("WISHLIST");
-    console.log(wishlist);
     const values = [...wishlist];
     values.push(eventId);
     const list = {
