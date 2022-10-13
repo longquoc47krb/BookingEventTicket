@@ -1,6 +1,8 @@
 .home {
   &-container {
+    display: block;
     width: 100%;
+    max-width: 1235px;
     height: auto;
     display: flex;
     justify-content: flex-start;
