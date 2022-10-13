@@ -11,13 +11,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/effect-flip";
 import "swiper/css/effect-fade";
 // import required modules
-import {
-  Autoplay,
-  Pagination,
-  Navigation,
-  EffectCube,
-  EffectFade,
-} from "swiper";
+import { Autoplay, Pagination, Navigation, EffectFade } from "swiper";
 import { shuffle } from "lodash";
 import { Link } from "react-router-dom";
 import { checkImageURL } from "../../../utils/utils";
@@ -47,7 +41,7 @@ export default function Carousel(props) {
         }}
         effect={"fade"}
         navigation={true}
-        modules={[Autoplay, Pagination, Navigation, EffectCube, EffectFade]}
+        modules={[Autoplay, Pagination, Navigation, EffectFade]}
         className="mySwiper"
       >
         {newData.map((event, index) => (

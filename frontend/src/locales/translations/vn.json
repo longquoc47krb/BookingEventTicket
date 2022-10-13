@@ -20,7 +20,9 @@
     "interest": "Quan tâm",
     "interested": "Đã quan tâm",
     "view-more": "Xem thêm",
-    "recommend-for-you": "Sự kiện dành cho bạn"
+    "recommend-for-you": "Sự kiện dành cho bạn",
+    "remain": "Còn lại",
+    "ticket": "vé"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
