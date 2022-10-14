@@ -71,9 +71,11 @@ function Home() {
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>
               <div className="home-event-near-you-content">
-                {eventsByProvince.map((event) => (
-                  <EventHomeItem event={event} />
-                ))}
+                {eventsByProvince
+                  .filter((e) => e.remainingTicket !== 0)
+                  .map((event) => (
+                    <EventHomeItem event={event} />
+                  ))}
               </div>
             </div>
           </div>
