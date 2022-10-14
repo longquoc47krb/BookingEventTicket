@@ -5,13 +5,16 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.models.EventCategory;
 import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
@@ -19,9 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -32,20 +32,23 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 @Service
 @AllArgsConstructor
 public class EventService implements IEventService {
+
+    private final MongoTemplate mongoTemplate;
     @Autowired
     private final EventRepository eventRepository;
-    private final IEventSlugGeneratorService sequenceGeneratorService;
+    private final IEventSlugGeneratorService slugGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
         if (event != null
         ) {
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
-            event.setId(sequenceGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
+            event.setId(slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
+            event.setStatus(TicketStatus.AVAILABLE);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save data successfully ", eventRepository.save(event)));
 
         }
-        throw new NotFoundException("Can not Create event with : " + event);
+        throw new NotFoundException("Can not Create event");
     }
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
@@ -106,8 +109,14 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findEventsByCategory(String category){
         Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(new ObjectId(category)));
+        EventCategory eventCategory = mongoTemplate.findOne(query, EventCategory.class);
+        Query query2 = new Query();
+        query2.addCriteria(Criteria.where("category.$id").is(new ObjectId(category)));
+        List<Event> event = mongoTemplate.find(query2, Event.class);
 
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", event));
     }
     @Override
     public ResponseEntity<?> findEventsByProvince(String province){
@@ -138,20 +147,25 @@ public class EventService implements IEventService {
         }
 
     }
-    //    @Override
+
 //    public ResponseEntity<?> updateEvent(String id) {
-//        Optional<Event> account = eventRepository.findById(id);
-//        boolean checkExist = eventRepository.existsById(id);
-//        if (checkExist) {
-//
-//            eventRepository.save(id);
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject(true, "Update data successfully ", ""));
-//
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-//                    new ResponseObject(false, "Update data fail with id:" + id, ""));
-//        }
+////        Optional<Event> account = eventRepository.findById(id);
+////        boolean checkExist = eventRepository.existsById(id);
+////
+////            Query query = new Query();
+////            query.addCriteria(Criteria.where("id").is(new ObjectId(id)));
+////            Update update = new Update().push("program", new DBRef("eventCategory", new ObjectId(categoryId));
+////            mongoTemplate.updateMulti(query, update, Event.class);
+////        if (checkExist) {
+////
+////            eventRepository.save(id);
+////            return ResponseEntity.status(HttpStatus.OK).body(
+////                    new ResponseObject(true, "Update data successfully ", ""));
+////
+////        } else {
+////            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+////                    new ResponseObject(false, "Update data fail with id:" + id, ""));
+////        }
 //
 //    }
     @Override

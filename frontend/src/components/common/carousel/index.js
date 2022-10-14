@@ -11,7 +11,13 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/effect-flip";
 import "swiper/css/effect-fade";
 // import required modules
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper";
+import {
+  Autoplay,
+  Pagination,
+  Navigation,
+  EffectFade,
+  EffectCube,
+} from "swiper";
 import { shuffle } from "lodash";
 import { Link } from "react-router-dom";
 import { checkImageURL } from "../../../utils/utils";

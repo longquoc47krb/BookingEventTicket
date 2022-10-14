@@ -1,29 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
-import moment from "moment";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
-import {
-  useEventsByProvince,
-  useFetchFeaturedEvents,
-} from "../../api/services/eventServices";
-import { useLocationName } from "../../api/services/generalServices";
 import Carousel from "../../components/common/carousel";
 import AppDrawer from "../../components/common/drawer";
 import EventHomeItem from "../../components/common/event-home-item";
-import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SectionTitle from "../../components/common/section-title";
 import SiderBar from "../../components/common/sider";
 import ViewMoreButton from "../../components/common/view-more-button";
 import FooterComponent from "../../components/FooterComponent";
-import HeaderComponent from "../../components/HeaderComponent";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
-import { useUserFetchDataContext } from "../../context/UserFetchDateContext";
+import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 function Home() {
   const { featuredEvents, eventsByProvince, loadingStatus, errorStatus } =
@@ -39,10 +31,28 @@ function Home() {
     navigate("/not-found");
     return null;
   } else {
+    // const test = allEvents.filter(
+    //   evaluate({
+    //     type: "and",
+    //     filters: [
+    //       {
+    //         type: "filter",
+    //         condition: comparisonStatus.EQUAL,
+    //         key: "province",
+    //         value: "Lâm Đồng",
+    //       },
+    //     ],
+    //   })
+    // );
+    // const test = filter(allEvents, function (event) {
+    //   return some(event.eventCategoryList, { name: "category.sports" });
+    // });
     return (
       <>
         <HelmetHeader title={t("pages.home")} content="Home page" />
-        <HeaderComponent />
+        <Affix offsetTop={0}>
+          <Header />
+        </Affix>
 
         <div className="home-container">
           <AppDrawer />
@@ -59,18 +69,23 @@ function Home() {
             <div className="home-popular">
               <SectionTitle>{t("event.trending")}</SectionTitle>
               <div className="home-popular-content">
-                {featuredEvents.slice(0, 16).map((event) => (
-                  <EventHomeItem event={event} />
-                ))}
+                {featuredEvents
+                  .filter((e) => e.remainingTicket !== 0)
+                  .slice(0, 16)
+                  .map((event) => (
+                    <EventHomeItem event={event} />
+                  ))}
               </div>
               <ViewMoreButton />
             </div>
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>
               <div className="home-event-near-you-content">
-                {eventsByProvince.map((event) => (
-                  <EventHomeItem event={event} />
-                ))}
+                {eventsByProvince
+                  .filter((e) => e.remainingTicket !== 0)
+                  .map((event) => (
+                    <EventHomeItem event={event} />
+                  ))}
               </div>
             </div>
           </div>
