@@ -1,31 +1,35 @@
 .home {
   &-container {
     display: block;
-    width: 100%;
-    max-width: 1235px;
-    height: auto;
+    width: 100vw;
+    height: 110%;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 2rem;
     padding: 0 !important;
     .sider {
       display: block;
-      padding: 1rem;
       padding-left: 0;
       position: sticky;
-      top: 0;
+      top: 1.5rem;
       @include for-phone {
         display: none !important;
       }
       @include for-tablet {
         display: none !important;
       }
+      &-item {
+        font-size: 0.875rem !important;
+      }
     }
   }
   &-content {
     position: relative;
-    width: 100%;
+    width: 82vw;
     max-width: 1254px;
+    @include for-phone {
+      width: 100vw !important;
+    }
   }
   &-popular,
   &-event-near-you {
@@ -38,15 +42,6 @@
       font-weight: 800;
       padding-left: 1rem;
       position: relative;
-      &::after {
-        content: "";
-        height: 0.25rem;
-        width: 20%;
-        background: #0141ca;
-        position: absolute;
-        left: 2rem;
-        bottom: -5px;
-      }
       @include for-phone {
         font-size: 2rem !important;
       }

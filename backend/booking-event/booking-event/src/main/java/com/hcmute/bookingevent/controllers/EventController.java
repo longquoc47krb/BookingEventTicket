@@ -22,7 +22,10 @@ public class EventController {
     public ResponseEntity<?> findAllEvents() {
         return iEventService.findAllEvents();
     }
-
+    @GetMapping("/find/category/{id}")
+    public  ResponseEntity<?> findEventsByCategory(@PathVariable String id){
+        return iEventService.findEventsByCategory(id);
+    }
     @PostMapping("/createEvent")
     public ResponseEntity<?> createEvent(@RequestBody Event event) {
         return iEventService.createEvent(event);

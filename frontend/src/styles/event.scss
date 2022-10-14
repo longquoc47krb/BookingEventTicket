@@ -68,8 +68,8 @@
     margin-bottom: 0;
   }
   &-item-image {
-    height: 130px;
-    width: 360px;
+    height: auto;
+    width: 100%;
     object-fit: cover;
     object-position: top 10px;
     @include for-phone {
@@ -80,9 +80,9 @@
   &-home-item {
     &-container {
       background: transparent;
-      width: 300px;
+      width: 20vw;
       height: auto;
-      max-height: 14.75rem;
+      max-height: 16rem;
       border-radius: 1rem;
       padding: 1rem;
       z-index: 2;

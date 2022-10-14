@@ -20,7 +20,7 @@ import placeholderImg from "../../../assets/fallback-avatar.png";
 import { AppConfig } from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
-import { useUserFetchDataContext } from "../../../context/UserFetchDateContext";
+import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
 import { logOutAccount } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
 import { isNotEmpty } from "../../../utils/utils";
