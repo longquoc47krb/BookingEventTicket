@@ -59,9 +59,12 @@ function Home() {
             <div className="home-popular">
               <SectionTitle>{t("event.trending")}</SectionTitle>
               <div className="home-popular-content">
-                {featuredEvents.slice(0, 16).map((event) => (
-                  <EventHomeItem event={event} />
-                ))}
+                {featuredEvents
+                  .slice(0, 16)
+                  .filter((e) => e.remainingTicket !== 0)
+                  .map((event) => (
+                    <EventHomeItem event={event} />
+                  ))}
               </div>
               <ViewMoreButton />
             </div>

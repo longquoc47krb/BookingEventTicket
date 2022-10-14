@@ -33,10 +33,20 @@
     overflow-x: auto;
     overflow-y: hidden;
     &-text {
+      width: auto;
       font-size: 3rem;
       font-weight: 800;
       padding-left: 1rem;
-      border-left: 0.5rem solid $primary-color;
+      position: relative;
+      &::after {
+        content: "";
+        height: 0.25rem;
+        width: 20%;
+        background: #0141ca;
+        position: absolute;
+        left: 2rem;
+        bottom: -5px;
+      }
       @include for-phone {
         font-size: 2rem !important;
       }
