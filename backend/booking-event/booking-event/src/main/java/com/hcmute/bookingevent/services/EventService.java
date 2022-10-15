@@ -27,6 +27,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.utils.DateUtils.*;
+import static com.hcmute.bookingevent.utils.Utils.toPage;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
 @Service
@@ -52,7 +53,8 @@ public class EventService implements IEventService {
     }
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
-        Page<Event> eventPage = eventRepository.findAll(pageable);
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
+        Page<Event> eventPage = toPage(events, pageable);
         List<Event> eventsPerPage = eventPage.toList();
         List<Event> eventList = eventRepository.findAll();
 
@@ -63,7 +65,7 @@ public class EventService implements IEventService {
     }
     @Override
     public ResponseEntity<?> checkEventStatus(){
-        List<Event> events = sortEventByDateAsc(eventRepository);
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
             if(isBeforeToday(event.getEndingDate())) {
@@ -87,7 +89,7 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
-        List<Event> events = sortEventByDateAsc(eventRepository);
+        List<Event> events = sortEventByDateAsc( eventRepository.findAll());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully ", events));
 
@@ -96,7 +98,7 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findEventAfterToday() {
         // get all highlight events
-        List<Event> events = sortEventByDateAsc(eventRepository);
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
             if(isAfterToday(event.getStartingDate())){
@@ -112,15 +114,18 @@ public class EventService implements IEventService {
         query.addCriteria(Criteria.where("id").is(new ObjectId(category)));
         EventCategory eventCategory = mongoTemplate.findOne(query, EventCategory.class);
         Query query2 = new Query();
-        query2.addCriteria(Criteria.where("category.$id").is(new ObjectId(category)));
-        List<Event> event = mongoTemplate.find(query2, Event.class);
+        List<Event> eventRepositoryAll = eventRepository.findAll();
+        List<Event> events = sortEventByDateAsc(eventRepositoryAll);
+        List<Event> eventList = new ArrayList<>();
+        eventList = events.stream().filter(e -> e.getEventCategoryList().equals(eventCategory)).collect(Collectors.toList());
+
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", event));
+                new ResponseObject(true, "Show data successfully", eventList));
     }
     @Override
     public ResponseEntity<?> findEventsByProvince(String province){
-        List<Event> events = sortEventByDateAsc(eventRepository);
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventAfterToday = new ArrayList<>();
         for(Event event : events){
             if(isAfterToday(event.getStartingDate())){
