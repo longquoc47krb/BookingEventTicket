@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.utils;
 
+import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.EventSlug;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,5 +23,12 @@ public class Utils {
         String normalized = Normalizer.normalize(replace, Normalizer.Form.NFD);
         String slug = NONLATIN.matcher(normalized).replaceAll("");
         return slug.toLowerCase(Locale.ENGLISH);
+    }
+    public static Page<Event> toPage(List<Event> list, Pageable pageable) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+        if(start > list.size())
+            return new PageImpl<>(new ArrayList<>(), pageable, list.size());
+        return new PageImpl<>(list.subList(start, end), pageable, list.size());
     }
 }
