@@ -31,11 +31,12 @@
   },
   "category": {
     "music": "Music",
-    "theater": "Theater",
     "exhibition": "Exhibition",
-    "nightlife": "Nightlife",
     "courses": "Courses",
-    "sports": "Sports",
+    "theater": "Theater",
+    "online": "Online",
+    "nightlife": "Nightlife",
+    "sport": "Sport",
     "seminar": "Seminar",
     "travel": "Travel",
     "conference": "Conference"
@@ -53,7 +54,7 @@
   "organizer": "Organizer",
   "user": {
     "profile": "Profile",
-    "purchased": "Purchased orders",
+    "my-ticket": "My ticket",
     "wishlist": "Favorite events",
     "logout": "Logout",
     "name": "Full name",
@@ -65,6 +66,12 @@
       "title": "Unauthenticated",
       "text": "Please log in to add event to wishlist"
     }
+  },
+  "location": {
+    "all": "All locations",
+    "HCM": "Ho Chi Minh city",
+    "HN": "Ha Noi",
+    "others": "Others"
   },
   "date": {
     "today": "Today"

@@ -5,7 +5,10 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTopPage from "./components/scroll-to-top";
 import routes from "./configs/routes";
-import { UserActionContextProvider } from "./context/UserActionContext";
+import {
+  UserActionContextProvider,
+  useUserActionContext,
+} from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { UserFetchDataContextProvider } from "./context/UserFetchDataContext";
 const queryClient = new QueryClient({

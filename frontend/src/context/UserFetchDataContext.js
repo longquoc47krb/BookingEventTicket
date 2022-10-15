@@ -1,16 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { useFetchCategories } from "../api/services/categoryServices";
 import eventServices, {
   useCheckEventsStatus,
   useEventDetails,
-  useEventsByProvince,
+  useFetchEventsByFilter,
   useFetchEvents,
   useFetchFeaturedEvents,
 } from "../api/services/eventServices";
 import { useLocationName } from "../api/services/generalServices";
 import { AlertPopup } from "../components/common/alert";
-import constants from "../utils/constants";
+import constants, { TicketStatus } from "../utils/constants";
 const { provinceMapping } = constants;
 const UserFetchDataContext = createContext();
 export const UserFetchDataContextProvider = ({ children }) => {
@@ -20,22 +21,29 @@ export const UserFetchDataContextProvider = ({ children }) => {
     useCheckEventsStatus();
   const { data: allEventsFetching, status: allEventsStatus } = useFetchEvents();
   const { data: location, status: locationStatus } = useLocationName();
+  const { data: categories, status: categoryStatus } = useFetchCategories();
   const { data: eventsByProvinceFetching, status: eventsByProvinceStatus } =
-    useEventsByProvince(provinceMapping.get(location ? location?.region : ""));
+    useFetchEventsByFilter({
+      province: provinceMapping.get(location ? location?.region : ""),
+      status: TicketStatus.AVAILABLE,
+    });
   const loadingStatus =
     highlightStatus === "loading" ||
     eventstatusStatus === "loading" ||
     eventsByProvinceStatus === "loading" ||
+    categoryStatus === "loading" ||
     allEventsStatus === "loading";
   const errorStatus =
     highlightStatus === "error" ||
     eventstatusStatus === "error" ||
     eventsByProvinceStatus === "error" ||
+    categoryStatus === "error" ||
     allEventsStatus === "error";
   const successStatus =
     highlightStatus === "success" ||
     eventstatusStatus === "success" ||
     eventsByProvinceStatus === "success" ||
+    categoryStatus === "success" ||
     allEventsStatus === "success";
   if (successStatus) {
     var featuredEvents = featuredEventsFetching;
@@ -53,6 +61,7 @@ export const UserFetchDataContextProvider = ({ children }) => {
         errorStatus,
         successStatus,
         allEvents,
+        categories,
       }}
     >
       {children}

@@ -36,7 +36,13 @@ function Calendar(props) {
         </h1>
       </div>
       <h1 className="font-bold calendar-day">{calendarObj.day}</h1>
-      <h1 className="text-[0.7rem] font-bold calendar-dayOfWeek">
+      <h1
+        className={
+          isToday
+            ? "text-[0.75rem] font-bold calendar-dayOfWeek text-red-600"
+            : "text-[0.75rem] font-bold calendar-dayOfWeek"
+        }
+      >
         {titleCase(calendarObj.dayOfWeek)}
       </h1>
     </div>

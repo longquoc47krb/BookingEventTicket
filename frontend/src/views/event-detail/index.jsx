@@ -35,6 +35,7 @@ function EventDetail(props) {
   const { organizer } = props;
   // const wishList = useSelector(wishlistSelector);
   const [yPosition, setY] = useState(window.scrollY);
+  const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
 
@@ -222,7 +223,7 @@ function EventDetail(props) {
               </Nav>
             </Affix>
           </div>
-          <div className="event-detail-wrapper">
+          <div className="event-detail-wrapper" ref={container}>
             <div className="event-detail-wrapper-left">
               <div className="event-detail-content">
                 <div ref={introduce} className="introduce">
@@ -263,8 +264,8 @@ function EventDetail(props) {
               </div>
             </div>
             <div className="event-detail-wrapper-right">
-              <Affix offsetTop={60}>
-                <div className="event-detail-booking">
+              <div className="h-full">
+                <div className="event-detail-booking sticky-container">
                   <div ref={introduce} className="introduce">
                     {event?.name}
                   </div>
@@ -295,7 +296,7 @@ function EventDetail(props) {
                     {t(event.status)}
                   </button>
                 </div>
-              </Affix>
+              </div>
             </div>
           </div>
         </div>

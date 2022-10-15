@@ -1,0 +1,36 @@
+.filter {
+  &-container {
+    width: 80vw;
+    height: auto;
+    background: transparent;
+    margin: 1rem auto;
+    display: flex;
+    border: 2px solid rgb(206, 203, 203);
+  }
+}
+.select {
+  &-container {
+    display: flex;
+    width: 20vw;
+    height: 2.5rem;
+    background: white;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 1rem;
+    border-right: 1px solid #afadad;
+    select {
+      width: 100%;
+      outline: none;
+      text-align: center;
+      option {
+        width: 100%;
+        &:hober {
+          background: $primary-color;
+        }
+      }
+    }
+  }
+}

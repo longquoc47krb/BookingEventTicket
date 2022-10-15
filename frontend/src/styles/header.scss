@@ -1,8 +1,8 @@
 .header {
   &-container {
     height: auto;
-    width: auto;
-    max-width: calc(100%);
+    width: calc(100vw - 0.5rem);
+    max-width: 110vw;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 0.5rem;
@@ -27,6 +27,7 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50rem;
+    cursor: pointer;
     @include for-phone {
       width: 3rem !important;
       height: 3rem !important;
@@ -78,5 +79,12 @@
   }
   .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
     border: 0px !important;
+  }
+}
+.wishlist-container {
+  max-height: 25rem;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

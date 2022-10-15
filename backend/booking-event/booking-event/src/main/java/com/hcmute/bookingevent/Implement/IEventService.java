@@ -18,8 +18,7 @@ public interface IEventService {
     ResponseEntity<?> eventPagination(Pageable pageable);
     ResponseEntity<?> checkEventStatus();
 
-    ResponseEntity<?> findEventsByCategory(String category);
-    ResponseEntity<?> findEventsByProvince(String province);
+    ResponseEntity<?> findEventsByFilters(String province, String category, String status );
 
 
 }

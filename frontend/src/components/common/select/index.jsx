@@ -1,31 +1,20 @@
-import { Select as AntdSelect } from "antd";
-const { Option } = Select;
+import { useTranslation } from "react-i18next";
+import { isNotEmpty } from "../../../utils/utils";
+
 export function Select(props) {
-  const { field, mode, options, width } = props;
-  const { value, name } = field;
-  const handleChange = (value) => {
-    const changeEvent = {
-      target: {
-        name: name,
-        value: value,
-      },
-    };
-    field.onChange(changeEvent);
-  };
+  const { data, icon } = props;
+  const { t } = useTranslation();
+  const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
   return (
-    <>
-      <AntdSelect
-        value={value}
-        onChange={handleChange}
-        style={{ width: width }}
-        mode={mode}
-      >
-        {options.map((item, index) => (
-          <Option key={index + 1} value={item.value}>
-            {item.value}
-          </Option>
+    <div className="select-container">
+      {icon}
+      <select>
+        {data?.map((item, index) => (
+          <option key={index} value={item[keys[0]]}>
+            {t(item[keys[1]])}
+          </option>
         ))}
-      </AntdSelect>
-    </>
+      </select>
+    </div>
   );
 }

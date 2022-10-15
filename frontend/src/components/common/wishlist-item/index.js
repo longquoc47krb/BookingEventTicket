@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BsSuitHeartFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { useEventDetails } from "../../../api/services/eventServices";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import theme from "../../../shared/theme";
@@ -7,6 +8,7 @@ import theme from "../../../shared/theme";
 function WishListItem({ id }) {
   const [interest] = useState(true);
   const { removeFromWishlist } = useUserActionContext();
+  const navigate = useNavigate();
   const { data: event, status, isFetching } = useEventDetails(id);
   console.log({ id });
 
@@ -16,12 +18,7 @@ function WishListItem({ id }) {
     return null;
   } else {
     return (
-      <div
-        className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1 rounded-[1rem]"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <div className="flex items-start gap-x-2 w-[30rem] relative shadow-md p-1 rounded-[1rem]">
         <img
           src={event.background}
           className="w-32 h-20 object-cover mr-1 rounded-[1rem]"
