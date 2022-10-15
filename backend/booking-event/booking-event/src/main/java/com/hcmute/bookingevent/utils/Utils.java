@@ -24,7 +24,7 @@ public class Utils {
         String slug = NONLATIN.matcher(normalized).replaceAll("");
         return slug.toLowerCase(Locale.ENGLISH);
     }
-    public static Page<Event> toPage(List<Event> list, Pageable pageable) {
+    public static Page<?> toPage(List<?> list, Pageable pageable) {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), list.size());
         if(start > list.size())

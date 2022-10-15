@@ -54,13 +54,12 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
-        Page<Event> eventPage = toPage(events, pageable);
+        Page<Event> eventPage = (Page<Event>) toPage(events, pageable);
         List<Event> eventsPerPage = eventPage.toList();
-        List<Event> eventList = eventRepository.findAll();
 
         if (eventsPerPage.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventList.size(),eventsPerPage));
+                    new ResponseObjectWithPagination(true, "Successfully show data", pageable.getPageNumber(), pageable.getPageSize(),eventRepository.findAll().size(),eventsPerPage));
         throw new NotFoundException("Can not find any event");
     }
     @Override
@@ -108,33 +107,51 @@ public class EventService implements IEventService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", eventList));
     }
+
     @Override
-    public ResponseEntity<?> findEventsByCategory(String category){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(new ObjectId(category)));
-        EventCategory eventCategory = mongoTemplate.findOne(query, EventCategory.class);
-        Query query2 = new Query();
-        List<Event> eventRepositoryAll = eventRepository.findAll();
-        List<Event> events = sortEventByDateAsc(eventRepositoryAll);
+    public ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status) {
         List<Event> eventList = new ArrayList<>();
-        eventList = events.stream().filter(e -> e.getEventCategoryList().equals(eventCategory)).collect(Collectors.toList());
+        if(province != null) {
+            if(categoryId != null){
+                if(status != null){
+                    eventList = eventRepository.findAllByFilter(province, categoryId, status);
+                }
+                else{
+                    eventList = eventRepository.findAllByProvinceAndCategory(province, categoryId);
+                }
+            }
+            else{
+                if(status != null){
+                    eventList = eventRepository.findAllByProvinceAndStatus(province, status);
+                }
+                else{
+                    eventList = eventRepository.findAllByProvince(province);
+                }
+            }
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventList));
-    }
-    @Override
-    public ResponseEntity<?> findEventsByProvince(String province){
-        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
-        List<Event> eventAfterToday = new ArrayList<>();
-        for(Event event : events){
-            if(isAfterToday(event.getStartingDate())){
-                eventAfterToday.add(event);
+        } else {
+            if(categoryId != null) {
+                if (status != null) {
+                    eventList = eventRepository.findAllByCategoryAndStatus(categoryId, status);
+                } else {
+                    eventList = eventRepository.findAllByCategoryId(categoryId);
+                }
+            } else {
+                eventList = eventRepository.findAllByStatus(status);
             }
         }
-        List<Event> eventsByProvice = eventAfterToday.stream().filter( e -> e.getProvince().equals(province)).collect(Collectors.toList());
+
+        if (province == null && categoryId == null && status == null){
+            eventList = eventRepository.findAll();
+        }
+        if(province != null && categoryId != null && status != null){
+
+        }
+        List<Event> sortedEventList = sortEventByDateAsc(eventList);
+
+        System.out.println(" Total: " + eventList.size());
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventsByProvice));
+                new ResponseObject(true, "Show data successfully", sortedEventList));
 
     }
     @Override
@@ -196,6 +213,7 @@ public class EventService implements IEventService {
         }
         throw new NotFoundException("Can not found any product with id: " + id);
     }
+
 
     @Override
     public ResponseEntity<?> findEventListById(String id) {

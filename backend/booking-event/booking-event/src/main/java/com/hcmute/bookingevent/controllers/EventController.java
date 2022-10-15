@@ -22,10 +22,7 @@ public class EventController {
     public ResponseEntity<?> findAllEvents() {
         return iEventService.findAllEvents();
     }
-    @GetMapping("/find/category/{id}")
-    public  ResponseEntity<?> findEventsByCategory(@PathVariable String id){
-        return iEventService.findEventsByCategory(id);
-    }
+
     @PostMapping("/createEvent")
     public ResponseEntity<?> createEvent(@RequestBody Event event) {
         return iEventService.createEvent(event);
@@ -40,10 +37,6 @@ public class EventController {
         return iEventService.checkEventStatus();
 
     }
-    @GetMapping("/findEventByProvince")
-    public ResponseEntity<?> findEventByProvince(@RequestParam(value="province") String province){
-        return iEventService.findEventsByProvince(province);
-    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable String id) {
         return iEventService.deleteEvent(id);
@@ -55,14 +48,18 @@ public class EventController {
         return iEventService.searchEvents(value);
 
     }
-    @GetMapping("/find/{id}")
-    public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
-        return iEventService.findEventById(id);
-    }
     @GetMapping(path = "/eventPage")
     public ResponseEntity<?> eventPagination (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iEventService.eventPagination(pageable);
+    }
+    @GetMapping(path = "/filter")
+    public ResponseEntity<?> findEventByFilter(@RequestParam(value="province", required = false) String province, @RequestParam(value="categoryId", required = false) String categoryId, @RequestParam(value="status", required = false) String status){
+        return iEventService.findEventsByFilters(province, categoryId, status);
+    }
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
+        return iEventService.findEventById(id);
     }
 
 }
