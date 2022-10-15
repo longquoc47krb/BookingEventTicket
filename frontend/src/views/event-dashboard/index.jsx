@@ -33,9 +33,7 @@ function EventDashBoard() {
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
-  if (status === "loading") {
-    return <Loading />;
-  } else if (status === "error") {
+  if (status === "error") {
     navigate("/not-found");
     return null;
   } else {
@@ -54,7 +52,7 @@ function EventDashBoard() {
             </h1>
           </Divider>
           <div className="event-container-grid">
-            {isFetching
+            {isFetching || status === "loading"
               ? [...Array(6)].map((i) => (
                   <Skeleton width={360} height={260} key={i} />
                 ))
@@ -65,7 +63,7 @@ function EventDashBoard() {
           </div>
         </div>
         <div className="event-pagination">
-          {isFetching ? null : (
+          {isFetching || status === "loading" ? null : (
             <Pagination
               current={currentPage + 1}
               onChange={onChange}

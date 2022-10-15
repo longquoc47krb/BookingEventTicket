@@ -84,17 +84,17 @@ function Header(props) {
       <hr style={{ width: "100%" }} />
       <div className="max-h-[25rem] overflow-y-auto">
         {isNotEmpty(wishlist) ? (
-          wishlist.map((item, index) => (
+          wishlist.map((id, index) => (
             <div key={index}>
               <MenuItem
                 key={index}
                 className="mb-2"
                 onClick={() => {
                   dispatch(setPathName(window.location.pathname));
-                  navigate(`/event/${item.id}`);
+                  navigate(`/event/${id}`);
                 }}
               >
-                <WishListItem id={item} />
+                <WishListItem id={id} />
               </MenuItem>
 
               <Divider style={{ width: "100%" }} />

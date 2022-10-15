@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import eventServices, {
@@ -21,7 +21,8 @@ export const UserActionContextProvider = ({ children }) => {
   const getWishlist = () => {
     setWishlistEvent([]);
 
-    const list = reactLocalStorage.getObject("userWishlist");
+    // const list = reactLocalStorage.getObject("userWishlist");
+    const list = JSON.parse(localStorage.getItem("userWishlist"));
     const userWishlist = list.wishlist;
     setWishlist(list.wishlist);
     userWishlist &&
@@ -33,7 +34,6 @@ export const UserActionContextProvider = ({ children }) => {
         });
       });
   };
-
   const addToWishlist = (eventId) => {
     setWishlist((prev) => {
       return [...prev, eventId];
@@ -45,13 +45,17 @@ export const UserActionContextProvider = ({ children }) => {
       wishlist: values,
     };
 
-    reactLocalStorage.setObject("userWishlist", list);
+    // reactLocalStorage.setObject("userWishlist", list);
+    localStorage.setItem("userWishlist", JSON.stringify(list));
     AlertPopup({
       title: t("wishlist.add.title"),
       text: t("wishlist.add.text"),
     });
     getWishlist();
   };
+  useMemo(() => {
+    getWishlist();
+  }, []);
 
   const removeFromWishlist = (eventId) => {
     let values = [...wishlist];
@@ -64,7 +68,8 @@ export const UserActionContextProvider = ({ children }) => {
       title: t("wishlist.remove.title"),
       text: t("wishlist.remove.text"),
     });
-    reactLocalStorage.setObject("userWishlist", list);
+    // reactLocalStorage.setObject("userWishlist", list);
+    localStorage.setItem("userWishlist", JSON.stringify(list));
     getWishlist();
   };
   const clearWishlist = () => {
@@ -72,7 +77,7 @@ export const UserActionContextProvider = ({ children }) => {
     const list = {
       wishlist: [],
     };
-    reactLocalStorage.setObject("userWishlist", list);
+    localStorage.setItem("userWishlist", JSON.stringify(list));
     getWishlist();
   };
   return (

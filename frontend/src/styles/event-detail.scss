@@ -1,7 +1,7 @@
 .event-detail {
   &-container {
-    width: 100vw;
-    height: 100%;
+    width: 100%;
+    height: 110%;
     background: gray;
     img {
       width: 100%;
@@ -113,15 +113,14 @@
   &-wrapper {
     padding: 1.5rem;
     background-color: rgb(214, 214, 214);
-    width: 100vw;
+    width: 100%;
     display: flex;
     @include for-phone {
       padding-left: 0 !important;
       padding-right: 0 !important;
     }
     &-left {
-      width: auto;
-      min-width: 65vw;
+      width: 100%;
       @include for-phone {
         width: 100% !important;
       }
@@ -233,4 +232,8 @@
   color: white;
   margin-bottom: 0.5rem;
   cursor: no-drop !important;
+}
+.sticky-container {
+  position: sticky;
+  top: 2rem;
 }
