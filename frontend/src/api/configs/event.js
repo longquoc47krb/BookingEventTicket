@@ -26,11 +26,13 @@ export const EventAPI = {
       name,
     },
   }),
-  getEventByProvince: (province) => ({
-    url: `/event/findEventByProvince`,
+  getEventByFilter: ({ province, categoryId, status }) => ({
+    url: `/event/filter`,
     method: "GET",
     params: {
       province,
+      categoryId,
+      status,
     },
   }),
   getEventById: (id) => ({

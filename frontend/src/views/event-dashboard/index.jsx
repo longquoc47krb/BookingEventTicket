@@ -12,6 +12,7 @@ import AppDrawer from "../../components/common/drawer";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
+import EventFilter from "../../components/filter";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import Loading from "../../components/loading";
@@ -51,6 +52,7 @@ function EventDashBoard() {
               {t("event.list")}
             </h1>
           </Divider>
+          <EventFilter />
           <div className="event-container-grid">
             {isFetching || status === "loading"
               ? [...Array(6)].map((i) => (

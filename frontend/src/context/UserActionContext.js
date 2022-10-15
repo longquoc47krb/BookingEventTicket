@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import eventServices, {
   useCheckEventsStatus,
-  useEventsByProvince,
+  useFetchEventsByFilter,
   useFetchFeaturedEvents,
 } from "../api/services/eventServices";
 import { useLocationName } from "../api/services/generalServices";

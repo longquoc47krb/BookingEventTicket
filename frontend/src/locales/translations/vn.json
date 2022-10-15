@@ -31,11 +31,12 @@
   },
   "category": {
     "music": "Âm nhạc",
-    "theater": "Sân khấu",
     "exhibition": "Triển lãm",
-    "nightlife": "Nightlife",
     "courses": "Khóa học",
-    "sports": "Thể thao",
+    "theater": "Sân khấu",
+    "online": "Trực tuyến",
+    "nightlife": "Nightlife",
+    "sport": "Thể thao",
     "seminar": "Hội thảo",
     "travel": "Du lịch",
     "conference": "Hội nghị"
@@ -53,7 +54,7 @@
   "organizer": "Nhà tổ chức",
   "user": {
     "profile": "Thông tin cá nhân",
-    "purchased": "Đơn hàng đã mua",
+    "my-ticket": "Đơn hàng đã mua",
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
     "name": "Họ và tên",
@@ -65,6 +66,12 @@
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
     }
+  },
+  "location": {
+    "all": "Tất cả địa điểm",
+    "HCM": "TP. Hồ Chí Minh",
+    "HN": "Hà Nội",
+    "others": "Các địa điểm khác"
   },
   "date": {
     "today": "Hôm nay"

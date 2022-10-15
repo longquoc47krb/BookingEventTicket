@@ -45,7 +45,7 @@ function Home() {
     //   })
     // );
     // const test = filter(allEvents, function (event) {
-    //   return some(event.eventCategoryList, { name: "category.sports" });
+    //   return some(event.eventCategoryList, { name: "category.sport" });
     // });
     return (
       <>
@@ -81,11 +81,9 @@ function Home() {
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>
               <div className="home-event-near-you-content">
-                {eventsByProvince
-                  .filter((e) => e.remainingTicket !== 0)
-                  .map((event) => (
-                    <EventHomeItem event={event} />
-                  ))}
+                {eventsByProvince.map((event) => (
+                  <EventHomeItem event={event} />
+                ))}
               </div>
             </div>
           </div>

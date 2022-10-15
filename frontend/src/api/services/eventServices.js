@@ -32,8 +32,8 @@ const fetchEventsForPagination = async (params) => {
   );
   return response;
 };
-const fetchEventsByProvince = async (params) => {
-  const response = await httpRequest(EventAPI.getEventByProvince(params));
+const fetchEventByFilter = async (params) => {
+  const response = await httpRequest(EventAPI.getEventByFilter(params));
   return response.data;
 };
 // React Query
@@ -68,10 +68,11 @@ export const useEventDetails = (id) => {
     staleTime: 60000,
   });
 };
-export const useEventsByProvince = (province) => {
+export const useFetchEventsByFilter = (params) => {
+  const { province, categoryId, status } = params;
   return useQuery(
-    ["getEventsByProvince", province],
-    () => fetchEventsByProvince(province),
+    ["getEventsByFilter", params],
+    () => fetchEventByFilter(params),
     {
       staleTime: 60000,
     }
@@ -83,7 +84,7 @@ const eventServices = {
   fetchEventsForPagination,
   getEventByName,
   getEventById,
-  fetchEventsByProvince,
+  fetchEventByFilter,
   setEventStatus,
   fetchFeaturedEvents,
   createEvent,
