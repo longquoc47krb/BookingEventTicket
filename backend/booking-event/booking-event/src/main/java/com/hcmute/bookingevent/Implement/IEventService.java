@@ -10,7 +10,6 @@ public interface IEventService {
     ResponseEntity<?> findAllEvents();
 
     ResponseEntity<?> findEventAfterToday();
-
     ResponseEntity<?> deleteEvent(String id);
     ResponseEntity<?> findEventById(String id);
     ResponseEntity<?> searchEvents(String key);
