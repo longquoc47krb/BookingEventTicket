@@ -77,7 +77,7 @@ const SearchBox = (props) => {
   return (
     <div className="SearchBox" ref={ref}>
       <Input
-        className="relative p-2 rounded w-full"
+        className="relative rounded w-full h-full py-[10px] px-4"
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
         value={filterValue}
         placeholder={placeholder}

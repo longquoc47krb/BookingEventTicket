@@ -189,3 +189,9 @@
   margin: auto;
   font-family: "Kite One", sans-serif;
 }
+.ant-pagination-item-active {
+  font-weight: 500;
+  color: white !important;
+  background: $primary-color !important;
+  border-color: $primary-color !important;
+}
