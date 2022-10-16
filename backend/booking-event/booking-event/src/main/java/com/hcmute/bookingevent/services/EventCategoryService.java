@@ -6,6 +6,7 @@ import com.hcmute.bookingevent.models.EventCategory;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventCategoryRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+
 public class EventCategoryService implements IEventCategory {
-    @Autowired
-    EventCategoryRepository eventCategoryRepository;
+
+    private final EventCategoryRepository eventCategoryRepository;
 
     @Override
     public ResponseEntity<?> findAll() {

@@ -10,7 +10,11 @@ import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
+<<<<<<< .mine
+import lombok.RequiredArgsConstructor;
+=======
 import org.bson.types.ObjectId;
+>>>>>>> .theirs
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +35,19 @@ import static com.hcmute.bookingevent.utils.Utils.toPage;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventService implements IEventService {
+<<<<<<< .mine
+    private EventRepository eventRepository;
+
+
+
+=======
 
     private final MongoTemplate mongoTemplate;
     @Autowired
     private final EventRepository eventRepository;
+>>>>>>> .theirs
     private final IEventSlugGeneratorService slugGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
