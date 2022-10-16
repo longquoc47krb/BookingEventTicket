@@ -9,12 +9,14 @@
     "login": "Log in"
   },
   "event": {
+    "all": "All status",
     "list": "Events",
     "trending": "Featured events",
     "near-you": "Events near you",
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue",
-    "available": "Buy now",
+    "buy-now": "Buy now",
+    "available": "Available",
     "sold-out": "Sold out",
     "completed": "Completed",
     "interest": "Interest",
@@ -30,6 +32,7 @@
     "view-all": "View all results"
   },
   "category": {
+    "all": "All categories",
     "music": "Music",
     "exhibition": "Exhibition",
     "courses": "Courses",
@@ -69,7 +72,7 @@
   },
   "location": {
     "all": "All locations",
-    "HCM": "Ho Chi Minh city",
+    "HCM": "Ho Chi Minh",
     "HN": "Ha Noi",
     "others": "Others"
   },

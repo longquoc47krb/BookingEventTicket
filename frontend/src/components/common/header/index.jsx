@@ -56,7 +56,7 @@ function Header(props) {
     <MenuList
       style={{
         background: "white",
-        width: "10rem",
+        width: "auto",
       }}
       className="shadow-lg"
     >

@@ -9,12 +9,14 @@
     "login": "Đăng nhập"
   },
   "event": {
+    "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
     "near-you": "Sự kiện gần bạn",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
-    "available": "Mua ngay",
+    "buy-now": "Mua ngay",
+    "available": "Chưa diễn ra",
     "sold-out": "Hết vé",
     "completed": "Đã kết thúc",
     "interest": "Quan tâm",
@@ -30,6 +32,7 @@
     "view-all": "Xem tất cả kết quả"
   },
   "category": {
+    "all": "Tất cả thể loại",
     "music": "Âm nhạc",
     "exhibition": "Triển lãm",
     "courses": "Khóa học",

@@ -13,10 +13,10 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { UserFetchDataContextProvider } from "./context/UserFetchDataContext";
 const queryClient = new QueryClient({
   defaultOptions: {
-    staleTime: 1000,
+    staleTime: 0,
     cacheTime: 1000 * 60 * 60 * 24,
     queries: {
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
     },
   },
 });

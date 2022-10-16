@@ -157,7 +157,11 @@ function EventDetail(props) {
                     : "buy-now"
                 }
               >
-                {t(event.status)}
+                {t(
+                  event.status === TicketStatus.AVAILABLE
+                    ? "event.buy-now"
+                    : event.status
+                )}
               </button>
               {wishlist &&
               wishlist.length > 0 &&
@@ -293,7 +297,11 @@ function EventDetail(props) {
                         : "buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                     }
                   >
-                    {t(event.status)}
+                    {t(
+                      event.status === TicketStatus.AVAILABLE
+                        ? "event.buy-now"
+                        : event.status
+                    )}
                   </button>
                 </div>
               </div>
