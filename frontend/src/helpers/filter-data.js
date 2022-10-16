@@ -1,6 +1,6 @@
 export const locationSelect = [
   {
-    value: "all",
+    value: null,
     label: "location.all",
   },
   {
@@ -14,5 +14,23 @@ export const locationSelect = [
   {
     value: "others",
     label: "location.others",
+  },
+];
+export const statusSelect = [
+  {
+    value: null,
+    label: "event.all",
+  },
+  {
+    value: "event.available",
+    label: "event.available",
+  },
+  {
+    value: "event.completed",
+    label: "event.completed",
+  },
+  {
+    value: "event.sold-out",
+    label: "event.sold-out",
   },
 ];
