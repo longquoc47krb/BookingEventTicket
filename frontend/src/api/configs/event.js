@@ -11,7 +11,11 @@ export const EventAPI = {
       pageSize: 6,
     },
   }),
-  getHighlightEvents: {
+  checkEventStatus: {
+    url: "/event/checkEventStatus",
+    method: "GET",
+  },
+  getFeaturedEvents: {
     url: "/event/findEventAfterToday",
     method: "GET",
   },
@@ -22,11 +26,13 @@ export const EventAPI = {
       name,
     },
   }),
-  getEventByProvince: (province) => ({
-    url: `/event/findEventByProvince`,
+  getEventByFilter: ({ province, categoryId, status }) => ({
+    url: `/event/filter`,
     method: "GET",
     params: {
       province,
+      categoryId,
+      status,
     },
   }),
   getEventById: (id) => ({

@@ -11,7 +11,6 @@ import org.springframework.data.annotation.Id;
 public class EventSlug {
     @Id
     private String id;
-
     private String slug;
 
 }

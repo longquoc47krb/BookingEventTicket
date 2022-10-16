@@ -1,11 +1,16 @@
 export const paragraph = "";
 
 export const TicketStatus = {
-  COMPLETED: "completed",
-  SOLDOUT: "sold out",
-  AVAILABLE: "available",
+  COMPLETED: "event.completed",
+  SOLDOUT: "event.sold-out",
+  AVAILABLE: "event.available",
 };
-
+export const comparisonStatus = {
+  EQUAL: "equal",
+  MORE: "more",
+  LESS: "less",
+  DIFFERENT: "different",
+};
 const provinceMapping = new Map();
 provinceMapping.set("SG", "TP. Hồ Chí Minh");
 provinceMapping.set("HN", "Hà Nội");
@@ -18,5 +23,5 @@ provinceMapping.set("26", "Thừa Thiên Huế");
 provinceMapping.set("33", "Đắk Lắk");
 provinceMapping.set("CT", "Cần Thơ");
 
-const constants = { provinceMapping, TicketStatus };
+const constants = { provinceMapping, TicketStatus, comparisonStatus };
 export default constants;

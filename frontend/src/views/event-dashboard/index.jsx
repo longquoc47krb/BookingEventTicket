@@ -12,6 +12,7 @@ import AppDrawer from "../../components/common/drawer";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import Event from "../../components/event";
+import EventFilter from "../../components/filter";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import Loading from "../../components/loading";
@@ -28,13 +29,12 @@ function EventDashBoard() {
     status,
     isFetching,
   } = useFetchEventsForPagination(currentPage);
+
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
-  if (status === "loading") {
-    return <Loading />;
-  } else if (status === "error") {
+  if (status === "error") {
     navigate("/not-found");
     return null;
   } else {
@@ -52,8 +52,9 @@ function EventDashBoard() {
               {t("event.list")}
             </h1>
           </Divider>
+          <EventFilter />
           <div className="event-container-grid">
-            {isFetching
+            {isFetching || status === "loading"
               ? [...Array(6)].map((i) => (
                   <Skeleton width={360} height={260} key={i} />
                 ))
@@ -64,7 +65,7 @@ function EventDashBoard() {
           </div>
         </div>
         <div className="event-pagination">
-          {isFetching ? null : (
+          {isFetching || status === "loading" ? null : (
             <Pagination
               current={currentPage + 1}
               onChange={onChange}

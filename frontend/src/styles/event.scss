@@ -6,7 +6,7 @@
     &-grid {
       display: grid;
       justify-content: center;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: repeat(3, auto);
       grid-gap: 2rem;
       @include for-phone {
         grid-template-columns: auto !important;
@@ -44,6 +44,9 @@
     position: relative;
     border-radius: 0.5rem;
     background: white;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
     box-shadow: 1.2px 0.9px 2.2px rgba(0, 0, 0, 0.025),
       3px 2.2px 5.3px rgba(0, 0, 0, 0.035),
       5.6px 4.1px 10px rgba(0, 0, 0, 0.043),
@@ -66,8 +69,8 @@
     margin-bottom: 0;
   }
   &-item-image {
-    height: 130px;
-    width: 360px;
+    height: auto;
+    width: 100%;
     object-fit: cover;
     object-position: top 10px;
     @include for-phone {
@@ -78,15 +81,17 @@
   &-home-item {
     &-container {
       background: transparent;
-      width: 300px;
+      width: 20vw;
       height: auto;
-      max-height: 14.75rem;
+      max-height: 16rem;
       border-radius: 1rem;
       padding: 1rem;
       z-index: 2;
       margin-bottom: 1rem;
+      cursor: pointer;
       @include for-phone {
         width: 100% !important;
+        margin-bottom: 0 !important;
       }
       h1 {
         font-size: 1.125rem;

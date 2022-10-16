@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Image, Tag } from "antd";
+import { Tag } from "antd";
 import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
@@ -10,6 +10,7 @@ import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
 import { checkImageURL } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
+import { TicketStatus } from "../../utils/constants";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
@@ -26,17 +27,22 @@ function Event(props) {
         goToEventDetail();
       }}
     >
-      <Image
+      <img
         src={
           checkImageURL(event?.background)
             ? event?.background
             : PlaceholderCover
         }
-        onClick={(event) => event.stopPropagation()}
         className="event-item-image"
       />
-      <h1 className="w-[calc(100%-80px)] font-bold event-title cursor-pointer">
+      <h1 className="w-[calc(100%-80px)] font-bold event-title cursor-pointer mt-1">
         {event.name}
+      </h1>
+      <h1 className="absolute bottom-3 left-3 text-gray-500 font-bold text-xl">
+        {event.status === TicketStatus.COMPLETED ||
+        event.status === TicketStatus.SOLDOUT
+          ? t(event.status)
+          : null}
       </h1>
       <div>
         <strong className="text-xl">{event.price}</strong>

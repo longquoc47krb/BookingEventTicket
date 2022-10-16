@@ -8,6 +8,7 @@
 @import "./editor.scss";
 @import "./event.scss";
 @import "./event-detail.scss";
+@import "./filter.scss";
 @import "./footer.scss";
 @import "./header.scss";
 @import "./hero.scss";
@@ -27,9 +28,13 @@ body {
   width: 100vw;
   height: 100vh;
   margin: 0;
+  padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 @tailwind base;
 @tailwind components;

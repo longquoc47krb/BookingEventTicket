@@ -15,8 +15,8 @@ import {
   Autoplay,
   Pagination,
   Navigation,
-  EffectCube,
   EffectFade,
+  EffectCube,
 } from "swiper";
 import { shuffle } from "lodash";
 import { Link } from "react-router-dom";
@@ -47,7 +47,7 @@ export default function Carousel(props) {
         }}
         effect={"fade"}
         navigation={true}
-        modules={[Autoplay, Pagination, Navigation, EffectCube, EffectFade]}
+        modules={[Autoplay, Pagination, Navigation, EffectFade]}
         className="mySwiper"
       >
         {newData.map((event, index) => (

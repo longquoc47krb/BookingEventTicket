@@ -34,19 +34,17 @@ function EventDetail(props) {
   const { eventId } = useParams();
   const { organizer } = props;
   // const wishList = useSelector(wishlistSelector);
-  const [yPosition, setYPosition] = useState(window.scrollY);
+  const [yPosition, setY] = useState(window.scrollY);
+  const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
-  const { data: eventTemp, status } = useEventDetails(eventId);
-  // const { data: featuredEventsTemp } = useFetchFeaturedEvents();
-  const buttonGroupRef = useRef(null);
-  const rightWrapperRef = useRef(null);
+  const { data: event, status, isFetching } = useEventDetails(eventId);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
   const { t } = useTranslation();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
-  const event = status === "success" && eventTemp.data;
   // const featuredEvent = status === "success" && featuredEventsTemp.data;
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
@@ -73,7 +71,7 @@ function EventDetail(props) {
   };
   useEffect(() => {
     const handleYPosition = (e) => {
-      setYPosition(window.scrollY);
+      setY(window.scrollY);
     };
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
@@ -85,9 +83,8 @@ function EventDetail(props) {
       });
     }
   };
-
   useEffect(() => {
-    if (status !== "loading" && status !== "error") {
+    if (status !== "loading" && status !== "error" && !isFetching) {
       const sectionPosition = {
         introduce: introduce.current.offsetTop,
         info: info.current.offsetTop,
@@ -110,90 +107,13 @@ function EventDetail(props) {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
-  if (status === "loading") {
+  if (status === "loading" || isFetching) {
     return <Loading />;
-  } else if (status === "error") {
+  } else if (status === "error" || isFetching) {
     navigate("/not-found");
     return null;
   } else {
     dispatch(setPathName(window.location.pathname));
-    console.log("buttonRef", buttonGroupRef);
-    console.log("rightWrapperRef", rightWrapperRef);
-    const renderStatus = (status, ref) => {
-      switch (status) {
-        case TicketStatus.AVAILABLE:
-          if (ref === buttonGroupRef.current) {
-            return (
-              <button onClick={handleCheckAuthenticated} className="buy-now">
-                {t("event.buy-now")}
-              </button>
-            );
-          }
-          return (
-            <button
-              onClick={handleCheckAuthenticated}
-              className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-            >
-              {t("event.buy-now")}
-            </button>
-          );
-
-        case TicketStatus.SOLDOUT:
-          if (ref === buttonGroupRef.current) {
-            return (
-              <button
-                onClick={handleCheckAuthenticated}
-                className="disabled-button"
-              >
-                {t("event.sold-out")}
-              </button>
-            );
-          }
-          return (
-            <button
-              onClick={handleCheckAuthenticated}
-              className="disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-            >
-              {t("event.sold-out")}
-            </button>
-          );
-        case TicketStatus.COMPLETED:
-          if (ref === buttonGroupRef.current) {
-            return (
-              <button
-                onClick={handleCheckAuthenticated}
-                className="disabled-button"
-              >
-                {t("event.completed")}
-              </button>
-            );
-          }
-          return (
-            <button
-              onClick={handleCheckAuthenticated}
-              className="disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-            >
-              {t("event.completed")}
-            </button>
-          );
-        default:
-          if (ref === buttonGroupRef.current) {
-            return (
-              <button onClick={handleCheckAuthenticated} className="buy-now">
-                {t("event.buy-now")}
-              </button>
-            );
-          }
-          return (
-            <button
-              onClick={handleCheckAuthenticated}
-              className="buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-            >
-              {t("event.buy-now")}
-            </button>
-          );
-      }
-    };
     return (
       <>
         <HelmetHeader title={event?.name} />
@@ -227,8 +147,22 @@ function EventDetail(props) {
                 </p>
               </div>
             </div>
-            <div className="event-detail-button" ref={buttonGroupRef}>
-              {renderStatus(event.status, buttonGroupRef.current)}
+            <div className="event-detail-button">
+              <button
+                onClick={handleCheckAuthenticated}
+                className={
+                  event.status === TicketStatus.SOLDOUT ||
+                  event.status === TicketStatus.COMPLETED
+                    ? "disabled-button"
+                    : "buy-now"
+                }
+              >
+                {t(
+                  event.status === TicketStatus.AVAILABLE
+                    ? "event.buy-now"
+                    : event.status
+                )}
+              </button>
               {wishlist &&
               wishlist.length > 0 &&
               wishlist.find((e) => e === event.id) ? (
@@ -293,7 +227,7 @@ function EventDetail(props) {
               </Nav>
             </Affix>
           </div>
-          <div className="event-detail-wrapper">
+          <div className="event-detail-wrapper" ref={container}>
             <div className="event-detail-wrapper-left">
               <div className="event-detail-content">
                 <div ref={introduce} className="introduce">
@@ -334,29 +268,43 @@ function EventDetail(props) {
               </div>
             </div>
             <div className="event-detail-wrapper-right">
-              <Affix offsetTop={60}>
-                <div className="event-detail-booking" ref={rightWrapperRef}>
+              <div className="h-full">
+                <div className="event-detail-booking sticky-container">
                   <div ref={introduce} className="introduce">
                     {event?.name}
                   </div>
                   <div className="px-[1rem] mt-2">
-                    <h1 className="flex text-base items-center font-semibold gap-x-2">
+                    <h1 className="flex text-base items-center font-semibold gap-x-2 mb-2">
                       <GoClock className="text-gray-500" />
                       {`${eventStartingTime} - ${eventEndingTime}`}
                     </h1>
                     <div>
-                      <h1 className="flex text-base items-center font-semibold gap-x-2">
+                      <h1 className="flex text-base items-center font-semibold gap-x-2 mb-2">
                         <GoLocation className="text-gray-500" />
                         {event?.venue}
                       </h1>
-                      <p className="event-detail-address-note">
+                      <p className="event-detail-address-note mb-2">
                         {event?.venue_address}
                       </p>
                     </div>
                   </div>
-                  {renderStatus(event.status, rightWrapperRef.current)}
+                  <button
+                    onClick={handleCheckAuthenticated}
+                    className={
+                      event.status === TicketStatus.SOLDOUT ||
+                      event.status === TicketStatus.COMPLETED
+                        ? "disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                        : "buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                    }
+                  >
+                    {t(
+                      event.status === TicketStatus.AVAILABLE
+                        ? "event.buy-now"
+                        : event.status
+                    )}
+                  </button>
                 </div>
-              </Affix>
+              </div>
             </div>
           </div>
         </div>

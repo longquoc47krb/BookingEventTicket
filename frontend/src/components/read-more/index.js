@@ -2,7 +2,7 @@ import parse from "html-react-parser";
 import React, { useRef, useState } from "react";
 import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 function ReadMoreLess(props) {
-  const { children, className } = props;
+  const { children, className, ref } = props;
   const [expanded, setExpanded] = useState(false);
   const readmoreRef = useRef(null);
   const handleReadMoreLess = (event) => {
@@ -18,7 +18,7 @@ function ReadMoreLess(props) {
   };
   return (
     <div className={`readmore ${className}`} ref={readmoreRef}>
-      {parse(children)}
+      <div ref={ref}>{parse(children)}</div>
       <div className="readmore-link" onClick={handleReadMoreLess}>
         {expanded ? (
           <BsChevronDoubleUp

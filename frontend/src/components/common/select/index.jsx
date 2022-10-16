@@ -1,31 +1,54 @@
-import { Select as AntdSelect } from "antd";
-const { Option } = Select;
+import { useTranslation } from "react-i18next";
+import { isNotEmpty } from "../../../utils/utils";
+import { Select as AntSelect } from "antd";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  filterSelector,
+  setCategoryId,
+  setProvince,
+  setStatus,
+} from "../../../redux/slices/filterSlice";
 export function Select(props) {
-  const { field, mode, options, width } = props;
-  const { value, name } = field;
-  const handleChange = (value) => {
-    const changeEvent = {
-      target: {
-        name: name,
-        value: value,
-      },
-    };
-    field.onChange(changeEvent);
-  };
+  const { data, icon, type, defaultValue } = props;
+  const { t } = useTranslation();
+  const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
+  const [value, setValue] = useState(null);
+  const dispatch = useDispatch();
+  console.log({ defaultValue });
+  console.log({ value });
+  useEffect(() => {
+    if (type === "location") {
+      dispatch(setProvince(value));
+      console.log("setProvince:", value);
+    } else if (type === "category") {
+      dispatch(setCategoryId(value));
+      console.log("setCategoryId:", value);
+    } else {
+      dispatch(setStatus(value));
+      console.log("setStatus:", value);
+    }
+  }, [type, value, dispatch, defaultValue]);
   return (
-    <>
-      <AntdSelect
+    <div className="select-container">
+      {icon}
+      <AntSelect
+        style={{
+          width: "100%",
+        }}
+        bordered={false}
+        defaultValue={defaultValue}
         value={value}
-        onChange={handleChange}
-        style={{ width: width }}
-        mode={mode}
+        onChange={(value) => {
+          setValue(value);
+        }}
       >
-        {options.map((item, index) => (
-          <Option key={index + 1} value={item.value}>
-            {item.value}
-          </Option>
+        {data?.map((item, index) => (
+          <AntSelect.Option key={index} value={item[keys[0]]}>
+            {t(item[keys[1]])}
+          </AntSelect.Option>
         ))}
-      </AntdSelect>
-    </>
+      </AntSelect>
+    </div>
   );
 }

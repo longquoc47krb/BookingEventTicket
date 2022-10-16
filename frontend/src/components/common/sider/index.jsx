@@ -16,20 +16,33 @@ function SiderBar(props) {
   const navigate = useNavigate();
   return (
     <div className={className}>
-      <div style={{ width: 250, height: "auto", padding: "0.2rem" }}>
+      <div
+        style={{
+          width: "18vw",
+          height: "auto",
+        }}
+      >
         <MenuList>
           {MENU.map((item, index) => (
             <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText>{t(item.label)}</ListItemText>
+              <ListItemIcon style={{ fontSize: "0.6rem" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText style={{ fontSize: "0.6875rem" }}>
+                {t(item.label)}
+              </ListItemText>
             </MenuItem>
           ))}
         </MenuList>
         <hr className="px-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
         {MENU_ORG.map((item, index) => (
-          <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{t(item.label)}</ListItemText>
+          <MenuItem className="sider-item" onClick={() => navigate(item.link)}>
+            <ListItemIcon style={{ fontSize: "0.6rem" }}>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText style={{ fontSize: "0.6rem" }}>
+              {t(item.label)}
+            </ListItemText>
           </MenuItem>
         ))}
         <button

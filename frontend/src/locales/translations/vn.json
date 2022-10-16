@@ -9,18 +9,22 @@
     "login": "Đăng nhập"
   },
   "event": {
+    "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
     "near-you": "Sự kiện gần bạn",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
-    "buy-now": "Mua vé ngay",
+    "buy-now": "Mua ngay",
+    "available": "Chưa diễn ra",
     "sold-out": "Hết vé",
     "completed": "Đã kết thúc",
     "interest": "Quan tâm",
     "interested": "Đã quan tâm",
     "view-more": "Xem thêm",
-    "recommend-for-you": "Sự kiện dành cho bạn"
+    "recommend-for-you": "Sự kiện dành cho bạn",
+    "remain": "Còn lại",
+    "ticket": "vé"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
@@ -28,12 +32,14 @@
     "view-all": "Xem tất cả kết quả"
   },
   "category": {
+    "all": "Tất cả thể loại",
     "music": "Âm nhạc",
-    "theater": "Sân khấu",
     "exhibition": "Triển lãm",
-    "nightlife": "Nightlife",
     "courses": "Khóa học",
-    "sports": "Thể thao",
+    "theater": "Sân khấu",
+    "online": "Trực tuyến",
+    "nightlife": "Nightlife",
+    "sport": "Thể thao",
     "seminar": "Hội thảo",
     "travel": "Du lịch",
     "conference": "Hội nghị"
@@ -51,7 +57,7 @@
   "organizer": "Nhà tổ chức",
   "user": {
     "profile": "Thông tin cá nhân",
-    "purchased": "Đơn hàng đã mua",
+    "my-ticket": "Đơn hàng đã mua",
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
     "name": "Họ và tên",
@@ -63,6 +69,12 @@
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
     }
+  },
+  "location": {
+    "all": "Tất cả địa điểm",
+    "HCM": "TP. Hồ Chí Minh",
+    "HN": "Hà Nội",
+    "others": "Các địa điểm khác"
   },
   "date": {
     "today": "Hôm nay"

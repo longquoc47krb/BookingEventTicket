@@ -25,7 +25,6 @@ const SearchBox = (props) => {
   const { value, data, placeholder } = props;
   const [filterValue, setFilterValue] = useState(value || "");
   const [debouncedValue, setDebouncedValue] = useState("");
-  const { data: events, status } = useFetchEvents();
   const [expand, setExpand] = useState(true);
   const ref = useRef();
   useClickAway(ref, () => {
@@ -43,37 +42,42 @@ const SearchBox = (props) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   let fuse;
-  fuse = useMemo(
-    () =>
-      new Fuse(data || events.data, {
-        isCaseSensitive: false,
-        findAllMatches: false,
-        includeMatches: false,
-        includeScore: false,
-        useExtendedSearch: false,
-        minMatchCharLength: 1,
-        shouldSort: true,
-        threshold: 0.6,
-        location: 0,
-        distance: 100,
-        keys: [
-          "name",
-          "venue",
-          "startingDate",
-          "eventCategoryList.name",
-          "province",
-        ],
-      }),
-    [data || events.data]
-  );
-  const results = fuse?.search(debouncedValue);
+
+  fuse =
+    data &&
+    useMemo(
+      () =>
+        new Fuse(data, {
+          isCaseSensitive: false,
+          findAllMatches: false,
+          includeMatches: false,
+          includeScore: false,
+          useExtendedSearch: false,
+          minMatchCharLength: 1,
+          shouldSort: true,
+          threshold: 0.4,
+          location: 0,
+          distance: 100,
+          keys: [
+            "id",
+            "name",
+            "venue",
+            "startingDate",
+            "eventCategoryList.name",
+            "province",
+          ],
+        }),
+      [data]
+    );
+  const results = data && fuse.search(debouncedValue);
+  // console.log({ results });
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
   return (
     <div className="SearchBox" ref={ref}>
       <Input
-        className="relative p-2 rounded"
+        className="relative p-2 rounded w-full"
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
         value={filterValue}
         placeholder={placeholder}
@@ -155,8 +159,4 @@ SearchBox.propTypes = {
   expand: PropTypes.bool,
   placeholder: PropTypes.string,
 };
-SearchBox.defaultProps = {
-  expand: true,
-};
 export default SearchBox;
-

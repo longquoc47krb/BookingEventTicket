@@ -9,18 +9,22 @@
     "login": "Log in"
   },
   "event": {
+    "all": "All status",
     "list": "Events",
     "trending": "Featured events",
     "near-you": "Events near you",
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue",
-    "buy-now": "Buy Now",
+    "buy-now": "Buy now",
+    "available": "Available",
     "sold-out": "Sold out",
     "completed": "Completed",
     "interest": "Interest",
     "interested": "Interested",
     "view-more": "View more",
-    "recommend-for-you": "Recommend for you"
+    "recommend-for-you": "Recommend for you",
+    "remain": "Remaing",
+    "ticket": "tickets"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -28,12 +32,14 @@
     "view-all": "View all results"
   },
   "category": {
+    "all": "All categories",
     "music": "Music",
-    "theater": "Theater",
     "exhibition": "Exhibition",
-    "nightlife": "Nightlife",
     "courses": "Courses",
-    "sports": "Sports",
+    "theater": "Theater",
+    "online": "Online",
+    "nightlife": "Nightlife",
+    "sport": "Sport",
     "seminar": "Seminar",
     "travel": "Travel",
     "conference": "Conference"
@@ -51,7 +57,7 @@
   "organizer": "Organizer",
   "user": {
     "profile": "Profile",
-    "purchased": "Purchased orders",
+    "my-ticket": "My ticket",
     "wishlist": "Favorite events",
     "logout": "Logout",
     "name": "Full name",
@@ -64,16 +70,22 @@
       "text": "Please log in to add event to wishlist"
     }
   },
+  "location": {
+    "all": "All locations",
+    "HCM": "Ho Chi Minh",
+    "HN": "Ha Noi",
+    "others": "Others"
+  },
   "date": {
     "today": "Today"
   },
   "wishlist": {
     "add": {
-      "title": "Added event!",
+      "title": "Add event!",
       "text": "Event added to your favourite list"
     },
     "remove": {
-      "title": "Removed event!",
+      "title": "Remove event!",
       "text": "Event remove from your favourite list"
     }
   },

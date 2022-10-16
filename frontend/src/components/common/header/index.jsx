@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
@@ -21,11 +20,12 @@ import placeholderImg from "../../../assets/fallback-avatar.png";
 import { AppConfig } from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
+import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
 import { logOutAccount } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
+import theme from "../../../shared/theme";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
-import Location from "../../location";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
 const { USER_PROFILE_MENU } = AppConfig;
@@ -33,7 +33,8 @@ function Header(props) {
   const { currentUser, showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const [current, setCurrent] = useState(currentUser);
-  const { wishlist, clearWishlist, setShowDrawer } = useUserActionContext();
+  const { wishlist, clearWishlist } = useUserActionContext();
+  const { allEvents, successStatus } = useUserFetchDataContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,12 +53,19 @@ function Header(props) {
     }
   }, [user]);
   const menu = (
-    <MenuList style={{ background: "white" }}>
+    <MenuList
+      style={{
+        background: "white",
+        width: "auto",
+      }}
+      className="shadow-lg"
+    >
       {USER_PROFILE_MENU.map((item, index) => (
         <div key={index}>
           <MenuItem
             key={index}
             className="mb-2"
+            style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
             onClick={
               item.key === "logout"
                 ? onLogout
@@ -77,43 +85,44 @@ function Header(props) {
     </MenuList>
   );
   const wishListMenu = (
-    <MenuList style={{ background: "white" }}>
-      <h1 className="font-bold text-xl px-3 flex justify-center ">
-        {t("user.wishlist")}
-      </h1>
-      <hr style={{ width: "100%" }} />
-      <div className="max-h-[25rem] overflow-y-auto">
-        {isNotEmpty(wishlist) ? (
-          wishlist.map((item, index) => (
-            <div key={index}>
-              <MenuItem
-                key={index}
-                className="mb-2"
-                onClick={() => {
-                  dispatch(setPathName(window.location.pathname));
-                  navigate(`/event/${item.id}`);
+    <div className="shadow-md">
+      <MenuList style={{ background: "white" }}>
+        <h1 className="font-bold text-xl px-3 flex justify-center ">
+          {t("user.wishlist")}
+        </h1>
+        <hr style={{ width: "100%" }} />
+        <div className="wishlist-container">
+          {isNotEmpty(wishlist) ? (
+            wishlist.map((id, index) => (
+              <div key={index}>
+                <MenuItem
+                  key={index}
+                  className="mb-2"
+                  onClick={() => {
+                    dispatch(setPathName(window.location.pathname));
+                    navigate(`/event/${id}`);
+                  }}
+                >
+                  <WishListItem id={id} />
+                </MenuItem>
+                <Divider style={{ width: "100%" }} />
+              </div>
+            ))
+          ) : (
+            <MenuItem>
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 60,
+                  width: 480,
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-              >
-                <WishListItem id={item} />
-              </MenuItem>
-
-              <Divider style={{ width: "100%" }} />
-            </div>
-          ))
-        ) : (
-          <MenuItem>
-            <Empty
-              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-              imageStyle={{
-                height: 60,
-                width: 480,
-                display: "flex",
-                justifyContent: "center",
-              }}
-              description={<span>{t("search.empty")}</span>}
-            ></Empty>
-          </MenuItem>
-        )}
+                description={<span>{t("search.empty")}</span>}
+              ></Empty>
+            </MenuItem>
+          )}
+        </div>
         {isNotEmpty(wishlist) ? (
           <>
             <MenuItem>
@@ -127,80 +136,72 @@ function Header(props) {
                 <BiX fontSize={30} className="cursor-pointer" />
               </div>
             </MenuItem>
-            <MenuItem>
-              <div className="flex items-end gap-x-2">
-                {t("search.view-all")}
-                <GrMore />
-              </div>
-            </MenuItem>
           </>
         ) : null}
-      </div>
-    </MenuList>
+      </MenuList>
+    </div>
   );
   return (
     <div className="header-container">
-      <div className="w-[60%] flex md:gap-x-4 items-center justify-between">
-        {isMobile ? (
-          <>
-            <BsFillGrid3X3GapFill
-              fontSize={30}
-              onClick={() => setShowDrawer(true)}
-            />
-          </>
-        ) : null}
+      <div className="md:w-[60%] w-full flex md:gap-x-4 items-center">
         <img
           src="/logo.png"
           alt="logo"
           className="brand-logo"
           onClick={() => navigate("/")}
         />
-        {isMobile ? null : showSearchBox ? (
-          <div className="flex items-center gap-x-2 w-full">
-            <SearchBox placeholder={t("event.placeholder-searchbox")} />{" "}
-            <Location />
-          </div>
+        {showSearchBox ? (
+          <SearchBox
+            placeholder={t("event.placeholder-searchbox")}
+            data={successStatus && allEvents}
+          />
         ) : null}
       </div>
-      <div className="header-auth">
-        {!current ? (
-          <>
-            <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
-              {t("signin")}
-            </a>
-            <LanguageSwitch />
-          </>
-        ) : isMobile ? (
-          <Dropdown overlay={menu} trigger={["click"]}>
-            <Avatar
-              googleId={current.sub}
-              src={current.avatar ?? placeholderImg}
-              size="35"
-              round={true}
-              name={current.name}
-              className="header-avatar"
-            />
-          </Dropdown>
-        ) : (
-          <div className="flex items-center gap-x-2">
-            <Dropdown overlay={wishListMenu} trigger={["click"]}>
-              <RiBookmark3Fill className="text-2xl" />
-            </Dropdown>
-
+      {isMobile ? null : (
+        <div className="header-auth">
+          {!current ? (
+            <>
+              <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
+                {t("signin")}
+              </a>
+              <LanguageSwitch />
+            </>
+          ) : isMobile ? (
             <Dropdown overlay={menu} trigger={["click"]}>
-              <Avatar
-                googleId={current.sub}
-                src={current.avatar ?? placeholderImg}
-                round={true}
-                size={40}
-                name={current.name}
-                className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
-              />
+              <div className="cursor-pointer">
+                <Avatar
+                  googleId={current.sub}
+                  src={current.avatar ?? placeholderImg}
+                  size="35"
+                  round={true}
+                  name={current.name}
+                  className="header-avatar"
+                />
+              </div>
             </Dropdown>
-            <LanguageSwitch />
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="flex items-center gap-x-2">
+              <Dropdown overlay={wishListMenu} trigger={["click"]}>
+                <RiBookmark3Fill className="text-2xl cursor-pointer" />
+              </Dropdown>
+              <Dropdown overlay={menu} trigger={["click"]}>
+                <div className="cursor-pointer flex gap-x-2 items-center">
+                  <Avatar
+                    googleId={current.sub}
+                    src={current.avatar ?? placeholderImg}
+                    round={true}
+                    size={40}
+                    name={current.name}
+                    className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
+                  />
+                  <span>{current.name}</span>
+                </div>
+              </Dropdown>
+              <LanguageSwitch />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

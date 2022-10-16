@@ -21,7 +21,6 @@ public class EventSlugGeneratorService implements IEventSlugGeneratorService {
         EventSlug eventSlug = sequenceGeneratorRepository.findById(slug)
                 .orElse(new EventSlug(slug, toSlug(slug)));
         String sequence = eventSlug.getSlug();
-        sequenceGeneratorRepository.save(eventSlug);
         return sequence;
     }
 }
