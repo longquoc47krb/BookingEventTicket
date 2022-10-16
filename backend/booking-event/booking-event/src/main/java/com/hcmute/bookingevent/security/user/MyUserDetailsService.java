@@ -15,23 +15,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//@Transactional(readOnly = true)
 @Service
 public class MyUserDetailsService implements UserDetailsService{
     @Autowired
     AccountRepository accountRepository;
-//    @Override
-//    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-//
-//        if(!"codertiensinh".equalsIgnoreCase(userName)) throw new UsernameNotFoundException("User name not found");
-//        String password = "a12345678";
-//        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_TEACHER");
-//        authorities.add(authority);
-//        MyUserDetails userDetail = new UserDetailsImpl(userName, password, authorities);
-//        return userDetail;
-//    }
+
     @Override
-    @Transactional
+    //@Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account user = accountRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));

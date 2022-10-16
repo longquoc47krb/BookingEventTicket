@@ -8,6 +8,7 @@ import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.OrganizationRepository;
 import com.hcmute.bookingevent.responsitory.TicketRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TicketService implements ITicketService {
-    @Autowired
-    TicketRepository ticketRepository;
+
+    private final TicketRepository ticketRepository;
 
     @Override
     public ResponseEntity<?> findAll()

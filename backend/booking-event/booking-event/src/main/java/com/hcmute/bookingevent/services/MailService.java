@@ -3,6 +3,7 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MailService {
-    @Autowired
-    public JavaMailSender emailSender;
+
+    private final JavaMailSender emailSender;
     public ResponseEntity<?> sendMail(String nameRecipient) throws MessagingException
     {
         MimeMessage message = emailSender.createMimeMessage();

@@ -34,18 +34,26 @@ public class Account {
 
     private String userName;
     private String passWord;
-    //private String role;
-    private Set<Role> roles = new HashSet<>();
-    public Account(String name, String phone, String email) {
-        this.name = name;
-        this.phone = phone;
+    private String role;
+    //private Set<String> roles = new HashSet<>();
+    public Account(String userName,  String email,String passWord) {
+        this.userName = userName;
         this.email = email;
+        this.passWord = passWord;
     }
-    public Set<Role> getRoles() {
-        return roles;
+    public Account(String name,  String email,String passWord,String role) {
+        this.name = name;
+        this.email = email;
+        this.passWord = passWord;
+        this.role= role;
+      //  this.roles=roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public Set<String> getRoles() {
+//        return roles;
+//    }
+
+//    public void setRoles(Set<String> roles) {
+//        this.roles = roles;
+//    }
 }
