@@ -9,6 +9,7 @@ import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,10 +26,9 @@ import static com.hcmute.bookingevent.utils.DateUtils.*;
 import static com.hcmute.bookingevent.utils.Utils.toSlug;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventService implements IEventService {
-    @Autowired
-    private final EventRepository eventRepository;
+    private EventRepository eventRepository;
     private final IEventSlugGeneratorService sequenceGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {

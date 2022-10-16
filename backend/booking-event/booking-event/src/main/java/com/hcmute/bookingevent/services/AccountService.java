@@ -10,9 +10,9 @@ import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
 import com.hcmute.bookingevent.responsitory.CustomerRepository;
-import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,44 +28,13 @@ import java.util.Optional;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountService implements IAccountService {
-    @Autowired
     private final AccountRepository accountRepository;
     private final CloudinaryConfig cloudinary;
     private final CustomerRepository customerRepository;
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-    @Autowired
-    AuthenticationManager authenticationManager;
 
-//    @Override
-//    public ResponseEntity<?> login(LoginReq req) {
-//        try {
-//            // Xác thực từ username và password.
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            req.getUsername(),
-//                            req.getPassword()
-//                    )
-//            );
-//
-//            // Nếu không xảy ra exception tức là thông tin hợp lệ
-//            // Set thông tin authentication vào Security Context
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            // Trả về jwt cho người dùng.
-//            String jwt = tokenProvider.generateToken(req);
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject(true, "Log in successfully ", jwt)
-//            );
-//        }
-//        catch( Exception ex)
-//        {
-//            ex.printStackTrace();
-//            throw new BadCredentialsException(ex.getMessage());
-//        }
-//    }
+
 
 
     @Override

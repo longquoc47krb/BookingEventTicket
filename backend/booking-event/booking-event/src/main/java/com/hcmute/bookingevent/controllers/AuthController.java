@@ -3,6 +3,7 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.Implement.IAccountService;
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.payload.LoginReq;
+import com.hcmute.bookingevent.payload.RegisterReq;
 import com.hcmute.bookingevent.services.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterReq registerReq) {
+        return iAuthService.registerUser(registerReq);
     }
 }
