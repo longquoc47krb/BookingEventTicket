@@ -78,7 +78,11 @@
     "others": "Các địa điểm khác"
   },
   "date": {
-    "today": "Hôm nay"
+    "today": "Hôm nay",
+    "all": "Tất cả các ngày",
+    "tomorrow": "Ngày mai",
+    "this-week": "Tuần này",
+    "this-month": "Tháng này"
   },
   "wishlist": {
     "add": {

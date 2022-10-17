@@ -2,7 +2,11 @@ import React from "react";
 import { BsCalendar2Date, BsFillGridFill, BsInfoCircle } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
-import { locationSelect, statusSelect } from "../../helpers/filter-data";
+import {
+  locationSelect,
+  statusSelect,
+  dateSelect,
+} from "../../helpers/filter-data";
 import theme from "../../shared/theme";
 import { isNotEmpty } from "../../utils/utils";
 import { Select } from "../common/select";
@@ -31,7 +35,7 @@ const EventFilter = () => {
     },
     {
       icon: <BsCalendar2Date color={theme.main} fontSize={20} />,
-      data: [],
+      data: dateSelect,
       type: "date",
       defaultValue: "date.all",
     },

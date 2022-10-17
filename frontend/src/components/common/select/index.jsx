@@ -7,6 +7,7 @@ import {
   setCategoryId,
   setProvince,
   setStatus,
+  setDateType,
 } from "../../../redux/slices/filterSlice";
 export function Select(props) {
   const { data, icon, type, defaultValue } = props;
@@ -19,8 +20,10 @@ export function Select(props) {
       dispatch(setProvince(value));
     } else if (type === "category") {
       dispatch(setCategoryId(value));
-    } else {
+    } else if (type === "status") {
       dispatch(setStatus(value));
+    } else {
+      dispatch(setDateType(value));
     }
   }, [type, value, dispatch, defaultValue]);
   return (

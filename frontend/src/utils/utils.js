@@ -372,6 +372,37 @@ export const orderByDate = (data, key, type = "asc") => {
     return data.reverse();
   }
 };
+export const filterByDate = (type, list) => {
+  const startOfWeek = moment().startOf("week");
+  const endOfWeek = moment().endOf("week");
+  const tomorrow = moment().add(1, "days");
+  const startOfMonth = moment().startOf("month");
+  const endOfMonth = moment().endOf("month");
+  const date = moment("18/11/2022", dateFormat);
+  console.log({ date, startOfMonth, endOfMonth });
+  console.log(date >= startOfMonth && date <= endOfMonth);
+  if (type === "tomorrow") {
+    return list.filter(
+      (event) => moment(event.startingDate, dateFormat) === tomorrow
+    );
+  } else if (type === "this-week") {
+    return list.filter(
+      (event) =>
+        moment(event.startingDate, dateFormat) >= startOfWeek &&
+        moment(event.startingDate, dateFormat) <= endOfWeek
+    );
+  } else if (type === "range") {
+    return list;
+  } else if (type === "this-month") {
+    return list.filter(
+      (event) =>
+        moment(event.startingDate, dateFormat) >= startOfMonth &&
+        moment(event.startingDate, dateFormat) <= endOfMonth
+    );
+  } else {
+    return list;
+  }
+};
 export const checkImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };

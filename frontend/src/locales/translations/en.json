@@ -78,7 +78,11 @@
     "others": "Others"
   },
   "date": {
-    "today": "Today"
+    "today": "Today",
+    "all": "All dates",
+    "tomorrow": "Tomorrow",
+    "this-week": "This week",
+    "this-month": "This month"
   },
   "wishlist": {
     "add": {

@@ -19,6 +19,7 @@ const UserFetchDataContext = createContext();
 export const UserFetchDataContextProvider = ({ children }) => {
   const filter = useSelector(filterSelector);
   console.log({ filter });
+  const dateType = useSelector((state) => state.filter.filterByDateType);
   const { data: featuredEventsFetching, status: highlightStatus } =
     useFetchFeaturedEvents();
   const { data: EventStatusFetching, status: eventstatusStatus } =
@@ -26,16 +27,13 @@ export const UserFetchDataContextProvider = ({ children }) => {
   const { data: allEventsFetching, status: allEventsStatus } = useFetchEvents();
   const { data: location, status: locationStatus } = useLocationName();
   const { data: categories, status: categoryStatus } = useFetchCategories();
-  const { data: eventsByProvinceFetching, status: eventsByProvinceStatus } =
+  const { data: eventsByProvince, status: eventsByProvinceStatus } =
     useFetchEventsByFilter({
       province: provinceMapping.get(location ? location?.region : ""),
       status: TicketStatus.AVAILABLE,
     });
   const { data: filteredEvents, status: filterStatus } =
     useFetchEventsByFilter(filter);
-  if (filterStatus === "success") {
-    console.log(">> filteredEvents:", filteredEvents);
-  }
   const loadingStatus =
     highlightStatus === "loading" ||
     eventstatusStatus === "loading" ||
@@ -60,7 +58,6 @@ export const UserFetchDataContextProvider = ({ children }) => {
   if (successStatus) {
     var featuredEvents = featuredEventsFetching;
     var eventsStatus = EventStatusFetching;
-    var eventsByProvince = eventsByProvinceFetching;
     var allEvents = allEventsFetching;
   }
   return (
@@ -75,6 +72,7 @@ export const UserFetchDataContextProvider = ({ children }) => {
         allEvents,
         categories,
         filteredEvents,
+        dateType,
       }}
     >
       {children}

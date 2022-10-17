@@ -5,19 +5,14 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.EventCategory;
 import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.ResponseObject;
 import com.hcmute.bookingevent.responsitory.EventRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -150,10 +145,10 @@ public class EventService implements IEventService {
                 eventList = listOfLists.get(i);
         }
         List<Event> sortedEventList = sortEventByDateAsc(eventList);
-        System.out.println("province: " + province + ", " + "categoryId: " + categoryId + ", " + "status: " + status);
-        System.out.println(" Total: " + eventList.size());
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", sortedEventList));
+
 
     }
 

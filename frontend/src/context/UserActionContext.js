@@ -1,15 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { reactLocalStorage } from "reactjs-localstorage";
-import eventServices, {
-  useCheckEventsStatus,
-  useFetchEventsByFilter,
-  useFetchFeaturedEvents,
-} from "../api/services/eventServices";
-import { useLocationName } from "../api/services/generalServices";
+import eventServices from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
-import constants from "../utils/constants";
-const { provinceMapping } = constants;
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
@@ -23,7 +15,7 @@ export const UserActionContextProvider = ({ children }) => {
 
     // const list = reactLocalStorage.getObject("userWishlist");
     const list = JSON.parse(localStorage.getItem("userWishlist"));
-    const userWishlist = list.wishlist;
+    const userWishlist = list.wishlist ?? [];
     setWishlist(list.wishlist);
     userWishlist &&
       userWishlist.forEach((eventId) => {

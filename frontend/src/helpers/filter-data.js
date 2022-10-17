@@ -30,3 +30,21 @@ export const statusSelect = [
     label: "event.completed",
   },
 ];
+export const dateSelect = [
+  {
+    value: null,
+    label: "date.all",
+  },
+  {
+    value: "tomorrow",
+    label: "date.tomorrow",
+  },
+  {
+    value: "this-week",
+    label: "date.this-week",
+  },
+  {
+    value: "this-month",
+    label: "date.this-month",
+  },
+];
