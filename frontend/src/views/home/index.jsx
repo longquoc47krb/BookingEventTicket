@@ -76,7 +76,7 @@ function Home() {
                     <EventHomeItem event={event} />
                   ))}
               </div>
-              <ViewMoreButton />
+              <ViewMoreButton onClick={() => navigate("/events")} />
             </div>
             <div className="home-event-near-you">
               <SectionTitle>{t("event.near-you")}</SectionTitle>
