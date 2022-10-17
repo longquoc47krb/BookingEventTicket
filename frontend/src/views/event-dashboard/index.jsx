@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Divider } from "antd";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -24,16 +24,21 @@ import { isEmpty, filterByDate, isNotEmpty } from "../../utils/utils";
 
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { filteredEvents, loadingStatus, successStatus, dateType } =
+  const { filteredEvents, loadingStatus, dateType, filter } =
     useUserFetchDataContext();
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
+  // if filter change, set current page equal 0 ( page 1)
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [filter, dateType]);
+  console.log({ currentPage });
+  const firstIndex = currentPage * 6;
+  const lastIndex = currentPage * 6 + 6;
   return (
     <>
       <HelmetHeader title={t("pages.events")} content="Event Dashboard" />
@@ -57,23 +62,25 @@ function EventDashBoard() {
           ) : isEmpty(filteredEvents) ? (
             <EmptyData />
           ) : isNotEmpty(filterByDate(dateType, filteredEvents)) ? (
-            filterByDate(dateType, filteredEvents).map((event, index) => (
-              <Event event={event} key={event.id} />
-            ))
+            filterByDate(dateType, filteredEvents)
+              .slice(firstIndex, lastIndex)
+              .map((event, index) => <Event event={event} key={event.id} />)
           ) : (
             <EmptyData />
           )}
         </div>
       </div>
       <div className="event-pagination">
-        {loadingStatus ? null : (
+        {loadingStatus ? null : filterByDate(dateType, filteredEvents).length >
+          0 ? (
           <Pagination
             current={currentPage + 1}
             onChange={onChange}
             total={filterByDate(dateType, filteredEvents).length}
             pageSize={6}
+            defaultCurrent={1}
           />
-        )}
+        ) : null}
       </div>
       <Footer />
     </>

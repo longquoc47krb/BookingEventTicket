@@ -25,7 +25,8 @@
     "recommend-for-you": "Recommend for you",
     "remain": "Remaing",
     "ticket": "tickets",
-    "not-found": "Data not found"
+    "not-found": "Oops..! Data not found",
+    "not-found-description": "We can't find any appropriate results, try to edit the filter!"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -33,6 +34,7 @@
     "view-all": "View all results"
   },
   "category": {
+    "menu": "Categories",
     "all": "All categories",
     "music": "Music",
     "exhibition": "Exhibition",
@@ -46,6 +48,7 @@
     "conference": "Conference"
   },
   "org": {
+    "menu": "For organization",
     "contact": "Contact",
     "about": "About",
     "faq": "FAQs",

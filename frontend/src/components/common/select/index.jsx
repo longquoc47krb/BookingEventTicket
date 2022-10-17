@@ -39,6 +39,7 @@ export function Select(props) {
         onChange={(value) => {
           setValue(value);
         }}
+        allowClear
       >
         {data?.map((item, index) => (
           <AntSelect.Option key={index} value={item[keys[0]]}>

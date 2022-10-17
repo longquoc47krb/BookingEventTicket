@@ -56,6 +56,7 @@ const EventFilter = () => {
             data={item.data}
             type={item.type}
             defaultValue={item.defaultValue}
+            allowClear
           />
         ))}
     </div>

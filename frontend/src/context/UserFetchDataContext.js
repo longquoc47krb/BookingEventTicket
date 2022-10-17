@@ -72,6 +72,7 @@ export const UserFetchDataContextProvider = ({ children }) => {
         allEvents,
         categories,
         filteredEvents,
+        filter,
         dateType,
       }}
     >
