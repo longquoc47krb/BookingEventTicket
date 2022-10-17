@@ -67,7 +67,7 @@
     "name": "Họ và tên",
     "phone": "Số điện thoại",
     "phone-placeholder": "Nhập số điện thoại của bạn",
-    "login-by-phone": "Đăng nhập bằng số điện thoại",
+    "login-by-email": "Đăng nhập bằng email/password",
     "login-by-google": "Đăng nhập bằng Google",
     "unauthenticated": {
       "title": "Chưa đăng nhập",

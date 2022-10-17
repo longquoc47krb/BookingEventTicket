@@ -5,4 +5,5 @@ export const YupValidations = {
   email: Yup.string().required("Required").email("Invalid email address"),
   name: Yup.string().required("Required").max(64, "Max length 64"),
   phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  password: Yup.string().required("Required").max(64, "Max length 64"),
 };
