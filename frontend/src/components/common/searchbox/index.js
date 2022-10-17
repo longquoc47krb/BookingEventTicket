@@ -84,6 +84,7 @@ const SearchBox = (props) => {
         onChange={({ currentTarget }) => {
           setFilterValue(currentTarget.value);
         }}
+        style={{ padding: "0.5rem" }}
         allowClear
       />
       {debouncedValue && expand ? (

@@ -11,6 +11,8 @@ import moment from "moment";
 import { checkImageURL } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
 import { TicketStatus } from "../../utils/constants";
+import { useDispatch } from "react-redux";
+import { setCategoryId } from "../../redux/slices/filterSlice";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ function Event(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
+  const dispatch = useDispatch()
   return (
     <div
       className="event-item-container float"
@@ -62,7 +65,10 @@ function Event(props) {
           <p
             key={index}
             className="event-category cursor-pointer"
-            onClick={(event) => event.stopPropagation()}
+            onClick={(event) => {
+              event.stopPropagation();
+              dispatch(setCategoryId(item.id))
+            }}
           >
             {t(item?.name)}
           </p>

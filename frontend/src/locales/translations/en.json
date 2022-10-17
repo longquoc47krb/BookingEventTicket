@@ -67,7 +67,7 @@
     "name": "Full name",
     "phone": "Phone number",
     "phone-placeholder": "Enter Phone Number",
-    "login-by-phone": "Login by phone number",
+    "login-by-email": "Login by Email",
     "login-by-google": "Login by Google",
     "unauthenticated": {
       "title": "Unauthenticated",

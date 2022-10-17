@@ -381,27 +381,25 @@ export const filterByDate = (type, list) => {
   const date = moment("18/11/2022", dateFormat);
   console.log({ date, startOfMonth, endOfMonth });
   console.log(date >= startOfMonth && date <= endOfMonth);
-  if (type === "tomorrow") {
+  if (type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
     );
-  } else if (type === "this-week") {
+  if (type === "this-week")
     return list.filter(
       (event) =>
         moment(event.startingDate, dateFormat) >= startOfWeek &&
         moment(event.startingDate, dateFormat) <= endOfWeek
     );
-  } else if (type === "range") {
-    return list;
-  } else if (type === "this-month") {
+  if (type === "range") return list;
+  if (type === "this-month")
     return list.filter(
       (event) =>
         moment(event.startingDate, dateFormat) >= startOfMonth &&
         moment(event.startingDate, dateFormat) <= endOfMonth
     );
-  } else {
-    return list;
-  }
+
+  return list;
 };
 export const checkImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;

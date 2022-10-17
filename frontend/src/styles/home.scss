@@ -44,7 +44,7 @@
       font-weight: 800;
       padding-left: 1rem;
       position: relative;
-      border-left: 0.5rem solid $primary-color;
+      border-left: 0.375rem solid $primary-color;
       @include for-phone {
         font-size: 2rem !important;
       }
