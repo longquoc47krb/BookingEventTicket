@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import { isNotEmpty } from "../../../utils/utils";
 import { Select as AntSelect } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  filterSelector,
   setCategoryId,
   setProvince,
   setStatus,
+  setDateType,
 } from "../../../redux/slices/filterSlice";
 export function Select(props) {
   const { data, icon, type, defaultValue } = props;
@@ -15,18 +15,15 @@ export function Select(props) {
   const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
   const [value, setValue] = useState(null);
   const dispatch = useDispatch();
-  console.log({ defaultValue });
-  console.log({ value });
   useEffect(() => {
     if (type === "location") {
       dispatch(setProvince(value));
-      console.log("setProvince:", value);
     } else if (type === "category") {
       dispatch(setCategoryId(value));
-      console.log("setCategoryId:", value);
-    } else {
+    } else if (type === "status") {
       dispatch(setStatus(value));
-      console.log("setStatus:", value);
+    } else {
+      dispatch(setDateType(value));
     }
   }, [type, value, dispatch, defaultValue]);
   return (
@@ -42,6 +39,7 @@ export function Select(props) {
         onChange={(value) => {
           setValue(value);
         }}
+        allowClear
       >
         {data?.map((item, index) => (
           <AntSelect.Option key={index} value={item[keys[0]]}>

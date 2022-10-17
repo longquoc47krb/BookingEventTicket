@@ -19,6 +19,7 @@ const UserFetchDataContext = createContext();
 export const UserFetchDataContextProvider = ({ children }) => {
   const filter = useSelector(filterSelector);
   console.log({ filter });
+  const dateType = useSelector((state) => state.filter.filterByDateType);
   const { data: featuredEventsFetching, status: highlightStatus } =
     useFetchFeaturedEvents();
   const { data: EventStatusFetching, status: eventstatusStatus } =
@@ -26,38 +27,37 @@ export const UserFetchDataContextProvider = ({ children }) => {
   const { data: allEventsFetching, status: allEventsStatus } = useFetchEvents();
   const { data: location, status: locationStatus } = useLocationName();
   const { data: categories, status: categoryStatus } = useFetchCategories();
-  const { data: eventsByProvinceFetching, status: eventsByProvinceStatus } =
+  const { data: eventsByProvince, status: eventsByProvinceStatus } =
     useFetchEventsByFilter({
       province: provinceMapping.get(location ? location?.region : ""),
       status: TicketStatus.AVAILABLE,
     });
-  const { data: filterEvents, status: filterEventStatus } =
-    useFetchEventsByFilter({
-      province: provinceMapping.get(location ? location?.region : ""),
-      status: TicketStatus.AVAILABLE,
-    });
+  const { data: filteredEvents, status: filterStatus } =
+    useFetchEventsByFilter(filter);
   const loadingStatus =
     highlightStatus === "loading" ||
     eventstatusStatus === "loading" ||
     eventsByProvinceStatus === "loading" ||
     categoryStatus === "loading" ||
+    filterStatus === "loading" ||
     allEventsStatus === "loading";
   const errorStatus =
     highlightStatus === "error" ||
     eventstatusStatus === "error" ||
     eventsByProvinceStatus === "error" ||
+    filterStatus === "error" ||
     categoryStatus === "error" ||
     allEventsStatus === "error";
   const successStatus =
     highlightStatus === "success" ||
     eventstatusStatus === "success" ||
     eventsByProvinceStatus === "success" ||
+    filterStatus === "success" ||
     categoryStatus === "success" ||
     allEventsStatus === "success";
   if (successStatus) {
     var featuredEvents = featuredEventsFetching;
     var eventsStatus = EventStatusFetching;
-    var eventsByProvince = eventsByProvinceFetching;
     var allEvents = allEventsFetching;
   }
   return (
@@ -71,6 +71,9 @@ export const UserFetchDataContextProvider = ({ children }) => {
         successStatus,
         allEvents,
         categories,
+        filteredEvents,
+        filter,
+        dateType,
       }}
     >
       {children}

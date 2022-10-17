@@ -5,6 +5,8 @@
     background: gray;
     img {
       width: 100%;
+      max-height: 37.5rem;
+      object-fit: cover;
     }
   }
   &-long-content {

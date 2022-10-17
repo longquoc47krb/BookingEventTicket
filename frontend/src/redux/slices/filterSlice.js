@@ -6,6 +6,7 @@ const initialState = {
     categoryId: null,
     status: null,
   },
+  filterByDateType: null,
 };
 
 const filterSlice = createSlice({
@@ -21,10 +22,14 @@ const filterSlice = createSlice({
     setStatus: (state, { payload }) => {
       state.filter.status = payload;
     },
+    setDateType: (state, { payload }) => {
+      state.filterByDateType = payload;
+    },
   },
 });
 
-export const { setProvince, setCategoryId, setStatus } = filterSlice.actions;
+export const { setProvince, setCategoryId, setStatus, setDateType } =
+  filterSlice.actions;
 export const filterSelector = (state) => state.filter.filter;
 
 export default filterSlice.reducer;
