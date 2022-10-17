@@ -24,7 +24,8 @@
     "view-more": "Xem thêm",
     "recommend-for-you": "Sự kiện dành cho bạn",
     "remain": "Còn lại",
-    "ticket": "vé"
+    "ticket": "vé",
+    "not-found": "Hổng thấy gì hết trơn :< "
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",

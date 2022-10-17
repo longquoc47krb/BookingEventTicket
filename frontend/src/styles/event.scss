@@ -69,13 +69,14 @@
     margin-bottom: 0;
   }
   &-item-image {
-    height: auto;
+    max-height: 8rem;
     width: 100%;
     object-fit: cover;
     object-position: top 10px;
     @include for-phone {
       width: 100% !important;
       height: auto !important;
+      max-height: 11rem !important;
     }
   }
   &-home-item {

@@ -39,7 +39,7 @@ const EventFilter = () => {
       icon: <BsInfoCircle color={theme.main} fontSize={20} />,
       data: statusSelect,
       type: "status",
-      defaultValue: "event.all",
+      defaultValue: "event.available",
     },
   ];
 

@@ -110,50 +110,58 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status) {
-        List<Event> eventList = new ArrayList<>();
-        boolean hasProvince = province != null;
-        boolean hasCategory = categoryId != null;
-        boolean hasStatus = status != null;
-        boolean[] conditions = {
-                (!hasProvince && hasCategory && hasStatus),
-                (!hasProvince && hasCategory && !hasStatus),
-                (!hasProvince && !hasCategory && hasStatus),
-                (!hasProvince && !hasCategory && !hasStatus),
-                (hasProvince && province != "others" && hasCategory && hasStatus),
-                (hasProvince && province != "others" &&  hasCategory && !hasStatus),
-                (hasProvince && province != "others" &&  !hasCategory && hasStatus),
-                (hasProvince && province != "others" &&  !hasCategory && !hasStatus),
-                (province.equals("others") && hasCategory && hasStatus),
-                (province.equals("others") && hasCategory && !hasStatus),
-                (province.equals("others") && !hasCategory && hasStatus),
-                (province.equals("others") && !hasCategory && !hasStatus)
-        };
-        List<List<Event>> listOfLists = new ArrayList<>(Arrays.asList(
-                eventRepository.findAllByCategoryAndStatus(categoryId, status),
-                eventRepository.findAllByCategoryId(categoryId),
-                eventRepository.findAllByStatus(status),
-                eventRepository.findAll(),
-                eventRepository.findAllByFilter(province, categoryId, status),
-                eventRepository.findAllByProvinceAndCategory(province, categoryId),
-                eventRepository.findAllByProvinceAndStatus(province, status),
-                eventRepository.findAllByProvince(province),
-                eventRepository.findAllByCategoryAndStatus(categoryId, status).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
-                eventRepository.findAllByCategoryId(categoryId).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
-                eventRepository.findAllByStatus(status).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
-                eventRepository.findAll().stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList())
-        ));
-        for (int i = 0; i < conditions.length; i++) {
-            if (conditions[i] == true)
-                eventList = listOfLists.get(i);
-        }
-        List<Event> sortedEventList = sortEventByDateAsc(eventList);
-        System.out.println("province: " + province + ", " + "categoryId: " + categoryId + ", " + "status: " + status);
-        System.out.println(" Total: " + eventList.size());
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", sortedEventList));
-
+    public ResponseEntity<?> findEventsByFilters(String province, String category, String status) {
+        return null;
     }
+
+//    @Override
+//    public ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status) {
+//        List<Event> eventList = new ArrayList<>();
+//        boolean hasProvince = province != null;
+//        boolean hasCategory = categoryId != null;
+//        boolean hasStatus = status != null;
+//        boolean[] conditions = {
+//                /*1*/   (!hasProvince && hasCategory && hasStatus),
+//                /*2*/   (!hasProvince && hasCategory && !hasStatus),
+//                /*3*/    (!hasProvince && !hasCategory && hasStatus),
+//                /*4*/    (!hasProvince && !hasCategory && !hasStatus),
+//                /*5*/    (hasProvince && !province.equals("others") && hasCategory && hasStatus),
+//                /*6*/    (hasProvince && !province.equals("others") &&  hasCategory && !hasStatus),
+//                /*7*/     (hasProvince && !province.equals("others") &&  !hasCategory && hasStatus),
+//                /*8*/      (hasProvince && !province.equals("others") &&  !hasCategory && !hasStatus),
+//                /*9*/      (hasProvince && province.equals("others") &&  !hasCategory && !hasStatus),
+//                /*10*/      (hasProvince && province.equals("others") && hasCategory && hasStatus),
+//                /*11*/      (hasProvince && province.equals("others") && hasCategory && !hasStatus),
+//                /*12*/      (hasProvince && province.equals("others") && !hasCategory && hasStatus),
+//                /*13*/      (hasProvince && province.equals("others") && !hasCategory && !hasStatus)
+//        };
+//        List<List<Event>> listOfLists = new ArrayList<>(Arrays.asList(
+//                /*1*/   eventRepository.findAllByCategoryAndStatus(categoryId, status),
+//                /*2*/   eventRepository.findAllByCategoryId(categoryId),
+//                /*3*/       eventRepository.findAllByStatus(status),
+//                /*4*/       eventRepository.findAll(),
+//                /*5*/       eventRepository.findAllByFilter(province, categoryId, status),
+//                /*6*/     eventRepository.findAllByProvinceAndCategory(province, categoryId),
+//                /*7*/  eventRepository.findAllByProvinceAndStatus(province, status),
+//                /*8*/     eventRepository.findAllByProvince(province),
+//                /*9*/      eventRepository.findAll().stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
+//                /*10*/   eventRepository.findAllByCategoryAndStatus(categoryId, status).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
+//                /*11*/  eventRepository.findAllByCategoryId(categoryId).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
+//                /*12*/  eventRepository.findAllByStatus(status).stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList()),
+//                /*13*/   eventRepository.findAll().stream().filter(e -> !e.getProvince().equals("TP. Hồ Chí Minh")).filter(e -> !e.getProvince().equals("Hà Nội")).collect(Collectors.toList())
+//        ));
+//        for (int i = 0; i < conditions.length; i++) {
+//            if (conditions[i] == true)
+//                eventList = listOfLists.get(i);
+//        }
+//        List<Event> sortedEventList = sortEventByDateAsc(eventList);
+//        System.out.println("province: " + province + ", " + "categoryId: " + categoryId + ", " + "status: " + status);
+//        System.out.println(" Total: " + eventList.size());
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject(true, "Show data successfully", sortedEventList));
+//
+//    }
+
     @Override
     public ResponseEntity<?> deleteEvent(String id) {
         boolean checkExist = eventRepository.existsById(id);

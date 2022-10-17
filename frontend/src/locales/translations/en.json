@@ -24,7 +24,8 @@
     "view-more": "View more",
     "recommend-for-you": "Recommend for you",
     "remain": "Remaing",
-    "ticket": "tickets"
+    "ticket": "tickets",
+    "not-found": "Data not found"
   },
   "search": {
     "result": "Search results: {{val, number}} results",

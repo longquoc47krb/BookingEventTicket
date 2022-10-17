@@ -31,27 +31,30 @@ export const UserFetchDataContextProvider = ({ children }) => {
       province: provinceMapping.get(location ? location?.region : ""),
       status: TicketStatus.AVAILABLE,
     });
-  const { data: filterEvents, status: filterEventStatus } =
-    useFetchEventsByFilter({
-      province: provinceMapping.get(location ? location?.region : ""),
-      status: TicketStatus.AVAILABLE,
-    });
+  const { data: filteredEvents, status: filterStatus } =
+    useFetchEventsByFilter(filter);
+  if (filterStatus === "success") {
+    console.log(">> filteredEvents:", filteredEvents);
+  }
   const loadingStatus =
     highlightStatus === "loading" ||
     eventstatusStatus === "loading" ||
     eventsByProvinceStatus === "loading" ||
     categoryStatus === "loading" ||
+    filterStatus === "loading" ||
     allEventsStatus === "loading";
   const errorStatus =
     highlightStatus === "error" ||
     eventstatusStatus === "error" ||
     eventsByProvinceStatus === "error" ||
+    filterStatus === "error" ||
     categoryStatus === "error" ||
     allEventsStatus === "error";
   const successStatus =
     highlightStatus === "success" ||
     eventstatusStatus === "success" ||
     eventsByProvinceStatus === "success" ||
+    filterStatus === "success" ||
     categoryStatus === "success" ||
     allEventsStatus === "success";
   if (successStatus) {
@@ -71,6 +74,7 @@ export const UserFetchDataContextProvider = ({ children }) => {
         successStatus,
         allEvents,
         categories,
+        filteredEvents,
       }}
     >
       {children}

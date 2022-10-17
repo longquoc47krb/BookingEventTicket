@@ -29,8 +29,4 @@ export const statusSelect = [
     value: "event.completed",
     label: "event.completed",
   },
-  {
-    value: "event.sold-out",
-    label: "event.sold-out",
-  },
 ];
