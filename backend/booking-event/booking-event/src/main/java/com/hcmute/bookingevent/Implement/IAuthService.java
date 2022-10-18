@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.Implement;
 
-import com.hcmute.bookingevent.payload.LoginReq;
-import com.hcmute.bookingevent.payload.RegisterReq;
+import com.hcmute.bookingevent.payload.request.LoginReq;
+import com.hcmute.bookingevent.payload.request.RegisterReq;
 import org.springframework.http.ResponseEntity;
 
 public interface IAuthService {

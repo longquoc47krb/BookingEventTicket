@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.payload;
+package com.hcmute.bookingevent.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

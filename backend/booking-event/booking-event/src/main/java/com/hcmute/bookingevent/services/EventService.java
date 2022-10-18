@@ -5,11 +5,20 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
-import com.hcmute.bookingevent.payload.ResponseObject;
+
+import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
+
+
 import com.hcmute.bookingevent.responsitory.EventRepository;
+
+
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,9 +39,10 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 @RequiredArgsConstructor
 public class EventService implements IEventService {
 
-    private final MongoTemplate mongoTemplate;
-    @Autowired
     private final EventRepository eventRepository;
+    private final MongoTemplate mongoTemplate;
+
+
     private final IEventSlugGeneratorService slugGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
@@ -42,7 +52,7 @@ public class EventService implements IEventService {
             event.setId(slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
             event.setStatus(TicketStatus.AVAILABLE);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", eventRepository.save(event)));
+                    new ResponseObject(true, "Save data successfully ", eventRepository.save(event),200));
 
         }
         throw new NotFoundException("Can not Create event");
@@ -79,14 +89,14 @@ public class EventService implements IEventService {
 
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventList));
+                new ResponseObject(true, "Show data successfully", eventList,200));
     }
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
         List<Event> events = sortEventByDateAsc( eventRepository.findAll());
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully ", events));
+                new ResponseObject(true, "Show data successfully ", events,200));
 
     }
 
@@ -101,7 +111,7 @@ public class EventService implements IEventService {
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventList));
+                new ResponseObject(true, "Show data successfully", eventList,200));
     }
 
     @Override
@@ -147,7 +157,7 @@ public class EventService implements IEventService {
         List<Event> sortedEventList = sortEventByDateAsc(eventList);
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", sortedEventList));
+                new ResponseObject(true, "Show data successfully", sortedEventList,200));
 
 
     }
@@ -159,11 +169,11 @@ public class EventService implements IEventService {
 
             eventRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete data successfully ", ""));
+                    new ResponseObject(true, "Delete data successfully ", "",200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete data fail with id:" + id, ""));
+                    new ResponseObject(false, "Delete data fail with id:" + id, "",404));
         }
 
     }
@@ -195,7 +205,7 @@ public class EventService implements IEventService {
         );
         if (eventList.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Search " + key + " success", eventList));
+                    new ResponseObject(true, "Search " + key + " success", eventList,200));
         throw new NotFoundException("Can not found any product with: " + key);
     }
 
@@ -206,7 +216,7 @@ public class EventService implements IEventService {
         System.out.println(event);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id)));
+                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),404));
 
         }
         throw new NotFoundException("Can not found any product with id: " + id);
@@ -218,7 +228,7 @@ public class EventService implements IEventService {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id)));
+                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),404));
 
         }
         throw new NotFoundException("Can not found any product with id: " + id);

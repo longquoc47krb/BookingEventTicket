@@ -3,25 +3,22 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.role.Role;
-import com.hcmute.bookingevent.payload.LoginReq;
-import com.hcmute.bookingevent.payload.RegisterReq;
-import com.hcmute.bookingevent.payload.ResponseObject;
+import com.hcmute.bookingevent.payload.request.LoginReq;
+import com.hcmute.bookingevent.payload.request.RegisterReq;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.JwtResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
-import com.hcmute.bookingevent.responsitory.RoleRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 
 import com.hcmute.bookingevent.security.user.UserDetailsImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,28 +61,32 @@ public class AuthService implements IAuthService {
                 //userDetails.getAuthorities()
                 roles,"success"));
         }
-        catch (AuthenticationException  ex)
+        catch (BadCredentialsException  ex)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    new ResponseObject(false, ex.toString(), ""));
+                    new ResponseObject(false, ex.toString(), "",400));
         }
         catch (Exception ex)
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, ex.toString(), ""));
+                    new ResponseObject(false, ex.toString(), "",404));
         }
+//        catch (BadCredentialsException ex) {
+////            ex.printStackTrace();
+//            throw new BadCredentialsException(ex.getMessage());
+//        }
     }
     public ResponseEntity<?> registerUser(RegisterReq signUpRequest) {
         if (accountRepository.existsByUserName(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Error: Username is already taken!",400));
         }
 
         if (accountRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Error: Email is already in use!",400));
         }
 
         // Create new user's account
@@ -102,13 +103,13 @@ public class AuthService implements IAuthService {
             user.setRole(signUpRequest.getRole());
             accountRepository.save(user);
 
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+            return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!","",200));
         }
         catch (Exception e)
         {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse(e.toString()));
+                    .body(new MessageResponse(e.toString(),400));
         }
 
     }
