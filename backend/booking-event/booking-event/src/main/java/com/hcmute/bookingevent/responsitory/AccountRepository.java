@@ -9,11 +9,9 @@ import java.util.Optional;
 public interface AccountRepository extends MongoRepository<Account,String> {
     List<Account> findAll();
     Optional<Account> findById(String id);
-    Optional<Account> findByUserName(String username);
     Optional<Account> findByName(String name);
     Optional<Account> findByEmail(String email);
     Optional<Account> findByPhone(String name);
-    Boolean existsByUserName(String username);
     Boolean existsByEmail(String email);
     List<Account> findByPhoneOrNameOrEmail(String params1, String params2, String params3);
 

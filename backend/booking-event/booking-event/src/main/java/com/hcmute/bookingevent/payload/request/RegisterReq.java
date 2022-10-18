@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 public class RegisterReq {
     @NotBlank
-    private String username;
+    private String name;
     @NotBlank
     private String password;
     @NotBlank
