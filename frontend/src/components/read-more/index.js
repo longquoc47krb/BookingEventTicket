@@ -1,5 +1,6 @@
 import parse from "html-react-parser";
 import React, { useRef, useState } from "react";
+import { Base64 } from "js-base64";
 import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 function ReadMoreLess(props) {
   const { children, className, ref } = props;
@@ -18,7 +19,7 @@ function ReadMoreLess(props) {
   };
   return (
     <div className={`readmore ${className}`} ref={readmoreRef}>
-      <div ref={ref}>{parse(children)}</div>
+      <div ref={ref}>{parse(Base64.decode(children))}</div>
       <div className="readmore-link" onClick={handleReadMoreLess}>
         {expanded ? (
           <BsChevronDoubleUp

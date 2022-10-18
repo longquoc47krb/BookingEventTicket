@@ -66,6 +66,7 @@
     "logout": "Đăng xuất",
     "name": "Họ và tên",
     "phone": "Số điện thoại",
+    "password": "Mật khẩu",
     "phone-placeholder": "Nhập số điện thoại của bạn",
     "login-by-email": "Đăng nhập bằng email/password",
     "login-by-google": "Đăng nhập bằng Google",
@@ -73,7 +74,11 @@
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
     },
-    "authentication": "Đăng ký / Đăng nhập"
+    "authentication": "Đăng ký | Đăng nhập",
+    "confirmPassword": "Nhập lại mật khẩu",
+    "create-account": "Chưa có tài khoản?",
+    "signup": "Đăng ký",
+    "already-account": "Đã có tài khoản?"
   },
   "location": {
     "all": "Tất cả địa điểm",
@@ -104,5 +109,21 @@
     "title": "Nội dung không tồn tại hoặc đã bị xóa?",
     "go-back": "Trở về trang trước đó"
   },
-  "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân"
+  "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân",
+  "validate": {
+    "email": {
+      "required": "Email không được trống",
+      "invalid": "Email không hợp lệ"
+    },
+    "password": {
+      "required": "Mật khẩu không được để trống",
+      "invalid": "Mật khẩu không hợp lệ",
+      "upper": "Phải chứa ký tự in hoa",
+      "number": "Phải chứa ký tự số"
+    },
+    "name": {
+      "required": "Tên không được để trống",
+      "max": "Tối đa 64 ký tự"
+    }
+  }
 }

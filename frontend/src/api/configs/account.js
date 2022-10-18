@@ -10,21 +10,6 @@ export const AccountAPI = {
     url: "/account/findAll",
     method: "GET",
   },
-  createAccount: (data) => ({
-    url: "/account/register",
-    method: "POST",
-    data,
-  }),
-  loginByPhone: (data) => ({
-    url: "/account/loginByPhone",
-    method: "POST",
-    data,
-  }),
-  loginByGmail: (data) => ({
-    url: "/account/loginByGmail",
-    method: "POST",
-    data,
-  }),
   updateAccount: (id, data) => ({
     url: `/account/update/${id}`,
     method: "PUT",
