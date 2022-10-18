@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final String username;
+    private final String name;
 
     private final String email;
 
@@ -22,10 +22,10 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String username, String email, String password,
+    public UserDetailsImpl(String name, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
 
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -40,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
         //GrantedAuthority authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
 
         return new UserDetailsImpl(
-                user.getUserName(),
+                user.getName(),
                 user.getEmail(),
                 user.getPassWord(),
                 Collections.singleton(authorities));
@@ -58,7 +58,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
     //@Override
