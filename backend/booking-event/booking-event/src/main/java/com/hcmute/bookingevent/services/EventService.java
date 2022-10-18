@@ -5,33 +5,23 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
-<<<<<<< .mine
+
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-=======
-import com.hcmute.bookingevent.payload.ResponseObjectWithPagination;
-import com.hcmute.bookingevent.payload.ResponseObject;
->>>>>>> .theirs
+
+
 import com.hcmute.bookingevent.responsitory.EventRepository;
-<<<<<<< .mine
 
-=======
 
->>>>>>> .theirs
+
 import lombok.RequiredArgsConstructor;
-<<<<<<< .mine
 
-=======
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> .theirs
+
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
-<<<<<<< .mine
-
-=======
-
->>>>>>> .theirs
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.utils.DateUtils.*;
 import static com.hcmute.bookingevent.utils.Utils.toPage;
@@ -48,26 +39,10 @@ import static com.hcmute.bookingevent.utils.Utils.toSlug;
 @RequiredArgsConstructor
 public class EventService implements IEventService {
 
-<<<<<<< .mine
     private final EventRepository eventRepository;
-
-
-
-=======
-
-
-
-
->>>>>>> .theirs
-
     private final MongoTemplate mongoTemplate;
-<<<<<<< .mine
 
 
-=======
-    @Autowired
-    private final EventRepository eventRepository;
->>>>>>> .theirs
     private final IEventSlugGeneratorService slugGeneratorService;
     @Override
     public ResponseEntity<?> createEvent(Event event) {
