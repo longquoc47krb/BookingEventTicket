@@ -32,12 +32,12 @@ public class Account {
     private String email;
     private String avatar;
 
-    private String userName;
     private String passWord;
     private String role;
-    //private Set<String> roles = new HashSet<>();
-    public Account(String userName,  String email,String passWord) {
-        this.userName = userName;
+
+    public Account(String name,  String email,String passWord) {
+
+        this.name = name;
         this.email = email;
         this.passWord = passWord;
     }
@@ -46,14 +46,7 @@ public class Account {
         this.email = email;
         this.passWord = passWord;
         this.role= role;
-      //  this.roles=roles;
+
     }
 
-//    public Set<String> getRoles() {
-//        return roles;
-//    }
-
-//    public void setRoles(Set<String> roles) {
-//        this.roles = roles;
-//    }
 }

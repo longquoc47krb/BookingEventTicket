@@ -36,15 +36,15 @@ public class AuthService implements IAuthService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder encoder;
     private final JwtTokenProvider jwtTokenProvider;
-   // private final RoleRepository roleRepository;
+
 
     public ResponseEntity<?> login(LoginReq req) {
         try
         {
 
-        // Xác thực từ username và password.
+        // Xác thực từ gmail và password.
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
         // Set thông tin authentication vào Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // Trả về jwt cho người dùng.
@@ -77,11 +77,11 @@ public class AuthService implements IAuthService {
 //        }
     }
     public ResponseEntity<?> registerUser(RegisterReq signUpRequest) {
-        if (accountRepository.existsByUserName(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!",400));
-        }
+//        if (accountRepository.existsByUserName(signUpRequest.getUsername())) {
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse("Error: Username is already taken!",400));
+//        }
 
         if (accountRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
@@ -90,13 +90,13 @@ public class AuthService implements IAuthService {
         }
 
         // Create new user's account
-        Account user = new Account(signUpRequest.getUsername(),
+        Account user = new Account(signUpRequest.getName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
         //Set<String> strRoles = signUpRequest.getRoles();
         //Set<Role> strRoles = signUpRequest.getRoles();
-        Set<Role> roles = new HashSet<>();
+        //Set<Role> roles = new HashSet<>();
 
         try
         {

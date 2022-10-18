@@ -24,25 +24,25 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
 //    Tạo ra token từ chuỗi authentication
-    public String generateToken(LoginReq account) {
-        //UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-
-        //mã hóa token
-        return Jwts.builder()
-                .setSubject(String.format("%s,%s", account.getUsername(), account.getPassword())) // mã hóa user name và password
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
+//    public String generateToken(LoginReq account) {
+//        //UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+//        Date now = new Date();
+//        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+//
+//        //mã hóa token
+//        return Jwts.builder()
+//                .setSubject(String.format("%s,%s", account.getUsername(), account.getPassword())) // mã hóa user name và password
+//                .setIssuedAt(new Date())
+//                .setExpiration(expiryDate)
+//                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+//                .compact();
+//    }
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject((userPrincipal.getEmail()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
