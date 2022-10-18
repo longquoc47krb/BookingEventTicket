@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFetchEventsForPagination } from "../../api/services/eventServices";
 import AppDrawer from "../../components/common/drawer";
 import { Pagination } from "antd";
@@ -21,22 +21,34 @@ import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty, filterByDate, isNotEmpty } from "../../utils/utils";
-
+import { useFetchCategories } from "../../api/services/categoryServices";
+import { setCategoryId } from "../../redux/slices/filterSlice";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const { t } = useTranslation();
-
+  const [categoryParams] = useSearchParams();
+  console.log(categoryParams.get("category"));
+  const dispatch = useDispatch();
+  const { data: category, status } = useFetchCategories();
+  const categoryId =
+    status === "success" &&
+    categoryParams.get("category") !== null &&
+    category.filter((c) => c.name === categoryParams.get("category"))[0].id;
   const { filteredEvents, loadingStatus, dateType, filter } =
     useUserFetchDataContext();
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
+  useEffect(() => {
+    if (categoryParams.get("category") !== null) {
+      dispatch(setCategoryId(categoryId));
+    }
+  }, []);
   // if filter change, set current page equal 0 ( page 1)
   useEffect(() => {
     setCurrentPage(0);
   }, [filter, dateType]);
-  console.log({ currentPage });
   const firstIndex = currentPage * 6;
   const lastIndex = currentPage * 6 + 6;
   return (

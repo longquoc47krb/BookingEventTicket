@@ -38,7 +38,6 @@ export function Select(props) {
           width: "100%",
         }}
         bordered={false}
-        defaultValue={value}
         value={
           type === "location"
             ? filter.province
