@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.payload;
+package com.hcmute.bookingevent.payload.request;
 
 import com.hcmute.bookingevent.models.role.Role;
 import lombok.Data;

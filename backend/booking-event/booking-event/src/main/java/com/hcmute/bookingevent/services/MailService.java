@@ -1,17 +1,13 @@
 package com.hcmute.bookingevent.services;
 
-import com.hcmute.bookingevent.common.Constants;
-import com.hcmute.bookingevent.payload.ResponseObject;
-import lombok.AllArgsConstructor;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 @Service
@@ -41,12 +37,12 @@ public class MailService {
             this.emailSender.send(message);
         }catch (Exception e)
         {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, e.toString(), ""));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(true, e.toString(), "",404));
         }
 
 
         return ResponseEntity.status(HttpStatus.OK).body(
-            new ResponseObject(true, "Email sent", ""));
+            new ResponseObject(true, "Email sent", "",200));
     }
 }
