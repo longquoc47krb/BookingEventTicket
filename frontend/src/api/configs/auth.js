@@ -7,6 +7,7 @@ export const AuthAPI = {
   loginByEmail: (data) => ({
     url: "/auth/login",
     method: "POST",
+    data,
   }),
   loginByPhone: (data) => ({
     url: "/account/loginByPhone",

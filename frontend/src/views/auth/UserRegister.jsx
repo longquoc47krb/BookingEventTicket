@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
-import { FastField, Form, FormikProvider, useFormik } from "formik";
+import { AxiosError } from "axios";
+import { Field, Form, FormikProvider, useFormik } from "formik";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-number-input";
@@ -8,6 +9,8 @@ import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import authServices from "../../api/services/authServices";
+import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import {
   Input,
   InputPassword,
@@ -16,6 +19,7 @@ import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
+const { registerAccount } = authServices;
 const UserRegister = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,14 +37,38 @@ const UserRegister = (props) => {
       email: YupValidations.email,
       name: YupValidations.name,
       password: YupValidations.password,
-      confirmPassword: YupValidations.password,
+      confirmPassword: YupValidations.confirmPassword,
     }),
     validateOnChange: true,
     validateOnBlur: true,
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      const { email, password, name } = values;
+      const response = await registerAccount({
+        email,
+        name,
+        password,
+        role: "user",
+      });
+      showNotification(response.status);
+    },
   });
-  const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
-
+  const { handleSubmit } = formikLogin;
+  const showNotification = (statusCode) => {
+    switch (statusCode) {
+      case 400:
+        return AlertErrorPopup({
+          title: t("status.register.400"),
+          text: t("status.register.400"),
+        });
+      case 200:
+        return AlertPopup({
+          title: t("status.register.200"),
+          text: t("status.register.200"),
+        });
+      default:
+        return null;
+    }
+  };
   return (
     <>
       <HelmetHeader title={t("user.signup")} content="Login" />
@@ -71,7 +99,7 @@ const UserRegister = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField component={Input} name="email" label="Email" />
+                  <Field component={Input} name="email" label="Email" />
                 </Col>
               </Row>
               <Row
@@ -84,11 +112,7 @@ const UserRegister = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField
-                    component={Input}
-                    name="name"
-                    label={t("user.name")}
-                  />
+                  <Field component={Input} name="name" label={t("user.name")} />
                 </Col>
               </Row>
               <Row
@@ -101,7 +125,7 @@ const UserRegister = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField
+                  <Field
                     component={InputPassword}
                     name="password"
                     label={t("user.password")}
@@ -118,7 +142,7 @@ const UserRegister = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField
+                  <Field
                     component={InputPassword}
                     name="confirmPassword"
                     label={t("user.confirmPassword")}

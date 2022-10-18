@@ -21,6 +21,7 @@ export function UserAuthContextProvider({ children }) {
   //   name: "Leo Messi",
   //   email: "leomessi@leomessi.com",
   // }
+  console.log({ user });
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(authentication, email, password);
@@ -66,6 +67,7 @@ export function UserAuthContextProvider({ children }) {
     <userAuthContext.Provider
       value={{
         user,
+        setUser,
         logIn,
         signUp,
         logOut,

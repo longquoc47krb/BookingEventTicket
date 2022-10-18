@@ -125,5 +125,15 @@
       "required": "Tên không được để trống",
       "max": "Tối đa 64 ký tự"
     }
+  },
+  "status": {
+    "register": {
+      "400": "Email đã được đăng ký",
+      "200": "Đăng ký thành công!"
+    },
+    "login": {
+      "200": "Đăng nhập thành công",
+      "400": "Email hoặc mật khẩu sai"
+    }
   }
 }

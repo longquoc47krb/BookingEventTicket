@@ -9,19 +9,23 @@ import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import authServices from "../../api/services/authServices";
+import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import {
   Input,
   InputPassword,
 } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
+import { useUserAuth } from "../../context/UserAuthContext";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
+const { loginByEmail } = authServices;
 const UserLogin = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const { setUser } = useUserAuth();
   const initialValues = {
     email: "",
     password: "",
@@ -34,10 +38,38 @@ const UserLogin = (props) => {
     }),
     validateOnChange: true,
     validateOnBlur: true,
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      const response = await loginByEmail({
+        email,
+        password,
+      });
+      showNotification(response.status);
+      if (response.status === 200) {
+        setUser({
+          email: response.data.email,
+          name: response.data.usename,
+        });
+      }
+    },
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
-
+  const showNotification = (statusCode) => {
+    switch (statusCode) {
+      case 400:
+        return AlertErrorPopup({
+          title: t("status.login.400"),
+          text: t("status.login.400"),
+        });
+      case 200:
+        return AlertPopup({
+          title: t("status.login.200"),
+          text: t("status.login.200"),
+        });
+      default:
+        return null;
+    }
+  };
   return (
     <>
       <HelmetHeader title={t("pages.login")} content="Login" />

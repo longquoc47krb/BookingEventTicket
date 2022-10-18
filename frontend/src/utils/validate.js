@@ -12,15 +12,29 @@ export const YupValidations = {
     .max(64, t("validate.name.max")),
   phone: Yup.string().matches(phoneRegExp, t("validate.invalid")),
   password: Yup.string()
-    .required(t("validate.password.required"))
+    .required(t("validate.password"))
     .matches(PATTERNS.PASSWORD_PATTERN, {
-      message: t("validate.password.invalid"),
+      message: t("validate.password.notMatch"),
     })
     .max(20, t("validate.password.max"))
-    .matches(PATTERNS.PASSWORD_UPPER, {
-      message: t("validate.password.upper"),
+    .matches(PATTERNS.PASSWORD_LETTER, {
+      message: t("validate.password.letter"),
     })
     .matches(PATTERNS.PASSWORD_NUMBER, {
       message: "validate.password.number",
+    }),
+  confirmPassword: Yup.string()
+    .trim()
+    .oneOf([Yup.ref("password")], t("validate.confirmPassword.invalid"))
+    .required(t("validate.password.required"))
+    .matches(PATTERNS.PASSWORD_PATTERN, {
+      message: t("validate.password.notMatch"),
+    })
+    .max(20, t("validate.password.max"))
+    .matches(PATTERNS.PASSWORD_LETTER, {
+      message: t("validate.password.letter"),
+    })
+    .matches(PATTERNS.PASSWORD_NUMBER, {
+      message: t("validate.password.number"),
     }),
 };
