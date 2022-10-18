@@ -55,11 +55,13 @@ public class AuthService implements IAuthService {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                //userDetails.getAuthorities()
-                roles,"success"));
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Logged in successfully", new JwtResponse(jwt,
+                            userDetails.getUsername(),
+                            userDetails.getEmail(),
+                            //userDetails.getAuthorities()
+                            roles,"success"),200));
+
         }
         catch (BadCredentialsException  ex)
         {

@@ -126,5 +126,15 @@
       "required": "Name is required",
       "max": "Max length is 64"
     }
+  },
+  "status": {
+    "register": {
+      "400": "Email is already registered",
+      "200": "Successfully registered!"
+    },
+    "login": {
+      "200": "Successfully logged in",
+      "400": "Wrong email or password"
+    }
   }
 }
