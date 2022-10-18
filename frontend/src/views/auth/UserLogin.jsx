@@ -1,77 +1,39 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { Col, Divider, Modal, Row } from "antd";
-import { Form, FormikProvider, useFormik } from "formik";
-import jwt_decode from "jwt-decode";
-import { includes } from "lodash";
-import OTPInput, { ResendOTP } from "otp-input-react";
-import React, { useState } from "react";
+import { Col, Divider, Row } from "antd";
+import { FastField, Form, FormikProvider, useFormik } from "formik";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import {
+  Input,
+  InputPassword,
+} from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import { useUserAuth } from "../../context/UserAuthContext";
-import { Role } from "../../helpers/role";
-import {
-  createAccount,
-  getAccountByEmailOrPhone,
-} from "../../redux/slices/accountSlice";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
 const UserLogin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  // login phone number
-  const { setUpRecaptha } = useUserAuth();
-  // const userInfo = useSelector((state) => state.account.userInfo);
-  const queriedUser = useSelector((state) => state.account.queriedUser);
-  const [result, setResult] = useState("");
-  const [flag, setFlag] = useState(false);
 
-  const getOtp = async (e) => {
-    setFieldError("phone", "");
-    try {
-      const response = await setUpRecaptha(values.phone);
-      setResult(response);
-      setFlag(true);
-    } catch (err) {
-      setFieldError("phone", err.message);
-    }
-  };
-
-  const verifyOtp = async (e) => {
-    setFieldError("otp", "");
-    if (values.otp === "" || values.otp === null) return;
-    try {
-      await result.confirm(values.otp);
-      navigate("/");
-    } catch (err) {
-      setFieldError("otp", err.message);
-    }
-  };
   const initialValues = {
-    phone: "",
-    otp: null,
+    email: "",
+    password: "",
   };
   const formikLogin = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
-      phone: YupValidations.phone,
+      email: YupValidations.email,
+      password: YupValidations.password,
     }),
     validateOnChange: true,
     validateOnBlur: true,
-    onSubmit: async (values) => {
-      if (values.phone && !values.otp) {
-        getOtp();
-      }
-      if (values.otp) {
-        verifyOtp();
-      }
-    },
+    onSubmit: async (values) => {},
   });
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
 
@@ -102,28 +64,27 @@ const UserLogin = (props) => {
                   display: "flex",
                   alignContent: "center",
                 }}
+                gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <h1 className="font-medium text-black text-lg mb-2">
-                    {t("user.phone")}
-                  </h1>
-                  <PhoneInput
-                    defaultCountry="VN"
-                    value={values.phone}
-                    key="phone"
-                    onChange={(value) =>
-                      formikLogin.setFieldValue("phone", value)
-                    }
-                    onBlur={handleBlur}
-                    style={{
-                      border: "2px solid darkgray",
-                      padding: 8,
-                      borderRadius: 5,
-                      marginBottom: 16,
-                    }}
-                    placeholder={t("user.phone-placeholder")}
+                  <FastField component={Input} name="email" label="Email" />
+                </Col>
+              </Row>
+              <Row
+                align="middle"
+                style={{
+                  height: "auto",
+                  display: "flex",
+                  alignContent: "center",
+                }}
+                gutter={[0, 8]}
+              >
+                <Col flex={4}>
+                  <FastField
+                    component={InputPassword}
+                    name="password"
+                    label="Password"
                   />
-                  <div id="recaptcha-container"></div>
                 </Col>
               </Row>
               <Col span={24}>
@@ -131,7 +92,7 @@ const UserLogin = (props) => {
                   className={`w-full py-2 bg-[${theme.main}] text-white`}
                   type="submit"
                 >
-                  {t("user.login-by-phone")}
+                  {t("pages.login")}
                 </button>
               </Col>
               <Divider style={{ color: "black", border: "gray" }}>
@@ -143,66 +104,28 @@ const UserLogin = (props) => {
                   size="large"
                   width="100%"
                   onSuccess={(credentialResponse) => {
-                    var decoded = jwt_decode(credentialResponse.credential);
-
-                    decoded["role"] = Role.User;
-                    dispatch(getAccountByEmailOrPhone(decoded.email));
-
-                    const isDuplicated = includes(queriedUser, decoded.email);
-
-                    if (!isDuplicated) {
-                      dispatch(
-                        createAccount({
-                          avatar: decoded.picture,
-                          gmail: decoded.email,
-                          name: decoded.name,
-                        })
-                      );
-                      navigate("/");
-                    } else {
-                      alert("email bị trùng");
-                    }
+                    // var decoded = jwt_decode(credentialResponse.credential);
+                    // decoded["role"] = Role.User;
+                    // dispatch(getAccountByEmailOrPhone(decoded.email));
+                    // const isDuplicated = includes(queriedUser, decoded.email);
+                    // if (!isDuplicated) {
+                    //   dispatch(
+                    //     createAccount({
+                    //       avatar: decoded.picture,
+                    //       gmail: decoded.email,
+                    //       name: decoded.name,
+                    //     })
+                    //   );
+                    //   navigate("/");
+                    // } else {
+                    //   alert("email bị trùng");
+                    // }
                   }}
                   onError={() => {
                     alert("Login Failed");
                   }}
                 />
               </div>
-              <Modal
-                open={flag}
-                title="Xác nhận mã OTP"
-                onOk={handleSubmit}
-                closable={false}
-                onCancel={() => {
-                  setFlag(!flag);
-                }}
-                maskClosable={false}
-              >
-                <Form onSubmit={handleSubmit}>
-                  <Col span={12}>
-                    <>
-                      <OTPInput
-                        inputClassName="otp-input"
-                        value={values.otp}
-                        onChange={(value) =>
-                          formikLogin.setFieldValue("otp", value)
-                        }
-                        autoFocus
-                        OTPLength={6}
-                        otpType="number"
-                        disabled={false}
-                        secure={false}
-                      />
-                      {formikLogin.errors.otp && (
-                        <p className="text-red-500">{formikLogin.errors.otp}</p>
-                      )}
-                      <ResendOTP
-                        onResendClick={() => console.log("Resend clicked")}
-                      />
-                    </>
-                  </Col>
-                </Form>
-              </Modal>
             </Form>
           </FormikProvider>
         </div>

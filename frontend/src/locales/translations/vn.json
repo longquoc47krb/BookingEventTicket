@@ -24,7 +24,9 @@
     "view-more": "Xem thêm",
     "recommend-for-you": "Sự kiện dành cho bạn",
     "remain": "Còn lại",
-    "ticket": "vé"
+    "ticket": "vé",
+    "not-found": "U là trời..! Trống trơn",
+    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
@@ -32,6 +34,7 @@
     "view-all": "Xem tất cả kết quả"
   },
   "category": {
+    "menu": "Danh mục thể loại",
     "all": "Tất cả thể loại",
     "music": "Âm nhạc",
     "exhibition": "Triển lãm",
@@ -45,6 +48,7 @@
     "conference": "Hội nghị"
   },
   "org": {
+    "menu": "Dành cho doanh nghiệp",
     "contact": "Liên hệ",
     "about": "Về chúng tôi",
     "faq": "Câu hỏi thường gặp",
@@ -63,12 +67,13 @@
     "name": "Họ và tên",
     "phone": "Số điện thoại",
     "phone-placeholder": "Nhập số điện thoại của bạn",
-    "login-by-phone": "Đăng nhập bằng số điện thoại",
+    "login-by-email": "Đăng nhập bằng email/password",
     "login-by-google": "Đăng nhập bằng Google",
     "unauthenticated": {
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
-    }
+    },
+    "authentication": "Đăng ký / Đăng nhập"
   },
   "location": {
     "all": "Tất cả địa điểm",
@@ -77,7 +82,11 @@
     "others": "Các địa điểm khác"
   },
   "date": {
-    "today": "Hôm nay"
+    "today": "Hôm nay",
+    "all": "Tất cả các ngày",
+    "tomorrow": "Ngày mai",
+    "this-week": "Tuần này",
+    "this-month": "Tháng này"
   },
   "wishlist": {
     "add": {

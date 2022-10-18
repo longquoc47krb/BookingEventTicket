@@ -29,8 +29,22 @@ export const statusSelect = [
     value: "event.completed",
     label: "event.completed",
   },
+];
+export const dateSelect = [
   {
-    value: "event.sold-out",
-    label: "event.sold-out",
+    value: null,
+    label: "date.all",
+  },
+  {
+    value: "tomorrow",
+    label: "date.tomorrow",
+  },
+  {
+    value: "this-week",
+    label: "date.this-week",
+  },
+  {
+    value: "this-month",
+    label: "date.this-month",
   },
 ];

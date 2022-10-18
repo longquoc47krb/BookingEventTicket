@@ -1,8 +1,16 @@
 import React from "react";
-import { BsCalendar2Date, BsFillGridFill, BsInfoCircle } from "react-icons/bs";
+import {
+  BsCalendarDateFill,
+  BsFillGridFill,
+  BsFillInfoCircleFill,
+} from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
-import { locationSelect, statusSelect } from "../../helpers/filter-data";
+import {
+  locationSelect,
+  statusSelect,
+  dateSelect,
+} from "../../helpers/filter-data";
 import theme from "../../shared/theme";
 import { isNotEmpty } from "../../utils/utils";
 import { Select } from "../common/select";
@@ -30,16 +38,16 @@ const EventFilter = () => {
       defaultValue: "category.all",
     },
     {
-      icon: <BsCalendar2Date color={theme.main} fontSize={20} />,
-      data: [],
+      icon: <BsCalendarDateFill color={theme.main} fontSize={20} />,
+      data: dateSelect,
       type: "date",
       defaultValue: "date.all",
     },
     {
-      icon: <BsInfoCircle color={theme.main} fontSize={20} />,
+      icon: <BsFillInfoCircleFill color={theme.main} fontSize={20} />,
       data: statusSelect,
       type: "status",
-      defaultValue: "event.all",
+      defaultValue: "event.available",
     },
   ];
 
@@ -52,6 +60,7 @@ const EventFilter = () => {
             data={item.data}
             type={item.type}
             defaultValue={item.defaultValue}
+            allowClear
           />
         ))}
     </div>

@@ -4,10 +4,10 @@ import { Select as AntSelect } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  filterSelector,
   setCategoryId,
   setProvince,
   setStatus,
+  setDateType,
 } from "../../../redux/slices/filterSlice";
 export function Select(props) {
   const { data, icon, type, defaultValue } = props;
@@ -15,18 +15,19 @@ export function Select(props) {
   const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
   const [value, setValue] = useState(null);
   const dispatch = useDispatch();
-  console.log({ defaultValue });
-  console.log({ value });
+  const filter = useSelector((state) => state.filter.filter);
+  const filterByDateType = useSelector(
+    (state) => state.filter.filterByDateType
+  );
   useEffect(() => {
     if (type === "location") {
       dispatch(setProvince(value));
-      console.log("setProvince:", value);
     } else if (type === "category") {
       dispatch(setCategoryId(value));
-      console.log("setCategoryId:", value);
-    } else {
+    } else if (type === "status") {
       dispatch(setStatus(value));
-      console.log("setStatus:", value);
+    } else {
+      dispatch(setDateType(value));
     }
   }, [type, value, dispatch, defaultValue]);
   return (
@@ -37,10 +38,23 @@ export function Select(props) {
           width: "100%",
         }}
         bordered={false}
-        defaultValue={defaultValue}
-        value={value}
+        value={
+          type === "location"
+            ? filter.province
+            : type === "category"
+            ? filter.categoryId
+            : type === "status"
+            ? filter.status
+            : filterByDateType
+        }
         onChange={(value) => {
-          setValue(value);
+          type === "location"
+            ? dispatch(setProvince(value))
+            : type === "category"
+            ? dispatch(setCategoryId(value))
+            : type === "status"
+            ? dispatch(setStatus(value))
+            : dispatch(setDateType(value));
         }}
       >
         {data?.map((item, index) => (

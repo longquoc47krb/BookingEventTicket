@@ -1,10 +1,12 @@
 .event-detail {
   &-container {
-    width: 100%;
+    width: 100vw;
     height: 110%;
     background: gray;
     img {
       width: 100%;
+      max-height: 37.5rem;
+      object-fit: cover;
     }
   }
   &-long-content {

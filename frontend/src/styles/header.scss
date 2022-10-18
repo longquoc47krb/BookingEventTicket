@@ -1,8 +1,7 @@
 .header {
   &-container {
     height: auto;
-    width: calc(100vw - 0.5rem);
-    max-width: 110vw;
+    width: 100vw;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 0.5rem;
@@ -16,7 +15,6 @@
     justify-content: space-between;
     gap: 0 0.5rem;
     z-index: 10;
-    width: 100%;
     @include for-phone {
       padding-left: 1rem;
       padding-right: 1rem;

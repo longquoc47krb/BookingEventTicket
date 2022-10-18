@@ -24,7 +24,9 @@
     "view-more": "View more",
     "recommend-for-you": "Recommend for you",
     "remain": "Remaing",
-    "ticket": "tickets"
+    "ticket": "tickets",
+    "not-found": "Oops..! Data not found",
+    "not-found-description": "We can't find any appropriate results, try to edit the filter!"
   },
   "search": {
     "result": "Search results: {{val, number}} results",
@@ -32,6 +34,7 @@
     "view-all": "View all results"
   },
   "category": {
+    "menu": "Categories",
     "all": "All categories",
     "music": "Music",
     "exhibition": "Exhibition",
@@ -45,6 +48,7 @@
     "conference": "Conference"
   },
   "org": {
+    "menu": "For organization",
     "contact": "Contact",
     "about": "About",
     "faq": "FAQs",
@@ -63,12 +67,13 @@
     "name": "Full name",
     "phone": "Phone number",
     "phone-placeholder": "Enter Phone Number",
-    "login-by-phone": "Login by phone number",
+    "login-by-email": "Login by Email",
     "login-by-google": "Login by Google",
     "unauthenticated": {
       "title": "Unauthenticated",
       "text": "Please log in to add event to wishlist"
-    }
+    },
+    "authentication": "Login / Register"
   },
   "location": {
     "all": "All locations",
@@ -77,7 +82,11 @@
     "others": "Others"
   },
   "date": {
-    "today": "Today"
+    "today": "Today",
+    "all": "All dates",
+    "tomorrow": "Tomorrow",
+    "this-week": "This week",
+    "this-month": "This month"
   },
   "wishlist": {
     "add": {

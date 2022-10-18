@@ -3,6 +3,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import { Divider } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { GoOrganization } from "react-icons/go";
@@ -19,9 +20,13 @@ function SiderBar(props) {
       <div
         style={{
           width: "18vw",
-          height: "auto",
         }}
       >
+        <Divider orientation="left">
+          <span className="text-gray-600 font-semibold text-base">
+            {t("category.menu")}
+          </span>
+        </Divider>
         <MenuList>
           {MENU.map((item, index) => (
             <MenuItem className="mb-2" onClick={() => navigate(item.link)}>
@@ -34,7 +39,11 @@ function SiderBar(props) {
             </MenuItem>
           ))}
         </MenuList>
-        <hr className="px-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
+        <Divider orientation="left">
+          <span className="text-gray-600 font-semibold text-base">
+            {t("org.menu")}
+          </span>
+        </Divider>
         {MENU_ORG.map((item, index) => (
           <MenuItem className="sider-item" onClick={() => navigate(item.link)}>
             <ListItemIcon style={{ fontSize: "0.6rem" }}>
