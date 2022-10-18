@@ -104,5 +104,21 @@
     "title": "Page not found.",
     "go-back": "Go back to the previous page"
   },
-  "slogan": "Vo Van Ngan's premier ticketing platform for events"
+  "slogan": "Vo Van Ngan's premier ticketing platform for events",
+  "validate": {
+    "email": {
+      "required": "Email is required",
+      "invalid": "Email is invalid"
+    },
+    "password": {
+      "required": "Password is required",
+      "invalid": "Password is invalid",
+      "upper": "Must contain uppercase character(s)",
+      "number": "At lease include number character(s)"
+    },
+    "name": {
+      "required": "Name is required",
+      "max": "Max length is 64"
+    }
+  }
 }

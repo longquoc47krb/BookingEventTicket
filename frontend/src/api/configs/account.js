@@ -15,6 +15,10 @@ export const AccountAPI = {
     method: "POST",
     data,
   }),
+  loginByEmail: (data) => ({
+    url: "/auth/login",
+    method: "POST",
+  }),
   loginByPhone: (data) => ({
     url: "/account/loginByPhone",
     method: "POST",
