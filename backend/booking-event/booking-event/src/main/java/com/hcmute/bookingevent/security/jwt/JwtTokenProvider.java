@@ -1,8 +1,6 @@
 package com.hcmute.bookingevent.security.jwt;
 
-import com.hcmute.bookingevent.models.Account;
-
-import com.hcmute.bookingevent.payload.LoginReq;
+import com.hcmute.bookingevent.payload.request.LoginReq;
 
 import com.hcmute.bookingevent.security.user.UserDetailsImpl;
 import io.jsonwebtoken.*;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.SignatureException;
 import java.util.Date;
 @Component
 @Slf4j

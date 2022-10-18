@@ -3,7 +3,6 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.models.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
-import com.hcmute.bookingevent.payload.LoginReq;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
@@ -11,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 
 
 @RestController

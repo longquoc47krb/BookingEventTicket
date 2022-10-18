@@ -7,18 +7,15 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Customer;
 
-import com.hcmute.bookingevent.payload.ResponseObject;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
 import com.hcmute.bookingevent.responsitory.CustomerRepository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +40,7 @@ public class AccountService implements IAccountService {
         List<Account> list = accountRepository.findAll();
         if (list.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Get all Account", list));
+                    new ResponseObject(true, "Get all Account", list,200));
         throw new NotFoundException("Can not found any account");
     }
     @Override
@@ -52,7 +49,7 @@ public class AccountService implements IAccountService {
         List<Account> userResList = users.toList();
         if (userResList.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Get all user success", userResList));
+                    new ResponseObject(true, "Get all user success", userResList,200));
         throw new NotFoundException("Can not find any user");
     }
 
@@ -62,11 +59,11 @@ public class AccountService implements IAccountService {
         Optional<Account> account = accountRepository.findByName(name);
         if (account.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account));
+                    new ResponseObject(true, "Save data successfully ", account,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Cannot find data with name:" + name, ""));
+                    new ResponseObject(false, "Cannot find data with name:" + name, "",404));
         }
     }
 
@@ -92,11 +89,11 @@ public class AccountService implements IAccountService {
         List<Account> account = accountRepository.findByPhoneOrNameOrEmail(value,value,value);
         if (account.size()>0) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account));
+                    new ResponseObject(true, "Save data successfully ", account,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Cannot find data with phoneNumber:" + value, ""));
+                    new ResponseObject(false, "Cannot find data with phoneNumber:" + value, "",404));
         }
     }
     @Override
@@ -105,11 +102,11 @@ public class AccountService implements IAccountService {
         Optional<Account> account = accountRepository.findByEmail(email);
         if (account.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account));
+                    new ResponseObject(true, "Save data successfully ", account,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Cannot find data with gmail:" + email, ""));
+                    new ResponseObject(false, "Cannot find data with gmail:" + email, "",404));
         }
     }
 
@@ -127,13 +124,13 @@ public class AccountService implements IAccountService {
             Customer customer = new Customer( account.getId() );
             customerRepository.save(customer);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully ", account));
+                    new ResponseObject(true, "Log in account successfully ", account,200));
 
         }
         else
         {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully ", account));
+                    new ResponseObject(true, "Log in account successfully ", account,200));
 
         }
       //  throw new ResponseObject(true, "Log in account successfully ", account));
@@ -150,13 +147,13 @@ public class AccountService implements IAccountService {
             customerRepository.save(customer);
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully by Phone successfully ",account));
+                    new ResponseObject(true, "Log in account successfully by Phone successfully ",account,200));
 
         }
         else
         {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully by Phone successfully ", account));
+                    new ResponseObject(true, "Log in account successfully by Phone successfully ", account,200));
 
         }
     }
@@ -167,11 +164,11 @@ public class AccountService implements IAccountService {
             account.get().setName(updatedAccount.getName());
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", accountRepository.save(account.get())));
+                    new ResponseObject(true, "Save data successfully ", accountRepository.save(account.get()),200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Save data fail with id:" + id, ""));
+                    new ResponseObject(false, "Save data fail with id:" + id, "",404));
         }
     }
     @Override
@@ -189,7 +186,7 @@ public class AccountService implements IAccountService {
             }
             //UserRes res = userMapper.toUserRes(account.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update avatar success", account));
+                    new ResponseObject(true, "Update avatar success", account,200));
         }
         throw new NotFoundException("Can not found user with id " + id );
     }

@@ -8,4 +8,5 @@ import lombok.Data;
 
 public class MessageResponse {
     private String message;
+    private int status;
 }
