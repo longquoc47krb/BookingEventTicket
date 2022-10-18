@@ -8,8 +8,7 @@ import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
 import constants from "./constants";
-const { comparisonStatus } = constants;
-const dateFormat = "DD/MM/YYYY";
+const { comparisonStatus, PATTERNS } = constants;
 const timeFormat = "HH:mm";
 export const LOCALE = "en-US";
 export const CURRENCY = "USD";
@@ -361,8 +360,8 @@ export const queryStringToObject = (search = window.location.search) =>
  */
 export const orderByDate = (data, key, type = "asc") => {
   data.sort((a, b) => {
-    a = moment(a[key], dateFormat);
-    b = moment(b[key], dateFormat);
+    a = moment(a[key], PATTERNS.DATE_FORMAT);
+    b = moment(b[key], PATTERNS.DATE_FORMAT);
     if (a > b) return -1;
     if (a < b) return 1;
   });
@@ -373,14 +372,12 @@ export const orderByDate = (data, key, type = "asc") => {
   }
 };
 export const filterByDate = (type, list) => {
+  const dateFormat = PATTERNS.DATE_FORMAT;
   const startOfWeek = moment().startOf("week");
   const endOfWeek = moment().endOf("week");
   const tomorrow = moment().add(1, "days");
   const startOfMonth = moment().startOf("month");
   const endOfMonth = moment().endOf("month");
-  const date = moment("18/11/2022", dateFormat);
-  console.log({ date, startOfMonth, endOfMonth });
-  console.log(date >= startOfMonth && date <= endOfMonth);
   if (type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
@@ -405,7 +402,7 @@ export const checkImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };
 export const displayDate = (date) => {
-  return moment(date, dateFormat).format("dddd, DD MMMM, YYYY");
+  return moment(date, PATTERNS.DATE_FORMAT).format("dddd, DD MMMM, YYYY");
 };
 /**
  * Display time in format HH:MM
@@ -416,7 +413,7 @@ export const displayTime = (time) => {
 };
 export const nextDateFromNow = (date) => {
   var thatDay = moment(date);
-  var today = moment().format(dateFormat);
+  var today = moment().format(PATTERNS.DATE_FORMAT);
   if (thatDay.isSame(today)) {
     return "Đang diễn ra";
   } else {

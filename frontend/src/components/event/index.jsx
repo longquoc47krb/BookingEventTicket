@@ -21,7 +21,7 @@ function Event(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div
       className="event-item-container float"
@@ -31,6 +31,7 @@ function Event(props) {
       }}
     >
       <img
+        loading="lazy"
         src={
           checkImageURL(event?.background)
             ? event?.background
@@ -67,7 +68,7 @@ function Event(props) {
             className="event-category cursor-pointer"
             onClick={(event) => {
               event.stopPropagation();
-              dispatch(setCategoryId(item.id))
+              dispatch(setCategoryId(item.id));
             }}
           >
             {t(item?.name)}

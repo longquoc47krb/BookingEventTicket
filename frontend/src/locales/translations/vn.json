@@ -26,7 +26,7 @@
     "remain": "Còn lại",
     "ticket": "vé",
     "not-found": "U là trời..! Trống trơn",
-    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc sao nhé!"
+    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
@@ -72,7 +72,8 @@
     "unauthenticated": {
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
-    }
+    },
+    "authentication": "Đăng ký / Đăng nhập"
   },
   "location": {
     "all": "Tất cả địa điểm",

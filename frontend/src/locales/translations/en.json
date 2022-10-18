@@ -72,7 +72,8 @@
     "unauthenticated": {
       "title": "Unauthenticated",
       "text": "Please log in to add event to wishlist"
-    }
+    },
+    "authentication": "Login / Register"
   },
   "location": {
     "all": "All locations",
