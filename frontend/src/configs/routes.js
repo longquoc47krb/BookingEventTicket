@@ -5,6 +5,10 @@ const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
   loading: Loading,
 });
+const RegisterPage = Loadable({
+  loader: () => import("../views/auth/UserRegister"),
+  loading: Loading,
+});
 const AdminLoginPage = Loadable({
   loader: () => import("../views/auth/AdminLogin"),
   loading: Loading,
@@ -58,6 +62,10 @@ const routes = [
   {
     element: <LoginPage />,
     path: "/login",
+  },
+  {
+    element: <RegisterPage />,
+    path: "/register",
   },
   {
     element: <NotFoundPage />,

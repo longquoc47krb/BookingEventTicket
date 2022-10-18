@@ -66,6 +66,7 @@
     "logout": "Đăng xuất",
     "name": "Họ và tên",
     "phone": "Số điện thoại",
+    "password": "Mật khẩu",
     "phone-placeholder": "Nhập số điện thoại của bạn",
     "login-by-email": "Đăng nhập bằng email/password",
     "login-by-google": "Đăng nhập bằng Google",
@@ -73,7 +74,11 @@
       "title": "Chưa đăng nhập",
       "text": "Vui lòng đăng nhập"
     },
-    "authentication": "Đăng ký / Đăng nhập"
+    "authentication": "Đăng ký | Đăng nhập",
+    "confirmPassword": "Nhập lại mật khẩu",
+    "create-account": "Chưa có tài khoản?",
+    "signup": "Đăng ký",
+    "already-account": "Đã có tài khoản?"
   },
   "location": {
     "all": "Tất cả địa điểm",
