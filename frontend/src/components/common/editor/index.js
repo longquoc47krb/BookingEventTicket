@@ -8,7 +8,6 @@ import { convertFromHTML } from "draft-js";
 
 const DraftEditor = (props) => {
   const { content, setContent } = props;
-  console.log(content);
   const htmlDecode = (input) => {
     var e = document.createElement("div");
     e.innerHTML = input;

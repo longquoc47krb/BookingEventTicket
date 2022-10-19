@@ -117,22 +117,16 @@ public class AccountService implements IAccountService {
 
         System.out.println(account.getId());
 
-        if(newAccount.isEmpty())
-        {
-
+        if(!newAccount.isPresent()) {
             accountRepository.save(account);
-            Customer customer = new Customer( account.getId() );
+            Customer customer = new Customer(account.getId());
             customerRepository.save(customer);
             return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Log in account successfully ", account, 200));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Log in account successfully ", account,200));
 
-        }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully ", account,200));
-
-        }
       //  throw new ResponseObject(true, "Log in account successfully ", account));
     }
 
@@ -140,7 +134,7 @@ public class AccountService implements IAccountService {
     public ResponseEntity<?> loginAccountbyPhone(Account account) {
         Optional <Account> newAccount =accountRepository.findByPhone(account.getPhone());
 
-        if(newAccount.isEmpty())
+        if(!newAccount.isPresent())
         {
             accountRepository.save(account);
             Customer customer = new Customer( account.getId() );
@@ -150,12 +144,9 @@ public class AccountService implements IAccountService {
                     new ResponseObject(true, "Log in account successfully by Phone successfully ",account,200));
 
         }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully by Phone successfully ", account,200));
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Log in account successfully by Phone successfully ", account,200));
 
-        }
     }
     @Override
     public ResponseEntity<?> updateAccount(String id, Account updatedAccount) {

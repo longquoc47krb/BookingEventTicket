@@ -19,6 +19,16 @@
     @include for-phone {
       padding: 1rem !important;
     }
+    &-title {
+      width: auto;
+      font-size: 3rem;
+      font-family: "Inter", sans-serif !important;
+      font-weight: 800;
+      position: relative;
+      @include for-phone {
+        font-size: 2rem !important;
+      }
+    }
   }
   &-pagination {
     width: 100%;

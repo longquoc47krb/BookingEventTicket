@@ -109,7 +109,6 @@
     "title": "Nội dung không tồn tại hoặc đã bị xóa?",
     "go-back": "Trở về trang trước đó"
   },
-  "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân",
   "validate": {
     "email": {
       "required": "Email không được trống",
@@ -135,5 +134,9 @@
       "200": "Đăng nhập thành công",
       "400": "Email hoặc mật khẩu sai"
     }
+  },
+  "lotus": {
+    "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân",
+    "follow-us": "Kết nối với chúng tôi"
   }
 }

@@ -59,7 +59,6 @@ public class AuthService implements IAuthService {
                     new ResponseObject(true, "Logged in successfully", new JwtResponse(jwt,
                             userDetails.getUsername(),
                             userDetails.getEmail(),
-                            //userDetails.getAuthorities()
                             roles,"success"),200));
 
         }

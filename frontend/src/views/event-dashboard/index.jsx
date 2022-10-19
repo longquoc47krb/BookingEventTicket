@@ -23,6 +23,7 @@ import theme from "../../shared/theme";
 import { isEmpty, filterByDate, isNotEmpty } from "../../utils/utils";
 import { useFetchCategories } from "../../api/services/categoryServices";
 import { setCategoryId } from "../../redux/slices/filterSlice";
+import SectionTitle from "../../components/common/section-title";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const { t } = useTranslation();
@@ -53,13 +54,7 @@ function EventDashBoard() {
       <HeroBanner />
       <div className="event-container">
         <AppDrawer />
-        <Divider style={{ color: "black", border: "gray" }}>
-          <h1
-            className={`flex justify-center text-[${theme.main}] font-bold text-3xl md:text-5xl`}
-          >
-            {t("event.list")}
-          </h1>
-        </Divider>
+        <SectionTitle>{t("event.list")}</SectionTitle>
         <EventFilter />
         <div className="event-container-grid">
           {loadingStatus ? (

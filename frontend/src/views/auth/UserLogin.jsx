@@ -45,10 +45,11 @@ const UserLogin = (props) => {
         password,
       });
       showNotification(response.status);
+      console.log(response.status);
       if (response.status === 200) {
         setUser({
           email: response.data.email,
-          name: response.data.usename,
+          name: response.data.username,
         });
       }
     },
@@ -62,6 +63,7 @@ const UserLogin = (props) => {
           text: t("status.login.400"),
         });
       case 200:
+      case 201:
         return AlertPopup({
           title: t("status.login.200"),
           text: t("status.login.200"),
