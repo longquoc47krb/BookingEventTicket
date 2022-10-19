@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { AppConfig } from "../../configs/AppConfig";
 import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
@@ -13,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { TicketStatus } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { setCategoryId } from "../../redux/slices/filterSlice";
+import AppConfig from "../../configs/AppConfig";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();

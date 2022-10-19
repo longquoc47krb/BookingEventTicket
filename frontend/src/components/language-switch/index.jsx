@@ -1,7 +1,7 @@
 import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useTranslation, withTranslation } from "react-i18next";
-import { AppConfig } from "../../configs/AppConfig";
+import AppConfig from "../../configs/AppConfig";
 const { LANGUAGE_OPTIONS } = AppConfig;
 const LanguageSwitch = (props) => {
   const { className } = props;

@@ -30,7 +30,7 @@ const HelpCenterPage = Loadable({
   loading: Loading,
 });
 const BeAnOrganizerPage = Loadable({
-  loader: () => import("../views/be-an-organization"),
+  loader: () => import("../views/organizer-registration"),
   loading: Loading,
 });
 const UserProfilePage = Loadable({
@@ -44,7 +44,7 @@ const NotFoundPage = Loadable({
 const routes = [
   {
     element: <BeAnOrganizerPage />,
-    path: "/be-an-organization",
+    path: "/organizer-registration",
   },
   {
     element: <EventDashBoardPage />,

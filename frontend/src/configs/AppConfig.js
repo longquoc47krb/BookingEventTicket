@@ -178,6 +178,23 @@ const SOCIAL_MENU = [
     link: "https://www.instagram.com/ticketbox_vn/",
   },
 ];
+const ORGANIZER_CAROUSEL = [
+  {
+    id: "1",
+    background:
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+  },
+  {
+    id: "2",
+    background:
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
+  },
+  {
+    id: "3",
+    background:
+      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+  },
+];
 const LANGUAGE_OPTIONS = [
   {
     key: "en",
@@ -203,5 +220,6 @@ const AppConfig = {
   CAROUSEL_SETTINGS,
   USER_PROFILE_MENU,
   LANGUAGE_OPTIONS,
+  ORGANIZER_CAROUSEL,
 };
-export { AppConfig };
+export default AppConfig;

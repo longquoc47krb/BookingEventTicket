@@ -21,11 +21,11 @@ export default function Carousel(props) {
   var newData = [];
   newData = shuffle(data)
     .slice(0, 5)
-    .map(({ id, name, background }) => ({
+    .map(({ id, background }) => ({
       id,
-      name,
       background,
     }));
+  console.log({ newData });
   return (
     <>
       <Swiper
@@ -49,11 +49,7 @@ export default function Carousel(props) {
             <Link to={`/event/${event.id}`} target="_blank">
               <img
                 className="w-full h-auto px-0"
-                src={
-                  checkImageURL(event.background)
-                    ? event.background
-                    : PlaceholderCover
-                }
+                src={event.background}
                 alt={`carousel-${index}`}
               />
             </Link>

@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import placeholderImg from "../../../assets/fallback-avatar.png";
-import { AppConfig } from "../../../configs/AppConfig";
+import AppConfig from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
 import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
