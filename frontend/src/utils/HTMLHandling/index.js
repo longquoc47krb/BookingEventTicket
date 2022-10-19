@@ -62,7 +62,6 @@ export const convertHTMLToEditorState = (
     const content = convertFromHTML(getFromHTMLConfig(options, source))(
       HTMLString
     );
-    console.log("con", convertToHTML(content));
     return EditorState.createWithContent(content, editorDecorators);
   } catch (error) {
     console.warn(error);

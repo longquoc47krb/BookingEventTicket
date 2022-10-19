@@ -40,10 +40,7 @@ function UploadImage({ avatar }) {
     );
     setAvatarFile(response.data.avatar);
   };
-  useEffect(() => {
-    console.log(">> avatarPreview", avatarPreview);
-    console.log(">> avatarFile", avatarFile);
-  }, [avatarPreview, avatarFile]);
+  useEffect(() => {}, [avatarPreview, avatarFile]);
   return (
     <div>
       <div>

@@ -70,7 +70,6 @@ const SearchBox = (props) => {
       [data]
     );
   const results = data && fuse.search(debouncedValue);
-  // console.log({ results });
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);

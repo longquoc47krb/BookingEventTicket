@@ -41,10 +41,7 @@ function UserProfile() {
   const { values } = formik;
   return (
     <>
-      <HelmetHeader
-        title={user.name ?? "Thong tin nguoi dung"}
-        content="User Profile"
-      />
+      <HelmetHeader title={user.name} content="User Profile" />
       <div className="user-profile-container">
         <LanguageSwitch className="absolute top-5 right-5" />
         <Box

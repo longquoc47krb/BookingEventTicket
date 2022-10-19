@@ -30,6 +30,7 @@ export function UserAuthContextProvider({ children }) {
     return createUserWithEmailAndPassword(authentication, email, password);
   }
   function logOut() {
+    setUser(null);
     return signOut(authentication);
   }
   function googleSignIn() {

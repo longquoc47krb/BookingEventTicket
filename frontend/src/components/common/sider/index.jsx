@@ -44,16 +44,6 @@ function SiderBar(props) {
             {t("org.menu")}
           </span>
         </Divider>
-        {MENU_ORG.map((item, index) => (
-          <MenuItem className="sider-item" onClick={() => navigate(item.link)}>
-            <ListItemIcon style={{ fontSize: "0.6rem" }}>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText style={{ fontSize: "0.6rem" }}>
-              {t(item.label)}
-            </ListItemText>
-          </MenuItem>
-        ))}
         <button
           className="be-an-organization p-2 text-[#FFD933] text-base font-semibold rounded gap-x-2 flex items-center justify-center mb-3 ml-3"
           onClick={() => navigate("/be-an-organization")}

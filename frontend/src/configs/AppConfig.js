@@ -4,7 +4,7 @@ import {
   AiOutlinePicture,
 } from "react-icons/ai";
 import { FaTheaterMasks, FaInfo } from "react-icons/fa";
-import { IoWineOutline } from "react-icons/io5";
+import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import { BiBookBookmark, BiPhoneCall } from "react-icons/bi";
 import { HiOutlineMusicNote } from "react-icons/hi";
 import {
@@ -13,7 +13,12 @@ import {
   MdExitToApp,
   MdScreenSearchDesktop,
 } from "react-icons/md";
-import { BsBookmarkHeart, BsCashCoin, BsBriefcase } from "react-icons/bs";
+import {
+  BsBookmarkHeart,
+  BsCashCoin,
+  BsBriefcase,
+  BsInstagram,
+} from "react-icons/bs";
 import { TbPlaneInflight } from "react-icons/tb";
 import VietnamFlag from "../assets/vietnam-flag.png";
 import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
@@ -163,6 +168,16 @@ const MENU_ORG = [
     icon: <FaInfo fontSize={16} />,
   },
 ];
+const SOCIAL_MENU = [
+  {
+    icon: <IoLogoFacebook className="facebook" />,
+    link: "https://www.facebook.com/ticketbox.vn/",
+  },
+  {
+    icon: <BsInstagram className="instagram" />,
+    link: "https://www.instagram.com/ticketbox_vn/",
+  },
+];
 const LANGUAGE_OPTIONS = [
   {
     key: "en",
@@ -184,6 +199,7 @@ const AppConfig = {
   ROUTES,
   MENU,
   MENU_ORG,
+  SOCIAL_MENU,
   CAROUSEL_SETTINGS,
   USER_PROFILE_MENU,
   LANGUAGE_OPTIONS,

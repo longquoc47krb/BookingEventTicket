@@ -12,7 +12,6 @@ const httpRequest = async ({ url, method, data, params, ...rest }) => {
     });
     return response;
   } catch (AxiosError) {
-    console.log(AxiosError.response);
     if (AxiosError) {
       // console.log("HTTP_ERROR_OBJECT", JSON.stringify(errorResponse), url);
     }
