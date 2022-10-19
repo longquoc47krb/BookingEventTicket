@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
+import com.hcmute.bookingevent.payload.request.ForgetReq;
 import com.hcmute.bookingevent.payload.request.LoginReq;
 import com.hcmute.bookingevent.payload.request.RegisterReq;
 import com.hcmute.bookingevent.services.MailService;
@@ -24,7 +25,7 @@ public class AuthController {
 //    @ResponseBody
     @RequestMapping(value = "/sendHtmlEmail",method = RequestMethod.POST)
     public ResponseEntity<?> sendHtmlEmail(@RequestParam(value="name")  String name) throws MessagingException {
-        return mailService.sendMail(name);
+        return mailService.sendMail(name,"");
 
     }
     @PostMapping("/login")
@@ -36,7 +37,9 @@ public class AuthController {
         return iAuthService.registerUser(registerReq);
     }
     @PostMapping("/forget")
-    public ResponseEntity<?> forgetPassword(@Valid @RequestBody RegisterReq registerReq) {
-        return iAuthService.registerUser(registerReq);
+    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetReq forgetReq) {
+        return iAuthService.forgetPassword(forgetReq);
     }
+
+
 }

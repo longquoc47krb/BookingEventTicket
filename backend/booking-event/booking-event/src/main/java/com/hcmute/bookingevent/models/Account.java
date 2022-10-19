@@ -34,19 +34,20 @@ public class Account {
 
     private String passWord;
     private String role;
-
-    public Account(String name,  String email,String passWord) {
+    private String resetPasswordToken;
+    public Account(String name,  String email,String passWord, String avatar) {
 
         this.name = name;
         this.email = email;
         this.passWord = passWord;
+        this.avatar = avatar;
     }
-    public Account(String name,  String email,String passWord,String role) {
-        this.name = name;
-        this.email = email;
-        this.passWord = passWord;
-        this.role= role;
-
-    }
+//    public Account(String name,  String email,String passWord,String role) {
+//        this.name = name;
+//        this.email = email;
+//        this.passWord = passWord;
+//        this.role= role;
+//
+//    }
 
 }
