@@ -34,6 +34,7 @@ public class Account {
 
     private String passWord;
     private String role;
+    private OTP otp;
     private String resetPasswordToken;
     public Account(String name,  String email,String passWord, String avatar) {
 
