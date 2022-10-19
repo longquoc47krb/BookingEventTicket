@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService{
    // @Autowired
-    AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+
 
     @Override
     //@Transactional(rollbackFor = Exception.class)
