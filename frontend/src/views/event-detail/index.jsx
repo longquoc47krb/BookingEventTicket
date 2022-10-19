@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
@@ -21,6 +21,7 @@ import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { userInfoSelector } from "../../redux/slices/accountSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { paragraph, TicketStatus } from "../../utils/constants";
 import {
@@ -42,6 +43,7 @@ function EventDetail(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
+  console.log({ user });
   const { t } = useTranslation();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();

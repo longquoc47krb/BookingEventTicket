@@ -15,8 +15,8 @@ export const UserActionContextProvider = ({ children }) => {
 
     // const list = reactLocalStorage.getObject("userWishlist");
     const list = JSON.parse(localStorage.getItem("userWishlist"));
-    const userWishlist = list ? list.wishlist : [];
-    setWishlist(userWishlist);
+    const userWishlist = list.wishlist ?? [];
+    setWishlist(list.wishlist);
     userWishlist &&
       userWishlist.forEach((eventId) => {
         getEventById(eventId).then((response) => {

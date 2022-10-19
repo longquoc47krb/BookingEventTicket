@@ -13,12 +13,13 @@ import UploadImage from "../../components/common/upload-image";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { userInfoSelector } from "../../redux/slices/accountSlice";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
 function UserProfile() {
-  const { user } = useUserAuth();
+  const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
   const previousPathname = useSelector(pathNameSelector);
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ function UserProfile() {
   const { values } = formik;
   return (
     <>
-      <HelmetHeader title={user.name} content="User Profile" />
+      <HelmetHeader title={t("user.profile")} content="User Profile" />
       <div className="user-profile-container">
         <LanguageSwitch className="absolute top-5 right-5" />
         <Box

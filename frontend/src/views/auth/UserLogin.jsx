@@ -18,6 +18,7 @@ import {
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { setUserProfile } from "../../redux/slices/accountSlice";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
 const { loginByEmail } = authServices;
@@ -47,10 +48,12 @@ const UserLogin = (props) => {
       showNotification(response.status);
       console.log(response.status);
       if (response.status === 200) {
-        setUser({
-          email: response.data.email,
-          name: response.data.username,
-        });
+        dispatch(
+          setUserProfile({
+            email: response.data.email,
+            username: response.data.username,
+          })
+        );
       }
     },
   });
