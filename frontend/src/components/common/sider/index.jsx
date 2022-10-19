@@ -8,9 +8,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { GoOrganization } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
-import { AppConfig } from "../../../configs/AppConfig";
+import AppConfig from "../../../configs/AppConfig";
 
-const { MENU, MENU_ORG } = AppConfig;
+const { MENU } = AppConfig;
 function SiderBar(props) {
   const { className } = props;
   const { t } = useTranslation();
@@ -45,8 +45,8 @@ function SiderBar(props) {
           </span>
         </Divider>
         <button
-          className="be-an-organization p-2 text-[#FFD933] text-base font-semibold rounded gap-x-2 flex items-center justify-center mb-3 ml-3"
-          onClick={() => navigate("/be-an-organization")}
+          className="organizer-registration p-2 text-[#FFD933] text-base font-semibold rounded gap-x-2 flex items-center justify-center mb-3 ml-3"
+          onClick={() => navigate("/organizer-registration")}
         >
           <GoOrganization color="#FFD933" />
           {t("org.become-an-org")}

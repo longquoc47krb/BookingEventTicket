@@ -3,7 +3,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { AppConfig } from "../../../configs/AppConfig";
+import AppConfig from "../../../configs/AppConfig";
 const { MENU_ORG, SOCIAL_MENU } = AppConfig;
 function Footer() {
   const navigate = useNavigate();

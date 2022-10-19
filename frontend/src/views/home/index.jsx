@@ -17,7 +17,6 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
-import Loading from "../../components/loading";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 function Home() {

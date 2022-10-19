@@ -1,19 +1,21 @@
 .organization {
   &-container {
     width: 100vw;
-    height: 100vh;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      text-align: center;
-      width: 100%;
-    }
+    height: auto;
   }
-  &-register {
-    width: 100vw;
+  &-background {
+    width: 100%;
+    height: 40rem;
+    object-fit: cover;
+    object-position: bottom 1rem;
+    &::before {
+      display: block;
+      content: "hello";
+      width: 10rem;
+      height: 20rem;
+      z-index: 100;
+      background: linear-gradient(-45deg, #1f3e82, #2c4791);
+    }
   }
 }
 .facebook,

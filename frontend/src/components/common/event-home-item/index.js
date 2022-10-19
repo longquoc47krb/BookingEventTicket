@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
-import { AppConfig } from "../../../configs/AppConfig";
+import AppConfig from "../../../configs/AppConfig";
 import { checkImageURL } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event } = props;
