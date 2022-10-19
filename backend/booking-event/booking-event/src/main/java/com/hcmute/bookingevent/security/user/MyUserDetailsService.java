@@ -22,6 +22,7 @@ public class MyUserDetailsService implements UserDetailsService{
    // @Autowired
     private final AccountRepository accountRepository;
 
+
     @Override
     //@Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

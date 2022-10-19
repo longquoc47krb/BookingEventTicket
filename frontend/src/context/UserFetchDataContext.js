@@ -18,7 +18,6 @@ const { provinceMapping } = constants;
 const UserFetchDataContext = createContext();
 export const UserFetchDataContextProvider = ({ children }) => {
   const filter = useSelector(filterSelector);
-  console.log({ filter });
   const dateType = useSelector((state) => state.filter.filterByDateType);
   const { data: featuredEventsFetching, status: highlightStatus } =
     useFetchFeaturedEvents();

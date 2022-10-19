@@ -51,7 +51,7 @@
   "org": {
     "menu": "For organization",
     "contact": "Contact",
-    "about": "About",
+    "about": "About us",
     "faq": "FAQs",
     "become-an-org": "Be an Event Organizer"
   },
@@ -89,7 +89,7 @@
   },
   "date": {
     "today": "Today",
-    "all": "All dates",
+    "all": "All date",
     "tomorrow": "Tomorrow",
     "this-week": "This week",
     "this-month": "This month"
@@ -110,7 +110,6 @@
     "title": "Page not found.",
     "go-back": "Go back to the previous page"
   },
-  "slogan": "Vo Van Ngan's premier ticketing platform for events",
   "validate": {
     "email": {
       "required": "Email is required",
@@ -136,5 +135,9 @@
       "200": "Successfully logged in",
       "400": "Wrong email or password"
     }
+  },
+  "lotus": {
+    "slogan": "Vo Van Ngan's premier ticketing platform for events",
+    "follow-us": "Follow us"
   }
 }
