@@ -8,21 +8,19 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { createContext, useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { authentication } from "../configs/firebaseConfig";
+import { userInfoSelector } from "../redux/slices/accountSlice";
 
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
-  const [user, setUser] = useState(null);
-  //   {
-  //   avatar: "https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg",
-  //   name: "Leo Messi",
-  //   email: "leomessi@leomessi.com",
-  // }
-  console.log({ user });
-
+  const userInfo = useSelector(userInfoSelector);
+  const [user, setUser] = useState(userInfo);
+  useEffect(() => {
+    setUser(userInfo);
+  }, [userInfo]);
   function logIn(email, password) {
     return signInWithEmailAndPassword(authentication, email, password);
   }
@@ -30,7 +28,6 @@ export function UserAuthContextProvider({ children }) {
     return createUserWithEmailAndPassword(authentication, email, password);
   }
   function logOut() {
-    setUser(null);
     return signOut(authentication);
   }
   function googleSignIn() {
@@ -68,7 +65,6 @@ export function UserAuthContextProvider({ children }) {
     <userAuthContext.Provider
       value={{
         user,
-        setUser,
         logIn,
         signUp,
         logOut,

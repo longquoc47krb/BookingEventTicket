@@ -69,7 +69,6 @@ export const useEventDetails = (id) => {
   });
 };
 export const useFetchEventsByFilter = (params) => {
-  const { province, categoryId, status } = params;
   return useQuery(
     ["getEventsByFilter", params],
     () => fetchEventByFilter(params),

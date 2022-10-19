@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import placeholderImg from "../../../assets/fallback-avatar.png";
@@ -21,7 +21,10 @@ import { AppConfig } from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
 import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
-import { logOutAccount } from "../../../redux/slices/accountSlice";
+import {
+  logOutAccount,
+  userInfoSelector,
+} from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
 import theme from "../../../shared/theme";
 import { isNotEmpty } from "../../../utils/utils";
@@ -30,28 +33,20 @@ import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
-  const { currentUser, showSearchBox } = props;
+  const { showSearchBox } = props;
   const { ROUTES } = AppConfig;
-  const [current, setCurrent] = useState(currentUser);
   const { wishlist, clearWishlist } = useUserActionContext();
   const { allEvents, successStatus } = useUserFetchDataContext();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(userInfoSelector);
   const { t } = useTranslation();
-  const { user } = useUserAuth();
   const isMobile = useMedia("(max-width: 767px)");
   function onLogout() {
     dispatch(logOutAccount());
     logOut();
-    navigate("/");
-    localStorage.clear();
   }
-  useEffect(() => {
-    if (isNotEmpty(user)) {
-      setCurrent(user);
-    }
-  }, [user]);
   const menu = (
     <MenuList
       style={{
@@ -159,7 +154,7 @@ function Header(props) {
       </div>
       {isMobile ? null : (
         <div className="header-auth">
-          {!current ? (
+          {!user ? (
             <>
               <a className="px-3" onClick={() => navigate(ROUTES.LOGIN)}>
                 {t("user.authentication")}
@@ -170,11 +165,11 @@ function Header(props) {
             <Dropdown overlay={menu} trigger={["click"]}>
               <div className="cursor-pointer">
                 <Avatar
-                  googleId={current.sub}
-                  src={current.avatar ?? placeholderImg}
+                  googleId={user.sub}
+                  src={user.avatar ?? placeholderImg}
                   size="35"
                   round={true}
-                  name={current.name}
+                  name={user.name}
                   className="header-avatar"
                 />
               </div>
@@ -187,14 +182,14 @@ function Header(props) {
               <Dropdown overlay={menu} trigger={["click"]}>
                 <div className="cursor-pointer flex gap-x-2 items-center">
                   <Avatar
-                    googleId={current.sub}
-                    src={current.avatar ?? placeholderImg}
+                    googleId={user.sub}
+                    src={user.avatar ?? placeholderImg}
                     round={true}
                     size={40}
-                    name={current.name}
+                    name={user.name}
                     className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
                   />
-                  <span>{current.name}</span>
+                  <span>{user.name}</span>
                 </div>
               </Dropdown>
               <LanguageSwitch />

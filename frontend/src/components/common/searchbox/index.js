@@ -90,7 +90,7 @@ const SearchBox = (props) => {
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2 text-black">
-              {t("search.result", { val: results?.length })}
+              {t("search.result", { val: results ? results?.length : 0 })}
             </p>
           )}
           {results?.slice(0, 3).map((row) => {

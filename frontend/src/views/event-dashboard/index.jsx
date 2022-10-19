@@ -1,29 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Divider } from "antd";
-import PropTypes from "prop-types";
+import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useFetchEventsForPagination } from "../../api/services/eventServices";
+import { useFetchCategories } from "../../api/services/categoryServices";
 import AppDrawer from "../../components/common/drawer";
-import { Pagination } from "antd";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
+import SectionTitle from "../../components/common/section-title";
 import EmptyData from "../../components/empty";
 import Event from "../../components/event";
 import EventFilter from "../../components/filter";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
-import { setPathName } from "../../redux/slices/routeSlice";
-import theme from "../../shared/theme";
-import { isEmpty, filterByDate, isNotEmpty } from "../../utils/utils";
-import { useFetchCategories } from "../../api/services/categoryServices";
-import { setCategoryId } from "../../redux/slices/filterSlice";
-import SectionTitle from "../../components/common/section-title";
+import { filterByDate, isEmpty, isNotEmpty } from "../../utils/utils";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const { t } = useTranslation();
@@ -31,10 +25,10 @@ function EventDashBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: category, status } = useFetchCategories();
-  const categoryId =
-    status === "success" &&
-    categoryParams.get("category") !== null &&
-    category.filter((c) => c.name === categoryParams.get("category"))[0].id;
+  // const categoryId =
+  //   status === "success" &&
+  //   categoryParams.get("category") !== null &&
+  //   category.filter((c) => c.name === categoryParams.get("category"))[0].id;
   const { filteredEvents, loadingStatus, dateType, filter } =
     useUserFetchDataContext();
   // Change page
@@ -88,10 +82,4 @@ function EventDashBoard() {
     </>
   );
 }
-EventDashBoard.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object),
-};
-const mapStateToProps = (state) => ({
-  events: state.event.events,
-});
-export default connect(mapStateToProps)(EventDashBoard);
+export default EventDashBoard;
