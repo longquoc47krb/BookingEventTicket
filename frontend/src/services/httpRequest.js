@@ -11,12 +11,12 @@ const httpRequest = async ({ url, method, data, params, ...rest }) => {
       ...rest,
     });
     return response;
-  } catch (error) {
-    const errorResponse = AxiosError.response;
-    if (errorResponse) {
-      console.log("HTTP_ERROR_OBJECT", JSON.stringify(errorResponse), url);
+  } catch (AxiosError) {
+    console.log(AxiosError.response);
+    if (AxiosError) {
+      // console.log("HTTP_ERROR_OBJECT", JSON.stringify(errorResponse), url);
     }
-    throw errorResponse;
+    throw AxiosError;
   }
 };
 

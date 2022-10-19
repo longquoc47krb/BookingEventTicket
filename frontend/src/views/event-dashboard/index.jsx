@@ -26,9 +26,9 @@ import { setCategoryId } from "../../redux/slices/filterSlice";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
   const { t } = useTranslation();
-  const [categoryParams] = useSearchParams();
-  console.log(categoryParams.get("category"));
+  const [categoryParams, setCategoryParams] = useSearchParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data: category, status } = useFetchCategories();
   const categoryId =
     status === "success" &&
@@ -40,11 +40,6 @@ function EventDashBoard() {
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
-  useEffect(() => {
-    if (categoryParams.get("category") !== null) {
-      dispatch(setCategoryId(categoryId));
-    }
-  }, []);
   // if filter change, set current page equal 0 ( page 1)
   useEffect(() => {
     setCurrentPage(0);

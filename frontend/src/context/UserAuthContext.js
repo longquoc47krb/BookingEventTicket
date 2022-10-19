@@ -16,6 +16,12 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
+  //   {
+  //   avatar: "https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg",
+  //   name: "Leo Messi",
+  //   email: "leomessi@leomessi.com",
+  // }
+  console.log({ user });
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(authentication, email, password);
@@ -61,6 +67,7 @@ export function UserAuthContextProvider({ children }) {
     <userAuthContext.Provider
       value={{
         user,
+        setUser,
         logIn,
         signUp,
         logOut,

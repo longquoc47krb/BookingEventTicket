@@ -1,7 +1,7 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
-import { FastField, Form, FormikProvider, useFormik } from "formik";
+import { AxiosError } from "axios";
+import { Field, Form, FormikProvider, useFormik } from "formik";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-number-input";
@@ -17,54 +17,53 @@ import {
 } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import { useUserAuth } from "../../context/UserAuthContext";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
-const { loginByEmail } = authServices;
-const UserLogin = (props) => {
-  const dispatch = useDispatch();
+const { registerAccount } = authServices;
+const UserRegister = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { setUser } = useUserAuth();
+
   const initialValues = {
     email: "",
+    name: "",
     password: "",
+    confirmPassword: "",
   };
   const formikLogin = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
       email: YupValidations.email,
+      name: YupValidations.name,
       password: YupValidations.password,
+      confirmPassword: YupValidations.confirmPassword,
     }),
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
-      const { email, password } = values;
-      const response = await loginByEmail({
+      const { email, password, name } = values;
+      const response = await registerAccount({
         email,
+        name,
         password,
+        role: "user",
       });
       showNotification(response.status);
-      if (response.status === 200) {
-        setUser({
-          email: response.data.email,
-          name: response.data.usename,
-        });
-      }
     },
   });
-  const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
+  const { handleSubmit } = formikLogin;
   const showNotification = (statusCode) => {
     switch (statusCode) {
       case 400:
         return AlertErrorPopup({
-          title: t("status.login.400"),
-          text: t("status.login.400"),
+          title: t("status.register.400"),
+          text: t("status.register.400"),
         });
       case 200:
         return AlertPopup({
-          title: t("status.login.200"),
-          text: t("status.login.200"),
+          title: t("status.register.200"),
+          text: t("status.register.200"),
         });
       default:
         return null;
@@ -72,7 +71,7 @@ const UserLogin = (props) => {
   };
   return (
     <>
-      <HelmetHeader title={t("pages.login")} content="Login" />
+      <HelmetHeader title={t("user.signup")} content="Login" />
       <div className="login-container">
         <div className="login-background-slide"></div>
         <img
@@ -87,7 +86,7 @@ const UserLogin = (props) => {
             <Form className="login-form" onSubmit={handleSubmit}>
               <Row className="leading-8">
                 <h1 className="login-title mb-2 pl-[5px]">
-                  {t("pages.login")}
+                  {t("user.signup")}
                 </h1>
               </Row>
               <Row
@@ -100,7 +99,7 @@ const UserLogin = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField component={Input} name="email" label="Email" />
+                  <Field component={Input} name="email" label="Email" />
                 </Col>
               </Row>
               <Row
@@ -113,10 +112,40 @@ const UserLogin = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField
+                  <Field component={Input} name="name" label={t("user.name")} />
+                </Col>
+              </Row>
+              <Row
+                align="middle"
+                style={{
+                  height: "auto",
+                  display: "flex",
+                  alignContent: "center",
+                }}
+                gutter={[0, 8]}
+              >
+                <Col flex={4}>
+                  <Field
                     component={InputPassword}
                     name="password"
                     label={t("user.password")}
+                  />
+                </Col>
+              </Row>
+              <Row
+                align="middle"
+                style={{
+                  height: "auto",
+                  display: "flex",
+                  alignContent: "center",
+                }}
+                gutter={[0, 8]}
+              >
+                <Col flex={4}>
+                  <Field
+                    component={InputPassword}
+                    name="confirmPassword"
+                    label={t("user.confirmPassword")}
                   />
                 </Col>
               </Row>
@@ -125,44 +154,13 @@ const UserLogin = (props) => {
                   className={`w-full py-2 bg-[${theme.main}] text-white`}
                   type="submit"
                 >
-                  {t("pages.login")}
+                  {t("user.signup")}
                 </button>
               </Col>
-              <Divider style={{ color: "black", border: "gray" }}>
-                {t("user.login-by-google")}
-              </Divider>
-              <div className="flex justify-center">
-                <GoogleLogin
-                  shape="circle"
-                  size="large"
-                  width="100%"
-                  onSuccess={(credentialResponse) => {
-                    // var decoded = jwt_decode(credentialResponse.credential);
-                    // decoded["role"] = Role.User;
-                    // dispatch(getAccountByEmailOrPhone(decoded.email));
-                    // const isDuplicated = includes(queriedUser, decoded.email);
-                    // if (!isDuplicated) {
-                    //   dispatch(
-                    //     createAccount({
-                    //       avatar: decoded.picture,
-                    //       gmail: decoded.email,
-                    //       name: decoded.name,
-                    //     })
-                    //   );
-                    //   navigate("/");
-                    // } else {
-                    //   alert("email bị trùng");
-                    // }
-                  }}
-                  onError={() => {
-                    alert("Login Failed");
-                  }}
-                />
-              </div>
               <div className="flex justify-center gap-x-2 items-center mt-3">
-                <span>{t("user.create-account")}</span>
-                <a className="block" onClick={() => navigate("/register")}>
-                  {t("user.signup")}
+                <span>{t("user.already-account")}</span>
+                <a className="block" onClick={() => navigate("/login")}>
+                  {t("pages.login")}
                 </a>
               </div>
             </Form>
@@ -173,4 +171,4 @@ const UserLogin = (props) => {
   );
 };
 
-export default UserLogin;
+export default UserRegister;

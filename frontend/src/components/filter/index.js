@@ -12,7 +12,6 @@ import {
   dateSelect,
 } from "../../helpers/filter-data";
 import theme from "../../shared/theme";
-import { isNotEmpty } from "../../utils/utils";
 import { Select } from "../common/select";
 
 const EventFilter = () => {

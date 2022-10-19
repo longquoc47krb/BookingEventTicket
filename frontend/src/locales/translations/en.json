@@ -6,7 +6,8 @@
   "pages": {
     "home": "Homepage",
     "events": "Events",
-    "login": "Log in"
+    "login": "Sign in",
+    "register": "Sign up"
   },
   "event": {
     "all": "All status",
@@ -66,6 +67,7 @@
     "logout": "Logout",
     "name": "Full name",
     "phone": "Phone number",
+    "password": "Password",
     "phone-placeholder": "Enter Phone Number",
     "login-by-email": "Login by Email",
     "login-by-google": "Login by Google",
@@ -73,7 +75,11 @@
       "title": "Unauthenticated",
       "text": "Please log in to add event to wishlist"
     },
-    "authentication": "Login / Register"
+    "authentication": "Login | Register",
+    "confirmPassword": "Confirm Password",
+    "create-account": "Don't have an account yet?",
+    "signup": "Sign up",
+    "already-account": "Have already account?"
   },
   "location": {
     "all": "All locations",
@@ -104,5 +110,31 @@
     "title": "Page not found.",
     "go-back": "Go back to the previous page"
   },
-  "slogan": "Vo Van Ngan's premier ticketing platform for events"
+  "slogan": "Vo Van Ngan's premier ticketing platform for events",
+  "validate": {
+    "email": {
+      "required": "Email is required",
+      "invalid": "Email is invalid"
+    },
+    "password": {
+      "required": "Password is required",
+      "invalid": "Password is invalid",
+      "upper": "Must contain uppercase character(s)",
+      "number": "At lease include number character(s)"
+    },
+    "name": {
+      "required": "Name is required",
+      "max": "Max length is 64"
+    }
+  },
+  "status": {
+    "register": {
+      "400": "Email is already registered",
+      "200": "Successfully registered!"
+    },
+    "login": {
+      "200": "Successfully logged in",
+      "400": "Wrong email or password"
+    }
+  }
 }
