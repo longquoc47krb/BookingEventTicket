@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 public class MailService {
 
     private final JavaMailSender emailSender;
-    public ResponseEntity<?> sendMail(String nameRecipient) throws MessagingException
+    public ResponseEntity<?> sendMail(String nameRecipient,String messageContent) throws MessagingException
     {
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -29,8 +29,12 @@ public class MailService {
         message.setContent(htmlMsg, "text/html");
 
         helper.setTo(nameRecipient);
+        helper.setSubject(messageContent);
+        if(messageContent.isEmpty())
+        {
+            helper.setSubject("Test send HTML email");
 
-        helper.setSubject("Test send HTML email");
+        }
 
         try
         {

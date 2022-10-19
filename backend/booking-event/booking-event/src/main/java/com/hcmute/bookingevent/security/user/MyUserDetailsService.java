@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,8 +17,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService{
-    @Autowired
+   // @Autowired
     AccountRepository accountRepository;
 
     @Override
