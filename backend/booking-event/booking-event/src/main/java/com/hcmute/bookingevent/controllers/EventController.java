@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 
 import com.hcmute.bookingevent.Implement.IEventService;
+import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -61,5 +62,8 @@ public class EventController {
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
         return iEventService.findEventById(id);
     }
-
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateEvent(@PathVariable String id,@RequestBody Event updatedEvent) {
+        return iEventService.updateEvent(id,updatedEvent);
+    }
 }

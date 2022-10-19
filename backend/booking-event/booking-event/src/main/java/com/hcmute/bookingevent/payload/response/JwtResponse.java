@@ -12,7 +12,7 @@ public class JwtResponse {
     @NotBlank
     private String token;
     @NotBlank
-    private String username;
+    private String name;
 
     private String email;
     //@NotBlank

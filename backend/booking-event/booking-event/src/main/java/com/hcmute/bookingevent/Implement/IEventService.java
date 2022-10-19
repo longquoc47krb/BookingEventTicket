@@ -8,17 +8,15 @@ import org.springframework.http.ResponseEntity;
 public interface IEventService {
     ResponseEntity<?> createEvent(Event event);
     ResponseEntity<?> findAllEvents();
-
     ResponseEntity<?> findEventAfterToday();
-
     ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status);
-
     ResponseEntity<?> deleteEvent(String id);
     ResponseEntity<?> findEventById(String id);
     ResponseEntity<?> searchEvents(String key);
     ResponseEntity<?> findEventListById(String id);
     ResponseEntity<?> eventPagination(Pageable pageable);
     ResponseEntity<?> checkEventStatus();
+    ResponseEntity<?> updateEvent(String id,Event event);
 
 
 }

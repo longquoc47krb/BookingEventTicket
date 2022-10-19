@@ -178,26 +178,21 @@ public class EventService implements IEventService {
 
     }
 
-//    public ResponseEntity<?> updateEvent(String id) {
-////        Optional<Event> account = eventRepository.findById(id);
-////        boolean checkExist = eventRepository.existsById(id);
-////
-////            Query query = new Query();
-////            query.addCriteria(Criteria.where("id").is(new ObjectId(id)));
-////            Update update = new Update().push("program", new DBRef("eventCategory", new ObjectId(categoryId));
-////            mongoTemplate.updateMulti(query, update, Event.class);
-////        if (checkExist) {
-////
-////            eventRepository.save(id);
-////            return ResponseEntity.status(HttpStatus.OK).body(
-////                    new ResponseObject(true, "Update data successfully ", ""));
-////
-////        } else {
-////            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-////                    new ResponseObject(false, "Update data fail with id:" + id, ""));
-////        }
-//
-//    }
+    public ResponseEntity<?> updateEvent(String id,Event event) {
+        //Optional<Event> updatedEvent = eventRepository.findById(id);
+        boolean checkExist = eventRepository.existsById(id);
+        if (checkExist) {
+
+            eventRepository.save(event);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Update data successfully ", "",200));
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Update data fail with id:" + id, "",404));
+        }
+
+    }
     @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria
