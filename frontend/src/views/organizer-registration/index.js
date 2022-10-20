@@ -182,7 +182,7 @@ function OrganizeRegistration() {
                     className="primary-button w-[50%] text-xl"
                     type="submit"
                   >
-                    {t("pages.register")}
+                    {t("submit")}
                   </button>
                 </Col>
               </Form>
@@ -190,7 +190,11 @@ function OrganizeRegistration() {
           </div>
           <div className="vertical-line"></div>
           <div className="organization-register-contact">
-            <img src={Organizer} className="w-full h-auto" alt="organizer-illustration"/>
+            <img
+              src={Organizer}
+              className="w-full h-auto"
+              alt="organizer-illustration"
+            />
           </div>
         </section>
       </div>
