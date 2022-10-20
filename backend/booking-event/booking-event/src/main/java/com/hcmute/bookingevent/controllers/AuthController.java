@@ -17,17 +17,16 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RequestMapping(path = "/api/auth")
 public class AuthController {
-    @Autowired
-    private final MailService mailService;
+
     private  final IAuthService iAuthService;
 
 
 //    @ResponseBody
-    @RequestMapping(value = "/sendHtmlEmail",method = RequestMethod.POST)
-    public ResponseEntity<?> sendHtmlEmail(@RequestParam(value="name")  String name) throws MessagingException {
-        return mailService.sendMail(name,"");
-
-    }
+//    @RequestMapping(value = "/sendHtmlEmail",method = RequestMethod.POST)
+//    public ResponseEntity<?> sendHtmlEmail(@RequestParam(value="name")  String name) throws MessagingException {
+//        return mailService.sendMail(name,"");
+//
+//    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);
