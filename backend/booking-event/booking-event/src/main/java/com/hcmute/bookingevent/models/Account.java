@@ -1,18 +1,13 @@
 package com.hcmute.bookingevent.models;
 
 
-import com.hcmute.bookingevent.models.role.Role;
+import com.hcmute.bookingevent.models.OTP.OTP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.lang.Nullable;
-
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Document("account")
@@ -37,7 +32,7 @@ public class Account {
 
     private OTP otp;
 
-    private String resetPasswordToken;
+    //private String resetPasswordToken;
     public Account(String name,  String email,String passWord, String avatar) {
 
         this.name = name;
@@ -45,6 +40,11 @@ public class Account {
         this.passWord = passWord;
         this.avatar = avatar;
     }
+    public Account(OTP otp)
+    {
+        this.otp = otp;
+    }
+
 //    public Account(String name,  String email,String passWord,String role) {
 //        this.name = name;
 //        this.email = email;
