@@ -29,6 +29,10 @@ const HelpCenterPage = Loadable({
   loader: () => import("../views/help-center"),
   loading: Loading,
 });
+const TicketBookingPage = Loadable({
+  loader: () => import("../views/ticket-booking"),
+  loading: Loading,
+});
 const BeAnOrganizerPage = Loadable({
   loader: () => import("../views/organizer-registration"),
   loading: Loading,
@@ -74,6 +78,10 @@ const routes = [
   {
     element: <NotFoundPage />,
     path: "/page-not-found",
+  },
+  {
+    element: <TicketBookingPage />,
+    path: "/ticket-booking/:eventId",
   },
   {
     element: <UserProfilePage />,

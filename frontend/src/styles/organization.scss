@@ -41,6 +41,9 @@
       z-index: 10;
       text-align: center;
       filter: drop-shadow(16px 16px 10px black);
+      @include for-phone {
+        font-size: 2rem !important;
+      }
     }
     p {
       width: 60%;
@@ -54,6 +57,9 @@
       margin-right: auto;
       text-align: center;
       filter: drop-shadow(16px 16px 10px black);
+      @include for-phone {
+        font-size: 1rem !important;
+      }
     }
   }
   &-section-1 {
@@ -63,12 +69,18 @@
     img {
       width: 50vw;
       height: auto;
+      @include for-phone {
+        display: none;
+      }
     }
   }
   &-info-1 {
     width: calc(50vw - 2rem);
     height: auto;
     padding: 2rem;
+    @include for-phone {
+      width: calc(100vw - 2rem) !important;
+    }
     h1 {
       color: white;
       font-size: 1.75rem;
@@ -146,18 +158,25 @@
       width: 2px;
       height: 50vh;
       border-left: 2px solid rgb(82, 82, 82);
+      @include for-phone {
+        display: none;
+      }
     }
   }
   &-form {
     display: block;
     width: 50vw;
     padding: 2rem;
-    display: flex;
-    flex-direction: column;
     background-color: transparent;
+    @include for-phone {
+      width: 100% !important;
+    }
   }
   &-register {
-    &-content {
+    &-contact {
+      @include for-phone {
+        display: none;
+      }
     }
   }
 }
@@ -194,6 +213,9 @@
       img {
         height: 65%;
         width: auto;
+        @include for-phone {
+          height: 40% !important;
+        }
       }
     }
   }

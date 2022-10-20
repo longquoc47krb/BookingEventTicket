@@ -235,31 +235,31 @@ const ORGANIZATION_INTRODUCE_ITEM = [
     icon: <AiOutlineAreaChart color={theme.main} fontSize={45} />,
     title: "lotus.intro.2.title",
     content: "lotus.intro.2.content",
-    delay: "0s",
+    delay: "0.5s",
   },
   {
     icon: <RiCustomerServiceFill color={theme.main} fontSize={35} />,
     title: "lotus.intro.3.title",
     content: "lotus.intro.3.content",
-    delay: "0.375s",
+    delay: "1s",
   },
   {
     icon: <BsCashCoin color={theme.main} fontSize={25} />,
     title: "lotus.intro.4.title",
     content: "lotus.intro.4.content",
-    delay: "0.375s",
+    delay: "1.5s",
   },
   {
     icon: <IoIosApps color={theme.main} fontSize={25} />,
     title: "lotus.intro.5.title",
     content: "lotus.intro.5.content",
-    delay: "0.5s",
+    delay: "2s",
   },
   {
     icon: <FaSearchLocation color={theme.main} fontSize={25} />,
     title: "lotus.intro.6.title",
     content: "lotus.intro.6.content",
-    delay: "0.5s",
+    delay: "2.5s",
   },
 ];
 const ORGANIZATION_PARTNERS = [

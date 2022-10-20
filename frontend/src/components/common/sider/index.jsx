@@ -46,7 +46,12 @@ function SiderBar(props) {
         </Divider>
         <button
           className="organizer-registration p-2 text-[#FFD933] text-base font-semibold rounded gap-x-2 flex items-center justify-center mb-3 ml-3"
-          onClick={() => navigate("/organizer-registration")}
+          onClick={() => {
+            window.scrollTo(0, 80);
+            setTimeout(() => {
+              navigate("/organizer-registration");
+            }, 200);
+          }}
         >
           <GoOrganization color="#FFD933" />
           {t("org.become-an-org")}

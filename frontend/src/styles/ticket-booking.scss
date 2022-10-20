@@ -1,0 +1,24 @@
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+  background: $primary-color !important;
+}
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: $primary-color !important;
+}
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: $primary-color !important;
+}
+
+.booking {
+  &-container {
+  }
+  &-top {
+    img {
+      width: 100%;
+      height: 20rem;
+      filter: blur(0.5rem);
+      z-index: -1;
+    }
+  }
+}

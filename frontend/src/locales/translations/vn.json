@@ -138,9 +138,9 @@
     }
   },
   "lotus": {
-    "big-slogan": "KÊNH ĐẶT VÉ SỰ KIỆN SỐ 1 VÕ VĂN NGÂN",
+    "big-slogan": "KÊNH ĐẶT VÉ SỰ KIỆN SỐ 1 HCMUTE",
     "description": "Với sự am hiểu về công nghệ và ngành công nghiệp bán vé, Lotus Ticket là hệ thống quản lý và phân phối vé sự kiện giúp bạn mua và bán vé sự kiện thật dễ dàng.",
-    "slogan": "Hệ thống đặt vé sự kiện số 1 Võ Văn Ngân",
+    "slogan": "Hệ thống đặt vé sự kiện số 1 HCMUTE",
     "follow-us": "Kết nối với chúng tôi",
     "introduce": "Lotus Ticket cung cấp giải pháp cho việc quản lý và bán vé trực tuyến sự kiện",
     "intro": {
@@ -170,5 +170,11 @@
       }
     },
     "partners": "Đối tác của chúng tôi"
+  },
+  "ticket-booking": {
+    "step1": "Chọn vé",
+    "step2": "Điền thông tin cá nhân",
+    "step3": "Thông tin thanh toán",
+    "step4": "Hoàn thành"
   }
 }

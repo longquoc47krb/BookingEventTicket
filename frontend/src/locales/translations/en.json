@@ -138,9 +138,9 @@
     }
   },
   "lotus": {
-    "big-slogan": "VO VAN NGAN'S TOP 1 ONLINE EVENT TICKETING SYSTEM",
+    "big-slogan": "HCMUTE'S TOP 1 ONLINE EVENT TICKETING SYSTEM",
     "description": "With an understanding of the technology and ticketing industry, Lotus Ticket is an event ticket management and distribution system that makes it easy to buy and sell event tickets.",
-    "slogan": "Vo Van Ngan's premier ticketing platform for events",
+    "slogan": "Premier ticketing platform of HCMUTE for events",
     "follow-us": "Follow us",
     "introduce": "Lotus Ticket provides a solution for online event ticketing and management",
     "intro": {
@@ -170,5 +170,11 @@
       }
     },
     "partners": "Our partners"
+  },
+  "ticket-booking": {
+    "step1": "Select ticket",
+    "step2": "Fill the info form",
+    "step3": "Payment info",
+    "step4": "Finish"
   }
 }
