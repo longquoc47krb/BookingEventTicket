@@ -26,6 +26,10 @@ function OrganizeRegistration() {
     email: "",
     organization_name: "",
   };
+  var y;
+  y = window.scrollY;
+
+  console.log({ y });
   // formik
   const formik = useFormik({
     initialValues: initialValues,
@@ -113,13 +117,7 @@ function OrganizeRegistration() {
             <ul className="marquee-content">
               {ORGANIZATION_PARTNERS.map((item) => (
                 <li>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="wow lightSpeedInRight
-                    "
-                    data-wow-duration="3s"
-                  />
+                  <img src={item.image} alt={item.title} />
                 </li>
               ))}
             </ul>
@@ -127,8 +125,9 @@ function OrganizeRegistration() {
         </section>
         <section className="organization-section-3">
           <div
-            className="organization-register-form wow tada"
+            className="organization-register-form wow pulse"
             data-wow-offset="10"
+            data-wow-duration="1s"
           >
             <FormikProvider value={formik}>
               <Form className="organization-form" onSubmit={handleSubmit}>
