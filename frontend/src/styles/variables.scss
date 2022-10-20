@@ -1,3 +1,13 @@
-$primary-color: rgb(31, 62, 130);
+$primary-color: #1f3e82;
 $primary-footer-color: #002944;
 $gray-background: rgb(211, 208, 208);
+
+:root {
+  --marquee-width: 100vw;
+  --marquee-height: 25vh;
+  --marquee-elements-displayed: 5;
+  --marquee-element-width: calc(
+    var(--marquee-width) / var(--marquee-elements-displayed)
+  );
+  --marquee-animation-duration: calc(var(--marquee-elements) * 3s);
+}

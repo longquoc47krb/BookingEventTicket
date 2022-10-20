@@ -2,8 +2,12 @@ import {
   AiOutlineHome,
   AiOutlineQuestionCircle,
   AiOutlinePicture,
+  AiFillCheckCircle,
+  AiOutlineAreaChart,
+  AiTwotoneCustomerService,
 } from "react-icons/ai";
-import { FaTheaterMasks, FaInfo } from "react-icons/fa";
+import { IoIosApps } from "react-icons/io";
+import { FaTheaterMasks, FaInfo, FaSearchLocation } from "react-icons/fa";
 import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import { BiBookBookmark, BiPhoneCall } from "react-icons/bi";
 import { HiOutlineMusicNote } from "react-icons/hi";
@@ -22,6 +26,14 @@ import {
 import { TbPlaneInflight } from "react-icons/tb";
 import VietnamFlag from "../assets/vietnam-flag.png";
 import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
+import YG from "../assets/YG.png";
+import SM from "../assets/SM.png";
+import MTV from "../assets/MTV.png";
+import MTP from "../assets/MTP.png";
+import Metub from "../assets/Metub.png";
+import BigHit from "../assets/BIGHIT.webp";
+import theme from "../shared/theme";
+import { RiCustomerServiceFill } from "react-icons/ri";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
@@ -209,7 +221,73 @@ const LANGUAGE_OPTIONS = [
     image: VietnamFlag,
   },
 ];
-
+const ORGANIZER_LANDINGPAGE_PICTURE = [
+  "https://images.unsplash.com/photo-1523521803700-b3bcaeab0150?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+];
+const ORGANIZATION_INTRODUCE_ITEM = [
+  {
+    icon: <AiFillCheckCircle color={theme.main} fontSize={25} />,
+    title: "lotus.intro.1.title",
+    content: "lotus.intro.1.content",
+    delay: "0s",
+  },
+  {
+    icon: <AiOutlineAreaChart color={theme.main} fontSize={45} />,
+    title: "lotus.intro.2.title",
+    content: "lotus.intro.2.content",
+    delay: "0s",
+  },
+  {
+    icon: <RiCustomerServiceFill color={theme.main} fontSize={35} />,
+    title: "lotus.intro.3.title",
+    content: "lotus.intro.3.content",
+    delay: "0.375s",
+  },
+  {
+    icon: <BsCashCoin color={theme.main} fontSize={25} />,
+    title: "lotus.intro.4.title",
+    content: "lotus.intro.4.content",
+    delay: "0.375s",
+  },
+  {
+    icon: <IoIosApps color={theme.main} fontSize={25} />,
+    title: "lotus.intro.5.title",
+    content: "lotus.intro.5.content",
+    delay: "0.5s",
+  },
+  {
+    icon: <FaSearchLocation color={theme.main} fontSize={25} />,
+    title: "lotus.intro.6.title",
+    content: "lotus.intro.6.content",
+    delay: "0.5s",
+  },
+];
+const ORGANIZATION_PARTNERS = [
+  {
+    title: "YG",
+    image: YG,
+  },
+  {
+    title: "SM",
+    image: SM,
+  },
+  {
+    title: "MTV",
+    image: MTV,
+  },
+  {
+    title: "MTP",
+    image: MTP,
+  },
+  {
+    title: "Metub",
+    image: Metub,
+  },
+  {
+    title: "BigHit",
+    image: BigHit,
+  },
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -221,5 +299,8 @@ const AppConfig = {
   USER_PROFILE_MENU,
   LANGUAGE_OPTIONS,
   ORGANIZER_CAROUSEL,
+  ORGANIZER_LANDINGPAGE_PICTURE,
+  ORGANIZATION_INTRODUCE_ITEM,
+  ORGANIZATION_PARTNERS,
 };
 export default AppConfig;

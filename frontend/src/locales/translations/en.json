@@ -49,6 +49,7 @@
     "conference": "Conference"
   },
   "org": {
+    "name": "Organization's name",
     "menu": "For organization",
     "contact": "Contact",
     "about": "About us",
@@ -137,7 +138,37 @@
     }
   },
   "lotus": {
+    "big-slogan": "VO VAN NGAN'S TOP 1 ONLINE EVENT TICKETING SYSTEM",
+    "description": "With an understanding of the technology and ticketing industry, Lotus Ticket is an event ticket management and distribution system that makes it easy to buy and sell event tickets.",
     "slogan": "Vo Van Ngan's premier ticketing platform for events",
-    "follow-us": "Follow us"
+    "follow-us": "Follow us",
+    "introduce": "Lotus Ticket provides a solution for online event ticketing and management",
+    "intro": {
+      "1": {
+        "title": "Ticket control at the gate",
+        "content": "Serve > 100,000 tickets"
+      },
+      "2": {
+        "title": "Update and view revenue reports online",
+        "content": "Easy access to view ticket sales reports"
+      },
+      "3": {
+        "title": "Customer Service",
+        "content": "Messenger live chat, quick response email, callback on demand"
+      },
+      "4": {
+        "title": "Payment Methods",
+        "content": "Online payment or COD"
+      },
+      "5": {
+        "title": "Barcode check-in app",
+        "content": "Easily control event attendance"
+      },
+      "6": {
+        "title": "Easily search for events",
+        "content": "Diverse and multi-genre events"
+      }
+    },
+    "partners": "Our partners"
   }
 }
