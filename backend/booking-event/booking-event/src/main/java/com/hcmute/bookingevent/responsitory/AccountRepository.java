@@ -12,7 +12,6 @@ public interface AccountRepository extends MongoRepository<Account,String> {
     Optional<Account> findByName(String name);
     Optional<Account> findByEmail(String email);
     Optional<Account> findByPhone(String name);
-    Account findByResetPasswordToken(String resetPasswordToken);
     Boolean existsByEmail(String email);
     List<Account> findByPhoneOrNameOrEmail(String params1, String params2, String params3);
 

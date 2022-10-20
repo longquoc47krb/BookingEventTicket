@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.OTP;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
