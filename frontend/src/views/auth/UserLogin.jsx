@@ -126,10 +126,7 @@ const UserLogin = (props) => {
                 </Col>
               </Row>
               <Col span={24}>
-                <button
-                  className={`w-full py-2 bg-[${theme.main}] text-white`}
-                  type="submit"
-                >
+                <button className={"primary-button"} type="submit">
                   {t("pages.login")}
                 </button>
               </Col>
