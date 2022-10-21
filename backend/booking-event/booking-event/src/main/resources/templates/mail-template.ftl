@@ -428,10 +428,10 @@
                                                             <td align="left"
                                                                 style="padding:0;Margin:0;padding-top:20px;padding-bottom:20px">
                                                                 <span class="es-button-border"
-                                                                      style="border-style:solid;border-color:#4A7EB0;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a
-                                                                            href="#" class="es-button es-button-1"
-                                                                            target="_blank"
-                                                                            style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#4A7EB0;font-size:18px;border-style:solid;border-color:#EFEFEF;border-width:10px 25px;display:inline-block;background:#EFEFEF;border-radius:0px;font-family:arial, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">${contentColor}</a></span>
+                                                                      style="border-style:solid;border-color:#4A7EB0;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto">
+                                                                    <span
+                                                                            class="es-button es-button-1"
+                                                                            style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#4A7EB0;font-size:18px;border-style:solid;border-color:#EFEFEF;border-width:10px 25px;display:inline-block;background:#EFEFEF;border-radius:0px;font-family:arial, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">${contentColor}</span></span>
                                                             </td>
                                                         </tr>
                                                         <tr style="border-collapse:collapse">

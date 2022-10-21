@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class ForgetReq {
+public class ForgetOrGenerateReq {
     @NotBlank
     private String email;
 }
