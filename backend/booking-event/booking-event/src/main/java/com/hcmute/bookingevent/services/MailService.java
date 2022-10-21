@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
+import com.hcmute.bookingevent.services.mail.EMailType;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +33,15 @@ public class MailService {
 
     final String MAIL_TEMPLATE = "mail-template.ftl";
 
-    final String OTP_CONTENT ="Please enter this code to verify your action with LotusTicket. This code use only once. Please do not share this code to with anyone else due to security for yourself \n";
+    final String OTP_CONTENT ="Please enter this code to verify your action with LotusTicket. This code use only once. Please do not share this code to with anyone else due to security for yourself. The code is only valid for 5 minutes. " +
+            "<br>Regards,\n";
+    final String NEWPASSWORD_CONTENT ="You are receiving this email because we received a password reset request for your account. Please visit our website to change your new password. You should keep a secure record of your password and not disclose it to any unauthorized party." +
+            "<br>Regards,";
+
     final String TYPE_EMAIL = "text/html;";
 
 
-    public void sendMail(Account account, String messageContent) throws MessagingException, TemplateException, IOException
+    public void sendMail(Account account, String messageContent , EMailType type) throws MessagingException, TemplateException, IOException
     {
         log.info(Thread.currentThread().getName()+ "- send email start");
         try
@@ -48,10 +53,19 @@ public class MailService {
             configuration.setClassForTemplateLoading(this.getClass(), "/templates");
             //if (type.equals(EMailType.AUTH)) {
             template = configuration.getTemplate(MAIL_TEMPLATE);
-            model.put("header", "Verify your account");
+            if(type.equals(EMailType.OTP))
+            {
+                model.put("header", "Verify your account");
+                model.put("content", OTP_CONTENT);
+            }
+            if(type.equals(EMailType.NEW_PASSWORD))
+            {
+                model.put("header", "Receive new password");
+                model.put("content", NEWPASSWORD_CONTENT);
+            }
+
             model.put("title", "LOTUS TICKET");
             model.put("name", account.getName());
-            model.put("content", OTP_CONTENT);
             model.put("contentColor", messageContent);
 
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(Objects.requireNonNull(template),model);
