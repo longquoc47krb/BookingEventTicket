@@ -37,4 +37,7 @@ export const YupValidations = {
     .matches(PATTERNS.PASSWORD_NUMBER, {
       message: t("validate.password.number"),
     }),
+  otp: Yup.number()
+    .required(t("validate.otp.required"))
+    .min(100000, t("validate.otp.min")),
 };

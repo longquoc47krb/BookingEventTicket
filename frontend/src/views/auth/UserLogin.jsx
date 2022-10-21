@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
-import { FastField, Form, FormikProvider, useFormik } from "formik";
+import { Field, Form, FormikProvider, useFormik } from "formik";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import PhoneInput from "react-phone-number-input";
+import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -78,22 +78,25 @@ const UserLogin = (props) => {
   return (
     <>
       <HelmetHeader title={t("pages.login")} content="Login" />
-      <div className="login-container">
-        <div className="login-background-slide"></div>
+      <div className="auth-container">
         <img
           src={process.env.PUBLIC_URL + "logo-color.png"}
           alt="logo"
-          className="brand-logo absolute top-5 left-5 w-[200px]"
+          className="brand-logo absolute top-5 left-5 w-[10vw] z-10"
           onClick={() => navigate("/")}
         />
-        <LanguageSwitch className="absolute top-5 right-5" />
-        <div className="login-content">
+        <LanguageSwitch className="absolute top-5 right-5 z-10" />
+        <div className="auth-content">
+          <img
+            src={Authentication}
+            alt="authentication"
+            className="w-[50vw] h-auto wow floating"
+            data-wow-duration="8460000s"
+          />
           <FormikProvider value={formikLogin}>
-            <Form className="login-form" onSubmit={handleSubmit}>
+            <Form className="auth-form" onSubmit={handleSubmit}>
               <Row className="leading-8">
-                <h1 className="login-title mb-2 pl-[5px]">
-                  {t("pages.login")}
-                </h1>
+                <h1 className="auth-title mb-2">{t("pages.login")}</h1>
               </Row>
               <Row
                 align="middle"
@@ -105,7 +108,7 @@ const UserLogin = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField component={Input} name="email" label="Email" />
+                  <Field component={Input} name="email" label="Email" />
                 </Col>
               </Row>
               <Row
@@ -118,7 +121,7 @@ const UserLogin = (props) => {
                 gutter={[0, 8]}
               >
                 <Col flex={4}>
-                  <FastField
+                  <Field
                     component={InputPassword}
                     name="password"
                     label={t("user.password")}
@@ -160,6 +163,11 @@ const UserLogin = (props) => {
                     alert("Login Failed");
                   }}
                 />
+              </div>
+              <div className="flex justify-center items-center mt-3">
+                <a onClick={() => navigate("/forgot-password")}>
+                  {t("user.forgot-password")}?
+                </a>
               </div>
               <div className="flex justify-center gap-x-2 items-center mt-3">
                 <span>{t("user.create-account")}</span>

@@ -46,7 +46,7 @@ const PATTERNS = {
   NUMBER_MAX_LENGTH_255: /^[0-9]{,255}$/,
   USER_GROUP_NAME: /^[a-zA-Z0-9_ -]*$/,
   BLANK_SPACES: /[^\s*]/g,
+  RE_DIGIT: /^\d+$/,
 };
-
 const constants = { provinceMapping, TicketStatus, comparisonStatus, PATTERNS };
 export default constants;
