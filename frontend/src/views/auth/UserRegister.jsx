@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { Field, Form, FormikProvider, useFormik } from "formik";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import PhoneInput from "react-phone-number-input";
+import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -72,22 +72,25 @@ const UserRegister = (props) => {
   return (
     <>
       <HelmetHeader title={t("user.signup")} content="Login" />
-      <div className="login-container">
-        <div className="login-background-slide"></div>
+      <div className="auth-container">
         <img
           src={process.env.PUBLIC_URL + "logo-color.png"}
           alt="logo"
-          className="brand-logo absolute top-5 left-5 w-[200px]"
+          className="brand-logo absolute top-5 left-5 w-[10vw] z-10"
           onClick={() => navigate("/")}
         />
         <LanguageSwitch className="absolute top-5 right-5" />
-        <div className="login-content">
+        <div className="auth-content">
+          <img
+            src={Authentication}
+            alt="authentication"
+            className="w-[50vw] h-auto wow floating"
+            data-wow-duration="8460000s"
+          />
           <FormikProvider value={formikLogin}>
-            <Form className="login-form" onSubmit={handleSubmit}>
+            <Form className="auth-form" onSubmit={handleSubmit}>
               <Row className="leading-8">
-                <h1 className="login-title mb-2 pl-[5px]">
-                  {t("user.signup")}
-                </h1>
+                <h1 className="auth-title mb-2 ">{t("user.signup")}</h1>
               </Row>
               <Row
                 align="middle"

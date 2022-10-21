@@ -7,7 +7,8 @@
     "home": "Trang chủ",
     "events": "Sự kiện",
     "login": "Đăng nhập",
-    "register": "Đăng ký"
+    "register": "Đăng ký",
+    "forgot-password": "Quên mật khẩu"
   },
   "event": {
     "all": "Tất cả trạng thái",
@@ -64,6 +65,7 @@
   "user": {
     "profile": "Thông tin cá nhân",
     "my-ticket": "Đơn hàng đã mua",
+    "forgot-password": "Quên mật khẩu",
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
     "name": "Họ và tên",
@@ -80,7 +82,8 @@
     "confirmPassword": "Nhập lại mật khẩu",
     "create-account": "Chưa có tài khoản?",
     "signup": "Đăng ký",
-    "already-account": "Đã có tài khoản?"
+    "already-account": "Đã có tài khoản?",
+    "forgot-password-tip": "Vui lòng điền email của bạn. Một mã OTP sẽ được gửi đến email."
   },
   "location": {
     "all": "Tất cả địa điểm",
@@ -125,6 +128,10 @@
     "name": {
       "required": "Tên không được để trống",
       "max": "Tối đa 64 ký tự"
+    },
+    "otp": {
+      "required": "OTP không được để trống",
+      "min": "Vui lòng nhập đủ OTP 6 số"
     }
   },
   "status": {
@@ -176,5 +183,11 @@
     "step2": "Điền thông tin cá nhân",
     "step3": "Thông tin thanh toán",
     "step4": "Hoàn thành"
+  },
+  "popup": {
+    "email": {
+      "title": "Đã gửi email",
+      "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
+    }
   }
 }

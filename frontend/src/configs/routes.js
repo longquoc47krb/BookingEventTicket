@@ -1,12 +1,9 @@
 import Loadable from "react-loadable";
 import Loading from "../components/loading";
-import EventDetail from "../views/event-detail";
+import ForgotPassword from "../views/auth/ForgotPassword";
+import UserRegister from "../views/auth/UserRegister";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
-  loading: Loading,
-});
-const RegisterPage = Loadable({
-  loader: () => import("../views/auth/UserRegister"),
   loading: Loading,
 });
 const AdminLoginPage = Loadable({
@@ -17,12 +14,12 @@ const EventDashBoardPage = Loadable({
   loader: () => import("../views/event-dashboard"),
   loading: Loading,
 });
-const HomePage = Loadable({
-  loader: () => import("../views/home"),
-  loading: Loading,
-});
 const EventDetailPage = Loadable({
   loader: () => import("../views/event-detail"),
+  loading: Loading,
+});
+const HomePage = Loadable({
+  loader: () => import("../views/home"),
   loading: Loading,
 });
 const HelpCenterPage = Loadable({
@@ -55,8 +52,12 @@ const routes = [
     path: "/events",
   },
   {
-    element: <EventDetail />,
+    element: <EventDetailPage />,
     path: "/event/:eventId",
+  },
+  {
+    element: <ForgotPassword />,
+    path: "/forgot-password",
   },
   {
     element: <HomePage />,
@@ -68,7 +69,7 @@ const routes = [
     path: "/login",
   },
   {
-    element: <RegisterPage />,
+    element: <UserRegister />,
     path: "/register",
   },
   {

@@ -7,7 +7,8 @@
     "home": "Homepage",
     "events": "Events",
     "login": "Sign in",
-    "register": "Sign up"
+    "register": "Sign up",
+    "forgot-password": "Forgot password"
   },
   "event": {
     "all": "All status",
@@ -64,6 +65,7 @@
   "user": {
     "profile": "Profile",
     "my-ticket": "My ticket",
+    "forgot-password": "Forgot password",
     "wishlist": "Favorite events",
     "logout": "Logout",
     "name": "Full name",
@@ -80,7 +82,8 @@
     "confirmPassword": "Confirm Password",
     "create-account": "Don't have an account yet?",
     "signup": "Sign up",
-    "already-account": "Have already account?"
+    "already-account": "Have already account?",
+    "forgot-password-tip": "Please enter your email. An OTP code will be sent to your one."
   },
   "location": {
     "all": "All locations",
@@ -125,6 +128,10 @@
     "name": {
       "required": "Name is required",
       "max": "Max length is 64"
+    },
+    "otp": {
+      "required": "OTP is required",
+      "min": "Length is 6 numbers"
     }
   },
   "status": {
@@ -176,5 +183,11 @@
     "step2": "Fill the info form",
     "step3": "Payment info",
     "step4": "Finish"
+  },
+  "popup": {
+    "email": {
+      "title": "Sent email",
+      "content": "OTP was sent to your email address. Check it (check 'Spam' tab)!"
+    }
   }
 }
