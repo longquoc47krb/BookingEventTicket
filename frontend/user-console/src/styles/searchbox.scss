@@ -1,0 +1,46 @@
+.SearchBox {
+  z-index: 5;
+  width: 60%;
+  @include for-phone {
+    width: 80% !important;
+  }
+  position: relative;
+  &_Results_List {
+    position: absolute;
+    top: 2.5rem;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid #c2c0c0;
+    margin-top: 0.5rem;
+    &_Item {
+      cursor: pointer;
+      padding: 0.8rem;
+      color: black;
+      &:hover {
+        background-color: $primary-color;
+        color: white;
+      }
+    }
+  }
+}
+.TextField {
+  box-sizing: border-box;
+
+  &--error {
+    border-color: red;
+  }
+
+  &::placeholder {
+    text-transform: capitalize;
+  }
+
+  &:hover {
+    border-color: gray;
+  }
+
+  &:focus {
+    border-color: $primary-color;
+  }
+}

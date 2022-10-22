@@ -1,0 +1,29 @@
+.notfound {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      font-weight: 700;
+      font-size: 2rem;
+    }
+    img {
+      width: 40vw;
+    }
+    button {
+      cursor: pointer;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      background: $primary-color;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+    }
+  }
+}

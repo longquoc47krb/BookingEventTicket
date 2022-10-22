@@ -1,0 +1,193 @@
+{
+  "language": {
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  },
+  "pages": {
+    "home": "Trang chủ",
+    "events": "Sự kiện",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "forgot-password": "Quên mật khẩu"
+  },
+  "event": {
+    "all": "Tất cả trạng thái",
+    "list": "Danh sách sự kiện",
+    "trending": "Sự kiện nổi bật",
+    "near-you": "Sự kiện gần bạn",
+    "hero-slogan": "Thế giới giải trí đặc sắc",
+    "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
+    "buy-now": "Mua ngay",
+    "available": "Chưa diễn ra",
+    "sold-out": "Hết vé",
+    "completed": "Đã kết thúc",
+    "interest": "Quan tâm",
+    "interested": "Đã quan tâm",
+    "view-more": "Xem thêm",
+    "recommend-for-you": "Sự kiện dành cho bạn",
+    "remain": "Còn lại",
+    "ticket": "vé",
+    "not-found": "U là trời..! Trống trơn",
+    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
+  },
+  "search": {
+    "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
+    "empty": "Không tìm thấy",
+    "view-all": "Xem tất cả kết quả"
+  },
+  "category": {
+    "menu": "Danh mục thể loại",
+    "all": "Tất cả thể loại",
+    "music": "Âm nhạc",
+    "exhibition": "Triển lãm",
+    "courses": "Khóa học",
+    "theater": "Sân khấu",
+    "online": "Trực tuyến",
+    "nightlife": "Nightlife",
+    "sport": "Thể thao",
+    "seminar": "Hội thảo",
+    "travel": "Du lịch",
+    "conference": "Hội nghị"
+  },
+  "org": {
+    "name": "Tên của nhà tổ chức",
+    "menu": "Dành cho doanh nghiệp",
+    "contact": "Liên hệ",
+    "about": "Về chúng tôi",
+    "faq": "Câu hỏi thường gặp",
+    "become-an-org": "Trở thành nhà tổ chức"
+  },
+  "home": "Trang chủ",
+  "signin": "Đăng nhập",
+  "introduce": "Giới thiệu",
+  "ticket-info": "Thông tin vé",
+  "organizer": "Nhà tổ chức",
+  "user": {
+    "profile": "Thông tin cá nhân",
+    "my-ticket": "Đơn hàng đã mua",
+    "forgot-password": "Quên mật khẩu",
+    "wishlist": "Sự kiện yêu thích",
+    "logout": "Đăng xuất",
+    "name": "Họ và tên",
+    "phone": "Số điện thoại",
+    "password": "Mật khẩu",
+    "phone-placeholder": "Nhập số điện thoại của bạn",
+    "login-by-email": "Đăng nhập bằng email/password",
+    "login-by-google": "Đăng nhập bằng Google",
+    "unauthenticated": {
+      "title": "Chưa đăng nhập",
+      "text": "Vui lòng đăng nhập"
+    },
+    "authentication": "Đăng ký | Đăng nhập",
+    "confirmPassword": "Nhập lại mật khẩu",
+    "create-account": "Chưa có tài khoản?",
+    "signup": "Đăng ký",
+    "already-account": "Đã có tài khoản?",
+    "forgot-password-tip": "Vui lòng điền email của bạn. Một mã OTP sẽ được gửi đến email."
+  },
+  "location": {
+    "all": "Tất cả địa điểm",
+    "HCM": "TP. Hồ Chí Minh",
+    "HN": "Hà Nội",
+    "others": "Các địa điểm khác"
+  },
+  "date": {
+    "today": "Hôm nay",
+    "all": "Tất cả các ngày",
+    "tomorrow": "Ngày mai",
+    "this-week": "Tuần này",
+    "this-month": "Tháng này"
+  },
+  "wishlist": {
+    "add": {
+      "title": "Thêm sự kiện thành công",
+      "text": "Sự kiện đã được thêm vào danh sách yêu thích"
+    },
+    "remove": {
+      "title": "Bỏ yêu thích thành công",
+      "text": "Sự kiện đã được loại bỏ khỏi danh sách yêu thích"
+    }
+  },
+  "submit": "Hoàn thành",
+  "remove-all": "Xóa tất cả",
+  "404": {
+    "title": "Nội dung không tồn tại hoặc đã bị xóa?",
+    "go-back": "Trở về trang trước đó"
+  },
+  "validate": {
+    "email": {
+      "required": "Email không được trống",
+      "invalid": "Email không hợp lệ"
+    },
+    "password": {
+      "required": "Mật khẩu không được để trống",
+      "invalid": "Mật khẩu không hợp lệ",
+      "upper": "Phải chứa ký tự in hoa",
+      "number": "Phải chứa ký tự số"
+    },
+    "name": {
+      "required": "Tên không được để trống",
+      "max": "Tối đa 64 ký tự"
+    },
+    "otp": {
+      "required": "OTP không được để trống",
+      "min": "Vui lòng nhập đủ OTP 6 số"
+    }
+  },
+  "status": {
+    "register": {
+      "400": "Email đã được đăng ký",
+      "200": "Đăng ký thành công!"
+    },
+    "login": {
+      "200": "Đăng nhập thành công",
+      "400": "Email hoặc mật khẩu sai"
+    }
+  },
+  "lotus": {
+    "big-slogan": "KÊNH ĐẶT VÉ SỰ KIỆN SỐ 1 HCMUTE",
+    "description": "Với sự am hiểu về công nghệ và ngành công nghiệp bán vé, Lotus Ticket là hệ thống quản lý và phân phối vé sự kiện giúp bạn mua và bán vé sự kiện thật dễ dàng.",
+    "slogan": "Hệ thống đặt vé sự kiện số 1 HCMUTE",
+    "follow-us": "Kết nối với chúng tôi",
+    "introduce": "Lotus Ticket cung cấp giải pháp cho việc quản lý và bán vé trực tuyến sự kiện",
+    "intro": {
+      "1": {
+        "title": "Soát vé tại cổng",
+        "content": "Phục vụ > 100,000 vé"
+      },
+      "2": {
+        "title": "Cập nhật và xem báo cáo doanh thu  trực tyến",
+        "content": "Dễ dàng truy cập để xem báo cáo số lượng vé bán"
+      },
+      "3": {
+        "title": "Chăm sóc khách hàng",
+        "content": "Messenger trò chuyện trực tiếp, email phản hồi nhanh, gọi lại theo yêu cầu"
+      },
+      "4": {
+        "title": "Phương thức thanh toán",
+        "content": "Trực tuyến hoặc COD"
+      },
+      "5": {
+        "title": "Ứng dụng check in bằng mã vạch",
+        "content": "Dễ dàng kiểm soát lượng người tham dự sự kiện"
+      },
+      "6": {
+        "title": "Easily search for events",
+        "content": "Diverse and multi-genre events"
+      }
+    },
+    "partners": "Đối tác của chúng tôi"
+  },
+  "ticket-booking": {
+    "step1": "Chọn vé",
+    "step2": "Điền thông tin cá nhân",
+    "step3": "Thông tin thanh toán",
+    "step4": "Hoàn thành"
+  },
+  "popup": {
+    "email": {
+      "title": "Đã gửi email",
+      "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
+    }
+  }
+}

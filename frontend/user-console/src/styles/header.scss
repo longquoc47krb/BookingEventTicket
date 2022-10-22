@@ -1,0 +1,88 @@
+.header {
+  &-container {
+    height: auto;
+    width: 100vw;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background: linear-gradient(-45deg, #1f3e82, #2c4791);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 0.5rem;
+    z-index: 10;
+    @include for-phone {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  &-avatar {
+    object-fit: cover;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50rem;
+    cursor: pointer;
+    @include for-phone {
+      width: 3rem !important;
+      height: 3rem !important;
+    }
+  }
+  &-auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+
+    a {
+      color: white !important;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    &-avatar {
+      cursor: pointer;
+    }
+  }
+}
+.brand-logo {
+  height: auto;
+  width: 5rem;
+  cursor: pointer;
+}
+.css-ujyhhw-MuiBadge-badge {
+  font-weight: 700 !important;
+  font-size: 0.5rem !important;
+  min-width: 1rem !important;
+  height: 1rem !important;
+  transform: scale(1) translate(61%, 61%) !important;
+}
+.language {
+  &-select {
+    span {
+      display: none;
+    }
+    border-radius: 0 !important;
+    border-left: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right bottom, #c3c3c3, #797979);
+  }
+  .MuiSelect-select {
+    border: 0px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border: 0px !important;
+  }
+}
+.wishlist-container {
+  max-height: 25rem;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
