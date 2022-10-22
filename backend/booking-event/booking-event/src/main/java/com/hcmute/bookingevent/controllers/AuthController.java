@@ -17,14 +17,6 @@ import javax.validation.Valid;
 public class AuthController {
 
     private  final IAuthService iAuthService;
-
-
-//    @ResponseBody
-//    @RequestMapping(value = "/sendHtmlEmail",method = RequestMethod.POST)
-//    public ResponseEntity<?> sendHtmlEmail(@RequestParam(value="name")  String name) throws MessagingException {
-//        return mailService.sendMail(name,"");
-//
-//    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);

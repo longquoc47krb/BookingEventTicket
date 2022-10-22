@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 @Component
 @Slf4j
@@ -22,21 +23,19 @@ public class JwtTokenProvider {
 
     @Value("${app.jwtExpirationInMs}") //864000000
     private int jwtExpirationInMs;
+    private final String JWT_HEADER = "authorization";
+
+    public String getJwtFromHeader(HttpServletRequest request) {
+        String header = request.getHeader(JWT_HEADER);
+        if (header != null)
+        {
+            //return header.split(" ")[1].trim();
+            return header;
+        }
+        return null;
+    }
 
 //    Tạo ra token từ chuỗi authentication
-//    public String generateToken(LoginReq account) {
-//        //UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-//        Date now = new Date();
-//        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-//
-//        //mã hóa token
-//        return Jwts.builder()
-//                .setSubject(String.format("%s,%s", account.getUsername(), account.getPassword())) // mã hóa user name và password
-//                .setIssuedAt(new Date())
-//                .setExpiration(expiryDate)
-//                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-//                .compact();
-//    }
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -50,7 +49,7 @@ public class JwtTokenProvider {
     }
 
     //Lấy id_user từ token đã được mã hóa
-    public String getUserIdFromJWT(String token) {
+    public String getGmailFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

@@ -163,8 +163,8 @@ public class AccountService implements IAccountService {
         }
     }
     @Override
-    public ResponseEntity<?> updateAvatar(String id, MultipartFile file) {
-        Optional<Account> account = accountRepository.findById(id);
+    public ResponseEntity<?> updateAvatar(String email, MultipartFile file) {
+        Optional<Account> account = accountRepository.findByEmail(email);
         if (account.isPresent()) {
             if (file != null && !file.isEmpty()) {
                 try {
@@ -179,7 +179,7 @@ public class AccountService implements IAccountService {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Update avatar success", account,200));
         }
-        throw new NotFoundException("Can not found user with id " + id );
+        throw new NotFoundException("Can not find user with email: " + email );
     }
 
 }

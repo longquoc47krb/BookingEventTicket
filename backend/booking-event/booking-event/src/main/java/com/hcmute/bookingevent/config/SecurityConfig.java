@@ -1,12 +1,15 @@
 package com.hcmute.bookingevent.config;
 
+import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.filters.AuthTokenFilter;
+import com.hcmute.bookingevent.models.role.ERole;
 import com.hcmute.bookingevent.security.jwt.JwtAuthenticationEntryPoint;
 import com.hcmute.bookingevent.security.user.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -56,14 +59,24 @@ public class SecurityConfig {
             //System
             //"/api/**"
     };
+
+    private final String[] ALLOWED_GET_LIST_URLS = {
+            "/api/**",
+
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers(ALLOWED_LIST_URLS).permitAll().and()
-                .authorizeRequests().antMatchers("/api/**").permitAll()
-                //.antMatchers("/api/test/**").permitAll()
+                .authorizeRequests().antMatchers(ALLOWED_LIST_URLS).permitAll()
+                .and()
+                .authorizeRequests().antMatchers( ALLOWED_GET_LIST_URLS).permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/api/admin/manage/**").hasAuthority(Constants.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers("/api/account/**").hasAnyAuthority(Constants.ROLE_USER,Constants.ROLE_ORGANIZATION)
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
