@@ -498,3 +498,8 @@ export function Base64() {
   };
   return BASE64;
 }
+export default function fakeDelay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
