@@ -4,7 +4,9 @@ import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.filters.AuthTokenFilter;
 import com.hcmute.bookingevent.models.role.ERole;
 import com.hcmute.bookingevent.security.jwt.JwtAuthenticationEntryPoint;
+import com.hcmute.bookingevent.security.oauth.CustomOAuth2UserService;
 import com.hcmute.bookingevent.security.user.MyUserDetailsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
@@ -35,13 +37,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
+
 public class SecurityConfig {
-    @Autowired
-    MyUserDetailsService customUserDetailService;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final MyUserDetailsService customUserDetailService;
 
+
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final CustomOAuth2UserService oauthUserService;
 
 
     private final String[] ALLOWED_LIST_URLS = {
@@ -77,7 +81,15 @@ public class SecurityConfig {
                 .authorizeRequests().antMatchers("/api/admin/manage/**").hasAuthority(Constants.ROLE_ADMIN)
                 .and()
                 .authorizeRequests().antMatchers("/api/account/**").hasAnyAuthority(Constants.ROLE_USER,Constants.ROLE_ORGANIZATION)
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(oauthUserService)
+               // .and()
+                //.successHandler(successHandler)
+               // .failureHandler(authenticationFailureHandler())
+                ;
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
