@@ -415,7 +415,7 @@
                                                                 style="padding:0;Margin:0;padding-bottom:10px"><p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family: arial, sans-serif;line-height:21px;color:#666666;font-size:14px">
                                                                     <span style="font-size:16px;line-height:24px">Hi,  <span
-                                                                                style="color:black;font-weight: 800;">${name} !</span>   </span>
+                                                                                style="color:black;font-weight: 500;">${name} </span> !  </span>
                                                                 </p></td>
                                                         </tr>
                                                         <tr style="border-collapse:collapse">

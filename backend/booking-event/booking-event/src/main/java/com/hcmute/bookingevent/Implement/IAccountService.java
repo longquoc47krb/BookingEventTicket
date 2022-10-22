@@ -14,7 +14,7 @@ public interface IAccountService {
     ResponseEntity<?> findAccountByEmail(String email);
     ResponseEntity<?> findByPhoneOrNameOrEmail(String phoneNumber);
 
-    ResponseEntity<?> updateAvatar(String id, MultipartFile file);
+    ResponseEntity<?> updateAvatar(String email, MultipartFile file);
     ResponseEntity<?> loginAccountByEmail(Account account);
     ResponseEntity<?> loginAccountbyPhone(Account account);
 }
