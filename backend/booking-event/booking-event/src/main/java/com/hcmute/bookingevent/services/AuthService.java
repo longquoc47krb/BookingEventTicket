@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -111,12 +112,13 @@ public class AuthService implements IAuthService {
             Optional<Account> account= accountRepository.findByEmail(forgetOrGenerateReq.getEmail());
             if(account.isPresent())
             {
-                Random rnd = new Random();
-                int number = rnd.nextInt(999999);
+                // Random rnd = new Random();
+               // int number = rnd.nextInt(999999);
+                String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
                 //
-                account.get().setOtp(new OTP(String.valueOf(number), LocalDateTime.now().plusMinutes(5)));
+                account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
                 accountRepository.save(account.get());
-                mailService.sendMail(account.get(),String.valueOf(number), EMailType.OTP );
+                mailService.sendMail(account.get(),otp, EMailType.OTP );
                 return ResponseEntity.ok(new ResponseObject(true,"Sent OTP successfully","",200));
 
             }
