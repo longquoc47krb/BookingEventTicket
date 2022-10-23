@@ -38,7 +38,7 @@ public class MailService {
     final String NEWPASSWORD_CONTENT ="You are receiving this email because we received a password reset request for your account. Please visit our website to change your new password. You should keep a secure record of your password and not disclose it to any unauthorized party." +
             "<br>Regards,";
 
-    final String TYPE_EMAIL = "text/html;";
+    final String TYPE_EMAIL = "text/html";
 
 
     public void sendMail(Account account, String messageContent , EMailType type) throws MessagingException, TemplateException, IOException
