@@ -52,10 +52,11 @@ public class AuthService implements IAuthService {
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
         // Set thông tin authentication vào Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Trả về jwt cho người dùng.
-        String jwt = jwtTokenProvider.generateJwtToken(authentication);
-
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        // Trả về jwt cho người dùng.
+        String jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail());
+
+
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());

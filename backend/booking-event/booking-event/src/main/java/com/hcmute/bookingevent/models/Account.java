@@ -40,6 +40,14 @@ public class Account {
         this.passWord = passWord;
         this.avatar = avatar;
     }
+    public Account(String name,  String email,String passWord, String avatar,String role) {
+
+        this.name = name;
+        this.email = email;
+        this.passWord = passWord;
+        this.avatar = avatar;
+        this.role = role;
+    }
     public Account(OTP otp)
     {
         this.otp = otp;
