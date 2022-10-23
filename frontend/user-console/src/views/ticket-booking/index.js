@@ -2,8 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Header from "../../components/common/header";
 import StepBox from "../../components/step-box";
-
-function TicketBooking() {
+import PropTypes from "prop-types";
+import AppConfig from "../../configs/AppConfig";
+const { ORGANIZER_CAROUSEL } = AppConfig;
+function TicketBooking(props) {
+  const { event } = props;
   const { t } = useTranslation();
   const steps = {
     step1: "ticket-booking.step1",
@@ -17,14 +20,22 @@ function TicketBooking() {
       <div className="booking-container">
         <div className="booking-top">
           <img
-            src="https://images.unsplash.com/photo-1523521803700-b3bcaeab0150?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-            alt="test"
+            src={ORGANIZER_CAROUSEL[2].background}
+            alt="booking-background"
           />
+          <h1>{event.name}</h1>
         </div>
         <StepBox steps={steps} />
       </div>
     </>
   );
 }
-
+TicketBooking.defaultProps = {
+  event: {
+    name: "Những thành phố mơ màng",
+  },
+};
+TicketBooking.propTypes = {
+  event: PropTypes.object.isRequired,
+};
 export default TicketBooking;
