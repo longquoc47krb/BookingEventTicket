@@ -17,8 +17,26 @@ const registerAccount = async (body) => {
     return err.response.data;
   }
 };
+const forgotPassword = async (body) => {
+  try {
+    const response = await httpRequest(AuthAPI.forgotPassword(body));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+const verifyOTP = async (body) => {
+  try {
+    const response = await httpRequest(AuthAPI.verifyOTP(body));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 const authServices = {
   loginByEmail,
   registerAccount,
+  forgotPassword,
+  verifyOTP,
 };
 export default authServices;

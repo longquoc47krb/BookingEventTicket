@@ -142,6 +142,12 @@
     "login": {
       "200": "Successfully logged in",
       "400": "Wrong email or password"
+    },
+    "forgot": {
+      "404": "Email address doesn't exist"
+    },
+    "verify": {
+      "404": "OTP doesn't exist"
     }
   },
   "lotus": {

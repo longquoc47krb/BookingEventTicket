@@ -5,18 +5,25 @@ import { useNavigate } from "react-router-dom";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import * as Yup from "yup";
-import ForgotPasswordImage from "../../assets/ForgotPassword.svg";
+import Countdown from "react-countdown";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { YupValidations } from "../../utils/validate";
 import { Col, Row } from "antd";
 import { Input } from "../../components/common/input/customField";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { AlertPopup } from "../../components/common/alert";
-import OtpInput from "../../components/common/otp";
+import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
+// import OtpInput from "../../components/common/otp";
+import OtpInput from "react-otp-input";
+import authServices from "../../api/services/authServices";
+import { FALSE } from "node-sass";
+const { forgotPassword, verifyOTP } = authServices;
 function ForgotPassword() {
   const { t } = useTranslation();
+  const [forgotPasswordParam, setForgotPasswordParam] = useSearchParams();
+  console.log({ forgotPasswordParam });
   const navigate = useNavigate();
   const [showOTPInput, setShowOTPInput] = useState(false);
+  const [email, setEmail] = useState(null);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -27,12 +34,23 @@ function ForgotPassword() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
-      setShowOTPInput(true);
-      AlertPopup({
-        title: t("popup.email.title"),
-        text: t("popup.email.content"),
-        timer: 5000,
-      });
+      const { email } = values;
+      setEmail(email);
+      const response = await forgotPassword({ email });
+      console.log({ response });
+      if (response.status === 404) {
+        AlertErrorPopup({
+          title: t("status.forgot.404"),
+        });
+      }
+      if (response.status === 200) {
+        setShowOTPInput(true);
+        AlertPopup({
+          title: t("popup.email.title"),
+          text: t("popup.email.content"),
+          timer: 3000,
+        });
+      }
     },
   });
   const formikOTP = useFormik({
@@ -45,12 +63,38 @@ function ForgotPassword() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
-      console.log("success: ", values.otp);
+      const { otp } = values;
+      console.log({ email });
+      const response = await verifyOTP({ email, otpCode: otp });
+      console.log({ response });
+      if (response.status === 200) {
+        navigate("/forgot-password?newPassword=true");
+      } else {
+        AlertErrorPopup({
+          title: t("status.verify.404"),
+        });
+      }
     },
   });
   const { handleSubmit } = formik;
   const { handleSubmit: handleSubmitOTP } = formikOTP;
 
+  // Random component
+  const Completionist = () => <span>You are good to go!</span>;
+  // Renderer callback with condition
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a completed state
+      return <Completionist />;
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {hours}:{minutes}:{seconds}
+        </span>
+      );
+    }
+  };
   console.log("otp:", formikOTP.values.otp);
   return (
     <>
@@ -95,12 +139,17 @@ function ForgotPassword() {
                   <Col flex={4} className="relative">
                     <OtpInput
                       value={formikOTP.values.otp}
-                      valueLength={6}
-                      name="otp"
                       onChange={(value) =>
                         formikOTP.setFieldValue("otp", value)
                       }
+                      numInputs={6}
+                      isInputNum
+                      name="otp"
+                      shouldAutoFocus
                       onBlur={formikOTP.handleBlur}
+                      separator={<span>&nbsp;</span>}
+                      containerStyle="otp-modal__input-container"
+                      inputStyle="otp-modal__input"
                     />
                     <p className="error-message">
                       <ErrorMessage name="otp" />
