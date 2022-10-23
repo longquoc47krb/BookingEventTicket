@@ -15,7 +15,6 @@ import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 // import OtpInput from "../../components/common/otp";
 import OtpInput from "react-otp-input";
 import authServices from "../../api/services/authServices";
-import { FALSE } from "node-sass";
 const { forgotPassword, verifyOTP } = authServices;
 function ForgotPassword() {
   const { t } = useTranslation();
