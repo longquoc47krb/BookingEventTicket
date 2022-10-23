@@ -5,6 +5,8 @@ import com.hcmute.bookingevent.filters.AuthTokenFilter;
 import com.hcmute.bookingevent.models.role.ERole;
 import com.hcmute.bookingevent.security.jwt.JwtAuthenticationEntryPoint;
 import com.hcmute.bookingevent.security.oauth.CustomOAuth2UserService;
+import com.hcmute.bookingevent.security.oauth.handlers.Failure;
+import com.hcmute.bookingevent.security.oauth.handlers.Success;
 import com.hcmute.bookingevent.security.user.MyUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -46,9 +49,12 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final CustomOAuth2UserService oauthUserService;
-
+    private final Success successHandler;
 
     private final String[] ALLOWED_LIST_URLS = {
+            // System
+            "/login/**",
+            //"/oauth2/**",
             // SwaggerUI
             "/v2/api-docs",
             "/swagger-resources",
@@ -86,9 +92,9 @@ public class SecurityConfig {
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(oauthUserService)
-               // .and()
-                //.successHandler(successHandler)
-               // .failureHandler(authenticationFailureHandler())
+                .and()
+                .successHandler(successHandler)
+                .failureHandler(authenticationFailureHandler())
                 ;
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -121,6 +127,11 @@ public class SecurityConfig {
 
         return authProvider;
     }
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new Failure();
+    }
+
 
 }
 
