@@ -36,12 +36,9 @@ public class JwtTokenProvider {
     }
 
 //    Tạo ra token từ chuỗi authentication
-    public String generateJwtToken(Authentication authentication) {
-
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-        System.out.println(userPrincipal.getEmail());
+    public String generateJwtToken(String email) {
         return Jwts.builder()
-                .setSubject((userPrincipal.getEmail()))
+                .setSubject((email))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

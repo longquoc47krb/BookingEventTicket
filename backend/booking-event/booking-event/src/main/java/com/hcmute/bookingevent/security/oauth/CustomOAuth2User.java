@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.security.oauth;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -31,5 +32,8 @@ public class CustomOAuth2User implements OAuth2User {
 
     public String getEmail() {
         return oauth2User.<String>getAttribute("email");
+    }
+    public String getProfilePicture() {
+       return oauth2User.getAttribute("picture");
     }
 }

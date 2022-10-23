@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @AllArgsConstructor
@@ -17,6 +18,10 @@ import javax.validation.Valid;
 public class AuthController {
 
     private  final IAuthService iAuthService;
+//    @RequestMapping(value = "/user")
+//    public Principal user(Principal principal) {
+//        return principal;
+//    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);
