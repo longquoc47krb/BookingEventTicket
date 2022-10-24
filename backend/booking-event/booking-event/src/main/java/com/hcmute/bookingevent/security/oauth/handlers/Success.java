@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.security.oauth.handlers;
 
 
+import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.responsitory.AccountRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -39,9 +40,17 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
         {
             try
             {
-                jwtToken = jwtTokenProvider.generateJwtToken(oauth2User.getEmail());;
-                response.sendRedirect(generateRedirectURL(true, jwtToken,
-                        oauth2User.getEmail() + "Log in and  successfully with google"));
+                if(account.get().getPassWord().isEmpty())
+                {
+                    jwtToken = jwtTokenProvider.generateJwtToken(oauth2User.getEmail());;
+                    response.sendRedirect(generateRedirectURL(true, jwtToken,
+                            oauth2User.getEmail() + "Log in and  successfully with google"));
+                }
+                else {
+                    response.sendRedirect(generateRedirectURL(true, "",
+                            oauth2User.getEmail() + "Can not log in with google method"));
+                }
+
             }
             catch (NullPointerException ex)
             {
@@ -62,7 +71,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
         Account account = new Account(oAuth2User.getName(),
                 oAuth2User.getEmail(),
                 "" , oAuth2User.getProfilePicture()
-                ,"ROLE_USER");
+                , Constants.ROLE_USER);
         accountRepository.save(account);
         return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail());
 
