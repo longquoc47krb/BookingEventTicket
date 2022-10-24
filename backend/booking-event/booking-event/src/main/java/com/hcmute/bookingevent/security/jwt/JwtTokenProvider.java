@@ -29,8 +29,8 @@ public class JwtTokenProvider {
         String header = request.getHeader(JWT_HEADER);
         if (header != null)
         {
-            //return header.split(" ")[1].trim();
-            return header;
+            return header.split(" ")[1].trim();
+            //return header;
         }
         return null;
     }

@@ -90,7 +90,7 @@ public class AuthService implements IAuthService {
         // Create new user's account
         Account user = new Account(signUpRequest.getName(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()),"https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png?itok=4teBBoet&fbclid=IwAR03Tfvnn76qi4wfpBrxw004mEad1Ho9qR89fF_D4jyBAwaE5DdXWa4ltjU");
+                encoder.encode(signUpRequest.getPassword()),Constants.AVATAR_DEFAULT);
         try
         {
             user.setRole(signUpRequest.getRole());

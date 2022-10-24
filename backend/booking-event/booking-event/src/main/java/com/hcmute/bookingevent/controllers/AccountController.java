@@ -56,7 +56,7 @@ public class AccountController {
 
     }
 
-    @PutMapping(path = "/update/avatar/{email}")
+    @PostMapping(path = "/update/avatar/{email}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String email,
                                          HttpServletRequest request,
                                          @RequestParam MultipartFile file){
