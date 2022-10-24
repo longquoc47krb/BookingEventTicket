@@ -24,4 +24,9 @@ export const AuthAPI = {
     method: "POST",
     data,
   }),
+  newPassword: (data) => ({
+    url: "/auth/verifyChangePassword",
+    method: "POST",
+    data,
+  }),
 };

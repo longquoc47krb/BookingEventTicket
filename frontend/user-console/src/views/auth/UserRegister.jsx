@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
 import { AxiosError } from "axios";
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
@@ -19,9 +19,14 @@ import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
+import constants from "../../utils/constants";
+import { isNotEmpty } from "../../utils/utils";
+import ThreeDotsLoading from "../../components/loading/three-dots";
+const { ROLE } = constants;
 const { registerAccount } = authServices;
 const UserRegister = (props) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -42,13 +47,17 @@ const UserRegister = (props) => {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
+      setLoading(true);
       const { email, password, name } = values;
       const response = await registerAccount({
         email,
         name,
         password,
-        role: "user",
+        role: ROLE.user,
       });
+      if (isNotEmpty(response)) {
+        setLoading(false);
+      }
       showNotification(response.status);
     },
   });
@@ -157,7 +166,7 @@ const UserRegister = (props) => {
                   className={`w-full py-2 bg-[${theme.main}] text-white`}
                   type="submit"
                 >
-                  {t("user.signup")}
+                  {loading ? <ThreeDotsLoading /> : t("user.signup")}
                 </button>
               </Col>
               <div className="flex justify-center gap-x-2 items-center mt-3">

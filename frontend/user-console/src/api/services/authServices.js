@@ -33,10 +33,19 @@ const verifyOTP = async (body) => {
     return err.response.data;
   }
 };
+const newPassword = async (body) => {
+  try {
+    const response = await httpRequest(AuthAPI.newPassword(body));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 const authServices = {
   loginByEmail,
   registerAccount,
   forgotPassword,
   verifyOTP,
+  newPassword,
 };
 export default authServices;

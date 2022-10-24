@@ -1,6 +1,7 @@
 import Loadable from "react-loadable";
 import Loading from "../components/loading";
 import ForgotPassword from "../views/auth/ForgotPassword";
+import NewPassword from "../views/auth/NewPassword";
 import UserRegister from "../views/auth/UserRegister";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
@@ -24,6 +25,10 @@ const HomePage = Loadable({
 });
 const HelpCenterPage = Loadable({
   loader: () => import("../views/help-center"),
+  loading: Loading,
+});
+const NewPasswordPage = Loadable({
+  loader: () => import("../views/auth/NewPassword"),
   loading: Loading,
 });
 const TicketBookingPage = Loadable({
@@ -58,6 +63,10 @@ const routes = [
   {
     element: <ForgotPassword />,
     path: "/forgot-password",
+  },
+  {
+    element: <NewPasswordPage />,
+    path: "/new-password",
   },
   {
     element: <HomePage />,

@@ -23,6 +23,10 @@ provinceMapping.set("26", "Thừa Thiên Huế");
 provinceMapping.set("33", "Đắk Lắk");
 provinceMapping.set("CT", "Cần Thơ");
 
+const ROLE = {
+  user: "ROLE_USER",
+  admin: "ROLE_ADMIN",
+};
 const PATTERNS = {
   OLD_EMAIL_PATTERN:
     /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/,
@@ -48,5 +52,11 @@ const PATTERNS = {
   BLANK_SPACES: /[^\s*]/g,
   RE_DIGIT: /^\d+$/,
 };
-const constants = { provinceMapping, TicketStatus, comparisonStatus, PATTERNS };
+const constants = {
+  provinceMapping,
+  TicketStatus,
+  comparisonStatus,
+  PATTERNS,
+  ROLE,
+};
 export default constants;

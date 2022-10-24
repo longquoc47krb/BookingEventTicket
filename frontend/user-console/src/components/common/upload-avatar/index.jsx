@@ -7,13 +7,14 @@ import { Badge } from "@mui/material";
 import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import { useSelector } from "react-redux";
-import httpRequest from "../../../services/httpRequest";
-import { AccountAPI } from "../../../api/configs/account";
-function UploadImage({ avatar }) {
+import accountServices from "../../../api/services/accountServices";
+import { emailSelector } from "../../../redux/slices/accountSlice";
+const { updateAvatar } = accountServices;
+function UploadAvatar({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
-  const userInfo = useSelector((state) => state.account.userInfo);
+  const email = useSelector(emailSelector);
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -30,14 +31,12 @@ function UploadImage({ avatar }) {
     setAvatarPreview(null);
     setAvatarFile(avatar);
   };
-  const uploadImage = async () => {
+  const UploadAvatar = async () => {
     setShowCameraButton(true);
     const formData = new FormData();
     formData.append("file", avatarFile);
     formData.append("upload_preset", "admin_preset");
-    const response = await httpRequest(
-      AccountAPI.uploadAvatar(userInfo.id, formData)
-    );
+    const response = await updateAvatar(email, formData);
     setAvatarFile(response.data.avatar);
   };
   useEffect(() => {}, [avatarPreview, avatarFile]);
@@ -63,7 +62,7 @@ function UploadImage({ avatar }) {
                   src={CheckIcon}
                   alt="cross-icon"
                   className="w-7 h-7"
-                  onClick={uploadImage}
+                  onClick={UploadAvatar}
                 />
               </>
             ) : (
@@ -118,4 +117,4 @@ function UploadImage({ avatar }) {
   );
 }
 
-export default UploadImage;
+export default UploadAvatar;

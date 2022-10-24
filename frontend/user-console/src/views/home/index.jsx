@@ -40,10 +40,8 @@ function Home() {
           <SiderBar className="sider" />
         </div>
         <div className="home-content">
-          {loadingStatus ? (
+          {loadingStatus || errorStatus ? (
             <Skeleton width={"100%"} height={"20vh"} />
-          ) : errorStatus ? (
-            navigate("/not-found")
           ) : isMobile ? (
             <Carousel data={featuredEvents} />
           ) : (
@@ -53,10 +51,8 @@ function Home() {
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
             <div className="home-popular-content">
-              {loadingStatus
+              {loadingStatus || errorStatus
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
-                : errorStatus
-                ? navigate("/not-found")
                 : featuredEvents
                     .filter((e) => e.remainingTicket !== 0)
                     .slice(0, 16)
@@ -67,10 +63,8 @@ function Home() {
           <div className="home-event-near-you">
             <SectionTitle>{t("event.near-you")}</SectionTitle>
             <div className="home-event-near-you-content">
-              {loadingStatus
+              {loadingStatus || errorStatus
                 ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                : errorStatus
-                ? navigate("/not-found")
                 : eventsByProvince.map((event) => (
                     <EventHomeItem event={event} />
                   ))}

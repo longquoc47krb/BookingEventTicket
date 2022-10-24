@@ -2,27 +2,34 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Col, Form, Row, Typography } from "antd";
 import { Field, FormikProvider, useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Input } from "../../components/common/input/customField";
-import UploadImage from "../../components/common/upload-image";
+import UploadAvatar from "../../components/common/upload-avatar";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { userInfoSelector } from "../../redux/slices/accountSlice";
+import { setEmail, userInfoSelector } from "../../redux/slices/accountSlice";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
-import { isEmpty } from "../../utils/utils";
+import { isEmpty, isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
   const previousPathname = useSelector(pathNameSelector);
   const { t } = useTranslation();
+  console.log({ user });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isNotEmpty(user)) {
+      dispatch(setEmail(user.email));
+    }
+  });
   const initialValues = {
     id: user?.id ?? "",
     avatar: user?.avatar,
@@ -76,7 +83,7 @@ function UserProfile() {
                 <Row gutter={[48, 40]} className="leading-8">
                   <Col span={24}>
                     <div className="w-full flex justify-center my-2">
-                      <UploadImage avatar={user.avatar} />
+                      <UploadAvatar avatar={user.avatar} />
                     </div>
 
                     <Field

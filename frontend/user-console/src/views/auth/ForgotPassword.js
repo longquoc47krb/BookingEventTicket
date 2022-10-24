@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import * as Yup from "yup";
@@ -15,15 +15,19 @@ import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 // import OtpInput from "../../components/common/otp";
 import OtpInput from "react-otp-input";
 import authServices from "../../api/services/authServices";
-import { FALSE } from "node-sass";
-const { forgotPassword, verifyOTP } = authServices;
+import { isNotEmpty } from "../../utils/utils";
+import ThreeDotsLoading from "../../components/loading/three-dots";
+import { useDispatch, useSelector } from "react-redux";
+import { emailSelector, setEmail } from "../../redux/slices/accountSlice";
+const { forgotPassword, verifyOTP, newPassword } = authServices;
 function ForgotPassword() {
   const { t } = useTranslation();
-  const [forgotPasswordParam, setForgotPasswordParam] = useSearchParams();
-  console.log({ forgotPasswordParam });
+  const [loading, setLoading] = useState(false);
+  const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
   const navigate = useNavigate();
+  const email = useSelector(emailSelector);
+  const dispatch = useDispatch();
   const [showOTPInput, setShowOTPInput] = useState(false);
-  const [email, setEmail] = useState(null);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,9 +39,13 @@ function ForgotPassword() {
     validateOnBlur: true,
     onSubmit: async (values) => {
       const { email } = values;
-      setEmail(email);
+      setLoading(true);
+      dispatch(setEmail(email));
       const response = await forgotPassword({ email });
       console.log({ response });
+      if (isNotEmpty(response)) {
+        setLoading(false);
+      }
       if (response.status === 404) {
         AlertErrorPopup({
           title: t("status.forgot.404"),
@@ -63,13 +71,19 @@ function ForgotPassword() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
+      setLoading(true);
       const { otp } = values;
-      console.log({ email });
       const response = await verifyOTP({ email, otpCode: otp });
       console.log({ response });
+
       if (response.status === 200) {
-        navigate("/forgot-password?newPassword=true");
+        setLoading(false);
+        AlertPopup({
+          title: t("status.verify.200"),
+        });
+        navigate("/new-password");
       } else {
+        setLoading(false);
         AlertErrorPopup({
           title: t("status.verify.404"),
         });
@@ -159,7 +173,7 @@ function ForgotPassword() {
               </Row>
               <Col span={24}>
                 <button className={"primary-button"} type="submit">
-                  {t("submit")}
+                  {loading ? <ThreeDotsLoading /> : t("submit")}
                 </button>
               </Col>
             </Form>

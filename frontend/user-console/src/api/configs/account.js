@@ -15,8 +15,8 @@ export const AccountAPI = {
     method: "PUT",
     data,
   }),
-  uploadAvatar: (id, data) => ({
-    url: `/account/users/avatar/${id}`,
+  uploadAvatar: (email, data) => ({
+    url: `/account/update/avatar/${email}`,
     method: "POST",
     data,
     headers: { "content-type": "multipart/form-data" },
