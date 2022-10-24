@@ -47,7 +47,8 @@
     "sport": "Sport",
     "seminar": "Seminar",
     "travel": "Travel",
-    "conference": "Conference"
+    "conference": "Conference",
+    "community": "Community"
   },
   "org": {
     "name": "Organization's name",

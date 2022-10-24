@@ -38,7 +38,7 @@ const fetchEventByFilter = async (params) => {
 };
 // React Query
 
-export const useFetchEvents = (staleTime = 30000) => {
+export const useFetchEvents = (staleTime = 0) => {
   return useQuery(["events"], fetchAllEvents, {
     staleTime,
   });
@@ -49,7 +49,7 @@ export const useCheckEventsStatus = () => {
     cacheTime: 1000 * 60 * 60 * 24,
   });
 };
-export const useFetchFeaturedEvents = (staleTime = 30000) => {
+export const useFetchFeaturedEvents = (staleTime = 0) => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
     staleTime,
   });
@@ -59,13 +59,13 @@ export const useFetchEventsForPagination = (params) => {
     ["eventsPaginated", params],
     () => fetchEventsForPagination(params),
     {
-      staleTime: 30000,
+      staleTime: 0,
     }
   );
 };
 export const useEventDetails = (id) => {
   return useQuery(["getEventDetail", id], () => getEventById(id), {
-    staleTime: 30000,
+    staleTime: 0,
   });
 };
 export const useFetchEventsByFilter = (params) => {
@@ -73,7 +73,7 @@ export const useFetchEventsByFilter = (params) => {
     ["getEventsByFilter", params],
     () => fetchEventByFilter(params),
     {
-      staleTime: 30000,
+      staleTime: 0,
     }
   );
 };

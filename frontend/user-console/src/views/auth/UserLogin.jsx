@@ -2,7 +2,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
@@ -64,6 +64,7 @@ const UserLogin = (props) => {
       }
     },
   });
+  useEffect(() => {}, []);
   const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
   const showNotification = (statusCode) => {
     switch (statusCode) {
@@ -74,6 +75,9 @@ const UserLogin = (props) => {
         });
       case 200:
       case 201:
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
         return AlertPopup({
           title: t("status.login.200"),
           text: t("status.login.200"),

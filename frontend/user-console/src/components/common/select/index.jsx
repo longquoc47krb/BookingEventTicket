@@ -1,4 +1,5 @@
 import { Select as AntSelect } from "antd";
+import { orderBy } from "lodash";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,11 @@ export function Select(props) {
 
     return dispatch(setDateType(value));
   }
+  const validatedData = orderBy(
+    data,
+    [(user) => user[keys[1]].toLowerCase()],
+    ["asc"]
+  );
   return (
     <div className="select-container">
       {icon}
@@ -48,7 +54,7 @@ export function Select(props) {
         }
         onChange={handleValue}
       >
-        {data?.map((item, index) => (
+        {validatedData?.map((item, index) => (
           <AntSelect.Option key={index} value={item[keys[0]]}>
             {t(item[keys[1]])}
           </AntSelect.Option>
