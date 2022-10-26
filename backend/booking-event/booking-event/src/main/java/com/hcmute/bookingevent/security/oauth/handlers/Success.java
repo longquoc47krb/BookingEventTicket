@@ -30,6 +30,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
         CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
         Optional<Account> account = accountRepository.findByEmail(oauth2User.getEmail());
         String jwtToken;
+        //nếu tài khoản google đó ko tồn tại trong db
         if(account.isEmpty())
         {
             jwtToken = processAddAccount(oauth2User);
@@ -40,15 +41,17 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
         {
             try
             {
+                //trongg trường hợp người dùng đã từng đăng nhập bằng google và muốn đăng nhập lại
                 if(account.get().getPassWord().isEmpty())
                 {
                     jwtToken = jwtTokenProvider.generateJwtToken(oauth2User.getEmail());;
                     response.sendRedirect(generateRedirectURL(true, jwtToken,
                             oauth2User.getEmail() + "Log in and  successfully with google"));
                 }
+                // trường hợp người dùng có tài khoản truyền thống nhưng muốn đăng nhập bẳng google
                 else {
                     response.sendRedirect(generateRedirectURL(true, "",
-                            oauth2User.getEmail() + "Can not log in with google method"));
+                            oauth2User.getEmail() + "Email already exists in database"));
                 }
 
             }

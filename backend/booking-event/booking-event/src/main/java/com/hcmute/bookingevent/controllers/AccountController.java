@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 @RequestMapping(path = "/api/account")
 public class AccountController {
-    private  final  IAccountService iAccountService;
+    private final IAccountService iAccountService;
     private final JwtTokenProvider jwtUtils;
 
     @GetMapping(path = "/admin/manage/users")
