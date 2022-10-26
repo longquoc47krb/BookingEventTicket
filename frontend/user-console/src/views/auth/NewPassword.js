@@ -45,6 +45,7 @@ function NewPassword() {
         navigate("/login");
       } else {
         setLoading(false);
+        dispatch(setEmail(null));
         AlertErrorPopup({
           title: t("popup.changePassword.error"),
         });
