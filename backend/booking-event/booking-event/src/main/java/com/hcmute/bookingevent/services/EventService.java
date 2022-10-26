@@ -154,12 +154,11 @@ public class EventService implements IEventService {
             if (conditions[i] == true)
                 eventList = listOfLists.get(i);
         }
+
         List<Event> sortedEventList = sortEventByDateAsc(eventList);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", sortedEventList,200));
-
-
     }
 
     @Override
