@@ -13,4 +13,5 @@ public interface IAuthService {
     ResponseEntity<?> verifyOTP(VerifyOTPReq verifyOTPReq);
     ResponseEntity<?> verifyChangePassword(LoginReq loginReq);
     ResponseEntity<?> generateNewPassword(String email);
+    ResponseEntity<?> changePassword(LoginReq loginReq);
 }

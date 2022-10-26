@@ -3,11 +3,11 @@ package com.hcmute.bookingevent.security.oauth.handlers;
 
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.responsitory.AccountRepository;
+import com.hcmute.bookingevent.models.account.EAccount;
+import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.oauth.CustomOAuth2User;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -75,6 +75,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 oAuth2User.getEmail(),
                 "" , oAuth2User.getProfilePicture()
                 , Constants.ROLE_USER);
+        account.setLoginType(EAccount.GOOGLE);
         accountRepository.save(account);
         return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail());
 

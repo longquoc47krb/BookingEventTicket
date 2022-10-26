@@ -11,7 +11,7 @@ import com.hcmute.bookingevent.payload.request.VerifyOTPReq;
 import com.hcmute.bookingevent.payload.response.JwtResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-import com.hcmute.bookingevent.responsitory.AccountRepository;
+import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.user.UserDetailsImpl;
 import com.hcmute.bookingevent.services.mail.EMailType;
@@ -88,15 +88,15 @@ public class AuthService implements IAuthService {
         }
 
         // Create new user's account
-        Account user = new Account(signUpRequest.getName(),
+        Account account = new Account(signUpRequest.getName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),Constants.AVATAR_DEFAULT);
         try
         {
-            user.setRole(signUpRequest.getRole());
-            accountRepository.save(user);
-
-            return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!","",200));
+            account.setRole(signUpRequest.getRole());
+            accountRepository.save(account);
+            mailService.sendMail(account, "", EMailType.NEW_PASSWORD);
+            return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!",account.getEmail(),200));
         }
         catch (Exception e)
         {
@@ -113,14 +113,13 @@ public class AuthService implements IAuthService {
             Optional<Account> account= accountRepository.findByEmail(forgetOrGenerateReq.getEmail());
             if(account.isPresent())
             {
-                // Random rnd = new Random();
-               // int number = rnd.nextInt(999999);
+
                 String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
                 //
                 account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
                 accountRepository.save(account.get());
                 mailService.sendMail(account.get(),otp, EMailType.OTP );
-                return ResponseEntity.ok(new ResponseObject(true,"Sent OTP successfully","",200));
+                return ResponseEntity.ok(new ResponseObject(true,"Sent OTP successfully",account.get().getEmail(),200));
 
             }
             else
@@ -136,7 +135,36 @@ public class AuthService implements IAuthService {
 
         }
     }
+    public ResponseEntity<?> changePassword(LoginReq loginReq)
+    {
+        try
+        {
+            Optional<Account> account= accountRepository.findByEmail(loginReq.getEmail());
+            if(account.isPresent())
+            {
 
+                if(encoder.matches(loginReq.getPassword(), account.get().getPassWord()))
+                {
+                    return ResponseEntity.ok(new ResponseObject(true,"Password true",account.get().getEmail(),200));
+
+                }
+
+                return ResponseEntity.ok(new ResponseObject(false,"Password fail",account.get().getEmail(),400));
+
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "Error: Password fail", "",404));
+            }
+
+        }
+        catch(Exception ex)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(true,"Sent OTP fail","",400));
+
+        }
+    }
     public ResponseEntity<?> verifyOTP(VerifyOTPReq verifyOTPReq)
     {
         try

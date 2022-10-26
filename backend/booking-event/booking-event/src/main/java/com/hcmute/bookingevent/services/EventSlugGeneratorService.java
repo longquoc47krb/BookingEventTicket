@@ -4,7 +4,7 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 
 import com.hcmute.bookingevent.models.EventSlug;
-import com.hcmute.bookingevent.responsitory.EventSlugGeneratorRepository;
+import com.hcmute.bookingevent.repository.EventSlugGeneratorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

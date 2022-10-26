@@ -1,17 +1,11 @@
-package com.hcmute.bookingevent.responsitory;
+package com.hcmute.bookingevent.repository;
 
 import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.EventCategory;
-import com.mongodb.lang.Nullable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllBy(TextCriteria textCriteria);

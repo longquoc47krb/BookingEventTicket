@@ -46,4 +46,8 @@ public class AuthController {
     public ResponseEntity<?> generateNewPassword(@Valid @RequestBody ForgetOrGenerateReq forgetOrGenerateReq) {
         return iAuthService.generateNewPassword(forgetOrGenerateReq.getEmail());
     }
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody LoginReq loginReq) {
+        return iAuthService.changePassword(loginReq);
+    }
 }

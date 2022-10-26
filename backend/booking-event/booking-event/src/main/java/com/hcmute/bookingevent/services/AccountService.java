@@ -4,12 +4,14 @@ import com.hcmute.bookingevent.Implement.IAccountService;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.AccountMapper;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Customer;
 
+import com.hcmute.bookingevent.payload.response.LoginRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-import com.hcmute.bookingevent.responsitory.AccountRepository;
-import com.hcmute.bookingevent.responsitory.CustomerRepository;
+import com.hcmute.bookingevent.repository.AccountRepository;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ public class AccountService implements IAccountService {
     private final AccountRepository accountRepository;
     private final CloudinaryConfig cloudinary;
     private final CustomerRepository customerRepository;
+    private final AccountMapper accountMapper;
 
 
 
@@ -58,8 +61,10 @@ public class AccountService implements IAccountService {
 
         Optional<Account> account = accountRepository.findByName(name);
         if (account.isPresent()) {
+            LoginRes res = accountMapper.toLoginRes(account.get());
+
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account,200));
+                    new ResponseObject(true, "Data is Existing ", res,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -86,14 +91,17 @@ public class AccountService implements IAccountService {
     public ResponseEntity<?> findByPhoneOrNameOrEmail(String value) {
 
         //cái này phải bỏ vào tương ứng 3 tham số mà pk
-        List<Account> account = accountRepository.findByPhoneOrNameOrEmail(value,value,value);
-        if (account.size()>0) {
+        Optional<Account> account = accountRepository.findByPhoneOrNameOrEmail(value,value,value);
+
+        if (account.isPresent()) {
+            LoginRes res = accountMapper.toLoginRes(account.get());
+
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account,200));
+                    new ResponseObject(true, "Data is Existing ", res,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Cannot find data with phoneNumber:" + value, "",404));
+                    new ResponseObject(false, "Cannot find data with value:" + value, "",404));
         }
     }
     @Override
