@@ -8,6 +8,7 @@ import com.hcmute.bookingevent.mapper.AccountMapper;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Customer;
 
+import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.payload.response.LoginRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -125,7 +126,7 @@ public class AccountService implements IAccountService {
 
         System.out.println(account.getId());
 
-        if(!newAccount.isPresent()) {
+        if(newAccount.isEmpty()) {
             accountRepository.save(account);
             Customer customer = new Customer(account.getId());
             customerRepository.save(customer);
@@ -142,7 +143,7 @@ public class AccountService implements IAccountService {
     public ResponseEntity<?> loginAccountbyPhone(Account account) {
         Optional <Account> newAccount =accountRepository.findByPhone(account.getPhone());
 
-        if(!newAccount.isPresent())
+        if(newAccount.isEmpty())
         {
             accountRepository.save(account);
             Customer customer = new Customer( account.getId() );
@@ -183,11 +184,26 @@ public class AccountService implements IAccountService {
                     throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), "Error when upload image");
                 }
             }
-            //UserRes res = userMapper.toUserRes(account.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update avatar success", account,200));
+                    new ResponseObject(true, "Update avatar successfully", "",200));
         }
         throw new NotFoundException("Can not find user with email: " + email );
     }
 
+    @Override
+    public ResponseEntity<?> updateInformation(UpdateInforRes updateInforRes,String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
+        if (account.isPresent()) {
+            account.get().setName(updateInforRes.getName());
+            account.get().setPhone(updateInforRes.getPhone());
+            accountRepository.save(account.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Update information successfully", "",200));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(false, "Update information fail", "",400));
+        }
+    }
 }

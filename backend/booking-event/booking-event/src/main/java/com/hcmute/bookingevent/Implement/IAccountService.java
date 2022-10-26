@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.Implement;
 
 import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,4 +18,5 @@ public interface IAccountService {
     ResponseEntity<?> updateAvatar(String email, MultipartFile file);
     ResponseEntity<?> loginAccountByEmail(Account account);
     ResponseEntity<?> loginAccountbyPhone(Account account);
+    ResponseEntity<?> updateInformation(UpdateInforRes updateInforRes,String gmail);
 }

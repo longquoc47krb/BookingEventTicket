@@ -4,10 +4,7 @@ import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.OTP.OTP;
-import com.hcmute.bookingevent.payload.request.ForgetOrGenerateReq;
-import com.hcmute.bookingevent.payload.request.LoginReq;
-import com.hcmute.bookingevent.payload.request.RegisterReq;
-import com.hcmute.bookingevent.payload.request.VerifyOTPReq;
+import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.payload.response.JwtResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
@@ -135,27 +132,28 @@ public class AuthService implements IAuthService {
 
         }
     }
-    public ResponseEntity<?> changePassword(LoginReq loginReq)
+    public ResponseEntity<?> changePassword(ChangePasswordRes changePasswordRes)
     {
         try
         {
-            Optional<Account> account= accountRepository.findByEmail(loginReq.getEmail());
+            Optional<Account> account= accountRepository.findByEmail(changePasswordRes.getEmail());
             if(account.isPresent())
             {
 
-                if(encoder.matches(loginReq.getPassword(), account.get().getPassWord()))
+                if(encoder.matches(changePasswordRes.getCurrentPassword(), account.get().getPassWord()))
                 {
-                    return ResponseEntity.ok(new ResponseObject(true,"Password true",account.get().getEmail(),200));
+                    account.get().setPassWord(encoder.encode(changePasswordRes.getNewPassword()));
+                    return ResponseEntity.ok(new ResponseObject(true,"Password match and save data successfully",account.get().getEmail(),200));
 
                 }
 
-                return ResponseEntity.ok(new ResponseObject(false,"Password fail",account.get().getEmail(),400));
+                return ResponseEntity.ok(new ResponseObject(false,"Password does not match",account.get().getEmail(),400));
 
             }
             else
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        new ResponseObject(false, "Error: Password fail", "",404));
+                        new ResponseObject(false, "Account is no exist", "",404));
             }
 
         }
@@ -165,6 +163,7 @@ public class AuthService implements IAuthService {
 
         }
     }
+
     public ResponseEntity<?> verifyOTP(VerifyOTPReq verifyOTPReq)
     {
         try

@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService  implements ICustomerService {
     //@Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
 
 
