@@ -23,7 +23,6 @@ function UserProfile() {
   const navigate = useNavigate();
   const previousPathname = useSelector(pathNameSelector);
   const { t } = useTranslation();
-  console.log({ user });
   const dispatch = useDispatch();
   useEffect(() => {
     if (isNotEmpty(user)) {
@@ -31,7 +30,6 @@ function UserProfile() {
     }
   });
   const initialValues = {
-    id: user?.id ?? "",
     avatar: user?.avatar,
     name: user?.name,
     email: user?.email,
@@ -43,6 +41,7 @@ function UserProfile() {
     validationSchema: Yup.object().shape({
       name: YupValidations.name,
       email: YupValidations.email,
+      phone: YupValidations.phone,
     }),
     onSubmit: (values) => {},
   });

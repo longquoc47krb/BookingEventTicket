@@ -2,7 +2,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import authServices from "../../api/services/authServices";
+import accountServices from "../../api/services/accountServices";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import {
   Input,
@@ -17,19 +18,17 @@ import {
 } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import { useUserAuth } from "../../context/UserAuthContext";
 import { setUserProfile } from "../../redux/slices/accountSlice";
-import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
 import ThreeDotsLoading from "../../components/loading/three-dots";
 import { isNotEmpty } from "../../utils/utils";
 const { loginByEmail } = authServices;
+const { findUser } = accountServices;
 const UserLogin = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const { setUser } = useUserAuth();
   const initialValues = {
     email: "",
     password: "",
@@ -49,23 +48,19 @@ const UserLogin = (props) => {
         email,
         password,
       });
+      const userProfileResponse = await findUser(email);
       showNotification(response.status);
-      console.log(response.status);
       if (isNotEmpty(response)) {
         setLoading(false);
       }
-      if (response.status === 200) {
-        dispatch(
-          setUserProfile({
-            email: response.data.email,
-            name: response.data.name,
-          })
-        );
+      if (response.status === 200 || userProfileResponse.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        dispatch(setUserProfile(userProfileResponse.data[0]));
       }
     },
   });
   useEffect(() => {}, []);
-  const { values, handleSubmit, setFieldError, handleBlur } = formikLogin;
+  const { handleSubmit } = formikLogin;
   const showNotification = (statusCode) => {
     switch (statusCode) {
       case 400:

@@ -42,7 +42,6 @@ function ForgotPassword() {
       setLoading(true);
       dispatch(setEmail(email));
       const response = await forgotPassword({ email });
-      console.log({ response });
       if (isNotEmpty(response)) {
         setLoading(false);
       }
@@ -74,7 +73,6 @@ function ForgotPassword() {
       setLoading(true);
       const { otp } = values;
       const response = await verifyOTP({ email, otpCode: otp });
-      console.log({ response });
 
       if (response.status === 200) {
         setLoading(false);
@@ -109,7 +107,6 @@ function ForgotPassword() {
       );
     }
   };
-  console.log("otp:", formikOTP.values.otp);
   return (
     <>
       <HelmetHeader title={t("pages.forgot-password")} content="Login" />

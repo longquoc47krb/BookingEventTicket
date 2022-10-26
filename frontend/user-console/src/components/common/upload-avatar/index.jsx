@@ -6,21 +6,27 @@ import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import CrossIcon from "../../../assets/CrossIcon.svg";
 import CheckIcon from "../../../assets/CheckIcon.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
-import { emailSelector } from "../../../redux/slices/accountSlice";
+import {
+  emailSelector,
+  setUserProfile,
+  userInfoSelector,
+} from "../../../redux/slices/accountSlice";
 const { updateAvatar } = accountServices;
 function UploadAvatar({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
   const email = useSelector(emailSelector);
+  const user = useSelector(userInfoSelector);
+  const dispatch = useDispatch();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
-        setAvatarFile(reader.result);
+        setAvatarFile(e.target.files[0]);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -35,7 +41,6 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const formData = new FormData();
     formData.append("file", avatarFile);
-    formData.append("upload_preset", "admin_preset");
     const response = await updateAvatar(email, formData);
     setAvatarFile(response.data.avatar);
   };

@@ -5,14 +5,17 @@ const axiosClient = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
+    Authorization: "Bearer " + localStorage.getItem("token"),
     Accept: "application/json",
   },
 });
+
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
     config.headers = {
       "Content-type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token"),
     };
     return config;
   },

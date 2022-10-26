@@ -9,8 +9,19 @@ const updateAvatar = async (email, data) => {
     return err.response.data;
   }
 };
+const findUser = async (params) => {
+  try {
+    const response = await httpRequest(
+      AccountAPI.findAccountByEmailOrPhone(params)
+    );
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 
 const accountServices = {
   updateAvatar,
+  findUser,
 };
 export default accountServices;

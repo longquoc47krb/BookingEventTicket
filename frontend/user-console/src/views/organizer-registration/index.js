@@ -29,7 +29,6 @@ function OrganizeRegistration() {
   var y;
   y = window.scrollY;
 
-  console.log({ y });
   // formik
   const formik = useFormik({
     initialValues: initialValues,
@@ -44,7 +43,6 @@ function OrganizeRegistration() {
   useEffect(() => {
     const marqueeScrolling = () => {
       const root = document.documentElement;
-      console.log(root);
       const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue(
         "--marquee-elements-displayed"
       );
