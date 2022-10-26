@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.responsitory;
+package com.hcmute.bookingevent.repository;
 
 import com.hcmute.bookingevent.models.Account;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -13,7 +13,7 @@ public interface AccountRepository extends MongoRepository<Account,String> {
     Optional<Account> findByEmail(String email);
     Optional<Account> findByPhone(String name);
     Boolean existsByEmail(String email);
-    List<Account> findByPhoneOrNameOrEmail(String params1, String params2, String params3);
+    Optional<Account> findByPhoneOrNameOrEmail(String params1, String params2, String params3);
 
 
 }

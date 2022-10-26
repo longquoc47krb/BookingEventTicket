@@ -1,27 +1,38 @@
 package com.hcmute.bookingevent;
 
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.Organization;
-import com.hcmute.bookingevent.responsitory.OrganizationRepository;
+import com.hcmute.bookingevent.repository.OrganizationRepository;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
+@RequiredArgsConstructor
+
 class BookingEventApplicationTests {
 	@Autowired
 	private OrganizationRepository organizationRepository;
+	private final PasswordEncoder encoder = new PasswordEncoder() {
+		@Override
+		public String encode(CharSequence rawPassword) {
+			return null;
+		}
+
+		@Override
+		public boolean matches(CharSequence rawPassword, String encodedPassword) {
+			return false;
+		}
+	};
 	@Test
 	void contextLoads() {
-//		Event event = new Event("ev_1","to chuc A","55555 address", "1:00","3:00","host","01","No Description",,"No Background",300,150);
-//		List<Event> eventList =new ArrayList<Event>();
-//		eventList.add(event);
-//		Organization organization = new Organization("001","1234 address", eventList);
 
+		encoder.matches("123456", "$2a$11$2oTT9dlV5vEo6YNOSVWob.EyH0H3x4thwQ8Gjab7X3tyPxYROShc2");
 	}
-
+	@Test
+	void testPasswords()
+	{
+		//Boolean check =  encoder.matches("123456", "$2a$10$RSA7Y6LAGqQFEffJ1C8S7OEyGi3P6EESjHtzbNqAGyRZ.4TWtAmI6");
+		System.out.println(encoder.matches("123456", "$2a$11$2oTT9dlV5vEo6YNOSVWob.EyH0H3x4thwQ8Gjab7X3tyPxYROShc2"));
+	}
 }

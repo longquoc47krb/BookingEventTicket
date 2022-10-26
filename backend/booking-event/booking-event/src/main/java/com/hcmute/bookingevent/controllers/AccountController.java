@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
+import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 
@@ -67,7 +68,17 @@ public class AccountController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
+    @PostMapping(path = "/update/infor/{email}")
+    public ResponseEntity<?> updateInformation (@PathVariable String email,@RequestBody UpdateInforRes updateInforRes, HttpServletRequest request)
+    {
 
+        String gmailAuth = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(gmailAuth.equals(email)) {
+            return iAccountService.updateInformation(updateInforRes,gmailAuth);
+        }
+
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
 
 
 }

@@ -1,14 +1,15 @@
 package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
-import com.hcmute.bookingevent.payload.request.ForgetOrGenerateReq;
-import com.hcmute.bookingevent.payload.request.LoginReq;
-import com.hcmute.bookingevent.payload.request.RegisterReq;
-import com.hcmute.bookingevent.payload.request.VerifyOTPReq;
+import com.hcmute.bookingevent.exception.AppException;
+import com.hcmute.bookingevent.payload.request.*;
+import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -16,6 +17,7 @@ import java.security.Principal;
 @AllArgsConstructor
 @RequestMapping(path = "/api/auth")
 public class AuthController {
+    private final JwtTokenProvider jwtUtils;
 
     private  final IAuthService iAuthService;
 //    @RequestMapping(value = "/user")
@@ -46,4 +48,13 @@ public class AuthController {
     public ResponseEntity<?> generateNewPassword(@Valid @RequestBody ForgetOrGenerateReq forgetOrGenerateReq) {
         return iAuthService.generateNewPassword(forgetOrGenerateReq.getEmail());
     }
+    @PostMapping("/changePassword/{email}")
+    public ResponseEntity<?> changePassword(@PathVariable String email, @Valid @RequestBody ChangePasswordRes changePasswordRes, HttpServletRequest request) {
+        String gmailAuth = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(gmailAuth.equals(email)) {
+            return iAuthService.changePassword(changePasswordRes);
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+
 }

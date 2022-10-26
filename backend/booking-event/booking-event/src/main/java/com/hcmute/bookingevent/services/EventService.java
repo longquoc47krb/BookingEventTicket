@@ -10,7 +10,7 @@ import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 
 
-import com.hcmute.bookingevent.responsitory.EventRepository;
+import com.hcmute.bookingevent.repository.EventRepository;
 
 
 

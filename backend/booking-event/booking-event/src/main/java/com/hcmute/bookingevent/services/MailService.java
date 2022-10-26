@@ -37,7 +37,8 @@ public class MailService {
             "<br>Regards,\n";
     final String NEWPASSWORD_CONTENT ="You are receiving this email because we received a password reset request for your account. Please visit our website to change your new password. You should keep a secure record of your password and not disclose it to any unauthorized party." +
             "<br>Regards,";
-
+    final String REGISTER_CONTENT ="Welcome to LotusTicket! You have successfully registered. Please visit our website to explore " +
+            "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
 
 
@@ -58,10 +59,15 @@ public class MailService {
                 model.put("header", "Verify your account");
                 model.put("content", OTP_CONTENT);
             }
-            if(type.equals(EMailType.NEW_PASSWORD))
+            else if(type.equals(EMailType.NEW_PASSWORD))
             {
                 model.put("header", "Receive new password");
                 model.put("content", NEWPASSWORD_CONTENT);
+            }
+            else if (type.equals(EMailType.REGISTER))
+            {
+                model.put("header", "Register successfully");
+                model.put("content", REGISTER_CONTENT);
             }
 
             model.put("title", "LOTUS TICKET");

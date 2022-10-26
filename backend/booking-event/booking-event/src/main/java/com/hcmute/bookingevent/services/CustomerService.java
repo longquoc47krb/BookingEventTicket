@@ -4,7 +4,7 @@ import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-import com.hcmute.bookingevent.responsitory.CustomerRepository;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService  implements ICustomerService {
     //@Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
 
 

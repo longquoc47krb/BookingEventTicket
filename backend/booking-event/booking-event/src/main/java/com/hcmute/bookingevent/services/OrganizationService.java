@@ -4,7 +4,7 @@ import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-import com.hcmute.bookingevent.responsitory.OrganizationRepository;
+import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

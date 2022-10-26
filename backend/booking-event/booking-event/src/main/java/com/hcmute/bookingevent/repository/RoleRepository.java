@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.responsitory;
+package com.hcmute.bookingevent.repository;
 
 
 import com.hcmute.bookingevent.models.role.ERole;

@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.models;
 
 
 import com.hcmute.bookingevent.models.OTP.OTP;
+import com.hcmute.bookingevent.models.account.EAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,9 +30,8 @@ public class Account {
 
     private String passWord;
     private String role;
-
     private OTP otp;
-
+    private EAccount loginType;
     //private String resetPasswordToken;
     public Account(String name,  String email,String passWord, String avatar) {
 
@@ -53,12 +53,5 @@ public class Account {
         this.otp = otp;
     }
 
-//    public Account(String name,  String email,String passWord,String role) {
-//        this.name = name;
-//        this.email = email;
-//        this.passWord = passWord;
-//        this.role= role;
-//
-//    }
 
 }
