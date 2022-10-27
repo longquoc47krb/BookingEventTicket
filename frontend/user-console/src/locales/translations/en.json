@@ -86,8 +86,8 @@
     "already-account": "Have already account?",
     "forgot-password-tip": "Please enter your email. An OTP code will be sent to your one.",
     "oauth": {
-      "success": "Logged in Successfully. Redirecting to home page ...",
-      "failed": "Logged in failed. Redirecting to login page ..."
+      "success": "Logged in Successfully. Redirecting to home page in...",
+      "failed": "Logged in failed. Redirecting to login page in..."
     }
   },
   "location": {
