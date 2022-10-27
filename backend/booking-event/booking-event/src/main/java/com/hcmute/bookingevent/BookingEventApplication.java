@@ -25,8 +25,6 @@ public class BookingEventApplication {
 
 
 	public static void main(String[] args) throws ParseException {
-
-
 		SpringApplication.run(BookingEventApplication.class, args);
 	}
 

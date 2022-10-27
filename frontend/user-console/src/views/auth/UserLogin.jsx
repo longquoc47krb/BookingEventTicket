@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { GoogleLogin } from "@react-oauth/google";
 import { Col, Divider, Row } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import authServices from "../../api/services/authServices";
 import accountServices from "../../api/services/accountServices";
+import authServices from "../../api/services/authServices";
+import Authentication from "../../assets/Authentication.svg";
+import Google from "../../assets/google.svg";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import {
   Input,
@@ -18,10 +19,10 @@ import {
 } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import { setUserProfile } from "../../redux/slices/accountSlice";
-import { YupValidations } from "../../utils/validate";
 import ThreeDotsLoading from "../../components/loading/three-dots";
+import { setUserProfile } from "../../redux/slices/accountSlice";
 import { isNotEmpty } from "../../utils/utils";
+import { YupValidations } from "../../utils/validate";
 const { loginByEmail } = authServices;
 const { findUser } = accountServices;
 const UserLogin = (props) => {
@@ -29,6 +30,7 @@ const UserLogin = (props) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+
   const initialValues = {
     email: "",
     password: "",
@@ -59,7 +61,6 @@ const UserLogin = (props) => {
       }
     },
   });
-  useEffect(() => {}, []);
   const { handleSubmit } = formikLogin;
   const showNotification = (statusCode) => {
     switch (statusCode) {
@@ -143,32 +144,21 @@ const UserLogin = (props) => {
                 {t("user.login-by-google")}
               </Divider>
               <div className="flex justify-center">
-                <GoogleLogin
-                  shape="circle"
-                  size="large"
-                  width="100%"
-                  onSuccess={(credentialResponse) => {
-                    // var decoded = jwt_decode(credentialResponse.credential);
-                    // decoded["role"] = Role.User;
-                    // dispatch(getAccountByEmailOrPhone(decoded.email));
-                    // const isDuplicated = includes(queriedUser, decoded.email);
-                    // if (!isDuplicated) {
-                    //   dispatch(
-                    //     createAccount({
-                    //       avatar: decoded.picture,
-                    //       gmail: decoded.email,
-                    //       name: decoded.name,
-                    //     })
-                    //   );
-                    //   navigate("/");
-                    // } else {
-                    //   alert("email bị trùng");
-                    // }
-                  }}
-                  onError={() => {
-                    alert("Login Failed");
-                  }}
-                />
+                <Col span={24}>
+                  <button
+                    className={"button"}
+                    type="button"
+                    onClick={() =>
+                      window.open(
+                        "http://localhost:8080/oauth2/authorization/google",
+                        "_blank"
+                      )
+                    }
+                  >
+                    <img src={Google} alt="Google" className="w-5 h-auto" />{" "}
+                    {t("user.login-by-google")}
+                  </button>
+                </Col>
               </div>
               <div className="flex justify-center items-center mt-3">
                 <a onClick={() => navigate("/forgot-password")}>

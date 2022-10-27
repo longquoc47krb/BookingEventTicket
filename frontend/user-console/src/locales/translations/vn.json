@@ -84,7 +84,11 @@
     "create-account": "Chưa có tài khoản?",
     "signup": "Đăng ký",
     "already-account": "Đã có tài khoản?",
-    "forgot-password-tip": "Vui lòng điền email của bạn. Một mã OTP sẽ được gửi đến email."
+    "forgot-password-tip": "Vui lòng điền email của bạn. Một mã OTP sẽ được gửi đến email.",
+    "oauth": {
+      "success": "Đăng nhập thành công, đang chuyển hướng về Trang chủ...",
+      "failed": "Đăng nhập thất bại, chuyển về trang đăng nhập..."
+    }
   },
   "location": {
     "all": "Tất cả địa điểm",
