@@ -1,5 +1,4 @@
 /* eslint-disable array-callback-return */
-import { filter } from "lodash";
 import cloneDeep from "lodash/cloneDeep";
 import forOwn from "lodash/forOwn";
 import isEqual from "lodash/isEqual";
@@ -7,7 +6,6 @@ import memoize from "lodash/memoize";
 import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
 import constants from "./constants";
 const { comparisonStatus, PATTERNS } = constants;
 const timeFormat = "HH:mm";

@@ -25,6 +25,7 @@ provinceMapping.set("CT", "Cần Thơ");
 
 const ROLE = {
   user: "ROLE_USER",
+  organizer: "ROLE_ORGANIZER",
   admin: "ROLE_ADMIN",
 };
 const PATTERNS = {

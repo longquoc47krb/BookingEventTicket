@@ -1,39 +1,32 @@
 import {
-  AiOutlineHome,
-  AiOutlineQuestionCircle,
-  AiOutlinePicture,
   AiFillCheckCircle,
   AiOutlineAreaChart,
-  AiTwotoneCustomerService,
+  AiOutlineHome,
+  AiOutlineQuestionCircle,
 } from "react-icons/ai";
-import { IoIosApps } from "react-icons/io";
-import { FaTheaterMasks, FaInfo, FaSearchLocation } from "react-icons/fa";
-import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
-import { BiBookBookmark, BiPhoneCall } from "react-icons/bi";
+import { BiPhoneCall } from "react-icons/bi";
+import { BsBriefcase, BsCashCoin, BsInstagram } from "react-icons/bs";
+import { FaInfo, FaSearchLocation, FaTheaterMasks } from "react-icons/fa";
 import { HiOutlineMusicNote } from "react-icons/hi";
+import { IoIosApps } from "react-icons/io";
+import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import {
-  MdSportsSoccer,
-  MdOutlineAccountCircle,
   MdExitToApp,
+  MdOutlineAccountCircle,
   MdScreenSearchDesktop,
+  MdSportsSoccer,
 } from "react-icons/md";
-import {
-  BsBookmarkHeart,
-  BsCashCoin,
-  BsBriefcase,
-  BsInstagram,
-} from "react-icons/bs";
-import { TbPlaneInflight } from "react-icons/tb";
-import VietnamFlag from "../assets/vietnam-flag.png";
-import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
-import YG from "../assets/YG.png";
-import SM from "../assets/SM.png";
-import MTV from "../assets/MTV.png";
-import MTP from "../assets/MTP.png";
-import Metub from "../assets/Metub.png";
-import BigHit from "../assets/BIGHIT.webp";
-import theme from "../shared/theme";
 import { RiCustomerServiceFill } from "react-icons/ri";
+import { TbPlaneInflight } from "react-icons/tb";
+import BigHit from "../assets/BIGHIT.webp";
+import Metub from "../assets/Metub.png";
+import MTP from "../assets/MTP.png";
+import MTV from "../assets/MTV.png";
+import SM from "../assets/SM.png";
+import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
+import VietnamFlag from "../assets/vietnam-flag.png";
+import YG from "../assets/YG.png";
+import theme from "../shared/theme";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
     roleLevel: 1,
