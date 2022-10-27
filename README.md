@@ -4,7 +4,21 @@
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
  - Database: [MongoDB](https://www.mongodb.com) 
 ## Main features
-
+| Guest                                                        | Customer                                                     | Organizer | Admin |
+|--------------------------------------------------------------|--------------------------------------------------------------|-----------|-------|
+| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              |           |       |
+| ✅ Register                                                   | ✅ View event list                                            |           |       |
+| ✅ Forgot password                                            | ✅ View event detail                                          |           |       |
+| ✅ View homepage                                              | ✅ View organizer registration page                           |           |       |
+| ✅ View event list                                            | ✅ Search event                                               |           |       |
+| ✅ View event detail                                          | ✅ Filter events by filter (province, category, date, status) |           |       |
+| ✅ View organizer registration page                           |                                                              |           |       |
+| ✅ Search event                                               |                                                              |           |       |
+| ✅ Filter events by filter (province, category, date, status) |                                                              |           |       |
+|                                                              |                                                              |           |       |
+|                                                              |                                                              |           |       |
+|                                                              |                                                              |           |       |
+|                                                              |                                                              |           |       |
 ## Contacts
  - Members:
    - **Nguyễn Quốc Long**
