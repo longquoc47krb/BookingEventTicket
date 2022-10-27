@@ -183,11 +183,11 @@ const MENU_ORG = [
 const SOCIAL_MENU = [
   {
     icon: <IoLogoFacebook className="facebook" />,
-    link: "https://www.facebook.com/ticketbox.vn/",
+    link: "https://www.facebook.com/long.quoc.0702/",
   },
   {
     icon: <BsInstagram className="instagram" />,
-    link: "https://www.instagram.com/ticketbox_vn/",
+    link: "https://www.instagram.com/longquoc_47/",
   },
 ];
 const ORGANIZER_CAROUSEL = [
