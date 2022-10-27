@@ -1,7 +1,6 @@
 import Loadable from "react-loadable";
 import Loading from "../components/loading";
 import ForgotPassword from "../views/auth/ForgotPassword";
-import NewPassword from "../views/auth/NewPassword";
 import UserRegister from "../views/auth/UserRegister";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
