@@ -9,6 +9,7 @@ import { Dropdown, Empty } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
+import Badge from "../badge";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
@@ -178,7 +179,9 @@ function Header(props) {
           ) : (
             <div className="flex items-center gap-x-2">
               <Dropdown overlay={wishListMenu} trigger={["click"]}>
-                <RiBookmark3Fill className="text-2xl cursor-pointer" />
+                <Badge count={wishlist.length}>
+                  <RiBookmark3Fill className="text-2xl cursor-pointer" />
+                </Badge>
               </Dropdown>
               <Dropdown overlay={menu} trigger={["click"]}>
                 <div className="cursor-pointer flex gap-x-2 items-center">

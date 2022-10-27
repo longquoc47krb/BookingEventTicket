@@ -47,4 +47,8 @@ export const dateSelect = [
     value: "this-month",
     label: "date.this-month",
   },
+  {
+    value: "date-range",
+    label: "date.range",
+  },
 ];

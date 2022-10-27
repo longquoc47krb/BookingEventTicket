@@ -97,7 +97,8 @@
     "all": "All date",
     "tomorrow": "Tomorrow",
     "this-week": "This week",
-    "this-month": "This month"
+    "this-month": "This month",
+    "range": "Select the date range"
   },
   "wishlist": {
     "add": {
