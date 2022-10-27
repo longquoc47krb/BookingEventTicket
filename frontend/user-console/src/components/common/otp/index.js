@@ -28,14 +28,12 @@ export default function OtpInput({
 
   const focusToNextInput = (target) => {
     const nextElementSibling = target.nextElementSibling | null;
-    console.log({ nextElementSibling });
     if (nextElementSibling) {
       nextElementSibling.focus();
     }
   };
   const focusToPrevInput = (target) => {
     const previousElementSibling = target.previousElementSibling | null;
-    console.log({ previousElementSibling });
     if (previousElementSibling) {
       previousElementSibling.focus();
     }

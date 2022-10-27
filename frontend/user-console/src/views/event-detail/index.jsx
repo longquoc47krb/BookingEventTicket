@@ -43,7 +43,6 @@ function EventDetail(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
-  console.log({ user });
   const { t } = useTranslation();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();

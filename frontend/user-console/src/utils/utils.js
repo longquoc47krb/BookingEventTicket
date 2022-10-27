@@ -7,6 +7,7 @@ import memoize from "lodash/memoize";
 import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 import constants from "./constants";
 const { comparisonStatus, PATTERNS } = constants;
 const timeFormat = "HH:mm";
@@ -371,13 +372,14 @@ export const orderByDate = (data, key, type = "asc") => {
     return data.reverse();
   }
 };
-export const filterByDate = (type, list) => {
+export const filterByDate = (type, list, customDate) => {
   const dateFormat = PATTERNS.DATE_FORMAT;
   const startOfWeek = moment().startOf("week");
   const endOfWeek = moment().endOf("week");
   const tomorrow = moment().add(1, "days");
   const startOfMonth = moment().startOf("month");
   const endOfMonth = moment().endOf("month");
+  console.log({ customDate });
   if (type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
@@ -388,13 +390,21 @@ export const filterByDate = (type, list) => {
         moment(event.startingDate, dateFormat) >= startOfWeek &&
         moment(event.startingDate, dateFormat) <= endOfWeek
     );
-  if (type === "range") return list;
   if (type === "this-month")
     return list.filter(
       (event) =>
         moment(event.startingDate, dateFormat) >= startOfMonth &&
         moment(event.startingDate, dateFormat) <= endOfMonth
     );
+  if (type === "date-range") {
+    return list.filter(
+      (event) =>
+        moment(event.startingDate, dateFormat) >=
+          moment(customDate?.start, dateFormat) &&
+        moment(event.endingDate, dateFormat) <=
+          moment(customDate?.end, dateFormat)
+    );
+  }
 
   return list;
 };

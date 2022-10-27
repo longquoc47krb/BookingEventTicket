@@ -10,7 +10,6 @@ function WishListItem({ id }) {
   const { removeFromWishlist } = useUserActionContext();
   const navigate = useNavigate();
   const { data: event, status, isFetching } = useEventDetails(id);
-  console.log({ id });
 
   if (status === "loading" || isFetching) {
     return null;

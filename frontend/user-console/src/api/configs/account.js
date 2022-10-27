@@ -19,6 +19,8 @@ export const AccountAPI = {
     url: `/account/update/avatar/${email}`,
     method: "POST",
     data,
-    headers: { "content-type": "multipart/form-data" },
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   }),
 };

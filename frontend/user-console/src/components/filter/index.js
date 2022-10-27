@@ -13,7 +13,7 @@ import {
 } from "../../helpers/filter-data";
 import theme from "../../shared/theme";
 import { Select } from "../common/select";
-
+import { DateSelect } from "../common/select/dateSelect";
 const EventFilter = () => {
   const { categories, successStatus } = useUserFetchDataContext();
   const categorySelect = [{ id: null, name: "category.all" }];
@@ -37,12 +37,6 @@ const EventFilter = () => {
       defaultValue: "category.all",
     },
     {
-      icon: <BsCalendarDateFill color={theme.main} fontSize={20} />,
-      data: dateSelect,
-      type: "date",
-      defaultValue: "date.all",
-    },
-    {
       icon: <BsFillInfoCircleFill color={theme.main} fontSize={20} />,
       data: statusSelect,
       type: "status",
@@ -52,16 +46,29 @@ const EventFilter = () => {
 
   return (
     <div className="filter-container">
-      {successStatus &&
-        DataMapping.map((item) => (
+      {successStatus && (
+        <>
           <Select
-            icon={item.icon}
-            data={item.data}
-            type={item.type}
-            defaultValue={item.defaultValue}
-            allowClear
+            icon={DataMapping[0].icon}
+            data={DataMapping[0].data}
+            type={DataMapping[0].type}
+            defaultValue={DataMapping[0].defaultValue}
           />
-        ))}
+          <Select
+            icon={DataMapping[1].icon}
+            data={DataMapping[1].data}
+            type={DataMapping[1].type}
+            defaultValue={DataMapping[1].defaultValue}
+          />
+          <DateSelect />
+          <Select
+            icon={DataMapping[2].icon}
+            data={DataMapping[2].data}
+            type={DataMapping[2].type}
+            defaultValue={DataMapping[2].defaultValue}
+          />
+        </>
+      )}
     </div>
   );
 };

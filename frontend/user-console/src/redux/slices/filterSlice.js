@@ -7,6 +7,10 @@ const initialState = {
     status: null,
   },
   filterByDateType: null,
+  dateRange: {
+    start: "",
+    end: "",
+  },
 };
 
 const filterSlice = createSlice({
@@ -25,11 +29,23 @@ const filterSlice = createSlice({
     setDateType: (state, { payload }) => {
       state.filterByDateType = payload;
     },
+    setStartDate: (state, { payload }) => {
+      state.dateRange.start = payload;
+    },
+    setEndDate: (state, { payload }) => {
+      state.dateRange.end = payload;
+    },
   },
 });
 
-export const { setProvince, setCategoryId, setStatus, setDateType } =
-  filterSlice.actions;
+export const {
+  setProvince,
+  setCategoryId,
+  setStatus,
+  setDateType,
+  setStartDate,
+  setEndDate,
+} = filterSlice.actions;
 export const filterSelector = (state) => state.filter.filter;
-
+export const dateRangeSelector = (state) => state.filter.dateRange;
 export default filterSlice.reducer;

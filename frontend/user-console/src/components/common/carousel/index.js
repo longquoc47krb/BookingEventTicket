@@ -25,7 +25,6 @@ export default function Carousel(props) {
       id,
       background,
     }));
-  console.log({ newData });
   return (
     <>
       <Swiper

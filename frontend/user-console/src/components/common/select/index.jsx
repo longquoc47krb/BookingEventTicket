@@ -15,9 +15,7 @@ export function Select(props) {
   const { data, icon, type, defaultValue } = props;
   const { t } = useTranslation();
   const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
-  const [value, setValue] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const filter = useSelector((state) => state.filter.filter);
   const filterByDateType = useSelector(
     (state) => state.filter.filterByDateType
@@ -42,6 +40,7 @@ export function Select(props) {
         style={{
           width: "100%",
         }}
+        defaultValue={defaultValue}
         bordered={false}
         value={
           type === "location"

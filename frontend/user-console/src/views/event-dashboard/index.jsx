@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFetchCategories } from "../../api/services/categoryServices";
 import AppDrawer from "../../components/common/drawer";
@@ -17,6 +17,10 @@ import EventFilter from "../../components/filter";
 import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
+import {
+  dateRangeSelector,
+  setCategoryId,
+} from "../../redux/slices/filterSlice";
 import { filterByDate, isEmpty, isNotEmpty } from "../../utils/utils";
 function EventDashBoard() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -25,22 +29,37 @@ function EventDashBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: category, status } = useFetchCategories();
-  // const categoryId =
-  //   status === "success" &&
-  //   categoryParams.get("category") !== null &&
-  //   category.filter((c) => c.name === categoryParams.get("category"))[0].id;
+  const categoryId =
+    status === "success" &&
+    categoryParams.get("category") !== null &&
+    category.filter((c) => c.name === categoryParams.get("category"))[0].id;
   const { filteredEvents, loadingStatus, dateType, filter } =
     useUserFetchDataContext();
+  // Select the date range
+  const dateRange = useSelector(dateRangeSelector);
+  debugger;
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
   // if filter change, set current page equal 0 ( page 1)
   useEffect(() => {
+    dispatch(setCategoryId(categoryId));
     setCurrentPage(0);
   }, [filter, dateType]);
   const firstIndex = currentPage * 6;
   const lastIndex = currentPage * 6 + 6;
+
+  // filter data by date
+
+  const filterData =
+    dateType === "date-range"
+      ? filterByDate(dateType, filteredEvents, {
+          start: dateRange.start,
+          end: dateRange.end,
+          isAvailable: dateRange.isAvailable,
+        })
+      : filterByDate(dateType, filteredEvents);
   return (
     <>
       <HelmetHeader title={t("pages.events")} content="Event Dashboard" />
@@ -57,8 +76,8 @@ function EventDashBoard() {
             ))
           ) : isEmpty(filteredEvents) ? (
             <EmptyData />
-          ) : isNotEmpty(filterByDate(dateType, filteredEvents)) ? (
-            filterByDate(dateType, filteredEvents)
+          ) : isNotEmpty(filterData) ? (
+            filterData
               .slice(firstIndex, lastIndex)
               .map((event, index) => <Event event={event} key={event.id} />)
           ) : (
@@ -67,12 +86,11 @@ function EventDashBoard() {
         </div>
       </div>
       <div className="event-pagination">
-        {loadingStatus ? null : filterByDate(dateType, filteredEvents).length >
-          0 ? (
+        {loadingStatus ? null : filterData.length > 0 ? (
           <Pagination
             current={currentPage + 1}
             onChange={onChange}
-            total={filterByDate(dateType, filteredEvents).length}
+            total={filterData.length}
             pageSize={6}
             defaultCurrent={1}
           />
