@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import accountServices from "../../api/services/accountServices";
 import { useDispatch } from "react-redux";
 import { setUserProfile } from "../../redux/slices/accountSlice";
+import Countdown from "react-countdown";
 const { findUser } = accountServices;
 const OAuthLogin = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
@@ -31,10 +32,17 @@ const OAuthLogin = () => {
       return navigate("/login");
     }, 5000);
   }, [token]);
+  // Renderer callback with condition
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    return <span>{seconds}s</span>;
+  };
 
   return (
     <div className="w-screen h-screen bg-white">
-      <h1>{token ? t("user.oauth.success") : t("user.oauth.failed")}</h1>
+      <h1 className="text-2xl">
+        {token ? t("user.oauth.success") : t("user.oauth.failed")}{" "}
+        <Countdown date={Date.now() + 5000} renderer={renderer} />
+      </h1>
     </div>
   );
 };
