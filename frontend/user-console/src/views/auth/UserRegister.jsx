@@ -163,7 +163,7 @@ const UserRegister = (props) => {
               </Row>
               <Col span={24}>
                 <button
-                  className={`w-full py-2 bg-[${theme.main}] text-white`}
+                  className={`primary-button`}
                   type="submit"
                 >
                   {loading ? <ThreeDotsLoading /> : t("user.signup")}

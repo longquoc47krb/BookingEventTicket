@@ -11,6 +11,10 @@ const AdminLoginPage = Loadable({
   loader: () => import("../views/auth/AdminLogin"),
   loading: Loading,
 });
+const OAuthLoginPage = Loadable({
+  loader: () => import("../views/auth/OAuthLogin"),
+  loading: Loading,
+});
 const EventDashBoardPage = Loadable({
   loader: () => import("../views/event-dashboard"),
   loading: Loading,
@@ -88,6 +92,10 @@ const routes = [
   {
     element: <NotFoundPage />,
     path: "/page-not-found",
+  },
+  {
+    element: <OAuthLoginPage />,
+    path: "/oauth2/redirect",
   },
   {
     element: <TicketBookingPage />,
