@@ -16,9 +16,6 @@
 | ✅ Search event                                               | ⬜ Update profile                                             |                                   |                   |
 | ✅ Filter events by filter (province, category, date, status) | ⬜ Payment                                                    |                                   |                   |
 |                                                              | ⬜ View purchased tickets                                     |                                   |                   |
-|                                                              |                                                              |                                   |                   |
-|                                                              |                                                              |                                   |                   |
-|                                                              |                                                              |                                   |                   |
 ## Contacts
  - Members:
    - **Nguyễn Quốc Long**
