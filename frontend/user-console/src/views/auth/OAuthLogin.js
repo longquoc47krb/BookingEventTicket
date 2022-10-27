@@ -25,7 +25,10 @@ const OAuthLogin = () => {
       fetchUser();
     }
     setTimeout(() => {
-      navigate("/login");
+      if (token) {
+        return navigate("/");
+      }
+      return navigate("/login");
     }, 5000);
   }, [token]);
 
