@@ -4,21 +4,21 @@
  - Backend: [Spring Boot](https://spring.io/projects/spring-boot/)
  - Database: [MongoDB](https://www.mongodb.com) 
 ## Main features
-| Guest                                                        | Customer                                                     | Organizer | Admin |
-|--------------------------------------------------------------|--------------------------------------------------------------|-----------|-------|
-| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              |           |       |
-| ✅ Register                                                   | ✅ View event list                                            |           |       |
-| ✅ Forgot password                                            | ✅ View event detail                                          |           |       |
-| ✅ View homepage                                              | ✅ View organizer registration page                           |           |       |
-| ✅ View event list                                            | ✅ Search event                                               |           |       |
-| ✅ View event detail                                          | ✅ Filter events by filter (province, category, date, status) |           |       |
-| ✅ View organizer registration page                           |                                                              |           |       |
-| ✅ Search event                                               |                                                              |           |       |
-| ✅ Filter events by filter (province, category, date, status) |                                                              |           |       |
-|                                                              |                                                              |           |       |
-|                                                              |                                                              |           |       |
-|                                                              |                                                              |           |       |
-|                                                              |                                                              |           |       |
+| Guest                                                        | Customer                                                     | Organizer                         | Admin             |
+|--------------------------------------------------------------|--------------------------------------------------------------|-----------------------------------|-------------------|
+| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              | ⬜ View revenue stats              | ⬜ Manage accounts |
+| ✅ Register                                                   | ✅ View event list                                            | ⬜ Create new event                |                   |
+| ✅ Forgot password                                            | ✅ View event detail                                          | ⬜ Update event                    |                   |
+| ✅ View homepage                                              | ✅ View organizer registration page                           | ⬜ Delete event(s)                 |                   |
+| ✅ View event list                                            | ✅ Search event                                               | ⬜ View sold tickets               |                   |
+| ✅ View event detail                                          | ✅ Filter events by filter (province, category, date, status) | ⬜ Update profile                  |                   |
+| ✅ View organizer registration page                           | ✅ Add/Remove event(s) to favorite list                       | ⬜ Send ticket to customer's email |                   |
+| ✅ Search event                                               | ⬜ Update profile                                             |                                   |                   |
+| ✅ Filter events by filter (province, category, date, status) | ⬜ Payment                                                    |                                   |                   |
+|                                                              | ⬜ View purchased tickets                                     |                                   |                   |
+|                                                              |                                                              |                                   |                   |
+|                                                              |                                                              |                                   |                   |
+|                                                              |                                                              |                                   |                   |
 ## Contacts
  - Members:
    - **Nguyễn Quốc Long**
