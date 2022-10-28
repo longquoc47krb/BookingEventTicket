@@ -11,7 +11,9 @@ import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
+import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ public class OrganizationService implements IOrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final AccountRepository accountRepository;
+    private final MailService mailService;
+
     public ResponseEntity<?> createOrganization(Organization organization){
 
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -44,6 +48,7 @@ public class OrganizationService implements IOrganizationService {
         throw new NotFoundException("Can not found any Organization");
     }
 
+    @SneakyThrows
     @Override
     public ResponseEntity<?> submitOrganization(OrganizationReq organizationReq)
     {
@@ -62,6 +67,8 @@ public class OrganizationService implements IOrganizationService {
         Account account = new Account(organizationReq.getName(),organizationReq.getEmail(),organizationReq.getPhoneNumber(),"", Constants.AVATAR_DEFAULT,Constants.ROLE_ORGANIZATION);
         accountRepository.save(account);
         // gửi mail
+        mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
+
         //
         Organization organization = new Organization(account.getEmail(), EOrganization.DISABLED);
         organizationRepository.save(organization);
