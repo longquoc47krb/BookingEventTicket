@@ -19,4 +19,5 @@ public interface IAccountService {
     ResponseEntity<?> loginAccountByEmail(Account account);
     ResponseEntity<?> loginAccountbyPhone(Account account);
     ResponseEntity<?> updateInformation(UpdateInforRes updateInforRes,String gmail);
+    ResponseEntity<?> deleteOrganizationAccount(String email);
 }

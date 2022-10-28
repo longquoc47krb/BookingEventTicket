@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.exception.AppException;
+import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -48,10 +49,10 @@ public class AuthController {
     public ResponseEntity<?> generateNewPassword(@Valid @RequestBody ForgetOrGenerateReq forgetOrGenerateReq) {
         return iAuthService.generateNewPassword(forgetOrGenerateReq.getEmail());
     }
-    @PostMapping("/changePassword/{email}")
-    public ResponseEntity<?> changePassword(@PathVariable String email, @Valid @RequestBody ChangePasswordRes changePasswordRes, HttpServletRequest request) {
-        String gmailAuth = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(gmailAuth.equals(email)) {
+    @PostMapping("/changePassword/{id}")
+    public ResponseEntity<?> changePassword(@PathVariable String id, @Valid @RequestBody ChangePasswordRes changePasswordRes, HttpServletRequest request) {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(id)) {
             return iAuthService.changePassword(changePasswordRes);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");

@@ -48,6 +48,14 @@ public class Account {
         this.avatar = avatar;
         this.role = role;
     }
+    public Account(String name,  String email, String phone,String passWord, String avatar,String role) {
+        this.name = name;
+        this.email = email;
+        this.phone= phone;
+        this.passWord = passWord;
+        this.avatar = avatar;
+        this.role = role;
+    }
     public Account(OTP otp)
     {
         this.otp = otp;

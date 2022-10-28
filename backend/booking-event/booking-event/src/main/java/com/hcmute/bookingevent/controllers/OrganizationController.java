@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.payload.request.OrganizationReq;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,10 @@ public class OrganizationController {
     public ResponseEntity<?> findAll()
     {
         return iOrganizationService.findAll();
+    }
+    @PostMapping("/submit")
+    public ResponseEntity<?> submitOrganization(@RequestBody OrganizationReq organizationReq)
+    {
+        return iOrganizationService.submitOrganization(organizationReq);
     }
 }

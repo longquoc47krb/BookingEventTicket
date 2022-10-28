@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.models;
 
+import com.hcmute.bookingevent.models.organization.EOrganization;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,20 @@ import java.util.List;
 @AllArgsConstructor
 public class Organization {
 
-
+    @Id
     private String id;
     private String address;
+    private String email;
+
+    private EOrganization status;
 
     private List<String> eventID;
+
     public Organization(String id) {
         this.id = id;
+    }
+    public Organization(String email,EOrganization status) {
+        this.status = status;
+        this.email = email;
     }
 }

@@ -44,7 +44,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 //trongg trường hợp người dùng đã từng đăng nhập bằng google và muốn đăng nhập lại
                 if(account.get().getPassWord().isEmpty())
                 {
-                    jwtToken = jwtTokenProvider.generateJwtToken(oauth2User.getEmail());;
+                    jwtToken = jwtTokenProvider.generateJwtToken(oauth2User.getEmail(),account.get().getId());;
                     response.sendRedirect(generateRedirectURL(true, jwtToken,
                             oauth2User.getEmail() + "Log in and  successfully with google"));
                 }
@@ -77,7 +77,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 , Constants.ROLE_USER);
         account.setLoginType(EAccount.GOOGLE);
         accountRepository.save(account);
-        return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail());
+        return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail(),account.getId());
 
     }
 
