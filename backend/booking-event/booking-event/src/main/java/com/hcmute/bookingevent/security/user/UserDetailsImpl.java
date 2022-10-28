@@ -17,13 +17,15 @@ public class UserDetailsImpl implements UserDetails {
     private final String name;
 
     private final String email;
+    private final String id;
+
     @JsonIgnore
     private String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String name, String email, String password,
+    public UserDetailsImpl(String id,String name, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
-
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -31,14 +33,9 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(Account user) {
-        // have problem
-//        List<GrantedAuthority> authorities = user.getRoles().stream()
-//                .map(role -> new SimpleGrantedAuthority(role.toString()))
-//                .collect(Collectors.toList());
        GrantedAuthority authorities = new SimpleGrantedAuthority( user.getRole());
-        //GrantedAuthority authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
-
         return new UserDetailsImpl(
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getPassWord(),
@@ -60,11 +57,13 @@ public class UserDetailsImpl implements UserDetails {
         return name;
     }
 
-    //@Override
     public String getEmail() {
         return email;
     }
 
+    public String getId() {
+        return id;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

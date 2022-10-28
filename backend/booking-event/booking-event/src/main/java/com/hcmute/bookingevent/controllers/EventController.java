@@ -2,13 +2,18 @@ package com.hcmute.bookingevent.controllers;
 
 
 import com.hcmute.bookingevent.Implement.IEventService;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/event")
 public class EventController {
     private final IEventService iEventService;
+    private final JwtTokenProvider jwtUtils;
 
 
     //get all events
@@ -24,11 +30,20 @@ public class EventController {
         return iEventService.findAllEvents();
     }
 
-    @PostMapping("/createEvent")
-    public ResponseEntity<?> createEvent(@RequestBody Event event) {
-        return iEventService.createEvent(event);
-
-    }  @GetMapping("/findEventAfterToday")
+    @PostMapping("/createEvent/{idOrganization}")
+    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String idOrganization, HttpServletRequest request) {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(idOrganization)) {
+            return iEventService.createEvent(event, account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+    @GetMapping(path = "/findAllByPage")
+    public ResponseEntity<?> findAllEventByPage (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "6") int pageSize   ){
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        return iEventService.findAllbyPage(pageable);
+    }
+    @GetMapping("/findEventAfterToday")
     public ResponseEntity<?> findEventAfterToday(){
         return iEventService.findEventAfterToday();
 
@@ -38,9 +53,13 @@ public class EventController {
         return iEventService.checkEventStatus();
 
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable String id) {
-        return iEventService.deleteEvent(id);
+    @DeleteMapping("/delete/{id}/{idOrganization}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String id,@PathVariable String idOrganization, HttpServletRequest request) {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(idOrganization)) {
+            return iEventService.deleteEvent(id,account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
 

@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.filters;
 
 
+import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.user.MyUserDetailsService;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String email = jwtUtils.getGmailFromJWT(jwt);
-
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                Account account = jwtUtils.getGmailFromJWT(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(account.getEmail());
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
