@@ -29,24 +29,24 @@ function EventDashBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: category, status } = useFetchCategories();
-  const categoryId =
-    status === "success" &&
-    categoryParams.get("category") !== null &&
-    category.filter((c) => c.name === categoryParams.get("category"))[0].id;
+  const categoryId = categoryParams.get("category")
+    ? category.filter((c) => c.name === categoryParams.get("category"))[0].id
+    : null;
   const { filteredEvents, loadingStatus, dateType, filter } =
     useUserFetchDataContext();
   // Select the date range
   const dateRange = useSelector(dateRangeSelector);
-  debugger;
   // Change page
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
   // if filter change, set current page equal 0 ( page 1)
   useEffect(() => {
-    dispatch(setCategoryId(categoryId));
     setCurrentPage(0);
   }, [filter, dateType]);
+  useEffect(() => {
+    dispatch(setCategoryId(categoryId));
+  }, []);
   const firstIndex = currentPage * 6;
   const lastIndex = currentPage * 6 + 6;
 

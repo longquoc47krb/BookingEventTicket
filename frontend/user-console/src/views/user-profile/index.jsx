@@ -12,8 +12,11 @@ import { Input } from "../../components/common/input/customField";
 import UploadAvatar from "../../components/common/upload-avatar";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import { useUserAuth } from "../../context/UserAuthContext";
-import { setEmail, userInfoSelector } from "../../redux/slices/accountSlice";
+import {
+  setEmail,
+  userAvatarSelector,
+  userInfoSelector,
+} from "../../redux/slices/accountSlice";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty, isNotEmpty } from "../../utils/utils";
@@ -24,11 +27,14 @@ function UserProfile() {
   const previousPathname = useSelector(pathNameSelector);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const avatar = useSelector(userAvatarSelector);
+
+  console.log({ avatar });
   useEffect(() => {
     if (isNotEmpty(user)) {
       dispatch(setEmail(user.email));
     }
-  });
+  }, []);
   const initialValues = {
     avatar: user?.avatar,
     name: user?.name,
@@ -43,7 +49,9 @@ function UserProfile() {
       email: YupValidations.email,
       phone: YupValidations.phone,
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      const { name, email, phone } = values;
+    },
   });
   const { values } = formik;
   return (
@@ -82,7 +90,7 @@ function UserProfile() {
                 <Row gutter={[48, 40]} className="leading-8">
                   <Col span={24}>
                     <div className="w-full flex justify-center my-2">
-                      <UploadAvatar avatar={user.avatar} />
+                      <UploadAvatar avatar={values.avatar} />
                     </div>
 
                     <Field

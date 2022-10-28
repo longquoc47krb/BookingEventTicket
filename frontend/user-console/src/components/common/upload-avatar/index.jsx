@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
 import {
   emailSelector,
+  setUserAvatar,
   setUserProfile,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
@@ -27,6 +28,7 @@ function UploadAvatar({ avatar }) {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
         setAvatarFile(e.target.files[0]);
+        dispatch(setUserAvatar(e.target.files[0]));
       }
     };
     reader.readAsDataURL(e.target.files[0]);

@@ -33,6 +33,7 @@ export function Select(props) {
     [(user) => user[keys[1]].toLowerCase()],
     ["asc"]
   );
+  console.log(">>defaultValue:", defaultValue);
   return (
     <div className="select-container">
       {icon}
