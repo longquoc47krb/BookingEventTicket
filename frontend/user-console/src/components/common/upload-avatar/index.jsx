@@ -11,7 +11,6 @@ import accountServices from "../../../api/services/accountServices";
 import {
   emailSelector,
   setUserAvatar,
-  setUserProfile,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 const { updateAvatar } = accountServices;
@@ -20,7 +19,6 @@ function UploadAvatar({ avatar }) {
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
   const email = useSelector(emailSelector);
-  const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();

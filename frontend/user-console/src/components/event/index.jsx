@@ -31,7 +31,6 @@ function Event(props) {
       }}
     >
       <img
-        loading="lazy"
         src={
           checkImageURL(event?.background)
             ? event?.background
