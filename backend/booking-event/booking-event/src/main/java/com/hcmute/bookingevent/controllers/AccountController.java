@@ -20,38 +20,33 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/account")
+@RequestMapping(path = "/api")
 public class AccountController {
     private final IAccountService iAccountService;
     private final JwtTokenProvider jwtUtils;
 
-    @GetMapping(path = "/admin/manage/users")
+    @GetMapping(path = "/admin/get/accounts")
     public ResponseEntity<?> findAll (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iAccountService.findAll(pageable);
     }
-    @DeleteMapping(path = "/admin/manage/users")
-    public ResponseEntity<?> deleteOrganizationAccount(@PathVariable String gmail) {
-        return iAccountService.deleteOrganizationAccount(gmail);
-
-    }
-    @GetMapping("/findAll")
+    @GetMapping("/account/findAll")
     public ResponseEntity<?> findAll() {
         return iAccountService.findAll();
     }
-    @GetMapping("/findAccount")
+    @GetMapping("/account/findAccount")
     public ResponseEntity<?> findAccountByPhoneOrNameOrEmail(@RequestParam(value="value")  String value) {
         return iAccountService.findByPhoneOrNameOrEmail(value);
     }
-    @PostMapping("/loginByPhone")
+    @PostMapping("/account/loginByPhone")
     public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
         return iAccountService.loginAccountbyPhone(newAccount);
     }
-    @PostMapping("/loginByEmail")
+    @PostMapping("/account/loginByEmail")
     public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
         return iAccountService.loginAccountByEmail(newAccount);
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/account/update/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(id))
@@ -62,7 +57,7 @@ public class AccountController {
 
     }
 
-    @PostMapping(path = "/update/avatar/{id}")
+    @PostMapping(path = "/account/update/avatar/{id}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String id,
                                          HttpServletRequest request,
                                          @RequestParam MultipartFile file){
@@ -73,7 +68,7 @@ public class AccountController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-    @PostMapping(path = "/update/infor/{id}")
+    @PostMapping(path = "/account/update/infor/{id}")
     public ResponseEntity<?> updateInformation (@PathVariable String id,@RequestBody UpdateInforRes updateInforRes, HttpServletRequest request)
     {
 

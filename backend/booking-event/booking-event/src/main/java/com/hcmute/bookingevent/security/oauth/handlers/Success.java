@@ -3,8 +3,10 @@ package com.hcmute.bookingevent.security.oauth.handlers;
 
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.account.EAccount;
 import com.hcmute.bookingevent.repository.AccountRepository;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.oauth.CustomOAuth2User;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ import java.util.Optional;
 public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
     private  final AccountRepository accountRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
+    private final CustomerRepository customerRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
@@ -76,6 +78,8 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 "" , oAuth2User.getProfilePicture()
                 , Constants.ROLE_USER);
         account.setLoginType(EAccount.GOOGLE);
+        Customer customer = new Customer(oAuth2User.getEmail());
+        customerRepository.save(customer);
         accountRepository.save(account);
         return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail(),account.getId());
 

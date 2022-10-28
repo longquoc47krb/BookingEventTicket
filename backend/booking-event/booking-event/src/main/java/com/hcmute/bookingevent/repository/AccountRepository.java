@@ -14,7 +14,7 @@ public interface AccountRepository extends MongoRepository<Account,String> {
     Optional<Account> findByPhone(String name);
     Boolean existsByEmail(String email);
     Boolean existsByPhone(String phone);
-    Boolean deleteByEmail(String email);
+    void deleteByEmail(String email);
     Optional<Account> findByPhoneOrNameOrEmail(String params1, String params2, String params3);
 
 

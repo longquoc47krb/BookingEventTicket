@@ -84,7 +84,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests().antMatchers( ALLOWED_GET_LIST_URLS).permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/api/admin/manage/**").hasAuthority(Constants.ROLE_ADMIN)
+                .authorizeRequests().antMatchers("/api/admin/**").hasAuthority(Constants.ROLE_ADMIN)
                 .and()
                 .authorizeRequests().antMatchers("/api/account/**").hasAnyAuthority(Constants.ROLE_USER,Constants.ROLE_ORGANIZATION)
                 .anyRequest().authenticated()

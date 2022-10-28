@@ -206,18 +206,18 @@ public class AccountService implements IAccountService {
                     new ResponseObject(false, "Update information fail", "",400));
         }
     }
-    @Override
-    public ResponseEntity<?> deleteOrganizationAccount(String email) {
-        if (accountRepository.existsByEmail(email)) {
-
-            accountRepository.deleteByEmail(email);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete account successfully ", "",200));
-
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
-        }
-
-    }
+//    @Override
+//    public ResponseEntity<?> deleteOrganizationAccount(String email) {
+//        if (accountRepository.existsByEmail(email)) {
+//
+//            accountRepository.deleteByEmail(email);
+//            return ResponseEntity.status(HttpStatus.OK).body(
+//                    new ResponseObject(true, "Delete account successfully ", "",200));
+//
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
+//        }
+//
+//    }
 }

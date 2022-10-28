@@ -72,6 +72,7 @@ public class AuthService implements IAuthService {
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Logged in successfully", new JwtResponse(jwt,
+                            userDetails.getId(),
                             userDetails.getUsername(),
                             userDetails.getEmail(),
                             roles,"success"),200));

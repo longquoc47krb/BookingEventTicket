@@ -20,14 +20,15 @@ public class Customer {
     private String id;
     private int ticketAmount;
 
+    private String email;
 
     private int role;
     private List<String> ticketList;
 
     private List<String> eventWishList;
-    public Customer(String id)
+    public Customer(String email)
     {
-        this.id=id;
-        this.role=1;
+        this.email=email;
+
     }
 }

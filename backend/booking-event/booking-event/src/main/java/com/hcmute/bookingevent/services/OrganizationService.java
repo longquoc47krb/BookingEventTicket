@@ -12,6 +12,8 @@ import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -63,5 +65,28 @@ public class OrganizationService implements IOrganizationService {
         organizationRepository.save(organization);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Create organization account successfully", "",200));
+    }
+    @Override
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        Page<Organization> organizations = organizationRepository.findAll(pageable);
+        List<Organization> organizationList = organizations.toList();
+        if (organizationList.size() > 0)
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Get all user success", organizationList,200));
+        throw new NotFoundException("Can not find any organization");
+    }
+    @Override
+    public ResponseEntity<?> deleteOrganization(String email) {
+        if (accountRepository.existsByEmail(email)) {
+
+            accountRepository.deleteByEmail(email);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Delete account successfully ", "",200));
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
+        }
+
     }
 }
