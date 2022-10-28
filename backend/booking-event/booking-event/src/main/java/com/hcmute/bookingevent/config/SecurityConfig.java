@@ -71,7 +71,8 @@ public class SecurityConfig {
     };
 
     private final String[] ALLOWED_GET_LIST_URLS = {
-            "/api/**",
+            "/api/event/**",
+            "/api/**"
 
     };
 

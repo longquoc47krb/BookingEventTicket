@@ -7,13 +7,11 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.AccountMapper;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Customer;
-
 import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.payload.response.LoginRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -202,8 +200,8 @@ public class AccountService implements IAccountService {
         }
         else
         {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(false, "Update information fail", "",400));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Update information fail", "", 400));
         }
     }
 //    @Override

@@ -23,7 +23,6 @@ public class OrganizationController {
     @DeleteMapping(path = "/admin/delete/organization/{email}")
     public ResponseEntity<?> deleteOrganizationAccount(@PathVariable String email) {
         return iOrganizationService.deleteOrganization(email);
-
     }
     @PostMapping("/organization/createOrganization")
     public ResponseEntity<?> createOrganization(@RequestBody Organization organization)

@@ -21,10 +21,6 @@ public class AuthController {
     private final JwtTokenProvider jwtUtils;
 
     private  final IAuthService iAuthService;
-//    @RequestMapping(value = "/user")
-//    public Principal user(Principal principal) {
-//        return principal;
-//    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);

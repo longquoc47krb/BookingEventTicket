@@ -5,20 +5,12 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
-
-import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
+import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-
-
+import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.repository.EventRepository;
-
-
-
+import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
-
-
-
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -27,7 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -41,21 +36,43 @@ public class EventService implements IEventService {
 
     private final EventRepository eventRepository;
     private final MongoTemplate mongoTemplate;
-
+    private final OrganizationRepository organizationRepository;
 
     private final IEventSlugGeneratorService slugGeneratorService;
+
     @Override
-    public ResponseEntity<?> createEvent(Event event) {
-        if (event != null
-        ) {
+    public ResponseEntity<?> createEvent(Event event, String gmailOrganization) {
+        Optional<Organization> organization = organizationRepository.findByEmail(gmailOrganization);
+        if (organization.isPresent()) {
+            // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
             event.setId(slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
             event.setStatus(TicketStatus.AVAILABLE);
+            eventRepository.save(event);
+            //add event in organization
+            List<String> eventList = organization.get().getEventList();
+            eventList.add(event.getId());
+            organization.get().setEventList(eventList);
+            //save organization
+            organizationRepository.save(organization.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", eventRepository.save(event),200));
+                    new ResponseObject(true, "Save event successfully ", "", 200));
 
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Save event fail", "", 400));
         }
-        throw new NotFoundException("Can not Create event");
+
+    }
+    @Override
+    public ResponseEntity<?> findAllbyPage(Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findAll(pageable);
+        List<Event> eventList = eventPage.toList();
+        if (eventList.size() > 0)
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Get all user success", eventList,200));
+        throw new NotFoundException("Can not find any organization");
     }
     @Override
     public ResponseEntity<?> eventPagination(Pageable pageable) {
@@ -162,17 +179,25 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ResponseEntity<?> deleteEvent(String id) {
-        boolean checkExist = eventRepository.existsById(id);
-        if (checkExist) {
+    public ResponseEntity<?> deleteEvent(String id,String email) {
 
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if (organization.isPresent()) {
+            //remove 1 item Id in listEvent
+            List<String> eventList = organization.get().getEventList();
+            eventList.remove(id);
+            organization.get().setEventList(eventList);
+            //save
+            organizationRepository.save(organization.get());
             eventRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete data successfully ", "",200));
-
-        } else {
+                    new ResponseObject(true, "Delete event successfully ", "",200));
+        }
+        else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete data fail with id:" + id, "",404));
+                    new ResponseObject(false, "Delete event fail with email:" + email, "",404));
+
+
         }
 
     }

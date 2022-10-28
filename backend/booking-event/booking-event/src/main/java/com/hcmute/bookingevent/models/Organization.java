@@ -6,10 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Document("organization")
@@ -22,11 +26,15 @@ public class Organization {
     @Id
     private String id;
     private String address;
+    @NotBlank(message = "Email is required")
+    @Size(max = 100)
+    @Email(message = "Email is invalidate")
+    @Indexed(unique = true)
     private String email;
 
     private EOrganization status;
 
-    private List<String> eventID;
+    private List<String> eventList;
 
     public Organization(String id) {
         this.id = id;

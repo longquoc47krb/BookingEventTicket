@@ -61,6 +61,8 @@ public class OrganizationService implements IOrganizationService {
 
         Account account = new Account(organizationReq.getName(),organizationReq.getEmail(),organizationReq.getPhoneNumber(),"", Constants.AVATAR_DEFAULT,Constants.ROLE_ORGANIZATION);
         accountRepository.save(account);
+        // gửi mail
+        //
         Organization organization = new Organization(account.getEmail(), EOrganization.DISABLED);
         organizationRepository.save(organization);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -75,13 +77,15 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(true, "Get all user success", organizationList,200));
         throw new NotFoundException("Can not find any organization");
     }
+    // tài khoản chỉ đc xóa tại thời điểm xét duyệt
     @Override
     public ResponseEntity<?> deleteOrganization(String email) {
-        if (accountRepository.existsByEmail(email)) {
-
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if (organization.isPresent()) {
+            organizationRepository.deleteByEmail(email);
             accountRepository.deleteByEmail(email);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete account successfully ", "",200));
+                    new ResponseObject(true, "Delete organization account successfully ", "",200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

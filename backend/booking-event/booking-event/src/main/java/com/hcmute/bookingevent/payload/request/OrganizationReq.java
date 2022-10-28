@@ -8,12 +8,12 @@ import javax.validation.constraints.NotBlank;
 @Data
 
 public class OrganizationReq {
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
     @NotBlank
     @Email(message = "Email invalidate")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Phone is required")
     private String phoneNumber;
 
 }

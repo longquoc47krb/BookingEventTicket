@@ -10,5 +10,6 @@ public class VerifyOTPReq {
     @NotBlank
     @Email(message = "Email invalidate")
     private String email;
+    @NotBlank(message = "OTP is required")
     private String otpCode;
 }

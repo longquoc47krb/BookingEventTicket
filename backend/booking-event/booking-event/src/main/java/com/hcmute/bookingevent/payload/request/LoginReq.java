@@ -10,6 +10,6 @@ public class LoginReq {
     @NotBlank
     @Email(message = "Email invalidate")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Password is required")
     private String password;
 }
