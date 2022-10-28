@@ -200,6 +200,10 @@
     "email": {
       "title": "Sent email",
       "content": "OTP was sent to your email address. Check it (check 'Spam' tab)!"
+    },
+    "changePassword": {
+      "success": "Successfully change password",
+      "error": "Failed change password"
     }
   }
 }
