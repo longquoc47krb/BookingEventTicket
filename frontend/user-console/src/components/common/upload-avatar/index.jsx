@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
 import {
   emailSelector,
-  setUserProfile,
+  setUserAvatar,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 const { updateAvatar } = accountServices;
@@ -19,7 +19,6 @@ function UploadAvatar({ avatar }) {
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
   const email = useSelector(emailSelector);
-  const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
@@ -27,6 +26,7 @@ function UploadAvatar({ avatar }) {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
         setAvatarFile(e.target.files[0]);
+        dispatch(setUserAvatar(e.target.files[0]));
       }
     };
     reader.readAsDataURL(e.target.files[0]);

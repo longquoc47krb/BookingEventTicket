@@ -53,6 +53,7 @@ export function DateSelect(props) {
         </AntSelect.Option>
         <AntSelect.Option key={1} value={"date-range"}>
           <div className="flex flex-col">
+            {t("date.range")}
             <RangePicker
               format={PATTERNS.DATE_FORMAT}
               onChange={(dates) => {

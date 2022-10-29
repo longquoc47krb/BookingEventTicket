@@ -5,6 +5,7 @@ export const accountSlice = createSlice({
   initialState: {
     userInfo: null,
     email: "",
+    avatar: null,
   },
   reducers: {
     setUserProfile: (state, action) => {
@@ -16,10 +17,15 @@ export const accountSlice = createSlice({
     setEmail: (state, action) => {
       state.email = action.payload;
     },
+    setUserAvatar: (state, { payload }) => {
+      state.avatar = payload;
+    },
   },
 });
 
-export const { setUserProfile, logOutAccount, setEmail } = accountSlice.actions;
+export const { setUserProfile, logOutAccount, setEmail, setUserAvatar } =
+  accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
 export const emailSelector = (state) => state.account.email;
+export const userAvatarSelector = (state) => state.account.avatar;
 export default accountSlice.reducer;

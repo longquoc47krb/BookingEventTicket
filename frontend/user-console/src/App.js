@@ -3,12 +3,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HtmlEditor from "./components/common/editor";
+import Loading from "./components/loading";
 import ScrollToTopPage from "./components/scroll-to-top";
 import routes from "./configs/routes";
-import {
-  UserActionContextProvider,
-  useUserActionContext,
-} from "./context/UserActionContext";
+import { UserActionContextProvider } from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { UserFetchDataContextProvider } from "./context/UserFetchDataContext";
 const queryClient = new QueryClient({
@@ -43,6 +42,7 @@ function App() {
                 {routes.map((route) => (
                   <Route path={route.path} element={route.element} />
                 ))}
+
                 {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
@@ -52,6 +52,7 @@ function App() {
               //       component={UserProfile}
               //     ></UserRoute>
               //   } */}
+                <Route path="/test" element={<Loading />} />
               </Routes>
             </UserActionContextProvider>
           </UserAuthContextProvider>
