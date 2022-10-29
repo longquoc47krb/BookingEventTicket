@@ -3,43 +3,25 @@
     background: black !important;
     width: 100vw;
     height: 100vh;
-    span {
-      color: $primary-color;
-      font-size: 1rem;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -150%);
-    }
   }
 }
 
-.progress {
-  width: 120px;
-  height: 22px;
-  border-radius: 20px;
-  color: $primary-color;
-  border: 2px solid;
-  position: relative;
-  background: transparent;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  &::before {
-    content: "";
-    position: absolute;
-    margin: 2px;
-    inset: 0 100% 0 0;
-    border-radius: inherit;
-    background: currentColor;
-    animation: p6 2s infinite;
-  }
+.spinner-3 {
+  width: 8rem;
+  padding: 1rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: $primary-color;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: s3 0.5s infinite linear;
 }
-
-@keyframes p6 {
-  100% {
-    inset: 0;
+@keyframes s3 {
+  to {
+    transform: rotate(1turn);
   }
 }
 /* Loading three dots */

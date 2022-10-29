@@ -4,6 +4,7 @@ import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HtmlEditor from "./components/common/editor";
+import Loading from "./components/loading";
 import ScrollToTopPage from "./components/scroll-to-top";
 import routes from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
@@ -51,7 +52,7 @@ function App() {
               //       component={UserProfile}
               //     ></UserRoute>
               //   } */}
-                <Route path="/test" element={<HtmlEditor />} />
+                <Route path="/test" element={<Loading />} />
               </Routes>
             </UserActionContextProvider>
           </UserAuthContextProvider>

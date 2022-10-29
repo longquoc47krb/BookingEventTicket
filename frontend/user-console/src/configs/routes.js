@@ -1,41 +1,54 @@
-import loadable from "@loadable/component";
+import Loadable from "react-loadable";
 import Loading from "../components/loading";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import UserRegister from "../views/auth/UserRegister";
-const LoginPage = loadable(() => import("../views/auth/UserLogin"), {
-  fallback: Loading,
+const LoginPage = Loadable({
+  loader: () => import("../views/auth/UserLogin"),
+  loading: Loading,
 });
-const AdminLoginPage = loadable(() => import("../views/auth/AdminLogin"), {
-  fallback: Loading,
+const AdminLoginPage = Loadable({
+  loader: () => import("../views/auth/AdminLogin"),
+  loading: Loading,
 });
-const OAuthLoginPage = loadable(() => import("../views/auth/OAuthLogin"), {
-  fallback: Loading,
+const OAuthLoginPage = Loadable({
+  loader: () => import("../views/auth/OAuthLogin"),
+  loading: Loading,
 });
-const EventDashBoardPage = loadable(() => import("../views/event-dashboard"), {
-  fallback: Loading,
+const EventDashBoardPage = Loadable({
+  loader: () => import("../views/event-dashboard"),
+  loading: Loading,
 });
-const EventDetailPage = loadable(() => import("../views/event-detail"), {
-  fallback: Loading,
+const EventDetailPage = Loadable({
+  loader: () => import("../views/event-detail"),
+  loading: Loading,
 });
-const HomePage = loadable(() => import("../views/home"), { fallback: Loading });
-const HelpCenterPage = loadable(() => import("../views/help-center"), {
-  fallback: Loading,
+const HomePage = Loadable({
+  loader: () => import("../views/home"),
+  loading: Loading,
 });
-const NewPasswordPage = loadable(() => import("../views/auth/NewPassword"), {
-  fallback: Loading,
+const HelpCenterPage = Loadable({
+  loader: () => import("../views/help-center"),
+  loading: Loading,
 });
-const TicketBookingPage = loadable(() => import("../views/ticket-booking"), {
-  fallback: Loading,
+const NewPasswordPage = Loadable({
+  loader: () => import("../views/auth/NewPassword"),
+  loading: Loading,
 });
-const BeAnOrganizerPage = loadable(
-  () => import("../views/organizer-registration"),
-  { fallback: Loading }
-);
-const UserProfilePage = loadable(() => import("../views/user-profile"), {
-  fallback: Loading,
+const TicketBookingPage = Loadable({
+  loader: () => import("../views/ticket-booking"),
+  loading: Loading,
 });
-const NotFoundPage = loadable(() => import("../views/not-found"), {
-  fallback: Loading,
+const BeAnOrganizerPage = Loadable({
+  loader: () => import("../views/organizer-registration"),
+  loading: Loading,
+});
+const UserProfilePage = Loadable({
+  loader: () => import("../views/user-profile"),
+  loading: Loading,
+});
+const NotFoundPage = Loadable({
+  loader: () => import("../views/not-found"),
+  loading: Loading,
 });
 const routes = [
   {
