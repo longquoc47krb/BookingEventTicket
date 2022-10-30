@@ -116,11 +116,11 @@ public class AuthService implements IAuthService {
         }
 
     }
-    public ResponseEntity<?> forgetPassword(ForgetOrGenerateReq forgetOrGenerateReq)
+    public ResponseEntity<?> forgetPassword(EmailReq emailReq)
     {
         try
         {
-            Optional<Account> account= accountRepository.findByEmail(forgetOrGenerateReq.getEmail());
+            Optional<Account> account= accountRepository.findByEmail(emailReq.getEmail());
             if(account.isPresent())
             {
 
@@ -145,17 +145,17 @@ public class AuthService implements IAuthService {
 
         }
     }
-    public ResponseEntity<?> changePassword(ChangePasswordRes changePasswordRes)
+    public ResponseEntity<?> changePassword(ChangePasswordReq changePasswordReq)
     {
         try
         {
-            Optional<Account> account= accountRepository.findByEmail(changePasswordRes.getEmail());
+            Optional<Account> account= accountRepository.findByEmail(changePasswordReq.getEmail());
             if(account.isPresent())
             {
 
-                if(encoder.matches(changePasswordRes.getCurrentPassword(), account.get().getPassWord()))
+                if(encoder.matches(changePasswordReq.getCurrentPassword(), account.get().getPassWord()))
                 {
-                    account.get().setPassWord(encoder.encode(changePasswordRes.getNewPassword()));
+                    account.get().setPassWord(encoder.encode(changePasswordReq.getNewPassword()));
                     return ResponseEntity.ok(new ResponseObject(true,"Password match and save data successfully",account.get().getEmail(),200));
 
                 }

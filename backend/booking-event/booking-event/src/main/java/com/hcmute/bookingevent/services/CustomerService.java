@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +56,69 @@ public class CustomerService  implements ICustomerService {
                     new ResponseObject(false, "Delete account fail with email:" + email, "",404));
         }
 
+    }
+    public ResponseEntity<?> viewWishList(String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Save WishList Event successfully ", customer.get().getEventWishList(),200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "addWishList fail with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> addWishList(String idItem,String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+            customer.get().getEventWishList().add(idItem);
+            customerRepository.save(customer.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Save WishList Event successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "addWishList fail with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> deleteItemWishList(String idItem,String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+            customer.get().getEventWishList().remove(idItem);
+            customerRepository.save(customer.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Delete WishList Event successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "deleteItemWishList fail with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> deleteAllWishList(String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+            customer.get().getEventWishList().clear();
+            customerRepository.save(customer.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Delete WishList Event successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "deleteItemWishList fail with email:" + email, "",404));
+
+        }
     }
     @Override
     public ResponseEntity<?> createAccount(Customer newAccount)

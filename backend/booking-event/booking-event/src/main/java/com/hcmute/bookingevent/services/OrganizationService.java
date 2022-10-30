@@ -6,7 +6,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
-import com.hcmute.bookingevent.payload.request.OrganizationReq;
+import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -50,21 +50,21 @@ public class OrganizationService implements IOrganizationService {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<?> submitOrganization(OrganizationReq organizationReq)
+    public ResponseEntity<?> submitOrganization(OrganizationSubmitReq organizationSubmitReq)
     {
-        if (accountRepository.existsByEmail(organizationReq.getEmail())) {
+        if (accountRepository.existsByEmail(organizationSubmitReq.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!",400));
         }
 
-        if (accountRepository.existsByPhone(organizationReq.getPhoneNumber())) {
+        if (accountRepository.existsByPhone(organizationSubmitReq.getPhoneNumber())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Phone: Phone is already in use!",400));
         }
 
-        Account account = new Account(organizationReq.getName(),organizationReq.getEmail(),organizationReq.getPhoneNumber(),"", Constants.AVATAR_DEFAULT,Constants.ROLE_ORGANIZATION);
+        Account account = new Account(organizationSubmitReq.getName(), organizationSubmitReq.getEmail(), organizationSubmitReq.getPhoneNumber(),"", Constants.AVATAR_DEFAULT,Constants.ROLE_ORGANIZATION);
         accountRepository.save(account);
         // gửi mail
         mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
