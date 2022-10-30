@@ -25,7 +25,7 @@ public class AccountController {
     private final IAccountService iAccountService;
     private final JwtTokenProvider jwtUtils;
 
-    @GetMapping(path = "/admin/get/accounts")
+    @GetMapping(path = "/admin/accounts")
     public ResponseEntity<?> findAll (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iAccountService.findAll(pageable);

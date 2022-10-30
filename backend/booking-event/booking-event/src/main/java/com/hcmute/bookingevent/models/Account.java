@@ -42,7 +42,6 @@ public class Account {
     private String role;
     private OTP otp;
     private EAccount loginType;
-    //private String resetPasswordToken;
     public Account(String name,  String email,String passWord, String avatar) {
 
         this.name = name;

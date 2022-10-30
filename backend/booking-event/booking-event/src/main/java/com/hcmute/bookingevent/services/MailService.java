@@ -39,6 +39,8 @@ public class MailService {
             "<br>Regards,";
     final String REGISTER_CONTENT ="Welcome to LotusTicket! You have successfully registered. Please visit our website to explore " +
             "<br>Regards,";
+    final String BECOME_ORGANIZATION_CONTENT ="Welcome to LotusTicket! You have successfully sent your application form . Please wait for a few days to allow us to verify your information before you have full authentication to our website. We will notify you  of result as soon as possible" +
+            "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
 
 
@@ -68,6 +70,11 @@ public class MailService {
             {
                 model.put("header", "Register successfully");
                 model.put("content", REGISTER_CONTENT);
+            }
+            else if(type.equals(EMailType.BECOME_ORGANIZATION))
+            {
+                model.put("header", "BECOME ORGANIZATION");
+                model.put("content", BECOME_ORGANIZATION_CONTENT);
             }
 
             model.put("title", "LOTUS TICKET");

@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Data
 
-public class ChangePasswordRes {
+public class ChangePasswordReq {
     @NotBlank
     @Email(message = "Email is invalidate")
     private String email;

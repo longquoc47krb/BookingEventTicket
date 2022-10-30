@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @AllArgsConstructor
@@ -30,8 +29,8 @@ public class AuthController {
         return iAuthService.registerUser(registerReq);
     }
     @PostMapping("/forget")
-    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetOrGenerateReq forgetOrGenerateReq) {
-        return iAuthService.forgetPassword(forgetOrGenerateReq);
+    public ResponseEntity<?> forgetPassword(@Valid @RequestBody EmailReq emailReq) {
+        return iAuthService.forgetPassword(emailReq);
     }
     @PostMapping("/verifyOTP")
     public ResponseEntity<?> verifyOTP(@Valid @RequestBody VerifyOTPReq verifyOTPReq) {
@@ -42,14 +41,14 @@ public class AuthController {
         return iAuthService.verifyChangePassword(loginReq);
     }
     @PostMapping("/generateNewPassword")
-    public ResponseEntity<?> generateNewPassword(@Valid @RequestBody ForgetOrGenerateReq forgetOrGenerateReq) {
-        return iAuthService.generateNewPassword(forgetOrGenerateReq.getEmail());
+    public ResponseEntity<?> generateNewPassword(@Valid @RequestBody EmailReq emailReq) {
+        return iAuthService.generateNewPassword(emailReq.getEmail());
     }
     @PostMapping("/changePassword/{id}")
-    public ResponseEntity<?> changePassword(@PathVariable String id, @Valid @RequestBody ChangePasswordRes changePasswordRes, HttpServletRequest request) {
+    public ResponseEntity<?> changePassword(@PathVariable String id, @Valid @RequestBody ChangePasswordReq changePasswordReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(id)) {
-            return iAuthService.changePassword(changePasswordRes);
+            return iAuthService.changePassword(changePasswordReq);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }

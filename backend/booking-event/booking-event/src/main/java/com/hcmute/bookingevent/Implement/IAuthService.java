@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 public interface IAuthService {
     ResponseEntity<?> login(LoginReq req);
     ResponseEntity<?> registerUser(RegisterReq signUpRequest);
-    ResponseEntity<?> forgetPassword(ForgetOrGenerateReq forgetOrGenerateReq);
+    ResponseEntity<?> forgetPassword(EmailReq emailReq);
     ResponseEntity<?> verifyOTP(VerifyOTPReq verifyOTPReq);
     ResponseEntity<?> verifyChangePassword(LoginReq loginReq);
     ResponseEntity<?> generateNewPassword(String email);
-    ResponseEntity<?> changePassword(ChangePasswordRes changePasswordRes);
+    ResponseEntity<?> changePassword(ChangePasswordReq changePasswordReq);
 
 }
