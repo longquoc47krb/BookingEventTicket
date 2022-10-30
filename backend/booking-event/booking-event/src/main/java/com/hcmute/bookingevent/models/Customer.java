@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 @Document("customer")
 @Getter
@@ -19,15 +23,19 @@ public class Customer {
     @Id
     private String id;
     private int ticketAmount;
-
+    @NotBlank(message = "Email is required")
+    @Size(max = 100)
+    @Email(message = "Email is invalidate")
+    @Indexed(unique = true)
+    private String email;
 
     private int role;
     private List<String> ticketList;
 
     private List<String> eventWishList;
-    public Customer(String id)
+    public Customer(String email)
     {
-        this.id=id;
-        this.role=1;
+        this.email=email;
+
     }
 }

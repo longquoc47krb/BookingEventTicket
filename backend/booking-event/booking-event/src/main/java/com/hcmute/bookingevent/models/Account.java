@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.OTP.OTP;
 import com.hcmute.bookingevent.models.account.EAccount;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @Document("account")
@@ -19,20 +25,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Account {
     @Id
     private String id;
-
+    @NotBlank(message = "Name is required")
     private String name;
     //@Nullable
     //@Indexed(unique = true)
     private String phone;
-    //@Indexed(unique = true)
+    @NotBlank(message = "Email is required")
+    @Size(max = 100)
+    @Email(message = "Email is invalidate")
+    @Indexed(unique = true)
     private String email;
     private String avatar;
-
+    @JsonIgnore
     private String passWord;
+    @NotBlank(message = "Role is required")
     private String role;
     private OTP otp;
     private EAccount loginType;
-    //private String resetPasswordToken;
     public Account(String name,  String email,String passWord, String avatar) {
 
         this.name = name;
@@ -44,6 +53,14 @@ public class Account {
 
         this.name = name;
         this.email = email;
+        this.passWord = passWord;
+        this.avatar = avatar;
+        this.role = role;
+    }
+    public Account(String name,  String email, String phone,String passWord, String avatar,String role) {
+        this.name = name;
+        this.email = email;
+        this.phone= phone;
         this.passWord = passWord;
         this.avatar = avatar;
         this.role = role;

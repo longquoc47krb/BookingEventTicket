@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.security.jwt;
 
+import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.payload.request.LoginReq;
 
 import com.hcmute.bookingevent.security.user.UserDetailsImpl;
@@ -36,9 +37,9 @@ public class JwtTokenProvider {
     }
 
 //    Tạo ra token từ chuỗi authentication
-    public String generateJwtToken(String email) {
+    public String generateJwtToken(String email, String id) {
         return Jwts.builder()
-                .setSubject((email))
+                .setSubject(String.format("%s,%s", id, email))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -46,12 +47,19 @@ public class JwtTokenProvider {
     }
 
     //Lấy id_user từ token đã được mã hóa
-    public String getGmailFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
+    public Account getGmailFromJWT(String token) {
+        Account account = new Account();
+        String subject = Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(token).getBody().getSubject();
+        String[] jwtSubject = subject.split(",");
+
+        account.setId(jwtSubject[0]);
+        account.setEmail(jwtSubject[1]);
+       return account;
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(jwtSecret)
+//                .parseClaimsJws(token)
+//                .getBody();
+//        return claims.getSubject();
     }
 
     //check token

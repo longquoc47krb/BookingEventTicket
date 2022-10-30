@@ -50,8 +50,20 @@ public class AuthService implements IAuthService {
         // Set thông tin authentication vào Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        //
+         Optional<Account>  account=  accountRepository.findByEmail(userDetails.getEmail());
         // Trả về jwt cho người dùng.
-        String jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail());
+            String jwt;
+            if(account.isPresent())
+            {
+                 jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail(),account.get().getId());
+
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "can not find email", "",400));
+            }
 
 
         List<String> roles = userDetails.getAuthorities().stream()
@@ -60,6 +72,7 @@ public class AuthService implements IAuthService {
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Logged in successfully", new JwtResponse(jwt,
+                            userDetails.getId(),
                             userDetails.getUsername(),
                             userDetails.getEmail(),
                             roles,"success"),200));
@@ -68,7 +81,7 @@ public class AuthService implements IAuthService {
         catch (BadCredentialsException  ex)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    new ResponseObject(false, ex.toString(), "",400));
+                    new ResponseObject(false, ex.toString() + "Login fail", "",400));
         }
         catch (Exception ex)
         {
@@ -103,11 +116,11 @@ public class AuthService implements IAuthService {
         }
 
     }
-    public ResponseEntity<?> forgetPassword(ForgetOrGenerateReq forgetOrGenerateReq)
+    public ResponseEntity<?> forgetPassword(EmailReq emailReq)
     {
         try
         {
-            Optional<Account> account= accountRepository.findByEmail(forgetOrGenerateReq.getEmail());
+            Optional<Account> account= accountRepository.findByEmail(emailReq.getEmail());
             if(account.isPresent())
             {
 
@@ -132,17 +145,17 @@ public class AuthService implements IAuthService {
 
         }
     }
-    public ResponseEntity<?> changePassword(ChangePasswordRes changePasswordRes)
+    public ResponseEntity<?> changePassword(ChangePasswordReq changePasswordReq)
     {
         try
         {
-            Optional<Account> account= accountRepository.findByEmail(changePasswordRes.getEmail());
+            Optional<Account> account= accountRepository.findByEmail(changePasswordReq.getEmail());
             if(account.isPresent())
             {
 
-                if(encoder.matches(changePasswordRes.getCurrentPassword(), account.get().getPassWord()))
+                if(encoder.matches(changePasswordReq.getCurrentPassword(), account.get().getPassWord()))
                 {
-                    account.get().setPassWord(encoder.encode(changePasswordRes.getNewPassword()));
+                    account.get().setPassWord(encoder.encode(changePasswordReq.getNewPassword()));
                     return ResponseEntity.ok(new ResponseObject(true,"Password match and save data successfully",account.get().getEmail(),200));
 
                 }

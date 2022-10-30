@@ -12,6 +12,8 @@ public class JwtResponse {
     @NotBlank
     private String token;
     @NotBlank
+    private String id;
+    @NotBlank
     private String name;
 
     private String email;
