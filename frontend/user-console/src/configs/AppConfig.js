@@ -78,12 +78,6 @@ const MENU = [
     icon: <FaTheaterMasks fontSize={16} />,
   },
   {
-    label: "category.online",
-    key: "online",
-    link: "/events?category=category.online",
-    icon: <MdScreenSearchDesktop fontSize={16} />,
-  },
-  {
     label: "category.nightlife",
     key: "nightlife",
     link: "/events?category=category.nightlife",

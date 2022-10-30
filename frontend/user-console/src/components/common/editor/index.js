@@ -1,58 +1,53 @@
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from "draftjs-to-html";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import React, { useState } from "react";
-import { ContentState } from "draft-js";
-import { convertFromHTML } from "draft-js";
-
-const DraftEditor = (props) => {
-  const { content, setContent } = props;
-  const htmlDecode = (input) => {
-    var e = document.createElement("div");
-    e.innerHTML = input;
-    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { encode } from "js-base64";
+import parse from "html-react-parser";
+const HtmlEditor = ({ text }) => {
+  const [value, setValue] = useState("");
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      ["clean"],
+    ],
   };
-  const [inputContent, setInputContent] = useState("");
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createWithContent(
-      ContentState.createFromBlockArray(convertFromHTML(content))
-    )
-  );
 
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
   return (
-    <div>
-      <Editor
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editor-box"
-        onEditorStateChange={setEditorState}
-        toolbar={{
-          inline: { inDropdown: false },
-          list: { inDropdown: false },
-          textAlign: { inDropdown: true },
-          link: { inDropdown: true },
-          history: { inDropdown: true },
-          options: [
-            "inline",
-            "fontSize",
-            "fontFamily",
-            "list",
-            "textAlign",
-            "link",
-            "image",
-            "history",
-          ],
-        }}
-        editorState={editorState}
-        onChange={() => {
-          setContent(
-            draftToHtml(convertToRaw(editorState.getCurrentContent()))
-          );
-        }}
-      />
+    <div className="text-editor">
+      <ReactQuill
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={value}
+        onChange={setValue}
+      ></ReactQuill>
+      <p className="mt-2">{value}</p>
+      <p className="mt-2">{encode(value)}</p>
+      <br></br>
+      {parse(value)}
     </div>
   );
 };
 
-export default DraftEditor;
+export default HtmlEditor;

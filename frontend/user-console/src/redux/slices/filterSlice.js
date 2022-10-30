@@ -4,7 +4,7 @@ const initialState = {
   filter: {
     province: null,
     categoryId: null,
-    status: null,
+    status: "event.available",
   },
   filterByDateType: null,
   dateRange: {

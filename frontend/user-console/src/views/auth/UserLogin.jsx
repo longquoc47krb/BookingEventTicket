@@ -57,7 +57,7 @@ const UserLogin = (props) => {
       }
       if (response.status === 200 || userProfileResponse.status === 200) {
         localStorage.setItem("token", response.data.token);
-        dispatch(setUserProfile(userProfileResponse.data[0]));
+        dispatch(setUserProfile(userProfileResponse.data));
       }
     },
   });
