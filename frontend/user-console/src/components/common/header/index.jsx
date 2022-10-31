@@ -21,7 +21,6 @@ import placeholderImg from "../../../assets/fallback-avatar.png";
 import AppConfig from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
-import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
 import {
   logOutAccount,
   userInfoSelector,
@@ -32,12 +31,13 @@ import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
+import { useFetchEvents } from "../../../api/services/eventServices";
 const { USER_PROFILE_MENU } = AppConfig;
 function Header(props) {
   const { showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const { wishlist, clearWishlist } = useUserActionContext();
-  const { allEvents, successStatus } = useUserFetchDataContext();
+  const { data: allEvents, status: allEventsStatus } = useFetchEvents();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -150,7 +150,7 @@ function Header(props) {
         {showSearchBox ? (
           <SearchBox
             placeholder={t("event.placeholder-searchbox")}
-            data={successStatus && allEvents}
+            data={allEventsStatus === "success" ? allEvents : []}
           />
         ) : null}
       </div>

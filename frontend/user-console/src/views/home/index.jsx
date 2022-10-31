@@ -7,6 +7,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
+import {
+  useFetchEventsByFilter,
+  useFetchFeaturedEvents,
+} from "../../api/services/eventServices";
+import { useLocationName } from "../../api/services/generalServices";
 import Carousel from "../../components/common/carousel";
 import AppDrawer from "../../components/common/drawer";
 import EventHomeItem from "../../components/common/event-home-item";
@@ -17,11 +22,18 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
-import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { setPathName } from "../../redux/slices/routeSlice";
+import constants, { TicketStatus } from "../../utils/constants";
+const { provinceMapping } = constants;
 function Home() {
-  const { featuredEvents, eventsByProvince, loadingStatus, errorStatus } =
-    useUserFetchDataContext();
+  const { data: location, status: locationStatus } = useLocationName();
+  const { data: featuredEvents, status: featuredEventStatus } =
+    useFetchFeaturedEvents();
+  const { data: eventsByProvince, status: eventsByProvinceStatus } =
+    useFetchEventsByFilter({
+      province: provinceMapping.get(location ? location?.region : ""),
+      status: TicketStatus.AVAILABLE,
+    });
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,7 +52,8 @@ function Home() {
           <SiderBar className="sider" />
         </div>
         <div className="home-content">
-          {loadingStatus || errorStatus ? (
+          {featuredEventStatus === "loading" ||
+          featuredEventStatus === "error" ? (
             <Skeleton width={"100%"} height={"20vh"} />
           ) : isMobile ? (
             <Carousel data={featuredEvents} />
@@ -51,7 +64,8 @@ function Home() {
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
             <div className="home-popular-content">
-              {loadingStatus || errorStatus
+              {featuredEventStatus === "loading" ||
+              featuredEventStatus === "error"
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : featuredEvents
                     .filter((e) => e.remainingTicket !== 0)
@@ -63,7 +77,8 @@ function Home() {
           <div className="home-event-near-you">
             <SectionTitle>{t("event.near-you")}</SectionTitle>
             <div className="home-event-near-you-content">
-              {loadingStatus || errorStatus
+              {eventsByProvinceStatus === "loading" ||
+              eventsByProvinceStatus === "error"
                 ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
                 : eventsByProvince.map((event) => (
                     <EventHomeItem event={event} />

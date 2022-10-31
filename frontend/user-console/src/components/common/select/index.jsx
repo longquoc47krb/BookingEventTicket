@@ -12,12 +12,13 @@ import {
 } from "../../../redux/slices/filterSlice";
 import { isNotEmpty } from "../../../utils/utils";
 import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
+import { useFetchCategories } from "../../../api/services/categoryServices";
 export function Select(props) {
   const { data, icon, type, defaultValue } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const keys = isNotEmpty(data) && Object.keys(Object.assign({}, ...data));
-  const { categories } = useUserFetchDataContext();
+  const { data: categories, status } = useFetchCategories();
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.filter.filter);
   const filterByDateType = useSelector(
@@ -26,9 +27,13 @@ export function Select(props) {
   function handleValue(value) {
     if (type === "location") return dispatch(setProvince(value));
     if (type === "category") {
-      navigate(
-        `/events?category=${categories.filter((c) => c.id === value)[0].name}`
-      );
+      if (value === null) {
+        navigate("/events");
+      } else {
+        navigate(
+          `/events?category=${categories.filter((c) => c.id === value)[0].name}`
+        );
+      }
       return dispatch(setCategoryId(value));
     }
 
