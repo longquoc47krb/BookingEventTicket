@@ -3,8 +3,6 @@
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetchEvents } from "../../api/services/eventServices";
-import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { useHandleClickOutside } from "../../hooks/useHandleClickOutside";
 import SearchBox from "../common/searchbox";
 function HeroBanner({ heroBackground, searchData }) {

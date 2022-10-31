@@ -11,7 +11,6 @@ import {
   setStatus,
 } from "../../../redux/slices/filterSlice";
 import { isNotEmpty } from "../../../utils/utils";
-import { useUserFetchDataContext } from "../../../context/UserFetchDataContext";
 import { useFetchCategories } from "../../../api/services/categoryServices";
 export function Select(props) {
   const { data, icon, type, defaultValue } = props;

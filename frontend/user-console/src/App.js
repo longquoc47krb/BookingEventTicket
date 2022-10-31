@@ -10,7 +10,6 @@ import ScrollToTopPage from "./components/scroll-to-top";
 import routes from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import { UserFetchDataContextProvider } from "./context/UserFetchDataContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     staleTime: 30000,
