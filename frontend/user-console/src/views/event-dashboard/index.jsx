@@ -27,8 +27,7 @@ function EventDashBoard() {
   const { t } = useTranslation();
   const [categoryParams, setCategoryParams] = useSearchParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { data: category, status } = useFetchCategories();
+  const { data: category } = useFetchCategories();
   const categoryId = categoryParams.get("category")
     ? category.filter((c) => c.name === categoryParams.get("category"))[0].id
     : null;

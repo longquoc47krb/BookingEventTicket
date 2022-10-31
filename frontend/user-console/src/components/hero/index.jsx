@@ -7,7 +7,7 @@ import { useFetchEvents } from "../../api/services/eventServices";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { useHandleClickOutside } from "../../hooks/useHandleClickOutside";
 import SearchBox from "../common/searchbox";
-function HeroBanner({ heroSlogan, heroBackground }) {
+function HeroBanner({ heroBackground }) {
   const { t } = useTranslation();
   // const events = useSelector(eventsSelector);
   const { allEvents, successStatus } = useUserFetchDataContext();
@@ -33,7 +33,6 @@ function HeroBanner({ heroSlogan, heroBackground }) {
   );
 }
 HeroBanner.propTypes = {
-  heroSlogan: PropTypes.string.isRequired,
   heroBackground: PropTypes.string.isRequired,
 };
 HeroBanner.defaultProps = {

@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useClickAway, useDebounce } from "react-use";
 import { useFetchEvents } from "../../../api/services/eventServices";
 import { setResults } from "../../../redux/slices/searchSlice";
-import { debounce } from "../../../utils/utils";
+import { debounce, isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { value, data, placeholder } = props;
   const [filterValue, setFilterValue] = useState(value || "");
@@ -35,7 +35,7 @@ const SearchBox = (props) => {
       setDebouncedValue(filterValue);
       setExpand(true);
     },
-    1000,
+    2000,
     [filterValue]
   );
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const SearchBox = (props) => {
         }),
       [data]
     );
-  const results = data && fuse.search(debouncedValue);
+  const results = data ? fuse.search(debouncedValue) : [];
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
@@ -90,7 +90,7 @@ const SearchBox = (props) => {
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2 text-black">
-              {t("search.result", { val: results ? results?.length : 0 })}
+              {t("search.result", { val: results ? results.length : 0 })}
             </p>
           )}
           {results?.slice(0, 3).map((row) => {
@@ -123,7 +123,7 @@ const SearchBox = (props) => {
               </div>
             );
           })}
-          {!results?.length ? (
+          {isEmpty(results) ? (
             <li className="SearchBox_Results_List_Item px-2 py-0">
               <Empty
                 image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -139,7 +139,7 @@ const SearchBox = (props) => {
               ></Empty>
             </li>
           ) : null}
-          {results?.length > 3 ? (
+          {results.length > 3 ? (
             <li
               className="SearchBox_Results_List_Item flex gap-x-2 items-end"
               onClick={() => {
