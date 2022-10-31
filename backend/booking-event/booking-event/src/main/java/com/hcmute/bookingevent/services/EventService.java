@@ -4,8 +4,10 @@ import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.payload.response.EventRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.repository.EventRepository;
@@ -37,7 +39,7 @@ public class EventService implements IEventService {
     private final EventRepository eventRepository;
     private final MongoTemplate mongoTemplate;
     private final OrganizationRepository organizationRepository;
-
+    private final EventMapper eventMapper;
     private final IEventSlugGeneratorService slugGeneratorService;
 
     @Override
@@ -112,8 +114,9 @@ public class EventService implements IEventService {
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
         List<Event> events = sortEventByDateAsc( eventRepository.findAll());
+        List<EventRes> eventRes = events.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully ", events,200));
+                new ResponseObject(true, "Show data successfully ", eventRes,200));
 
     }
 

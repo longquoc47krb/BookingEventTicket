@@ -46,7 +46,7 @@ public class AccountController {
     public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
         return iAccountService.loginAccountByEmail(newAccount);
     }
-    @PutMapping("/account/update/{id}")
+    @PutMapping("/account/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(id))
@@ -57,7 +57,7 @@ public class AccountController {
 
     }
 
-    @PostMapping(path = "/account/update/avatar/{id}")
+    @PostMapping(path = "/account/avatar/{id}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String id,
                                          HttpServletRequest request,
                                          @RequestParam MultipartFile file){
@@ -68,7 +68,7 @@ public class AccountController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-    @PostMapping(path = "/account/update/infor/{id}")
+    @PostMapping(path = "/account/infor/{id}")
     public ResponseEntity<?> updateInformation (@PathVariable String id,@RequestBody UpdateInforRes updateInforRes, HttpServletRequest request)
     {
 
