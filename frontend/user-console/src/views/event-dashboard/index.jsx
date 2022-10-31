@@ -39,12 +39,14 @@ function EventDashBoard() {
   const dateType = useSelector((state) => state.filter.filterByDateType);
   const dispatch = useDispatch();
   const { data: category } = useFetchCategories();
-  const categoryId = categoryParams.get("category")
-    ? category.filter((c) => c.name === categoryParams.get("category"))[0].id
-    : null;
+  const categoryId =
+    category && categoryParams.get("category")
+      ? category.filter((c) => c.name === categoryParams.get("category"))[0].id
+      : null;
   const { data: allEvents, status: allEventsStatus } = useFetchEvents();
   const { data: filteredEvents, status: filteredEventsStatus } =
     useFetchEventsByFilter(filter);
+  useEffect(() => {});
   // Select the date range
   const dateRange = useSelector(dateRangeSelector);
   // Change page

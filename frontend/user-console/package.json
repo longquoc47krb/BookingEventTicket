@@ -71,7 +71,8 @@
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4",
     "wowjs": "^1.1.3",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "yup-phone": "^1.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

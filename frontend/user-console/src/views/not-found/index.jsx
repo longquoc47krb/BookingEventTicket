@@ -2,17 +2,17 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useFetchEvents } from "../../api/services/eventServices";
 import NotFoundImage from "../../assets/404.svg";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import SearchBox from "../../components/common/searchbox";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
-import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 function NotFoundPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const previousPathName = useSelector(pathNameSelector);
-  const { allEvents } = useUserFetchDataContext();
+  const { data: allEvents, status } = useFetchEvents();
   return (
     <>
       <Header showSearchBox={false} />
@@ -21,7 +21,7 @@ function NotFoundPage() {
         <img src={NotFoundImage} alt="Page Not Found" />
         <SearchBox
           placeholder={t("event.placeholder-searchbox")}
-          data={allEvents}
+          data={status === "success" && allEvents}
         />
 
         <button onClick={() => navigate(previousPathName)}>

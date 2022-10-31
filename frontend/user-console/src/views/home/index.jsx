@@ -34,6 +34,8 @@ function Home() {
       province: provinceMapping.get(location ? location?.region : ""),
       status: TicketStatus.AVAILABLE,
     });
+  const sucessStatus =
+    featuredEventStatus === "success" && eventsByProvinceStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,8 +54,7 @@ function Home() {
           <SiderBar className="sider" />
         </div>
         <div className="home-content">
-          {featuredEventStatus === "loading" ||
-          featuredEventStatus === "error" ? (
+          {!sucessStatus ? (
             <Skeleton width={"100%"} height={"20vh"} />
           ) : isMobile ? (
             <Carousel data={featuredEvents} />
@@ -64,8 +65,7 @@ function Home() {
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
             <div className="home-popular-content">
-              {featuredEventStatus === "loading" ||
-              featuredEventStatus === "error"
+              {!sucessStatus
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : featuredEvents
                     .filter((e) => e.remainingTicket !== 0)
@@ -77,8 +77,7 @@ function Home() {
           <div className="home-event-near-you">
             <SectionTitle>{t("event.near-you")}</SectionTitle>
             <div className="home-event-near-you-content">
-              {eventsByProvinceStatus === "loading" ||
-              eventsByProvinceStatus === "error"
+              {!sucessStatus
                 ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
                 : eventsByProvince.map((event) => (
                     <EventHomeItem event={event} />

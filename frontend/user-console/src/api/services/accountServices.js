@@ -1,9 +1,9 @@
 import httpRequest from "../../services/httpRequest";
 import { AccountAPI } from "../configs/account";
 
-const updateAvatar = async (email, data) => {
+const updateAvatar = async (id, data) => {
   try {
-    const response = await httpRequest(AccountAPI.uploadAvatar(email, data));
+    const response = await httpRequest(AccountAPI.uploadAvatar(id, data));
     return response;
   } catch (err) {
     return err.response.data;

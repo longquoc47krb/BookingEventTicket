@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import * as Yup from "yup";
+import "yup-phone";
 import constants from "./constants";
-const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
 const { PATTERNS } = constants;
 export const YupValidations = {
   email: Yup.string()
@@ -10,7 +10,7 @@ export const YupValidations = {
   name: Yup.string()
     .required(t("validate.name.required"))
     .max(64, t("validate.name.max")),
-  phone: Yup.string().matches(phoneRegExp, t("validate.invalid")),
+  phone: Yup.string().phone("VN"),
   password: Yup.string()
     .required(t("validate.password"))
     .matches(PATTERNS.PASSWORD_PATTERN, {
