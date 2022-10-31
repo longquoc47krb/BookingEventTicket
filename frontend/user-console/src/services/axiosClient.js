@@ -1,11 +1,12 @@
 import axios from "axios";
+import { store } from "../redux/store";
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    Authorization: "Bearer " + localStorage.getItem("token"),
+    Authorization: `Bearer ${store.getState().account.token}`,
     Accept: "application/json",
   },
 });

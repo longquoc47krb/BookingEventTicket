@@ -138,6 +138,9 @@
     "otp": {
       "required": "OTP không được để trống",
       "min": "Vui lòng nhập đủ OTP 6 số"
+    },
+    "phone": {
+      "invalid": "Số điện thoại không hợp lệ"
     }
   },
   "status": {

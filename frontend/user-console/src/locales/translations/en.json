@@ -138,6 +138,9 @@
     "otp": {
       "required": "OTP is required",
       "min": "Length is 6 numbers"
+    },
+    "phone": {
+      "invalid": "Phonenumber is invalid"
     }
   },
   "status": {

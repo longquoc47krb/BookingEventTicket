@@ -11,12 +11,12 @@ export const AccountAPI = {
     method: "GET",
   },
   updateAccount: (id, data) => ({
-    url: `/account/update/${id}`,
-    method: "PUT",
+    url: `/account/info/${id}`,
+    method: "POST",
     data,
   }),
-  uploadAvatar: (email, data) => ({
-    url: `/account/update/avatar/${email}`,
+  uploadAvatar: (id, data) => ({
+    url: `/account/avatar/${id}`,
     method: "POST",
     data,
     headers: {

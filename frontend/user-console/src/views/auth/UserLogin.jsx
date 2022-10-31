@@ -20,7 +20,7 @@ import {
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import ThreeDotsLoading from "../../components/loading/three-dots";
-import { setUserProfile } from "../../redux/slices/accountSlice";
+import { setToken, setUserProfile } from "../../redux/slices/accountSlice";
 import { isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
 const { loginByEmail } = authServices;
@@ -56,7 +56,7 @@ const UserLogin = (props) => {
         setLoading(false);
       }
       if (response.status === 200 || userProfileResponse.status === 200) {
-        localStorage.setItem("token", response.data.token);
+        dispatch(setToken(response.data.token));
         dispatch(setUserProfile(userProfileResponse.data));
       }
     },

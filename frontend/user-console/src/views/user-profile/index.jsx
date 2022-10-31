@@ -1,13 +1,14 @@
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import { Col, Form, Row, Typography } from "antd";
-import { Field, FormikProvider, useFormik } from "formik";
+import { Col, Row, Typography } from "antd";
+import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import accountServices from "../../api/services/accountServices";
 import { Input } from "../../components/common/input/customField";
 import UploadAvatar from "../../components/common/upload-avatar";
 import HelmetHeader from "../../components/helmet";
@@ -21,6 +22,7 @@ import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty, isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
+const { updateAvatar } = accountServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ function UserProfile() {
     }
   }, []);
   const initialValues = {
+    id: user?.id,
     avatar: user?.avatar,
     name: user?.name,
     email: user?.email,
@@ -49,11 +52,13 @@ function UserProfile() {
       email: YupValidations.email,
       phone: YupValidations.phone,
     }),
-    onSubmit: (values) => {
-      const { name, email, phone } = values;
+    onSubmit: async (values) => {
+      const { id, name, email, phone } = values;
+      const response = await updateAvatar(id, avatar);
+      console.log(response);
     },
   });
-  const { values } = formik;
+  const { values, handleSubmit } = formik;
   return (
     <>
       <HelmetHeader title={t("user.profile")} content="User Profile" />
@@ -86,6 +91,7 @@ function UserProfile() {
                   paddingLeft: 50,
                   paddingRight: 50,
                 }}
+                onSubmit={handleSubmit}
               >
                 <Row gutter={[48, 40]} className="leading-8">
                   <Col span={24}>
@@ -103,16 +109,13 @@ function UserProfile() {
                       component={Input}
                       label={t("user.phone")}
                       name="phone"
-                      disabled={isEmpty(values.phone) ? false : true}
+                      disabled={isEmpty(initialValues.phone) ? false : true}
                     />
                   </Col>
                 </Row>
                 <Row gutter={[48, 40]}>
                   <Col span={24}>
-                    <button
-                      className="w-full py-2 bg-[#256d85] text-white"
-                      // onClick={() =>}
-                    >
+                    <button className="primary-button" type="submit">
                       {t("submit")}
                     </button>
                   </Col>
