@@ -41,38 +41,33 @@ const SearchBox = (props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  let fuse;
-
-  fuse =
-    data &&
-    useMemo(
-      () =>
-        new Fuse(data, {
-          isCaseSensitive: false,
-          findAllMatches: false,
-          includeMatches: false,
-          includeScore: false,
-          useExtendedSearch: false,
-          minMatchCharLength: 1,
-          shouldSort: true,
-          threshold: 0.4,
-          location: 0,
-          distance: 100,
-          keys: [
-            "id",
-            "name",
-            "venue",
-            "startingDate",
-            "eventCategoryList.name",
-            "province",
-          ],
-        }),
-      [data]
-    );
+  const fuse = new Fuse(data, {
+    isCaseSensitive: false,
+    findAllMatches: false,
+    includeMatches: false,
+    includeScore: false,
+    useExtendedSearch: false,
+    minMatchCharLength: 1,
+    shouldSort: true,
+    threshold: 0.4,
+    location: 0,
+    distance: 100,
+    keys: [
+      "id",
+      "name",
+      "venue",
+      "startingDate",
+      "eventCategoryList.name",
+      "province",
+    ],
+  });
   const results = data ? fuse.search(debouncedValue) : [];
   useEffect(() => {
     dispatch(setResults(results));
   }, [dispatch]);
+  if (!data) {
+    return null;
+  }
   return (
     <div className="SearchBox" ref={ref}>
       <Input

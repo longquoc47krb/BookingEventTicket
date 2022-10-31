@@ -377,31 +377,33 @@ export const filterByDate = (type, list, customDate) => {
   const tomorrow = moment().add(1, "days");
   const startOfMonth = moment().startOf("month");
   const endOfMonth = moment().endOf("month");
-  console.log({ customDate });
-  if (type === "tomorrow")
+
+  if (list && type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
     );
-  if (type === "this-week")
+  if (list && type === "this-week")
     return list.filter(
       (event) =>
         moment(event.startingDate, dateFormat) >= startOfWeek &&
         moment(event.startingDate, dateFormat) <= endOfWeek
     );
-  if (type === "this-month")
+  if (list && type === "this-month")
     return list.filter(
       (event) =>
         moment(event.startingDate, dateFormat) >= startOfMonth &&
         moment(event.startingDate, dateFormat) <= endOfMonth
     );
-  if (type === "date-range") {
-    return list.filter(
-      (event) =>
-        moment(event.startingDate, dateFormat) >=
-          moment(customDate?.start, dateFormat) &&
-        moment(event.endingDate, dateFormat) <=
-          moment(customDate?.end, dateFormat)
-    );
+  if (list && type === "date-range") {
+    const start = moment(customDate.start, dateFormat);
+    const end = moment(customDate.end, dateFormat);
+    if (start && end) {
+      return list.filter(
+        (event) =>
+          moment(event.startingDate, dateFormat) >= start &&
+          moment(event.endingDate, dateFormat) <= end
+      );
+    }
   }
 
   return list;
@@ -511,14 +513,12 @@ export default function fakeDelay(ms) {
     setTimeout(resolve, ms);
   });
 }
-export function dataURLtoBlob(dataurl) {
-  var arr = dataurl.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
+export function filterData(dateType, dateRange, list) {
+  return list && dateType === "date-range"
+    ? filterByDate(dateType, list, {
+        start: dateRange.start,
+        end: dateRange.end,
+        isAvailable: dateRange.isAvailable,
+      })
+    : filterByDate(dateType, list);
 }

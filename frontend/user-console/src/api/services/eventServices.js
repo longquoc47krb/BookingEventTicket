@@ -76,6 +76,7 @@ export const useFetchEventsByFilter = (params) => {
     () => fetchEventByFilter(params),
     {
       staleTime: 30000,
+      cacheTime: 1000 * 60 * 60,
     }
   );
 };

@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import eventServices from "../api/services/eventServices";
+import eventServices, {
+  useCheckEventsStatus,
+} from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
@@ -9,7 +11,8 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
-
+  const { data: checkedEvents, status: eventstatusStatus } =
+    useCheckEventsStatus();
   const getWishlist = () => {
     setWishlistEvent([]);
 
@@ -83,6 +86,7 @@ export const UserActionContextProvider = ({ children }) => {
         clearWishlist,
         showDrawer,
         setShowDrawer,
+        checkedEvents,
       }}
     >
       {children}

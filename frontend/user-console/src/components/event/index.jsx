@@ -13,7 +13,6 @@ import { TicketStatus } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { setCategoryId } from "../../redux/slices/filterSlice";
 import AppConfig from "../../configs/AppConfig";
-import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ function Event(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
-  const { categories } = useUserFetchDataContext();
   const dispatch = useDispatch();
   return (
     <div

@@ -7,10 +7,8 @@ import { useFetchEvents } from "../../api/services/eventServices";
 import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
 import { useHandleClickOutside } from "../../hooks/useHandleClickOutside";
 import SearchBox from "../common/searchbox";
-function HeroBanner({ heroBackground }) {
+function HeroBanner({ heroBackground, searchData }) {
   const { t } = useTranslation();
-  // const events = useSelector(eventsSelector);
-  const { allEvents, successStatus } = useUserFetchDataContext();
   const [isOpen, setIsOpen] = useState(true);
   const ref = useRef();
   useHandleClickOutside(ref, () => setIsOpen(false));
@@ -26,7 +24,7 @@ function HeroBanner({ heroBackground }) {
       <SearchBox
         ref={ref}
         expand={isOpen}
-        data={successStatus && allEvents}
+        data={searchData}
         placeholder={t("event.placeholder-searchbox")}
       />
     </section>

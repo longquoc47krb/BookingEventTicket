@@ -1,6 +1,6 @@
 .filter {
   &-container {
-    width: 83vw;
+    width: 84vw;
     height: auto;
     padding: 0.5rem;
     background: transparent;
@@ -9,7 +9,6 @@
     border-radius: 0.5rem;
     border: 2px solid rgb(177, 177, 177);
     @include for-phone {
-      display: flex;
       flex-direction: column;
       width: 100% !important;
     }

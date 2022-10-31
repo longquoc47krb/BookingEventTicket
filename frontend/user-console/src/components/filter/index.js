@@ -5,7 +5,7 @@ import {
   BsFillInfoCircleFill,
 } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
-import { useUserFetchDataContext } from "../../context/UserFetchDataContext";
+import { useFetchCategories } from "../../api/services/categoryServices";
 import {
   locationSelect,
   statusSelect,
@@ -15,7 +15,7 @@ import theme from "../../shared/theme";
 import { Select } from "../common/select";
 import { DateSelect } from "../common/select/dateSelect";
 const EventFilter = () => {
-  const { categories, successStatus } = useUserFetchDataContext();
+  const { data: categories, status } = useFetchCategories();
   const categorySelect = [{ id: null, name: "category.all" }];
   for (let i in categories) {
     categorySelect.push({
@@ -46,7 +46,7 @@ const EventFilter = () => {
 
   return (
     <div className="filter-container">
-      {successStatus && (
+      {status === "success" && (
         <>
           <Select
             icon={DataMapping[0].icon}
