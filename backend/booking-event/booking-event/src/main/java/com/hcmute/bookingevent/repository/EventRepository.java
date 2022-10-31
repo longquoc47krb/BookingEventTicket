@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.repository;
 
 import com.hcmute.bookingevent.models.Event;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -24,7 +25,10 @@ public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllByStatus(String status);
     @Query(value="{'province' : ?0}")
     List<Event> findAllByProvince(String province);
+    //@Query("{'$or':[ {'province':?0}, {'status':?1},{'eventCategoryList.id:?2'} ] }")
+    @Query("{'$or':[ {'province':?0}, {'status':?1},{'eventCategoryList.id:?2'} ] }")
+    List<Event> findAllByProvinceOrStatusOrCate(String province, String status , String categoryId);
 
-
+    List<Event> findEventByProvinceOrStatusOrEventCategoryList_Id(String province, String status , String categoryId);
     
 }
