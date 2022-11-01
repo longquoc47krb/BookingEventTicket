@@ -2,19 +2,22 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Col, Row, Typography } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import accountServices from "../../api/services/accountServices";
+import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import { Input } from "../../components/common/input/customField";
 import UploadAvatar from "../../components/common/upload-avatar";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
+import ThreeDotsLoading from "../../components/loading/three-dots";
 import {
   setEmail,
+  setUserProfile,
   userAvatarSelector,
   userInfoSelector,
 } from "../../redux/slices/accountSlice";
@@ -22,16 +25,16 @@ import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty, isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
-const { updateAvatar } = accountServices;
+const { updateAvatar, updateAccount } = accountServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
   const previousPathname = useSelector(pathNameSelector);
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const avatar = useSelector(userAvatarSelector);
 
-  console.log({ avatar });
   useEffect(() => {
     if (isNotEmpty(user)) {
       dispatch(setEmail(user.email));
@@ -54,10 +57,31 @@ function UserProfile() {
     }),
     onSubmit: async (values) => {
       const { id, name, email, phone } = values;
-      const response = await updateAvatar(id, avatar);
-      console.log(response);
+      setLoading(true);
+      let updateAvatarResponse;
+      if (avatar) {
+        updateAvatarResponse = await updateAvatar(id, avatar);
+      }
+      const updateAccountResponse = await updateAccount(id, { name, phone });
+      showNotification(
+        updateAvatarResponse.status === 200 ||
+          updateAccountResponse.status === 200
+      );
     },
   });
+  const showNotification = (code) => {
+    if (code) {
+      setLoading(false);
+
+      return AlertPopup({
+        title: t("popup.update-account.account.200"),
+      });
+    }
+    setLoading(false);
+    return AlertErrorPopup({
+      title: t("popup.update-account.account.400"),
+    });
+  };
   const { values, handleSubmit } = formik;
   return (
     <>
@@ -116,7 +140,7 @@ function UserProfile() {
                 <Row gutter={[48, 40]}>
                   <Col span={24}>
                     <button className="primary-button" type="submit">
-                      {t("submit")}
+                      {loading ? <ThreeDotsLoading /> : t("submit")}
                     </button>
                   </Col>
                 </Row>

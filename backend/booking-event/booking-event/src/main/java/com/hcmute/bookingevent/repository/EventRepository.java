@@ -10,24 +10,8 @@ import java.util.List;
 
 public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllBy(TextCriteria textCriteria);
-
-    @Query(value="{'eventCategoryList.id' : ?0}")
-    List<Event> findAllByCategoryId(String categoryId);
-    @Query(value = "{'province': ?0,'eventCategoryList.id' : ?1, 'status' : ?2}")
-    List<Event> findAllByFilter(String province, String categoryId, String status);
-    @Query(value="{'eventCategoryList.id' : ?0, 'status' : ?1}")
-    List<Event> findAllByCategoryAndStatus(String categoryId,String status);
-    @Query(value="{'province': ?0, 'eventCategoryList.id' : ?1}")
-    List<Event> findAllByProvinceAndCategory( String province, String categoryId);
-    @Query(value="{'province': ?0, 'status' : ?1}")
-    List<Event> findAllByProvinceAndStatus(String province,  String status);
-    @Query(value="{'status' : ?0}")
-    List<Event> findAllByStatus(String status);
-    @Query(value="{'province' : ?0}")
+    @Query(value="{'province': ?0, 'status' : 'event.available'}")
     List<Event> findAllByProvince(String province);
-    //@Query("{'$or':[ {'province':?0}, {'status':?1},{'eventCategoryList.id:?2'} ] }")
-    @Query("{'$or':[ {'province':?0}, {'status':?1},{'eventCategoryList.id:?2'} ] }")
-    List<Event> findAllByProvinceOrStatusOrCate(String province, String status , String categoryId);
 
     List<Event> findEventByProvinceOrStatusOrEventCategoryList_Id(String province, String status , String categoryId);
     

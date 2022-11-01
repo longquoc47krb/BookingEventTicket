@@ -207,6 +207,12 @@
     "changePassword": {
       "success": "Thay đổi mật khẩu thành công",
       "error": "Thay đổi mật khẩu thất bại"
+    },
+    "update-account": {
+      "account": {
+        "200": "Cập nhật thông tin tài khoản thành công",
+        "400": "Cập nhật thông tin tài khoản thất bại"
+      }
     }
   }
 }

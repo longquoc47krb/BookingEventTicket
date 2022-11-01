@@ -22,7 +22,7 @@
     &-title {
       width: auto;
       font-size: 3rem;
-      font-family: "Inter", sans-serif !important;
+      font-family: SVN-Ginger, sans-serif !important;
       font-weight: 800;
       position: relative;
       @include for-phone {
@@ -205,4 +205,9 @@
   color: white !important;
   background: $primary-color !important;
   border-color: $primary-color !important;
+}
+@font-face {
+  font-family: "SVN-Ginger";
+  src: local("SVN-Ginger"),
+    url(../assets/fonts/SVN-GINGER.OTF) format("opentype");
 }

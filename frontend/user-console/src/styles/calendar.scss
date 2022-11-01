@@ -22,8 +22,9 @@
   }
   &-dayOfWeek {
     position: absolute;
+    margin-bottom: 0;
     width: 100%;
-    bottom: 4px;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
   }

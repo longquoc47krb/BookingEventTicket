@@ -1,9 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useFetchUserInfo } from "../api/services/accountServices";
 import eventServices, {
   useCheckEventsStatus,
 } from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
+import { userInfoSelector } from "../redux/slices/accountSlice";
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
@@ -11,8 +14,12 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
+  const userInfo = useSelector(userInfoSelector);
   const { data: checkedEvents, status: eventstatusStatus } =
     useCheckEventsStatus();
+  const { data: user, status: userStatus } = useFetchUserInfo(
+    userInfo ? userInfo.email : ""
+  );
   const getWishlist = () => {
     setWishlistEvent([]);
 
@@ -87,6 +94,7 @@ export const UserActionContextProvider = ({ children }) => {
         showDrawer,
         setShowDrawer,
         checkedEvents,
+        user,
       }}
     >
       {children}

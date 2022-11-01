@@ -65,14 +65,6 @@ function EventDashBoard() {
 
   // filter data by date
 
-  console.log({
-    dateType,
-    filter,
-    filteredEvents,
-    filteredEventsStatus,
-    allEvents,
-    filterData,
-  });
   return (
     <>
       <HelmetHeader title={t("pages.events")} content="Event Dashboard" />

@@ -35,6 +35,13 @@ export const EventAPI = {
       status,
     },
   }),
+  findEventsByProvince: (province) => ({
+    url: "/event/findEventsByProvince",
+    method: "GET",
+    params: {
+      province,
+    },
+  }),
   getEventById: (id) => ({
     url: `/event/find/${id}`,
     method: "GET",

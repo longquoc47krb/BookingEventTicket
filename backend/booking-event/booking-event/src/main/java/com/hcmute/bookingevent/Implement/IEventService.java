@@ -9,6 +9,7 @@ public interface IEventService {
     ResponseEntity<?> createEvent(Event event,String idOrganization);
     ResponseEntity<?> findAllEvents();
     ResponseEntity<?> findEventAfterToday();
+    ResponseEntity<?> findEventsByProvince(String province);
     ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status);
     ResponseEntity<?> deleteEvent(String id,String email);
     ResponseEntity<?> findEventById(String id);

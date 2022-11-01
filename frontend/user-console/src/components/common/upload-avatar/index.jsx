@@ -26,7 +26,6 @@ function UploadAvatar({ avatar }) {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
         setAvatarFile(e.target.files[0]);
-        dispatch(setUserAvatar(e.target.files[0]));
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -41,8 +40,7 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const formData = new FormData();
     formData.append("file", avatarFile);
-    const response = await updateAvatar(email, formData);
-    setAvatarFile(response.data.avatar);
+    dispatch(setUserAvatar(formData));
   };
   useEffect(() => {}, [avatarPreview, avatarFile]);
   return (

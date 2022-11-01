@@ -207,6 +207,12 @@
     "changePassword": {
       "success": "Successfully change password",
       "error": "Failed change password"
+    },
+    "update-account": {
+      "account": {
+        "200": "Update account successfully",
+        "400": "Failed update account"
+      }
     }
   }
 }

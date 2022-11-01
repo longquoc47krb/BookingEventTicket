@@ -16,7 +16,7 @@ axiosClient.interceptors.request.use(
   function (config) {
     config.headers = {
       "Content-type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token"),
+      Authorization: `Bearer ${store.getState().account.token}`,
     };
     return config;
   },

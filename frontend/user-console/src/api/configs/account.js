@@ -11,7 +11,7 @@ export const AccountAPI = {
     method: "GET",
   },
   updateAccount: (id, data) => ({
-    url: `/account/info/${id}`,
+    url: `/account/infor/${id}`,
     method: "POST",
     data,
   }),
