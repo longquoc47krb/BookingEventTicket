@@ -22,8 +22,9 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
+import { setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
-import constants from "../../utils/constants";
+import constants, { TicketStatus } from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
@@ -76,7 +77,12 @@ function Home() {
                     .slice(0, 16)
                     .map((event) => <EventHomeItem event={event} />)}
             </div>
-            <ViewMoreButton onClick={() => navigate("/events")} />
+            <ViewMoreButton
+              onClick={() => {
+                dispatch(setStatus(TicketStatus.AVAILABLE));
+                navigate("/events");
+              }}
+            />
           </div>
           <div className="home-event-near-you">
             <SectionTitle>{t("event.near-you")}</SectionTitle>

@@ -79,7 +79,7 @@ function EventDashBoard() {
             [...Array(6)].map((i) => (
               <Skeleton width={360} height={260} key={i} />
             ))
-          ) : isEmpty(filteredEvents) ? (
+          ) : isEmpty(filterData(dateType, dateRange, filteredEvents)) ? (
             <EmptyData />
           ) : isNotEmpty(filterData) ? (
             filterData(dateType, dateRange, filteredEvents)
