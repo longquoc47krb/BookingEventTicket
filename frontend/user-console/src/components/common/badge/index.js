@@ -5,15 +5,13 @@ const Badge = (props) => {
   return (
     <>
       {count !== 0 ? (
-        <div className="relative p-3" onClick={(e) => e.stopPropagation()}>
-          <div className="text-white bg-red-500 text-[12px] rounded-full absolute top-0 right-0 z-10 p-1">
-            {count}
-          </div>
-          {children}
+        <div
+          className="text-white bg-red-500 text-[12px] rounded-full absolute top-0 right-0 z-10 w-5 h-5 text-center"
+          style={{ transform: "translate(9px, -15px)" }}
+        >
+          {count}
         </div>
-      ) : (
-        children
-      )}
+      ) : null}
     </>
   );
 };

@@ -23,7 +23,7 @@
 @import "./ticket-booking.scss";
 @import "./user-profile.scss";
 * {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: FS PFBeauSansPro, sans-serif !important;
 }
 body {
   width: 100vw;
@@ -68,3 +68,23 @@ body {
 @import "~antd/dist/antd.min.css";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Regular.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  font-weight: 600;
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-SemiBold.ttf)
+      format("opentype");
+}
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  font-weight: 700;
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Bold.otf) format("opentype");
+}

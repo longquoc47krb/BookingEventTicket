@@ -32,6 +32,10 @@ const fetchEventsForPagination = async (params) => {
   );
   return response;
 };
+const fetchEventsByProvince = async (params) => {
+  const response = await httpRequest(EventAPI.findEventsByProvince(params));
+  return response;
+};
 const fetchEventByFilter = async (params) => {
   const response = await httpRequest(EventAPI.getEventByFilter(params));
   return response.data;
@@ -74,6 +78,16 @@ export const useFetchEventsByFilter = (params) => {
   return useQuery(
     ["getEventsByFilter", params],
     () => fetchEventByFilter(params),
+    {
+      staleTime: 30000,
+      cacheTime: 1000 * 60 * 60,
+    }
+  );
+};
+export const useFetchEventsByProvince = (params) => {
+  return useQuery(
+    ["getEventsByProvince", params],
+    () => fetchEventsByProvince(params),
     {
       staleTime: 30000,
       cacheTime: 1000 * 60 * 60,

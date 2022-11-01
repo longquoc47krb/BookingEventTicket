@@ -40,7 +40,7 @@
     &-text {
       width: auto;
       font-size: 3rem;
-      font-family: "Inter", sans-serif !important;
+      font-family: SVN-Ginger, sans-serif !important;
       font-weight: 800;
       padding-left: 1rem;
       position: relative;
@@ -73,4 +73,9 @@
     rgba(32, 38, 57, 1) 11.4%,
     rgba(63, 76, 119, 1) 70.2%
   );
+}
+@font-face {
+  font-family: "SVN-Ginger";
+  src: local("SVN-Ginger"),
+    url(../assets/fonts/SVN-GINGER.OTF) format("opentype");
 }

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import {
-  useFetchEventsByFilter,
+  useFetchEventsByProvince,
   useFetchFeaturedEvents,
 } from "../../api/services/eventServices";
 import { useLocationName } from "../../api/services/generalServices";
@@ -23,17 +23,16 @@ import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
 import { setPathName } from "../../redux/slices/routeSlice";
-import constants, { TicketStatus } from "../../utils/constants";
+import constants from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
-    useFetchEventsByFilter({
-      province: provinceMapping.get(location ? location?.region : ""),
-      status: TicketStatus.AVAILABLE,
-    });
+    useFetchEventsByProvince(
+      provinceMapping.get(location ? location?.region : "")
+    );
   const sucessStatus =
     featuredEventStatus === "success" && eventsByProvinceStatus === "success";
   const { t } = useTranslation();
@@ -41,6 +40,11 @@ function Home() {
   const navigate = useNavigate();
   const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
+  console.log({
+    sucessStatus,
+    eventsByProvince,
+    featuredEvents,
+  });
   return (
     <>
       <HelmetHeader title={t("pages.home")} content="Home page" />
@@ -79,7 +83,7 @@ function Home() {
             <div className="home-event-near-you-content">
               {!sucessStatus
                 ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                : eventsByProvince.map((event) => (
+                : eventsByProvince.data.map((event) => (
                     <EventHomeItem event={event} />
                   ))}
             </div>

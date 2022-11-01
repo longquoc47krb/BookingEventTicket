@@ -28,7 +28,9 @@ function WishListItem({ id }) {
             {event.name}
           </span>
           <span>{event.startingDate}</span>
-          <span>{event.venue}</span>
+          <span className="w-[250px] text-ellipsis overflow-hidden">
+            {event.venue}
+          </span>
         </div>
         {interest && (
           <div

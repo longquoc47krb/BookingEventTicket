@@ -23,6 +23,7 @@ import { useUserActionContext } from "../../../context/UserActionContext";
 import { useUserAuth } from "../../../context/UserAuthContext";
 import {
   logOutAccount,
+  setUserProfile,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
@@ -32,7 +33,9 @@ import LanguageSwitch from "../../language-switch";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
 import { useFetchEvents } from "../../../api/services/eventServices";
+import accountServices from "../../../api/services/accountServices";
 const { USER_PROFILE_MENU } = AppConfig;
+const { findUser } = accountServices;
 function Header(props) {
   const { showSearchBox } = props;
   const { ROUTES } = AppConfig;
@@ -41,14 +44,21 @@ function Header(props) {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(userInfoSelector);
   const { t } = useTranslation();
+  const user = useSelector(userInfoSelector);
   const isMobile = useMedia("(max-width: 767px)");
   function onLogout() {
     dispatch(logOutAccount());
     document.cookie = `token=${null}`;
     logOut();
   }
+  useEffect(() => {
+    const fetchUserInfor = async () => {
+      const response = await findUser(user.email);
+      return response.status === 200 && dispatch(setUserProfile(response.data));
+    };
+    fetchUserInfor();
+  }, []);
   const menu = (
     <MenuList
       style={{
@@ -179,9 +189,10 @@ function Header(props) {
           ) : (
             <div className="flex items-center gap-x-2">
               <Dropdown overlay={wishListMenu} trigger={["click"]}>
-                <Badge count={wishlist.length}>
+                <div className="relative">
+                  <Badge count={wishlist.length} />
                   <RiBookmark3Fill className="text-2xl cursor-pointer" />
-                </Badge>
+                </div>
               </Dropdown>
               <Dropdown overlay={menu} trigger={["click"]}>
                 <div className="cursor-pointer flex gap-x-2 items-center">
