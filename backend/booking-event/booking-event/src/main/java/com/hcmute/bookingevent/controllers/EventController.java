@@ -54,6 +54,10 @@ public class EventController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iEventService.findAllbyPage(pageable);
     }
+    @GetMapping("/findEventsByProvince")
+    public ResponseEntity<?> findEventsByProvince(@RequestParam(value="province", required = false) String province){
+        return iEventService.findEventsByProvince(province);
+    }
     @GetMapping("/findEventAfterToday")
     public ResponseEntity<?> findEventAfterToday(){
         return iEventService.findEventAfterToday();

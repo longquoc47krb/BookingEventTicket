@@ -7,13 +7,12 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Organization;
-import com.hcmute.bookingevent.payload.response.EventRes;
+import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -114,7 +113,7 @@ public class EventService implements IEventService {
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
         List<Event> events = sortEventByDateAsc( eventRepository.findAll());
-        List<EventRes> eventRes = events.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        List<EventViewResponse> eventRes = events.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully ", eventRes,200));
 
@@ -130,37 +129,29 @@ public class EventService implements IEventService {
                 eventList.add(event);
             }
         }
+        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+         return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", eventRes,200));
+    }
+
+    @Override
+    public ResponseEntity<?> findEventsByProvince(String province) {
+        List<Event> eventList = eventRepository.findAllByProvince(province);
+        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventList,200));
+                new ResponseObject(true, "Show data successfully", eventRes,200));
+
     }
 
     @Override
     public ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status) {
 
-        try
-        {
-            if(province == null)
-            {
-                province="0";
-            }
-            if(categoryId ==null)
-            {
-                categoryId="0";
-            }
-            if(status == null)
-            {
-                status="0";
-            }
-            List<Event> eventList = sortEventByDateAsc(eventRepository.findEventByProvinceOrStatusOrEventCategoryList_Id(province,status,categoryId));
-            List<EventRes> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Show data successfully", eventRes,200));
-        }
-        catch (NullPointerException ex)
-        {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
-                    new ResponseObject(false, "filter event fail", ex.getMessage(),400));
-        }
+        List<Event> eventList = new ArrayList<>();
+        List<Event> sortedEventList = sortEventByDateAsc(eventList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", sortedEventList,200));
 
     }
 

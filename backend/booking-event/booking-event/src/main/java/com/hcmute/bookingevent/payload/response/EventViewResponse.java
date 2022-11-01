@@ -10,9 +10,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventRes {
+public class EventViewResponse {
+    private String id;
     private String name;
     private String province;
+    private String venue;
     private String startingTime;
     private String endingTime;
     private String startingDate;
