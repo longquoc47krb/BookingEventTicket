@@ -218,17 +218,17 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public ResponseEntity<?> filterEvents(String province,
-                                          String categoryId,
-                                          String status) {
+    public ResponseEntity<?> filterEvents(String province, String categoryId, String status) {
         Query query = new Query();
         Criteria criteria = new Criteria();
         List<Criteria> andCriteria = new ArrayList<>();
-        if (!province.equals("others")){
-            andCriteria.add(Criteria.where("province").is(province));
-        } else{
-            andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
-            andCriteria.add(Criteria.where("province").ne("Hà Nội"));
+        if(province != null){
+            if (!province.equals("others")){
+                andCriteria.add(Criteria.where("province").is(province));
+            } else{
+                andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
+                andCriteria.add(Criteria.where("province").ne("Hà Nội"));
+            }
         }
         if( categoryId != null){
             andCriteria.add(Criteria.where("eventCategoryList.id").is(categoryId));
@@ -239,10 +239,11 @@ public class EventService implements IEventService {
         criteria.andOperator(andCriteria.toArray(new Criteria[andCriteria.size()]));
         query.addCriteria(criteria);
         List<Event> eventList;
-        if( province == null && categoryId == null && status == null){
+        if(province == null && categoryId == null && status == null){
             eventList = sortEventByDateAsc(eventRepository.findAll());
         }else{
-            eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
+
+        eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
         }
 
         List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
