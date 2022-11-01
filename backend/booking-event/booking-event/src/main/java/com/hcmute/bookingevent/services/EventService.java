@@ -23,10 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -227,8 +224,11 @@ public class EventService implements IEventService {
         Query query = new Query();
         Criteria criteria = new Criteria();
         List<Criteria> andCriteria = new ArrayList<>();
-        if( province != null) {
+        if (!province.equals("others")){
             andCriteria.add(Criteria.where("province").is(province));
+        } else{
+            andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
+            andCriteria.add(Criteria.where("province").ne("Hà Nội"));
         }
         if( categoryId != null){
             andCriteria.add(Criteria.where("eventCategoryList.id").is(categoryId));

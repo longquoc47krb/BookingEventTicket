@@ -1,6 +1,7 @@
 import {
   AiFillCheckCircle,
   AiOutlineAreaChart,
+  AiOutlineGlobal,
   AiOutlineHome,
   AiOutlineQuestionCircle,
 } from "react-icons/ai";
@@ -82,6 +83,12 @@ const MENU = [
     key: "nightlife",
     link: "/events?category=category.nightlife",
     icon: <IoWineOutline fontSize={16} />,
+  },
+  {
+    label: "category.community",
+    key: "community",
+    link: "/events?category=category.community",
+    icon: <AiOutlineGlobal fontSize={16} />,
   },
   {
     label: "category.seminar",
