@@ -9,3 +9,4 @@
 *.xml
 **/.idea
 /frontend/firebase-debug.log
+event.json
