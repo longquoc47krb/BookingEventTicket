@@ -13,6 +13,4 @@ public interface EventRepository extends MongoRepository<Event,String> {
     @Query(value="{'province': ?0, 'status' : 'event.available'}")
     List<Event> findAllByProvince(String province);
 
-    List<Event> findEventByProvinceOrStatusOrEventCategoryList_Id(String province, String status , String categoryId);
-    
 }

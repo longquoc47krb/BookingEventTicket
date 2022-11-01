@@ -6,11 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface IEventService {
-    ResponseEntity<?> createEvent(Event event,String idOrganization);
+    ResponseEntity<?> createEvent(Event event,String organizationId);
     ResponseEntity<?> findAllEvents();
     ResponseEntity<?> findEventAfterToday();
     ResponseEntity<?> findEventsByProvince(String province);
-    ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status);
     ResponseEntity<?> deleteEvent(String id,String email);
     ResponseEntity<?> findEventById(String id);
     ResponseEntity<?> searchEvents(String key);
@@ -19,5 +18,9 @@ public interface IEventService {
     ResponseEntity<?> checkEventStatus();
     ResponseEntity<?> updateEvent(String id,Event event);
     ResponseEntity<?> findAllbyPage(Pageable pageable);
+
+    ResponseEntity<?> filterEvents(String province,
+                                   String categoryId,
+                                   String status);
 
 }

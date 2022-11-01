@@ -32,11 +32,11 @@ public class EventController {
         return iEventService.findAllEvents();
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String userId, HttpServletRequest request) {
+    @PostMapping("/{organizationId}")
+    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String organizationId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(userId)) {
-            return iEventService.createEvent(event, account.getEmail());
+        if(account.getId().equals(organizationId)) {
+            return iEventService.createEvent(event, account.getId());
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
@@ -80,7 +80,7 @@ public class EventController {
     }
     @GetMapping(path = "/filter")
     public ResponseEntity<?> findEventByFilter(@RequestParam(value="province", required = false) String province, @RequestParam(value="categoryId", required = false) String categoryId, @RequestParam(value="status", required = false) String status){
-        return iEventService.findEventsByFilters(province, categoryId, status);
+        return iEventService.filterEvents(province, categoryId, status);
     }
     @GetMapping("/find/{id}")
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {

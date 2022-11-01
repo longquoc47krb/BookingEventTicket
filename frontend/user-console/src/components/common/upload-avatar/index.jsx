@@ -42,7 +42,6 @@ function UploadAvatar({ avatar }) {
     formData.append("file", avatarFile);
     dispatch(setUserAvatar(formData));
   };
-  useEffect(() => {}, [avatarPreview, avatarFile]);
   return (
     <div>
       <div>
@@ -112,7 +111,8 @@ function UploadAvatar({ avatar }) {
           </IconButton>
           <Avatar
             avatar={avatarPreview ? avatarPreview : avatarFile}
-            className="object-cover rounded-full w-[120px] h-[120px]"
+            className="object-cover rounded-full"
+            style={{ width: "120px", height: "120px" }}
           />
         </Badge>
       </div>
