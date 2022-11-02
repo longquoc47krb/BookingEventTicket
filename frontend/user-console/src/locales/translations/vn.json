@@ -17,7 +17,7 @@
     "near-you": "Sự kiện gần bạn",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
-    "buy-now": "Mua ngay",
+    "book-now": "Đặt vé ngay",
     "available": "Chưa diễn ra",
     "sold-out": "Hết vé",
     "completed": "Đã kết thúc",
@@ -214,5 +214,10 @@
         "400": "Cập nhật thông tin tài khoản thất bại"
       }
     }
+  },
+  "ticket": {
+    "type": "Loại vé",
+    "price": "Giá vé",
+    "quantity": "Số lượng"
   }
 }

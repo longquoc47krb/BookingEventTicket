@@ -85,7 +85,7 @@
       gap: 0 1rem;
     }
     .disabled-button,
-    .buy-now,
+    .book-now,
     .interests {
       display: block;
       width: 200px;
@@ -94,7 +94,7 @@
       padding-right: 1.5rem;
       font-size: 1.125rem;
     }
-    .buy-now {
+    .book-now {
       background: linear-gradient(-45deg, #1f3e82, #2c4791);
       color: white;
       margin-bottom: 0.5rem;
@@ -224,7 +224,7 @@
   border-left: 0;
   border-right: 0;
 }
-.buy-now {
+.book-now {
   background: $primary-color;
   color: white;
   margin-bottom: 0.5rem;
