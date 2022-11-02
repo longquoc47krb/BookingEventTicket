@@ -22,9 +22,10 @@
     &-title {
       width: auto;
       font-size: 3rem;
-      font-family: SVN-Ginger, sans-serif !important;
+      font-family: SVN-Magnificent, sans-serif !important;
       font-weight: 800;
       position: relative;
+      text-transform: capitalize;
       @include for-phone {
         font-size: 2rem !important;
       }
@@ -207,7 +208,7 @@
   border-color: $primary-color !important;
 }
 @font-face {
-  font-family: "SVN-Ginger";
-  src: local("SVN-Ginger"),
-    url(../assets/fonts/SVN-GINGER.OTF) format("opentype");
+  font-family: "SVN-Magnificent";
+  src: local("SVN-Magnificent"),
+    url(../assets/fonts/SVN-Magnificent.otf) format("opentype");
 }

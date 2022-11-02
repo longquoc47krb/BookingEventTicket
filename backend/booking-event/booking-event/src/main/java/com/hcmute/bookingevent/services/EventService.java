@@ -16,15 +16,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -43,8 +42,8 @@ public class EventService implements IEventService {
     private final IEventSlugGeneratorService slugGeneratorService;
 
     @Override
-    public ResponseEntity<?> createEvent(Event event, String gmailOrganization) {
-        Optional<Organization> organization = organizationRepository.findByEmail(gmailOrganization);
+    public ResponseEntity<?> createEvent(Event event, String OrganizationID) {
+        Optional<Organization> organization = organizationRepository.findById(OrganizationID);
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
@@ -143,18 +142,6 @@ public class EventService implements IEventService {
                 new ResponseObject(true, "Show data successfully", eventRes,200));
 
     }
-
-    @Override
-    public ResponseEntity<?> findEventsByFilters(String province, String categoryId, String status) {
-
-        List<Event> eventList = new ArrayList<>();
-        List<Event> sortedEventList = sortEventByDateAsc(eventList);
-
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", sortedEventList,200));
-
-    }
-
     @Override
     public ResponseEntity<?> deleteEvent(String id,String email) {
 
@@ -230,8 +217,39 @@ public class EventService implements IEventService {
         throw new NotFoundException("Can not found any product with id: " + id);
     }
 
-//    List<EventCategory>  findEventByAndEventCategoryList(String id)
-//    {
-//
-//    }
+    @Override
+    public ResponseEntity<?> filterEvents(String province, String categoryId, String status) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        List<Criteria> andCriteria = new ArrayList<>();
+        if(province != null){
+            if (!province.equals("others")){
+                andCriteria.add(Criteria.where("province").is(province));
+            } else{
+                andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
+                andCriteria.add(Criteria.where("province").ne("Hà Nội"));
+            }
+        }
+        if( categoryId != null){
+            andCriteria.add(Criteria.where("eventCategoryList.id").is(categoryId));
+        }
+        if( status != null) {
+            andCriteria.add(Criteria.where("status").is(status));
+        }
+        criteria.andOperator(andCriteria.toArray(new Criteria[andCriteria.size()]));
+        query.addCriteria(criteria);
+        List<Event> eventList;
+        if(province == null && categoryId == null && status == null){
+            eventList = sortEventByDateAsc(eventRepository.findAll());
+        }else{
+
+        eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
+        }
+
+        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Successfully query data", eventRes,200));
+
+    }
 }
