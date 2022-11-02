@@ -17,7 +17,7 @@
     "near-you": "Events near you",
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue",
-    "buy-now": "Buy now",
+    "book-now": "Book now",
     "available": "Available",
     "sold-out": "Sold out",
     "completed": "Completed",
@@ -214,5 +214,10 @@
         "400": "Failed update account"
       }
     }
+  },
+  "ticket": {
+    "type": "Ticket type",
+    "price": "Unit price",
+    "quantity": "Quantity"
   }
 }

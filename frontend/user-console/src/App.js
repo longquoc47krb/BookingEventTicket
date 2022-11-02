@@ -4,9 +4,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HtmlEditor from "./components/common/editor";
-import Loading from "./components/loading";
 import ScrollToTopPage from "./components/scroll-to-top";
+import TicketTable from "./components/ticket-table";
 import routes from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
@@ -51,7 +50,7 @@ function App() {
               //       component={UserProfile}
               //     ></UserRoute>
               //   } */}
-              <Route path="/test" element={<Loading />} />
+              <Route path="/test" element={<TicketTable />} />
             </Routes>
           </UserActionContextProvider>
         </UserAuthContextProvider>
