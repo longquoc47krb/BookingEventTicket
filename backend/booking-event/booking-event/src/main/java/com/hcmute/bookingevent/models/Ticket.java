@@ -21,7 +21,7 @@ public class Ticket {
     private double cost;
     private String typeOfTicket;
     private LocalDateTime openingDoor;
-    private String seatNumber;
+    //private String seatNumber;
     private String customer_id;
     private String event_id;
     private String host_id;

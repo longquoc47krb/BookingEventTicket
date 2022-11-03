@@ -45,5 +45,5 @@ public class Event {
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList;
-
+    private List<TicketType> ticketTypes;
 }

@@ -3,10 +3,12 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
+import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class OrganizationService implements IOrganizationService {
     private final OrganizationRepository organizationRepository;
     private final AccountRepository accountRepository;
     private final MailService mailService;
+    private final EventMapper eventMapper;
 
     public ResponseEntity<?> createOrganization(Organization organization){
 
@@ -47,7 +51,33 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(true, "Get all Account", list,200));
         throw new NotFoundException("Can not found any Organization");
     }
+    @Override
+    public ResponseEntity<?> findEventsByOrganization(String email)
+    {
+        try
+        {
+            Optional<Organization> organization = organizationRepository.findByEmail(email);
+            if(organization.isPresent())
+            {
+                // ds các id
+                List<String> eventList= organization.get().getEventList();
+                List<EventViewResponse> eventViewResponses= eventList.stream().map(eventMapper::toEventTicket ).collect(Collectors.toList());
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject(true, "Get all ticket", eventViewResponses,200));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "Organization has no exist", "",200));
+            }
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                    new ResponseObject(true, e.getMessage(), "",400));
+        }
 
+    }
     @SneakyThrows
     @Override
     public ResponseEntity<?> submitOrganization(OrganizationSubmitReq organizationSubmitReq)
