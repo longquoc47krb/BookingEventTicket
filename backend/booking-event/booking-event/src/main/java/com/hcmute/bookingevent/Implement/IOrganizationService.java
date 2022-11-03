@@ -11,4 +11,5 @@ public interface IOrganizationService {
      ResponseEntity<?> submitOrganization(OrganizationSubmitReq organizationSubmitReq);
      ResponseEntity<?> findAll(Pageable pageable);
      ResponseEntity<?> deleteOrganization(String email);
+     ResponseEntity<?> findEventsByOrganization(String email);
 }

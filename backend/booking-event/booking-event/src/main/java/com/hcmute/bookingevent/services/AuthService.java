@@ -156,6 +156,7 @@ public class AuthService implements IAuthService {
                 if(encoder.matches(changePasswordReq.getCurrentPassword(), account.get().getPassWord()))
                 {
                     account.get().setPassWord(encoder.encode(changePasswordReq.getNewPassword()));
+                    accountRepository.save(account.get());
                     return ResponseEntity.ok(new ResponseObject(true,"Password match and save data successfully",account.get().getEmail(),200));
 
                 }
