@@ -8,7 +8,8 @@
     "events": "Events",
     "login": "Sign in",
     "register": "Sign up",
-    "forgot-password": "Forgot password"
+    "forgot-password": "Forgot password",
+    "ticket-booking": "Booking ticket"
   },
   "event": {
     "all": "All status",
@@ -195,9 +196,8 @@
   },
   "ticket-booking": {
     "step1": "Select ticket",
-    "step2": "Fill the info form",
-    "step3": "Payment info",
-    "step4": "Finish"
+    "step2": "Payment info",
+    "step3": "Finish"
   },
   "popup": {
     "email": {
@@ -216,8 +216,10 @@
     }
   },
   "ticket": {
+    "cart": "Booking cart",
     "type": "Ticket type",
     "price": "Unit price",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "total": "Total"
   }
 }
