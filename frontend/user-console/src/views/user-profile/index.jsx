@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Col, Row, Typography } from "antd";
@@ -17,7 +18,6 @@ import LanguageSwitch from "../../components/language-switch";
 import ThreeDotsLoading from "../../components/loading/three-dots";
 import {
   setEmail,
-  setUserProfile,
   userAvatarSelector,
   userInfoSelector,
 } from "../../redux/slices/accountSlice";
@@ -56,7 +56,7 @@ function UserProfile() {
       phone: YupValidations.phone,
     }),
     onSubmit: async (values) => {
-      const { id, name, email, phone } = values;
+      const { id, name, phone } = values;
       setLoading(true);
       let updateAvatarResponse;
       if (avatar) {

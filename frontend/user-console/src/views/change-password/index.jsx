@@ -5,7 +5,7 @@ import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import authServices from "../../api/services/authServices";
@@ -15,10 +15,7 @@ import { InputPassword } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import ThreeDotsLoading from "../../components/loading/three-dots";
-import {
-  userAvatarSelector,
-  userInfoSelector,
-} from "../../redux/slices/accountSlice";
+import { userInfoSelector } from "../../redux/slices/accountSlice";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
@@ -29,8 +26,6 @@ function ChangePassword() {
   const previousPathname = useSelector(pathNameSelector);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const avatar = useSelector(userAvatarSelector);
   const initialValues = {
     id: user.id,
     email: user.email,
