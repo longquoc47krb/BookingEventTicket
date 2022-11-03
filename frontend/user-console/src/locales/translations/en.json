@@ -91,7 +91,7 @@
       "failed": "Logged in failed. Redirecting to login page in..."
     },
     "changePassword": "Change password",
-    "oldPassword": "Old password",
+    "currentPassword": "Current password",
     "newPassword": "New password"
   },
   "location": {

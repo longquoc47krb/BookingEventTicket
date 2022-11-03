@@ -31,23 +31,23 @@ function ChangePassword() {
     email: user.email,
     avatar: user.avatar,
     currentPassword: "",
-    newPassword: "",
+    password: "",
     confirmPassword: "",
   };
   // formik
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
-      newPassword: YupValidations.password,
+      password: YupValidations.password,
       confirmPassword: YupValidations.confirmPassword,
     }),
     onSubmit: async (values) => {
-      const { id, email, currentPassword, newPassword } = values;
+      const { id, email, currentPassword, password } = values;
       setLoading(true);
       const updatePassword = await changePassword(id, {
         currentPassword,
         email,
-        newPassword,
+        newPassword: password,
       });
       showNotification(updatePassword.status === 200);
     },
@@ -57,12 +57,12 @@ function ChangePassword() {
       setLoading(false);
 
       return AlertPopup({
-        title: t("popup.update-account.account.200"),
+        title: t("popup.changePassword.success"),
       });
     }
     setLoading(false);
     return AlertErrorPopup({
-      title: t("popup.update-account.account.400"),
+      title: t("popup.changePassword.error"),
     });
   };
   const { values, handleSubmit } = formik;
@@ -117,7 +117,7 @@ function ChangePassword() {
                     <Field
                       component={InputPassword}
                       label={t("user.newPassword")}
-                      name="newPassword"
+                      name="password"
                     />
                     <Field
                       component={InputPassword}
