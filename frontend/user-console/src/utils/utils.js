@@ -522,3 +522,10 @@ export function filterData(dateType, dateRange, list) {
       })
     : filterByDate(dateType, list);
 }
+/**
+ * Convert number to currency format
+ */
+export const formatter = new Intl.NumberFormat("vi-VN", {
+  style: "currency",
+  currency: "VND",
+});

@@ -13,7 +13,19 @@
 .booking {
   &-container {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+  }
+  &-body {
+    width: 100%;
+    background: rgb(228, 228, 228);
+  }
+  &-ticket-table {
+    width: 60vw;
+    padding: 2rem;
+  }
+  &-cart {
+    width: calc(100% - 60vw);
+    padding: 2rem;
   }
   &-top {
     width: 100%;
@@ -23,21 +35,129 @@
       width: 100%;
       max-height: 15rem;
       object-fit: cover;
+      object-position: top;
+      position: relative;
       &::after {
         display: block;
-        background-image: $primary-color;
+        background-color: rgba(21, 31, 117, 0.63);
         height: 15rem;
         width: 100%;
-        content: "";
+        content: "hello";
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
-    h1 {
+    h1,
+    h2,
+    p {
       position: absolute;
-      color: white;
+      color: rgb(175, 175, 175);
+    }
+    h1 {
       font-weight: 700;
       font-size: 1.5rem;
+      bottom: 4rem;
+      left: 2rem;
+      color: white;
+    }
+    h2 {
+      font-size: 1rem;
+      font-weight: 500;
       bottom: 2rem;
       left: 2rem;
+      color: rgb(175, 175, 175);
+    }
+    p {
+      font-weight: 500;
+      font-size: 1rem;
+      bottom: 0;
+      left: 2rem;
+    }
+  }
+}
+.ticket-table {
+  &-container {
+    /*  width: 100%;*/
+    width: 100%;
+  }
+  &-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 2px solid gray;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: rgb(114, 114, 114);
+    th:last-child {
+      text-align: right;
+    }
+  }
+  &-item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between;
+    margin: 1rem 0;
+    th {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    th:last-child {
+      justify-content: right;
+      input {
+        width: 2rem;
+        border: 1px solid rgb(170, 170, 170);
+        outline: none;
+        text-align: center;
+        padding: 0.25rem 0.5rem;
+      }
+      button {
+        background: $primary-color;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 10%;
+      }
+    }
+  }
+}
+.ticket {
+  &-cart {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    background: #ffffff;
+    &-title {
+      color: $primary-color;
+      display: flex;
+      justify-content: center;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(26, 0, 87, 0.466);
+    }
+    &-header {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      border-bottom: 1px dashed rgb(197, 197, 197);
+      th:last-child {
+        text-align: right;
+      }
+    }
+    &-total {
+      background: rgb(70, 70, 70);
+      text-transform: uppercase;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      color: white;
+      font-size: 1rem;
     }
   }
 }

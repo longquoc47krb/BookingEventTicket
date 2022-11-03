@@ -4,6 +4,7 @@ import searchReducer from "./slices/searchSlice";
 import routeReducer from "./slices/routeSlice";
 import scrollReducer from "./slices/scrollSlice";
 import filterReducer from "./slices/filterSlice";
+import ticketReducer from "./slices/ticketSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -30,6 +31,7 @@ export const store = configureStore({
     search: searchReducer,
     scroll: scrollReducer,
     filter: filterReducer,
+    ticket: ticketReducer,
   },
 });
 export const persistor = persistStore(store);

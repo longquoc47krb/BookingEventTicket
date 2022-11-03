@@ -8,7 +8,8 @@
     "events": "Sự kiện",
     "login": "Đăng nhập",
     "register": "Đăng ký",
-    "forgot-password": "Quên mật khẩu"
+    "forgot-password": "Quên mật khẩu",
+    "ticket-booking": "Đặt vé"
   },
   "event": {
     "all": "Tất cả trạng thái",
@@ -17,7 +18,7 @@
     "near-you": "Sự kiện gần bạn",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
-    "buy-now": "Mua ngay",
+    "book-now": "Đặt vé ngay",
     "available": "Chưa diễn ra",
     "sold-out": "Hết vé",
     "completed": "Đã kết thúc",
@@ -195,9 +196,8 @@
   },
   "ticket-booking": {
     "step1": "Chọn vé",
-    "step2": "Điền thông tin cá nhân",
-    "step3": "Thông tin thanh toán",
-    "step4": "Hoàn thành"
+    "step2": "Thông tin thanh toán",
+    "step3": "Hoàn thành"
   },
   "popup": {
     "email": {
@@ -214,5 +214,12 @@
         "400": "Cập nhật thông tin tài khoản thất bại"
       }
     }
+  },
+  "ticket": {
+    "cart": "Giỏ hàng",
+    "type": "Loại vé",
+    "price": "Giá vé",
+    "quantity": "Số lượng",
+    "total": "Tổng cộng"
   }
 }

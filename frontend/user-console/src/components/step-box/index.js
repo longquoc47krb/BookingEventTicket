@@ -18,9 +18,8 @@ function StepBox(props) {
         className="site-navigation-steps"
       >
         <Step status={steps.step1.status} title={t(steps.step1)} />
-        <Step status={steps.step2.status} title={t(steps.step2)} />
-        <Step status={steps.step3.status} title={t(steps.step3)} />
-        <Step status={steps.step4.status} title={t(steps.step4)} />
+        <Step status={steps.step3.status} title={t(steps.step2)} />
+        <Step status={steps.step4.status} title={t(steps.step3)} />
       </Steps>
     </>
   );
