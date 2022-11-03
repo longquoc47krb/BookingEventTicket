@@ -34,6 +34,10 @@ const NewPasswordPage = Loadable({
   loader: () => import("../views/auth/NewPassword"),
   loading: Loading,
 });
+const ChangePasswordPage = Loadable({
+  loader: () => import("../views/change-password"),
+  loading: Loading,
+});
 const TicketBookingPage = Loadable({
   loader: () => import("../views/ticket-booking"),
   loading: Loading,
@@ -54,6 +58,10 @@ const routes = [
   {
     element: <BeAnOrganizerPage />,
     path: "/organizer-registration",
+  },
+  {
+    element: <ChangePasswordPage />,
+    path: "/update-password",
   },
   {
     element: <EventDashBoardPage />,

@@ -17,7 +17,7 @@ import {
   MdScreenSearchDesktop,
   MdSportsSoccer,
 } from "react-icons/md";
-import { RiCustomerServiceFill } from "react-icons/ri";
+import { RiCustomerServiceFill, RiLockPasswordLine } from "react-icons/ri";
 import { TbPlaneInflight } from "react-icons/tb";
 import BigHit from "../assets/BIGHIT.webp";
 import Metub from "../assets/Metub.png";
@@ -115,6 +115,12 @@ const USER_PROFILE_MENU = [
     key: "profile",
     link: "/profile",
     icon: <MdOutlineAccountCircle fontSize={16} />,
+  },
+  {
+    label: "user.changePassword",
+    key: "changePassword",
+    link: "/update-password",
+    icon: <RiLockPasswordLine fontSize={16} />,
   },
   {
     label: "user.my-ticket",

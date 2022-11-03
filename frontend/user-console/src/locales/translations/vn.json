@@ -89,7 +89,10 @@
     "oauth": {
       "success": "Đăng nhập thành công, đang chuyển hướng về Trang chủ trong...",
       "failed": "Đăng nhập thất bại, chuyển về trang đăng nhập trong..."
-    }
+    },
+    "changePassword": "Cập nhật mật khẩu",
+    "oldPassword": "Mật khẩu cũ",
+    "newPassword": "Mật khẩu mới"
   },
   "location": {
     "all": "Tất cả địa điểm",
