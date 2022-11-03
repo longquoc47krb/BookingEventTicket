@@ -91,7 +91,7 @@
       "failed": "Đăng nhập thất bại, chuyển về trang đăng nhập trong..."
     },
     "changePassword": "Cập nhật mật khẩu",
-    "oldPassword": "Mật khẩu cũ",
+    "currentPassword": "Mật khẩu hiện tại",
     "newPassword": "Mật khẩu mới"
   },
   "location": {
