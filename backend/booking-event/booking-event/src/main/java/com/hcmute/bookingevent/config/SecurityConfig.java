@@ -54,6 +54,7 @@ public class SecurityConfig {
     private final String[] ALLOWED_LIST_URLS = {
             // System
             "/login/**",
+            "/payment/**",
             //"/oauth2/**",
             // SwaggerUI
             "/v2/api-docs",
