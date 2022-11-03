@@ -1,27 +1,112 @@
 package com.hcmute.bookingevent.services;
 
+import com.hcmute.bookingevent.Implement.IPayPayService;
+import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
+import com.hcmute.bookingevent.utils.StringUtils;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class PayPalService {
+public class PayPalService implements IPayPayService {
+    //public static final String MAIN_URL ="http://localhost:3000";
+    public static final String MAIN_URL ="http://localhost:3000/payment/redirect?";
 
+
+    public static final String SUCCESS_URL = "/api/payment/pay/success";
+    public static final String CANCEL_URL = "/api/payment/pay/cancel";
+//"http://localhost:3000/" + CANCEL_URL;
+//"http://localhost:3000/" + SUCCESS_URL;
 
     private final APIContext apiContext;
 
+    @Override
+    @Transactional
+    public ResponseEntity<?> createPayPalPayment(Order order, HttpServletRequest request) {
+        String cancelUrl = StringUtils.getBaseURL(request) + CANCEL_URL;
+        String successUrl = StringUtils.getBaseURL(request) + SUCCESS_URL;
+        try {
+            Payment payment = createPayment(
+                    order.getPrice(),
+                    "USD",
+                    "paypal",
+                    "sale",
+                    "Thanh toan hoa don " ,
+                    cancelUrl,
+                    successUrl);
+            for (Links links : payment.getLinks()) {
+                if (links.getRel().equals("approval_url")) {
+                    return ResponseEntity.status(HttpStatus.OK).body(
+                            new ResponseObject(true, "Price has entered  ", links.getHref(),200));
+
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Price has entered  ", "",200));
+
+        } catch (PayPalRESTException  e) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Price has some problem  ", "",400));
+
+            //throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), e.getMessage());
+        }
+
+    }
+
+
+    @SneakyThrows
+    @Override
+    public ResponseEntity<?> executePayPalPayment(String paymentId, String payerId,   HttpServletRequest request, HttpServletResponse response)
+    {
+        try {
+            log.info("Execute Payment");
+
+            Payment payment= execute(paymentId, payerId);
+            if (payment.getState().equals("approved")) {
+                response.sendRedirect(MAIN_URL + "success=true&cancel=false");
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject(true, "Payment with Paypal complete", "",200)
+                );
+            }
+        } catch (PayPalRESTException | IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, e.getMessage(), "",400));
+
+        }
+        response.sendRedirect(MAIN_URL + "success=false&cancel=false");
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                new ResponseObject(false, "Payment with Paypal failed", "",400)
+        );
+    }
+
+    @SneakyThrows
+    public   ResponseEntity<?> cancelPayPalPayment(HttpServletRequest request, HttpServletResponse response)
+    {
+        response.sendRedirect(MAIN_URL + "success=false&cancel=true");
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                new ResponseObject(true, "cancel payment", "",200));
+
+    }
 
     public Payment createPayment(
-            Double total,
+            double total,
             String currency,
             String method,
             String intent,
@@ -55,7 +140,7 @@ public class PayPalService {
         return payment.create(apiContext);
     }
 
-    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+    public Payment execute(String paymentId, String payerId) throws PayPalRESTException{
         Payment payment = new Payment();
         payment.setId(paymentId);
         PaymentExecution paymentExecute = new PaymentExecution();
