@@ -1,65 +1,4 @@
 {
-  "events": [
-    {
-      "id": 1,
-      "title": "Employer Branding 101 – Khóa học nền tảng về Thương hiệu nhà tuyển dụng",
-      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/22/259BFA.jpg",
-      "price": "599.000 VND",
-      "address": "",
-      "date": "23/08/2022",
-      "categories": [
-        "Khoá học",
-        "Sự kiện"
-      ]
-    },
-    {
-      "id": 2,
-      "title": "[YAS’ Artspace] – Workshop vẽ tranh sáng tạo cuối tuần",
-      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/14/5913D5.jpg",
-      "price": "549.000 VND",
-      "address": "TP. HCM",
-      "date": "01/09/2022",
-      "categories": [
-        "Khoá học",
-        "Workshop"
-      ]
-    },
-    {
-      "id": 3,
-      "title": "[LULULOLA SHOW] ƯNG HOÀNG PHÚC - TRỌN VẸN NGHĨA TÌNH",
-      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/27/24F8A5.jpg",
-      "price": "300.000 VND",
-      "address": "TP. HCM",
-      "date": "05/09/2022",
-      "categories": [
-        "Ca nhạc"
-      ]
-    },
-    {
-      "id": 4,
-      "title": "[MÂY LANG THANG ĐÀ NẴNG] LIVESHOW TĂNG PHÚC - TRƯƠNG THẢO NHI",
-      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/08/26/303B4D.jpg",
-      "price": "FREE",
-      "address": "TP. HCM",
-      "date": "01/09/2022",
-      "categories": [
-        "Ca nhạc",
-        "Siuuuuu"
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Những Thành Phố Mơ Màng – Autumn 2022",
-      "image": "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/09/06/93A027.jpg",
-      "price": "500.000 VND",
-      "address": "Hà Nội",
-      "date": "11/09/2022",
-      "categories": [
-        "Ca nhạc"
-      ],
-      "organization_id": 123
-    }
-  ],
   "organization": [
     {
       "id": 123,
@@ -68,7 +7,26 @@
       "organization_description": "Những Thành Phố Mơ Màng là thành phố của tuổi trẻ, nơi những giấc mơ sẽ được chúng tớ cùng các cậu tạo nên trên nền nhạc những bài hát Indie và Underground."
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "ticket": [
+    {
+      "id": 1,
+      "type": "Hân khùmm :>",
+      "price": 400000
+    },
+    {
+      "id": 2,
+      "type": "Su quạo",
+      "price": 600000
+    },
+    {
+      "id": 3,
+      "type": "Kikiki meo meo",
+      "price": 800000
+    },
+    {
+      "id": 4,
+      "type": "❤",
+      "price": 1000000
+    }
+  ]
 }

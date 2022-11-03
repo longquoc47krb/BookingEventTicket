@@ -13,7 +13,19 @@
 .booking {
   &-container {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+  }
+  &-body {
+    width: 100%;
+    background: rgb(228, 228, 228);
+  }
+  &-ticket-table {
+    width: 60vw;
+    padding: 2rem;
+  }
+  &-cart {
+    width: calc(100% - 60vw);
+    padding: 2rem;
   }
   &-top {
     width: 100%;
@@ -68,16 +80,84 @@
 .ticket-table {
   &-container {
     /*  width: 100%;*/
-    width: 50vw;
+    width: 100%;
   }
   &-header {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     border-bottom: 2px solid gray;
-    div {
-      text-align: center;
-      font-size: 1.25rem;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: rgb(114, 114, 114);
+    th:last-child {
+      text-align: right;
+    }
+  }
+  &-item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between;
+    margin: 1rem 0;
+    th {
       font-weight: 500;
+      font-size: 1rem;
+    }
+    th:last-child {
+      justify-content: right;
+      input {
+        width: 2rem;
+        border: 1px solid rgb(170, 170, 170);
+        outline: none;
+        text-align: center;
+        padding: 0.25rem 0.5rem;
+      }
+      button {
+        background: $primary-color;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 10%;
+      }
+    }
+  }
+}
+.ticket {
+  &-cart {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    background: #ffffff;
+    &-title {
+      color: $primary-color;
+      display: flex;
+      justify-content: center;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(26, 0, 87, 0.466);
+    }
+    &-header {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      border-bottom: 1px dashed rgb(197, 197, 197);
+      th:last-child {
+        text-align: right;
+      }
+    }
+    &-total {
+      background: rgb(70, 70, 70);
+      text-transform: uppercase;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      color: white;
+      font-size: 1rem;
     }
   }
 }

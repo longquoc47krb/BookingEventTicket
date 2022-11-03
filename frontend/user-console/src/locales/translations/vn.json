@@ -8,7 +8,8 @@
     "events": "Sự kiện",
     "login": "Đăng nhập",
     "register": "Đăng ký",
-    "forgot-password": "Quên mật khẩu"
+    "forgot-password": "Quên mật khẩu",
+    "ticket-booking": "Đặt vé"
   },
   "event": {
     "all": "Tất cả trạng thái",
@@ -195,9 +196,8 @@
   },
   "ticket-booking": {
     "step1": "Chọn vé",
-    "step2": "Điền thông tin cá nhân",
-    "step3": "Thông tin thanh toán",
-    "step4": "Hoàn thành"
+    "step2": "Thông tin thanh toán",
+    "step3": "Hoàn thành"
   },
   "popup": {
     "email": {
@@ -216,8 +216,10 @@
     }
   },
   "ticket": {
+    "cart": "Giỏ hàng",
     "type": "Loại vé",
     "price": "Giá vé",
-    "quantity": "Số lượng"
+    "quantity": "Số lượng",
+    "total": "Tổng cộng"
   }
 }

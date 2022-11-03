@@ -10,8 +10,12 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { displayDate, displayTime, titleCase } from "../../utils/utils";
 import constants from "../../utils/constants";
 import NotFoundPage from "../not-found";
+import TicketTable from "../../components/ticket-table";
+import Footer from "../../components/common/footer";
+import HelmetHeader from "../../components/helmet";
+import SelectTicket from "./select-ticket";
 const { TicketStatus } = constants;
-function TicketBooking(props) {
+function TicketBooking() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { eventId } = useParams();
@@ -35,6 +39,7 @@ function TicketBooking(props) {
   }
   return (
     <>
+      <HelmetHeader title={t("pages.ticket-booking")} />
       <Header />
       <div className="booking-container">
         <div className="booking-top">
@@ -53,16 +58,12 @@ function TicketBooking(props) {
           </p>
         </div>
         <StepBox steps={steps} />
+        <div className="booking-body">
+          <SelectTicket />
+        </div>
       </div>
+      <Footer />
     </>
   );
 }
-TicketBooking.defaultProps = {
-  event: {
-    name: "Những thành phố mơ màng",
-  },
-};
-TicketBooking.propTypes = {
-  event: PropTypes.object.isRequired,
-};
 export default TicketBooking;
