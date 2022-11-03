@@ -19,6 +19,11 @@ export const AuthAPI = {
     method: "POST",
     data,
   }),
+  changePassword: (id, data) => ({
+    url: `/auth/changePassword/${id}`,
+    method: "POST",
+    data,
+  }),
   verifyOTP: (data) => ({
     url: "/auth/verifyOTP",
     method: "POST",

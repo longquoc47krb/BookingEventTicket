@@ -10,13 +10,13 @@
   "ticket": [
     {
       "id": 1,
-      "type": "Hân khùmm :>",
-      "price": 400000
+      "type": "Lân gay",
+      "price": 499000
     },
     {
       "id": 2,
-      "type": "Su quạo",
-      "price": 600000
+      "type": "Hồ Lân",
+      "price": 999000
     },
     {
       "id": 3,
@@ -25,7 +25,7 @@
     },
     {
       "id": 4,
-      "type": "❤",
+      "type": "Siuuu",
       "price": 1000000
     }
   ]

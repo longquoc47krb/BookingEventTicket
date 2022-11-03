@@ -14,12 +14,11 @@ function TicketTable() {
   useEffect(() => {
     const fetchTicketType = async () => {
       const response = await axios.get("http://localhost:8000/ticket");
-      const newArr = response.data.map((v) => ({ ...v, quantity: 1 }));
+      const newArr = response.data.map((v) => ({ ...v, quantity: 0 }));
       dispatch(setTicketTypeArray(newArr));
     };
     fetchTicketType();
   }, []);
-  debugger;
   return (
     <div className="ticket-table-container">
       <table className="w-full">

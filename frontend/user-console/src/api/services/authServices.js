@@ -25,6 +25,14 @@ const forgotPassword = async (body) => {
     return err.response.data;
   }
 };
+const changePassword = async (id, body) => {
+  try {
+    const response = await httpRequest(AuthAPI.changePassword(id, body));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 const verifyOTP = async (body) => {
   try {
     const response = await httpRequest(AuthAPI.verifyOTP(body));
@@ -47,5 +55,6 @@ const authServices = {
   forgotPassword,
   verifyOTP,
   newPassword,
+  changePassword,
 };
 export default authServices;
