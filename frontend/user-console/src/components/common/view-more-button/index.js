@@ -7,7 +7,7 @@ function ViewMoreButton({ onClick }) {
   return (
     <Divider>
       <button
-        className="buy-now px-4 py-2 rounded-3xl text-xl mx-3 my-3"
+        className="book-now px-4 py-2 rounded-3xl text-xl mx-3 my-3"
         onClick={onClick}
       >
         {t("event.view-more")}

@@ -82,6 +82,8 @@ function EventDetail(props) {
         title: t("user.unauthenticated.title"),
         text: t("user.unauthenticated.text"),
       });
+    } else {
+      navigate(`/ticket-booking/${event.id}`);
     }
   };
   useEffect(() => {
@@ -151,16 +153,22 @@ function EventDetail(props) {
             <div className="event-detail-button">
               <button
                 onClick={handleCheckAuthenticated}
+                disabled={
+                  event.status === TicketStatus.SOLDOUT ||
+                  event.status === TicketStatus.COMPLETED
+                    ? true
+                    : false
+                }
                 className={
                   event.status === TicketStatus.SOLDOUT ||
                   event.status === TicketStatus.COMPLETED
                     ? "disabled-button"
-                    : "buy-now"
+                    : "book-now"
                 }
               >
                 {t(
                   event.status === TicketStatus.AVAILABLE
-                    ? "event.buy-now"
+                    ? "event.book-now"
                     : event.status
                 )}
               </button>
@@ -291,16 +299,22 @@ function EventDetail(props) {
                   </div>
                   <button
                     onClick={handleCheckAuthenticated}
+                    disabled={
+                      event.status === TicketStatus.SOLDOUT ||
+                      event.status === TicketStatus.COMPLETED
+                        ? true
+                        : false
+                    }
                     className={
                       event.status === TicketStatus.SOLDOUT ||
                       event.status === TicketStatus.COMPLETED
                         ? "disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
-                        : "buy-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
+                        : "book-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                     }
                   >
                     {t(
                       event.status === TicketStatus.AVAILABLE
-                        ? "event.buy-now"
+                        ? "event.book-now"
                         : event.status
                     )}
                   </button>
