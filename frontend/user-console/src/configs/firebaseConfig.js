@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDcU_lmSMxHHbTgkVfCyh4retcjlbopVjc",
-  authDomain: "lotus-ticket.firebaseapp.com",
-  projectId: "lotus-ticket",
-  storageBucket: "lotus-ticket.appspot.com",
-  messagingSenderId: "21703928834",
-  appId: "1:21703928834:web:8db326b28906cb3bbfcb1b",
+  apiKey: "AIzaSyDIUpESSkyoH0estmDKtf9Ru0sEeLORAYo",
+  authDomain: "lotusticket-8e6f3.firebaseapp.com",
+  projectId: "lotusticket-8e6f3",
+  storageBucket: "lotusticket-8e6f3.appspot.com",
+  messagingSenderId: "431975116943",
+  appId: "1:431975116943:web:a50524a7e9c20e07bcc0fa",
 };
 
 // Initialize Firebase

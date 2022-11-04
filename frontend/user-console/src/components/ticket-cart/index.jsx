@@ -22,7 +22,7 @@ function TicketCart() {
         <table className="w-full">
           <tr className="ticket-cart-header">
             <th>{t("ticket.type")}</th>
-            <th>x{t("ticket.quantity")}</th>
+            <th>{t("ticket.quantity")}</th>
           </tr>
           {ticketCart.map((ticket) => (
             <TicketCartItem ticket={ticket} />
