@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { Steps } from "antd";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { currentStepSelector } from "../../redux/slices/ticketSlice";
 const { Step } = Steps;
 function StepBox(props) {
   const { steps } = props;
   const { t } = useTranslation();
-  const [current, setCurrent] = useState(0);
-  const onChange = (value) => {
-    setCurrent(value);
-  };
+  const currentStep = useSelector(currentStepSelector);
   return (
     <>
       <Steps
         type="navigation"
-        current={current}
-        onChange={onChange}
+        current={currentStep}
         className="site-navigation-steps"
       >
         <Step status={steps.step1.status} title={t(steps.step1)} />

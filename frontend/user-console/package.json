@@ -81,7 +81,7 @@
     "eject": "react-scripts eject",
     "db": "json-server --watch -p 8000 database.json",
     "postinstall": "node script.js",
-    "deploy": "firebase deploy"
+    "deploy": "netlify deploy"
   },
   "eslintConfig": {
     "extends": [

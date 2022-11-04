@@ -1,0 +1,32 @@
+@import "./variables.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: FS PFBeauSansPro, sans-serif;
+}
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Regular.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  font-weight: 600;
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-SemiBold.ttf)
+      format("opentype");
+}
+@font-face {
+  font-family: "FS PFBeauSansPro";
+  font-weight: 700;
+  src: local("FS PFBeauSansPro"),
+    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Bold.otf) format("opentype");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
