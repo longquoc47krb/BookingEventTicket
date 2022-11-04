@@ -4,18 +4,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/effect-cube";
 import "swiper/css/effect-coverflow";
-import "swiper/css/effect-flip";
+import "swiper/css/effect-cube";
 import "swiper/css/effect-fade";
+import "swiper/css/effect-flip";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 // import required modules
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper";
 import { shuffle } from "lodash";
 import { Link } from "react-router-dom";
-import { checkImageURL } from "../../../utils/utils";
-import PlaceholderCover from "../../../assets/cover-fallback.jpg";
+import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
 export default function Carousel(props) {
   const { data } = props;
   var newData = [];

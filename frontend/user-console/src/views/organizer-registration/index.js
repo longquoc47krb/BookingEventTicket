@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useEffect } from "react";
 import * as Yup from "yup";
@@ -26,8 +27,7 @@ function OrganizeRegistration() {
     email: "",
     organization_name: "",
   };
-  var y;
-  y = window.scrollY;
+  var y = window.scrollY;
 
   // formik
   const formik = useFormik({
