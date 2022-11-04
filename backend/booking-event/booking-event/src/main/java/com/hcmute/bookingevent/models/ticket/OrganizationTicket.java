@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.ticket;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.ticket.ETicket;
@@ -9,15 +9,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class TicketType {
+public class OrganizationTicket {
     @Id
     @JsonIgnore
     private String id;
-    @NotBlank(message = "name is required")
-    private String name;
+    @NotBlank(message = "typeName is required")
+    private String typeName;
     @Size(min=1,message="required")
     @NotBlank(message = "price is required")
-    private int price;
+    private String price;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int quantity;

@@ -43,20 +43,20 @@ public class CustomerService  implements ICustomerService {
                     new ResponseObject(true, "Get all user success", customerList,200));
         throw new NotFoundException("Can not find any organization");
     }
-    @Override
-    public ResponseEntity<?> deleteCustomer(String email) {
-        if (accountRepository.existsByEmail(email)) {
-
-            accountRepository.deleteByEmail(email);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete account successfully ", "",200));
-
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
-        }
-
-    }
+//    @Override
+//    public ResponseEntity<?> deleteCustomer(String email) {
+//        if (accountRepository.existsByEmail(email)) {
+//
+//            accountRepository.deleteByEmail(email);
+//            return ResponseEntity.status(HttpStatus.OK).body(
+//                    new ResponseObject(true, "Delete account successfully ", "",200));
+//
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
+//        }
+//
+//    }
     public ResponseEntity<?> viewWishList(String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);

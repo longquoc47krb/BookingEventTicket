@@ -33,6 +33,7 @@ public class Customer {
     private List<String> ticketList;
 
     private List<String> eventWishList;
+    private List<Order> orders;
     public Customer(String email)
     {
         this.email=email;

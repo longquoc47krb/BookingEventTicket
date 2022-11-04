@@ -9,7 +9,7 @@ public interface ICustomerService {
     ResponseEntity<?> findAll();
     ResponseEntity<?> createAccount(Customer newAccount);
     ResponseEntity<?> findAll(Pageable pageable);
-    ResponseEntity<?> deleteCustomer(String email);
+   // ResponseEntity<?> deleteCustomer(String email);
     ResponseEntity<?> deleteAllWishList(String email);
     ResponseEntity<?> deleteItemWishList(String idItem,String email);
     ResponseEntity<?> addWishList(String idItem,String email);

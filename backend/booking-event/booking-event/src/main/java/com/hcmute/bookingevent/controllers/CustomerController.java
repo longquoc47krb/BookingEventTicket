@@ -71,8 +71,8 @@ public class CustomerController {
         return iCustomerService.findAll();
 
     }
-    @PostMapping("/customer/create")
-    public ResponseEntity<?> createAccount(@RequestBody Customer newAccount) {
-        return iCustomerService.createAccount(newAccount);
-    }
+//    @PostMapping("/customer/create")
+//    public ResponseEntity<?> createAccount(@RequestBody Customer newAccount) {
+//        return iCustomerService.createAccount(newAccount);
+//    }
 }
