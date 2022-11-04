@@ -377,7 +377,8 @@ export const filterByDate = (type, list, customDate) => {
   const tomorrow = moment().add(1, "days");
   const startOfMonth = moment().startOf("month");
   const endOfMonth = moment().endOf("month");
-
+  console.log({ tomorrow });
+  console.log(moment("05/11/2022", dateFormat) === tomorrow);
   if (list && type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
@@ -420,15 +421,6 @@ export const displayDate = (date) => {
  */
 export const displayTime = (time) => {
   return moment(time, timeFormat).format("LT");
-};
-export const nextDateFromNow = (date) => {
-  var thatDay = moment(date);
-  var today = moment().format(PATTERNS.DATE_FORMAT);
-  if (thatDay.isSame(today)) {
-    return "Đang diễn ra";
-  } else {
-    return `Còn ${thatDay.diff(today, "days")} nữa!`;
-  }
 };
 export const toSlug = (str) => {
   // Chuyển hết sang chữ thường
