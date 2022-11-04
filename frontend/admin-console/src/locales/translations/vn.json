@@ -1,0 +1,15 @@
+{
+    "sider": {
+        "dashboard": "Bảng điều khiển",
+        "overview": "Tổng quan",
+        "management": "Quản lý",
+        "order": "Đơn hàng",
+        "event": "Sự kiện",
+        "ticket": "Vé sự kiện",
+        "utilities": "Tiện ích",
+        "calendar": "Lịch"
+    },
+    "org": {
+        "profile": "Hồ sơ nhà tổ chức"
+    }
+}

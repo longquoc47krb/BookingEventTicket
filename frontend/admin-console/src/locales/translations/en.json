@@ -1,0 +1,15 @@
+{
+    "sider": {
+        "dashboard": "Dashboard",
+        "overview": "Overview",
+        "management": "Management",
+        "order": "Orders",
+        "event": "Events",
+        "ticket": "Tickets",
+        "utilities": "Utilities",
+        "calendar": "Calendar"
+    },
+    "org": {
+        "profile": "Organizer Profile"
+    }
+}
