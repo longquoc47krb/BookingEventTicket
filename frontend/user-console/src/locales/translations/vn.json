@@ -223,6 +223,7 @@
     "type": "Loại vé",
     "price": "Giá vé",
     "quantity": "Số lượng",
-    "total": "Tổng cộng"
+    "total": "Tổng cộng",
+    "submit": "Thanh toán"
   }
 }

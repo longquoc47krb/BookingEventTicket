@@ -2,10 +2,11 @@ import { t } from "i18next";
 import { sumBy } from "lodash";
 import React from "react";
 import { useSelector } from "react-redux";
+import paymentServices from "../../api/services/paymentServices";
 import { ticketTypeSelector } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
 import TicketCartItem from "../ticket-cart-item";
-
+const { payOrder } = paymentServices;
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
   const newArr = tickets.map((t) => ({
@@ -15,6 +16,10 @@ function TicketCart() {
   const ticketCart = newArr.filter((ticket) => ticket.quantity > 0);
   console.log({ ticketCart });
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
+  const handlePayOrder = async () => {
+    const response = await payOrder({ price: cartTotalPrice });
+    console.log(">> response:", response);
+  };
   return (
     <>
       <div className="ticket-cart">
@@ -33,6 +38,9 @@ function TicketCart() {
         <th>{t("ticket.total")}</th>
         <th>{formatter.format(cartTotalPrice)}</th>
       </div>
+      <button className="primary-button mt-2" onClick={handlePayOrder}>
+        {t("ticket.submit")}
+      </button>
     </>
   );
 }

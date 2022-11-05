@@ -223,6 +223,7 @@
     "type": "Ticket type",
     "price": "Unit price",
     "quantity": "Quantity",
-    "total": "Total"
+    "total": "Total",
+    "submit": "Place Order"
   }
 }
