@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.payload.response.PriceRes;
 import com.hcmute.bookingevent.services.PayPalService;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -18,8 +19,8 @@ public class PayPalController {
 
     private final PayPalService service;
     @PostMapping("/payOrder")
-    public ResponseEntity<?> payment(@RequestBody Order order, HttpServletRequest request) {
-        return service.createPayPalPayment(order,request);
+    public ResponseEntity<?> payment(@RequestBody PriceRes priceRes, HttpServletRequest request) {
+        return service.createPayPalPayment(priceRes,request);
 
     }
     @GetMapping(value = "/pay/cancel")

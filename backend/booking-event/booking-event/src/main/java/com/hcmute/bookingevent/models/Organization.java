@@ -35,7 +35,7 @@ public class Organization {
     private EOrganization status;
 
     private List<String> eventList;
-    //private List<TicketType> ticketTypes;
+    //private List<OrganizationTicket> ticketTypes;
 
     public Organization(String id) {
         this.id = id;

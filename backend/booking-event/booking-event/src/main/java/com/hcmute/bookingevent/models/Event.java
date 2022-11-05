@@ -1,6 +1,6 @@
 package com.hcmute.bookingevent.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -45,5 +42,5 @@ public class Event {
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList;
-    private List<TicketType> ticketTypes;
+    private List<OrganizationTicket> organizationTickets;
 }

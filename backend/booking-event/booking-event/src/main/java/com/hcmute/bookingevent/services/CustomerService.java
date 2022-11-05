@@ -3,6 +3,7 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -43,20 +44,20 @@ public class CustomerService  implements ICustomerService {
                     new ResponseObject(true, "Get all user success", customerList,200));
         throw new NotFoundException("Can not find any organization");
     }
-    @Override
-    public ResponseEntity<?> deleteCustomer(String email) {
-        if (accountRepository.existsByEmail(email)) {
-
-            accountRepository.deleteByEmail(email);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete account successfully ", "",200));
-
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
-        }
-
-    }
+//    @Override
+//    public ResponseEntity<?> deleteCustomer(String email) {
+//        if (accountRepository.existsByEmail(email)) {
+//
+//            accountRepository.deleteByEmail(email);
+//            return ResponseEntity.status(HttpStatus.OK).body(
+//                    new ResponseObject(true, "Delete account successfully ", "",200));
+//
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                    new ResponseObject(false, "Delete account fail with email:" + email, "",404));
+//        }
+//
+//    }
     public ResponseEntity<?> viewWishList(String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
@@ -117,6 +118,23 @@ public class CustomerService  implements ICustomerService {
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject(false, "deleteItemWishList fail with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> createCustomerOrder(String email, Order order)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+            customer.get().getOrders().add(order);
+            customerRepository.save(customer.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Create Order for Customer successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "addWishList fail with email:" + email, "",404));
 
         }
     }

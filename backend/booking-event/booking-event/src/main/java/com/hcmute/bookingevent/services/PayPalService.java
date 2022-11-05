@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IPayPayService;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.payload.response.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
 import com.paypal.api.payments.*;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,21 +40,28 @@ public class PayPalService implements IPayPayService {
     private final APIContext apiContext;
 
     @Override
-    @Transactional
-    public ResponseEntity<?> createPayPalPayment(Order order, HttpServletRequest request) {
+    //@Transactional
+    public ResponseEntity<?> createPayPalPayment(PriceRes priceRes, HttpServletRequest request) {
         String cancelUrl = StringUtils.getBaseURL(request) + CANCEL_URL;
         String successUrl = StringUtils.getBaseURL(request) + SUCCESS_URL;
+        // HttpSession session = request.getSession();
+        // session.invalidate();
         try {
             Payment payment = createPayment(
-                    order.getPrice(),
+                    priceRes.getPrice(),
                     "USD",
                     "paypal",
                     "sale",
                     "Thanh toan hoa don " ,
                     cancelUrl,
                     successUrl);
+           //session.setAttribute("id order", order);
             for (Links links : payment.getLinks()) {
                 if (links.getRel().equals("approval_url")) {
+
+                  //  Order order2 = (Order) session.getAttribute("id order");
+
+
                     return ResponseEntity.status(HttpStatus.OK).body(
                             new ResponseObject(true, "Price has entered  ", links.getHref(),200));
 
@@ -77,9 +86,17 @@ public class PayPalService implements IPayPayService {
     {
         try {
             log.info("Execute Payment");
+          //  HttpSession session = request.getSession();
+        //    Order order = (Order) session.getAttribute("id order");
 
             Payment payment= execute(paymentId, payerId);
             if (payment.getState().equals("approved")) {
+                //handle bussiness logi
+
+               // session.invalidate();
+
+                //redirect
+
                 response.sendRedirect(MAIN_URL + "success=true&cancel=false");
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Payment with Paypal complete", "",200)
