@@ -1,7 +1,6 @@
 package com.hcmute.bookingevent.Implement;
 
-import com.hcmute.bookingevent.models.Order;
-import com.hcmute.bookingevent.payload.response.PriceRes;
+import com.hcmute.bookingevent.payload.request.PriceRes;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;

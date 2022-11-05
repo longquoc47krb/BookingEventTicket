@@ -1,16 +1,14 @@
 package com.hcmute.bookingevent.controllers;
 
-import com.hcmute.bookingevent.models.Order;
-import com.hcmute.bookingevent.payload.response.PriceRes;
+import com.hcmute.bookingevent.payload.request.PriceRes;
 import com.hcmute.bookingevent.services.PayPalService;
-import com.paypal.api.payments.Payment;
-import com.paypal.base.rest.PayPalRESTException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
@@ -19,7 +17,7 @@ public class PayPalController {
 
     private final PayPalService service;
     @PostMapping("/payOrder")
-    public ResponseEntity<?> payment(@RequestBody PriceRes priceRes, HttpServletRequest request) {
+    public ResponseEntity<?> payment(@Valid @RequestBody PriceRes priceRes, HttpServletRequest request) {
         return service.createPayPalPayment(priceRes,request);
 
     }

@@ -23,7 +23,7 @@ import java.util.List;
 public class Customer {
     @Id
     private String id;
-    private int ticketAmount;
+    //private int ticketAmount;
     @NotBlank(message = "Email is required")
     @Size(max = 100)
     @Email(message = "Email is invalidate")
@@ -31,14 +31,14 @@ public class Customer {
     private String email;
 
     //private int role;
-    private List<String> ticketList;
+    //private List<String> ticketList;
 
     private List<String> eventWishList;
     private List<Order> orderList;
     public Customer(String email)
     {
         this.email=email;
-        this.ticketList = new ArrayList<>();
+
         this.eventWishList = new ArrayList<>();
         this.orderList = new ArrayList<>();
     }
