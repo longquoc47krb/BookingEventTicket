@@ -216,6 +216,10 @@
         "200": "Update account successfully",
         "400": "Failed update account"
       }
+    },
+    "payment": {
+      "success": "Successfully placed order",
+      "error": "Failed place order"
     }
   },
   "ticket": {
