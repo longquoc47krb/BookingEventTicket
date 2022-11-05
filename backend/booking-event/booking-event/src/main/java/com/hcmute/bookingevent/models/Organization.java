@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("organization")
@@ -43,5 +44,6 @@ public class Organization {
     public Organization(String email,EOrganization status) {
         this.status = status;
         this.email = email;
+        this.eventList= new ArrayList<>();
     }
 }

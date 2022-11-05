@@ -31,14 +31,14 @@ public class Customer {
     private String email;
 
     //private int role;
-    private List<String> ticketList;
+    //private List<String> ticketList;
 
     private List<String> eventWishList;
     private List<Order> orderList;
     public Customer(String email)
     {
         this.email=email;
-        this.ticketList = new ArrayList<>();
+
         this.eventWishList = new ArrayList<>();
         this.orderList = new ArrayList<>();
     }

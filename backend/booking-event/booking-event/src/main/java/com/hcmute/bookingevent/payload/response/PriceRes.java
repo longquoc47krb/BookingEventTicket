@@ -9,5 +9,5 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class PriceRes {
     @NotBlank(message = "price is required")
-    private double price;
+    private String price;
 }

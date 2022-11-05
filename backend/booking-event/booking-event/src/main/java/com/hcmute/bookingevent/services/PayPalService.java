@@ -48,7 +48,7 @@ public class PayPalService implements IPayPayService {
         // session.invalidate();
         try {
             Payment payment = createPayment(
-                    priceRes.getPrice(),
+                    Double.parseDouble(priceRes.getPrice()),
                     "USD",
                     "paypal",
                     "sale",
