@@ -41,11 +41,6 @@ function Home() {
   const navigate = useNavigate();
   const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
-  console.log({
-    sucessStatus,
-    eventsByProvince,
-    featuredEvents,
-  });
   return (
     <>
       <HelmetHeader title={t("pages.home")} content="Home page" />

@@ -32,7 +32,7 @@
     "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
   },
   "search": {
-    "result": "Kết quả tìm kiếm: {{val, number}} kết quả",
+    "result": "Kết quả tìm kiếm: {{val, number}} sự kiện",
     "empty": "Không tìm thấy",
     "view-all": "Xem tất cả kết quả"
   },

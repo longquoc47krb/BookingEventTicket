@@ -24,6 +24,7 @@ function HeroBanner({ heroBackground, searchData }) {
         expand={isOpen}
         data={searchData}
         placeholder={t("event.placeholder-searchbox")}
+        isExpand={false}
       />
     </section>
   );
