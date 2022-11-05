@@ -25,7 +25,7 @@ function SearchResults() {
   const lastIndex = currentPage * 6 + 6;
   return (
     <div className="event-container">
-      <span className="text-black text-2xl font-semibold flex items-center gap-x-1">
+      <span className="text-black text-2xl font-semibold flex items-center gap-x-1 mb-1 border-b-2 border-[#1f3e82] w-full">
         <BiSearchAlt2 />
         {t("search.result", { val: searchResults ? searchResults.length : 0 })}
       </span>
