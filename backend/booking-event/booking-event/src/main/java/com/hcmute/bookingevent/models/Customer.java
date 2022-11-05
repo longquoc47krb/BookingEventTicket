@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 @Document("customer")
 @Getter
@@ -37,6 +38,8 @@ public class Customer {
     public Customer(String email)
     {
         this.email=email;
-
+        this.ticketList = new ArrayList<>();
+        this.eventWishList = new ArrayList<>();
+        this.orderList = new ArrayList<>();
     }
 }
