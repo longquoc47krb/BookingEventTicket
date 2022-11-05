@@ -3,12 +3,14 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.OTP.OTP;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.payload.response.JwtResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.user.UserDetailsImpl;
 import com.hcmute.bookingevent.services.mail.EMailType;
@@ -38,7 +40,7 @@ public class AuthService implements IAuthService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder encoder;
     private final JwtTokenProvider jwtTokenProvider;
-
+    private final CustomerRepository customerRepository;
 
     public ResponseEntity<?> login(LoginReq req) {
         try
@@ -101,10 +103,16 @@ public class AuthService implements IAuthService {
         Account account = new Account(signUpRequest.getName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),Constants.AVATAR_DEFAULT);
+
         try
         {
             account.setRole(signUpRequest.getRole());
             accountRepository.save(account);
+            //customer
+            Customer customer = new Customer(account.getEmail());
+            customerRepository.save(customer);
+
+
             mailService.sendMail(account, "", EMailType.NEW_PASSWORD);
             return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!",account.getEmail(),200));
         }

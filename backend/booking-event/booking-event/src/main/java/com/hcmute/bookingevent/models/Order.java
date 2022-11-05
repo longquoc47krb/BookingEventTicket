@@ -18,9 +18,10 @@ import java.util.List;
 @ToString
 public class Order {
     @Id
+    @JsonIgnore
     private String id;
-    @NotBlank(message = "email is required")
-    private String email;
+//    @NotBlank(message = "email is required")
+//    private String email;
     @NotBlank(message = "totalPrice is required")
     private String totalPrice;
     @Size(min=1,message="required")
