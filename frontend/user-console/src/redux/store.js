@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/accountSlice";
+import customerReducer from "./slices/customerSlice";
 import searchReducer from "./slices/searchSlice";
 import routeReducer from "./slices/routeSlice";
 import filterReducer from "./slices/filterSlice";
@@ -26,6 +27,7 @@ const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
+    customer: customerReducer,
     route: routePersistedReducer,
     search: searchReducer,
     filter: filterReducer,

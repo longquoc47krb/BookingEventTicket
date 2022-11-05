@@ -150,7 +150,7 @@ const UserLogin = (props) => {
                     type="button"
                     onClick={() =>
                       window.open(
-                        `${process.env.REACT_APP_API_HEROKU_SERVER_BASE}oauth2/authorization/google`,
+                        `${process.env.REACT_APP_API_URL_BASE}/oauth2/authorization/google`,
                         "_blank"
                       )
                     }
