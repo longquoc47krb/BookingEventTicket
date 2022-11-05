@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.models.ticket;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CustomerTicket {
     @Id
+    @JsonIgnore
     private String id;
     @NotBlank(message = "typeName is required")
     private String typeName;

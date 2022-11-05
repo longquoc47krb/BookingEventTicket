@@ -126,7 +126,7 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
-            customer.get().getOrders().add(order);
+            customer.get().getOrderList().add(order);
             customerRepository.save(customer.get());
 
             return ResponseEntity.status(HttpStatus.OK).body(

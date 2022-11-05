@@ -38,14 +38,14 @@ public class AccountController {
     public ResponseEntity<?> findAccountByPhoneOrNameOrEmail(@RequestParam(value="value")  String value) {
         return iAccountService.findByPhoneOrNameOrEmail(value);
     }
-    @PostMapping("/account/loginByPhone")
-    public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
-        return iAccountService.loginAccountbyPhone(newAccount);
-    }
-    @PostMapping("/account/loginByEmail")
-    public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
-        return iAccountService.loginAccountByEmail(newAccount);
-    }
+//    @PostMapping("/account/loginByPhone")
+//    public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
+//        return iAccountService.loginAccountbyPhone(newAccount);
+//    }
+//    @PostMapping("/account/loginByEmail")
+//    public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
+//        return iAccountService.loginAccountByEmail(newAccount);
+//    }
     @PutMapping("/account/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
