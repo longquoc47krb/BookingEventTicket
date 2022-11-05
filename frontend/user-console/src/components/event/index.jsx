@@ -31,11 +31,7 @@ function Event(props) {
       }}
     >
       <img
-        src={
-          checkImageURL(event?.background)
-            ? event?.background
-            : PlaceholderCover
-        }
+        src={event?.background || PlaceholderCover}
         className="event-item-image"
       />
       <h1 className="w-[calc(100%-80px)] font-bold event-title cursor-pointer mt-1">

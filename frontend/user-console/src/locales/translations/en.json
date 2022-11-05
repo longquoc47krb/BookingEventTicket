@@ -32,7 +32,7 @@
     "not-found-description": "We can't find any appropriate results, try to edit the filter!"
   },
   "search": {
-    "result": "Search results: {{val, number}} results",
+    "result": "Search results: {{val, number}} events",
     "empty": "No results",
     "view-all": "View all results"
   },
