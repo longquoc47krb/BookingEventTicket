@@ -23,7 +23,7 @@ import java.util.List;
 public class Customer {
     @Id
     private String id;
-    private int ticketAmount;
+    //private int ticketAmount;
     @NotBlank(message = "Email is required")
     @Size(max = 100)
     @Email(message = "Email is invalidate")

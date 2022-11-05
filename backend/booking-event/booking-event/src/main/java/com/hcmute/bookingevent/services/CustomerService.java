@@ -2,12 +2,16 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
+import com.hcmute.bookingevent.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +30,8 @@ public class CustomerService  implements ICustomerService {
 
     private final CustomerRepository customerRepository;
     private final AccountRepository accountRepository;
-
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     @Override
     public ResponseEntity<?> findAll()
@@ -63,14 +70,23 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
-            customer.get().getEventWishList();
+            List<Event> eventList = new ArrayList<>();
+            for(String eventId: customer.get().getEventWishList())
+            {
+                Optional<Event>  event=  eventRepository.findEventById(eventId);
+                if(event.isPresent())
+                {
+                    eventList.add(event.get());
+                }
+            }
+            List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save WishList Event successfully ", "",200));
+                    new ResponseObject(true, "show WishList Event successfully ", eventRes,200));
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "addWishList fail with email:" + email, "",404));
+                    new ResponseObject(false, "show WishList Event fail with email:" + email, "",404));
 
         }
     }

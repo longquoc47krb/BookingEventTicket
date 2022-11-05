@@ -1,8 +1,7 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IPayPayService;
-import com.hcmute.bookingevent.models.Order;
-import com.hcmute.bookingevent.payload.response.PriceRes;
+import com.hcmute.bookingevent.payload.request.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
 import com.paypal.api.payments.*;
@@ -14,11 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -67,14 +64,12 @@ public class PayPalService implements IPayPayService {
 
                 }
             }
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Price has entered  ", "",200));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                    new ResponseObject(false, "Transaction has some problem  ", "",400));
 
         } catch (PayPalRESTException  e) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Price has some problem  ", "",400));
-
-            //throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                    new ResponseObject(true, "Transaction has some problem  ", "",400));
         }
 
     }
