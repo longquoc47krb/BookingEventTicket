@@ -9,7 +9,10 @@ import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.oauth.CustomOAuth2User;
+import com.hcmute.bookingevent.services.MailService;
+import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
     private  final AccountRepository accountRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomerRepository customerRepository;
+    private final MailService mailService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
@@ -71,6 +75,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
         System.out.println(oauth2User.getProfilePicture());
         //super.onAuthenticationSuccess(request, response, authentication);
     }
+    @SneakyThrows
     public String processAddAccount(CustomOAuth2User oAuth2User) {
 
         Account account = new Account(oAuth2User.getName(),
@@ -79,6 +84,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 , Constants.ROLE_USER);
         account.setLoginType(EAccount.GOOGLE);
         Customer customer = new Customer(oAuth2User.getEmail());
+        mailService.sendMail(account, "", EMailType.REGISTER);
         customerRepository.save(customer);
         accountRepository.save(account);
         return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail(),account.getId());

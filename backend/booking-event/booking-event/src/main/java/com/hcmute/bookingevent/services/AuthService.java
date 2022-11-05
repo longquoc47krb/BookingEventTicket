@@ -113,7 +113,7 @@ public class AuthService implements IAuthService {
             customerRepository.save(customer);
 
 
-            mailService.sendMail(account, "", EMailType.NEW_PASSWORD);
+            mailService.sendMail(account, "", EMailType.REGISTER);
             return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!",account.getEmail(),200));
         }
         catch (Exception e)

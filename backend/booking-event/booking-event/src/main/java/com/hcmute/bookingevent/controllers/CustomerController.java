@@ -8,6 +8,7 @@ import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.payload.request.ItemWishListReq;
 import com.hcmute.bookingevent.payload.request.RegisterReq;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -31,12 +32,22 @@ public class CustomerController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iCustomerService.findAll(pageable);
     }
-    @PostMapping(path = "/customer/wishlist/{idItem}")
-    public ResponseEntity<?> addWishList (@PathVariable String idItem,@RequestParam(value="userId", required = false) String userId, HttpServletRequest request   ){
+    @PostMapping(path = "/customer/wishlist/{userId}")
+    public ResponseEntity<?> addWishList (@PathVariable String userId,@RequestParam(value="idItem", required = false) String idItem, HttpServletRequest request   ){
+    try {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
             return iCustomerService.addWishList(idItem,account.getEmail());
         }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
+    }
+    catch (ArrayIndexOutOfBoundsException ex)
+    {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(true, ex.getMessage(), "",400));
+
+    }
 
 
     }
