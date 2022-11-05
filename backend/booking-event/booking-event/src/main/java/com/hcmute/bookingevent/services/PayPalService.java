@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IPayPayService;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.payload.response.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
 import com.paypal.api.payments.*;
@@ -40,14 +41,14 @@ public class PayPalService implements IPayPayService {
 
     @Override
     //@Transactional
-    public ResponseEntity<?> createPayPalPayment(Order order, HttpServletRequest request) {
+    public ResponseEntity<?> createPayPalPayment(PriceRes priceRes, HttpServletRequest request) {
         String cancelUrl = StringUtils.getBaseURL(request) + CANCEL_URL;
         String successUrl = StringUtils.getBaseURL(request) + SUCCESS_URL;
-        HttpSession session = request.getSession();
-        //session.invalidate();
+        // HttpSession session = request.getSession();
+        // session.invalidate();
         try {
             Payment payment = createPayment(
-                    order.getPrice(),
+                    priceRes.getPrice(),
                     "USD",
                     "paypal",
                     "sale",

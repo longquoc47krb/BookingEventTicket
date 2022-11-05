@@ -5,6 +5,7 @@ import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.payload.request.ItemWishListReq;
 import com.hcmute.bookingevent.payload.request.RegisterReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -54,6 +55,15 @@ public class CustomerController {
         if(account.getId().equals(userId)) {
             return iCustomerService.deleteItemWishList(idItem, account.getEmail());
         }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
+    }
+    @PostMapping(path = "/customer/order/{userId}")
+    public ResponseEntity<?> createCustomerOrder (@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request   ){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)) {
+            return iCustomerService.createCustomerOrder(account.getEmail(),order);
+        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
 
     }
     @DeleteMapping(path = "/customer/wishlist/all/{userId}")
