@@ -4,43 +4,30 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Empty, Input } from "antd";
 import Fuse from "fuse.js";
+import { debounce } from "lodash";
 import PropTypes from "prop-types";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useClickAway, useDebounce } from "react-use";
-import { useFetchEvents } from "../../../api/services/eventServices";
-import { setResults } from "../../../redux/slices/searchSlice";
-import { debounce, isEmpty } from "../../../utils/utils";
+import { setResult, setSearchResults } from "../../../redux/slices/searchSlice";
+import { isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
-  const { value, data, placeholder } = props;
+  const { value, data, placeholder, isExpand } = props;
   const [filterValue, setFilterValue] = useState(value || "");
-  const [debouncedValue, setDebouncedValue] = useState("");
-  const [expand, setExpand] = useState(true);
+  const result = useSelector((state) => state.search.result);
+  const [expand, setExpand] = useState(isExpand);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const ref = useRef();
   useClickAway(ref, () => {
     setExpand(false);
   });
-  const [, cancel] = useDebounce(
-    () => {
-      setDebouncedValue(filterValue);
-      setExpand(true);
-    },
-    2000,
-    [filterValue]
-  );
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+
   const fuse = new Fuse(data, {
     isCaseSensitive: false,
     findAllMatches: false,
@@ -61,27 +48,30 @@ const SearchBox = (props) => {
       "province",
     ],
   });
-  const results = data ? fuse.search(debouncedValue) : [];
+  const results = data ? fuse.search(result) : [];
   useEffect(() => {
-    dispatch(setResults(results));
-  }, [dispatch]);
+    dispatch(setSearchResults(results));
+  }, [result]);
   if (!data) {
     return null;
   }
+  console.log({ result, expand });
+  console.log(">debouncedValue", result);
   return (
     <div className="SearchBox" ref={ref}>
       <Input
         className="relative rounded w-full h-full py-[10px] px-4"
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
-        value={filterValue}
+        value={result}
         placeholder={placeholder}
         onChange={({ currentTarget }) => {
-          setFilterValue(currentTarget.value);
+          debounce(dispatch(setResult(currentTarget.value)), 1500);
+          navigate(`/events?search=${currentTarget.value}`);
         }}
         style={{ padding: "0.5rem" }}
         allowClear
       />
-      {debouncedValue && expand ? (
+      {result && expand ? (
         <ul className="SearchBox_Results_List">
           {results && (
             <p className="p-2 text-black">
@@ -138,7 +128,7 @@ const SearchBox = (props) => {
             <li
               className="SearchBox_Results_List_Item flex gap-x-2 items-end"
               onClick={() => {
-                navigate(`/events`);
+                navigate(`/events?search=${result}`);
               }}
             >
               {t("search.view-all")}
@@ -151,7 +141,10 @@ const SearchBox = (props) => {
   );
 };
 SearchBox.propTypes = {
-  expand: PropTypes.bool,
+  isExpand: PropTypes.bool,
   placeholder: PropTypes.string,
+};
+SearchBox.defaultProps = {
+  isExpand: true,
 };
 export default SearchBox;

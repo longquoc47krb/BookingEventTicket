@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/accountSlice";
+import customerReducer from "./slices/customerSlice";
 import searchReducer from "./slices/searchSlice";
 import routeReducer from "./slices/routeSlice";
-import scrollReducer from "./slices/scrollSlice";
 import filterReducer from "./slices/filterSlice";
 import ticketReducer from "./slices/ticketSlice";
 import { persistStore, persistReducer } from "redux-persist";
@@ -27,9 +27,9 @@ const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
+    customer: customerReducer,
     route: routePersistedReducer,
     search: searchReducer,
-    scroll: scrollReducer,
     filter: filterReducer,
     ticket: ticketReducer,
   },

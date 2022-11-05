@@ -14,12 +14,19 @@ import TicketTable from "../../components/ticket-table";
 import Footer from "../../components/common/footer";
 import HelmetHeader from "../../components/helmet";
 import SelectTicket from "./select-ticket";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentStepSelector,
+  setCurrentStep,
+} from "../../redux/slices/ticketSlice";
 const { TicketStatus } = constants;
 function TicketBooking() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const currentStep = useSelector(currentStepSelector);
   const { eventId } = useParams();
   const { data: event, status } = useEventDetails(eventId);
+  const dispatch = useDispatch();
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -30,6 +37,21 @@ function TicketBooking() {
     step2: "ticket-booking.step2",
     step3: "ticket-booking.step3",
   };
+  // useEffect(() => {
+  //   dispatch(setCurrentStep(0));
+  // }, []);
+  function renderFragment(step) {
+    switch (step) {
+      case 0:
+        return <SelectTicket />;
+      case 1:
+        return <div>Step 2</div>;
+      case 2:
+        return <div>Step 3</div>;
+      default:
+        return <SelectTicket />;
+    }
+  }
   return (
     status === "success" && (
       <>
@@ -52,9 +74,7 @@ function TicketBooking() {
             </p>
           </div>
           <StepBox steps={steps} />
-          <div className="booking-body">
-            <SelectTicket />
-          </div>
+          <div className="booking-body">{renderFragment(currentStep)}</div>
         </div>
         <Footer />
       </>

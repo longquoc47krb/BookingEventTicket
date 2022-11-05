@@ -11,7 +11,6 @@ import {
   setEndDate,
   setStartDate,
 } from "../../../redux/slices/filterSlice";
-import { useState } from "react";
 const { RangePicker } = DatePicker;
 const { PATTERNS } = constants;
 const data = {
@@ -25,8 +24,6 @@ export function DateSelect(props) {
   );
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
   return (
     <div className="select-container">
       {data.icon}

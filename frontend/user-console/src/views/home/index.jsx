@@ -22,7 +22,7 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
-import { setStatus } from "../../redux/slices/filterSlice";
+import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { TicketStatus } from "../../utils/constants";
 const { provinceMapping } = constants;
@@ -41,11 +41,6 @@ function Home() {
   const navigate = useNavigate();
   const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
-  console.log({
-    sucessStatus,
-    eventsByProvince,
-    featuredEvents,
-  });
   return (
     <>
       <HelmetHeader title={t("pages.home")} content="Home page" />
@@ -93,6 +88,17 @@ function Home() {
                     <EventHomeItem event={event} />
                   ))}
             </div>
+            <ViewMoreButton
+              onClick={() => {
+                dispatch(setStatus(TicketStatus.AVAILABLE));
+                dispatch(
+                  setProvince(
+                    provinceMapping.get(location ? location?.region : "")
+                  )
+                );
+                navigate("/events");
+              }}
+            />
           </div>
         </div>
       </div>

@@ -10,3 +10,6 @@
 **/.idea
 /frontend/firebase-debug.log
 event.json
+
+# Local Netlify folder
+.netlify

@@ -1,17 +1,22 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFetchUserInfo } from "../api/services/accountServices";
+import customerServices from "../api/services/customerServices";
 import eventServices, {
   useCheckEventsStatus,
 } from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
 import { userInfoSelector } from "../redux/slices/accountSlice";
+import { wishlistSelector } from "../redux/slices/customerSlice";
 const UserActionContext = createContext();
 const { getEventById } = eventServices;
+const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
+  customerServices;
 export const UserActionContextProvider = ({ children }) => {
-  const [wishlist, setWishlist] = useState([]);
   const [wishlistEvent, setWishlistEvent] = useState();
+  const dispatch = useDispatch();
+  const wishlist = useSelector(wishlistSelector);
   const [showDrawer, setShowDrawer] = useState(false);
   const { t } = useTranslation();
   const userInfo = useSelector(userInfoSelector);
@@ -20,35 +25,11 @@ export const UserActionContextProvider = ({ children }) => {
   const { data: user, status: userStatus } = useFetchUserInfo(
     userInfo ? userInfo.email : ""
   );
-  const getWishlist = () => {
-    setWishlistEvent([]);
-
-    // const list = reactLocalStorage.getObject("userWishlist");
-    const list = JSON.parse(localStorage.getItem("userWishlist"));
-    const userWishlist = list ? list.wishlist : [];
-    setWishlist(userWishlist);
-    userWishlist &&
-      userWishlist.forEach((eventId) => {
-        getEventById(eventId).then((response) => {
-          setWishlistEvent((prev) => {
-            return [...prev, response.data];
-          });
-        });
-      });
+  const getWishlist = async () => {
+    await fetchWishlist(userInfo.id);
   };
-  const addToWishlist = (eventId) => {
-    setWishlist((prev) => {
-      return [...prev, eventId];
-    });
-
-    const values = [...wishlist];
-    values.push(eventId);
-    const list = {
-      wishlist: values,
-    };
-
-    // reactLocalStorage.setObject("userWishlist", list);
-    localStorage.setItem("userWishlist", JSON.stringify(list));
+  const addToWishlist = async (eventId) => {
+    await addWishlistItem(eventId, userInfo.id);
     AlertPopup({
       title: t("wishlist.add.title"),
       text: t("wishlist.add.text"),
@@ -59,28 +40,17 @@ export const UserActionContextProvider = ({ children }) => {
     getWishlist();
   }, []);
 
-  const removeFromWishlist = (eventId) => {
-    let values = [...wishlist];
-    values = values.filter((prod) => prod !== eventId);
-    setWishlist(values);
-    const list = {
-      wishlist: values,
-    };
+  const removeFromWishlist = async (eventId) => {
+    await removeWishlistItem(eventId, userInfo.id);
     AlertPopup({
       title: t("wishlist.remove.title"),
       text: t("wishlist.remove.text"),
     });
-    // reactLocalStorage.setObject("userWishlist", list);
-    localStorage.setItem("userWishlist", JSON.stringify(list));
+
     getWishlist();
   };
-  const clearWishlist = () => {
-    setWishlist([]);
-    const list = {
-      wishlist: [],
-    };
-    localStorage.setItem("userWishlist", JSON.stringify(list));
-    getWishlist();
+  const clearWishlist = async () => {
+    await clearAllWishlist(userInfo.id);
   };
   return (
     <UserActionContext.Provider
