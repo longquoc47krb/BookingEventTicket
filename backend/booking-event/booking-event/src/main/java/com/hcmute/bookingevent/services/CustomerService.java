@@ -63,9 +63,10 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
+            customer.get().getEventWishList();
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save WishList Event successfully ", customer.get().getEventWishList(),200));
+                    new ResponseObject(true, "Save WishList Event successfully ", "",200));
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
