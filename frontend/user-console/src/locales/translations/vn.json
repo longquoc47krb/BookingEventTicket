@@ -216,6 +216,10 @@
         "200": "Cập nhật thông tin tài khoản thành công",
         "400": "Cập nhật thông tin tài khoản thất bại"
       }
+    },
+    "payment": {
+      "success": "Thanh toán thành công",
+      "error": "Thanh toán thất bại"
     }
   },
   "ticket": {
