@@ -37,7 +37,9 @@ function OrganizeRegistration() {
       email: YupValidations.email,
       phone: YupValidations.phone,
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      console.log({ values });
+    },
   });
   const { handleSubmit } = formik;
   useEffect(() => {
