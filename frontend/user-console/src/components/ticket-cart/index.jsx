@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import paymentServices from "../../api/services/paymentServices";
 import { ticketTypeSelector } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
+import { AlertErrorPopup, AlertPopup } from "../common/alert";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder } = paymentServices;
 function TicketCart() {
@@ -17,8 +18,17 @@ function TicketCart() {
   console.log({ ticketCart });
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
   const handlePayOrder = async () => {
-    const response = await payOrder({ price: cartTotalPrice });
+    const response = await payOrder({ price: cartTotalPrice.toString() });
     console.log(">> response:", response);
+    if (response.status !== 200) {
+      AlertErrorPopup({
+        title: t("popup.payment.error"),
+      });
+    } else {
+      AlertPopup({
+        title: t("popup.payment.success"),
+      });
+    }
   };
   return (
     <>
