@@ -70,19 +70,19 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
-            List<Event> eventList = new ArrayList<>();
-            for(String eventId: customer.get().getEventWishList())
-            {
-                Optional<Event>  event=  eventRepository.findEventById(eventId);
-                if(event.isPresent())
-                {
-                    eventList.add(event.get());
-                }
-            }
-            List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+//            List<Event> eventList = new ArrayList<>();
+//            for(String eventId: customer.get().getEventWishList())
+//            {
+//                Optional<Event>  event=  eventRepository.findEventById(eventId);
+//                if(event.isPresent())
+//                {
+//                    eventList.add(event.get());
+//                }
+//            }
+            //List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
 
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "show WishList Event successfully ", eventRes,200));
+                    new ResponseObject(true, "show WishList Event successfully ", customer.get().getEventWishList(),200));
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
