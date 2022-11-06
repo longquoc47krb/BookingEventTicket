@@ -11,12 +11,15 @@ import wowjs from "wowjs";
 import Organizer from "../../assets/Approved.svg";
 import { Col, Row } from "antd";
 import { Input } from "../../components/common/input/customField";
+import organizationServices from "../../api/services/organizationServices";
+import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 const {
   ORGANIZER_CAROUSEL,
   ORGANIZER_LANDINGPAGE_PICTURE,
   ORGANIZATION_INTRODUCE_ITEM,
   ORGANIZATION_PARTNERS,
 } = AppConfig;
+const { submitOrganizer } = organizationServices;
 function OrganizeRegistration() {
   const { t } = useTranslation();
   useEffect(() => {
@@ -25,7 +28,7 @@ function OrganizeRegistration() {
   const initialValues = {
     name: "",
     email: "",
-    organization_name: "",
+    phoneNumber: "",
   };
   var y = window.scrollY;
 
@@ -35,10 +38,25 @@ function OrganizeRegistration() {
     validationSchema: Yup.object().shape({
       name: YupValidations.name,
       email: YupValidations.email,
-      phone: YupValidations.phone,
+      phoneNumber: YupValidations.phone,
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log({ values });
+      const { email, name, phoneNumber } = values;
+      const response = await submitOrganizer({
+        email,
+        name,
+        phoneNumber,
+      });
+      if (response.status === 200) {
+        AlertPopup({
+          title: t("popup.organizer.success"),
+        });
+      } else {
+        AlertErrorPopup({
+          title: t("popup.organizer.error"),
+        });
+      }
     },
   });
   const { handleSubmit } = formik;
@@ -173,7 +191,7 @@ function OrganizeRegistration() {
                 >
                   <Col flex={4}>
                     <h1 className="text-white text-lg">{t("user.phone")}</h1>
-                    <Field component={Input} name="phone" />
+                    <Field component={Input} name="phoneNumber" />
                   </Col>
                 </Row>
                 <Col span={24}>
