@@ -11,22 +11,22 @@
     {
       "id": 1,
       "type": "Lân gay",
-      "price": 5
+      "price": 0.5
     },
     {
       "id": 2,
       "type": "Hồ Lân",
-      "price": 10
+      "price": 0.5
     },
     {
       "id": 3,
       "type": "Kikiki meo meo",
-      "price": 15
+      "price": 0.5
     },
     {
       "id": 4,
       "type": "Siuuu",
-      "price": 10
+      "price": 0.5
     }
   ]
 }

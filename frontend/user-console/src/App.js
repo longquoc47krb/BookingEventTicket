@@ -40,7 +40,7 @@ function App() {
               {routes.map((route) => (
                 <Route path={route.path} element={route.element} />
               ))}
-
+              <Route path="/test" element={<TicketTable />} />
               {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
