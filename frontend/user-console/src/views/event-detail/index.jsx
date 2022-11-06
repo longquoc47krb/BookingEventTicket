@@ -22,6 +22,7 @@ import ReadMoreLess from "../../components/read-more";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
+import { setCurrentStep } from "../../redux/slices/ticketSlice";
 import { paragraph, TicketStatus } from "../../utils/constants";
 import {
   displayDate,
@@ -85,6 +86,9 @@ function EventDetail(props) {
       navigate(`/ticket-booking/${event.id}`);
     }
   };
+  useEffect(() => {
+    dispatch(setCurrentStep(0));
+  }, []);
   useEffect(() => {
     if (status !== "loading" && status !== "error" && !isFetching) {
       const sectionPosition = {
