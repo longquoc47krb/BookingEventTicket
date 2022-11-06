@@ -55,8 +55,6 @@ const SearchBox = (props) => {
   if (!data) {
     return null;
   }
-  console.log({ result, expand });
-  console.log(">debouncedValue", result);
   return (
     <div className="SearchBox" ref={ref}>
       <Input

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import httpRequest from "../../services/httpRequest";
 import { CustomerAPI } from "../configs/customer";
 
@@ -32,6 +33,12 @@ const clearAllWishlist = async (userId) => {
   } catch (error) {
     return error.response.data;
   }
+};
+export const useFetchWishlist = (userId) => {
+  return useQuery(["wishlist", userId], () => fetchWishlist(userId), {
+    staleTime: 30000,
+    cacheTime: 1000 * 60 * 60 * 24,
+  });
 };
 const customerServices = {
   fetchWishlist,
