@@ -49,7 +49,7 @@ function Header(props) {
   const isMobile = useMedia("(max-width: 767px)");
   function onLogout() {
     dispatch(logOutAccount());
-    document.cookie = `token=${null}`;
+    localStorage.removeItem("userWishlist");
     logOut();
   }
   useEffect(() => {

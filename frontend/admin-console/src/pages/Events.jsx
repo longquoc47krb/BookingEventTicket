@@ -1,8 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/jsx-indent */
-/* eslint-disable quotes */
-/* eslint-disable import/order */
-import React from "react";
+import React, { useState } from "react";
 import {
   GridComponent,
   Inject,
@@ -16,15 +12,24 @@ import {
 import { employeesData, employeesGrid } from "../data/dummy";
 import { Header } from "../components";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Events = () => {
   const toolbarOptions = ["Search"];
   const { t } = useTranslation();
   const editing = { allowDeleting: true, allowEditing: true };
-
+  const navigate = useNavigate();
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />
+      <div className="flex w-full justify-end">
+        <button
+          className="p-2 bg-primary rounded-md mb-2 text-white text-lg"
+          onClick={() => navigate("/events/create")}
+        >
+          {t("event.create")}
+        </button>
+      </div>
       <GridComponent
         dataSource={employeesData}
         width="auto"
