@@ -19,11 +19,20 @@ const routePersistConfig = {
   version: 1,
   storage,
 };
+const ticketPersistConfig = {
+  key: "ticket",
+  version: 1,
+  storage,
+};
 const accountPersistedReducer = persistReducer(
   accountPersistConfig,
   accountReducer
 );
 const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
+const ticketPersistedReducer = persistReducer(
+  ticketPersistConfig,
+  ticketReducer
+);
 export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
@@ -31,7 +40,7 @@ export const store = configureStore({
     route: routePersistedReducer,
     search: searchReducer,
     filter: filterReducer,
-    ticket: ticketReducer,
+    ticket: ticketPersistedReducer,
   },
 });
 export const persistor = persistStore(store);

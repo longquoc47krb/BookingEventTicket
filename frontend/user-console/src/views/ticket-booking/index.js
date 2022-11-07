@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   currentStepSelector,
   setCurrentStep,
+  setEventId,
 } from "../../redux/slices/ticketSlice";
 const { TicketStatus } = constants;
 function TicketBooking() {
@@ -37,9 +38,9 @@ function TicketBooking() {
     step2: "ticket-booking.step2",
     step3: "ticket-booking.step3",
   };
-  // useEffect(() => {
-  //   dispatch(setCurrentStep(0));
-  // }, []);
+  useEffect(() => {
+    dispatch(setEventId(eventId));
+  }, []);
   function renderFragment(step) {
     switch (step) {
       case 0:

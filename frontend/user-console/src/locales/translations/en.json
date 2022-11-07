@@ -92,7 +92,11 @@
     },
     "changePassword": "Change password",
     "currentPassword": "Current password",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "payment": {
+      "success": "Successful order payment...Redirecting",
+      "error": "Faild order payment...Redirecting"
+    }
   },
   "location": {
     "all": "All locations",

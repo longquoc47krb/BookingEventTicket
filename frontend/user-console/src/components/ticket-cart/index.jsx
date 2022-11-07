@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { sumBy } from "lodash";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import paymentServices from "../../api/services/paymentServices";
 import { ticketTypeSelector } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
@@ -10,6 +11,7 @@ import TicketCartItem from "../ticket-cart-item";
 const { payOrder } = paymentServices;
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
+  const navigate = useNavigate();
   const newArr = tickets.map((t) => ({
     ...t,
     totalPrice: t.quantity * t.price,
@@ -25,9 +27,7 @@ function TicketCart() {
         title: t("popup.payment.error"),
       });
     } else {
-      AlertPopup({
-        title: t("popup.payment.success"),
-      });
+      window.open(response.data, "_blank");
     }
   };
   return (

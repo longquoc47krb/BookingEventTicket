@@ -11,5 +11,12 @@
     },
     "org": {
         "profile": "Hồ sơ nhà tổ chức"
+    },
+    "event": {
+        "create": "Tạo sự kiện mới",
+        "upload": {
+            "text": "Nhấn hoặc kéo thả ảnh vào đây.",
+            "hint": "Khuyến nghị hình ảnh với kích thước 1560 x 600"
+        }
     }
 }

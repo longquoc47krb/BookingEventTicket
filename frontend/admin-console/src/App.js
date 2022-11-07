@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Navbar, Footer, Sidebar } from "./components";
 import {
-  Ecommerce,
+  Overview,
   Orders,
   Calendar,
   Events,
@@ -25,6 +25,7 @@ import {
 } from "./pages";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
+import AddEvent from "./pages/AddEvent";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -63,12 +64,13 @@ function App() {
             <div>
               <Routes>
                 {/* dashboard  */}
-                <Route path="/" element={<Ecommerce />} />
-                <Route path="/overview" element={<Ecommerce />} />
+                <Route path="/" element={<Overview />} />
+                <Route path="/overview" element={<Overview />} />
 
                 {/* pages  */}
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/events" element={<Events />} />
+                <Route path="/events/create" element={<AddEvent />} />
                 <Route path="/tickets" element={<Tickets />} />
 
                 {/* apps  */}

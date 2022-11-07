@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 import Divider from "@mui/material/Divider";
@@ -8,16 +7,16 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { Dropdown, Empty } from "antd";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
+import Badge from "../badge";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
+import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
-import accountServices from "../../../api/services/accountServices";
-import { useFetchEvents } from "../../../api/services/eventServices";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import AppConfig from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
@@ -28,11 +27,13 @@ import {
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
+import theme from "../../../shared/theme";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
-import Badge from "../badge";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
+import { useFetchEvents } from "../../../api/services/eventServices";
+import accountServices from "../../../api/services/accountServices";
 const { USER_PROFILE_MENU } = AppConfig;
 const { findUser } = accountServices;
 function Header(props) {
@@ -48,7 +49,7 @@ function Header(props) {
   const isMobile = useMedia("(max-width: 767px)");
   function onLogout() {
     dispatch(logOutAccount());
-    document.cookie = `token=${null}`;
+    localStorage.removeItem("userWishlist");
     logOut();
   }
   useEffect(() => {

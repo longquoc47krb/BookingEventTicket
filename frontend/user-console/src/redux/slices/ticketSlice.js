@@ -4,6 +4,9 @@ const initialState = {
   ticketType: [],
   ticketCart: [],
   currentStep: 0,
+  eventId: "",
+  success: false,
+  cancel: false,
 };
 
 const ticketSlice = createSlice({
@@ -37,6 +40,15 @@ const ticketSlice = createSlice({
       state.currentStep =
         state.currentStep === 0 ? state.currentStep : state.currentStep - 1;
     },
+    setSuccess: (state, { payload }) => {
+      state.success = payload;
+    },
+    setCancel: (state, { payload }) => {
+      state.cancel = payload;
+    },
+    setEventId: (state, { payload }) => {
+      state.eventId = payload;
+    },
   },
 });
 
@@ -48,7 +60,13 @@ export const {
   setCurrentStep,
   nextStep,
   prevStep,
+  setSuccess,
+  setCancel,
+  setEventId,
 } = ticketSlice.actions;
 export const ticketTypeSelector = (state) => state.ticket.ticketType;
 export const currentStepSelector = (state) => state.ticket.currentStep;
+export const successSelector = (state) => state.ticket.success;
+export const cancelSelector = (state) => state.ticket.cancel;
+export const eventIdSelector = (state) => state.ticket.eventId;
 export default ticketSlice.reducer;

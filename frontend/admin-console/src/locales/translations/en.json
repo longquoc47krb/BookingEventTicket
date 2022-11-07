@@ -11,5 +11,12 @@
     },
     "org": {
         "profile": "Organizer Profile"
+    },
+    "event": {
+        "create": "Create new event",
+        "upload": {
+            "text": "Click or drag and drop the image here.",
+            "hint": "Recommended image size 1560 x 600"
+        }
     }
 }

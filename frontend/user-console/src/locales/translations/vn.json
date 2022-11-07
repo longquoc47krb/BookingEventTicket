@@ -92,7 +92,11 @@
     },
     "changePassword": "Cập nhật mật khẩu",
     "currentPassword": "Mật khẩu hiện tại",
-    "newPassword": "Mật khẩu mới"
+    "newPassword": "Mật khẩu mới",
+    "payment": {
+      "success": "Thanh toán hóa đơn thành công...Đang chuyển hướng",
+      "error": "Thanh toán hóa đơn thất bại...Đang chuyển hướng"
+    }
   },
   "location": {
     "all": "Tất cả địa điểm",
