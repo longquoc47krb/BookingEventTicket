@@ -3,7 +3,6 @@
 /* eslint-disable quotes */
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import { Navbar, Footer, Sidebar } from "./components";
 import {
   Overview,
@@ -12,13 +11,11 @@ import {
   Events,
   Stacked,
   Pyramid,
-  Kanban,
   Line,
   Area,
   Bar,
   Pie,
   Financial,
-  ColorPicker,
   ColorMapping,
   Editor,
   Tickets,
@@ -74,10 +71,8 @@ function App() {
                 <Route path="/tickets" element={<Tickets />} />
 
                 {/* apps  */}
-                <Route path="/kanban" element={<Kanban />} />
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
-                <Route path="/color-picker" element={<ColorPicker />} />
 
                 {/* charts  */}
                 <Route path="/line" element={<Line />} />

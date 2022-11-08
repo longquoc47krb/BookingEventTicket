@@ -117,7 +117,7 @@ function UserProfile() {
                 }}
                 onSubmit={handleSubmit}
               >
-                <Row gutter={[48, 40]} className="leading-8">
+                <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
                   <Col span={24}>
                     <div className="w-full flex justify-center my-2">
                       <UploadAvatar avatar={values.avatar} />
@@ -137,7 +137,7 @@ function UserProfile() {
                     />
                   </Col>
                 </Row>
-                <Row gutter={[48, 40]}>
+                <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
                   <Col span={24}>
                     <button className="primary-button" type="submit">
                       {loading ? <ThreeDotsLoading /> : t("submit")}

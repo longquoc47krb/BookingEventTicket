@@ -1,0 +1,70 @@
+.upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+  color: white;
+  border: 1px dashed $primary-color;
+  border-radius: 0.5rem;
+  background-color: tran;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  p {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  &.is-highlight {
+    background-color: rgba(#4aa0ea, 0.5);
+
+    p {
+      opacity: 1;
+    }
+  }
+
+  &.is-drop {
+    p {
+      opacity: 0;
+    }
+  }
+}
+
+.upload-button {
+  width: 200px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.upload-file {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: $primary-color;
+  border: 0;
+}

@@ -13,6 +13,16 @@
         "profile": "Organizer Profile"
     },
     "event": {
+        "background": "Background",
+        "name": "Title",
+        "startingDate": "Start date",
+        "endingDate": "End date",
+        "startingTime": "Start time",
+        "endingTime": "End time",
+        "description": "Description of event",
+        "venue": "Venue",
+        "venue_address": "Address",
+        "province": "Province",
         "create": "Create new event",
         "upload": {
             "text": "Click or drag and drop the image here.",

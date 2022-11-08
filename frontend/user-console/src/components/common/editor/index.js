@@ -42,10 +42,6 @@ const HtmlEditor = ({ text }) => {
         value={value}
         onChange={setValue}
       ></ReactQuill>
-      <p className="mt-2">{value}</p>
-      <p className="mt-2">{encode(value)}</p>
-      <br></br>
-      {parse(value)}
     </div>
   );
 };

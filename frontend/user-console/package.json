@@ -81,7 +81,8 @@
     "eject": "react-scripts eject",
     "db": "json-server --watch -p 8000 database.json",
     "postinstall": "node script.js",
-    "deploy": "netlify deploy"
+    "deploy": "netlify deploy",
+    "watch-css": "sass --watch src/styles/global.scss src/dist/output.css"
   },
   "eslintConfig": {
     "extends": [
