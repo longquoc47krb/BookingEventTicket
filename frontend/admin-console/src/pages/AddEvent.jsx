@@ -4,7 +4,7 @@ import { t } from "i18next";
 import React, { useState } from "react";
 import { Header } from "../components";
 import UploadImage from "../components/Upload";
-import { useFormik, Field, Form, FormikProvider } from "formik";
+import { useFormik, Field, Form, FormikProvider, FieldArray } from "formik";
 import * as Yup from "yup";
 import { YupValidations } from "../utils/validate";
 import { useFetchCategories } from "../api/services/categoryServices";
@@ -36,6 +36,7 @@ function AddEvent(props) {
     province: event?.province ?? "",
     venue: event?.venue ?? "",
     venue_address: event?.venue_address ?? "",
+    ticketList: event?.organizationTickets ?? [],
   };
   const formik = useFormik({
     initialValues: initialValues,
@@ -47,6 +48,7 @@ function AddEvent(props) {
       description: YupValidations.name,
       venue: YupValidations.name,
       venue_address: YupValidations.name,
+      ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {},
   });
@@ -146,6 +148,58 @@ function AddEvent(props) {
                 />
               </Col>
             </Row>
+            <FieldArray name="ticketList">
+              {(fieldArrayProps) => {
+                const { push, remove, form } = fieldArrayProps;
+                const { values } = form;
+                const { ticketList } = values;
+
+                return (
+                  <>
+                    <Row gutter={16}>
+                      <button
+                        className="button bg-[#839C97] text-white px-3"
+                        onClick={() =>
+                          push({
+                            currency: "",
+                            price: 0,
+                            quantity: 0,
+                            ticketName: "",
+                          })
+                        }
+                      >
+                        ADD MATCH VALUE
+                      </button>
+                    </Row>
+                    {values.matchValues?.map((_, index) => (
+                      <Row gutter={16} className="flex items-center">
+                        <Col span={10}>
+                          <FastField
+                            name={`matchValues[${index}].key`}
+                            component={AntdInput}
+                            label={`Key ${index + 1}`}
+                          />
+                        </Col>
+                        <Col span={10}>
+                          <FastField
+                            name={`matchValues[${index}].value`}
+                            component={AntdInput}
+                            label={`Match Value ${index + 1}`}
+                          />
+                        </Col>
+                        <Col span={1}>
+                          {index > 0 && (
+                            <button type="button" onClick={() => remove(index)}>
+                              <ImCross className="text-red-600" />
+                            </button>
+                          )}
+                        </Col>
+                      </Row>
+                    ))}
+                  </>
+                );
+              }}
+            </FieldArray>
             <Row gutter={[48, 40]}>
               <Col span={24}>
                 <Field

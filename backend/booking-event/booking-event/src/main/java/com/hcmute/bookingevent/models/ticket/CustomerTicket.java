@@ -16,8 +16,8 @@ public class CustomerTicket {
     @Id
     @JsonIgnore
     private String id;
-    @NotBlank(message = "typeName is required")
-    private String typeName;
+    @NotBlank(message = "ticketName is required")
+    private String ticketName;
     @NotBlank(message = "price is required")
     private String price;
     @Size(min=1,message="required")

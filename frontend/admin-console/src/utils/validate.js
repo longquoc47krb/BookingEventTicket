@@ -59,14 +59,19 @@ export const YupValidations = {
         startingDate &&
         yupSchema.min(startingDate, "Min date is contract start")
     ),
-  ticketList: Yup.array().when(["."], (ticketList) => {
-    return Yup.array().of(
-      Yup.string()
-        .required(t("validate.ticket.required"))
-        .matches(/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/, "Invalid IP Address")
-        .test("unique", "IP Address is duplicated", (values) => {
-          return new Set(ticketList).size === ticketList.length;
-        })
-    );
-  }),
+  ticketList: Yup.array()
+    .of(
+      Yup.object().shape({
+        currency: Yup.string().required(t("validate.ticket.currency.required")),
+        price: Yup.number().required(t("validate.ticket.price.required")),
+        ticketName: Yup.string().required(t("validate.ticket.name.required")),
+      })
+    )
+    .test("unique", t("validate.ticket.unique"), (lists) => {
+      let seen = new Set();
+      var hasDuplicates = lists.some(function (currentObject) {
+        return seen.size === seen.add(currentObject.ticketName).size;
+      });
+      return !hasDuplicates;
+    }),
 };
