@@ -36,7 +36,7 @@
         "ticketList": {
             "ticketName": "Tên vé {{val, number}}",
             "price": "Giá vé {{val, number}}",
-            "quantity": "Số lượng vé {{val, number}}",
+            "quantity": "Số lượng {{val, number}}",
             "currency": "Đơn vị vé {{val, number}}"
         }
     },
