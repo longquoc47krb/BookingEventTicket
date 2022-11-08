@@ -32,6 +32,12 @@
                 "success": "Successfully upload image",
                 "error": "Image is larger than 200KB"
             }
+        },
+        "ticketList": {
+            "ticketName": "Ticket type {{val, number}}",
+            "price": "Price {{val, number}}",
+            "quantity": "Quantity {{val, number}}",
+            "currency": "Currency {{val, number}}"
         }
     },
     "category": {

@@ -46,7 +46,7 @@ function Input(props) {
         style={{ width: width }}
         className="p-[0.5rem] mb-2"
       />
-      <p className="error-message">
+      <p className="error-message w-[80%]">
         <ErrorMessage name={name} />
       </p>
     </>
