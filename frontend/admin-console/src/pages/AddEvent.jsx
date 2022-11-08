@@ -3,6 +3,7 @@ import { Col, message, Row } from "antd";
 import { t } from "i18next";
 import React, { useState } from "react";
 import { Header } from "../components";
+import { GiCancel } from "react-icons/gi";
 import UploadImage from "../components/Upload";
 import { useFormik, Field, Form, FormikProvider, FieldArray } from "formik";
 import * as Yup from "yup";
@@ -36,7 +37,14 @@ function AddEvent(props) {
     province: event?.province ?? "",
     venue: event?.venue ?? "",
     venue_address: event?.venue_address ?? "",
-    ticketList: event?.organizationTickets ?? [],
+    ticketList: event?.organizationTickets ?? [
+      {
+        currency: "",
+        price: 0,
+        quantity: 0,
+        ticketName: "",
+      },
+    ],
   };
   const formik = useFormik({
     initialValues: initialValues,
@@ -156,41 +164,72 @@ function AddEvent(props) {
 
                 return (
                   <>
-                    <Row gutter={16}>
-                      <button
-                        className="button bg-[#839C97] text-white px-3"
-                        onClick={() =>
-                          push({
-                            currency: "",
-                            price: 0,
-                            quantity: 0,
-                            ticketName: "",
-                          })
-                        }
-                      >
-                        ADD MATCH VALUE
-                      </button>
+                    <Row gutter={[8, 40]}>
+                      <Col span={24}>
+                        <button
+                          className="primary-button self-start w-64"
+                          onClick={() =>
+                            push({
+                              currency: "",
+                              price: 0,
+                              quantity: 0,
+                              ticketName: "",
+                            })
+                          }
+                        >
+                          New ticket
+                        </button>
+                      </Col>
                     </Row>
-                    {values.matchValues?.map((_, index) => (
-                      <Row gutter={16} className="flex items-center">
+                    {values.ticketList?.map((_, index) => (
+                      <Row gutter={[8, 24]} className="flex items-start">
                         <Col span={10}>
-                          <FastField
-                            name={`matchValues[${index}].key`}
-                            component={AntdInput}
-                            label={`Key ${index + 1}`}
+                          <Field
+                            name={`ticketList[${index}].ticketName`}
+                            component={Input}
+                            label={t("event.ticketList.ticketName", {
+                              val: index + 1,
+                            })}
                           />
                         </Col>
-                        <Col span={10}>
-                          <FastField
-                            name={`matchValues[${index}].value`}
-                            component={AntdInput}
-                            label={`Match Value ${index + 1}`}
+                        <Col span={4}>
+                          <Field
+                            name={`ticketList[${index}].price`}
+                            component={Input}
+                            label={t("event.ticketList.price", {
+                              val: index + 1,
+                            })}
                           />
                         </Col>
-                        <Col span={1}>
+                        <Col span={3}>
+                          <Field
+                            name={`ticketList[${index}].quantity`}
+                            component={Input}
+                            label={t("event.ticketList.quantity", {
+                              val: index + 1,
+                            })}
+                          />
+                        </Col>
+                        <Col span={3}>
+                          <Field
+                            name={`ticketList[${index}].currency`}
+                            component={Select}
+                            label={t("event.ticketList.currency", {
+                              val: index + 1,
+                            })}
+                            options={Object.values([
+                              { value: "USD", label: "USD - $" },
+                              { value: "VND", label: "VND - ₫" },
+                            ]).map((field) => ({
+                              value: field.value,
+                              name: field.label,
+                            }))}
+                          />
+                        </Col>
+                        <Col span={4}>
                           {index > 0 && (
                             <button type="button" onClick={() => remove(index)}>
-                              <ImCross className="text-red-600" />
+                              <GiCancel className="text-red-600 translate-y-[3rem] text-2xl" />
                             </button>
                           )}
                         </Col>

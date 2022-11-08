@@ -20,6 +20,11 @@ body {
   z-index: 10;
   color: white;
 }
+.error-message {
+  color: red;
+  font-style: italic;
+  font-size: 1rem;
+}
 @font-face {
   font-family: "FS PFBeauSansPro";
   src: local("FS PFBeauSansPro"),
