@@ -44,6 +44,9 @@ export const YupValidations = {
   otp: Yup.string()
     .required(t("validate.otp.required"))
     .min(6, t("validate.otp.min")),
+  categories: Yup.array()
+    .required(t("validate.categories.required"))
+    .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
     .required("Required")
     .min(moment(), "Min date is today")
@@ -56,4 +59,14 @@ export const YupValidations = {
         startingDate &&
         yupSchema.min(startingDate, "Min date is contract start")
     ),
+  ticketList: Yup.array().when(["."], (ticketList) => {
+    return Yup.array().of(
+      Yup.string()
+        .required(t("validate.ticket.required"))
+        .matches(/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/, "Invalid IP Address")
+        .test("unique", "IP Address is duplicated", (values) => {
+          return new Set(ticketList).size === ticketList.length;
+        })
+    );
+  }),
 };

@@ -15,6 +15,7 @@ import Editor from "./Editor";
 import moment from "moment";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
+import { map } from "lodash";
 const { PATTERNS } = constants;
 function AddEvent(props) {
   const { event } = props;
@@ -29,7 +30,7 @@ function AddEvent(props) {
     endingDate: event?.endingDate
       ? moment(event.endingDate, PATTERNS.DATE_FORMAT)
       : moment(),
-    eventCategoryList: event?.eventCategoryList ?? [],
+    eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
     endingTime: event?.endingTime ?? "",
     description: event?.description ?? "",
     province: event?.province ?? "",
@@ -41,6 +42,7 @@ function AddEvent(props) {
     validationSchema: Yup.object().shape({
       name: YupValidations.name,
       startingDate: YupValidations.startingDate,
+      eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
       description: YupValidations.name,
       venue: YupValidations.name,
@@ -50,6 +52,12 @@ function AddEvent(props) {
   });
   const { handleSubmit, values } = formik;
   console.log("formik: ", values);
+  // convert [id1, id2, ...] format to [{id: id1}, {id: id2},...] format
+  let temp = [];
+  for (const element of values.eventCategoryList) {
+    temp.push({ id: element });
+  }
+  console.log("temp: ", temp);
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("event.create")} title={t("sider.event")} />
@@ -78,6 +86,22 @@ function AddEvent(props) {
             <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
               <Col span={24}>
                 <Field
+                  name="eventCategoryList"
+                  component={Select}
+                  mode="tags"
+                  label={t("event.category")}
+                  options={Object.values(
+                    status === "success" ? categories : []
+                  ).map((field) => ({
+                    value: field.id,
+                    name: t(field.name),
+                  }))}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
+              <Col span={24}>
+                <Field
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
@@ -100,8 +124,8 @@ function AddEvent(props) {
                   component={Select}
                   label={t("event.province")}
                   options={Object.values(provinces).map((field) => ({
-                    key: field.name,
                     value: field.name,
+                    name: field.name,
                   }))}
                 />
               </Col>

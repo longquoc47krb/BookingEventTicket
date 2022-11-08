@@ -77,8 +77,9 @@ function DatePicker(props) {
   );
 }
 function Select(props) {
-  const { field, label, mode, options, width } = props;
+  const { field, form, label, mode, options, width } = props;
   const { value, name, onChange } = field;
+  const { errors } = form;
   const handleChange = (value) => {
     const customEvent = {
       target: {
@@ -95,12 +96,13 @@ function Select(props) {
         <AntdSelect
           showSearch
           value={value}
+          status={errors[name] ? "error" : ""}
           onChange={handleChange}
           mode={mode}
         >
           {options.map((item, index) => (
-            <Option key={index + 1} value={item.key}>
-              {item.value}
+            <Option key={index + 1} value={item.value}>
+              {item.name}
             </Option>
           ))}
         </AntdSelect>

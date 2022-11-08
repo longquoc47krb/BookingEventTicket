@@ -15,6 +15,7 @@
     "event": {
         "background": "Background",
         "name": "Title",
+        "category": "Categories",
         "startingDate": "Start date",
         "endingDate": "End date",
         "startingTime": "Start time",
@@ -32,5 +33,20 @@
                 "error": "Image is larger than 200KB"
             }
         }
+    },
+    "category": {
+        "menu": "Categories",
+        "all": "All categories",
+        "music": "Music",
+        "exhibition": "Exhibition",
+        "courses": "Courses",
+        "theater": "Theater",
+        "online": "Online",
+        "nightlife": "Nightlife",
+        "sport": "Sport",
+        "seminar": "Seminar",
+        "travel": "Travel",
+        "conference": "Conference",
+        "community": "Community"
     }
 }
