@@ -2,14 +2,16 @@
 import { t } from "i18next";
 import { useState, useMemo, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-
+import { GiCancel } from "react-icons/gi";
+import { isEmpty, isNotEmpty } from "../utils/utils";
+import { AlertErrorPopup } from "./Alert";
 const baseStyle = {
   flex: 1,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   padding: "20px",
-  borderWidth: 2,
+  borderWidth: 4,
   borderRadius: 2,
   borderColor: "#a7a7a7",
   borderStyle: "dashed",
@@ -61,6 +63,20 @@ const img = {
   width: "auto",
   height: "100%",
 };
+const maxSize = 200000;
+function sizeValidator(file) {
+  if (file.size > maxSize) {
+    AlertErrorPopup({
+      title: t("event.upload.validate.error"),
+    });
+    return {
+      code: "file-too-large",
+      message: `File is larger than ${maxSize} bytes`,
+    };
+  }
+
+  return null;
+}
 const UploadImage = (props) => {
   const { field, form, label } = props;
   const { value, onBlur, name } = field;
@@ -74,9 +90,24 @@ const UploadImage = (props) => {
     isDragReject,
   } = useDropzone({
     accept: {
-      "image/*": [],
+      "image/png": [".png"],
+      "image/jpg": [".jpg"],
+      "image/jpeg": [".jpeg"],
+      "image/webp": [".webp"],
     },
-    onDrop: (acceptedFiles) => {
+    maxFiles: 1,
+    validator: sizeValidator,
+    onDrop: (acceptedFiles) => {},
+  });
+  useEffect(() => {
+    if (isNotEmpty(acceptedFiles)) {
+      setFile(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )[0]
+      );
       setFieldValue(
         name,
         acceptedFiles.map((file) =>
@@ -85,16 +116,14 @@ const UploadImage = (props) => {
           })
         )[0]
       );
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
-    },
-  });
-  const [files, setFiles] = useState([]);
+    }
+  }, [acceptedFiles]);
+  const [initialValue, setInitialValue] = useState("");
+  useMemo(() => {
+    setInitialValue(value);
+  }, []);
+  const [file, setFile] = useState(value);
+  console.log({ file, initialValue });
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -104,11 +133,20 @@ const UploadImage = (props) => {
     }),
     [isFocused, isDragAccept, isDragReject]
   );
-  const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
+  const thumbs = isNotEmpty(file) ? (
+    <div style={thumb} key={file.name} className="relative">
       <div style={thumbInner}>
+        {file ? (
+          <GiCancel
+            className={`text-red-500 text-3xl absolute top-2 right-2`}
+            onClick={() => {
+              setFile(initialValue);
+              setFieldValue(name, initialValue);
+            }}
+          />
+        ) : null}
         <img
-          src={file.preview}
+          src={file.preview ? file.preview : initialValue}
           style={img}
           // Revoke data uri after image is loaded
           onLoad={() => {
@@ -117,10 +155,16 @@ const UploadImage = (props) => {
         />
       </div>
     </div>
-  ));
+  ) : isNotEmpty(value) ? (
+    <div style={thumb}>
+      <div style={thumbInner}>
+        <img src={value} style={img} />
+      </div>
+    </div>
+  ) : null;
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    return () => URL.revokeObjectURL(file.preview);
   }, []);
   return (
     <>

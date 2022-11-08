@@ -97,14 +97,9 @@ function Select(props) {
           value={value}
           onChange={handleChange}
           mode={mode}
-          className="w-full p-[0.5rem] mb-2"
         >
           {options.map((item, index) => (
-            <Option
-              key={index + 1}
-              value={item.key}
-              className="w-full px-[0.5rem] py-[1rem] mb-2"
-            >
+            <Option key={index + 1} value={item.key}>
               {item.value}
             </Option>
           ))}
