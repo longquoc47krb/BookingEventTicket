@@ -13,6 +13,16 @@
         "profile": "Hồ sơ nhà tổ chức"
     },
     "event": {
+        "background": "Ảnh bìa",
+        "name": "Tên sự kiện",
+        "description": "Mô tả sự kiện",
+        "startingDate": "Ngày bắt đầu",
+        "endingDate": "Ngày kết thúc",
+        "startingTime": "Thời gian bắt đầu",
+        "endingTime": "Thời gian kết thúc",
+        "venue": "Địa điểm",
+        "venue_address": "Địa chỉ",
+        "province": "Tỉnh/TP",
         "create": "Tạo sự kiện mới",
         "upload": {
             "text": "Nhấn hoặc kéo thả ảnh vào đây.",

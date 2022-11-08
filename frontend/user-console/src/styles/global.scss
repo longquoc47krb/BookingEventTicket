@@ -61,11 +61,7 @@ body {
   z-index: 10;
   color: white;
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
-@import "~antd/dist/antd.min.css";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
 
@@ -88,3 +84,6 @@ body {
   src: local("FS PFBeauSansPro"),
     url(../assets/fonts/BeauSansPro/PFBeauSansPro-Bold.otf) format("opentype");
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

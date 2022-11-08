@@ -6,19 +6,19 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-import vn from "./translations/vn.json";
 import en from "./translations/en.json";
+import vn from "./translations/vn.json";
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     // we init with resources
     resources: {
-      vn: {
-        translations: vn,
-      },
       en: {
         translations: en,
+      },
+      vn: {
+        translations: vn,
       },
     },
     fallbackLng: "vn",
