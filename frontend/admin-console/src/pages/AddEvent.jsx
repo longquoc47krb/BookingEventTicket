@@ -7,6 +7,7 @@ import UploadImage from "../components/Upload";
 import { useFormik, Field, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { YupValidations } from "../utils/validate";
+import { useFetchCategories } from "../api/services/categoryServices";
 import { isEmpty } from "../utils/utils";
 import { DatePicker, Input, Select } from "../components/customField";
 import { encode, decode } from "js-base64";
@@ -17,6 +18,7 @@ import { provinces } from "../utils/provinces";
 const { PATTERNS } = constants;
 function AddEvent(props) {
   const { event } = props;
+  const { data: categories, status } = useFetchCategories();
   const initialValues = {
     background: event?.background ?? "",
     name: event?.name ?? "",
@@ -27,6 +29,7 @@ function AddEvent(props) {
     endingDate: event?.endingDate
       ? moment(event.endingDate, PATTERNS.DATE_FORMAT)
       : moment(),
+    eventCategoryList: event?.eventCategoryList ?? [],
     endingTime: event?.endingTime ?? "",
     description: event?.description ?? "",
     province: event?.province ?? "",

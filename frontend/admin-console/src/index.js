@@ -4,6 +4,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/global.scss";
+import "../node_modules/sweetalert2/src/sweetalert2.scss";
 import "./locales/i18n";
 import App from "./App";
 import { ContextProvider } from "./contexts/ContextProvider";

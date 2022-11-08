@@ -26,7 +26,11 @@
         "create": "Create new event",
         "upload": {
             "text": "Click or drag and drop the image here.",
-            "hint": "Recommended image size 1560 x 600"
+            "hint": "Recommended image size 1560 x 600",
+            "validate": {
+                "success": "Successfully upload image",
+                "error": "Image is larger than 200KB"
+            }
         }
     }
 }
