@@ -44,6 +44,9 @@ export const YupValidations = {
   otp: Yup.string()
     .required(t("validate.otp.required"))
     .min(6, t("validate.otp.min")),
+  categories: Yup.array()
+    .required(t("validate.categories.required"))
+    .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
     .required("Required")
     .min(moment(), "Min date is today")
@@ -56,4 +59,19 @@ export const YupValidations = {
         startingDate &&
         yupSchema.min(startingDate, "Min date is contract start")
     ),
+  ticketList: Yup.array()
+    .of(
+      Yup.object().shape({
+        currency: Yup.string().required(t("validate.ticket.currency.required")),
+        price: Yup.number().required(t("validate.ticket.price.required")),
+        ticketName: Yup.string().required(t("validate.ticket.name.required")),
+      })
+    )
+    .test("unique", t("validate.ticket.unique"), (lists) => {
+      let seen = new Set();
+      var hasDuplicates = lists.some(function (currentObject) {
+        return seen.size === seen.add(currentObject.ticketName).size;
+      });
+      return !hasDuplicates;
+    }),
 };

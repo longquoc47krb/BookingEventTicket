@@ -1,7 +1,6 @@
 package com.hcmute.bookingevent.models.ticket;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hcmute.bookingevent.models.ticket.ETicket;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -13,8 +12,8 @@ public class OrganizationTicket {
     @Id
     @JsonIgnore
     private String id;
-    @NotBlank(message = "typeName is required")
-    private String typeName;
+    @NotBlank(message = "ticketName is required")
+    private String ticketName;
     @Size(min=1,message="required")
     @NotBlank(message = "price is required")
     private String price;

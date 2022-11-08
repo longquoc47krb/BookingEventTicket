@@ -4,7 +4,7 @@ import { t } from "i18next";
 import React, { useState } from "react";
 import { Header } from "../components";
 import UploadImage from "../components/Upload";
-import { useFormik, Field, Form, FormikProvider } from "formik";
+import { useFormik, Field, Form, FormikProvider, FieldArray } from "formik";
 import * as Yup from "yup";
 import { YupValidations } from "../utils/validate";
 import { useFetchCategories } from "../api/services/categoryServices";
@@ -15,6 +15,7 @@ import Editor from "./Editor";
 import moment from "moment";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
+import { map } from "lodash";
 const { PATTERNS } = constants;
 function AddEvent(props) {
   const { event } = props;
@@ -29,27 +30,36 @@ function AddEvent(props) {
     endingDate: event?.endingDate
       ? moment(event.endingDate, PATTERNS.DATE_FORMAT)
       : moment(),
-    eventCategoryList: event?.eventCategoryList ?? [],
+    eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
     endingTime: event?.endingTime ?? "",
     description: event?.description ?? "",
     province: event?.province ?? "",
     venue: event?.venue ?? "",
     venue_address: event?.venue_address ?? "",
+    ticketList: event?.organizationTickets ?? [],
   };
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
       name: YupValidations.name,
       startingDate: YupValidations.startingDate,
+      eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
       description: YupValidations.name,
       venue: YupValidations.name,
       venue_address: YupValidations.name,
+      ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {},
   });
   const { handleSubmit, values } = formik;
   console.log("formik: ", values);
+  // convert [id1, id2, ...] format to [{id: id1}, {id: id2},...] format
+  let temp = [];
+  for (const element of values.eventCategoryList) {
+    temp.push({ id: element });
+  }
+  console.log("temp: ", temp);
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("event.create")} title={t("sider.event")} />
@@ -78,6 +88,22 @@ function AddEvent(props) {
             <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
               <Col span={24}>
                 <Field
+                  name="eventCategoryList"
+                  component={Select}
+                  mode="tags"
+                  label={t("event.category")}
+                  options={Object.values(
+                    status === "success" ? categories : []
+                  ).map((field) => ({
+                    value: field.id,
+                    name: t(field.name),
+                  }))}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
+              <Col span={24}>
+                <Field
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
@@ -100,8 +126,8 @@ function AddEvent(props) {
                   component={Select}
                   label={t("event.province")}
                   options={Object.values(provinces).map((field) => ({
-                    key: field.name,
                     value: field.name,
+                    name: field.name,
                   }))}
                 />
               </Col>
@@ -122,6 +148,58 @@ function AddEvent(props) {
                 />
               </Col>
             </Row>
+            <FieldArray name="ticketList">
+              {(fieldArrayProps) => {
+                const { push, remove, form } = fieldArrayProps;
+                const { values } = form;
+                const { ticketList } = values;
+
+                return (
+                  <>
+                    <Row gutter={16}>
+                      <button
+                        className="button bg-[#839C97] text-white px-3"
+                        onClick={() =>
+                          push({
+                            currency: "",
+                            price: 0,
+                            quantity: 0,
+                            ticketName: "",
+                          })
+                        }
+                      >
+                        ADD MATCH VALUE
+                      </button>
+                    </Row>
+                    {values.matchValues?.map((_, index) => (
+                      <Row gutter={16} className="flex items-center">
+                        <Col span={10}>
+                          <FastField
+                            name={`matchValues[${index}].key`}
+                            component={AntdInput}
+                            label={`Key ${index + 1}`}
+                          />
+                        </Col>
+                        <Col span={10}>
+                          <FastField
+                            name={`matchValues[${index}].value`}
+                            component={AntdInput}
+                            label={`Match Value ${index + 1}`}
+                          />
+                        </Col>
+                        <Col span={1}>
+                          {index > 0 && (
+                            <button type="button" onClick={() => remove(index)}>
+                              <ImCross className="text-red-600" />
+                            </button>
+                          )}
+                        </Col>
+                      </Row>
+                    ))}
+                  </>
+                );
+              }}
+            </FieldArray>
             <Row gutter={[48, 40]}>
               <Col span={24}>
                 <Field

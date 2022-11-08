@@ -15,6 +15,7 @@
     "event": {
         "background": "Ảnh bìa",
         "name": "Tên sự kiện",
+        "category": "Danh mục",
         "description": "Mô tả sự kiện",
         "startingDate": "Ngày bắt đầu",
         "endingDate": "Ngày kết thúc",
@@ -32,5 +33,20 @@
                 "error": "Ảnh không được lớn hơn 200KB"
             }
         }
+    },
+    "category": {
+        "menu": "Danh mục thể loại",
+        "all": "Tất cả thể loại",
+        "music": "Âm nhạc",
+        "exhibition": "Triển lãm",
+        "courses": "Khóa học",
+        "theater": "Sân khấu",
+        "online": "Trực tuyến",
+        "nightlife": "Nightlife",
+        "sport": "Thể thao",
+        "seminar": "Hội thảo",
+        "travel": "Du lịch",
+        "conference": "Hội nghị",
+        "community": "Cộng đồng"
     }
 }
