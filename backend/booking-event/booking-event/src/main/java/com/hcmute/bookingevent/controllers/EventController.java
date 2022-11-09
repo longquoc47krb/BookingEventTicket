@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,11 +33,11 @@ public class EventController {
         return iEventService.findAllEvents();
     }
 
-    @PostMapping("/{organizationId}")
-    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String organizationId, HttpServletRequest request) {
+    @PostMapping("/{userId}")
+    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(organizationId)) {
-            return iEventService.createEvent(event, account.getId());
+        if(account.getId().equals(userId)) {
+            return iEventService.createEvent(event, account.getEmail());
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
@@ -94,5 +95,16 @@ public class EventController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
+    }
+    @PostMapping(path = "/avatar/{id}")
+    public ResponseEntity<?> updateAvatarEvent (@PathVariable String id,
+                                               HttpServletRequest request,
+                                               @RequestParam MultipartFile file){
+
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(id)) {
+            return iEventService.updateAvatarEvent(account.getEmail(), file);
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
 }

@@ -4,9 +4,10 @@ import com.hcmute.bookingevent.models.Event;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IEventService {
-    ResponseEntity<?> createEvent(Event event,String organizationId);
+    ResponseEntity<?> createEvent(Event event,String email);
     ResponseEntity<?> findAllEvents();
     ResponseEntity<?> findEventAfterToday();
     ResponseEntity<?> findEventsByProvince(String province);
@@ -22,5 +23,6 @@ public interface IEventService {
     ResponseEntity<?> filterEvents(String province,
                                    String categoryId,
                                    String status);
+    ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file);
 
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class OrganizationService implements IOrganizationService {
     private final AccountRepository accountRepository;
     private final MailService mailService;
     private final EventMapper eventMapper;
+    private final PasswordEncoder encoder;
 
     public ResponseEntity<?> createOrganization(Organization organization){
 
@@ -104,6 +106,31 @@ public class OrganizationService implements IOrganizationService {
         organizationRepository.save(organization);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Create organization account successfully", "",200));
+    }
+    @SneakyThrows
+    @Override
+    public ResponseEntity<?> approveOrganization(String email)
+    {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        Optional<Account> account = accountRepository.findByEmail(email);
+        if(account.isPresent() && organization.isPresent())
+        {
+            String randomPassword = Constants.getAlphaNumericString(8);
+            account.get().setPassWord(encoder.encode(randomPassword));
+            accountRepository.save(account.get());
+            organization.get().setStatus(EOrganization.ACCEPTED);
+            mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Create organization account successfully", "",200));
+
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(false, "Request is not valid", "",400));
+
+        }
+
     }
     @Override
     public ResponseEntity<?> findAll(Pageable pageable) {
