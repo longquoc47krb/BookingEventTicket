@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { useState, useMemo, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { GiCancel } from "react-icons/gi";
+import { useSelector } from "react-redux";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { AlertErrorPopup } from "./Alert";
 const baseStyle = {
@@ -118,12 +119,11 @@ const UploadImage = (props) => {
       );
     }
   }, [acceptedFiles]);
-  const [initialValue, setInitialValue] = useState("");
-  useMemo(() => {
-    setInitialValue(value);
-  }, []);
+  const initialBackground = useSelector(
+    (state) => state.event.initialBackground
+  );
   const [file, setFile] = useState(value);
-  console.log({ file, initialValue });
+  console.log({ file, initialBackground });
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -140,13 +140,13 @@ const UploadImage = (props) => {
           <GiCancel
             className={`text-red-500 text-3xl absolute top-2 right-2`}
             onClick={() => {
-              setFile(initialValue);
-              setFieldValue(name, initialValue);
+              setFile(initialBackground);
+              setFieldValue(name, initialBackground);
             }}
           />
         ) : null}
         <img
-          src={file.preview ? file.preview : initialValue}
+          src={file.preview ? file.preview : initialBackground}
           style={img}
           // Revoke data uri after image is loaded
           onLoad={() => {

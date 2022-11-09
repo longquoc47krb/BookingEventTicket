@@ -26,7 +26,8 @@ import {
 } from "./pages";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
-import AddEvent from "./pages/AddEvent";
+import AddEditEvent from "./pages/AddEditEvent";
+import routes from "./helper/routes";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -40,6 +41,16 @@ function App() {
       },
     },
   });
+  useEffect(() => {
+    const localStoragePersister = createSyncStoragePersister({
+      storage: window.localStorage,
+    });
+
+    persistQueryClient({
+      queryClient,
+      persister: localStoragePersister,
+    });
+  }, []);
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
@@ -74,28 +85,9 @@ function App() {
               <div>
                 <Routes>
                   {/* dashboard  */}
-                  <Route path="/" element={<Overview />} />
-                  <Route path="/overview" element={<Overview />} />
-
-                  {/* pages  */}
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/events" element={<Events />} />
-                  <Route path="/events/create" element={<AddEvent />} />
-                  <Route path="/tickets" element={<Tickets />} />
-
-                  {/* apps  */}
-                  <Route path="/editor" element={<Editor />} />
-                  <Route path="/calendar" element={<Calendar />} />
-
-                  {/* charts  */}
-                  <Route path="/line" element={<Line />} />
-                  <Route path="/area" element={<Area />} />
-                  <Route path="/bar" element={<Bar />} />
-                  <Route path="/pie" element={<Pie />} />
-                  <Route path="/financial" element={<Financial />} />
-                  <Route path="/color-mapping" element={<ColorMapping />} />
-                  <Route path="/pyramid" element={<Pyramid />} />
-                  <Route path="/stacked" element={<Stacked />} />
+                  {routes.map((route) => (
+                    <Route path={route.path} element={route.element} />
+                  ))}
                 </Routes>
               </div>
               <Footer />

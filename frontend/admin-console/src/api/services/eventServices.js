@@ -42,7 +42,7 @@ const fetchEventByFilter = async (params) => {
 };
 // React Query
 
-export const useFetchEvents = (staleTime = 30000) => {
+export const useFetchEvents = (staleTime = 0) => {
   return useQuery(["events"], fetchAllEvents, {
     staleTime,
     cacheTime: 1000 * 60 * 60 * 24,

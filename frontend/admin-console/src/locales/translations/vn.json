@@ -24,7 +24,15 @@
         "venue": "Địa điểm",
         "venue_address": "Địa chỉ",
         "province": "Tỉnh/TP",
+        "date": "Thời gian",
+        "status": {
+            "title": "Trạng thái",
+            "available": "Còn vé",
+            "completed": "Đã kết thúc",
+            "soldout": "Hết vé"
+        },
         "create": "Tạo sự kiện mới",
+        "edit": "Chỉnh sửa sự kiện",
         "upload": {
             "text": "Nhấn hoặc kéo thả ảnh vào đây.",
             "hint": "Khuyến nghị hình ảnh với kích thước 1560 x 600",
@@ -34,11 +42,12 @@
             }
         },
         "ticketList": {
-            "ticketName": "Tên vé {{val, number}}",
+            "ticketName": "Loại vé {{val, number}}",
             "price": "Giá vé {{val, number}}",
             "quantity": "Số lượng {{val, number}}",
-            "currency": "Đơn vị vé {{val, number}}"
-        }
+            "currency": "Đơn vị {{val, number}}"
+        },
+        "modify": "Tùy chỉnh"
     },
     "category": {
         "menu": "Danh mục thể loại",

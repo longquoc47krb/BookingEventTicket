@@ -27,6 +27,7 @@ const Tickets = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.ticket")} />
+      {/*       
       <GridComponent
         dataSource={customersData}
         enableHover={false}
@@ -38,13 +39,12 @@ const Tickets = () => {
         allowSorting
       >
         <ColumnsDirective>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           {customersGrid.map((item, index) => (
             <ColumnDirective key={index} {...item} />
           ))}
         </ColumnsDirective>
         <Inject services={[Page, Selection, Toolbar, Edit, Sort, Filter]} />
-      </GridComponent>
+      </GridComponent> */}
     </div>
   );
 };

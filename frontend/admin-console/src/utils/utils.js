@@ -519,3 +519,7 @@ export const formatter = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",
 });
+export function convertToYearMonthDayFormat(dateString) {
+  const [day, month, year] = dateString.split("/");
+  return `${year}-${month}-${day}`;
+}
