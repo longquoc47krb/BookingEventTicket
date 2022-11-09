@@ -3,6 +3,8 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.common.TicketStatus;
+import com.hcmute.bookingevent.config.CloudinaryConfig;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Event;
@@ -13,6 +15,7 @@ import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,8 +25,12 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -40,10 +47,11 @@ public class EventService implements IEventService {
     private final OrganizationRepository organizationRepository;
     private final EventMapper eventMapper;
     private final IEventSlugGeneratorService slugGeneratorService;
+    private final CloudinaryConfig cloudinary;
 
     @Override
-    public ResponseEntity<?> createEvent(Event event, String OrganizationID) {
-        Optional<Organization> organization = organizationRepository.findById(OrganizationID);
+    public ResponseEntity<?> createEvent(Event event, String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
@@ -173,14 +181,38 @@ public class EventService implements IEventService {
 
             eventRepository.save(event);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update data successfully ", "",200));
+                    new ResponseObject(true, "Update data successfully ", "", 200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Update data fail with id:" + id, "",404));
+                    new ResponseObject(false, "Update data fail with id:" + id, "", 404));
+        }
+    }
+
+    @SneakyThrows
+    public ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file) {
+
+        try {
+            Optional<Event> event = eventRepository.findById(id);
+            if (event.isPresent() && (file != null && !file.isEmpty())) {
+
+                String imgUrl = cloudinary.uploadImage(file, event.get().getBackground());
+                event.get().setBackground(imgUrl);
+                eventRepository.save(event.get());
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject(true, "Update back ground successfully ", "", 200));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "Update back ground  fail with id event:" + id, "", 404));
+            }
+        } catch (IOException e) {
+            throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), "Error when upload image");
         }
 
+
     }
+
+
     @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria
@@ -188,7 +220,7 @@ public class EventService implements IEventService {
         );
         if (eventList.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Search " + key + " success", eventList,200));
+                    new ResponseObject(true, "Search " + key + " success", eventList, 200));
         throw new NotFoundException("Can not found any product with: " + key);
     }
 

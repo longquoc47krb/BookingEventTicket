@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,8 +35,11 @@ public class Event {
     private String host_id;
     private String description;
     private String background;
+    @JsonIgnore
     private String status;
+    @JsonIgnore
     private int totalTicket;
+    @JsonIgnore
     private int remainingTicket;
     @CreatedDate
     private Date createdDate;

@@ -32,11 +32,12 @@ public class OrganizationController {
     public ResponseEntity<?> deleteOrganizationAccount(@RequestBody EmailReq emailReq) {
         return iOrganizationService.deleteOrganization(emailReq.getEmail());
     }
-//    @PostMapping("/organization/createOrganization")
-//    public ResponseEntity<?> createOrganization(@RequestBody Organization organization)
-//    {
-//        return iOrganizationService.createOrganization(organization);
-//    }
+    @PostMapping("/admin/approve/organization")
+    public ResponseEntity<?> approveOrganization(@RequestBody EmailReq emailReq)
+    {
+        return iOrganizationService.approveOrganization(emailReq.getEmail());
+    }
+
     @GetMapping("/organization/findAll")
     public ResponseEntity<?> findAll()
     {
@@ -47,8 +48,8 @@ public class OrganizationController {
     {
         return iOrganizationService.submitOrganization(organizationSubmitReq);
     }
-    @GetMapping("/ticket/list/{userid}")
-    public ResponseEntity<?> findTicketList(@PathVariable String userid, HttpServletRequest request)
+    @GetMapping("/organization/event/list/{userid}")
+    public ResponseEntity<?> findEventList(@PathVariable String userid, HttpServletRequest request)
     {
         try
         {
