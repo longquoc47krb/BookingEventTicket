@@ -1,8 +1,10 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable comma-dangle */
 /* eslint-disable quotes */
+import { t } from "i18next";
 import React from "react";
 import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
 import {
   BsBoxSeam,
   BsChatLeft,
@@ -20,11 +22,8 @@ import { GrLocation } from "react-icons/gr";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
+import { RiEditFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
-import avatar from "./avatar.jpg";
-import avatar2 from "./avatar2.jpg";
-import avatar3 from "./avatar3.png";
-import avatar4 from "./avatar4.jpg";
 import product1 from "./product1.jpg";
 import product2 from "./product2.jpg";
 import product3 from "./product3.jpg";
@@ -32,6 +31,7 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
+import { Navigate } from "react-router-dom";
 
 export const gridOrderImage = (props) => (
   <div>
@@ -47,50 +47,67 @@ export const gridOrderStatus = (props) => (
   <button
     type="button"
     style={{ background: props.StatusBg }}
-    className="text-white py-1 px-2 capitalize rounded-2xl text-md"
+    className="text-white py-1 px-1 capitalize rounded-2xl text-xs"
   >
     {props.Status}
   </button>
 );
-
-export const kanbanGrid = [
-  { headerText: "To Do", keyField: "Open", allowToggle: true },
-
-  { headerText: "In Progress", keyField: "InProgress", allowToggle: true },
-
-  {
-    headerText: "Testing",
-    keyField: "Testing",
-    allowToggle: true,
-    isExpanded: false,
-  },
-
-  { headerText: "Done", keyField: "Close", allowToggle: true },
-];
-const gridEmployeeProfile = (props) => (
+const gridEventBackground = (props) => (
   <div className="flex items-center gap-2">
     <img
-      className="rounded-full w-10 h-10"
-      src={props.EmployeeImage}
+      className="w-20 h-10 object-cover rounded-md"
+      src={props.background}
       alt="employee"
     />
-    <p>{props.Name}</p>
   </div>
 );
-
-const gridEmployeeCountry = (props) => (
-  <div className="flex items-center justify-center gap-2">
-    <GrLocation />
-    <span>{props.Country}</span>
+const gridEventStatus = (props) => (
+  <div className="flex items-center gap-2">
+    {props.status === "event.available" ? (
+      <span className="bg-green-500 text-white p-1 text-xs rounded-md">
+        {t("event.status.available")}
+      </span>
+    ) : props.status === "event.completed" ? (
+      <span className="bg-yellow-500 text-white p-1 text-xs rounded-md">
+        {t("event.status.completed")}
+      </span>
+    ) : (
+      <span className="bg-red-600 text-white p-1 text-xs rounded-md">
+        {t("event.status.soldout")}
+      </span>
+    )}
   </div>
 );
-export const EditorData = () => (
-  <div>
-    <h3>
-      Try React React has been designed from the start for gradual adoption, and
-      you can use as little or as much React as you need. Whether you want to
-      get a taste of React, add some interactivity to a simple HTML page
-    </h3>
+const gridEventModify = (props) => (
+  <div className="flex items-center gap-2">
+    <RiEditFill
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => window.location.replace(`/event/update/${props.id}`)}
+    />
+    <FaTrashAlt
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => alert(props.id)}
+    />
+  </div>
+);
+const gridEventCategory = (props) => (
+  <div className="flex items-center gap-2">
+    {props.eventCategoryList.map((category) => (
+      <span className="bg-transparent border-2 border-gray-500 text-gray-500 px-1 py-1 rounded-md mr-1 text-xs">
+        {t(category.name)}
+      </span>
+    ))}
+  </div>
+);
+const gridEventDate = (props) => (
+  <div className="flex items-center gap-2">
+    {props.startingDate === props.endingDate ? (
+      <span>{props.startingDate}</span>
+    ) : (
+      <span>
+        {props.startingDate} ~ {props.endingDate}
+      </span>
+    )}
   </div>
 );
 const customerGridImage = (props) => (
@@ -418,46 +435,82 @@ export const customersGrid = [
   },
 ];
 
-export const employeesGrid = [
-  {
-    headerText: "Employee",
-    width: "150",
-    template: gridEmployeeProfile,
-    textAlign: "Center",
-  },
-  { field: "Name", headerText: "", width: "0", textAlign: "Center" },
-  {
-    field: "Title",
-    headerText: "Designation",
-    width: "170",
-    textAlign: "Center",
-  },
-  {
-    headerText: "Country",
-    width: "120",
-    textAlign: "Center",
-    template: gridEmployeeCountry,
-  },
+// export const employeesGrid = [
+//   {
+//     headerText: "Employee",
+//     width: "150",
+//     template: gridEmployeeProfile,
+//     textAlign: "Center",
+//   },
+//   { field: "Name", headerText: "", width: "0", textAlign: "Center" },
+//   {
+//     field: "Title",
+//     headerText: "Designation",
+//     width: "170",
+//     textAlign: "Center",
+//   },
+//   {
+//     headerText: "Country",
+//     width: "120",
+//     textAlign: "Center",
+//     template: gridEmployeeCountry,
+//   },
 
-  {
-    field: "HireDate",
-    headerText: "Hire Date",
-    width: "135",
-    format: "yMd",
-    textAlign: "Center",
-  },
+//   {
+//     field: "HireDate",
+//     headerText: "Hire Date",
+//     width: "135",
+//     format: "yMd",
+//     textAlign: "Center",
+//   },
 
+//   {
+//     field: "ReportsTo",
+//     headerText: "Reports To",
+//     width: "120",
+//     textAlign: "Center",
+//   },
+//   {
+//     field: "EmployeeID",
+//     headerText: "Employee ID",
+//     width: "125",
+//     textAlign: "Center",
+//   },
+// ];
+export const eventGrid = [
   {
-    field: "ReportsTo",
-    headerText: "Reports To",
-    width: "120",
-    textAlign: "Center",
+    headerText: t("event.background"),
+    field: "background",
+    width: "80",
+    template: gridEventBackground,
   },
   {
-    field: "EmployeeID",
-    headerText: "Employee ID",
-    width: "125",
-    textAlign: "Center",
+    headerText: t("event.name"),
+    field: "name",
+    width: "100",
+  },
+  {
+    headerText: t("event.category"),
+    field: "eventCategoryList.name",
+    width: "80",
+    template: gridEventCategory,
+  },
+  {
+    headerText: t("event.date"),
+    field: "startingDate",
+    width: "100",
+    template: gridEventDate,
+  },
+  {
+    headerText: t("event.status.title"),
+    field: "status",
+    width: "80",
+    template: gridEventStatus,
+  },
+  {
+    headerText: t("event.modify"),
+    width: "100",
+    template: gridEventModify,
   },
 ];
 
@@ -523,33 +576,6 @@ export const cartData = [
     name: "Red color candy",
     category: "Food Item",
     price: "$190",
-  },
-];
-
-export const chatData = [
-  {
-    image: avatar2,
-    message: "Roman Joined the Team!",
-    desc: "Congratulate him",
-    time: "9:08 AM",
-  },
-  {
-    image: avatar3,
-    message: "New message received",
-    desc: "Salma sent you new message",
-    time: "11:56 AM",
-  },
-  {
-    image: avatar4,
-    message: "New Payment received",
-    desc: "Check your earnings",
-    time: "4:39 AM",
-  },
-  {
-    image: avatar,
-    message: "Jolly completed tasks",
-    desc: "Assign her new tasks",
-    time: "1:12 AM",
   },
 ];
 
@@ -706,50 +732,6 @@ export const productsPerformance = [
   },
 ];
 
-export const medicalproBranding = {
-  data: [
-    {
-      title: "Due Date",
-      desc: "Oct 23, 2021",
-    },
-    {
-      title: "Budget",
-      desc: "$98,500",
-    },
-    {
-      title: "Expense",
-      desc: "$63,000",
-    },
-  ],
-  teams: [
-    {
-      name: "Bootstrap",
-      color: "orange",
-    },
-    {
-      name: "Angular",
-      color: "#FB9678",
-    },
-  ],
-  leaders: [
-    {
-      image: avatar2,
-    },
-    {
-      image: avatar3,
-    },
-    {
-      image: avatar2,
-    },
-    {
-      image: avatar4,
-    },
-    {
-      image: avatar,
-    },
-  ],
-};
-
 export const themeColors = [
   {
     name: "blue-theme",
@@ -850,1098 +832,6 @@ export const ordersGrid = [
     textAlign: "Center",
   },
 ];
-
-export const customersData = [
-  {
-    CustomerID: 1001,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1002,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1003,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1004,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1005,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1006,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1007,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1008,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1009,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1010,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1011,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1012,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1013,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1014,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1015,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1016,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1017,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1018,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1019,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1020,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1021,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1022,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1023,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1024,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1025,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1026,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1027,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1028,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1029,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1030,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1031,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1032,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1033,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1034,
-
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1035,
-
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1036,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1037,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
-  },
-  {
-    CustomerID: 1038,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1039,
-    CustomerName: "Christopher Jamil",
-    CustomerEmail: "jamil@gmail.com",
-    ProjectName: "MedicalPro WP Theme",
-    Status: "Completed",
-    CustomerImage: avatar,
-    StatusBg: "#8BE78B",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-  {
-    CustomerID: 1040,
-    CustomerName: "Michael",
-    CustomerEmail: "michael@gmail.com",
-    ProjectName: "Weekly WP Theme",
-    Status: "Cancel",
-    CustomerImage: avatar2,
-    StatusBg: "red",
-    Weeks: "34",
-    Budget: "$16.5k",
-    Location: "USA",
-  },
-];
-
-export const employeesData = [
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 2,
-    Name: "Nasimiyu Danai",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar3,
-  },
-  {
-    EmployeeID: 3,
-    Name: "Iulia Albu",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar4,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Siegbert Gottfried",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Omar Darobe",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 4,
-    Name: "Penjani Inyene",
-    Title: "Marketing Head",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar,
-  },
-  {
-    EmployeeID: 5,
-    Name: "Miron Vitold",
-    Title: "HR",
-    HireDate: "01/02/2021",
-    Country: "USA",
-    ReportsTo: "Carson",
-    EmployeeImage: avatar2,
-  },
-];
-
 export const ordersData = [
   {
     OrderID: 10248,

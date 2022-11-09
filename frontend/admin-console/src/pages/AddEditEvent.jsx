@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 import { Col, message, Row } from "antd";
 import { t } from "i18next";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header } from "../components";
 import { GiCancel } from "react-icons/gi";
 import UploadImage from "../components/Upload";
@@ -17,19 +17,27 @@ import moment from "moment";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
 import { map } from "lodash";
+import { useParams } from "react-router-dom";
+import eventServices, { useEventDetails } from "../api/services/eventServices";
+import { useDispatch } from "react-redux";
+import { setInitialBackground } from "../redux/slices/eventSlice";
+const { getEventById } = eventServices;
 const { PATTERNS } = constants;
-function AddEvent(props) {
-  const { event } = props;
+function AddEditEvent(props) {
+  const { eventId } = useParams();
+  const [event, setEvent] = useState({});
+  const dispatch = useDispatch();
+  console.log({ event });
   const { data: categories, status } = useFetchCategories();
   const initialValues = {
-    background: event?.background ?? "",
+    background: eventId ? event.background : "",
     name: event?.name ?? "",
     startingDate: event?.endingDate
-      ? moment(event.startingDate, PATTERNS.DATE_FORMAT)
+      ? moment(event?.startingDate, PATTERNS.DATE_FORMAT)
       : moment(),
     startingTime: "",
     endingDate: event?.endingDate
-      ? moment(event.endingDate, PATTERNS.DATE_FORMAT)
+      ? moment(event?.endingDate, PATTERNS.DATE_FORMAT)
       : moment(),
     eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
     endingTime: event?.endingTime ?? "",
@@ -60,17 +68,43 @@ function AddEvent(props) {
     }),
     onSubmit: async (values) => {},
   });
-  const { handleSubmit, values } = formik;
-  console.log("formik: ", values);
+  const { handleSubmit, values, setValues } = formik;
+  useEffect(() => {
+    if (eventId) {
+      async function fetchEvent() {
+        const res = await getEventById(eventId);
+        setEvent(res);
+        dispatch(setInitialBackground(res.background));
+        setValues({
+          background: res.background,
+          name: res.name,
+          startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
+          startingTime: "",
+          endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
+          eventCategoryList: map(res.eventCategoryList, "id"),
+          endingTime: res.endingTime,
+          description: decode(res.description),
+          province: res.province,
+          venue: res.venue,
+          venue_address: res.venue_address,
+          ticketList: res.organizationTickets,
+        });
+      }
+      fetchEvent();
+    }
+  }, []);
   // convert [id1, id2, ...] format to [{id: id1}, {id: id2},...] format
-  let temp = [];
-  for (const element of values.eventCategoryList) {
-    temp.push({ id: element });
-  }
-  console.log("temp: ", temp);
+  // let temp = [];
+  // for (const element of values.eventCategoryList) {
+  //   temp.push({ id: element });
+  // }
+  console.log({ values });
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category={t("event.create")} title={t("sider.event")} />
+      <Header
+        category={eventId ? t("event.edit") : t("event.create")}
+        title={t("sider.event")}
+      />
       <div>
         <FormikProvider value={formik}>
           <Form
@@ -263,4 +297,4 @@ function AddEvent(props) {
   );
 }
 
-export default AddEvent;
+export default AddEditEvent;

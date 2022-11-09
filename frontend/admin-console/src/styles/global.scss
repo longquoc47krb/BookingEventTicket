@@ -1,8 +1,11 @@
 @import "./variables.scss";
+@import "./loading.scss";
 @import "./upload.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
-
+* {
+  font-family: FS PFBeauSansPro, sans-serif;
+}
 body {
   margin: 0;
   padding: 0;
