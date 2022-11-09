@@ -35,7 +35,7 @@ const OAuthLogin = () => {
         return navigate("/");
       }
       return navigate("/login");
-    }, 5000);
+    }, 3000);
   }, [token]);
   // Renderer callback with condition
   const renderer = ({ seconds }) => {
@@ -45,7 +45,7 @@ const OAuthLogin = () => {
     <div className="w-screen h-screen bg-white">
       <h1 className="text-2xl">
         {token ? t("user.oauth.success") : t("user.oauth.failed")}{" "}
-        <Countdown date={Date.now() + 5000} renderer={renderer} />
+        <Countdown date={Date.now() + 3000} renderer={renderer} />
       </h1>
     </div>
   );

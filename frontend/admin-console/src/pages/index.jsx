@@ -1,11 +1,9 @@
 /* eslint-disable quotes */
-export { default as Ecommerce } from "./Ecommerce";
-export { default as Kanban } from "./Kanban";
+export { default as Overview } from "./Overview";
 export { default as Orders } from "./Orders";
 export { default as Events } from "./Events";
 export { default as Editor } from "./Editor";
 export { default as Tickets } from "./Tickets";
-export { default as ColorPicker } from "./ColorPicker";
 export { default as Calendar } from "./Calendar";
 export { default as Area } from "./Charts/Area";
 export { default as Bar } from "./Charts/Bar";

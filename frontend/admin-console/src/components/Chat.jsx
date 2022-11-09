@@ -1,9 +1,9 @@
-import React from 'react';
-import { MdOutlineCancel } from 'react-icons/md';
+import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
 
-import { Button } from '.';
-import { chatData } from '../data/dummy';
-import { useStateContext } from '../contexts/ContextProvider';
+import { Button } from ".";
+// import { chatData } from '../data/dummy';
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Chat = () => {
   const { currentColor } = useStateContext();
@@ -13,7 +13,10 @@ const Chat = () => {
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <p className="font-semibold text-lg dark:text-gray-200">Messages</p>
-          <button type="button" className="text-white  text-xs rounded p-1 px-2 bg-orange">
+          <button
+            type="button"
+            className="text-white  text-xs rounded p-1 px-2 bg-orange"
+          >
             5 New
           </button>
         </div>
@@ -26,7 +29,7 @@ const Chat = () => {
         />
       </div>
       <div className="mt-5 ">
-        {chatData?.map((item, index) => (
+        {/* {chatData?.map((item, index) => (
           <div key={index} className="flex items-center gap-5 border-b-1 border-color p-3 leading-8 cursor-pointer">
             <div className="relative">
               <img
@@ -45,7 +48,7 @@ const Chat = () => {
               <p className="text-gray-500 dark:text-gray-400 text-xs">{item.time}</p>
             </div>
           </div>
-        ))}
+        ))} */}
         <div className="mt-5">
           <Button
             color="white"

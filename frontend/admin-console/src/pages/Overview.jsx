@@ -9,7 +9,7 @@ import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import { Stacked, Pie, Button, LineChart, SparkLine } from "../components";
 import {
   earningData,
-  medicalproBranding,
+  // medicalproBranding,
   recentTransactions,
   weeklyStats,
   dropdownData,
@@ -33,7 +33,7 @@ const DropDown = ({ currentMode }) => (
   </div>
 );
 
-const Ecommerce = () => {
+const Overview = () => {
   const { currentColor, currentMode } = useStateContext();
 
   return (
@@ -288,7 +288,7 @@ const Ecommerce = () => {
           </p>
 
           <div className="flex gap-4 border-b-1 border-color mt-6">
-            {medicalproBranding.data.map((item) => (
+            {/* {medicalproBranding.data.map((item) => (
               <div
                 key={item.title}
                 className="border-r-1 border-color pr-4 pb-2"
@@ -296,13 +296,13 @@ const Ecommerce = () => {
                 <p className="text-xs text-gray-400">{item.title}</p>
                 <p className="text-sm">{item.desc}</p>
               </div>
-            ))}
+            ))} */}
           </div>
           <div className="border-b-1 border-color pb-4 mt-2">
             <p className="text-md font-semibold mb-2">Teams</p>
 
             <div className="flex gap-4">
-              {medicalproBranding.teams.map((item) => (
+              {/* {medicalproBranding.teams.map((item) => (
                 <p
                   key={item.name}
                   style={{ background: item.color }}
@@ -310,20 +310,20 @@ const Ecommerce = () => {
                 >
                   {item.name}
                 </p>
-              ))}
+              ))} */}
             </div>
           </div>
           <div className="mt-2">
             <p className="text-md font-semibold mb-2">Leaders</p>
             <div className="flex gap-4">
-              {medicalproBranding.leaders.map((item, index) => (
+              {/* {medicalproBranding.leaders.map((item, index) => (
                 <img
                   key={index}
                   className="rounded-full w-8 h-8"
                   src={item.image}
                   alt=""
                 />
-              ))}
+              ))} */}
             </div>
           </div>
           <div className="flex justify-between items-center mt-5 border-t-1 border-color">
@@ -374,4 +374,4 @@ const Ecommerce = () => {
   );
 };
 
-export default Ecommerce;
+export default Overview;

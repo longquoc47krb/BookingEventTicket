@@ -11,5 +11,57 @@
     },
     "org": {
         "profile": "Organizer Profile"
+    },
+    "event": {
+        "background": "Background",
+        "name": "Title",
+        "category": "Categories",
+        "startingDate": "Start date",
+        "endingDate": "End date",
+        "startingTime": "Start time",
+        "endingTime": "End time",
+        "description": "Description of event",
+        "venue": "Venue",
+        "venue_address": "Address",
+        "province": "Province",
+        "date": "Date",
+        "status": {
+            "title": "Status",
+            "available": "Available",
+            "completed": "Completed",
+            "soldout": "Sold out"
+        },
+        "create": "Create new event",
+        "edit": "Edit event",
+        "upload": {
+            "text": "Click or drag and drop the image here.",
+            "hint": "Recommended image size 1560 x 600",
+            "validate": {
+                "success": "Successfully upload image",
+                "error": "Image is larger than 200KB"
+            }
+        },
+        "ticketList": {
+            "ticketName": "Ticket type {{val, number}}",
+            "price": "Price {{val, number}}",
+            "quantity": "Quantity {{val, number}}",
+            "currency": "Currency {{val, number}}"
+        },
+        "modify": "Modify"
+    },
+    "category": {
+        "menu": "Categories",
+        "all": "All categories",
+        "music": "Music",
+        "exhibition": "Exhibition",
+        "courses": "Courses",
+        "theater": "Theater",
+        "online": "Online",
+        "nightlife": "Nightlife",
+        "sport": "Sport",
+        "seminar": "Seminar",
+        "travel": "Travel",
+        "conference": "Conference",
+        "community": "Community"
     }
 }

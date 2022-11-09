@@ -11,5 +11,57 @@
     },
     "org": {
         "profile": "Hồ sơ nhà tổ chức"
+    },
+    "event": {
+        "background": "Ảnh bìa",
+        "name": "Tên sự kiện",
+        "category": "Danh mục",
+        "description": "Mô tả sự kiện",
+        "startingDate": "Ngày bắt đầu",
+        "endingDate": "Ngày kết thúc",
+        "startingTime": "Thời gian bắt đầu",
+        "endingTime": "Thời gian kết thúc",
+        "venue": "Địa điểm",
+        "venue_address": "Địa chỉ",
+        "province": "Tỉnh/TP",
+        "date": "Thời gian",
+        "status": {
+            "title": "Trạng thái",
+            "available": "Còn vé",
+            "completed": "Đã kết thúc",
+            "soldout": "Hết vé"
+        },
+        "create": "Tạo sự kiện mới",
+        "edit": "Chỉnh sửa sự kiện",
+        "upload": {
+            "text": "Nhấn hoặc kéo thả ảnh vào đây.",
+            "hint": "Khuyến nghị hình ảnh với kích thước 1560 x 600",
+            "validate": {
+                "success": "Tải ảnh lên thành công!",
+                "error": "Ảnh không được lớn hơn 200KB"
+            }
+        },
+        "ticketList": {
+            "ticketName": "Loại vé {{val, number}}",
+            "price": "Giá vé {{val, number}}",
+            "quantity": "Số lượng {{val, number}}",
+            "currency": "Đơn vị {{val, number}}"
+        },
+        "modify": "Tùy chỉnh"
+    },
+    "category": {
+        "menu": "Danh mục thể loại",
+        "all": "Tất cả thể loại",
+        "music": "Âm nhạc",
+        "exhibition": "Triển lãm",
+        "courses": "Khóa học",
+        "theater": "Sân khấu",
+        "online": "Trực tuyến",
+        "nightlife": "Nightlife",
+        "sport": "Thể thao",
+        "seminar": "Hội thảo",
+        "travel": "Du lịch",
+        "conference": "Hội nghị",
+        "community": "Cộng đồng"
     }
 }

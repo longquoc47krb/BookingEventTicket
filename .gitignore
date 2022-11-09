@@ -13,3 +13,4 @@ event.json
 
 # Local Netlify folder
 .netlify
+frontend/admin-console/yarn.lock
