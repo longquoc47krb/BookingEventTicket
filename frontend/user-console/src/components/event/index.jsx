@@ -9,7 +9,7 @@ import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
 import { checkImageURL } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
-import { TicketStatus } from "../../utils/constants";
+import { EventStatus } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { setCategoryId } from "../../redux/slices/filterSlice";
 import AppConfig from "../../configs/AppConfig";
@@ -38,8 +38,8 @@ function Event(props) {
         {event.name}
       </h1>
       <h1 className="absolute bottom-3 left-3 text-gray-500 font-bold text-xl">
-        {event.status === TicketStatus.COMPLETED ||
-        event.status === TicketStatus.SOLDOUT
+        {event.status === EventStatus.COMPLETED ||
+        event.status === EventStatus.SOLDOUT
           ? t(event.status)
           : null}
       </h1>

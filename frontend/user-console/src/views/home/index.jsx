@@ -24,7 +24,7 @@ import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
 import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
-import constants, { TicketStatus } from "../../utils/constants";
+import constants, { EventStatus } from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
@@ -74,7 +74,7 @@ function Home() {
             </div>
             <ViewMoreButton
               onClick={() => {
-                dispatch(setStatus(TicketStatus.AVAILABLE));
+                dispatch(setStatus(EventStatus.AVAILABLE));
                 navigate("/events");
               }}
             />
@@ -90,7 +90,7 @@ function Home() {
             </div>
             <ViewMoreButton
               onClick={() => {
-                dispatch(setStatus(TicketStatus.AVAILABLE));
+                dispatch(setStatus(EventStatus.AVAILABLE));
                 dispatch(
                   setProvince(
                     provinceMapping.get(location ? location?.region : "")

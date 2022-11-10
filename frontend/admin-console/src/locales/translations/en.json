@@ -71,7 +71,8 @@
         },
         "login": {
             "success": "Successfully logged in",
-            "error": "Wrong email or password"
+            "error": "Wrong email or password",
+            "unauthorized": "Unauthorized: Access is denied"
         },
         "forgot": {
             "error": "Email address doesn't exist"

@@ -11,6 +11,7 @@ import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import { Input, InputPassword } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
 import { setToken, setUserProfile } from "../redux/slices/accountSlice";
+import { ROLE } from "../utils/constants";
 import { isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 const { findUser } = accountServices;
@@ -39,17 +40,20 @@ function Login() {
         password,
       });
       const userProfileResponse = await findUser(email);
-      showNotification(response.status);
+      showNotification(response.status, userProfileResponse.data.role);
       if (isNotEmpty(response)) {
         setLoading(false);
       }
-      if (response.status === 200 || userProfileResponse.status === 200) {
+      if (
+        (response.status === 200 || userProfileResponse.status === 200) &&
+        userProfileResponse.data.role === ROLE.Organizer
+      ) {
         dispatch(setToken(response.data.token));
         dispatch(setUserProfile(userProfileResponse.data));
       }
     },
   });
-  const showNotification = (statusCode) => {
+  const showNotification = (statusCode, role) => {
     switch (statusCode) {
       case 400:
         return AlertErrorPopup({
@@ -58,13 +62,19 @@ function Login() {
         });
       case 200:
       case 201:
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
-        return AlertPopup({
-          title: t("popup.login.success"),
-          text: t("popup.login.success"),
-        });
+        if (role === ROLE.Organizer) {
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+          return AlertPopup({
+            title: t("popup.login.success"),
+            text: t("popup.login.success"),
+          });
+        } else {
+          return AlertErrorPopup({
+            title: t("popup.login.unauthorized"),
+          });
+        }
       default:
         return null;
     }

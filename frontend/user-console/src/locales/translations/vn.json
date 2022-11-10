@@ -158,7 +158,8 @@
     },
     "login": {
       "200": "Đăng nhập thành công",
-      "400": "Email hoặc mật khẩu sai"
+      "400": "Email hoặc mật khẩu sai",
+      "unauthorized": "Không được phép: Quyền truy cập bị từ chối"
     },
     "forgot": {
       "404": "Email không tồn tại"
