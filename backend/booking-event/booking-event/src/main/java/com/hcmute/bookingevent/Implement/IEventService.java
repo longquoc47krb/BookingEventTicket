@@ -2,12 +2,13 @@ package com.hcmute.bookingevent.Implement;
 
 import com.hcmute.bookingevent.models.Event;
 
+import com.hcmute.bookingevent.payload.request.EventReq;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IEventService {
-    ResponseEntity<?> createEvent(Event event,String email);
+    ResponseEntity<?> createEvent(Event eventReq, String email);
     ResponseEntity<?> findAllEvents();
     ResponseEntity<?> findEventAfterToday();
     ResponseEntity<?> findEventsByProvince(String province);

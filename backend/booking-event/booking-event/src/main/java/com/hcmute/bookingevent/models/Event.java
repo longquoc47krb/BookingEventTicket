@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
-    @Id
+
+
+    //@Id
+    @JsonIgnore
     private String id;
+    //private String idEvent;
     @TextIndexed
     private String name;
     private String province;
@@ -46,5 +51,11 @@ public class Event {
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList;
-    private List<OrganizationTicket> organizationTickets;
+    private List<OrganizationTicket> organizationTickets = new ArrayList<>();
+
+
+    public Event(String idEvent)
+    {
+
+    }
 }

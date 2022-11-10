@@ -9,6 +9,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
@@ -55,13 +56,14 @@ public class EventService implements IEventService {
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
-            event.setId(slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum))));
+            String idSlung = slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum)));
+            //
+            event.setId(idSlung);
             event.setStatus(TicketStatus.AVAILABLE);
+            //
             eventRepository.save(event);
             //add event in organization
-            List<String> eventList = organization.get().getEventList();
-            eventList.add(event.getId());
-            organization.get().setEventList(eventList);
+            organization.get().getEventList().add(event.getId());
             //save organization
             organizationRepository.save(organization.get());
             return ResponseEntity.status(HttpStatus.OK).body(

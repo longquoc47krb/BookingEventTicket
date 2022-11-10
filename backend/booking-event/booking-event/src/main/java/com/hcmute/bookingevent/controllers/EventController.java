@@ -6,6 +6,7 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.payload.request.EmailReq;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.request.OrganizationReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -34,10 +35,11 @@ public class EventController {
     }
 
     @PostMapping("/{userId}")
-    public ResponseEntity<?> createEvent(@RequestBody Event event, @PathVariable String userId, HttpServletRequest request) {
+    public ResponseEntity<?> createEvent(@RequestBody Event eventReq, @PathVariable String userId, HttpServletRequest request) {
+
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return iEventService.createEvent(event, account.getEmail());
+            return iEventService.createEvent(eventReq, account.getEmail());
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
