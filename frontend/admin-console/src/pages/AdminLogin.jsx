@@ -71,7 +71,7 @@ function Login() {
   };
   const { handleSubmit } = formikLogin;
   return (
-    <div className="login-container">
+    <div className="flex items-center justify-center w-full h-full">
       <FormikProvider value={formikLogin}>
         <Form className="auth-form" onSubmit={handleSubmit}>
           <Row className="leading-8">
