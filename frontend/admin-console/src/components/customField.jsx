@@ -139,7 +139,7 @@ function InputPassword(props) {
         onBlur={onBlur}
         onChange={handleChange}
         status={errors[name] ? "error" : ""}
-        className="p-[0.5rem]"
+        className="p-[0.5rem] mb-4"
       />
       <p className="error-message">
         <ErrorMessage name={name} />

@@ -13,6 +13,10 @@ const OverviewPage = Loadable({
   loader: () => import("../pages/Overview"),
   loading: Loading,
 });
+const LoginPage = Loadable({
+  loader: () => import("../pages/AdminLogin"),
+  loading: Loading,
+});
 const OrderPage = Loadable({
   loader: () => import("../pages/Orders"),
   loading: Loading,
@@ -25,7 +29,13 @@ const TicketPage = Loadable({
   loader: () => import("../pages/Tickets"),
   loading: Loading,
 });
-const routes = [
+export const routes = [
+  {
+    element: <LoginPage />,
+    path: "/login",
+  },
+];
+export const privateRoutes = [
   {
     element: <AddEditEventPage />,
     path: "/event/create",
@@ -42,6 +52,7 @@ const routes = [
     element: <EventsPage />,
     path: "/events",
   },
+
   {
     element: <OverviewPage />,
     path: "/",
