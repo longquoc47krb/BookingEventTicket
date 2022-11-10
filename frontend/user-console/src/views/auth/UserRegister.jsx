@@ -19,10 +19,9 @@ import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import theme from "../../shared/theme";
 import { YupValidations } from "../../utils/validate";
-import constants from "../../utils/constants";
+import constants, { ROLE } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
 import ThreeDotsLoading from "../../components/loading/three-dots";
-const { ROLE } = constants;
 const { registerAccount } = authServices;
 const UserRegister = (props) => {
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ const UserRegister = (props) => {
         email,
         name,
         password,
-        role: ROLE.user,
+        role: ROLE.Customer,
       });
       if (isNotEmpty(response)) {
         setLoading(false);
@@ -162,10 +161,7 @@ const UserRegister = (props) => {
                 </Col>
               </Row>
               <Col span={24}>
-                <button
-                  className={`primary-button`}
-                  type="submit"
-                >
+                <button className={`primary-button`} type="submit">
                   {loading ? <ThreeDotsLoading /> : t("user.signup")}
                 </button>
               </Col>

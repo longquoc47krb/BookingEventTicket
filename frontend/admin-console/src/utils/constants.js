@@ -23,10 +23,9 @@ provinceMapping.set("26", "Thừa Thiên Huế");
 provinceMapping.set("33", "Đắk Lắk");
 provinceMapping.set("CT", "Cần Thơ");
 
-const ROLE = {
-  user: "ROLE_USER",
-  organizer: "ROLE_ORGANIZER",
-  admin: "ROLE_ADMIN",
+export const ROLE = {
+  Customer: "ROLE_USER",
+  Organizer: "ROLE_ORGANIZATION",
 };
 const PATTERNS = {
   OLD_EMAIL_PATTERN:

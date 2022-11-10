@@ -21,7 +21,7 @@ import {
   setCurrentStep,
   setEventId,
 } from "../../redux/slices/ticketSlice";
-const { TicketStatus } = constants;
+const { EventStatus } = constants;
 function TicketBooking() {
   const { t } = useTranslation();
   const currentStep = useSelector(currentStepSelector);

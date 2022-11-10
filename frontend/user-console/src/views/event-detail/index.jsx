@@ -23,7 +23,7 @@ import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
-import { paragraph, TicketStatus } from "../../utils/constants";
+import { paragraph, EventStatus } from "../../utils/constants";
 import {
   displayDate,
   displayTime,
@@ -157,20 +157,20 @@ function EventDetail(props) {
               <button
                 onClick={handleCheckAuthenticated}
                 disabled={
-                  event.status === TicketStatus.SOLDOUT ||
-                  event.status === TicketStatus.COMPLETED
+                  event.status === EventStatus.SOLDOUT ||
+                  event.status === EventStatus.COMPLETED
                     ? true
                     : false
                 }
                 className={
-                  event.status === TicketStatus.SOLDOUT ||
-                  event.status === TicketStatus.COMPLETED
+                  event.status === EventStatus.SOLDOUT ||
+                  event.status === EventStatus.COMPLETED
                     ? "disabled-button"
                     : "book-now"
                 }
               >
                 {t(
-                  event.status === TicketStatus.AVAILABLE
+                  event.status === EventStatus.AVAILABLE
                     ? "event.book-now"
                     : event.status
                 )}
@@ -303,20 +303,20 @@ function EventDetail(props) {
                   <button
                     onClick={handleCheckAuthenticated}
                     disabled={
-                      event.status === TicketStatus.SOLDOUT ||
-                      event.status === TicketStatus.COMPLETED
+                      event.status === EventStatus.SOLDOUT ||
+                      event.status === EventStatus.COMPLETED
                         ? true
                         : false
                     }
                     className={
-                      event.status === TicketStatus.SOLDOUT ||
-                      event.status === TicketStatus.COMPLETED
+                      event.status === EventStatus.SOLDOUT ||
+                      event.status === EventStatus.COMPLETED
                         ? "disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                         : "book-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                     }
                   >
                     {t(
-                      event.status === TicketStatus.AVAILABLE
+                      event.status === EventStatus.AVAILABLE
                         ? "event.book-now"
                         : event.status
                     )}
