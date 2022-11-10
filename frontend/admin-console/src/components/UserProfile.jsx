@@ -8,13 +8,18 @@ import { userProfileData } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import avatar from "../data/avatar.jpg";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../redux/slices/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutAccount, userInfoSelector } from "../redux/slices/accountSlice";
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();
   const { t } = useTranslation();
   const user = useSelector(userInfoSelector);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logOutAccount());
+    console.log("logotu");
+  };
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
@@ -71,13 +76,12 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <Button
-          color="white"
-          bgColor={currentColor}
-          text="Logout"
-          borderRadius="10px"
-          width="full"
-        />
+        <button
+          className="text-white rounded-[10px] bg-primary hover:drop-shadow-xl p-3 w-full"
+          onClick={handleLogout}
+        >
+          {t("user.logout")}
+        </button>
       </div>
     </div>
   );
