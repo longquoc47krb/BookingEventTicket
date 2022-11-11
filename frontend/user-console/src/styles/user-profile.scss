@@ -2,14 +2,15 @@
   &-container {
     background: linear-gradient(53deg, #000000 0%, $primary-color 100%);
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
   }
 }
 .ant-input[disabled] {
   color: black !important;
 }
 .profile {
-  height: 90vh;
+  height: auto;
   width: 40vw;
   padding: 1rem;
   padding-bottom: 1.5rem;
