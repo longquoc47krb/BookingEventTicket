@@ -40,7 +40,6 @@ public class Event {
     private String host_id;
     private String description;
     private String background;
-    @JsonIgnore
     private String status;
     @JsonIgnore
     private int totalTicket;
