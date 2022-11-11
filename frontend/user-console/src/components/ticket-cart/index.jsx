@@ -11,7 +11,6 @@ import TicketCartItem from "../ticket-cart-item";
 const { payOrder } = paymentServices;
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
-  const navigate = useNavigate();
   const newArr = tickets.map((t) => ({
     ...t,
     totalPrice: t.quantity * t.price,

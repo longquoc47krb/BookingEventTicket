@@ -19,11 +19,12 @@ import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
+import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
-import { paragraph, TicketStatus } from "../../utils/constants";
+import { paragraph, EventStatus } from "../../utils/constants";
 import {
   displayDate,
   displayTime,
@@ -83,7 +84,7 @@ function EventDetail(props) {
         text: t("user.unauthenticated.text"),
       });
     } else {
-      navigate(`/ticket-booking/${event.id}`);
+      navigate(`/ticket-booking/${eventId}`);
     }
   };
   useEffect(() => {
@@ -157,20 +158,20 @@ function EventDetail(props) {
               <button
                 onClick={handleCheckAuthenticated}
                 disabled={
-                  event.status === TicketStatus.SOLDOUT ||
-                  event.status === TicketStatus.COMPLETED
+                  event.status === EventStatus.SOLDOUT ||
+                  event.status === EventStatus.COMPLETED
                     ? true
                     : false
                 }
                 className={
-                  event.status === TicketStatus.SOLDOUT ||
-                  event.status === TicketStatus.COMPLETED
+                  event.status === EventStatus.SOLDOUT ||
+                  event.status === EventStatus.COMPLETED
                     ? "disabled-button"
                     : "book-now"
                 }
               >
                 {t(
-                  event.status === TicketStatus.AVAILABLE
+                  event.status === EventStatus.AVAILABLE
                     ? "event.book-now"
                     : event.status
                 )}
@@ -257,9 +258,7 @@ function EventDetail(props) {
                 <div ref={info} className="info">
                   {t("ticket-info")}
                 </div>
-                <ReadMoreLess className="event-detail-long-content">
-                  {paragraph}
-                </ReadMoreLess>
+                <TicketComponent data={event?.organizationTickets} />
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">
@@ -303,20 +302,20 @@ function EventDetail(props) {
                   <button
                     onClick={handleCheckAuthenticated}
                     disabled={
-                      event.status === TicketStatus.SOLDOUT ||
-                      event.status === TicketStatus.COMPLETED
+                      event.status === EventStatus.SOLDOUT ||
+                      event.status === EventStatus.COMPLETED
                         ? true
                         : false
                     }
                     className={
-                      event.status === TicketStatus.SOLDOUT ||
-                      event.status === TicketStatus.COMPLETED
+                      event.status === EventStatus.SOLDOUT ||
+                      event.status === EventStatus.COMPLETED
                         ? "disabled-button w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                         : "book-now w-full px-[1.5rem] block mx-auto py-[1rem] text-xl"
                     }
                   >
                     {t(
-                      event.status === TicketStatus.AVAILABLE
+                      event.status === EventStatus.AVAILABLE
                         ? "event.book-now"
                         : event.status
                     )}

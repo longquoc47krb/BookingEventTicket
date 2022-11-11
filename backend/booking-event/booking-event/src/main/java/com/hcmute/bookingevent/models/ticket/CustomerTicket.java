@@ -20,6 +20,7 @@ public class CustomerTicket {
     @NotBlank(message = "ticketName is required")
     private String ticketName;
     @NotBlank(message = "price is required")
+    private String description;
     private String price;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")

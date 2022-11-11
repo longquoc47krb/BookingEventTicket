@@ -1,0 +1,11 @@
+.login {
+  &-container {
+    width: 100vw;
+    height: 100vh;
+    background: gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

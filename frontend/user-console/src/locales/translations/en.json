@@ -158,7 +158,8 @@
     },
     "login": {
       "200": "Successfully logged in",
-      "400": "Wrong email or password"
+      "400": "Wrong email or password",
+      "unauthorized": "Unauthorized: Access is denied"
     },
     "forgot": {
       "404": "Email address doesn't exist"

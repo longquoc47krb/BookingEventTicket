@@ -21,7 +21,7 @@ import {
   setCurrentStep,
   setEventId,
 } from "../../redux/slices/ticketSlice";
-const { TicketStatus } = constants;
+const { EventStatus } = constants;
 function TicketBooking() {
   const { t } = useTranslation();
   const currentStep = useSelector(currentStepSelector);
@@ -44,7 +44,7 @@ function TicketBooking() {
   function renderFragment(step) {
     switch (step) {
       case 0:
-        return <SelectTicket />;
+        return <SelectTicket data={event.organizationTickets} />;
       case 1:
         return <div>Step 2</div>;
       case 2:
