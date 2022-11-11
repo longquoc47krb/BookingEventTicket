@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.mapper;
 
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +30,10 @@ public class EventMapper {
         }
        throw new NotFoundException("Can not find Ticket");
     }
+//    public Event toCreateEvent(EventReq eventReq) {
+//        return new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),
+//                eventReq.getEndingTime(),eventReq.getStartingDate(),eventReq.getEndingDate(),eventReq.getHost_id(),eventReq.getDescription()
+//        ,eventReq.getBackground(),eventReq.getEventCategoryList(),eventReq.getOrganizationTickets());
+//
+//    }
 }
