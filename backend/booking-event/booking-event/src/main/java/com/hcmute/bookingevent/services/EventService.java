@@ -53,19 +53,16 @@ public class EventService implements IEventService {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<?> createEvent(EventReq eventReq, String email,MultipartFile file) {
+    public ResponseEntity<?> createEvent(EventReq eventReq, String email) {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
             String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + String.valueOf(randomNum)));
-            //handle image
-            String imgUrl = cloudinary.uploadImage(file,"");
 
-            //
             Event event = new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),
                     eventReq.getEndingTime(),eventReq.getStartingDate(),eventReq.getEndingDate(),eventReq.getHost_id(),eventReq.getDescription()
-                    ,imgUrl,eventReq.getEventCategoryList(),eventReq.getOrganizationTickets());
+                    ,eventReq.getEventCategoryList(),eventReq.getOrganizationTickets(),eventReq.getCreatedDate(),eventReq.getTotalTicket(),eventReq.getRemainingTicket());
             //
             event.setId(idSlung);
             event.setStatus(TicketStatus.AVAILABLE);
