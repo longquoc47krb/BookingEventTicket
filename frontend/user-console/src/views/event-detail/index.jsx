@@ -10,7 +10,7 @@ import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useFetchUserInfo } from "../../api/services/accountServices";
+import accountServices from "../../api/services/accountServices";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
@@ -33,6 +33,7 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
+const { findUserById } = accountServices;
 function EventDetail(props) {
   const { eventId } = useParams();
   // const wishList = useSelector(wishlistSelector);
@@ -40,10 +41,14 @@ function EventDetail(props) {
   const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
-  const { data: organizer, status: orgStatus } = useFetchUserInfo(
-    event.host_id
-  );
-
+  const [organizer, setOrganizer] = useState();
+  useEffect(() => {
+    async function fetchOrganizerInfo() {
+      const res = await findUserById(event?.host_id);
+      setOrganizer(res.data);
+    }
+    fetchOrganizerInfo();
+  }, [event]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -117,6 +122,9 @@ function EventDetail(props) {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
+  useEffect(() => {
+    console.log("wishlist:", wishlist);
+  }, [wishlist]);
   if (status === "loading" || isFetching) {
     return <Loading />;
   } else if (status === "error" || isFetching) {
@@ -181,11 +189,11 @@ function EventDetail(props) {
               </button>
               {wishlist &&
               wishlist.length > 0 &&
-              wishlist.find((e) => e === event.id) ? (
+              wishlist.find((e) => e === eventId) ? (
                 <button
                   className="interests"
                   onClick={(e) => {
-                    removeFromWishlist(event.id);
+                    removeFromWishlist(eventId);
                   }}
                 >
                   <div className="flex items-center gap-x-2">
@@ -197,7 +205,7 @@ function EventDetail(props) {
                   className="interests"
                   onClick={(e) => {
                     if (isNotEmpty(user)) {
-                      addToWishlist(event.id);
+                      addToWishlist(eventId);
                     } else {
                       handleCheckAuthenticated();
                     }
@@ -268,11 +276,8 @@ function EventDetail(props) {
                   {t("organizer")}
                 </div>
                 <div className="event-detail-organization">
-                  <img
-                    src={orgStatus === "success" ? organizer.avatar : ""}
-                    alt="logo"
-                  />
-                  <h1>{orgStatus === "success" ? organizer.name : ""}</h1>
+                  <img src={organizer?.avatar} alt="logo" />
+                  <h1>{organizer?.name}</h1>
                   <p>"organizer.description"</p>
                   <button
                     className="event-detail-organization-contact"

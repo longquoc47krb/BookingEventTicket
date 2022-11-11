@@ -28,8 +28,22 @@ const findUser = async (params) => {
     return err.response.data;
   }
 };
+const findUserById = async (params) => {
+  try {
+    const response = await httpRequest(AccountAPI.findAccountById(params));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
 export const useFetchUserInfo = (params) => {
   return useQuery(["userInfo", params], () => findUser(params), {
+    staleTime: 30000,
+  });
+};
+export const useFetchUserInfoById = (params) => {
+  return useQuery(["userInfoByID", params], () => findUserById(params), {
     staleTime: 30000,
   });
 };
@@ -37,5 +51,6 @@ const accountServices = {
   updateAvatar,
   updateAccount,
   findUser,
+  findUserById,
 };
 export default accountServices;
