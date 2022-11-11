@@ -30,7 +30,7 @@ function Input(props) {
   };
   return (
     <>
-      <h1 className="font-medium text-black text-lg">{label}</h1>
+      <h1 className="font-medium text-black text-lg mb-2">{label}</h1>
       <AntdInput
         disabled={disabled}
         name={name}
@@ -39,7 +39,7 @@ function Input(props) {
         status={errors[name] ? "error" : ""}
         onChange={handleChange}
         style={{ width: width }}
-        className="p-[0.5rem]"
+        className="p-[0.5rem] mb-4"
       />
       <p className="error-message">
         <ErrorMessage name={name} />
@@ -67,14 +67,14 @@ function InputPassword(props) {
   };
   return (
     <>
-      <h1 className="font-medium text-black text-lg">{label}</h1>
+      <h1 className="font-medium text-black text-lg mb-2">{label}</h1>
       <AntdInput.Password
         name={name}
         value={value}
         onBlur={onBlur}
         onChange={handleChange}
         status={errors[name] ? "error" : ""}
-        className="p-[0.5rem]"
+        className="p-[0.5rem] mb-4"
       />
       <p className="error-message">
         <ErrorMessage name={name} />
