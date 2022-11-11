@@ -10,6 +10,7 @@ import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useFetchUserInfo } from "../../api/services/accountServices";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
@@ -34,12 +35,14 @@ import {
 } from "../../utils/utils";
 function EventDetail(props) {
   const { eventId } = useParams();
-  const { organizer } = props;
   // const wishList = useSelector(wishlistSelector);
   const [yPosition, setY] = useState(window.scrollY);
   const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
+  const { data: organizer, status: orgStatus } = useFetchUserInfo(
+    event.host_id
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -265,9 +268,12 @@ function EventDetail(props) {
                   {t("organizer")}
                 </div>
                 <div className="event-detail-organization">
-                  <img src={organizer.logo} alt="logo" />
-                  <h1>{organizer.name}</h1>
-                  <p>{organizer.description}</p>
+                  <img
+                    src={orgStatus === "success" ? organizer.avatar : ""}
+                    alt="logo"
+                  />
+                  <h1>{orgStatus === "success" ? organizer.name : ""}</h1>
+                  <p>"organizer.description"</p>
                   <button
                     className="event-detail-organization-contact"
                     href="mailto:xyz@something.com"
