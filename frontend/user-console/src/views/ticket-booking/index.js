@@ -44,7 +44,7 @@ function TicketBooking() {
   function renderFragment(step) {
     switch (step) {
       case 0:
-        return <SelectTicket />;
+        return <SelectTicket data={event.organizationTickets} />;
       case 1:
         return <div>Step 2</div>;
       case 2:

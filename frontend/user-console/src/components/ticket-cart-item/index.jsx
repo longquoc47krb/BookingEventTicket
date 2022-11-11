@@ -5,7 +5,7 @@ function TicketCartItem({ ticket }) {
   return (
     <tr className="ticket-cart-item">
       <th className="flex flex-col">
-        <span>{ticket.type}</span>
+        <span>{ticket.ticketName}</span>
         <span>{formatter.format(ticket.price)}</span>
       </th>
       <th className="flex flex-col">

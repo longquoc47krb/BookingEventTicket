@@ -19,6 +19,7 @@ import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
 import ReadMoreLess from "../../components/read-more";
+import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
@@ -83,7 +84,7 @@ function EventDetail(props) {
         text: t("user.unauthenticated.text"),
       });
     } else {
-      navigate(`/ticket-booking/${event.id}`);
+      navigate(`/ticket-booking/${eventId}`);
     }
   };
   useEffect(() => {
@@ -257,9 +258,7 @@ function EventDetail(props) {
                 <div ref={info} className="info">
                   {t("ticket-info")}
                 </div>
-                <ReadMoreLess className="event-detail-long-content">
-                  {paragraph}
-                </ReadMoreLess>
+                <TicketComponent data={event?.organizationTickets} />
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">

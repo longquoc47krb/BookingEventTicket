@@ -8,7 +8,7 @@ function TicketItem({ ticket }) {
 
   return (
     <tr className="ticket-table-item">
-      <th>{ticket.type}</th>
+      <th>{ticket.ticketName}</th>
       <th>{formatter.format(ticket.price)}</th>
       <th className="flex items-center">
         <button onClick={() => dispatch(decreaseTicket(ticket.id))}>-</button>
