@@ -19,24 +19,11 @@ import java.util.List;
 @ToString
 public class Order {
     @Id
-    @JsonIgnore
     private String id;
-//    @NotBlank(message = "email is required")
-//    private String email;
     @NotBlank(message = "totalPrice is required")
     private String totalPrice;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private String totalQuantity;
     List<CustomerTicket> customerTicketList  ;
-//    private double price;
-//    @JsonIgnore
-//    private String currency;
-//    @JsonIgnore
-//    private String method;
-//    @JsonIgnore
-//    private String intent;
-//    @JsonIgnore
-//    private String description;
-
 }

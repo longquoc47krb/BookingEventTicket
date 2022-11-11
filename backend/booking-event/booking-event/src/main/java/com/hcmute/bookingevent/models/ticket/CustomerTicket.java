@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CustomerTicket {
     @Id
-    @JsonIgnore
     private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
