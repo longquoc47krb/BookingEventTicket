@@ -8,16 +8,12 @@ import {
 } from "../../redux/slices/ticketSlice";
 import TicketItem from "../ticket-item";
 
-function TicketTable() {
-  const ticketType = useSelector(ticketTypeSelector);
+function TicketTable({ ticketType }) {
+  const tickets = useSelector(ticketTypeSelector);
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchTicketType = async () => {
-      const response = await axios.get("http://localhost:8000/ticket");
-      const newArr = response.data.map((v) => ({ ...v, quantity: 0 }));
-      dispatch(setTicketTypeArray(newArr));
-    };
-    fetchTicketType();
+    const newArr = ticketType.map((v) => ({ ...v, quantity: 0 }));
+    dispatch(setTicketTypeArray(newArr));
   }, []);
   return (
     <div className="ticket-table-container">
@@ -27,8 +23,8 @@ function TicketTable() {
           <th>{t("ticket.price")}</th>
           <th>{t("ticket.quantity")}</th>
         </tr>
-        {ticketType.map((ticket) => (
-          <TicketItem ticket={ticket} key={ticket.id} />
+        {tickets.map((ticket, index) => (
+          <TicketItem ticket={ticket} key={index} />
         ))}
       </table>
     </div>

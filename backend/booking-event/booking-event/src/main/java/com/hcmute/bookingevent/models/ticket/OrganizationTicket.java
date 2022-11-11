@@ -10,13 +10,13 @@ import javax.validation.constraints.Size;
 @Data
 public class OrganizationTicket {
     @Id
-    @JsonIgnore
     private String id;
     @NotBlank(message = "ticketName is required")
     private String ticketName;
     @Size(min=1,message="required")
     @NotBlank(message = "price is required")
     private String price;
+    private String description;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int quantity;
