@@ -6,6 +6,10 @@ export const AccountAPI = {
       value: params,
     },
   }),
+  findAccountById: (params) => ({
+    url: `/account/${params}`,
+    method: "GET",
+  }),
   findAllAccounts: {
     url: "/account/findAll",
     method: "GET",

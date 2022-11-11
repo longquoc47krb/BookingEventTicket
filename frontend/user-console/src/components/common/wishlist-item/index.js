@@ -37,7 +37,7 @@ function WishListItem({ id }) {
             className="absolute right-2 bottom-2"
             onClick={(e) => {
               e.stopPropagation();
-              removeFromWishlist(event.id);
+              removeFromWishlist(id);
             }}
           >
             <BsSuitHeartFill fontSize={30} color={theme.main} />
