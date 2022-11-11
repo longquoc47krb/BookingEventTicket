@@ -5,9 +5,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import { Dropdown, Empty } from "antd";
+import { Dropdown, Empty, Popover } from "antd";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Avatar from "react-avatar";
 import Badge from "../badge";
 import { useTranslation } from "react-i18next";
@@ -34,6 +34,7 @@ import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
 import { useFetchEvents } from "../../../api/services/eventServices";
 import accountServices from "../../../api/services/accountServices";
+import UserProfile from "../../profile-popup";
 const { USER_PROFILE_MENU } = AppConfig;
 const { findUser } = accountServices;
 function Header(props) {
@@ -47,6 +48,13 @@ function Header(props) {
   const { t } = useTranslation();
   const user = useSelector(userInfoSelector);
   const isMobile = useMedia("(max-width: 767px)");
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen) => {
+    setOpen(newOpen);
+  };
   function onLogout() {
     dispatch(logOutAccount());
     localStorage.removeItem("userWishlist");
@@ -174,18 +182,27 @@ function Header(props) {
               <LanguageSwitch />
             </>
           ) : isMobile ? (
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <div className="cursor-pointer">
-                <Avatar
-                  googleId={user.sub}
-                  src={user.avatar ?? placeholderImg}
-                  size="35"
-                  round={true}
-                  name={user.name}
-                  className="header-avatar"
-                />
+            <div>
+              <div>
+                <Popover
+                  content={<UserProfile setOpen={setOpen} />}
+                  title="Title"
+                  trigger="click"
+                  open={open}
+                  placement="bottomRight"
+                  onOpenChange={handleOpenChange}
+                >
+                  <Avatar
+                    googleId={user.sub}
+                    src={user.avatar ?? placeholderImg}
+                    size="35"
+                    round={true}
+                    name={user.name}
+                    className="header-avatar"
+                  />
+                </Popover>
               </div>
-            </Dropdown>
+            </div>
           ) : (
             <div className="flex items-center gap-x-2">
               <Dropdown overlay={wishListMenu} trigger={["click"]}>
@@ -194,19 +211,27 @@ function Header(props) {
                   <RiBookmark3Fill className="text-2xl cursor-pointer" />
                 </div>
               </Dropdown>
-              <Dropdown overlay={menu} trigger={["click"]}>
-                <div className="cursor-pointer flex gap-x-2 items-center">
-                  <Avatar
-                    googleId={user.sub}
-                    src={user.avatar ?? placeholderImg}
-                    round={true}
-                    size={40}
-                    name={user.name}
-                    className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
-                  />
-                  <span>{user.name}</span>
-                </div>
-              </Dropdown>
+              <div className="relative">
+                <Popover
+                  content={<UserProfile setOpen={setOpen} />}
+                  trigger="click"
+                  open={open}
+                  placement="bottomRight"
+                  onOpenChange={handleOpenChange}
+                >
+                  <div className="cursor-pointer flex gap-x-2 items-center">
+                    <Avatar
+                      googleId={user.sub}
+                      src={user.avatar ?? placeholderImg}
+                      round={true}
+                      size={40}
+                      name={user.name}
+                      className="object-cover w-10 h-10 rounded-full ml-2.5 mr-3"
+                    />
+                    <span>{user.name}</span>
+                  </div>
+                </Popover>
+              </div>
               <LanguageSwitch />
             </div>
           )}

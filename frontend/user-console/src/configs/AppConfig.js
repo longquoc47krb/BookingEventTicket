@@ -128,12 +128,6 @@ const USER_PROFILE_MENU = [
     link: "/purchase-order",
     icon: <BsCashCoin fontSize={16} />,
   },
-  {
-    label: "user.logout",
-    key: "logout",
-    link: null,
-    icon: <MdExitToApp fontSize={16} />,
-  },
 ];
 const CAROUSEL_SETTINGS = [
   {
