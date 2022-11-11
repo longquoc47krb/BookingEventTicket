@@ -278,6 +278,7 @@ function EventDetail(props) {
                 <div className="event-detail-organization">
                   <img src={organizer?.avatar} alt="logo" />
                   <h1>{organizer?.name}</h1>
+
                   <p>"organizer.description"</p>
                   <button
                     className="event-detail-organization-contact"
