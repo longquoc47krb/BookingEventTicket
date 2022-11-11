@@ -3,6 +3,7 @@ package com.hcmute.bookingevent.payload.request;
 import com.hcmute.bookingevent.models.EventCategory;
 import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class EventReq {
     private String endingDate;
     private String host_id;
     private String description;
-    private String background;
+    //private String background;
+    //private MultipartFile file;
     private List<EventCategory> eventCategoryList;
     private List<OrganizationTicket> organizationTickets;
 

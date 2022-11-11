@@ -71,19 +71,6 @@ public class AccountService implements IAccountService {
         }
     }
 
-//    @Override
-//    public ResponseEntity<?> findByUserName(String username) {
-//
-//        Optional<Account> account = accountRepository.findBy(name);
-//        if (account.isPresent()) {
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject(true, "Save data successfully ", account));
-//
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-//                    new ResponseObject(false, "Cannot find data with name:" + name, ""));
-//        }
-//    }
 
 
     @Override
@@ -116,45 +103,22 @@ public class AccountService implements IAccountService {
                     new ResponseObject(false, "Cannot find data with gmail:" + email, "",404));
         }
     }
-
     @Override
-    public ResponseEntity<?> loginAccountByEmail(Account account) {
+    public ResponseEntity<?> findAccountById(String id) {
 
-        Optional <Account> newAccount =accountRepository.findByEmail(account.getEmail());
-
-        System.out.println(account.getId());
-
-        if(newAccount.isEmpty()) {
-            accountRepository.save(account);
-            Customer customer = new Customer(account.getId());
-            customerRepository.save(customer);
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully ", account, 200));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully ", account,200));
+                    new ResponseObject(true, "Save data successfully ", account,200));
 
-      //  throw new ResponseObject(true, "Log in account successfully ", account));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Cannot find data with id:" + id, "",404));
+        }
     }
 
-    @Override
-    public ResponseEntity<?> loginAccountbyPhone(Account account) {
-        Optional <Account> newAccount =accountRepository.findByPhone(account.getPhone());
 
-        if(newAccount.isEmpty())
-        {
-            accountRepository.save(account);
-            Customer customer = new Customer( account.getId() );
-            customerRepository.save(customer);
 
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Log in account successfully by Phone successfully ",account,200));
-
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Log in account successfully by Phone successfully ", account,200));
-
-    }
     @Override
     public ResponseEntity<?> updateAccount(String id, Account updatedAccount) {
         Optional<Account> account = accountRepository.findById(id);

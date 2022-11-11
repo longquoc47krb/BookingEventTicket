@@ -26,6 +26,7 @@ public class Organization {
 
     @Id
     private String id;
+    private String biography;
     private String address;
     @NotBlank(message = "Email is required")
     @Size(max = 100)

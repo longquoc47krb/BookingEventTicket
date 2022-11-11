@@ -41,17 +41,30 @@ public class Event {
     private String description;
     private String background;
     private String status;
-    @JsonIgnore
     private int totalTicket;
-    @JsonIgnore
     private int remainingTicket;
     @CreatedDate
     private Date createdDate;
     //@JsonIgnore
     @DBRef
-    private List<EventCategory> eventCategoryList;
+    private List<EventCategory> eventCategoryList ;
     private List<OrganizationTicket> organizationTickets = new ArrayList<>();
-
+    public Event(String name,String province,String venue,String venue_address,String startingTime,String endingTime,String startingDate,String endingDate,String host_id,String description,String background,List<EventCategory> eventCategoryList,List<OrganizationTicket> organizationTickets )
+    {
+        this.name=name;
+        this.province=province;
+        this.venue=venue;
+        this.venue_address=venue_address;
+        this.startingTime=startingTime;
+        this.endingTime=endingTime;
+        this.startingDate=startingDate;
+        this.endingDate=endingDate;
+        this.host_id=host_id;
+        this.description=description;
+        this.background=background;
+        this.eventCategoryList=eventCategoryList;
+        this.organizationTickets=organizationTickets;
+    }
 
     public Event(String idEvent)
     {
