@@ -38,14 +38,7 @@ public class AccountController {
     public ResponseEntity<?> findAccountByPhoneOrNameOrEmail(@RequestParam(value="value")  String value) {
         return iAccountService.findByPhoneOrNameOrEmail(value);
     }
-//    @PostMapping("/account/loginByPhone")
-//    public ResponseEntity<?> loginAccountByPhone(@RequestBody Account newAccount) {
-//        return iAccountService.loginAccountbyPhone(newAccount);
-//    }
-//    @PostMapping("/account/loginByEmail")
-//    public ResponseEntity<?> loginAccountByEmail(@RequestBody Account newAccount) {
-//        return iAccountService.loginAccountByEmail(newAccount);
-//    }
+
     @PutMapping("/account/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,@RequestBody Account updatedAccount, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
@@ -56,7 +49,12 @@ public class AccountController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+    @GetMapping("/account/{id}")
+    public ResponseEntity<?> findAccountById(@PathVariable String id) {
 
+            return iAccountService.findAccountById(id);
+
+    }
     @PostMapping(path = "/account/avatar/{id}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String id,
                                          HttpServletRequest request,

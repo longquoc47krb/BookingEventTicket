@@ -50,13 +50,22 @@ public class EventService implements IEventService {
     private final IEventSlugGeneratorService slugGeneratorService;
     private final CloudinaryConfig cloudinary;
 
+
+    @SneakyThrows
     @Override
-    public ResponseEntity<?> createEvent(Event event, String email) {
+    public ResponseEntity<?> createEvent(EventReq eventReq, String email,MultipartFile file) {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
-            String idSlung = slugGeneratorService.generateSlug(toSlug(event.getName() + "-" + String.valueOf(randomNum)));
+            String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + String.valueOf(randomNum)));
+            //handle image
+            String imgUrl = cloudinary.uploadImage(file,"");
+
+            //
+            Event event = new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),
+                    eventReq.getEndingTime(),eventReq.getStartingDate(),eventReq.getEndingDate(),eventReq.getHost_id(),eventReq.getDescription()
+                    ,imgUrl,eventReq.getEventCategoryList(),eventReq.getOrganizationTickets());
             //
             event.setId(idSlung);
             event.setStatus(TicketStatus.AVAILABLE);
@@ -233,7 +242,7 @@ public class EventService implements IEventService {
         System.out.println(event);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),404));
+                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),200));
 
         }
         throw new NotFoundException("Can not found any product with id: " + id);
