@@ -11,7 +11,9 @@ function TicketItem({ ticket }) {
       <th>{ticket.ticketName}</th>
       <th>{formatter.format(ticket.price)}</th>
       <th className="flex items-center">
-        <button onClick={() => dispatch(decreaseTicket(ticket.id))}>-</button>
+        <button onClick={() => dispatch(decreaseTicket(ticket.ticketName))}>
+          -
+        </button>
         <input
           value={
             ticket.quantity < 6 && isNotEmpty(ticket.quantity)
@@ -19,7 +21,9 @@ function TicketItem({ ticket }) {
               : 5
           }
         />
-        <button onClick={() => dispatch(increaseTicket(ticket.id))}>+</button>
+        <button onClick={() => dispatch(increaseTicket(ticket.ticketName))}>
+          +
+        </button>
       </th>
     </tr>
   );

@@ -230,7 +230,6 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findEventById(String id) {
         Optional<Event> event = eventRepository.findById(id);
-        System.out.println(event);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),404));

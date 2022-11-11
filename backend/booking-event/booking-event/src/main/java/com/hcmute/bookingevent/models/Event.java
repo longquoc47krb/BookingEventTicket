@@ -41,9 +41,7 @@ public class Event {
     private String description;
     private String background;
     private String status;
-    @JsonIgnore
     private int totalTicket;
-    @JsonIgnore
     private int remainingTicket;
     @CreatedDate
     private Date createdDate;
