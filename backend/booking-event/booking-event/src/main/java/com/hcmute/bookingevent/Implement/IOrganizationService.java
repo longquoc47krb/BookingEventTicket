@@ -13,4 +13,5 @@ public interface IOrganizationService {
      ResponseEntity<?> deleteOrganization(String email);
      ResponseEntity<?> findEventsByOrganization(String email);
      ResponseEntity<?> approveOrganization(String email);
+     ResponseEntity<?> findOrganizationById(String id);
 }

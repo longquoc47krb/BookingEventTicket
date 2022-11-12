@@ -32,6 +32,7 @@ public class OrganizationController {
     public ResponseEntity<?> deleteOrganizationAccount(@RequestBody EmailReq emailReq) {
         return iOrganizationService.deleteOrganization(emailReq.getEmail());
     }
+
     @PostMapping("/admin/approve/organization")
     public ResponseEntity<?> approveOrganization(@RequestBody EmailReq emailReq)
     {
@@ -42,6 +43,11 @@ public class OrganizationController {
     public ResponseEntity<?> findAll()
     {
         return iOrganizationService.findAll();
+    }
+    @GetMapping("/organization/{id}")
+    public ResponseEntity<?> findOrganizationById(@PathVariable String id)
+    {
+        return iOrganizationService.findOrganizationById(id);
     }
     @PostMapping("/organization")
     public ResponseEntity<?> submitOrganization(@RequestBody OrganizationSubmitReq organizationSubmitReq)

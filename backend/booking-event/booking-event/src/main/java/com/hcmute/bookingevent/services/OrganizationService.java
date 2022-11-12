@@ -78,7 +78,31 @@ public class OrganizationService implements IOrganizationService {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
                     new ResponseObject(true, e.getMessage(), "",400));
         }
+    }
+    @Override
+    public ResponseEntity<?> findOrganizationById(String id)
+    {
+        try
+        {
+            Optional<Organization> organization = organizationRepository.findById(id);
+            if(organization.isPresent())
+            {
+                // ds các id
 
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject(true, "Get Organization successfully", organization.get(),200));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "Organization has no exist", "",400));
+            }
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                    new ResponseObject(true, e.getMessage(), "",400));
+        }
     }
     @SneakyThrows
     @Override

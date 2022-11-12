@@ -38,6 +38,7 @@ public class Event {
     private String startingDate;
     private String endingDate;
     private String host_id;
+    //
     private String description;
     private String background;
     private String status;
@@ -49,7 +50,7 @@ public class Event {
     @DBRef
     private List<EventCategory> eventCategoryList ;
     private List<OrganizationTicket> organizationTickets = new ArrayList<>();
-    public Event(String name,String province,String venue,String venue_address,String startingTime,String endingTime,String startingDate,String endingDate,String host_id,String description,String background,List<EventCategory> eventCategoryList,List<OrganizationTicket> organizationTickets )
+    public Event(String name,String province,String venue,String venue_address,String startingTime,String endingTime,String startingDate,String endingDate,String host_id,String description,List<EventCategory> eventCategoryList,List<OrganizationTicket> organizationTickets,Date createdDate,int totalTicket,int remainingTicket )
     {
         this.name=name;
         this.province=province;
@@ -61,9 +62,11 @@ public class Event {
         this.endingDate=endingDate;
         this.host_id=host_id;
         this.description=description;
-        this.background=background;
         this.eventCategoryList=eventCategoryList;
         this.organizationTickets=organizationTickets;
+        this.createdDate=createdDate;
+        this.totalTicket=totalTicket;
+        this.remainingTicket=remainingTicket;
     }
 
     public Event(String idEvent)
