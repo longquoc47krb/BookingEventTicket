@@ -73,7 +73,7 @@ public class EventService implements IEventService {
             //save organization
             organizationRepository.save(organization.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save event successfully ", "", 200));
+                    new ResponseObject(true, "Save event successfully ", idSlung, 200));
 
 
         } else {
