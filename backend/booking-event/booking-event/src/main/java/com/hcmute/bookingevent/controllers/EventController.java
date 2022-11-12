@@ -98,14 +98,15 @@ public class EventController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @PostMapping(path = "/avatar/{id}")
+    @PostMapping(path = "/avatar/{id}/{userId}")
     public ResponseEntity<?> updateAvatarEvent (@PathVariable String id,
+                                                @PathVariable String userId,
                                                HttpServletRequest request,
                                                @RequestParam MultipartFile file){
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(id)) {
-            return iEventService.updateAvatarEvent(account.getEmail(), file);
+        if(account.getId().equals(userId)) {
+            return iEventService.updateAvatarEvent(id, file);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
