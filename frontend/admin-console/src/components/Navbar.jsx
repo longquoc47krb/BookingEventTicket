@@ -1,11 +1,11 @@
 /* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
+import { Popover } from "antd";
 import avatar from "../data/avatar.jpg";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -40,6 +40,13 @@ const Navbar = () => {
     screenSize,
   } = useStateContext();
   const user = useSelector(userInfoSelector);
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen) => {
+    setOpen(newOpen);
+  };
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -76,8 +83,13 @@ const Navbar = () => {
           color={currentColor}
           icon={<RiNotification3Line />}
         />
-
-        <TooltipComponent content="Profile" position="BottomCenter">
+        <Popover
+          content={<UserProfile setOpen={setOpen} />}
+          trigger="click"
+          open={open}
+          placement="bottomRight"
+          onOpenChange={handleOpenChange}
+        >
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
@@ -95,9 +107,8 @@ const Navbar = () => {
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>
+        </Popover>
         {isClicked.notification && <Notification />}
-        {isClicked.userProfile && <UserProfile />}
       </div>
     </div>
   );

@@ -16,17 +16,11 @@ export const YupValidations = {
     .notRequired()
     .nullable(),
   password: Yup.string()
-    .required(t("validate.password"))
+    .required(t("validate.password.required"))
     .matches(PATTERNS.PASSWORD_PATTERN, {
       message: t("validate.password.notMatch"),
     })
-    .max(20, t("validate.password.max"))
-    .matches(PATTERNS.PASSWORD_LETTER, {
-      message: t("validate.password.letter"),
-    })
-    .matches(PATTERNS.PASSWORD_NUMBER, {
-      message: "validate.password.number",
-    }),
+    .max(32, t("validate.password.max")),
   confirmPassword: Yup.string()
     .trim()
     .oneOf([Yup.ref("password")], t("validate.confirmPassword.invalid"))
@@ -34,13 +28,7 @@ export const YupValidations = {
     .matches(PATTERNS.PASSWORD_PATTERN, {
       message: t("validate.password.notMatch"),
     })
-    .max(20, t("validate.password.max"))
-    .matches(PATTERNS.PASSWORD_LETTER, {
-      message: t("validate.password.letter"),
-    })
-    .matches(PATTERNS.PASSWORD_NUMBER, {
-      message: t("validate.password.number"),
-    }),
+    .max(32, t("validate.password.max")),
   otp: Yup.string()
     .required(t("validate.otp.required"))
     .min(6, t("validate.otp.min")),
@@ -48,23 +36,27 @@ export const YupValidations = {
     .required(t("validate.categories.required"))
     .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
-    .required("Required")
-    .min(moment(), "Min date is today")
-    .max(Yup.ref("endingDate"), "Max date is contract end"),
+    .required("validate.startingDate.required")
+    .min(moment(), "validate.startingDate.min")
+    .max(Yup.ref("endingDate"), "validate.startingDate.max"),
   endingDate: Yup.date()
-    .required("Required")
+    .required("validate.endingDate.required")
     .when(
       "startingDate",
       (startingDate, yupSchema) =>
-        startingDate &&
-        yupSchema.min(startingDate, "Min date is contract start")
+        startingDate && yupSchema.min(startingDate, "validate.endingDate.min")
     ),
   ticketList: Yup.array()
     .of(
       Yup.object().shape({
         currency: Yup.string().required(t("validate.ticket.currency.required")),
-        price: Yup.number().required(t("validate.ticket.price.required")),
+        price: Yup.number()
+          .required(t("validate.ticket.price.required"))
+          .min(1, t("validate.ticket.price.min")),
         ticketName: Yup.string().required(t("validate.ticket.name.required")),
+        quantity: Yup.number()
+          .required(t("validate.ticket.quantity.required"))
+          .min(30, t("validate.ticket.quantity.min")),
       })
     )
     .test("unique", t("validate.ticket.unique"), (lists) => {

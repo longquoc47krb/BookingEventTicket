@@ -117,5 +117,56 @@
     },
     "pages": {
         "login": "Login"
+    },
+    "validate": {
+        "email": {
+            "required": "Email is required",
+            "invalid": "Email is invalid"
+        },
+        "name": {
+            "required": "Name is required",
+            "max": "Max length of name is 64 characters"
+        },
+        "password": {
+            "required": "Password is required",
+            "notMatch": "Password must contain both letters and numbers",
+            "max": "Max length of password is 32 characters"
+        },
+        "confirmPassword": {
+            "invalid": "Confirm password and password do not match",
+            "required": "Confirm password is required",
+            "notMatch": "Confirm password must contain both letters and numbers",
+            "max": "Max length of confirm password is 32 characters"
+        },
+        "otp": {
+            "required": "OTP is required",
+            "min": "Length is 6"
+        },
+        "categories": {
+            "required": "Category is required",
+            "max": "Max items of Category list is 2 items"
+        },
+        "startingDate": {
+            "required": "Starting date is required",
+            "min": "Min date is today",
+            "max": "Max date is equal to ending date"
+        },
+        "endingDate": {
+            "required": "Ending date is required",
+            "min": "Min date is equal to starting dâtte"
+        },
+        "ticket": {
+            "currency": {
+                "required": "Currency is required"
+            },
+            "quantity": {
+                "required": "Quantity is required",
+                "min": "Min is 30 tickets"
+            },
+            "ticketName": {
+                "required": "Ticket type name is required"
+            },
+            "unique": "Ticket is duplicated"
+        }
     }
 }
