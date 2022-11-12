@@ -123,7 +123,6 @@ const UploadImage = (props) => {
     (state) => state.event.initialBackground
   );
   const [file, setFile] = useState(value);
-  console.log({ file, initialBackground });
   const style = useMemo(
     () => ({
       ...baseStyle,

@@ -10,37 +10,47 @@ import * as Yup from "yup";
 import { YupValidations } from "../utils/validate";
 import { useFetchCategories } from "../api/services/categoryServices";
 import { isEmpty } from "../utils/utils";
-import { DatePicker, Input, Select } from "../components/customField";
+import {
+  DatePicker,
+  Input,
+  Select,
+  TimePicker,
+} from "../components/customField";
 import { encode, decode } from "js-base64";
 import Editor from "./Editor";
 import moment from "moment";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { map } from "lodash";
+import { map, sumBy } from "lodash";
 import { useParams } from "react-router-dom";
 import eventServices, { useEventDetails } from "../api/services/eventServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setInitialBackground } from "../redux/slices/eventSlice";
-const { getEventById } = eventServices;
+import { userInfoSelector } from "../redux/slices/accountSlice";
+const { getEventById, createEvent, uploadEventBackground } = eventServices;
 const { PATTERNS } = constants;
 function AddEditEvent(props) {
   const { eventId } = useParams();
   const [event, setEvent] = useState({});
   const dispatch = useDispatch();
-  console.log({ event });
+  const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
   const initialValues = {
     background: eventId ? event.background : "",
     name: event?.name ?? "",
-    startingDate: event?.endingDate
+    startingDate: eventId
       ? moment(event?.startingDate, PATTERNS.DATE_FORMAT)
       : moment(),
-    startingTime: "",
-    endingDate: event?.endingDate
+    startingTime: eventId
+      ? moment(event?.startingTime, PATTERNS.TIME_FORMAT)
+      : moment(),
+    endingDate: eventId
       ? moment(event?.endingDate, PATTERNS.DATE_FORMAT)
       : moment(),
     eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
-    endingTime: event?.endingTime ?? "",
+    endingTime: eventId
+      ? moment(event?.endingTime, PATTERNS.TIME_FORMAT)
+      : moment(),
     description: event?.description ?? "",
     province: event?.province ?? "",
     venue: event?.venue ?? "",
@@ -66,7 +76,35 @@ function AddEditEvent(props) {
       venue_address: YupValidations.name,
       ticketList: YupValidations.ticketList,
     }),
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      console.log(values);
+      let temp = [];
+      for (const element of values.eventCategoryList) {
+        temp.push({ id: element });
+      }
+      const request = {
+        name: values.name,
+        description: encode(values.description),
+        endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
+        endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
+        startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
+        startingTime: moment(values.startingTime, PATTERNS.TIME_FORMAT),
+        eventCategoryList: temp,
+        province: values.province,
+        venue: values.venue,
+        venue_address: values.venue_address,
+        organizationTickets: values.ticketList,
+        totalTicket: sumBy(values.ticketList, "quantity"),
+        remainingTicket: sumBy(values.ticketList, "quantity"),
+        host_id: user.id,
+      };
+      var formData = new FormData();
+      formData.append("file", values.background);
+      console.log(formData);
+      console.log(formData.get("file"));
+      await uploadEventBackground(user.id, formData);
+      await createEvent(user.id, request);
+    },
   });
   const { handleSubmit, values, setValues } = formik;
   useEffect(() => {
@@ -79,10 +117,10 @@ function AddEditEvent(props) {
           background: res.background,
           name: res.name,
           startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
-          startingTime: "",
+          startingTime: moment(res.startingTime, PATTERNS.TIME_FORMAT),
           endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
           eventCategoryList: map(res.eventCategoryList, "id"),
-          endingTime: res.endingTime,
+          endingTime: moment(res.endingTime, PATTERNS.TIME_FORMAT),
           description: decode(res.description),
           province: res.province,
           venue: res.venue,
@@ -98,7 +136,7 @@ function AddEditEvent(props) {
   // for (const element of values.eventCategoryList) {
   //   temp.push({ id: element });
   // }
-  console.log({ values });
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header
@@ -143,21 +181,35 @@ function AddEditEvent(props) {
                 />
               </Col>
             </Row>
-            <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={24}>
+            <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
+              <Col span={20}>
                 <Field
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
                 />
               </Col>
+              <Col span={4}>
+                <Field
+                  name="startingTime"
+                  component={TimePicker}
+                  label={t("event.startingTime")}
+                />
+              </Col>
             </Row>
-            <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={24}>
+            <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
+              <Col span={20}>
                 <Field
                   name="endingDate"
                   component={DatePicker}
                   label={t("event.endingDate")}
+                />
+              </Col>
+              <Col span={4}>
+                <Field
+                  name="endingTime"
+                  component={TimePicker}
+                  label={t("event.endingTime")}
                 />
               </Col>
             </Row>
@@ -216,58 +268,75 @@ function AddEditEvent(props) {
                       </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (
-                      <Row gutter={[8, 24]} className="flex items-start">
-                        <Col span={10}>
-                          <Field
-                            name={`ticketList[${index}].ticketName`}
-                            component={Input}
-                            label={t("event.ticketList.ticketName", {
-                              val: index + 1,
-                            })}
-                          />
-                        </Col>
-                        <Col span={4}>
-                          <Field
-                            name={`ticketList[${index}].price`}
-                            component={Input}
-                            label={t("event.ticketList.price", {
-                              val: index + 1,
-                            })}
-                          />
-                        </Col>
-                        <Col span={3}>
-                          <Field
-                            name={`ticketList[${index}].quantity`}
-                            component={Input}
-                            label={t("event.ticketList.quantity", {
-                              val: index + 1,
-                            })}
-                          />
-                        </Col>
-                        <Col span={3}>
-                          <Field
-                            name={`ticketList[${index}].currency`}
-                            component={Select}
-                            label={t("event.ticketList.currency", {
-                              val: index + 1,
-                            })}
-                            options={Object.values([
-                              { value: "USD", label: "USD - $" },
-                              { value: "VND", label: "VND - ₫" },
-                            ]).map((field) => ({
-                              value: field.value,
-                              name: field.label,
-                            }))}
-                          />
-                        </Col>
-                        <Col span={4}>
-                          {index > 0 && (
-                            <button type="button" onClick={() => remove(index)}>
-                              <GiCancel className="text-red-600 translate-y-[3rem] text-2xl" />
-                            </button>
-                          )}
-                        </Col>
-                      </Row>
+                      <>
+                        <Row gutter={[8, 24]} className="flex items-start">
+                          <Col span={10}>
+                            <Field
+                              name={`ticketList[${index}].ticketName`}
+                              component={Input}
+                              label={t("event.ticketList.ticketName", {
+                                val: index + 1,
+                              })}
+                            />
+                          </Col>
+                          <Col span={4}>
+                            <Field
+                              name={`ticketList[${index}].price`}
+                              component={Input}
+                              label={t("event.ticketList.price", {
+                                val: index + 1,
+                              })}
+                            />
+                          </Col>
+                          <Col span={3}>
+                            <Field
+                              name={`ticketList[${index}].quantity`}
+                              component={Input}
+                              label={t("event.ticketList.quantity", {
+                                val: index + 1,
+                              })}
+                              type="number"
+                            />
+                          </Col>
+                          <Col span={3}>
+                            <Field
+                              name={`ticketList[${index}].currency`}
+                              component={Select}
+                              label={t("event.ticketList.currency", {
+                                val: index + 1,
+                              })}
+                              options={Object.values([
+                                { value: "USD", label: "USD - $" },
+                                { value: "VND", label: "VND - ₫" },
+                              ]).map((field) => ({
+                                value: field.value,
+                                name: field.label,
+                              }))}
+                            />
+                          </Col>
+                          <Col span={4}>
+                            {index > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => remove(index)}
+                              >
+                                <GiCancel className="text-red-600 translate-y-[3rem] text-2xl" />
+                              </button>
+                            )}
+                          </Col>
+                        </Row>
+                        <Row gutter={[8, 24]}>
+                          <Col span={24}>
+                            <Field
+                              name={`ticketList[${index}].description`}
+                              component={Input}
+                              label={t("event.ticketList.description", {
+                                val: index + 1,
+                              })}
+                            />
+                          </Col>
+                        </Row>
+                      </>
                     ))}
                   </>
                 );

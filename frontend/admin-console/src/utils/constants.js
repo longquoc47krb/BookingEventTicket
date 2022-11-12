@@ -43,6 +43,7 @@ const PATTERNS = {
   PASSWORD_NUMBER: /^(?=.*\d).{8,}$/,
   DATE_PATTERN: /^(([01])\d)\/(([012])\d)\/((19|20)\d{2})$/,
   DATE_FORMAT: "DD/MM/YYYY",
+  TIME_FORMAT: "HH:mm",
   DATE_TIME_FORMAT: "DD/MM/YYYY HH:mm:ss",
   SECTION_PATTERN: /[A-E][1-9]-[1-9]|[A-E][1-9]/g,
   NUMBER_MAX_LENGTH_64: /^[0-9]{,64}$/,
