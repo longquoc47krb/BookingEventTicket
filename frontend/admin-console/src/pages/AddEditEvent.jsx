@@ -102,8 +102,10 @@ function AddEditEvent(props) {
       formData.append("file", values.background);
       console.log(formData);
       console.log(formData.get("file"));
-      await uploadEventBackground(user.id, formData);
-      await createEvent(user.id, request);
+      const response = await createEvent(user.id, request);
+      if (response.status === 200) {
+        await uploadEventBackground(response.data, user.id, formData);
+      }
     },
   });
   const { handleSubmit, values, setValues } = formik;
@@ -131,11 +133,6 @@ function AddEditEvent(props) {
       fetchEvent();
     }
   }, []);
-  // convert [id1, id2, ...] format to [{id: id1}, {id: id2},...] format
-  // let temp = [];
-  // for (const element of values.eventCategoryList) {
-  //   temp.push({ id: element });
-  // }
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">

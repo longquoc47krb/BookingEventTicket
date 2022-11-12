@@ -409,9 +409,6 @@ export const filterByDate = (type, list, customDate) => {
 
   return list;
 };
-export const checkImageURL = (url) => {
-  return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
-};
 export const displayDate = (date) => {
   return moment(date, PATTERNS.DATE_FORMAT).format("dddd, DD MMMM, YYYY");
 };

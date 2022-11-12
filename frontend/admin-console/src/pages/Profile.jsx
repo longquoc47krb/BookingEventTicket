@@ -18,7 +18,6 @@ import {
   userInfoSelector,
 } from "../redux/slices/accountSlice";
 import { pathNameSelector } from "../redux/slices/routeSlice";
-import theme from "../shared/theme";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 const { updateAvatar, updateAccount } = accountServices;
@@ -30,6 +29,7 @@ function UserProfile() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const avatar = useSelector(userAvatarSelector);
+  console.log(avatar?.get("file"));
   useEffect(() => {
     if (isNotEmpty(user)) {
       dispatch(setEmail(user.email));

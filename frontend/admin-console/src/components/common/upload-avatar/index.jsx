@@ -33,7 +33,7 @@ function UploadAvatar({ avatar }) {
   const UploadAvatar = async () => {
     setShowCameraButton(true);
     const formData = new FormData();
-    formData.append("file", avatarFile, avatarFile.name);
+    formData.append("file", avatarFile);
     dispatch(setUserAvatar(formData));
   };
   return (
