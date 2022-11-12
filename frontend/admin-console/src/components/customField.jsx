@@ -3,6 +3,7 @@ import {
   Input as AntdInput,
   DatePicker as AntdDatePicker,
   Select as AntdSelect,
+  TimePicker as AntdTimePicker,
 } from "antd";
 import { ErrorMessage } from "formik";
 import React from "react";
@@ -14,7 +15,7 @@ function Input(props) {
     form,
     label,
     width,
-    uppercase,
+    type,
     onChange: onChangeCustom,
     disabled,
   } = props;
@@ -24,7 +25,7 @@ function Input(props) {
     const { value } = e.target;
     var customEvent = {
       target: {
-        value: uppercase ? value.toUpperCase() : value,
+        value: type === "number" ? parseInt(value, 10) : value,
         name,
       },
     };
@@ -64,6 +65,30 @@ function DatePicker(props) {
         <AntdDatePicker
           className="w-full p-[0.5rem]"
           format={dateFormat}
+          name={name}
+          value={value}
+          onChange={(value) => setFieldValue(name, value)}
+          onBlur={onBlur}
+        />
+        <p className="error-message">
+          <ErrorMessage name={name} />
+        </p>
+      </Item>
+    </>
+  );
+}
+function TimePicker(props) {
+  const format = "HH:mm";
+  const { form, field, label } = props;
+  const { value, onBlur, name } = field;
+  const { setFieldValue } = form;
+  return (
+    <>
+      <Item>
+        <h1 className="text-primary text-xl font-semibold mb-2">{label}</h1>
+        <AntdTimePicker
+          className="w-full p-[0.5rem]"
+          format={format}
           name={name}
           value={value}
           onChange={(value) => setFieldValue(name, value)}
@@ -148,4 +173,4 @@ function InputPassword(props) {
   );
 }
 
-export { Input, InputPassword, DatePicker, Select };
+export { Input, InputPassword, DatePicker, TimePicker, Select };

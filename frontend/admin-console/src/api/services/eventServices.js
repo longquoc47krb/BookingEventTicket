@@ -22,9 +22,19 @@ const getEventById = async (id) => {
   const response = await httpRequest(EventAPI.getEventById(id));
   return response.data;
 };
-const createEvent = async (body) => {
-  const response = await httpRequest(EventAPI.createEvent(body));
+const createEvent = async (id, body) => {
+  const response = await httpRequest(EventAPI.createEvent(id, body));
   return response.data;
+};
+const uploadEventBackground = async (id, body) => {
+  try {
+    const response = await httpRequest(
+      EventAPI.uploadEventBackground(id, body)
+    );
+    return response.data;
+  } catch (err) {
+    return err.response.data;
+  }
 };
 const fetchEventsForPagination = async (params) => {
   const response = await httpRequest(
@@ -104,5 +114,6 @@ const eventServices = {
   setEventStatus,
   fetchFeaturedEvents,
   createEvent,
+  uploadEventBackground,
 };
 export default eventServices;

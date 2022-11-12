@@ -46,9 +46,17 @@ export const EventAPI = {
     url: `/event/find/${id}`,
     method: "GET",
   }),
-  createEvent: (data) => ({
-    url: "/event/createEvent",
+  createEvent: (userId, data) => ({
+    url: `/event/${userId}`,
     method: "POST",
     data,
+  }),
+  uploadEventBackground: (userId, data) => ({
+    url: `/event/avatar/${userId}`,
+    method: "POST",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   }),
 };

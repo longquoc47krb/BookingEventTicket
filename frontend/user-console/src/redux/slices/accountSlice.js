@@ -7,6 +7,7 @@ export const accountSlice = createSlice({
     email: "",
     avatar: null,
     token: "",
+    isUpdated: false,
   },
   reducers: {
     setUserProfile: (state, action) => {
@@ -25,6 +26,9 @@ export const accountSlice = createSlice({
     setToken: (state, { payload }) => {
       state.token = payload;
     },
+    setIsUpdated: (state, { payload }) => {
+      state.isUpdated = payload;
+    },
   },
 });
 
@@ -34,8 +38,10 @@ export const {
   setEmail,
   setUserAvatar,
   setToken,
+  setIsUpdated,
 } = accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
 export const emailSelector = (state) => state.account.email;
 export const userAvatarSelector = (state) => state.account.avatar;
+export const isUpdatedSelector = (state) => state.account.isUpdated;
 export default accountSlice.reducer;

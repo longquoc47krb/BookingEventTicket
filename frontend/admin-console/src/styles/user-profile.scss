@@ -1,0 +1,25 @@
+.user-profile {
+  &-container {
+    background: linear-gradient(53deg, #000000 0%, $primary-color 100%);
+    width: 100vw;
+    min-height: 100vh;
+    height: 100%;
+  }
+}
+.ant-input[disabled] {
+  color: black !important;
+}
+.profile {
+  height: auto;
+  width: 40vw;
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 1px;
+  position: relative;
+}
+.ant-image-mask {
+  border-radius: 9999px !important;
+}
