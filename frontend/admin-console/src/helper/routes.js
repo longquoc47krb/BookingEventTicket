@@ -21,6 +21,10 @@ const OrderPage = Loadable({
   loader: () => import("../pages/Orders"),
   loading: Loading,
 });
+const ProfilePage = Loadable({
+  loader: () => import("../pages/Profile"),
+  loading: Loading,
+});
 const CalendarPage = Loadable({
   loader: () => import("../pages/Calendar"),
   loading: Loading,
@@ -64,6 +68,10 @@ export const privateRoutes = [
   {
     element: <OrderPage />,
     path: "/orders",
+  },
+  {
+    element: <ProfilePage />,
+    path: "/profile",
   },
   {
     element: <TicketPage />,

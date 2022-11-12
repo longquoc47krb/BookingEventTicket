@@ -163,6 +163,10 @@
                 "required": "Quantity is required",
                 "min": "Min is 30 tickets"
             },
+            "price": {
+                "required": "Price is required",
+                "min": "Min price is greater than 0"
+            },
             "ticketName": {
                 "required": "Ticket type name is required"
             },
