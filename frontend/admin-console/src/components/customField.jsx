@@ -36,7 +36,7 @@ function Input(props) {
   };
   return (
     <>
-      <h1 className="text-primary text-xl font-semibold mb-2">{label}</h1>
+      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
       <AntdInput
         disabled={disabled}
         name={name}
@@ -45,7 +45,7 @@ function Input(props) {
         status={errors[name] ? "error" : ""}
         onChange={handleChange}
         style={{ width: width }}
-        className="p-[0.5rem] mb-2"
+        className="p-[0.5rem] mb-4"
       />
       <p className="error-message w-[80%]">
         <ErrorMessage name={name} />
@@ -61,9 +61,9 @@ function DatePicker(props) {
   return (
     <>
       <Item>
-        <h1 className="text-primary text-xl font-semibold mb-2">{label}</h1>
+        <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
         <AntdDatePicker
-          className="w-full p-[0.5rem]"
+          className="w-full p-[0.5rem] mb-4"
           format={dateFormat}
           name={name}
           value={value}
@@ -85,9 +85,9 @@ function TimePicker(props) {
   return (
     <>
       <Item>
-        <h1 className="text-primary text-xl font-semibold mb-2">{label}</h1>
+        <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
         <AntdTimePicker
-          className="w-full p-[0.5rem]"
+          className="w-full p-[0.5rem] mb-4"
           format={format}
           name={name}
           value={value}
@@ -157,7 +157,7 @@ function InputPassword(props) {
   };
   return (
     <>
-      <h1 className="text-primary text-xl font-semibold">{label}</h1>
+      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
       <AntdInput.Password
         name={name}
         value={value}
