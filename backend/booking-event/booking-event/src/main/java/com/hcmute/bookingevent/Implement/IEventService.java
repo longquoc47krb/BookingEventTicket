@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IEventService {
-    ResponseEntity<?> createEvent(EventReq eventReq, String email,MultipartFile file);
+    ResponseEntity<?> createEvent(EventReq eventReq, String email);
     ResponseEntity<?> findAllEvents();
     ResponseEntity<?> findEventAfterToday();
     ResponseEntity<?> findEventsByProvince(String province);
