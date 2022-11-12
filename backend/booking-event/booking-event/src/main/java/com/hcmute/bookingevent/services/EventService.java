@@ -202,8 +202,9 @@ public class EventService implements IEventService {
 
         try {
             Optional<Event> event = eventRepository.findById(id);
-            if (event.isPresent() && (file != null && !file.isEmpty())) {
+            if (event.isPresent() ) {
 
+                //&& (file != null && !file.isEmpty())
                 String imgUrl = cloudinary.uploadImage(file, event.get().getBackground());
                 event.get().setBackground(imgUrl);
                 eventRepository.save(event.get());
