@@ -181,7 +181,7 @@ public class EventService implements IEventService {
         }
 
     }
-
+    @Override
     public ResponseEntity<?> updateEvent(String id,Event event) {
         //Optional<Event> updatedEvent = eventRepository.findById(id);
         boolean checkExist = eventRepository.existsById(id);
@@ -198,6 +198,7 @@ public class EventService implements IEventService {
     }
 
     @SneakyThrows
+    @Override
     public ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file) {
 
         try {
