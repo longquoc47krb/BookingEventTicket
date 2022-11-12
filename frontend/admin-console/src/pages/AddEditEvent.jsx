@@ -107,7 +107,6 @@ function AddEditEvent(props) {
       if (response.status === 200) {
         await uploadEventBackground(response.data, user.id, formData);
       }
-      console.log(request);
     },
   });
   const { handleSubmit, values, setValues } = formik;
