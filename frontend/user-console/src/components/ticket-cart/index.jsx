@@ -45,7 +45,7 @@ function TicketCart() {
       </div>
       <div className="ticket-cart-total">
         <th>{t("ticket.total")}</th>
-        <th>{formatter.format(cartTotalPrice)}</th>
+        <th>{formatter(tickets[0].currency).format(cartTotalPrice)}</th>
       </div>
       <button className="primary-button mt-2" onClick={handlePayOrder}>
         {t("ticket.submit")}

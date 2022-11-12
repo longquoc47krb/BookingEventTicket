@@ -269,7 +269,11 @@ function EventDetail(props) {
                 <div ref={info} className="info">
                   {t("ticket-info")}
                 </div>
-                <TicketComponent data={event?.organizationTickets} />
+                <div>
+                  {event.organizationTickets.map((ticket, index) => (
+                    <TicketComponent ticket={ticket} />
+                  ))}
+                </div>
               </div>
               <div className="event-detail-content">
                 <div ref={organization} className="organization">

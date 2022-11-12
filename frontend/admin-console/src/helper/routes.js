@@ -29,6 +29,10 @@ const CalendarPage = Loadable({
   loader: () => import("../pages/Calendar"),
   loading: Loading,
 });
+const ChangePasswordPage = Loadable({
+  loader: () => import("../pages/ChangePassword"),
+  loading: Loading,
+});
 const TicketPage = Loadable({
   loader: () => import("../pages/Tickets"),
   loading: Loading,
@@ -47,6 +51,10 @@ export const privateRoutes = [
   {
     element: <AddEditEventPage />,
     path: "/event/update/:eventId",
+  },
+  {
+    element: <ChangePasswordPage />,
+    path: "/update-password",
   },
   {
     element: <CalendarPage />,

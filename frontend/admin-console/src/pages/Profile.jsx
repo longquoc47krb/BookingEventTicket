@@ -14,13 +14,14 @@ import { Input } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
 import {
   setEmail,
+  setUserProfile,
   userAvatarSelector,
   userInfoSelector,
 } from "../redux/slices/accountSlice";
 import { pathNameSelector } from "../redux/slices/routeSlice";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
-const { updateAvatar, updateAccount } = accountServices;
+const { updateAvatar, updateAccount, findUserById } = accountServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -58,6 +59,10 @@ function UserProfile() {
         updateAvatarResponse = await updateAvatar(id, avatar);
       }
       const updateAccountResponse = await updateAccount(id, { name, phone });
+      const userInfo = await findUserById(id);
+      if (userInfo.status === 200) {
+        dispatch(setUserProfile(userInfo.data));
+      }
       showNotification(
         updateAvatarResponse.status === 200 ||
           updateAccountResponse.status === 200

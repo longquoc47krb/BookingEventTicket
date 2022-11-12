@@ -6,7 +6,7 @@ function TicketCartItem({ ticket }) {
     <tr className="ticket-cart-item">
       <th className="flex flex-col">
         <span>{ticket.ticketName}</span>
-        <span>{formatter.format(ticket.price)}</span>
+        {/* <span>{formatter(ticket.currency).format(ticket.price)}</span> */}
       </th>
       <th className="flex flex-col">
         <span>x {ticket.quantity}</span>

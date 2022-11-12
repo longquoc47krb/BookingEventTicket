@@ -64,6 +64,7 @@ function AddEditEvent(props) {
       },
     ],
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
@@ -71,7 +72,7 @@ function AddEditEvent(props) {
       startingDate: YupValidations.startingDate,
       eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
-      description: YupValidations.name,
+      description: YupValidations.description,
       venue: YupValidations.name,
       venue_address: YupValidations.name,
       ticketList: YupValidations.ticketList,
@@ -350,9 +351,18 @@ function AddEditEvent(props) {
               </Col>
             </Row>
             <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
-              <Col span={24}>
+              <Col span={12}>
                 <button className="primary-button" type="submit">
                   {t("submit")}
+                </button>
+              </Col>
+              <Col span={12}>
+                <button
+                  className="secondary-button border-primary border-1 text-primary bg-white"
+                  type="submit"
+                  onClick={() => formik.setValues(initialValues)}
+                >
+                  {t("reset")}
                 </button>
               </Col>
             </Row>
