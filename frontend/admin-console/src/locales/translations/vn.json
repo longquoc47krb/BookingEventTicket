@@ -1,67 +1,172 @@
 {
     "sider": {
-        "dashboard": "Bảng điều khiển",
-        "overview": "Tổng quan",
-        "management": "Quản lý",
-        "order": "Đơn hàng",
-        "event": "Sự kiện",
-        "ticket": "Vé sự kiện",
-        "utilities": "Tiện ích",
-        "calendar": "Lịch"
+        "dashboard": "Dashboard",
+        "overview": "Overview",
+        "management": "Management",
+        "order": "Orders",
+        "event": "Events",
+        "ticket": "Tickets",
+        "utilities": "Utilities",
+        "calendar": "Calendar"
     },
     "org": {
-        "profile": "Hồ sơ nhà tổ chức"
+        "profile": "Organizer Profile"
     },
     "event": {
-        "background": "Ảnh bìa",
-        "name": "Tên sự kiện",
-        "category": "Danh mục",
-        "description": "Mô tả sự kiện",
-        "startingDate": "Ngày bắt đầu",
-        "endingDate": "Ngày kết thúc",
-        "startingTime": "Thời gian bắt đầu",
-        "endingTime": "Thời gian kết thúc",
-        "venue": "Địa điểm",
-        "venue_address": "Địa chỉ",
-        "province": "Tỉnh/TP",
-        "date": "Thời gian",
+        "background": "Background",
+        "name": "Title",
+        "category": "Categories",
+        "startingDate": "Start date",
+        "endingDate": "End date",
+        "startingTime": "Start time",
+        "endingTime": "End time",
+        "description": "Description of event",
+        "venue": "Venue",
+        "venue_address": "Address",
+        "province": "Province",
+        "date": "Date",
         "status": {
-            "title": "Trạng thái",
-            "available": "Còn vé",
-            "completed": "Đã kết thúc",
-            "soldout": "Hết vé"
+            "title": "Status",
+            "available": "Available",
+            "completed": "Completed",
+            "soldout": "Sold out"
         },
-        "create": "Tạo sự kiện mới",
-        "edit": "Chỉnh sửa sự kiện",
+        "create": "Create new event",
+        "edit": "Edit event",
         "upload": {
-            "text": "Nhấn hoặc kéo thả ảnh vào đây.",
-            "hint": "Khuyến nghị hình ảnh với kích thước 1560 x 600",
+            "text": "Click or drag and drop the image here.",
+            "hint": "Recommended image size 1560 x 600",
             "validate": {
-                "success": "Tải ảnh lên thành công!",
-                "error": "Ảnh không được lớn hơn 200KB"
+                "success": "Successfully upload image",
+                "error": "Image is larger than 200KB"
             }
         },
         "ticketList": {
-            "ticketName": "Loại vé {{val, number}}",
-            "price": "Giá vé {{val, number}}",
-            "quantity": "Số lượng {{val, number}}",
-            "currency": "Đơn vị {{val, number}}"
+            "ticketName": "Ticket type {{val, number}}",
+            "price": "Price {{val, number}}",
+            "quantity": "Quantity {{val, number}}",
+            "currency": "Currency {{val, number}}"
         },
-        "modify": "Tùy chỉnh"
+        "modify": "Modify"
     },
     "category": {
-        "menu": "Danh mục thể loại",
-        "all": "Tất cả thể loại",
-        "music": "Âm nhạc",
-        "exhibition": "Triển lãm",
-        "courses": "Khóa học",
-        "theater": "Sân khấu",
-        "online": "Trực tuyến",
+        "menu": "Categories",
+        "all": "All categories",
+        "music": "Music",
+        "exhibition": "Exhibition",
+        "courses": "Courses",
+        "theater": "Theater",
+        "online": "Online",
         "nightlife": "Nightlife",
-        "sport": "Thể thao",
-        "seminar": "Hội thảo",
-        "travel": "Du lịch",
-        "conference": "Hội nghị",
-        "community": "Cộng đồng"
+        "sport": "Sport",
+        "seminar": "Seminar",
+        "travel": "Travel",
+        "conference": "Conference",
+        "community": "Community"
+    },
+    "popup": {
+        "register": {
+            "error": "Email is already registered",
+            "success": "Successfully registered!"
+        },
+        "login": {
+            "success": "Successfully logged in",
+            "error": "Wrong email or password",
+            "unauthorized": "Unauthorized: Access is denied"
+        },
+        "forgot": {
+            "error": "Email address doesn't exist"
+        },
+        "verify": {
+            "error": "OTP doesn't exist"
+        }
+    },
+    "user": {
+        "profile": "Profile",
+        "my-ticket": "My ticket",
+        "forgot-password": "Forgot password",
+        "wishlist": "Favorite events",
+        "logout": "Logout",
+        "name": "Full name",
+        "phone": "Phone number",
+        "password": "Password",
+        "phone-placeholder": "Enter Phone Number",
+        "login-by-email": "Login by Email",
+        "login-by-google": "Login by Google",
+        "unauthenticated": {
+            "title": "Unauthenticated",
+            "text": "Please log in to add event to wishlist"
+        },
+        "authentication": "Login | Register",
+        "confirmPassword": "Confirm new password",
+        "create-account": "Don't have an account yet?",
+        "signup": "Sign up",
+        "already-account": "Have already account?",
+        "forgot-password-tip": "Please enter your email. An OTP code will be sent to your one.",
+        "oauth": {
+            "success": "Logged in Successfully. Redirecting to home page in...",
+            "failed": "Logged in failed. Redirecting to login page in..."
+        },
+        "changePassword": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "payment": {
+            "success": "Successful order payment...Redirecting",
+            "error": "Faild order payment...Redirecting"
+        }
+    },
+    "pages": {
+        "login": "Login"
+    },
+    "validate": {
+        "email": {
+            "required": "Email is required",
+            "invalid": "Email is invalid"
+        },
+        "name": {
+            "required": "Name is required",
+            "max": "Max length of name is 64 characters"
+        },
+        "password": {
+            "required": "Password is required",
+            "notMatch": "Password must contain both letters and numbers",
+            "max": "Max length of password is 32 characters"
+        },
+        "confirmPassword": {
+            "invalid": "Confirm password and password do not match",
+            "required": "Confirm password is required",
+            "notMatch": "Confirm password must contain both letters and numbers",
+            "max": "Max length of confirm password is 32 characters"
+        },
+        "otp": {
+            "required": "OTP is required",
+            "min": "Length is 6"
+        },
+        "categories": {
+            "required": "Category is required",
+            "max": "Max items of Category list is 2 items"
+        },
+        "startingDate": {
+            "required": "Starting date is required",
+            "min": "Min date is today",
+            "max": "Max date is equal to ending date"
+        },
+        "endingDate": {
+            "required": "Ending date is required",
+            "min": "Min date is equal to starting dâtte"
+        },
+        "ticket": {
+            "currency": {
+                "required": "Currency is required"
+            },
+            "quantity": {
+                "required": "Quantity is required",
+                "min": "Min is 30 tickets"
+            },
+            "ticketName": {
+                "required": "Ticket type name is required"
+            },
+            "unique": "Ticket is duplicated"
+        }
     }
 }
