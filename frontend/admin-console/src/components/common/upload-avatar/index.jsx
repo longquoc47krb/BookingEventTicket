@@ -34,7 +34,7 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const form = new FormData();
     form.append("file", avatarFile);
-    dispatch(setUserAvatar(form));
+    dispatch(setUserAvatar(form))
   };
   return (
     <div>
