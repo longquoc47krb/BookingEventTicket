@@ -90,10 +90,10 @@ public class EventController {
         return iEventService.findEventById(id);
     }
     @PutMapping("/{id}/{userId}")
-    public ResponseEntity<?> updateEvent(@PathVariable String id, @PathVariable String userId,@RequestBody Event updatedEvent, HttpServletRequest request) {
+    public ResponseEntity<?> updateEvent(@PathVariable String id, @PathVariable String userId,@RequestBody EventReq eventReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return iEventService.updateEvent(id, updatedEvent);
+            return iEventService.updateEvent(id, eventReq);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
