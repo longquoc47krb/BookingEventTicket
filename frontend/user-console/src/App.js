@@ -12,7 +12,7 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     staleTime: 30000,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 30,
     queries: {
       refetchOnWindowFocus: false,
     },

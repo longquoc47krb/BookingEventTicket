@@ -32,9 +32,9 @@ function UploadAvatar({ avatar }) {
   };
   const UploadAvatar = async () => {
     setShowCameraButton(true);
-    const formData = new FormData();
-    formData.append("file", avatarFile, avatarFile.name);
-    dispatch(setUserAvatar(formData));
+    const form = new FormData();
+    form.append("file", avatarFile);
+    dispatch(setUserAvatar(form))
   };
   return (
     <div>
@@ -97,7 +97,7 @@ function UploadAvatar({ avatar }) {
           >
             <input
               hidden
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               type="file"
               onChange={updateProfileDataChange}
             />

@@ -51,8 +51,8 @@ export const EventAPI = {
     method: "POST",
     data,
   }),
-  uploadEventBackground: (userId, data) => ({
-    url: `/event/avatar/${userId}`,
+  uploadEventBackground: (eventId, userId, data) => ({
+    url: `/event/avatar/${eventId}/${userId}`,
     method: "POST",
     data,
     headers: {

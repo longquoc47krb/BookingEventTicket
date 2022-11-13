@@ -64,6 +64,7 @@ function AddEditEvent(props) {
       },
     ],
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
@@ -71,7 +72,7 @@ function AddEditEvent(props) {
       startingDate: YupValidations.startingDate,
       eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
-      description: YupValidations.name,
+      description: YupValidations.description,
       venue: YupValidations.name,
       venue_address: YupValidations.name,
       ticketList: YupValidations.ticketList,
@@ -102,8 +103,10 @@ function AddEditEvent(props) {
       formData.append("file", values.background);
       console.log(formData);
       console.log(formData.get("file"));
-      await uploadEventBackground(user.id, formData);
-      await createEvent(user.id, request);
+      const response = await createEvent(user.id, request);
+      if (response.status === 200) {
+        await uploadEventBackground(response.data, user.id, formData);
+      }
     },
   });
   const { handleSubmit, values, setValues } = formik;
@@ -131,11 +134,6 @@ function AddEditEvent(props) {
       fetchEvent();
     }
   }, []);
-  // convert [id1, id2, ...] format to [{id: id1}, {id: id2},...] format
-  // let temp = [];
-  // for (const element of values.eventCategoryList) {
-  //   temp.push({ id: element });
-  // }
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -353,9 +351,18 @@ function AddEditEvent(props) {
               </Col>
             </Row>
             <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
-              <Col span={24}>
+              <Col span={12}>
                 <button className="primary-button" type="submit">
                   {t("submit")}
+                </button>
+              </Col>
+              <Col span={12}>
+                <button
+                  className="secondary-button border-primary border-1 text-primary bg-white"
+                  type="submit"
+                  onClick={() => formik.setValues(initialValues)}
+                >
+                  {t("reset")}
                 </button>
               </Col>
             </Row>

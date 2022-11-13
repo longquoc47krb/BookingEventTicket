@@ -11,6 +11,9 @@ export const YupValidations = {
   name: Yup.string()
     .required(t("validate.name.required"))
     .max(64, t("validate.name.max")),
+  description: Yup.string()
+    .required(t("validate.description.required"))
+    .max(1000, t("validate.description.max")),
   phone: Yup.string()
     .phone("VN", t("validate.phone.error"))
     .notRequired()
