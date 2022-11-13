@@ -11,9 +11,16 @@ export const YupValidations = {
   name: Yup.string()
     .required(t("validate.name.required"))
     .max(64, t("validate.name.max")),
+  province: Yup.string().required(t("validate.province.required")),
+  venue: Yup.string()
+    .required(t("validate.venue.required"))
+    .max(128, t("validate.venue.max")),
+  address: Yup.string()
+    .required(t("validate.address.required"))
+    .max(255, t("validate.address.max")),
   description: Yup.string()
     .required(t("validate.description.required"))
-    .max(1000, t("validate.description.max")),
+    .max(2000, t("validate.description.max")),
   phone: Yup.string()
     .phone("VN", t("validate.phone.error"))
     .notRequired()
@@ -36,7 +43,7 @@ export const YupValidations = {
     .required(t("validate.otp.required"))
     .min(6, t("validate.otp.min")),
   categories: Yup.array()
-    .required(t("validate.categories.required"))
+    .min(1, t("validate.categories.required"))
     .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
     .required("validate.startingDate.required")

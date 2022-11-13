@@ -64,11 +64,11 @@ const img = {
   width: "auto",
   height: "100%",
 };
-const maxSize = 200000;
+const maxSize = 300000;
 function sizeValidator(file) {
   if (file.size > maxSize) {
     AlertErrorPopup({
-      title: t("event.upload.validate.error"),
+      title: t("event.upload.validate.error", { val: maxSize }),
     });
     return {
       code: "file-too-large",

@@ -31,8 +31,10 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import { Navigate } from "react-router-dom";
-
+import { AlertQuestion, AlertPopup } from "../components/Alert";
+import eventServices from "../api/services/eventServices";
+import { store } from "../redux/store";
+const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
   <div>
     <img
@@ -86,7 +88,23 @@ const gridEventModify = (props) => (
     />
     <FaTrashAlt
       className="text-primary text-xl cursor-pointer"
-      onClick={() => alert(props.id)}
+      onClick={() => {
+        AlertQuestion({
+          title: t("popup.event.delete"),
+          callback: async () => {
+            const response = await deleteEvent(
+              props.id,
+              store.getState().account.userInfo.id
+            );
+            if (response.status === 200) {
+              AlertPopup({
+                title: t("popup.event.delete-success"),
+                timer: 5000,
+              });
+            }
+          },
+        });
+      }}
     />
   </div>
 );
