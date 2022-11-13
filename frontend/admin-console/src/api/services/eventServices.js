@@ -42,6 +42,24 @@ const fetchEventsForPagination = async (params) => {
   );
   return response;
 };
+const updateEvent = async (eventId, userId, body) => {
+  try {
+    const response = await httpRequest(
+      EventAPI.updateEvent(eventId, userId, body)
+    );
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+const deleteEvent = async (eventId, userId) => {
+  try {
+    const response = await httpRequest(EventAPI.deleteEvent(eventId, userId));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 const fetchEventsByProvince = async (params) => {
   const response = await httpRequest(EventAPI.findEventsByProvince(params));
   return response;
@@ -115,5 +133,7 @@ const eventServices = {
   fetchFeaturedEvents,
   createEvent,
   uploadEventBackground,
+  updateEvent,
+  deleteEvent,
 };
 export default eventServices;

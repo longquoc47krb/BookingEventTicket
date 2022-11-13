@@ -94,12 +94,6 @@ const USER_PROFILE_MENU = [
     link: "/update-password",
     icon: <RiLockPasswordLine fontSize={16} />,
   },
-  {
-    label: "user.my-ticket",
-    key: "order",
-    link: "/purchase-order",
-    icon: <BsCashCoin fontSize={16} />,
-  },
 ];
 const CAROUSEL_SETTINGS = [
   {

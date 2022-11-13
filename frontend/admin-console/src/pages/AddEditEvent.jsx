@@ -21,13 +21,15 @@ import Editor from "./Editor";
 import moment from "moment";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { map, sumBy } from "lodash";
+import { map, sumBy, update } from "lodash";
 import { useParams } from "react-router-dom";
 import eventServices, { useEventDetails } from "../api/services/eventServices";
 import { useDispatch, useSelector } from "react-redux";
 import { setInitialBackground } from "../redux/slices/eventSlice";
 import { userInfoSelector } from "../redux/slices/accountSlice";
-const { getEventById, createEvent, uploadEventBackground } = eventServices;
+import { AlertErrorPopup, AlertPopup } from "../components/Alert";
+const { getEventById, createEvent, uploadEventBackground, updateEvent } =
+  eventServices;
 const { PATTERNS } = constants;
 function AddEditEvent(props) {
   const { eventId } = useParams();
@@ -72,7 +74,6 @@ function AddEditEvent(props) {
       startingDate: YupValidations.startingDate,
       eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
-      description: YupValidations.description,
       venue: YupValidations.name,
       venue_address: YupValidations.name,
       ticketList: YupValidations.ticketList,
@@ -101,13 +102,44 @@ function AddEditEvent(props) {
       };
       var formData = new FormData();
       formData.append("file", values.background);
-      console.log(formData);
-      console.log(formData.get("file"));
-      const response = await createEvent(user.id, request);
-      if (response.status === 200) {
-        await uploadEventBackground(response.data, user.id, formData);
+      console.log(typeof values.background);
+      if (!eventId) {
+        var response = await createEvent(user.id, request);
+        if (response.status === 200) {
+          var uploadBackground = await uploadEventBackground(
+            response.data,
+            user.id,
+            formData
+          );
+        }
+        if (response.status === 200 && uploadBackground.status === 200) {
+          formik.setValues(initialValues);
+        }
+        showNotification(
+          response.status === 200 && uploadBackground.status === 200
+        );
+      } else {
+        var responseUpdate = await updateEvent(eventId, user.id, request);
+        if (
+          responseUpdate.status === 200 &&
+          typeof values.background === "object"
+        ) {
+          var uploadBackgroundUpdate = await uploadEventBackground(
+            response.data,
+            user.id,
+            formData
+          );
+        }
+        if (
+          responseUpdate.status === 200 ||
+          uploadBackgroundUpdate.status === 200
+        ) {
+          formik.setValues(initialValues);
+        }
+        showNotification(
+          responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
+        );
       }
-      console.log(request);
     },
   });
   const { handleSubmit, values, setValues } = formik;
@@ -136,6 +168,16 @@ function AddEditEvent(props) {
     }
   }, []);
 
+  const showNotification = (code) => {
+    if (code) {
+      return AlertPopup({
+        title: t("popup.create-event.success"),
+      });
+    }
+    return AlertErrorPopup({
+      title: t("popup.create-event.error"),
+    });
+  };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header

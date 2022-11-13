@@ -38,7 +38,7 @@
             "hint": "Recommended image size 1560 x 600",
             "validate": {
                 "success": "Successfully upload image",
-                "error": "Image is larger than 200KB"
+                "error": "Image is larger than {{val, number}}KB"
             }
         },
         "ticketList": {
