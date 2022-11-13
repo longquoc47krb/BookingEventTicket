@@ -42,10 +42,11 @@
             }
         },
         "ticketList": {
-            "ticketName": "Ticket type {{val, number}}",
-            "price": "Price {{val, number}}",
-            "quantity": "Quantity {{val, number}}",
-            "currency": "Currency {{val, number}}"
+            "ticketName": "Ticket No.{{val, number}}",
+            "price": "Price No.{{val, number}}",
+            "quantity": "Quantity No.{{val, number}}",
+            "currency": "Currency No.{{val, number}}",
+            "description": "Description No.{{val, number}}"
         },
         "modify": "Modify"
     },
@@ -131,6 +132,17 @@
             "required": "Name is required",
             "max": "Max length of name is 64 characters"
         },
+        "venue": {
+            "required": "Venue is required",
+            "max": "Max length of Venue is 128 characters"
+        },
+        "province": {
+            "required": "Province is required"
+        },
+        "address": {
+            "required": "Address is required",
+            "max": "Max length of Address is 255 characters"
+        },
         "password": {
             "required": "Password is required",
             "notMatch": "Password must contain both letters and numbers",
@@ -145,6 +157,9 @@
         "otp": {
             "required": "OTP is required",
             "min": "Length is 6"
+        },
+        "description": {
+            "required": "Description is required"
         },
         "categories": {
             "required": "Category is required",
@@ -171,7 +186,7 @@
                 "required": "Price is required",
                 "min": "Min price is greater than 0"
             },
-            "ticketName": {
+            "name": {
                 "required": "Ticket type name is required"
             },
             "unique": "Ticket is duplicated"

@@ -117,10 +117,11 @@ function Select(props) {
   return (
     <>
       <Item>
-        <h1 className="text-primary text-xl font-semibold mb-2">{label}</h1>
+        <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
         <AntdSelect
           showSearch
           value={value}
+          style={{ height: "2.5rem" }}
           status={errors[name] ? "error" : ""}
           onChange={handleChange}
           mode={mode}

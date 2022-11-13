@@ -38,7 +38,7 @@ function AddEditEvent(props) {
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
   const initialValues = {
-    background: eventId ? event.background : "",
+    background: eventId ? event.background : null,
     name: event?.name ?? "",
     startingDate: eventId
       ? moment(event?.startingDate, PATTERNS.DATE_FORMAT)
@@ -74,8 +74,10 @@ function AddEditEvent(props) {
       startingDate: YupValidations.startingDate,
       eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
-      venue: YupValidations.name,
-      venue_address: YupValidations.name,
+      description: YupValidations.description,
+      venue: YupValidations.venue,
+      province: YupValidations.province,
+      venue_address: YupValidations.address,
       ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {
@@ -112,11 +114,11 @@ function AddEditEvent(props) {
             formData
           );
         }
-        if (response.status === 200 && uploadBackground.status === 200) {
+        if (response.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
         }
         showNotification(
-          response.status === 200 && uploadBackground.status === 200
+          response.status === 200 || uploadBackground.status === 200
         );
       } else {
         var responseUpdate = await updateEvent(eventId, user.id, request);
@@ -309,9 +311,9 @@ function AddEditEvent(props) {
                       </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (
-                      <>
-                        <Row gutter={[8, 24]} className="flex items-start">
-                          <Col span={10}>
+                      <div className="p-3 border-gray-400 border-2 border-dashed my-1 rounded-lg">
+                        <Row gutter={[0, 24]} className="flex items-start">
+                          <Col span={8}>
                             <Field
                               name={`ticketList[${index}].ticketName`}
                               component={Input}
@@ -329,7 +331,7 @@ function AddEditEvent(props) {
                               })}
                             />
                           </Col>
-                          <Col span={3}>
+                          <Col span={4}>
                             <Field
                               name={`ticketList[${index}].quantity`}
                               component={Input}
@@ -339,7 +341,7 @@ function AddEditEvent(props) {
                               type="number"
                             />
                           </Col>
-                          <Col span={3}>
+                          <Col span={4}>
                             <Field
                               name={`ticketList[${index}].currency`}
                               component={Select}
@@ -347,8 +349,8 @@ function AddEditEvent(props) {
                                 val: index + 1,
                               })}
                               options={Object.values([
-                                { value: "USD", label: "USD - $" },
-                                { value: "VND", label: "VND - ₫" },
+                                { value: "USD", label: "USD" },
+                                { value: "VND", label: "VND" },
                               ]).map((field) => ({
                                 value: field.value,
                                 name: field.label,
@@ -367,17 +369,17 @@ function AddEditEvent(props) {
                           </Col>
                         </Row>
                         <Row gutter={[8, 24]}>
-                          <Col span={24}>
+                          <Col span={20}>
                             <Field
                               name={`ticketList[${index}].description`}
-                              component={Input}
+                              component={Editor}
                               label={t("event.ticketList.description", {
                                 val: index + 1,
                               })}
                             />
                           </Col>
                         </Row>
-                      </>
+                      </div>
                     ))}
                   </>
                 );

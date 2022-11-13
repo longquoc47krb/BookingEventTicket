@@ -99,6 +99,7 @@ const gridEventModify = (props) => (
             if (response.status === 200) {
               AlertPopup({
                 title: t("popup.event.delete-success"),
+                timer: 5000,
               });
             }
           },
