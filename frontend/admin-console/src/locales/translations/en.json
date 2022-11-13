@@ -79,6 +79,10 @@
         },
         "verify": {
             "error": "OTP doesn't exist"
+        },
+        "event": {
+            "delete": "Do you want delete this event?",
+            "delete-success": "Successfully delete event"
         }
     },
     "user": {

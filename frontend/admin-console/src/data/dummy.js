@@ -31,7 +31,7 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import { AlertQuestion } from "../components/Alert";
+import { AlertQuestion, AlertPopup } from "../components/Alert";
 import eventServices from "../api/services/eventServices";
 import { store } from "../redux/store";
 const { deleteEvent } = eventServices;
@@ -88,21 +88,22 @@ const gridEventModify = (props) => (
     />
     <FaTrashAlt
       className="text-primary text-xl cursor-pointer"
-      onClick={() =>
+      onClick={() => {
         AlertQuestion({
           title: t("popup.event.delete"),
           callback: async () => {
-            console.log(store.getState().account.userInfo.id);
-            alert(
-              "eventId:" +
-                props.id +
-                ", userId:" +
-                store.getState().account.userInfo.id
+            const response = await deleteEvent(
+              props.id,
+              store.getState().account.userInfo.id
             );
-            // await deleteEvent(props.id, props.host_id)
+            if (response.status === 200) {
+              AlertPopup({
+                title: t("popup.event.delete-success"),
+              });
+            }
           },
-        })
-      }
+        });
+      }}
     />
   </div>
 );
