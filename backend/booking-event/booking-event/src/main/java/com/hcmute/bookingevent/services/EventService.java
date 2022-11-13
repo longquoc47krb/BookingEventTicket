@@ -58,11 +58,11 @@ public class EventService implements IEventService {
         if (organization.isPresent()) {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
-            String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + String.valueOf(randomNum)));
+            String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + randomNum));
 
-            Event event = new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),
-                    eventReq.getEndingTime(),eventReq.getStartingDate(),eventReq.getEndingDate(),eventReq.getHost_id(),eventReq.getDescription()
-                    ,eventReq.getEventCategoryList(),eventReq.getOrganizationTickets(),eventReq.getCreatedDate(),eventReq.getTotalTicket(),eventReq.getRemainingTicket());
+            Event event = new Event(eventReq.getName(), eventReq.getProvince(), eventReq.getVenue(), eventReq.getVenue_address(), eventReq.getStartingTime(),
+                    eventReq.getEndingTime(), eventReq.getStartingDate(), eventReq.getEndingDate(), eventReq.getHost_id(), eventReq.getDescription()
+                    , eventReq.getEventCategoryList(), eventReq.getOrganizationTickets(), eventReq.getCreatedDate(), eventReq.getTotalTicket(), eventReq.getRemainingTicket());
             //
             event.setId(idSlung);
             event.setStatus(TicketStatus.AVAILABLE);
@@ -171,25 +171,39 @@ public class EventService implements IEventService {
             organizationRepository.save(organization.get());
             eventRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Delete event successfully ", "",200));
-        }
-        else {
+                    new ResponseObject(true, "Delete event successfully ", "", 200));
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Delete event fail with email:" + email, "",404));
+                    new ResponseObject(false, "Delete event fail with email:" + email, "", 404));
 
 
         }
 
     }
-    @Override
-    public ResponseEntity<?> updateEvent(String id,Event event) {
-        //Optional<Event> updatedEvent = eventRepository.findById(id);
-        boolean checkExist = eventRepository.existsById(id);
-        if (checkExist) {
 
-            eventRepository.save(event);
+
+    @Override
+    public ResponseEntity<?> updateEvent(String id, EventReq eventReq) {
+        Optional<Event> event = eventRepository.findById(id);
+        if (event.isPresent()) {
+            event.get().setName(eventReq.getName());
+            event.get().setProvince(eventReq.getProvince());
+            event.get().setVenue(eventReq.getVenue());
+            event.get().setVenue_address(eventReq.getVenue_address());
+            event.get().setStartingTime(eventReq.getStartingTime());
+            event.get().setEndingTime(eventReq.getEndingTime());
+            event.get().setStartingDate(eventReq.getStartingDate());
+            event.get().setEndingDate(eventReq.getEndingDate());
+            event.get().setHost_id(eventReq.getHost_id());
+            event.get().setDescription(eventReq.getDescription());
+            event.get().setEventCategoryList(eventReq.getEventCategoryList());
+            event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
+            event.get().setCreatedDate(eventReq.getCreatedDate());
+            event.get().setTotalTicket(eventReq.getTotalTicket());
+            event.get().setRemainingTicket(eventReq.getRemainingTicket());
+            eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update data successfully ", "", 200));
+                    new ResponseObject(true, "Update event successfully ", "", 200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -203,7 +217,7 @@ public class EventService implements IEventService {
 
         try {
             Optional<Event> event = eventRepository.findById(id);
-            if (event.isPresent() ) {
+            if (event.isPresent()) {
 
                 //&& (file != null && !file.isEmpty())
                 String imgUrl = cloudinary.uploadImage(file, event.get().getBackground());
@@ -240,7 +254,7 @@ public class EventService implements IEventService {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id),200));
+                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id), 200));
 
         }
         throw new NotFoundException("Can not found any product with id: " + id);
