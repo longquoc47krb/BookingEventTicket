@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Calendar from "../calendar";
 import PlaceholderCover from "../../assets/cover-fallback.jpg";
 import moment from "moment";
-import { checkImageURL } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
 import { EventStatus } from "../../utils/constants";
 import { useDispatch } from "react-redux";

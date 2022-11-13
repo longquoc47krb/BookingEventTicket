@@ -24,12 +24,12 @@ const getEventById = async (id) => {
 };
 const createEvent = async (id, body) => {
   const response = await httpRequest(EventAPI.createEvent(id, body));
-  return response.data;
+  return response;
 };
-const uploadEventBackground = async (id, body) => {
+const uploadEventBackground = async (id, userId, body) => {
   try {
     const response = await httpRequest(
-      EventAPI.uploadEventBackground(id, body)
+      EventAPI.uploadEventBackground(id, userId, body)
     );
     return response.data;
   } catch (err) {

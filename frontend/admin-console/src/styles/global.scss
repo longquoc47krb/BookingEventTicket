@@ -14,6 +14,13 @@ body {
   padding: 0;
   font-family: FS PFBeauSansPro, sans-serif;
 }
+.secondary-button {
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.25rem;
+  z-index: 10;
+  border-radius: 0.25rem;
+}
 .primary-button {
   width: 100%;
   padding: 0.5rem 1.5rem;
@@ -30,6 +37,20 @@ body {
   color: red;
   font-style: italic;
   font-size: 1rem;
+}
+.ant-image-preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+  transform: scaleX(1);
+  margin: 0 auto;
+  cursor: grab;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: auto;
+  transform: scale3d(1, 1, 1) rotate(0deg) translate(0px, -256px);
 }
 @font-face {
   font-family: "FS PFBeauSansPro";

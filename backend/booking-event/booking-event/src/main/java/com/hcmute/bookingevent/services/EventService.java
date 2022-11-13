@@ -181,6 +181,7 @@ public class EventService implements IEventService {
 
     }
 
+
     @Override
     public ResponseEntity<?> updateEvent(String id, EventReq eventReq) {
         Optional<Event> event = eventRepository.findById(id);

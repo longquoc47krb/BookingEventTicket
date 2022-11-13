@@ -409,9 +409,6 @@ export const filterByDate = (type, list, customDate) => {
 
   return list;
 };
-export const checkImageURL = (url) => {
-  return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
-};
 export const displayDate = (date) => {
   return moment(date, PATTERNS.DATE_FORMAT).format("dddd, DD MMMM, YYYY");
 };
@@ -517,7 +514,15 @@ export function filterData(dateType, dateRange, list) {
 /**
  * Convert number to currency format
  */
-export const formatter = new Intl.NumberFormat("vi-VN", {
-  style: "currency",
-  currency: "VND",
-});
+export const formatter = (currency) => {
+  if (currency === "VND") {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  }
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+};

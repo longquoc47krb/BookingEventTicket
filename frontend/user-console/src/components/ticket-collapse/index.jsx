@@ -1,25 +1,50 @@
 import React from "react";
-import { Collapse } from "antd";
+import Collapse from "@mui/material/Collapse";
 import { data } from "autoprefixer";
 import { t } from "i18next";
-const { Panel } = Collapse;
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
+import { formatter } from "../../utils/utils";
 function TicketComponent(props) {
-  const { data } = props;
-  const onChange = (key) => {
-    console.log(key);
+  const { ticket } = props;
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
   };
   return (
-    <Collapse onChange={onChange}>
-      {data.map((item, index) => (
-        <Panel header={item.ticketName} key={index}>
-          <div className="flex justify-between w-full">
-            <p>{item.price}</p>
-            <p>{item.quantity}</p>
-            <button className="primary-button">{t("event.book-now")}</button>
+    <>
+      <ListItemButton
+        onClick={handleClick}
+        className="mb-2  border-b-[0.5px] border-b-gray-200"
+      >
+        <div className="flex w-full justify-between">
+          <ListItemText primary={ticket.ticketName} />
+          <div>
+            <ListItemText
+              primary={formatter(ticket.currency).format(ticket.price)}
+            />
           </div>
-        </Panel>
-      ))}
-    </Collapse>
+        </div>
+      </ListItemButton>
+      {ticket.description && (
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              style={{ background: "#3f4c77", color: "white", padding: "1rem" }}
+            >
+              <ListItemText primary={ticket.description} />
+            </ListItemButton>
+          </List>
+        </Collapse>
+      )}
+    </>
   );
 }
 export default TicketComponent;
