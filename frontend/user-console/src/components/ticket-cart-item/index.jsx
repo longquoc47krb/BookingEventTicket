@@ -10,7 +10,9 @@ function TicketCartItem({ ticket }) {
       </th>
       <th className="flex flex-col">
         <span>x {ticket.quantity}</span>
-        <span>{formatter.format(ticket.quantity * ticket.price)}</span>
+        <span>
+          {formatter(ticket.currency).format(ticket.quantity * ticket.price)}
+        </span>
       </th>
     </tr>
   );

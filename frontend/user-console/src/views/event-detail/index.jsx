@@ -42,6 +42,7 @@ function EventDetail(props) {
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
   const [organizer, setOrganizer] = useState();
+  console.log(organizer);
   useEffect(() => {
     async function fetchOrganizerInfo() {
       const res = await findUserById(event?.host_id);
@@ -283,7 +284,7 @@ function EventDetail(props) {
                   <img src={organizer?.avatar} alt="logo" />
                   <h1>{organizer?.name}</h1>
 
-                  <p>"organizer.description"</p>
+                  <p>{organizer?.biography}</p>
                   <button
                     className="event-detail-organization-contact"
                     href="mailto:xyz@something.com"

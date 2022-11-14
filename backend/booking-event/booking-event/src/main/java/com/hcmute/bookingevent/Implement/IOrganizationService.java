@@ -14,4 +14,6 @@ public interface IOrganizationService {
      ResponseEntity<?> findEventsByOrganization(String email);
      ResponseEntity<?> approveOrganization(String email);
      ResponseEntity<?> findOrganizationById(String id);
+     ResponseEntity<?> addBio(String bio,String email);
+     ResponseEntity<?> removeBio(String email);
 }

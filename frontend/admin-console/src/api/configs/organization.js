@@ -4,4 +4,8 @@ export const OrganizationAPI = {
     method: "POST",
     data,
   }),
+  findEventByOrgId: (userid) => ({
+    url: `/organization/event/list/${userid}`,
+    method: "GET",
+  }),
 };

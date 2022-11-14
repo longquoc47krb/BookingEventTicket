@@ -74,7 +74,6 @@ export const useFetchEvents = (staleTime) => {
   return useQuery(["events"], fetchAllEvents, {
     staleTime: 0,
     cacheTime: 1000 * 60 * 30,
-    refetchInterval: 5000,
   });
 };
 export const useCheckEventsStatus = () => {

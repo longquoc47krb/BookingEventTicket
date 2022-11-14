@@ -5,6 +5,7 @@ import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
@@ -180,5 +181,38 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(false, "Delete account fail with email:" + email, "",404));
         }
 
+    }
+
+    @Override
+    public ResponseEntity<?> addBio(String bio, String email) {
+        Optional<Organization> organization =  organizationRepository.findByEmail(email);
+        if(organization.isPresent()) {
+            organization.get().setBiography(bio);
+            organizationRepository.save(organization.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Add bio successfully ", "", 200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Add bio failed", "",404));
+        }
+
+    }
+
+    @Override
+    public ResponseEntity<?> removeBio(String email) {
+        Optional<Organization> organization =  organizationRepository.findByEmail(email);
+        if(organization.isPresent()) {
+            organization.get().setBiography("");
+            organizationRepository.save(organization.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Remove bio successfully ", "", 200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Remove bio failed", "",404));
+        }
     }
 }

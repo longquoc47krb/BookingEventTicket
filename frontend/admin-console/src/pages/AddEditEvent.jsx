@@ -66,7 +66,18 @@ function AddEditEvent(props) {
       },
     ],
   };
-
+  const handleEventCategoryList = (list) => {
+    let temp = [];
+    for (const element of list) {
+      temp.push({ id: element });
+    }
+    return temp;
+  };
+  const handleFormData = (value) => {
+    var formData = new FormData();
+    formData.append("file", value);
+    return formData;
+  };
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
@@ -82,10 +93,6 @@ function AddEditEvent(props) {
     }),
     onSubmit: async (values) => {
       console.log(values);
-      let temp = [];
-      for (const element of values.eventCategoryList) {
-        temp.push({ id: element });
-      }
       const request = {
         name: values.name,
         description: encode(values.description),
@@ -93,7 +100,7 @@ function AddEditEvent(props) {
         endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
         startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
         startingTime: moment(values.startingTime, PATTERNS.TIME_FORMAT),
-        eventCategoryList: temp,
+        eventCategoryList: handleEventCategoryList(values.eventCategoryList),
         province: values.province,
         venue: values.venue,
         venue_address: values.venue_address,
@@ -102,16 +109,13 @@ function AddEditEvent(props) {
         remainingTicket: sumBy(values.ticketList, "quantity"),
         host_id: user.id,
       };
-      var formData = new FormData();
-      formData.append("file", values.background);
-      console.log(typeof values.background);
       if (!eventId) {
         var response = await createEvent(user.id, request);
         if (response.status === 200) {
           var uploadBackground = await uploadEventBackground(
             response.data,
             user.id,
-            formData
+            handleFormData(values.background)
           );
         }
         if (response.status === 200 || uploadBackground.status === 200) {
@@ -129,7 +133,7 @@ function AddEditEvent(props) {
           var uploadBackgroundUpdate = await uploadEventBackground(
             response.data,
             user.id,
-            formData
+            handleFormData(values.background)
           );
         }
         if (
@@ -290,7 +294,7 @@ function AddEditEvent(props) {
                 const { push, remove, form } = fieldArrayProps;
                 const { values } = form;
                 const { ticketList } = values;
-
+                console.log({ ticketList });
                 return (
                   <>
                     <Row gutter={[8, 40]}>
