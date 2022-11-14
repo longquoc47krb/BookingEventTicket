@@ -51,7 +51,7 @@ public class OrganizationService implements IOrganizationService {
         if (list.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Get all Account", list,200));
-        throw new NotFoundException("Can not found any Organization");
+        throw new NotFoundException("Can not find any Organization");
     }
     @Override
     public ResponseEntity<?> findEventsByOrganization(String email)
