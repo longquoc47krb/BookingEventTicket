@@ -10,7 +10,7 @@ import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import accountServices from "../../api/services/accountServices";
+import organizationServices from "../../api/services/organizationServices";
 import { useEventDetails } from "../../api/services/eventServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
@@ -33,7 +33,7 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-const { findUserById } = accountServices;
+const { findOrganizerById } = organizationServices;
 function EventDetail(props) {
   const { eventId } = useParams();
   // const wishList = useSelector(wishlistSelector);
@@ -45,7 +45,7 @@ function EventDetail(props) {
   console.log(organizer);
   useEffect(() => {
     async function fetchOrganizerInfo() {
-      const res = await findUserById(event?.host_id);
+      const res = await findOrganizerById(event?.host_id);
       setOrganizer(res.data);
     }
     fetchOrganizerInfo();

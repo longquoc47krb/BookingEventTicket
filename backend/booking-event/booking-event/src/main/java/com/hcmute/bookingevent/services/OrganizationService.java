@@ -5,12 +5,12 @@ import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
+import com.hcmute.bookingevent.payload.response.OrganizerResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
@@ -85,13 +85,15 @@ public class OrganizationService implements IOrganizationService {
     {
         try
         {
-            Optional<Organization> organization = organizationRepository.findById(id);
+            Optional<Account> account = accountRepository.findById(id);
+            Optional<Organization> organization = organizationRepository.findByEmail(account.get().getEmail());
             if(organization.isPresent())
             {
                 // ds các id
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(),organization.get().getEmail(),organization.get().getBiography());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject(true, "Get Organization successfully", organization.get(),200));
+                        new ResponseObject(true, "Get Organization successfully", organizerResponse,200));
             }
             else
             {
