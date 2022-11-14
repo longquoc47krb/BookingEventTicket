@@ -10,7 +10,7 @@ function SelectTicket({ data }) {
         <TicketTable ticketType={data} />
       </div>
       <div className="booking-cart">
-        {/* <TicketCart /> */}
+        <TicketCart />
       </div>
     </div>
   );

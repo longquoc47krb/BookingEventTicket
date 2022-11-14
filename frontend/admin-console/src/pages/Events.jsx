@@ -19,10 +19,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useFetchEvents } from "../api/services/eventServices";
 import { convertToYearMonthDayFormat } from "../utils/utils";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../redux/slices/accountSlice";
+import { useFetchEventsByOrgID } from "../api/services/organizationServices";
 
 const Events = () => {
   const toolbarOptions = ["Search"];
-  const { data: events, status } = useFetchEvents();
+  const user = useSelector(userInfoSelector);
+  const { data: events, status } = useFetchEventsByOrgID(user.id);
   // console.log(events[0]);
   const { t } = useTranslation();
   const navigate = useNavigate();

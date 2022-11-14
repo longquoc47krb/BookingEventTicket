@@ -10,7 +10,7 @@ export const YupValidations = {
     .email(t("validate.email.invalid")),
   name: Yup.string()
     .required(t("validate.name.required"))
-    .max(64, t("validate.name.max")),
+    .max(200, t("validate.name.max")),
   province: Yup.string().required(t("validate.province.required")),
   venue: Yup.string()
     .required(t("validate.venue.required"))
