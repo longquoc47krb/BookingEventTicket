@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.ticket.CustomerTicket;
+import com.hcmute.bookingevent.payload.request.OrderReq;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,10 @@ public class Order {
     @NotBlank(message = "quantity is required")
     private String totalQuantity;
     List<CustomerTicket> customerTicketList  ;
+    public Order(OrderReq orderReq)
+    {
+        this.totalPrice=orderReq.getTotalPrice();
+        this.totalQuantity=orderReq.getTotalQuantity();
+        this.customerTicketList=orderReq.getCustomerTicketList();
+    }
 }
