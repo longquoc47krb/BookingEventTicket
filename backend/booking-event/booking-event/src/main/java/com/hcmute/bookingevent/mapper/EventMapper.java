@@ -28,7 +28,7 @@ public class EventMapper {
                     event.get().getStartingDate(),event.get().getEndingDate(),event.get().getBackground(),event.get().getStatus(),event.get().getEventCategoryList());
 
         }
-       throw new NotFoundException("Can not find Ticket");
+       throw new NotFoundException("Can not find any event");
     }
 //    public Event toCreateEvent(EventReq eventReq) {
 //        return new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),

@@ -19,5 +19,8 @@ public class EventCategory {
     @Id
     private String id;
     private String name;
-
+    public EventCategory(String name)
+    {
+        this.name= name;
+    }
 }

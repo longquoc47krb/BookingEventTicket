@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.repository;
 
 import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.models.Organization;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -16,4 +17,8 @@ public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllByProvince(String province);
 
     Optional<Event> findEventById(String id);
+    //Optional<Event> fin(String email);
+    List<Event> findByEventCategoryList_Name(String name);
+    Long countByEventCategoryList_Name(String name);
+    Boolean existsAllByEventCategoryList_Name(String name);
 }

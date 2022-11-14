@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -69,6 +70,24 @@ public class Event {
         this.remainingTicket=remainingTicket;
     }
 
+    public Event(EventReq eventReq)
+    {
+        this.name=eventReq.getName();
+        this.province=eventReq.getProvince();
+        this.venue=eventReq.getVenue();
+        this.venue_address=eventReq.getVenue_address();
+        this.startingTime=eventReq.getStartingTime();
+        this.endingTime=eventReq.getEndingTime();
+        this.startingDate=eventReq.getStartingDate();
+        this.endingDate=eventReq.getEndingDate();
+        this.host_id=eventReq.getHost_id();
+        this.description=eventReq.getDescription();
+        this.eventCategoryList=eventReq.getEventCategoryList();
+        this.organizationTickets=eventReq.getOrganizationTickets();
+        this.createdDate=eventReq.getCreatedDate();
+        this.totalTicket=eventReq.getTotalTicket();
+        this.remainingTicket=eventReq.getRemainingTicket();
+    }
     public Event(String idEvent)
     {
 
