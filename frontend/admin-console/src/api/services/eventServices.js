@@ -42,6 +42,24 @@ const fetchEventsForPagination = async (params) => {
   );
   return response;
 };
+const updateEvent = async (eventId, userId, body) => {
+  try {
+    const response = await httpRequest(
+      EventAPI.updateEvent(eventId, userId, body)
+    );
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+const deleteEvent = async (eventId, userId) => {
+  try {
+    const response = await httpRequest(EventAPI.deleteEvent(eventId, userId));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
 const fetchEventsByProvince = async (params) => {
   const response = await httpRequest(EventAPI.findEventsByProvince(params));
   return response;
@@ -52,22 +70,23 @@ const fetchEventByFilter = async (params) => {
 };
 // React Query
 
-export const useFetchEvents = (staleTime = 0) => {
+export const useFetchEvents = (staleTime) => {
   return useQuery(["events"], fetchAllEvents, {
-    staleTime,
-    cacheTime: 1000 * 60 * 60 * 24,
+    staleTime: 0,
+    cacheTime: 1000 * 60 * 30,
+    refetchInterval: 5000,
   });
 };
 export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
     staleTime: 30000,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 30,
   });
 };
 export const useFetchFeaturedEvents = (staleTime = 30000) => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
     staleTime,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 30,
   });
 };
 export const useFetchEventsForPagination = (params) => {
@@ -115,5 +134,7 @@ const eventServices = {
   fetchFeaturedEvents,
   createEvent,
   uploadEventBackground,
+  updateEvent,
+  deleteEvent,
 };
 export default eventServices;

@@ -58,11 +58,10 @@ function UserProfile() {
     onSubmit: async (values) => {
       const { id, name, phone } = values;
       setLoading(true);
-      let updateAvatarResponse;
       if (avatar) {
-        updateAvatarResponse = await updateAvatar(id, avatar);
+        var updateAvatarResponse = await updateAvatar(id, avatar);
       }
-      const updateAccountResponse = await updateAccount(id, { name, phone });
+      var updateAccountResponse = await updateAccount(id, { name, phone });
       showNotification(
         updateAvatarResponse.status === 200 ||
           updateAccountResponse.status === 200

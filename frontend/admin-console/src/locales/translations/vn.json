@@ -38,14 +38,15 @@
             "hint": "Recommended image size 1560 x 600",
             "validate": {
                 "success": "Successfully upload image",
-                "error": "Image is larger than 200KB"
+                "error": "Image is larger than {{val, number}}KB"
             }
         },
         "ticketList": {
-            "ticketName": "Ticket type {{val, number}}",
-            "price": "Price {{val, number}}",
-            "quantity": "Quantity {{val, number}}",
-            "currency": "Currency {{val, number}}"
+            "ticketName": "Ticket {{val, number}}",
+            "price": "Price of ticket {{val, number}}",
+            "quantity": "Quantity of ticket {{val, number}}",
+            "currency": "Currency of ticket {{val, number}}",
+            "description": "Description of ticket {{val, number}}"
         },
         "modify": "Modify"
     },
@@ -79,6 +80,10 @@
         },
         "verify": {
             "error": "OTP doesn't exist"
+        },
+        "event": {
+            "delete": "Do you want delete this event?",
+            "delete-success": "Successfully delete event"
         }
     },
     "user": {
@@ -127,6 +132,17 @@
             "required": "Name is required",
             "max": "Max length of name is 64 characters"
         },
+        "venue": {
+            "required": "Venue is required",
+            "max": "Max length of Venue is 128 characters"
+        },
+        "province": {
+            "required": "Province is required"
+        },
+        "address": {
+            "required": "Address is required",
+            "max": "Max length of Address is 255 characters"
+        },
         "password": {
             "required": "Password is required",
             "notMatch": "Password must contain both letters and numbers",
@@ -141,6 +157,9 @@
         "otp": {
             "required": "OTP is required",
             "min": "Length is 6"
+        },
+        "description": {
+            "required": "Description is required"
         },
         "categories": {
             "required": "Category is required",
@@ -167,7 +186,7 @@
                 "required": "Price is required",
                 "min": "Min price is greater than 0"
             },
-            "ticketName": {
+            "name": {
                 "required": "Ticket type name is required"
             },
             "unique": "Ticket is duplicated"

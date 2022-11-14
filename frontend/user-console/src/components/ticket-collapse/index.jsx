@@ -8,6 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import parse from "html-react-parser";
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { formatter } from "../../utils/utils";
 function TicketComponent(props) {
@@ -39,7 +40,7 @@ function TicketComponent(props) {
               sx={{ pl: 4 }}
               style={{ background: "#3f4c77", color: "white", padding: "1rem" }}
             >
-              <ListItemText primary={ticket.description} />
+              <div>{parse(ticket.description)}</div>
             </ListItemButton>
           </List>
         </Collapse>

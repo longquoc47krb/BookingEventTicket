@@ -59,4 +59,13 @@ export const EventAPI = {
       "Content-Type": "multipart/form-data",
     },
   }),
+  updateEvent: (eventId, userId, data) => ({
+    url: `/event/${eventId}/${userId}`,
+    method: "PUT",
+    data,
+  }),
+  deleteEvent: (eventId, userId) => ({
+    url: `/event/${eventId}/${userId}`,
+    method: "DELETE",
+  }),
 };

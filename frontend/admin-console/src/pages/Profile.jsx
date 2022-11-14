@@ -30,7 +30,6 @@ function UserProfile() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const avatar = useSelector(userAvatarSelector);
-  console.log(avatar?.get("file"));
   useEffect(() => {
     if (isNotEmpty(user)) {
       dispatch(setEmail(user.email));
