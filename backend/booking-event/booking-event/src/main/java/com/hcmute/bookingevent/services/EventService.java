@@ -59,11 +59,11 @@ public class EventService implements IEventService {
             // handle events
             int randomNum = ThreadLocalRandom.current().nextInt(1000, 30000 + 1);
             String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + randomNum));
-
-            Event event = new Event(eventReq.getName(), eventReq.getProvince(), eventReq.getVenue(), eventReq.getVenue_address(), eventReq.getStartingTime(),
-                    eventReq.getEndingTime(), eventReq.getStartingDate(), eventReq.getEndingDate(), eventReq.getHost_id(), eventReq.getDescription()
-                    , eventReq.getEventCategoryList(), eventReq.getOrganizationTickets(), eventReq.getCreatedDate(), eventReq.getTotalTicket(), eventReq.getRemainingTicket());
-            //
+            Event event = new Event(eventReq);
+//            Event event = new Event(eventReq.getName(), eventReq.getProvince(), eventReq.getVenue(), eventReq.getVenue_address(), eventReq.getStartingTime(),
+//                    eventReq.getEndingTime(), eventReq.getStartingDate(), eventReq.getEndingDate(), eventReq.getHost_id(), eventReq.getDescription()
+//                    , eventReq.getEventCategoryList(), eventReq.getOrganizationTickets(), eventReq.getCreatedDate(), eventReq.getTotalTicket(), eventReq.getRemainingTicket());
+//            //
             event.setId(idSlung);
             event.setStatus(TicketStatus.AVAILABLE);
             //

@@ -41,7 +41,7 @@ public class AuthService implements IAuthService {
     private final PasswordEncoder encoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomerRepository customerRepository;
-
+    @Override
     public ResponseEntity<?> login(LoginReq req) {
         try
         {
@@ -91,6 +91,7 @@ public class AuthService implements IAuthService {
                     new ResponseObject(false, ex.toString(), "",404));
         }
     }
+    @Override
     public ResponseEntity<?> registerUser(RegisterReq signUpRequest) {
 
         if (accountRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -124,6 +125,7 @@ public class AuthService implements IAuthService {
         }
 
     }
+    @Override
     public ResponseEntity<?> forgetPassword(EmailReq emailReq)
     {
         try
@@ -153,6 +155,7 @@ public class AuthService implements IAuthService {
 
         }
     }
+    @Override
     public ResponseEntity<?> changePassword(ChangePasswordReq changePasswordReq)
     {
         try
@@ -185,7 +188,7 @@ public class AuthService implements IAuthService {
 
         }
     }
-
+    @Override
     public ResponseEntity<?> verifyOTP(VerifyOTPReq verifyOTPReq)
     {
         try
@@ -223,7 +226,7 @@ public class AuthService implements IAuthService {
 
         }
     }
-
+    @Override
     public ResponseEntity<?> verifyChangePassword(LoginReq loginReq) {
         try {
             Optional<Account> account = accountRepository.findByEmail(loginReq.getEmail());
@@ -246,7 +249,7 @@ public class AuthService implements IAuthService {
 
         }
     }
-
+    @Override
     public ResponseEntity<?> generateNewPassword(String email) {
         try {
             Optional<Account> account = accountRepository.findByEmail(email);
