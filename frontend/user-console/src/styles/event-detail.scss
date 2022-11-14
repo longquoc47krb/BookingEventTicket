@@ -171,11 +171,11 @@
     display: grid;
     height: auto;
     grid-template-columns: auto 3fr;
+    grid-template-rows: auto auto;
     padding: 1rem;
     grid-auto-rows: auto;
     gap: 0 1rem;
     grid-template-areas: "logo title" "logo desc";
-    grid-row-gap: 0.5rem;
     &-contact {
       font-size: 1rem;
       width: 150px;
@@ -202,6 +202,7 @@
       font-size: 1.5rem;
       font-weight: 900;
       grid-area: title;
+      grid-row-start: span;
       @include for-phone {
         font-size: 1rem !important;
       }

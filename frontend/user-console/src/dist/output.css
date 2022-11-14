@@ -1029,11 +1029,11 @@
   display: grid;
   height: auto;
   grid-template-columns: auto 3fr;
+  grid-template-rows: auto auto;
   padding: 1rem;
   grid-auto-rows: auto;
   gap: 0 1rem;
   grid-template-areas: "logo title" "logo desc";
-  grid-row-gap: 0.5rem;
 }
 .event-detail-organization-contact {
   font-size: 1rem;
@@ -1061,6 +1061,7 @@
   font-size: 1.5rem;
   font-weight: 900;
   grid-area: title;
+  grid-row-start: span;
 }
 @media (max-width: 767px) {
   .event-detail-organization h1 {
@@ -2068,7 +2069,8 @@
 .user-profile-container {
   background: linear-gradient(53deg, #000000 0%, #1f3e82 100%);
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .ant-input[disabled] {
@@ -2076,7 +2078,7 @@
 }
 
 .profile {
-  height: 90vh;
+  height: auto;
   width: 40vw;
   padding: 1rem;
   padding-bottom: 1.5rem;

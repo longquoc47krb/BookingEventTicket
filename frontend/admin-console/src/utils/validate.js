@@ -61,10 +61,12 @@ export const YupValidations = {
       Yup.object().shape({
         currency: Yup.string().required(t("validate.ticket.currency.required")),
         price: Yup.number()
+          .typeError("validate.ticket.price.number")
           .required(t("validate.ticket.price.required"))
-          .min(1, t("validate.ticket.price.min")),
+          .min(0.1, t("validate.ticket.price.min")),
         ticketName: Yup.string().required(t("validate.ticket.name.required")),
         quantity: Yup.number()
+          .typeError(t("validate.ticket.quantity.number"))
           .required(t("validate.ticket.quantity.required"))
           .min(30, t("validate.ticket.quantity.min")),
       })

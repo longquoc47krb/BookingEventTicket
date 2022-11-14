@@ -1,33 +1,35 @@
 /* eslint-disable quotes */
-import { Col, message, Row } from "antd";
+import { Col, Row } from "antd";
+import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { t } from "i18next";
-import React, { useEffect, useRef, useState } from "react";
-import { Header } from "../components";
+import { decode, encode } from "js-base64";
+import { map, sumBy } from "lodash";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
-import UploadImage from "../components/Upload";
-import { useFormik, Field, Form, FormikProvider, FieldArray } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { YupValidations } from "../utils/validate";
 import { useFetchCategories } from "../api/services/categoryServices";
-import { isEmpty } from "../utils/utils";
+import eventServices from "../api/services/eventServices";
+import { Header } from "../components";
+import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import {
   DatePicker,
   Input,
   Select,
+  SelectHorizonal,
   TimePicker,
 } from "../components/customField";
-import { encode, decode } from "js-base64";
-import Editor from "./Editor";
-import moment from "moment";
+import UploadImage from "../components/Upload";
+import { userInfoSelector } from "../redux/slices/accountSlice";
+import { setInitialBackground } from "../redux/slices/eventSlice";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { map, sumBy, update } from "lodash";
-import { useParams } from "react-router-dom";
-import eventServices, { useEventDetails } from "../api/services/eventServices";
-import { useDispatch, useSelector } from "react-redux";
-import { setInitialBackground } from "../redux/slices/eventSlice";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-import { AlertErrorPopup, AlertPopup } from "../components/Alert";
+import { generateId } from "../utils/utils";
+import { YupValidations } from "../utils/validate";
+import Editor from "./Editor";
 const { getEventById, createEvent, uploadEventBackground, updateEvent } =
   eventServices;
 const { PATTERNS } = constants;
@@ -35,6 +37,7 @@ function AddEditEvent(props) {
   const { eventId } = useParams();
   const [event, setEvent] = useState({});
   const dispatch = useDispatch();
+  const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
   const initialValues = {
@@ -55,11 +58,13 @@ function AddEditEvent(props) {
       : moment(),
     description: event?.description ?? "",
     province: event?.province ?? "",
+    currency: event?.organizationTickets?.currency ?? "USD",
     venue: event?.venue ?? "",
     venue_address: event?.venue_address ?? "",
     ticketList: event?.organizationTickets ?? [
       {
-        currency: "",
+        id: generateId(user.name, date),
+        currency: "USD",
         price: 0,
         quantity: 0,
         ticketName: "",
@@ -73,6 +78,7 @@ function AddEditEvent(props) {
     }
     return temp;
   };
+
   const handleFormData = (value) => {
     var formData = new FormData();
     formData.append("file", value);
@@ -92,7 +98,6 @@ function AddEditEvent(props) {
       ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {
-      console.log(values);
       const request = {
         name: values.name,
         description: encode(values.description),
@@ -104,51 +109,55 @@ function AddEditEvent(props) {
         province: values.province,
         venue: values.venue,
         venue_address: values.venue_address,
-        organizationTickets: values.ticketList,
+        organizationTickets: handleTicketList(values.ticketList),
         totalTicket: sumBy(values.ticketList, "quantity"),
         remainingTicket: sumBy(values.ticketList, "quantity"),
         host_id: user.id,
       };
-      if (!eventId) {
-        var response = await createEvent(user.id, request);
-        if (response.status === 200) {
-          var uploadBackground = await uploadEventBackground(
-            response.data,
-            user.id,
-            handleFormData(values.background)
-          );
-        }
-        if (response.status === 200 || uploadBackground.status === 200) {
-          formik.setValues(initialValues);
-        }
-        showNotification(
-          response.status === 200 || uploadBackground.status === 200
-        );
-      } else {
-        var responseUpdate = await updateEvent(eventId, user.id, request);
-        if (
-          responseUpdate.status === 200 &&
-          typeof values.background === "object"
-        ) {
-          var uploadBackgroundUpdate = await uploadEventBackground(
-            response.data,
-            user.id,
-            handleFormData(values.background)
-          );
-        }
-        if (
-          responseUpdate.status === 200 ||
-          uploadBackgroundUpdate.status === 200
-        ) {
-          formik.setValues(initialValues);
-        }
-        showNotification(
-          responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
-        );
-      }
+      console.log({ request });
+      // if (!eventId) {
+      //   var response = await createEvent(user.id, request);
+      //   if (response.status === 200) {
+      //     var uploadBackground = await uploadEventBackground(
+      //       response.data,
+      //       user.id,
+      //       handleFormData(values.background)
+      //     );
+      //   }
+      //   if (response.status === 200 || uploadBackground.status === 200) {
+      //     formik.setValues(initialValues);
+      //   }
+      //   showNotification(
+      //     response.status === 200 || uploadBackground.status === 200
+      //   );
+      // } else {
+      //   var responseUpdate = await updateEvent(eventId, user.id, request);
+      //   if (
+      //     responseUpdate.status === 200 &&
+      //     typeof values.background === "object"
+      //   ) {
+      //     var uploadBackgroundUpdate = await uploadEventBackground(
+      //       response.data,
+      //       user.id,
+      //       handleFormData(values.background)
+      //     );
+      //   }
+      //   if (
+      //     responseUpdate.status === 200 ||
+      //     uploadBackgroundUpdate.status === 200
+      //   ) {
+      //     formik.setValues(initialValues);
+      //   }
+      //   showNotification(
+      //     responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
+      //   );
+      // }
     },
   });
   const { handleSubmit, values, setValues } = formik;
+  useEffect(() => {
+    setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
+  }, [values.startingDate]);
   useEffect(() => {
     if (eventId) {
       async function fetchEvent() {
@@ -173,7 +182,14 @@ function AddEditEvent(props) {
       fetchEvent();
     }
   }, []);
-
+  const handleTicketList = (list) => {
+    const newArr = list.map((t) => ({
+      ...t,
+      quantity: Number(t.quantity),
+      currency: values.currency,
+    }));
+    return newArr;
+  };
   const showNotification = (code) => {
     if (code) {
       return AlertPopup({
@@ -294,30 +310,44 @@ function AddEditEvent(props) {
                 const { push, remove, form } = fieldArrayProps;
                 const { values } = form;
                 const { ticketList } = values;
-                console.log({ ticketList });
                 return (
                   <>
                     <Row gutter={[8, 40]}>
-                      <Col span={24}>
+                      <Col span={8}>
                         <button
                           className="primary-button self-start w-64"
                           onClick={() =>
                             push({
-                              currency: "",
+                              id: generateId(user.name, date),
+                              currency: values.currency,
                               price: 0,
                               quantity: 0,
                               ticketName: "",
                             })
                           }
                         >
-                          New ticket
+                          {t("ticket.create")}
                         </button>
+                      </Col>
+                      <Col span={16}>
+                        <Field
+                          name="currency"
+                          component={SelectHorizonal}
+                          label={t("event.currency")}
+                          options={Object.values([
+                            { value: "USD", label: "USD" },
+                            { value: "VND", label: "VND" },
+                          ]).map((field) => ({
+                            value: field.value,
+                            name: field.label,
+                          }))}
+                        />
                       </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (
-                      <div className="p-3 border-gray-400 border-2 border-dashed my-1 rounded-lg">
-                        <Row gutter={[0, 24]} className="flex items-start">
-                          <Col span={8}>
+                      <div className="p-3 border-gray-400 border-4 border-dashed my-2 rounded-lg bg-gray-200 relative">
+                        <Row gutter={[4, 24]} className="flex items-start">
+                          <Col span={10}>
                             <Field
                               name={`ticketList[${index}].ticketName`}
                               component={Input}
@@ -326,7 +356,7 @@ function AddEditEvent(props) {
                               })}
                             />
                           </Col>
-                          <Col span={4}>
+                          <Col span={6}>
                             <Field
                               name={`ticketList[${index}].price`}
                               component={Input}
@@ -335,45 +365,18 @@ function AddEditEvent(props) {
                               })}
                             />
                           </Col>
-                          <Col span={4}>
+                          <Col span={6}>
                             <Field
                               name={`ticketList[${index}].quantity`}
                               component={Input}
                               label={t("event.ticketList.quantity", {
                                 val: index + 1,
                               })}
-                              type="number"
                             />
-                          </Col>
-                          <Col span={4}>
-                            <Field
-                              name={`ticketList[${index}].currency`}
-                              component={Select}
-                              label={t("event.ticketList.currency", {
-                                val: index + 1,
-                              })}
-                              options={Object.values([
-                                { value: "USD", label: "USD" },
-                                { value: "VND", label: "VND" },
-                              ]).map((field) => ({
-                                value: field.value,
-                                name: field.label,
-                              }))}
-                            />
-                          </Col>
-                          <Col span={4}>
-                            {index > 0 && (
-                              <button
-                                type="button"
-                                onClick={() => remove(index)}
-                              >
-                                <GiCancel className="text-red-600 translate-y-[3rem] text-2xl" />
-                              </button>
-                            )}
                           </Col>
                         </Row>
                         <Row gutter={[8, 24]}>
-                          <Col span={20}>
+                          <Col span={22}>
                             <Field
                               name={`ticketList[${index}].description`}
                               component={Editor}
@@ -383,6 +386,15 @@ function AddEditEvent(props) {
                             />
                           </Col>
                         </Row>
+                        {index > 0 && (
+                          <>
+                            <FaTrashAlt
+                              className="text-red-600 text-2xl absolute bottom-5 right-5 hover:animate-bounce cursor-pointer"
+                              type="button"
+                              onClick={() => remove(index)}
+                            />
+                          </>
+                        )}
                       </div>
                     ))}
                   </>

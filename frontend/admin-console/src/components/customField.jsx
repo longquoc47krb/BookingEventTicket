@@ -1,12 +1,14 @@
 import {
   Form,
   Input as AntdInput,
+  InputNumber as AntdInputNumber,
   DatePicker as AntdDatePicker,
   Select as AntdSelect,
   TimePicker as AntdTimePicker,
 } from "antd";
 import { ErrorMessage } from "formik";
 import React from "react";
+import { isNumber } from "../utils/utils";
 const { Item } = Form;
 const { Option } = AntdSelect;
 function Input(props) {
@@ -25,7 +27,7 @@ function Input(props) {
     const { value } = e.target;
     var customEvent = {
       target: {
-        value: type === "number" ? parseInt(value, 10) : value,
+        value: type === "number" ? Number(value) : value,
         name,
       },
     };
@@ -42,12 +44,65 @@ function Input(props) {
         name={name}
         value={value}
         onBlur={onBlur}
+        type
         status={errors[name] ? "error" : ""}
         onChange={handleChange}
         style={{ width: width }}
         className="p-[0.5rem] mb-4"
       />
-      <p className="error-message w-[80%]">
+      <p className="error-message w-[100%]">
+        <ErrorMessage name={name} />
+      </p>
+    </>
+  );
+}
+function InputNumber(props) {
+  const {
+    field,
+    form,
+    label,
+    width,
+    type,
+    onChange: onChangeCustom,
+    disabled,
+  } = props;
+  const { value, onChange, onBlur, name } = field;
+  const { errors } = form;
+  const handleChange = (e) => {
+    const { value } = e.target;
+    var customEvent = {
+      target: {
+        value:
+          type === "number"
+            ? isNumber(value)
+              ? parseInt(value, 10)
+              : value
+            : value,
+        name,
+      },
+    };
+    onChange(customEvent);
+    if (onChangeCustom) {
+      onChangeCustom(value);
+    }
+  };
+  return (
+    <>
+      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
+      <AntdInputNumber
+        disabled={disabled}
+        name={name}
+        value={value}
+        onBlur={onBlur}
+        min={30}
+        max={1000}
+        defaultValue={100}
+        status={errors[name] ? "error" : ""}
+        onChange={handleChange}
+        style={{ width: width }}
+        className="p-[0.5rem] mb-4"
+      />
+      <p className="error-message w-[100%]">
         <ErrorMessage name={name} />
       </p>
     </>
@@ -139,6 +194,46 @@ function Select(props) {
     </>
   );
 }
+function SelectHorizonal(props) {
+  const { field, form, label, mode, options, width } = props;
+  const { value, name, onChange } = field;
+  const { errors } = form;
+  const handleChange = (value) => {
+    const customEvent = {
+      target: {
+        name: name,
+        value: value,
+      },
+    };
+    onChange(customEvent);
+  };
+  return (
+    <>
+      <Item>
+        <div style={{ display: "flex", alignItems: "center", gap: "0 1rem" }}>
+          <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
+          <AntdSelect
+            showSearch
+            value={value}
+            style={{ height: "2.5rem", width: "auto" }}
+            status={errors[name] ? "error" : ""}
+            onChange={handleChange}
+            mode={mode}
+          >
+            {options.map((item, index) => (
+              <Option key={index + 1} value={item.value}>
+                {item.name}
+              </Option>
+            ))}
+          </AntdSelect>
+        </div>
+        <p className="error-message">
+          <ErrorMessage name={name} />
+        </p>
+      </Item>
+    </>
+  );
+}
 function InputPassword(props) {
   const { field, form, label, uppercase, onChange: onChangeCustom } = props;
   const { value, onChange, onBlur, name } = field;
@@ -174,4 +269,12 @@ function InputPassword(props) {
   );
 }
 
-export { Input, InputPassword, DatePicker, TimePicker, Select };
+export {
+  Input,
+  InputNumber,
+  InputPassword,
+  DatePicker,
+  TimePicker,
+  Select,
+  SelectHorizonal,
+};
