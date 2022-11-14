@@ -104,12 +104,16 @@ function UserProfile() {
                   </div>
 
                   <Field name="name" component={Input} label={t("user.name")} />
-                  <Field component={Input} label="Email" name="email" />
+                  <Field
+                    component={Input}
+                    label="Email"
+                    name="email"
+                    disabled={isEmpty(initialValues.email) ? false : true}
+                  />
                   <Field
                     component={Input}
                     label={t("user.phone")}
                     name="phone"
-                    disabled={isEmpty(initialValues.phone) ? false : true}
                   />
                 </Col>
               </Row>

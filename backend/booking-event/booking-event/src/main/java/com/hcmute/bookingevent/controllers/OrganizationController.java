@@ -6,6 +6,7 @@ import com.hcmute.bookingevent.models.Account;
 import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.payload.request.EmailReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
+import com.hcmute.bookingevent.payload.request.OrganizerBioReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -71,5 +72,12 @@ public class OrganizationController {
 
         }
     }
-
+    @PostMapping("/organization/addBio/{email}")
+    public ResponseEntity<?> addOrganizerBio(@PathVariable String email, @RequestBody OrganizerBioReq bioReq){
+        return iOrganizationService.addBio(bioReq.getBiography(), email);
+    };
+    @PostMapping("/organization/removeBio/{email}")
+    public ResponseEntity<?> removeOrganizerBio(@PathVariable String email){
+        return iOrganizationService.removeBio(email);
+    };
 }
