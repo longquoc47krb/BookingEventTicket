@@ -115,43 +115,43 @@ function AddEditEvent(props) {
         host_id: user.id,
       };
       console.log({ request });
-      // if (!eventId) {
-      //   var response = await createEvent(user.id, request);
-      //   if (response.status === 200) {
-      //     var uploadBackground = await uploadEventBackground(
-      //       response.data,
-      //       user.id,
-      //       handleFormData(values.background)
-      //     );
-      //   }
-      //   if (response.status === 200 || uploadBackground.status === 200) {
-      //     formik.setValues(initialValues);
-      //   }
-      //   showNotification(
-      //     response.status === 200 || uploadBackground.status === 200
-      //   );
-      // } else {
-      //   var responseUpdate = await updateEvent(eventId, user.id, request);
-      //   if (
-      //     responseUpdate.status === 200 &&
-      //     typeof values.background === "object"
-      //   ) {
-      //     var uploadBackgroundUpdate = await uploadEventBackground(
-      //       response.data,
-      //       user.id,
-      //       handleFormData(values.background)
-      //     );
-      //   }
-      //   if (
-      //     responseUpdate.status === 200 ||
-      //     uploadBackgroundUpdate.status === 200
-      //   ) {
-      //     formik.setValues(initialValues);
-      //   }
-      //   showNotification(
-      //     responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
-      //   );
-      // }
+      if (!eventId) {
+        var response = await createEvent(user.id, request);
+        if (response.status === 200) {
+          var uploadBackground = await uploadEventBackground(
+            response.data,
+            user.id,
+            handleFormData(values.background)
+          );
+        }
+        if (response.status === 200 || uploadBackground.status === 200) {
+          formik.setValues(initialValues);
+        }
+        showNotification(
+          response.status === 200 || uploadBackground.status === 200
+        );
+      } else {
+        var responseUpdate = await updateEvent(eventId, user.id, request);
+        if (
+          responseUpdate.status === 200 &&
+          typeof values.background === "object"
+        ) {
+          var uploadBackgroundUpdate = await uploadEventBackground(
+            response.data,
+            user.id,
+            handleFormData(values.background)
+          );
+        }
+        if (
+          responseUpdate.status === 200 ||
+          uploadBackgroundUpdate.status === 200
+        ) {
+          formik.setValues(initialValues);
+        }
+        showNotification(
+          responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
+        );
+      }
     },
   });
   const { handleSubmit, values, setValues } = formik;
