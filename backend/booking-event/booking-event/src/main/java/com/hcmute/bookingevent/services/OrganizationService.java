@@ -85,7 +85,8 @@ public class OrganizationService implements IOrganizationService {
     {
         try
         {
-            Optional<Organization> organization = organizationRepository.findById(id);
+            Optional<Account> account = accountRepository.findById(id);
+            Optional<Organization> organization = organizationRepository.findByEmail(account.get().getEmail());
             if(organization.isPresent())
             {
                 // ds các id
