@@ -10,6 +10,16 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const addOrganizerBio = async (email, body) => {
+  try {
+    const response = await httpRequest(
+      OrganizationAPI.addOrganizerBio(email, body)
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const getOrganizerByEmail = async (email) => {
   try {
     const response = await httpRequest(
@@ -42,5 +52,6 @@ const organizationServices = {
   submitOrganizer,
   getEventsByOrganizationId,
   getOrganizerByEmail,
+  addOrganizerBio,
 };
 export default organizationServices;

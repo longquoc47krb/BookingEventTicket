@@ -12,4 +12,9 @@ export const OrganizationAPI = {
     url: `/organization/${email}`,
     method: "GET",
   }),
+  addOrganizerBio: (email, data) => ({
+    url: `/organization/addBio/${email}`,
+    method: "POST",
+    data,
+  }),
 };

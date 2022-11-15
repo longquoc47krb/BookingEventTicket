@@ -92,6 +92,7 @@
         }
     },
     "user": {
+        "biography": "Biography",
         "profile": "Profile",
         "my-ticket": "My ticket",
         "forgot-password": "Forgot password",
