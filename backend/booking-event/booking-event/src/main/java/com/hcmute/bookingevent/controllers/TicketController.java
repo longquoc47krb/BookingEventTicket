@@ -2,7 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
+import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.TicketService;
 import lombok.AllArgsConstructor;
@@ -21,23 +21,23 @@ public class TicketController {
     private final JwtTokenProvider jwtUtils;
 
     @PostMapping("/ticket/{userId}/{eventId}")
-    public ResponseEntity<?> createSingleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody OrganizationTicket organizationTicket, HttpServletRequest request)
+    public ResponseEntity<?> createSingleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody OrganizationTicketReq organizationTicketReq, HttpServletRequest request)
     {
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return ticketService.createTicket(account.getEmail(), organizationTicket,eventId);
+            return ticketService.createTicket(account.getEmail(), organizationTicketReq,eventId);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
     @PostMapping("/ticket/list/{userId}")
-    public ResponseEntity<?> createMultipleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody List<OrganizationTicket> organizationTicket, HttpServletRequest request)
+    public ResponseEntity<?> createMultipleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody List<OrganizationTicketReq> organizationTicketReq, HttpServletRequest request)
     {
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return ticketService.createMultipleTickets(account.getEmail(), organizationTicket,eventId );
+            return ticketService.createMultipleTickets(account.getEmail(), organizationTicketReq,eventId );
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 

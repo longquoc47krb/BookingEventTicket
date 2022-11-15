@@ -2,13 +2,14 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.ITicketService;
 import com.hcmute.bookingevent.mapper.EventMapper;
+import com.hcmute.bookingevent.mapper.TicketMapper;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Organization;
-import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
+import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
-import com.hcmute.bookingevent.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TicketService implements ITicketService {
 
-    private final TicketRepository ticketRepository;
     private final OrganizationRepository organizationRepository;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-
+    private final TicketMapper ticketMapper;
 //    @Override
 //    public ResponseEntity<?> findAll()
 //    {
@@ -37,7 +38,7 @@ public class TicketService implements ITicketService {
 //        throw new NotFoundException("Can not found any ticket");
 //    }
     @Override
-    public ResponseEntity<?> createTicket(String email, OrganizationTicket organizationTicket, String eventId)
+    public ResponseEntity<?> createTicket(String email, OrganizationTicketReq organizationTicketReq, String eventId)
     {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         Optional<Event> event= eventRepository.findEventById(eventId);
@@ -45,7 +46,8 @@ public class TicketService implements ITicketService {
         {
             if(organization.isPresent() && event.isPresent())
             {
-                event.get().getOrganizationTickets().add(organizationTicket);
+                Ticket ticket = new Ticket(organizationTicketReq);
+                event.get().getOrganizationTickets().add(ticket);
                 eventRepository.save(event.get());
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Create one ticket successfully", "",200));
@@ -63,7 +65,7 @@ public class TicketService implements ITicketService {
         }
     }
     @Override
-    public ResponseEntity<?> createMultipleTickets(String email, List<OrganizationTicket> organizationTicket, String eventId )
+    public ResponseEntity<?> createMultipleTickets(String email, List<OrganizationTicketReq> organizationTicketReq, String eventId )
     {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         Optional<Event> event= eventRepository.findEventById(eventId);
@@ -72,7 +74,9 @@ public class TicketService implements ITicketService {
         {
             if(organization.isPresent() &&  event.isPresent())
             {
-                event.get().setOrganizationTickets(organizationTicket);
+                List<Ticket> ticketList = organizationTicketReq.stream().map(ticketMapper::toTicket ).collect(Collectors.toList());
+
+                event.get().setOrganizationTickets(ticketList);
                 eventRepository.save(event.get());
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Create multiple tickets successfully", "",200));
