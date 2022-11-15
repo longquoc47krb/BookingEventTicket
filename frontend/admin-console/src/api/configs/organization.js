@@ -17,4 +17,11 @@ export const OrganizationAPI = {
     method: "POST",
     data,
   }),
+  findOrganizerById: (id) => ({
+    url: `/organization`,
+    method: "GET",
+    params: {
+      id,
+    },
+  }),
 };

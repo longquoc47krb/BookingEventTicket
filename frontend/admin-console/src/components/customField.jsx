@@ -1,14 +1,13 @@
 import {
+  DatePicker as AntdDatePicker,
   Form,
   Input as AntdInput,
-  InputNumber as AntdInputNumber,
-  DatePicker as AntdDatePicker,
   Select as AntdSelect,
   TimePicker as AntdTimePicker,
 } from "antd";
+import MoneyInput from "antd-money";
 import { ErrorMessage } from "formik";
 import React from "react";
-import { isNumber } from "../utils/utils";
 const { Item } = Form;
 const { Option } = AntdSelect;
 function Input(props) {
@@ -27,7 +26,7 @@ function Input(props) {
     const { value } = e.target;
     var customEvent = {
       target: {
-        value: type === "number" ? Number(value) : value,
+        value,
         name,
       },
     };
@@ -44,11 +43,10 @@ function Input(props) {
         name={name}
         value={value}
         onBlur={onBlur}
-        type
         status={errors[name] ? "error" : ""}
         onChange={handleChange}
         style={{ width: width }}
-        className="p-[0.5rem] mb-4"
+        className={"p-[0.5rem] mb-4"}
       />
       <p className="error-message w-[100%]">
         <ErrorMessage name={name} />
@@ -68,39 +66,19 @@ function InputNumber(props) {
   } = props;
   const { value, onChange, onBlur, name } = field;
   const { errors } = form;
-  const handleChange = (e) => {
-    const { value } = e.target;
-    var customEvent = {
-      target: {
-        value:
-          type === "number"
-            ? isNumber(value)
-              ? parseInt(value, 10)
-              : value
-            : value,
-        name,
-      },
-    };
-    onChange(customEvent);
-    if (onChangeCustom) {
-      onChangeCustom(value);
-    }
-  };
   return (
     <>
       <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
-      <AntdInputNumber
-        disabled={disabled}
+      <MoneyInput
         name={name}
         value={value}
         onBlur={onBlur}
-        min={30}
-        max={1000}
-        defaultValue={100}
+        onChange={onChange}
+        commaSeperator={true}
         status={errors[name] ? "error" : ""}
-        onChange={handleChange}
+        thousandSeparator=","
         style={{ width: width }}
-        className="p-[0.5rem] mb-4"
+        className="p-[0.5rem] mb-4 ant-input"
       />
       <p className="error-message w-[100%]">
         <ErrorMessage name={name} />

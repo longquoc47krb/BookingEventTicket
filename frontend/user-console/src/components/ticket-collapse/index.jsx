@@ -13,7 +13,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { formatter } from "../../utils/utils";
 function TicketComponent(props) {
   const { ticket } = props;
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);

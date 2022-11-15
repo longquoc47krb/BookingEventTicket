@@ -18,6 +18,7 @@ import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import {
   DatePicker,
   Input,
+  InputNumber,
   Select,
   SelectHorizonal,
   TimePicker,
@@ -341,6 +342,7 @@ function AddEditEvent(props) {
                               ticketName: "",
                               currency: values.currency,
                               quantity: 0,
+                              description: "",
                             })
                           }
                         >

@@ -19,6 +19,7 @@ import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
+import parse from "html-react-parser";
 import ReadMoreLess from "../../components/read-more";
 import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
@@ -284,7 +285,7 @@ function EventDetail(props) {
                   <img src={organizer?.avatar} alt="logo" />
                   <h1>{organizer?.name}</h1>
 
-                  <p>{organizer?.biography}</p>
+                  <p>{parse(String(organizer?.biography))}</p>
                   <button
                     className="event-detail-organization-contact"
                     onClick={() => {

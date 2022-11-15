@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { tokenSelector } from "./redux/slices/accountSlice";
 import Layout from "./pages/Layout";
 import Editor from "./pages/Editor";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -54,9 +55,12 @@ function App() {
         <BrowserRouter>
           <div className="flex relative dark:bg-main-dark-bg">
             <Routes>
-              {routes.map((route) => (
-                <Route path={route.path} element={route.element} />
-              ))}
+              <Route element={<PublicRoute isAuth={token} />}>
+                {routes.map((route) => (
+                  <Route path={route.path} element={route.element} />
+                ))}
+              </Route>
+
               <Route element={<PrivateRoute isAuth={token} />}>
                 <Route element={<Layout />} path="/">
                   {privateRoutes.map((route) => (

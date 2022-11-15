@@ -24,7 +24,7 @@ import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
 const { updateAvatar, updateAccount, findUserById } = accountServices;
-const { addOrganizerBio } = organizationServices;
+const { addOrganizerBio, findOrganizerById } = organizationServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ function UserProfile() {
       }
       const updateBio = await addOrganizerBio(email, { biography });
       const updateAccountResponse = await updateAccount(id, { name, phone });
-      const userInfo = await findUserById(id);
+      const userInfo = await findOrganizerById(id);
       if (userInfo.status === 200) {
         dispatch(setUserProfile(userInfo.data));
       }
