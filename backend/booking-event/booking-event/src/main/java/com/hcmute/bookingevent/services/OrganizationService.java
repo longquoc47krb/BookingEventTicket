@@ -90,7 +90,7 @@ public class OrganizationService implements IOrganizationService {
             if(organization.isPresent())
             {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(), account.get().getRole(),organization.get().getEmail(),organization.get().getBiography());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(), account.get().getPhone(),account.get().getRole(),organization.get().getEmail(),organization.get().getBiography());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse,200));
