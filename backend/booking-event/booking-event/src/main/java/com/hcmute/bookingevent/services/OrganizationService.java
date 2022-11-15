@@ -80,6 +80,21 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(true, e.getMessage(), "",400));
         }
     }
+
+    @Override
+    public ResponseEntity<?> findOrganizationById(String id) {
+        try
+        {
+            Optional<Account> account = accountRepository.findById(id);
+            return findOrganizationByEmail(account.get().getEmail());
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
+                    new ResponseObject(true, e.getMessage(), "",400));
+        }
+    }
+
     @Override
     public ResponseEntity<?> findOrganizationByEmail(String email)
     {

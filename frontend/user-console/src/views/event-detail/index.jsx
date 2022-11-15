@@ -25,7 +25,7 @@ import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
-import { paragraph, EventStatus } from "../../utils/constants";
+import { EventStatus } from "../../utils/constants";
 import {
   displayDate,
   displayTime,
