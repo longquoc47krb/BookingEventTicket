@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models.ticket;
+package com.hcmute.bookingevent.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -8,9 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class OrganizationTicket {
-    @Id
-    private String id;
+public class OrganizationTicketReq {
+//    @Id
+//    private String id;
     @NotBlank(message = "ticketName is required")
     private String ticketName;
     @Size(min=1,message="required")

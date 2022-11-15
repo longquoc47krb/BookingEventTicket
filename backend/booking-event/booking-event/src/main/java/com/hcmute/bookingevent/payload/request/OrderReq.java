@@ -1,6 +1,5 @@
 package com.hcmute.bookingevent.payload.request;
 
-import com.hcmute.bookingevent.models.ticket.CustomerTicket;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,5 +12,5 @@ public class OrderReq {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private String totalQuantity;
-    List<CustomerTicket> customerTicketList  ;
+    List<CustomerTicketReq> customerTicketReqList;
 }

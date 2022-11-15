@@ -3,13 +3,13 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
+import com.hcmute.bookingevent.mapper.TicketMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Event;
 import com.hcmute.bookingevent.models.Order;
-import com.hcmute.bookingevent.models.Organization;
-import com.hcmute.bookingevent.models.ticket.CustomerTicket;
+import com.hcmute.bookingevent.payload.request.CustomerTicketReq;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
-import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +33,7 @@ public class CustomerService  implements ICustomerService {
     private final AccountRepository accountRepository;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+    private final TicketMapper ticketMapper;
 
     @Override
     public ResponseEntity<?> findAll()
@@ -147,8 +147,7 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
-            //List<CustomerTicket> customerTicketList = order.getCustomerTicketList();
-            for (CustomerTicket i : orderReq.getCustomerTicketList()) {
+            for (CustomerTicketReq i : orderReq.getCustomerTicketReqList()) {
                 Optional<Event> event = eventRepository.findEventById(i.getIdEvent());
                 if(event.isPresent())
                 {
@@ -162,7 +161,9 @@ public class CustomerService  implements ICustomerService {
                 }
                 // Print all elements of ArrayList
             }
+            List<Ticket> ticketList = orderReq.getCustomerTicketReqList().stream().map(ticketMapper::toTicket ).collect(Collectors.toList());
             Order order = new Order(orderReq);
+            order.setCustomerTicketList(ticketList);
             //add order from order request
             customer.get().getOrderList().add(order);
             //save order to customer

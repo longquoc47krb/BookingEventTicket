@@ -1,23 +1,20 @@
 package com.hcmute.bookingevent.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hcmute.bookingevent.models.ticket.CustomerTicket;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+//@ToString
 public class Order {
     @Id
     private String id;
@@ -26,11 +23,10 @@ public class Order {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private String totalQuantity;
-    List<CustomerTicket> customerTicketList  ;
+    List<Ticket> customerTicketList  ;
     public Order(OrderReq orderReq)
     {
         this.totalPrice=orderReq.getTotalPrice();
         this.totalQuantity=orderReq.getTotalQuantity();
-        this.customerTicketList=orderReq.getCustomerTicketList();
     }
 }
