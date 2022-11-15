@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models.ticket;
+package com.hcmute.bookingevent.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,9 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerTicket {
-    @Id
-    private String id;
+public class CustomerTicketReq {
+//    @Id
+//    private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
     @NotBlank(message = "ticketName is required")
@@ -27,4 +27,5 @@ public class CustomerTicket {
     private int quantity;
     @NotBlank(message = "currency is required")
     private String currency;
+    private String status;
 }

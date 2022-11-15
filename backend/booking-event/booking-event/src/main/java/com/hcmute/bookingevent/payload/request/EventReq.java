@@ -1,9 +1,8 @@
 package com.hcmute.bookingevent.payload.request;
 
 import com.hcmute.bookingevent.models.EventCategory;
-import com.hcmute.bookingevent.models.ticket.OrganizationTicket;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -34,7 +33,7 @@ public class EventReq {
     @NotBlank(message = "eventCategoryList is required")
     private List<EventCategory> eventCategoryList;
     @NotBlank(message = "organizationTickets is required")
-    private List<OrganizationTicket> organizationTickets;
+    private List<Ticket> organizationTickets;
     @NotBlank(message = "createdDate is required")
     private Date createdDate;
     @NotBlank(message = "totalTicket is required")
