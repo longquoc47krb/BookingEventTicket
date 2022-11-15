@@ -5,9 +5,32 @@
 @import "./user-profile.scss";
 @import "./upload.scss";
 
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+@font-face {
+  font-family: "SVN-Gilroy";
+  font-weight: 400;
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
+}
+@font-face {
+  font-family: "SVN-Gilroy";
+  font-weight: 500;
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
+}
+@font-face {
+  font-family: "SVN-Gilroy";
+  font-weight: 600;
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
+}
+@font-face {
+  font-family: "SVN-Gilroy";
+  font-weight: 700;
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
+}
 * {
-  font-family: FS PFBeauSansPro, sans-serif;
+  font-family: SVN-Gilroy, sans-serif;
 }
 body {
   margin: 0;
@@ -54,25 +77,6 @@ body {
   user-select: none;
   pointer-events: auto;
   transform: scale3d(1, 1, 1) rotate(0deg) translate(0px, -256px);
-}
-@font-face {
-  font-family: "FS PFBeauSansPro";
-  src: local("FS PFBeauSansPro"),
-    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Regular.otf)
-      format("opentype");
-}
-@font-face {
-  font-family: "FS PFBeauSansPro";
-  font-weight: 600;
-  src: local("FS PFBeauSansPro"),
-    url(../assets/fonts/BeauSansPro/PFBeauSansPro-SemiBold.ttf)
-      format("opentype");
-}
-@font-face {
-  font-family: "FS PFBeauSansPro";
-  font-weight: 700;
-  src: local("FS PFBeauSansPro"),
-    url(../assets/fonts/BeauSansPro/PFBeauSansPro-Bold.otf) format("opentype");
 }
 
 @tailwind base;

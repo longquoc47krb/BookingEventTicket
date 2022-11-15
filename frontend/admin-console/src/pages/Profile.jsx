@@ -63,7 +63,7 @@ function UserProfile() {
       if (avatar) {
         updateAvatarResponse = await updateAvatar(id, avatar);
       }
-      const updateBio = await addOrganizerBio(email, { biography });
+      const updateBio = await addOrganizerBio(id, { biography });
       const updateAccountResponse = await updateAccount(id, { name, phone });
       const userInfo = await findOrganizerById(id);
       if (userInfo.status === 200) {

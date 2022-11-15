@@ -25,6 +25,10 @@ const ProfilePage = Loadable({
   loader: () => import("../pages/Profile"),
   loading: Loading,
 });
+const ForgotPasswordPage = Loadable({
+  loader: () => import("../pages/ForgotPassword"),
+  loading: Loading,
+});
 const CalendarPage = Loadable({
   loader: () => import("../pages/Calendar"),
   loading: Loading,
@@ -41,6 +45,10 @@ export const routes = [
   {
     element: <LoginPage />,
     path: "/login",
+  },
+  {
+    element: <ForgotPasswordPage />,
+    path: "/forgot-password",
   },
 ];
 export const privateRoutes = [

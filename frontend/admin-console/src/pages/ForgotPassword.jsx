@@ -1,27 +1,21 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import HelmetHeader from "../../components/helmet";
-import LanguageSwitch from "../../components/language-switch";
-import * as Yup from "yup";
-import Countdown from "react-countdown";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import { YupValidations } from "../../utils/validate";
-import { Col, Row } from "antd";
-import { Input } from "../../components/common/input/customField";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
-// import OtpInput from "../../components/common/otp";
-import OtpInput from "react-otp-input";
-import authServices from "../../api/services/authServices";
-import { isNotEmpty } from "../../utils/utils";
-import ThreeDotsLoading from "../../components/loading/three-dots";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { emailSelector, setEmail } from "../../redux/slices/accountSlice";
+import { useNavigate } from "react-router-dom";
+import authServices from "../api/services/authServices";
+import { emailSelector, setEmail } from "../redux/slices/accountSlice";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
+import * as Yup from "yup";
+import { isNotEmpty } from "../utils/utils";
+import { YupValidations } from "../utils/validate";
+import { AlertErrorPopup, AlertPopup } from "../components/Alert";
+import { t } from "i18next";
+import { Col, Row } from "antd";
+import { Input } from "../components/customField";
+import OtpInput from "react-otp-input";
+import ThreeDotsLoading from "../components/ThreeLoading";
 const { forgotPassword, verifyOTP, newPassword } = authServices;
 function ForgotPassword() {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
   const navigate = useNavigate();
@@ -109,15 +103,13 @@ function ForgotPassword() {
   };
   return (
     <>
-      <HelmetHeader title={t("pages.forgot-password")} content="Login" />
-      <div className="auth-container">
+      <div className="auth-container bg">
         <img
-          src={process.env.PUBLIC_URL + "logo-color.png"}
+          src={process.env.PUBLIC_URL + "logo-white.png"}
           alt="logo"
           className="brand-logo absolute top-5 left-5 w-[10vw] z-10"
           onClick={() => navigate("/")}
         />
-        <LanguageSwitch className="absolute top-5 right-5 z-10" />
         <div className="auth-content">
           <FormikProvider value={showOTPInput ? formikOTP : formik}>
             <Form
