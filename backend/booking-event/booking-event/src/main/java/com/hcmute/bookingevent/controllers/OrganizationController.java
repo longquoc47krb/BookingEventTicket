@@ -71,12 +71,22 @@ public class OrganizationController {
 
         }
     }
-    @PostMapping("/organization/addBio/{email}")
-    public ResponseEntity<?> addOrganizerBio(@PathVariable String email, @RequestBody OrganizerBioReq bioReq){
-        return iOrganizationService.addBio(bioReq.getBiography(), email);
-    };
-    @PostMapping("/organization/removeBio/{email}")
-    public ResponseEntity<?> removeOrganizerBio(@PathVariable String email){
-        return iOrganizationService.removeBio(email);
-    };
+    @PostMapping("/organization/bio/{userid}")
+    public ResponseEntity<?> addOrganizerBio(@PathVariable String userid, @RequestBody OrganizerBioReq bioReq,HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userid)) {
+            return iOrganizationService.addBio(bioReq.getBiography(), account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
+    }
+    @DeleteMapping("/organization/bio/{userid}")
+    public ResponseEntity<?> deleteOrganizerBio(@PathVariable String userid,HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userid)) {
+            return iOrganizationService.removeBio(account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
+    }
 }
