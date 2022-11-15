@@ -3,6 +3,7 @@ import { Col, Row } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { t } from "i18next";
 import { decode, encode } from "js-base64";
+import htmlToDraft from "html-to-draftjs";
 import { map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -46,8 +47,8 @@ function AddEditEvent(props) {
     background: null,
     name: "",
     startingDate: moment(),
-    startingTime: moment(),
     endingDate: moment(),
+    startingTime: moment(),
     eventCategoryList: [],
     endingTime: moment(),
     description: "",
@@ -62,6 +63,7 @@ function AddEditEvent(props) {
         ticketName: "",
         currency: "USD",
         quantity: 0,
+        description: "",
       },
     ],
   };
@@ -101,14 +103,14 @@ function AddEditEvent(props) {
         endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
         endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
         startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
-        startingTime: moment(values.startingTime, PATTERNS.TIME_FORMAT),
+        startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
         eventCategoryList: handleEventCategoryList(values.eventCategoryList),
         province: values.province,
         venue: values.venue,
         venue_address: values.venue_address,
         organizationTickets: handleTicketList(values.ticketList),
-        totalTicket: sumBy(values.ticketList, "quantity"),
-        remainingTicket: sumBy(values.ticketList, "quantity"),
+        totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+        remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
       };
       console.log({ request });
@@ -127,7 +129,7 @@ function AddEditEvent(props) {
         showNotification(
           responseUpdate.status === 200 || uploadBackground.status === 200
         );
-        setLoading(responseUpdate.status ?? false);
+        setLoading(false);
       } else {
         let responseUpdate = await updateEvent(eventId, user.id, request);
         var uploadBackgroundUpdate =
@@ -151,6 +153,22 @@ function AddEditEvent(props) {
     console.log({ values });
     console.log({ eventId });
     console.log({ errors });
+    console.log({
+      name: values.name,
+      description: encode(values.description),
+      endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
+      endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
+      startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
+      startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
+      eventCategoryList: handleEventCategoryList(values.eventCategoryList),
+      province: values.province,
+      venue: values.venue,
+      venue_address: values.venue_address,
+      organizationTickets: handleTicketList(values.ticketList),
+      totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+      remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+      host_id: user.id,
+    });
     console.groupEnd();
   }, [values, errors]);
 
@@ -377,9 +395,8 @@ function AddEditEvent(props) {
                         </Row>
                         <Row gutter={[8, 24]}>
                           <Col span={22}>
-                            <Field
+                            <Editor
                               name={`ticketList[${index}].description`}
-                              component={Editor}
                               label={t("event.ticketList.description", {
                                 val: index + 1,
                               })}
@@ -403,12 +420,7 @@ function AddEditEvent(props) {
             </FieldArray>
             <Row gutter={[48, 40]}>
               <Col span={24}>
-                <Field
-                  component={Editor}
-                  label={t("event.description")}
-                  name="description"
-                  required
-                />
+                <Editor name="description" label={t("event.description")} />
               </Col>
             </Row>
             <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>

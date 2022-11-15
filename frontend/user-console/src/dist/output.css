@@ -611,6 +611,10 @@
   bottom: -2.5rem !important;
 }
 
+.swiper-slide img {
+  max-height: 68vh;
+}
+
 /* .My-Editor {
     margin-top: 1rem;
 } */

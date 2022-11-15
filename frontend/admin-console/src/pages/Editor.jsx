@@ -1,37 +1,54 @@
-import { ErrorMessage } from "formik";
-import React, { useState, useEffect } from "react";
-import RichTextEditor from "react-rte";
-
-function Editor(props) {
-  const { field, form, label, onChange: onChangeCustom } = props;
-  const { value, name } = field;
-  const [editorState, setEditorState] = useState(
-    RichTextEditor.createEmptyValue()
+import {
+  ContentState,
+  convertFromHTML,
+  convertToRaw,
+  EditorState,
+} from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { ErrorMessage, useField } from "formik";
+import React, { useEffect, useState } from "react";
+import { Editor as EditorDraft } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+const Editor = (props) => {
+  const { name, label } = props;
+  const [field, meta, helpers] = useField(name);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
   );
+  const formikValue = meta.value;
+  // Convert formik value to an editor state.
+  // This is triggered when we change the subject.
   useEffect(() => {
-    if (
-      value !== null &&
-      typeof value !== "undefined" &&
-      value !== editorState.toString("html")
-    ) {
-      setEditorState(RichTextEditor.createValueFromString(value, "html"));
-    }
-  }, [editorState, value]);
+    const blocksFromHTML = convertFromHTML(formikValue);
+    const state = ContentState.createFromBlockArray(
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap
+    );
+
+    setEditorState(EditorState.createWithContent(state));
+  }, [formikValue]);
+  // Formik value is only updated when we leave the editor.
+  function saveStateToFormik() {
+    const htmlString = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+    helpers.setValue(htmlString);
+  }
+
   return (
-    <div className="my-2">
+    <div>
       <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
-      <RichTextEditor
-        value={editorState}
-        onChange={(text) => {
-          form.setFieldValue(name, text.toString("html"));
-          setEditorState(text);
-        }}
+      <EditorDraft
+        editorState={editorState}
+        onEditorStateChange={(editorState) => setEditorState(editorState)}
+        wrapperClassName="w-auto"
+        editorClassName="bg-white border-2 border-gray-200 p-2"
+        onBlur={saveStateToFormik}
       />
-      <p className="error-message">
+      <p className="error-message w-[100%]">
         <ErrorMessage name={name} />
       </p>
     </div>
   );
-}
-
+};
 export default Editor;

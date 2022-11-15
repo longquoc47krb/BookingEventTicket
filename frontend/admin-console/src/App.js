@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useSelector } from "react-redux";
 import { tokenSelector } from "./redux/slices/accountSlice";
 import Layout from "./pages/Layout";
+import Editor from "./pages/Editor";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -63,6 +64,7 @@ function App() {
                   ))}
                 </Route>
               </Route>
+              <Route element={<Editor />} path="/test" />
             </Routes>
           </div>
         </BrowserRouter>
