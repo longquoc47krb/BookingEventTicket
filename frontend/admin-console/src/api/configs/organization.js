@@ -8,4 +8,8 @@ export const OrganizationAPI = {
     url: `/organization/event/list/${userid}`,
     method: "GET",
   }),
+  findOrganizerByEmail: (email) => ({
+    url: `/organization/${email}`,
+    method: "GET",
+  }),
 };

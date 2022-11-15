@@ -13,7 +13,7 @@ public interface IOrganizationService {
      ResponseEntity<?> deleteOrganization(String email);
      ResponseEntity<?> findEventsByOrganization(String email);
      ResponseEntity<?> approveOrganization(String email);
-     ResponseEntity<?> findOrganizationById(String id);
+     ResponseEntity<?> findOrganizationByEmail(String email);
      ResponseEntity<?> addBio(String bio,String email);
      ResponseEntity<?> removeBio(String email);
 }

@@ -41,6 +41,7 @@ function UserProfile() {
     name: user?.name,
     email: user?.email,
     phone: user?.phone ?? null,
+    biography: "",
   };
   // formik
   const formik = useFormik({

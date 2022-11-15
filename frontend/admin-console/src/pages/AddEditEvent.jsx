@@ -1,68 +1,69 @@
 /* eslint-disable quotes */
-import { Col, message, Row } from "antd";
+import { Col, Row } from "antd";
+import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { t } from "i18next";
-import React, { useEffect, useRef, useState } from "react";
-import { Header } from "../components";
-import { GiCancel } from "react-icons/gi";
-import UploadImage from "../components/Upload";
-import { useFormik, Field, Form, FormikProvider, FieldArray } from "formik";
+import { decode, encode } from "js-base64";
+import htmlToDraft from "html-to-draftjs";
+import { map, sumBy } from "lodash";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { YupValidations } from "../utils/validate";
 import { useFetchCategories } from "../api/services/categoryServices";
-import { isEmpty } from "../utils/utils";
+import eventServices from "../api/services/eventServices";
+import { Header } from "../components";
+import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import {
   DatePicker,
   Input,
   Select,
+  SelectHorizonal,
   TimePicker,
 } from "../components/customField";
-import { encode, decode } from "js-base64";
-import Editor from "./Editor";
-import moment from "moment";
+import ThreeDotsLoading from "../components/ThreeLoading";
+import UploadImage from "../components/Upload";
+import { userInfoSelector } from "../redux/slices/accountSlice";
+import { setInitialBackground } from "../redux/slices/eventSlice";
 import constants from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { map, sumBy, update } from "lodash";
-import { useParams } from "react-router-dom";
-import eventServices, { useEventDetails } from "../api/services/eventServices";
-import { useDispatch, useSelector } from "react-redux";
-import { setInitialBackground } from "../redux/slices/eventSlice";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-import { AlertErrorPopup, AlertPopup } from "../components/Alert";
+import { generateId } from "../utils/utils";
+import { YupValidations } from "../utils/validate";
+import Editor from "./Editor";
 const { getEventById, createEvent, uploadEventBackground, updateEvent } =
   eventServices;
 const { PATTERNS } = constants;
 function AddEditEvent(props) {
   const { eventId } = useParams();
   const [event, setEvent] = useState({});
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
+
   const initialValues = {
-    background: eventId ? event.background : null,
-    name: event?.name ?? "",
-    startingDate: eventId
-      ? moment(event?.startingDate, PATTERNS.DATE_FORMAT)
-      : moment(),
-    startingTime: eventId
-      ? moment(event?.startingTime, PATTERNS.TIME_FORMAT)
-      : moment(),
-    endingDate: eventId
-      ? moment(event?.endingDate, PATTERNS.DATE_FORMAT)
-      : moment(),
-    eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
-    endingTime: eventId
-      ? moment(event?.endingTime, PATTERNS.TIME_FORMAT)
-      : moment(),
-    description: event?.description ?? "",
-    province: event?.province ?? "",
-    venue: event?.venue ?? "",
-    venue_address: event?.venue_address ?? "",
-    ticketList: event?.organizationTickets ?? [
+    background: null,
+    name: "",
+    startingDate: moment(),
+    endingDate: moment(),
+    startingTime: moment(),
+    eventCategoryList: [],
+    endingTime: moment(),
+    description: "",
+    province: "",
+    currency: "USD",
+    venue: "",
+    venue_address: "",
+    ticketList: [
       {
-        currency: "",
+        id: generateId(user.name, date),
         price: 0,
-        quantity: 0,
         ticketName: "",
+        currency: "USD",
+        quantity: 0,
+        description: "",
       },
     ],
   };
@@ -73,11 +74,14 @@ function AddEditEvent(props) {
     }
     return temp;
   };
+
+  // console.log("currency", event?.organizationTickets[0].currency);
   const handleFormData = (value) => {
     var formData = new FormData();
     formData.append("file", value);
     return formData;
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
@@ -92,63 +96,85 @@ function AddEditEvent(props) {
       ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      setLoading(true);
       const request = {
         name: values.name,
         description: encode(values.description),
         endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
         endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
         startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
-        startingTime: moment(values.startingTime, PATTERNS.TIME_FORMAT),
+        startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
         eventCategoryList: handleEventCategoryList(values.eventCategoryList),
         province: values.province,
         venue: values.venue,
         venue_address: values.venue_address,
-        organizationTickets: values.ticketList,
-        totalTicket: sumBy(values.ticketList, "quantity"),
-        remainingTicket: sumBy(values.ticketList, "quantity"),
+        organizationTickets: handleTicketList(values.ticketList),
+        totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+        remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
       };
+      console.log({ request });
       if (!eventId) {
-        var response = await createEvent(user.id, request);
-        if (response.status === 200) {
+        let responseUpdate = await createEvent(user.id, request);
+        if (responseUpdate.status === 200) {
           var uploadBackground = await uploadEventBackground(
-            response.data,
+            responseUpdate.data,
             user.id,
             handleFormData(values.background)
           );
         }
-        if (response.status === 200 || uploadBackground.status === 200) {
+        if (responseUpdate.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
         }
         showNotification(
-          response.status === 200 || uploadBackground.status === 200
+          responseUpdate.status === 200 || uploadBackground.status === 200
         );
+        setLoading(false);
       } else {
-        var responseUpdate = await updateEvent(eventId, user.id, request);
-        if (
-          responseUpdate.status === 200 &&
-          typeof values.background === "object"
-        ) {
-          var uploadBackgroundUpdate = await uploadEventBackground(
-            response.data,
+        let responseUpdate = await updateEvent(eventId, user.id, request);
+        var uploadBackgroundUpdate =
+          typeof values.background === "object" ??
+          (await uploadEventBackground(
+            eventId,
             user.id,
             handleFormData(values.background)
-          );
-        }
-        if (
-          responseUpdate.status === 200 ||
-          uploadBackgroundUpdate.status === 200
-        ) {
-          formik.setValues(initialValues);
-        }
+          ));
+        setLoading(false);
         showNotification(
           responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
         );
       }
     },
   });
-  const { handleSubmit, values, setValues } = formik;
+  const { handleSubmit, values, setValues, errors } = formik;
+  useEffect(() => {
+    console.group();
+    console.log({ event });
+    console.log({ values });
+    console.log({ eventId });
+    console.log({ errors });
+    console.log({
+      name: values.name,
+      description: encode(values.description),
+      endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
+      endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
+      startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
+      startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
+      eventCategoryList: handleEventCategoryList(values.eventCategoryList),
+      province: values.province,
+      venue: values.venue,
+      venue_address: values.venue_address,
+      organizationTickets: handleTicketList(values.ticketList),
+      totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+      remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+      host_id: user.id,
+    });
+    console.groupEnd();
+  }, [values, errors]);
+
+  useEffect(() => {
+    setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
+  }, [values.startingDate]);
   useEffect(() => {
     if (eventId) {
       async function fetchEvent() {
@@ -158,6 +184,7 @@ function AddEditEvent(props) {
         setValues({
           background: res.background,
           name: res.name,
+          currency: res.organizationTickets[0].currency,
           startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
           startingTime: moment(res.startingTime, PATTERNS.TIME_FORMAT),
           endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
@@ -173,7 +200,14 @@ function AddEditEvent(props) {
       fetchEvent();
     }
   }, []);
-
+  const handleTicketList = (list) => {
+    const newArr = list.map((t) => ({
+      ...t,
+      currency: values.currency,
+      quantity: Number(t.quantity),
+    }));
+    return newArr;
+  };
   const showNotification = (code) => {
     if (code) {
       return AlertPopup({
@@ -294,30 +328,44 @@ function AddEditEvent(props) {
                 const { push, remove, form } = fieldArrayProps;
                 const { values } = form;
                 const { ticketList } = values;
-                console.log({ ticketList });
                 return (
                   <>
                     <Row gutter={[8, 40]}>
-                      <Col span={24}>
+                      <Col span={8}>
                         <button
                           className="primary-button self-start w-64"
                           onClick={() =>
                             push({
-                              currency: "",
+                              id: generateId(user.name, date),
                               price: 0,
-                              quantity: 0,
                               ticketName: "",
+                              currency: values.currency,
+                              quantity: 0,
                             })
                           }
                         >
-                          New ticket
+                          {t("ticket.create")}
                         </button>
+                      </Col>
+                      <Col span={16}>
+                        <Field
+                          name="currency"
+                          component={SelectHorizonal}
+                          label={t("event.currency")}
+                          options={Object.values([
+                            { value: "USD", label: "USD" },
+                            { value: "VND", label: "VND" },
+                          ]).map((field) => ({
+                            value: field.value,
+                            name: field.label,
+                          }))}
+                        />
                       </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (
-                      <div className="p-3 border-gray-400 border-2 border-dashed my-1 rounded-lg">
-                        <Row gutter={[0, 24]} className="flex items-start">
-                          <Col span={8}>
+                      <div className="p-3 border-gray-400 border-4 border-dashed my-2 rounded-lg bg-gray-200 relative">
+                        <Row gutter={[4, 24]} className="flex items-start">
+                          <Col span={10}>
                             <Field
                               name={`ticketList[${index}].ticketName`}
                               component={Input}
@@ -326,7 +374,7 @@ function AddEditEvent(props) {
                               })}
                             />
                           </Col>
-                          <Col span={4}>
+                          <Col span={6}>
                             <Field
                               name={`ticketList[${index}].price`}
                               component={Input}
@@ -335,54 +383,35 @@ function AddEditEvent(props) {
                               })}
                             />
                           </Col>
-                          <Col span={4}>
+                          <Col span={6}>
                             <Field
                               name={`ticketList[${index}].quantity`}
                               component={Input}
                               label={t("event.ticketList.quantity", {
                                 val: index + 1,
                               })}
-                              type="number"
                             />
-                          </Col>
-                          <Col span={4}>
-                            <Field
-                              name={`ticketList[${index}].currency`}
-                              component={Select}
-                              label={t("event.ticketList.currency", {
-                                val: index + 1,
-                              })}
-                              options={Object.values([
-                                { value: "USD", label: "USD" },
-                                { value: "VND", label: "VND" },
-                              ]).map((field) => ({
-                                value: field.value,
-                                name: field.label,
-                              }))}
-                            />
-                          </Col>
-                          <Col span={4}>
-                            {index > 0 && (
-                              <button
-                                type="button"
-                                onClick={() => remove(index)}
-                              >
-                                <GiCancel className="text-red-600 translate-y-[3rem] text-2xl" />
-                              </button>
-                            )}
                           </Col>
                         </Row>
                         <Row gutter={[8, 24]}>
-                          <Col span={20}>
-                            <Field
+                          <Col span={22}>
+                            <Editor
                               name={`ticketList[${index}].description`}
-                              component={Editor}
                               label={t("event.ticketList.description", {
                                 val: index + 1,
                               })}
                             />
                           </Col>
                         </Row>
+                        {index > 0 && (
+                          <>
+                            <FaTrashAlt
+                              className="text-red-600 text-2xl absolute bottom-5 right-5 hover:animate-bounce cursor-pointer"
+                              type="button"
+                              onClick={() => remove(index)}
+                            />
+                          </>
+                        )}
                       </div>
                     ))}
                   </>
@@ -391,18 +420,13 @@ function AddEditEvent(props) {
             </FieldArray>
             <Row gutter={[48, 40]}>
               <Col span={24}>
-                <Field
-                  component={Editor}
-                  label={t("event.description")}
-                  name="description"
-                  required
-                />
+                <Editor name="description" label={t("event.description")} />
               </Col>
             </Row>
             <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
               <Col span={12}>
                 <button className="primary-button" type="submit">
-                  {t("submit")}
+                  {loading ? <ThreeDotsLoading /> : t("submit")}
                 </button>
               </Col>
               <Col span={12}>

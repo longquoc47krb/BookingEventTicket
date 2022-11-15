@@ -13,7 +13,8 @@ import { setUserProfile, userInfoSelector } from "../redux/slices/accountSlice";
 import accountServices, {
   useFetchUserInfo,
 } from "../api/services/accountServices";
-const { findUser } = accountServices;
+import organizationServices from "../api/services/organizationServices";
+const { getOrganizerByEmail } = organizationServices;
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
     <button
@@ -72,7 +73,7 @@ const Navbar = () => {
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
   useEffect(() => {
     const fetchUserInfor = async () => {
-      const response = await findUser(user.email);
+      const response = await getOrganizerByEmail(user.email);
       return response.status === 200 && dispatch(setUserProfile(response.data));
     };
     fetchUserInfor();

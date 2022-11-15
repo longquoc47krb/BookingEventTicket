@@ -30,9 +30,6 @@ function Payment() {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
   }, []);
-  const renderer = ({ seconds }) => {
-    return <span>{seconds}s</span>;
-  };
   const pageRendering = (success, cancel) => {
     if (success) {
       dispatch(setCurrentStep(2));

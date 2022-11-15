@@ -15,6 +15,7 @@
     "event": {
         "background": "Background",
         "name": "Title",
+        "currency": "Select currency:",
         "category": "Categories",
         "startingDate": "Start date",
         "endingDate": "End date",
@@ -42,7 +43,7 @@
             }
         },
         "ticketList": {
-            "ticketName": "Ticket No.{{val, number}}",
+            "ticketName": "Ticket Type No.{{val, number}}",
             "price": "Price No.{{val, number}}",
             "quantity": "Quantity No.{{val, number}}",
             "currency": "Currency No.{{val, number}}",
@@ -84,6 +85,10 @@
         "event": {
             "delete": "Do you want delete this event?",
             "delete-success": "Successfully delete event"
+        },
+        "create-event": {
+            "success": "Successfully create new event",
+            "error": "Failed create event"
         }
     },
     "user": {
@@ -179,10 +184,12 @@
                 "required": "Currency is required"
             },
             "quantity": {
+                "number": "Quantity must be numberic",
                 "required": "Quantity is required",
                 "min": "Min is 30 tickets"
             },
             "price": {
+                "number": "Price must be numberic",
                 "required": "Price is required",
                 "min": "Min price is greater than 0"
             },
@@ -191,5 +198,9 @@
             },
             "unique": "Ticket is duplicated"
         }
+    },
+    "ticket": {
+        "create": "Create new ticket",
+        "remove": "Remove this ticket"
     }
 }

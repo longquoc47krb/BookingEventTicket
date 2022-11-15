@@ -20,6 +20,7 @@ export const YupValidations = {
     .max(255, t("validate.address.max")),
   description: Yup.string()
     .required(t("validate.description.required"))
+    .min(9, t("validate.description.required"))
     .max(2000, t("validate.description.max")),
   phone: Yup.string()
     .phone("VN", t("validate.phone.error"))
@@ -46,25 +47,28 @@ export const YupValidations = {
     .min(1, t("validate.categories.required"))
     .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
-    .required("validate.startingDate.required")
-    .min(moment(), "validate.startingDate.min")
-    .max(Yup.ref("endingDate"), "validate.startingDate.max"),
+    .required(t("validate.startingDate.required"))
+    .min(moment(), t("validate.startingDate.min"))
+    .max(Yup.ref("endingDate"), t("validate.startingDate.max")),
   endingDate: Yup.date()
-    .required("validate.endingDate.required")
+    .required(t("validate.endingDate.required"))
     .when(
       "startingDate",
       (startingDate, yupSchema) =>
-        startingDate && yupSchema.min(startingDate, "validate.endingDate.min")
+        startingDate &&
+        yupSchema.min(startingDate, t("validate.endingDate.min"))
     ),
   ticketList: Yup.array()
     .of(
       Yup.object().shape({
         currency: Yup.string().required(t("validate.ticket.currency.required")),
         price: Yup.number()
+          .typeError(t("validate.ticket.price.number"))
           .required(t("validate.ticket.price.required"))
-          .min(1, t("validate.ticket.price.min")),
+          .min(0.1, t("validate.ticket.price.min")),
         ticketName: Yup.string().required(t("validate.ticket.name.required")),
         quantity: Yup.number()
+          .typeError(t("validate.ticket.quantity.number"))
           .required(t("validate.ticket.quantity.required"))
           .min(30, t("validate.ticket.quantity.min")),
       })

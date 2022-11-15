@@ -13,6 +13,8 @@ public class OrganizerResponse {
     private String id;
     private String name;
     private String avatar;
+    private String phone;
+    private String role;
     private String email;
     private String biography;
 }

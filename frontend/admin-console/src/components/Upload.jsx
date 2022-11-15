@@ -163,7 +163,7 @@ const UploadImage = (props) => {
   ) : null;
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => URL.revokeObjectURL(file.preview);
+    return () => URL.revokeObjectURL(file?.preview);
   }, []);
   return (
     <>

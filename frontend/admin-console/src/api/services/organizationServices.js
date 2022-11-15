@@ -10,6 +10,16 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const getOrganizerByEmail = async (email) => {
+  try {
+    const response = await httpRequest(
+      OrganizationAPI.findOrganizerByEmail(email)
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const getEventsByOrganizationId = async (id) => {
   try {
     const response = await httpRequest(OrganizationAPI.findEventByOrgId(id));
@@ -28,5 +38,9 @@ export const useFetchEventsByOrgID = (id) => {
     }
   );
 };
-const organizationServices = { submitOrganizer, getEventsByOrganizationId };
+const organizationServices = {
+  submitOrganizer,
+  getEventsByOrganizationId,
+  getOrganizerByEmail,
+};
 export default organizationServices;

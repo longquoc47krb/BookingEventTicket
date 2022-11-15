@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import accountServices from "../api/services/accountServices";
 import authServices from "../api/services/authServices";
+import organizationServices from "../api/services/organizationServices";
 import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import { Input, InputPassword } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
@@ -16,6 +17,7 @@ import { isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 const { findUser } = accountServices;
 const { loginByEmail } = authServices;
+const { getOrganizerByEmail } = organizationServices;
 function Login() {
   const initialValues = {
     email: "",
@@ -39,7 +41,7 @@ function Login() {
         email,
         password,
       });
-      const userProfileResponse = await findUser(email);
+      const userProfileResponse = await getOrganizerByEmail(email);
       showNotification(response.status, userProfileResponse.data.role);
       if (isNotEmpty(response)) {
         setLoading(false);
@@ -81,7 +83,7 @@ function Login() {
   };
   const { handleSubmit } = formikLogin;
   return (
-    <div className="flex items-center justify-center w-full h-full">
+    <div className="flex items-center justify-center w-full h-screen bg">
       <FormikProvider value={formikLogin}>
         <Form className="auth-form" onSubmit={handleSubmit}>
           <Row className="leading-8">

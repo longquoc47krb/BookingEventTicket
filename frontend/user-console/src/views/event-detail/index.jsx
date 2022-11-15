@@ -10,8 +10,8 @@ import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import organizationServices from "../../api/services/organizationServices";
 import { useEventDetails } from "../../api/services/eventServices";
+import organizationServices from "../../api/services/organizationServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
 import AppDrawer from "../../components/common/drawer";
@@ -42,14 +42,14 @@ function EventDetail(props) {
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
   const [organizer, setOrganizer] = useState();
-  console.log(organizer);
   useEffect(() => {
     async function fetchOrganizerInfo() {
       const res = await findOrganizerById(event?.host_id);
-      setOrganizer(res.data);
+      setOrganizer(res);
     }
     fetchOrganizerInfo();
   }, [event]);
+  console.log(organizer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -287,7 +287,9 @@ function EventDetail(props) {
                   <p>{organizer?.biography}</p>
                   <button
                     className="event-detail-organization-contact"
-                    href="mailto:xyz@something.com"
+                    onClick={() => {
+                      window.open(`mailto:${organizer?.email}`, "_blank");
+                    }}
                   >
                     <AiOutlineMail />
                     {t("org.contact")}
