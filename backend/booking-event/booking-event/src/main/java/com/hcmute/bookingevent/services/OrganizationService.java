@@ -81,16 +81,16 @@ public class OrganizationService implements IOrganizationService {
         }
     }
     @Override
-    public ResponseEntity<?> findOrganizationById(String id)
+    public ResponseEntity<?> findOrganizationByEmail(String email)
     {
         try
         {
-            Optional<Account> account = accountRepository.findById(id);
-            Optional<Organization> organization = organizationRepository.findByEmail(account.get().getEmail());
+            Optional<Account> account = accountRepository.findByEmail(email);
+            Optional<Organization> organization = organizationRepository.findByEmail(email);
             if(organization.isPresent())
             {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(),organization.get().getEmail(),organization.get().getBiography());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(), account.get().getRole(),organization.get().getEmail(),organization.get().getBiography());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse,200));

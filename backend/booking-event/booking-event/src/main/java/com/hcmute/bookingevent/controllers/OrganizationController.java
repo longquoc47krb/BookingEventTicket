@@ -3,7 +3,6 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.models.Organization;
 import com.hcmute.bookingevent.payload.request.EmailReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.request.OrganizerBioReq;
@@ -45,10 +44,10 @@ public class OrganizationController {
     {
         return iOrganizationService.findAll();
     }
-    @GetMapping("/organization/{id}")
-    public ResponseEntity<?> findOrganizationById(@PathVariable String id)
+    @GetMapping("/organization/{email}")
+    public ResponseEntity<?> findOrganizationByEmail(@PathVariable String email)
     {
-        return iOrganizationService.findOrganizationById(id);
+        return iOrganizationService.findOrganizationByEmail(email);
     }
     @PostMapping("/organization")
     public ResponseEntity<?> submitOrganization(@RequestBody OrganizationSubmitReq organizationSubmitReq)
