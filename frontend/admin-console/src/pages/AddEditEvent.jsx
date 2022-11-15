@@ -7,7 +7,6 @@ import { map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import { GiCancel } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
@@ -22,6 +21,7 @@ import {
   SelectHorizonal,
   TimePicker,
 } from "../components/customField";
+import ThreeDotsLoading from "../components/ThreeLoading";
 import UploadImage from "../components/Upload";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { setInitialBackground } from "../redux/slices/eventSlice";
@@ -36,38 +36,32 @@ const { PATTERNS } = constants;
 function AddEditEvent(props) {
   const { eventId } = useParams();
   const [event, setEvent] = useState({});
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
+
   const initialValues = {
-    background: eventId ? event.background : null,
-    name: event?.name ?? "",
-    startingDate: eventId
-      ? moment(event?.startingDate, PATTERNS.DATE_FORMAT)
-      : moment(),
-    startingTime: eventId
-      ? moment(event?.startingTime, PATTERNS.TIME_FORMAT)
-      : moment(),
-    endingDate: eventId
-      ? moment(event?.endingDate, PATTERNS.DATE_FORMAT)
-      : moment(),
-    eventCategoryList: map(event?.eventCategoryList, "id") ?? [],
-    endingTime: eventId
-      ? moment(event?.endingTime, PATTERNS.TIME_FORMAT)
-      : moment(),
-    description: event?.description ?? "",
-    province: event?.province ?? "",
-    currency: event?.organizationTickets?.currency ?? "USD",
-    venue: event?.venue ?? "",
-    venue_address: event?.venue_address ?? "",
-    ticketList: event?.organizationTickets ?? [
+    background: null,
+    name: "",
+    startingDate: moment(),
+    startingTime: moment(),
+    endingDate: moment(),
+    eventCategoryList: [],
+    endingTime: moment(),
+    description: "",
+    province: "",
+    currency: "USD",
+    venue: "",
+    venue_address: "",
+    ticketList: [
       {
         id: generateId(user.name, date),
-        currency: "USD",
         price: 0,
-        quantity: 0,
         ticketName: "",
+        currency: "USD",
+        quantity: 0,
       },
     ],
   };
@@ -79,11 +73,13 @@ function AddEditEvent(props) {
     return temp;
   };
 
+  // console.log("currency", event?.organizationTickets[0].currency);
   const handleFormData = (value) => {
     var formData = new FormData();
     formData.append("file", value);
     return formData;
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object().shape({
@@ -98,6 +94,7 @@ function AddEditEvent(props) {
       ticketList: YupValidations.ticketList,
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       const request = {
         name: values.name,
         description: encode(values.description),
@@ -116,45 +113,47 @@ function AddEditEvent(props) {
       };
       console.log({ request });
       if (!eventId) {
-        var response = await createEvent(user.id, request);
-        if (response.status === 200) {
+        let responseUpdate = await createEvent(user.id, request);
+        if (responseUpdate.status === 200) {
           var uploadBackground = await uploadEventBackground(
-            response.data,
+            responseUpdate.data,
             user.id,
             handleFormData(values.background)
           );
         }
-        if (response.status === 200 || uploadBackground.status === 200) {
+        if (responseUpdate.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
         }
         showNotification(
-          response.status === 200 || uploadBackground.status === 200
+          responseUpdate.status === 200 || uploadBackground.status === 200
         );
+        setLoading(responseUpdate.status ?? false);
       } else {
-        var responseUpdate = await updateEvent(eventId, user.id, request);
-        if (
-          responseUpdate.status === 200 &&
-          typeof values.background === "object"
-        ) {
-          var uploadBackgroundUpdate = await uploadEventBackground(
-            response.data,
+        let responseUpdate = await updateEvent(eventId, user.id, request);
+        var uploadBackgroundUpdate =
+          typeof values.background === "object" ??
+          (await uploadEventBackground(
+            eventId,
             user.id,
             handleFormData(values.background)
-          );
-        }
-        if (
-          responseUpdate.status === 200 ||
-          uploadBackgroundUpdate.status === 200
-        ) {
-          formik.setValues(initialValues);
-        }
+          ));
+        setLoading(false);
         showNotification(
           responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
         );
       }
     },
   });
-  const { handleSubmit, values, setValues } = formik;
+  const { handleSubmit, values, setValues, errors } = formik;
+  useEffect(() => {
+    console.group();
+    console.log({ event });
+    console.log({ values });
+    console.log({ eventId });
+    console.log({ errors });
+    console.groupEnd();
+  }, [values, errors]);
+
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
   }, [values.startingDate]);
@@ -167,6 +166,7 @@ function AddEditEvent(props) {
         setValues({
           background: res.background,
           name: res.name,
+          currency: res.organizationTickets[0].currency,
           startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
           startingTime: moment(res.startingTime, PATTERNS.TIME_FORMAT),
           endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
@@ -185,8 +185,8 @@ function AddEditEvent(props) {
   const handleTicketList = (list) => {
     const newArr = list.map((t) => ({
       ...t,
-      quantity: Number(t.quantity),
       currency: values.currency,
+      quantity: Number(t.quantity),
     }));
     return newArr;
   };
@@ -319,10 +319,10 @@ function AddEditEvent(props) {
                           onClick={() =>
                             push({
                               id: generateId(user.name, date),
-                              currency: values.currency,
                               price: 0,
-                              quantity: 0,
                               ticketName: "",
+                              currency: values.currency,
+                              quantity: 0,
                             })
                           }
                         >
@@ -414,7 +414,7 @@ function AddEditEvent(props) {
             <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
               <Col span={12}>
                 <button className="primary-button" type="submit">
-                  {t("submit")}
+                  {loading ? <ThreeDotsLoading /> : t("submit")}
                 </button>
               </Col>
               <Col span={12}>

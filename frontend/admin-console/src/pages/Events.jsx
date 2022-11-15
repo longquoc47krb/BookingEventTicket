@@ -30,7 +30,6 @@ const Events = () => {
   // console.log(events[0]);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  console.log({events})
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />

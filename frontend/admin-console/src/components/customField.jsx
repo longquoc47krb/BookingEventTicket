@@ -215,6 +215,7 @@ function SelectHorizonal(props) {
           <AntdSelect
             showSearch
             value={value}
+            defaultValue={"USD"}
             style={{ height: "2.5rem", width: "auto" }}
             status={errors[name] ? "error" : ""}
             onChange={handleChange}
