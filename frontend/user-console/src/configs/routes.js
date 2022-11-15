@@ -55,6 +55,21 @@ const NotFoundPage = Loadable({
   loader: () => import("../views/not-found"),
   loading: Loading,
 });
+export const unauthorizedRoute = [
+  {
+    element: <LoginPage />,
+    path: "/login",
+  },
+  {
+    element: <UserRegister />,
+    path: "/register",
+  },
+
+  {
+    element: <ForgotPassword />,
+    path: "/forgot-password",
+  },
+];
 const routes = [
   {
     element: <BeAnOrganizerPage />,
@@ -73,10 +88,6 @@ const routes = [
     path: "/event/:eventId",
   },
   {
-    element: <ForgotPassword />,
-    path: "/forgot-password",
-  },
-  {
     element: <NewPasswordPage />,
     path: "/new-password",
   },
@@ -85,14 +96,7 @@ const routes = [
     path: "/",
     exact: true,
   },
-  {
-    element: <LoginPage />,
-    path: "/login",
-  },
-  {
-    element: <UserRegister />,
-    path: "/register",
-  },
+
   {
     element: <NotFoundPage />,
     path: "*",

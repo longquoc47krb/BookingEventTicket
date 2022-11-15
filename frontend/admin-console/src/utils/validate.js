@@ -21,7 +21,7 @@ export const YupValidations = {
   description: Yup.string()
     .required(t("validate.description.required"))
     .min(9, t("validate.description.required"))
-    .max(2000, t("validate.description.max")),
+    .max(3000, t("validate.description.max")),
   phone: Yup.string()
     .phone("VN", t("validate.phone.error"))
     .notRequired()

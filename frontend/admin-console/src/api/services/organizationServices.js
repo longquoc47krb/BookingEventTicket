@@ -10,6 +10,16 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const addOrganizerBio = async (email, body) => {
+  try {
+    const response = await httpRequest(
+      OrganizationAPI.addOrganizerBio(email, body)
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const getOrganizerByEmail = async (email) => {
   try {
     const response = await httpRequest(
@@ -20,6 +30,12 @@ const getOrganizerByEmail = async (email) => {
     return error.response.data;
   }
 };
+const findOrganizerById = async (id) => {
+  try {
+    const response = await httpRequest(OrganizationAPI.findOrganizerById(id));
+    return response.data;
+  } catch (error) {}
+};
 const getEventsByOrganizationId = async (id) => {
   try {
     const response = await httpRequest(OrganizationAPI.findEventByOrgId(id));
@@ -27,6 +43,16 @@ const getEventsByOrganizationId = async (id) => {
   } catch (error) {
     return error.response.data;
   }
+};
+export const useFetchOrganizerByEmail = (email) => {
+  return useQuery(
+    ["getOrganizerByEmail", email],
+    () => getOrganizerByEmail(email),
+    {
+      staleTime: 30000,
+      refetchInterval: 5000,
+    }
+  );
 };
 export const useFetchEventsByOrgID = (id) => {
   return useQuery(
@@ -42,5 +68,7 @@ const organizationServices = {
   submitOrganizer,
   getEventsByOrganizationId,
   getOrganizerByEmail,
+  addOrganizerBio,
+  findOrganizerById,
 };
 export default organizationServices;

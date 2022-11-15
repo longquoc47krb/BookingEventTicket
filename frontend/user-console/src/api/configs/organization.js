@@ -5,7 +5,10 @@ export const OrganizationAPI = {
     data,
   }),
   findOrganizerById: (id) => ({
-    url: `/organization/${id}`,
+    url: `/organization`,
     method: "GET",
+    params: {
+      id,
+    },
   }),
 };

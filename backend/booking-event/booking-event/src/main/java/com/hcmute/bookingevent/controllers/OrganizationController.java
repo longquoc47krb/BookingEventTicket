@@ -49,6 +49,11 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationByEmail(email);
     }
+    @GetMapping("/organization")
+    public ResponseEntity<?> findOrganizationById(@RequestParam(value="id") String id)
+    {
+        return iOrganizationService.findOrganizationById(id);
+    }
     @PostMapping("/organization")
     public ResponseEntity<?> submitOrganization(@RequestBody OrganizationSubmitReq organizationSubmitReq)
     {

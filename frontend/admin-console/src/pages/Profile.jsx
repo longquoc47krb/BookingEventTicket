@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import accountServices from "../api/services/accountServices";
+import organizationServices from "../api/services/organizationServices";
 import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import UploadAvatar from "../components/common/upload-avatar";
 import { Input } from "../components/customField";
@@ -21,7 +22,9 @@ import {
 import { pathNameSelector } from "../redux/slices/routeSlice";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
+import Editor from "./Editor";
 const { updateAvatar, updateAccount, findUserById } = accountServices;
+const { addOrganizerBio, findOrganizerById } = organizationServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -41,7 +44,7 @@ function UserProfile() {
     name: user?.name,
     email: user?.email,
     phone: user?.phone ?? null,
-    biography: "",
+    biography: user?.biography ?? "",
   };
   // formik
   const formik = useFormik({
@@ -50,22 +53,26 @@ function UserProfile() {
       name: YupValidations.name,
       email: YupValidations.email,
       phone: YupValidations.phone,
+      biography: YupValidations.description,
     }),
     onSubmit: async (values) => {
-      const { id, name, phone } = values;
+      const { id, name, phone, email, biography } = values;
       setLoading(true);
+      console.log({ values });
       let updateAvatarResponse;
       if (avatar) {
         updateAvatarResponse = await updateAvatar(id, avatar);
       }
+      const updateBio = await addOrganizerBio(email, { biography });
       const updateAccountResponse = await updateAccount(id, { name, phone });
-      const userInfo = await findUserById(id);
+      const userInfo = await findOrganizerById(id);
       if (userInfo.status === 200) {
         dispatch(setUserProfile(userInfo.data));
       }
       showNotification(
         updateAvatarResponse.status === 200 ||
-          updateAccountResponse.status === 200
+          updateAccountResponse.status === 200 ||
+          updateBio.status === 200
       );
     },
   });
@@ -116,6 +123,7 @@ function UserProfile() {
                     label={t("user.phone")}
                     name="phone"
                   />
+                  <Editor name="biography" label={t("user.biography")} />
                 </Col>
               </Row>
               <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>

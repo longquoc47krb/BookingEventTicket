@@ -13,7 +13,9 @@ import { setUserProfile, userInfoSelector } from "../redux/slices/accountSlice";
 import accountServices, {
   useFetchUserInfo,
 } from "../api/services/accountServices";
-import organizationServices from "../api/services/organizationServices";
+import organizationServices, {
+  useFetchOrganizerByEmail,
+} from "../api/services/organizationServices";
 const { getOrganizerByEmail } = organizationServices;
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -44,7 +46,7 @@ const Navbar = () => {
   } = useStateContext();
   const user = useSelector(userInfoSelector);
   const [open, setOpen] = useState(false);
-  const { data: userData, status } = useFetchUserInfo(user.email);
+  const { data: userData, status } = useFetchOrganizerByEmail(user.email);
   const dispatch = useDispatch();
   const hide = () => {
     setOpen(false);

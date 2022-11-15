@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 /* eslint-disable array-callback-return */
 import cloneDeep from "lodash/cloneDeep";
 import forOwn from "lodash/forOwn";
@@ -556,4 +557,7 @@ export function generateId(name, date) {
     removeSlash(date) +
     Math.floor(Math.random() * 10000)
   ).toUpperCase();
+}
+export function CommaFormatted(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

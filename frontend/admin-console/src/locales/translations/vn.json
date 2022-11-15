@@ -92,6 +92,7 @@
         }
     },
     "user": {
+        "biography": "Biography",
         "profile": "Profile",
         "my-ticket": "My ticket",
         "forgot-password": "Forgot password",
@@ -129,6 +130,7 @@
         "login": "Login"
     },
     "validate": {
+        "background": "Background is required",
         "email": {
             "required": "Email is required",
             "invalid": "Email is invalid"

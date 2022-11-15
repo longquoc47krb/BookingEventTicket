@@ -42,6 +42,7 @@ export const {
 } = accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
 export const emailSelector = (state) => state.account.email;
+export const tokenSelector = (state) => state.account.token;
 export const userAvatarSelector = (state) => state.account.avatar;
 export const isUpdatedSelector = (state) => state.account.isUpdated;
 export default accountSlice.reducer;

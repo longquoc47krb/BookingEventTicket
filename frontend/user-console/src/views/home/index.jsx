@@ -79,27 +79,29 @@ function Home() {
               }}
             />
           </div>
-          <div className="home-event-near-you">
-            <SectionTitle>{t("event.near-you")}</SectionTitle>
-            <div className="home-event-near-you-content">
-              {!sucessStatus
-                ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                : eventsByProvince.data.map((event) => (
-                    <EventHomeItem event={event} />
-                  ))}
+          {eventsByProvinceStatus === "success" ?? (
+            <div className="home-event-near-you">
+              <SectionTitle>{t("event.near-you")}</SectionTitle>
+              <div className="home-event-near-you-content">
+                {!sucessStatus
+                  ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
+                  : eventsByProvince.data.map((event) => (
+                      <EventHomeItem event={event} />
+                    ))}
+              </div>
+              <ViewMoreButton
+                onClick={() => {
+                  dispatch(setStatus(EventStatus.AVAILABLE));
+                  dispatch(
+                    setProvince(
+                      provinceMapping.get(location ? location?.region : "")
+                    )
+                  );
+                  navigate("/events");
+                }}
+              />
             </div>
-            <ViewMoreButton
-              onClick={() => {
-                dispatch(setStatus(EventStatus.AVAILABLE));
-                dispatch(
-                  setProvince(
-                    provinceMapping.get(location ? location?.region : "")
-                  )
-                );
-                navigate("/events");
-              }}
-            />
-          </div>
+          )}
         </div>
       </div>
       <FooterComponent />
