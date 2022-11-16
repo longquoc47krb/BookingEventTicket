@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.exception.AppException;
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.TicketService;

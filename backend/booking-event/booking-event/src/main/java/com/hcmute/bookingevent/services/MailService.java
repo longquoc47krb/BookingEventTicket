@@ -1,14 +1,11 @@
 package com.hcmute.bookingevent.services;
 
-import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.payload.response.ResponseObject;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.security.user;
 
 
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

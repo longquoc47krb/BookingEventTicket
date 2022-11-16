@@ -1,6 +1,6 @@
 package com.hcmute.bookingevent.mapper;
 
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.response.LoginRes;
 import org.springframework.stereotype.Service;
 

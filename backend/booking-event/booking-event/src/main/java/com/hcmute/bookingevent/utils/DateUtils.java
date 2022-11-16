@@ -1,6 +1,6 @@
 package com.hcmute.bookingevent.utils;
 
-import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.models.event.Event;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
