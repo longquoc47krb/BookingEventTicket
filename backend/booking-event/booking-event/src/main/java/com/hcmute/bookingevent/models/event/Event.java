@@ -85,8 +85,8 @@ public class Event {
         this.eventCategoryList=eventReq.getEventCategoryList();
         this.organizationTickets=eventReq.getOrganizationTickets();
         this.createdDate=eventReq.getCreatedDate();
-        this.ticketTotal=eventReq.getTotalTicket();
-        this.ticketRemaining=eventReq.getRemainingTicket();
+        this.ticketTotal=eventReq.getTicketTotal();
+        this.ticketRemaining=eventReq.getTicketRemaining();
     }
     public Event(String idEvent)
     {

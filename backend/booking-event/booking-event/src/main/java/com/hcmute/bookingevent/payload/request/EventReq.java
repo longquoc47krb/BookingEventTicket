@@ -36,9 +36,9 @@ public class EventReq {
     private List<Ticket> organizationTickets;
     @NotBlank(message = "createdDate is required")
     private Date createdDate;
-    @NotBlank(message = "totalTicket is required")
-    private int totalTicket;
-    @NotBlank(message = "remainingTicket is required")
-    private int remainingTicket;
+    @NotBlank(message = "ticketTotal is required")
+    private int ticketTotal;
+    @NotBlank(message = "ticketRemaining is required")
+    private int ticketRemaining;
 
 }
