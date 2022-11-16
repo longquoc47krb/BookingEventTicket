@@ -5,7 +5,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.mapper.TicketMapper;
 import com.hcmute.bookingevent.models.Customer;
-import com.hcmute.bookingevent.models.Event;
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.payload.request.CustomerTicketReq;
 import com.hcmute.bookingevent.models.ticket.Ticket;
@@ -151,7 +151,7 @@ public class CustomerService  implements ICustomerService {
                 Optional<Event> event = eventRepository.findEventById(i.getIdEvent());
                 if(event.isPresent())
                 {
-                    event.get().setRemainingTicket( event.get().getRemainingTicket() - i.getQuantity() );
+                    event.get().setTicketRemaining( event.get().getTicketRemaining() - i.getQuantity() );
                     eventRepository.save(event.get());
                 }
                 else

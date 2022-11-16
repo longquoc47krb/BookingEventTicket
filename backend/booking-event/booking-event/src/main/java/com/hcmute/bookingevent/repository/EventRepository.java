@@ -1,9 +1,6 @@
 package com.hcmute.bookingevent.repository;
 
-import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.Organization;
-import org.bson.types.ObjectId;
+import com.hcmute.bookingevent.models.event.Event;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

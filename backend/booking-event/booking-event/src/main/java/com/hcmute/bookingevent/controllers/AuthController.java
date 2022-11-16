@@ -2,7 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.exception.AppException;
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;

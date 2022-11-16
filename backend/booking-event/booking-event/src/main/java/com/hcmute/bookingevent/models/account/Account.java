@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.account;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

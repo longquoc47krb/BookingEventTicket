@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.event;
 
 
 import lombok.AllArgsConstructor;

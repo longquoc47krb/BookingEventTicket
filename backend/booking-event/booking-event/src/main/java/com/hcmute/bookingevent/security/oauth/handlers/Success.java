@@ -2,7 +2,7 @@ package com.hcmute.bookingevent.security.oauth.handlers;
 
 
 import com.hcmute.bookingevent.common.Constants;
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.account.EAccount;
 import com.hcmute.bookingevent.repository.AccountRepository;

@@ -1,8 +1,7 @@
 package com.hcmute.bookingevent.mapper;
 
 import com.hcmute.bookingevent.exception.NotFoundException;
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.payload.request.EventReq;
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.repository.EventRepository;
 import lombok.RequiredArgsConstructor;

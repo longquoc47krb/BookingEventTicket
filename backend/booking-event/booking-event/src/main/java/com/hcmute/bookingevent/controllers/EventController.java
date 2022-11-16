@@ -3,11 +3,8 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.AppException;
-import com.hcmute.bookingevent.models.Account;
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.payload.request.EmailReq;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.EventReq;
-import com.hcmute.bookingevent.payload.request.OrganizationReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;

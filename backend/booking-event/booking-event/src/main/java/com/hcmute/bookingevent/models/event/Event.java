@@ -1,6 +1,7 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hcmute.bookingevent.models.EventCategory;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import lombok.AllArgsConstructor;
@@ -42,8 +43,8 @@ public class Event {
     private String description;
     private String background;
     private String status;
-    private int totalTicket;
-    private int remainingTicket;
+    private int ticketTotal;
+    private int ticketRemaining;
     @CreatedDate
     private Date createdDate;
     //@JsonIgnore
@@ -65,8 +66,8 @@ public class Event {
         this.eventCategoryList=eventCategoryList;
         this.organizationTickets=organizationTickets;
         this.createdDate=createdDate;
-        this.totalTicket=totalTicket;
-        this.remainingTicket=remainingTicket;
+        this.ticketTotal=totalTicket;
+        this.ticketRemaining=remainingTicket;
     }
 
     public Event(EventReq eventReq)
@@ -84,8 +85,8 @@ public class Event {
         this.eventCategoryList=eventReq.getEventCategoryList();
         this.organizationTickets=eventReq.getOrganizationTickets();
         this.createdDate=eventReq.getCreatedDate();
-        this.totalTicket=eventReq.getTotalTicket();
-        this.remainingTicket=eventReq.getRemainingTicket();
+        this.ticketTotal=eventReq.getTotalTicket();
+        this.ticketRemaining=eventReq.getRemainingTicket();
     }
     public Event(String idEvent)
     {
