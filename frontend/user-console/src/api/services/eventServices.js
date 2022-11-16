@@ -51,13 +51,14 @@ export const useFetchEvents = (staleTime = 30000) => {
 export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
     staleTime: 30000,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 60,
   });
 };
 export const useFetchFeaturedEvents = (staleTime = 30000) => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
     staleTime,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 60,
+    refetchInterval: 30000,
   });
 };
 export const useFetchEventsForPagination = (params) => {
