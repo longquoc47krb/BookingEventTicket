@@ -62,6 +62,7 @@ public class EventService implements IEventService {
             Event event = new Event(eventReq);
             event.setId(idSlung);
             event.setStatus(EventStatus.AVAILABLE);
+
             //
             eventRepository.save(event);
             //add event in organization
@@ -195,8 +196,8 @@ public class EventService implements IEventService {
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
             event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
             event.get().setCreatedDate(eventReq.getCreatedDate());
-            event.get().setTicketTotal(eventReq.getTotalTicket());
-            event.get().setTicketRemaining(eventReq.getRemainingTicket());
+            event.get().setTicketTotal(eventReq.getTicketTotal());
+            event.get().setTicketRemaining(eventReq.getTicketRemaining());
             eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Update event successfully ", "", 200));
