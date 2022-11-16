@@ -19,7 +19,7 @@ const SearchBox = (props) => {
   const { value, data, placeholder, isExpand } = props;
   const [filterValue, setFilterValue] = useState(value || "");
   const result = useSelector((state) => state.search.result);
-  const [expand, setExpand] = useState(isExpand);
+  const [expand, setExpand] = useState(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();

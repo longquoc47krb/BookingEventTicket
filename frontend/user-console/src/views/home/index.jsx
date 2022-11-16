@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -22,12 +22,14 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
+import HomeDrawer from "../../components/home-drawer";
 import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
 const { provinceMapping } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
+  const [toggleDrawer, setToggleDrawer] = useState(false);
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
@@ -104,7 +106,14 @@ function Home() {
           )}
         </div>
       </div>
-      <FooterComponent />
+      <HomeDrawer
+        toggleDrawer={toggleDrawer}
+        onClose={() => setToggleDrawer(false)}
+      />
+      <FooterComponent
+        toggleDrawer={toggleDrawer}
+        setToggleDrawer={setToggleDrawer}
+      />
     </>
   );
 }

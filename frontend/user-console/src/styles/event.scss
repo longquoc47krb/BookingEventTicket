@@ -105,6 +105,9 @@
         width: 100% !important;
         margin-bottom: 0 !important;
       }
+      @include for-tablet {
+        width: auto !important;
+      }
       h1 {
         font-size: 1.125rem;
         font-weight: 800;
@@ -127,6 +130,10 @@
       @include for-phone {
         width: 40vw !important;
         height: 20vw !important;
+      }
+      @include for-tablet {
+        width: 50vw !important;
+        height: 25vh !important;
       }
     }
   }

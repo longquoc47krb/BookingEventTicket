@@ -766,6 +766,11 @@
     margin-bottom: 0 !important;
   }
 }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .event-home-item-container {
+    width: auto !important;
+  }
+}
 .event-home-item-container h1 {
   font-size: 1.125rem;
   font-weight: 800;
@@ -790,6 +795,12 @@
   .event-home-item-image {
     width: 40vw !important;
     height: 20vw !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .event-home-item-image {
+    width: 50vw !important;
+    height: 25vh !important;
   }
 }
 
@@ -899,14 +910,14 @@
   font-size: 1.8rem;
   font-weight: 800;
 }
-.event-detail-address, .event-detail-date {
+.event-detail-venue, .event-detail-date {
   display: flex;
   align-items: center;
   gap: 0 0.5rem;
   font-size: 1.2rem;
   font-weight: 700;
 }
-.event-detail-address-note {
+.event-detail-venue-address {
   padding-left: 1rem;
   font-size: 1rem;
 }
@@ -1157,6 +1168,16 @@
   width: 100%;
   background: linear-gradient(-45deg, rgb(12, 50, 107), rgb(44, 71, 145));
 }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 15vw 10vw;
+  gap: 1rem;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
 .footer-bottom {
   padding: 1rem;
   display: flex;
@@ -1339,7 +1360,7 @@
 .home-container {
   display: block;
   width: 100vw;
-  height: 110%;
+  height: auto;
   display: flex;
   justify-content: flex-start;
   margin-bottom: 2rem;
@@ -1371,6 +1392,11 @@
   max-width: 1254px;
 }
 @media (max-width: 767px) {
+  .home-content {
+    width: 100vw !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
   .home-content {
     width: 100vw !important;
   }

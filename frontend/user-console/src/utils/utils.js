@@ -377,8 +377,6 @@ export const filterByDate = (type, list, customDate) => {
   const tomorrow = moment().add(1, "days");
   const startOfMonth = moment().startOf("month");
   const endOfMonth = moment().endOf("month");
-  console.log({ tomorrow });
-  console.log(moment("05/11/2022", dateFormat) === tomorrow);
   if (list && type === "tomorrow")
     return list.filter(
       (event) => moment(event.startingDate, dateFormat) === tomorrow
@@ -483,19 +481,6 @@ function evaluateFilter(t, { key, condition, value }) {
     default:
       throw Error(`Unsupported filter condition: ${condition}`);
   }
-}
-export function Base64() {
-  var BASE64 = {
-    encode: function (str) {
-      let Base64 = require("js-base64").Base64;
-      return Base64.encode(str);
-    },
-    decode: function (str) {
-      let Base64 = require("js-base64").Base64;
-      return Base64.decode(str);
-    },
-  };
-  return BASE64;
 }
 export default function fakeDelay(ms) {
   return new Promise((resolve) => {

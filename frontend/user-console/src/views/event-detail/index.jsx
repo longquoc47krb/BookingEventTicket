@@ -34,6 +34,8 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
+import FooterComponent from "../../components/FooterComponent";
+import HomeDrawer from "../../components/home-drawer";
 const { findOrganizerById } = organizationServices;
 function EventDetail(props) {
   const { eventId } = useParams();
@@ -50,7 +52,8 @@ function EventDetail(props) {
     }
     fetchOrganizerInfo();
   }, [event]);
-  console.log(organizer);
+  const [toggleDrawer, setToggleDrawer] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -124,9 +127,7 @@ function EventDetail(props) {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
-  useEffect(() => {
-    console.log("wishlist:", wishlist);
-  }, [wishlist]);
+  useEffect(() => {}, [wishlist]);
   if (status === "loading" || isFetching) {
     return <Loading />;
   } else if (status === "error" || isFetching) {
@@ -158,11 +159,11 @@ function EventDetail(props) {
                 ({eventStartingTime}-{eventEndingTime})
               </h1>
               <div>
-                <h1 className="event-detail-address">
+                <h1 className="event-detail-venue">
                   <GoLocation className="text-gray-500" />
                   {event?.venue}
                 </h1>
-                <p className="event-detail-address-note">
+                <p className="event-detail-venue-address mt-2">
                   {event?.venue_address}
                 </p>
               </div>
@@ -345,7 +346,14 @@ function EventDetail(props) {
             </div>
           </div>
         </div>
-        <Footer />
+        <HomeDrawer
+          toggleDrawer={toggleDrawer}
+          onClose={() => setToggleDrawer(false)}
+        />
+        <FooterComponent
+          toggleDrawer={toggleDrawer}
+          setToggleDrawer={setToggleDrawer}
+        />
       </>
     );
   }

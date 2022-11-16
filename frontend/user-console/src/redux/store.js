@@ -5,6 +5,7 @@ import searchReducer from "./slices/searchSlice";
 import routeReducer from "./slices/routeSlice";
 import filterReducer from "./slices/filterSlice";
 import ticketReducer from "./slices/ticketSlice";
+import generalReducer from "./slices/generalSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -37,6 +38,7 @@ export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
     customer: customerReducer,
+    general: generalReducer,
     route: routePersistedReducer,
     search: searchReducer,
     filter: filterReducer,
