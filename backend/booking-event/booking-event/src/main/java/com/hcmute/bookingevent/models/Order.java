@@ -22,7 +22,7 @@ public class Order {
     private String totalPrice;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
-    private String totalQuantity;
+    private int totalQuantity;
     List<Ticket> customerTicketList  ;
     public Order(OrderReq orderReq)
     {

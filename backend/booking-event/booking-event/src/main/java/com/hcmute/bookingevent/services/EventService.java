@@ -2,13 +2,13 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
-import com.hcmute.bookingevent.common.TicketStatus;
+import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
@@ -61,7 +61,7 @@ public class EventService implements IEventService {
             String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + randomNum));
             Event event = new Event(eventReq);
             event.setId(idSlung);
-            event.setStatus(TicketStatus.AVAILABLE);
+            event.setStatus(EventStatus.AVAILABLE);
             //
             eventRepository.save(event);
             //add event in organization
@@ -104,15 +104,15 @@ public class EventService implements IEventService {
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
             if(isBeforeToday(event.getEndingDate())) {
-                event.setStatus(TicketStatus.COMPLETED);
+                event.setStatus(EventStatus.COMPLETED);
                 eventList.add(event);
             }
-            else if(event.getRemainingTicket() == 0){
-                event.setStatus(TicketStatus.SOLD_OUT);
+            else if(event.getTicketRemaining() == 0){
+                event.setStatus(EventStatus.SOLD_OUT);
                 eventList.add(event);
             }
             else{
-                event.setStatus(TicketStatus.AVAILABLE);
+                event.setStatus(EventStatus.AVAILABLE);
                 eventList.add(event);
             }
             eventRepository.save(event);
@@ -195,8 +195,8 @@ public class EventService implements IEventService {
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
             event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
             event.get().setCreatedDate(eventReq.getCreatedDate());
-            event.get().setTotalTicket(eventReq.getTotalTicket());
-            event.get().setRemainingTicket(eventReq.getRemainingTicket());
+            event.get().setTicketTotal(eventReq.getTotalTicket());
+            event.get().setTicketRemaining(eventReq.getRemainingTicket());
             eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Update event successfully ", "", 200));

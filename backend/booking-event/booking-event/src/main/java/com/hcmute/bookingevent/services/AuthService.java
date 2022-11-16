@@ -2,7 +2,7 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.common.Constants;
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.OTP.OTP;
 import com.hcmute.bookingevent.payload.request.*;

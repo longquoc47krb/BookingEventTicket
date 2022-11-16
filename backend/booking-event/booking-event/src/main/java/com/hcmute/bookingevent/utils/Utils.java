@@ -1,7 +1,5 @@
 package com.hcmute.bookingevent.utils;
 
-import com.hcmute.bookingevent.models.Event;
-import com.hcmute.bookingevent.models.EventSlug;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

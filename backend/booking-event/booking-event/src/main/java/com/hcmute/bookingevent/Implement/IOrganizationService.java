@@ -1,6 +1,6 @@
 package com.hcmute.bookingevent.Implement;
 
-import com.hcmute.bookingevent.models.Organization;
+import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

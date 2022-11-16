@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.filters;
 
 
-import com.hcmute.bookingevent.models.Account;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.security.user.MyUserDetailsService;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
