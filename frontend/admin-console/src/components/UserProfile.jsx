@@ -31,17 +31,14 @@ const UserProfile = ({ setOpen }) => {
           onClick={() => setOpen(false)}
         />
       </div>
-      <div className="flex gap-5 items-center mt-4 border-color border-b-1 pb-4">
+      <div className="flex gap-4 items-center border-color border-b-1 pb-4">
         <img
-          className="rounded-full h-24 w-24 object-cover"
+          className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
           src={user.avatar}
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl text-primary dark:text-gray-200">
-            {" "}
-            {user.name}
-          </p>
+          <p className="font-semibold text-2xl text-[#1F3E82]"> {user.name}</p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
             {user.email}

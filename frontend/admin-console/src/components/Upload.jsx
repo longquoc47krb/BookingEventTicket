@@ -119,10 +119,12 @@ const UploadImage = (props) => {
       );
     }
   }, [acceptedFiles]);
+
   const initialBackground = useSelector(
     (state) => state.event.initialBackground
   );
   const [file, setFile] = useState(value);
+
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -165,6 +167,7 @@ const UploadImage = (props) => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => URL.revokeObjectURL(file?.preview);
   }, []);
+  console.log(file?.preview);
   return (
     <>
       <span className="text-primary text-xl font-semibold">{label}</span>

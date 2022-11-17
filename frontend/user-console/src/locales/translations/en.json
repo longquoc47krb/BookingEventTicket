@@ -14,9 +14,10 @@
   "event": {
     "all": "All status",
     "list": "Events",
+    "address": "Location map",
     "currency": "Select currency:",
     "trending": "Featured events",
-    "near-you": "Events near you",
+    "near-you": "Events in {{val, string}}",
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue",
     "book-now": "Book now",
@@ -245,5 +246,7 @@
     "quantity": "Quantity",
     "total": "Total",
     "submit": "Place Order"
-  }
+  },
+  "SG": "Ho Chi Minh city",
+  "HN": "Ha Noi"
 }

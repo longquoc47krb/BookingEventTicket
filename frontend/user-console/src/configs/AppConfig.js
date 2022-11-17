@@ -291,6 +291,31 @@ const ORGANIZATION_PARTNERS = [
     image: BigHit,
   },
 ];
+const MOBILE_DRAWER_UNAUTHEN = [
+  {
+    icon: <AiOutlineGlobal className="text-2xl cursor-pointer" />,
+    label: "user.language",
+    function: () => {
+      var language = localStorage.getItem("i18nextLng");
+      const switchLanguague = async () => {
+        if (language === "en") {
+          await i18next.changeLanguage("vn");
+        } else {
+          await i18next.changeLanguage("en");
+        }
+      };
+      switchLanguague();
+      AlertPopup({
+        title: t("popup.language.success", {
+          lang:
+            language === "en"
+              ? t("language.vietnamese")
+              : t("language.english"),
+        }),
+      });
+    },
+  },
+];
 const MOBILE_DRAWER = [
   {
     icon: <RiBookmark3Fill className="text-2xl cursor-pointer" />,
@@ -355,6 +380,7 @@ const AppConfig = {
   ORGANIZER_LANDINGPAGE_PICTURE,
   ORGANIZATION_INTRODUCE_ITEM,
   ORGANIZATION_PARTNERS,
+  MOBILE_DRAWER_UNAUTHEN,
   MOBILE_DRAWER,
 };
 export default AppConfig;

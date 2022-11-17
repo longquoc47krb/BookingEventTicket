@@ -1119,6 +1119,20 @@
   top: 2rem;
 }
 
+/* Google Map*/
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 30vw;
+  width: 30vw;
+}
+
+.mapouter {
+  position: relative;
+  height: 30vw;
+  width: 30vw;
+}
+
 .filter-container {
   width: 84vw;
   height: auto;
