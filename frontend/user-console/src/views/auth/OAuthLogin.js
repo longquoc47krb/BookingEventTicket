@@ -20,7 +20,6 @@ const OAuthLogin = () => {
     if (token) {
       const decode = jwt_decode(token).sub;
       var array = decode.split(",");
-      console.log({ array });
       const fetchUser = async () => {
         const response = await findUser(array[1]);
         if (response.status === 200) {

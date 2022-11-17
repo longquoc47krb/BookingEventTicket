@@ -18,7 +18,7 @@ const LanguageSwitch = (props) => {
         className="language-select"
       >
         {LANGUAGE_OPTIONS.map((lang) => (
-          <MenuItem value={lang.value}>
+          <MenuItem value={lang.value} defaultValue={i18n.language}>
             <div className="flex gap-x-1 w-full items-center">
               <img src={lang.image} className="w-8 h-auto" alt={lang.label} />
               <span>{t(lang.label)}</span>

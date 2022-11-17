@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
 import moment from "moment";
@@ -34,6 +35,8 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
+import FooterComponent from "../../components/FooterComponent";
+import HomeDrawer from "../../components/home-drawer";
 const { findOrganizerById } = organizationServices;
 function EventDetail(props) {
   const { eventId } = useParams();
@@ -50,7 +53,8 @@ function EventDetail(props) {
     }
     fetchOrganizerInfo();
   }, [event]);
-  console.log(organizer);
+  const [toggleDrawer, setToggleDrawer] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
@@ -124,9 +128,7 @@ function EventDetail(props) {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
-  useEffect(() => {
-    console.log("wishlist:", wishlist);
-  }, [wishlist]);
+  useEffect(() => {}, [wishlist]);
   if (status === "loading" || isFetching) {
     return <Loading />;
   } else if (status === "error" || isFetching) {
@@ -158,11 +160,11 @@ function EventDetail(props) {
                 ({eventStartingTime}-{eventEndingTime})
               </h1>
               <div>
-                <h1 className="event-detail-address">
+                <h1 className="event-detail-venue">
                   <GoLocation className="text-gray-500" />
                   {event?.venue}
                 </h1>
-                <p className="event-detail-address-note">
+                <p className="event-detail-venue-address mt-2">
                   {event?.venue_address}
                 </p>
               </div>
@@ -340,12 +342,40 @@ function EventDetail(props) {
                         : event.status
                     )}
                   </button>
+                  <div
+                    className="w-full bg-white h-[20rem] sticky 
+                top-[48vh] py-2 px-4 event-detail-content"
+                  >
+                    <div className="introduce mx-0 pt-0 mb-2">
+                      {t("event.address")}
+                    </div>
+                    <iframe
+                      width="100%"
+                      height="80%"
+                      id="gmap_canvas"
+                      src={`https://maps.google.com/maps?q=${event?.venue_address}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    ></iframe>
+                  </div>
                 </div>
+                {/* <div className="h-[87vh] mt-4">
+                  
+                </div> */}
               </div>
             </div>
           </div>
         </div>
-        <Footer />
+        <HomeDrawer
+          toggleDrawer={toggleDrawer}
+          onClose={() => setToggleDrawer(false)}
+        />
+        <FooterComponent
+          toggleDrawer={toggleDrawer}
+          setToggleDrawer={setToggleDrawer}
+        />
       </>
     );
   }

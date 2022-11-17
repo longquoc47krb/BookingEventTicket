@@ -64,8 +64,8 @@ function App() {
           </UserActionContextProvider>
         </UserAuthContextProvider>
       </BrowserRouter>
-      <ScrollToTopPage top={800} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ScrollToTopPage top={1500} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }

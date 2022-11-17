@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Affix } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -22,18 +22,24 @@ import ViewMoreButton from "../../components/common/view-more-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
+import HomeDrawer from "../../components/home-drawer";
 import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
+import { isNotEmpty } from "../../utils/utils";
 const { provinceMapping } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
+  const [openModal, setOpenModal] = useState(true);
+  const [toggleDrawer, setToggleDrawer] = useState(false);
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
     useFetchEventsByProvince(
-      provinceMapping.get(location ? location?.region : "")
+      provinceMapping.get(location ? location.stateCode : "")
     );
+  // console.log("provinceMapping:", provinceMapping.get("61"));
+  console.log({ location, eventsByProvince });
   const sucessStatus =
     featuredEventStatus === "success" && eventsByProvinceStatus === "success";
   const { t } = useTranslation();
@@ -47,7 +53,6 @@ function Home() {
       <Affix offsetTop={0}>
         <Header />
       </Affix>
-
       <div className="home-container">
         <AppDrawer />
         <div className="h-auto">
@@ -79,32 +84,47 @@ function Home() {
               }}
             />
           </div>
-          {eventsByProvinceStatus === "success" ?? (
-            <div className="home-event-near-you">
-              <SectionTitle>{t("event.near-you")}</SectionTitle>
-              <div className="home-event-near-you-content">
-                {!sucessStatus
-                  ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                  : eventsByProvince.data.map((event) => (
-                      <EventHomeItem event={event} />
-                    ))}
+          {eventsByProvinceStatus === "success" &&
+            isNotEmpty(eventsByProvince.data) && (
+              <div className="home-event-near-you">
+                <SectionTitle>
+                  {t("event.near-you", { val: t(location.stateCode) })}
+                </SectionTitle>
+                <div className="home-event-near-you-content">
+                  {!sucessStatus
+                    ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
+                    : eventsByProvince.data.map((event) => (
+                        <EventHomeItem event={event} />
+                      ))}
+                </div>
+                <ViewMoreButton
+                  onClick={() => {
+                    dispatch(setStatus(EventStatus.AVAILABLE));
+                    dispatch(
+                      setProvince(
+                        location
+                          ? location.stateCode === "SG" ||
+                            location.stateCode === "HN"
+                            ? provinceMapping.get(location.stateCode)
+                            : "others"
+                          : ""
+                      )
+                    );
+                    navigate("/events");
+                  }}
+                />
               </div>
-              <ViewMoreButton
-                onClick={() => {
-                  dispatch(setStatus(EventStatus.AVAILABLE));
-                  dispatch(
-                    setProvince(
-                      provinceMapping.get(location ? location?.region : "")
-                    )
-                  );
-                  navigate("/events");
-                }}
-              />
-            </div>
-          )}
+            )}
         </div>
       </div>
-      <FooterComponent />
+      <HomeDrawer
+        toggleDrawer={toggleDrawer}
+        onClose={() => setToggleDrawer(false)}
+      />
+      <FooterComponent
+        toggleDrawer={toggleDrawer}
+        setToggleDrawer={setToggleDrawer}
+      />
     </>
   );
 }

@@ -14,9 +14,10 @@
   "event": {
     "all": "All status",
     "list": "Events",
+    "address": "Location map",
     "currency": "Select currency:",
     "trending": "Featured events",
-    "near-you": "Events near you",
+    "near-you": "Events in {{val, string}}",
     "hero-slogan": "Discovering premier entertainment events",
     "placeholder-searchbox": "Search events by name, category, venue",
     "book-now": "Book now",
@@ -68,6 +69,7 @@
   "user": {
     "profile": "Profile",
     "my-ticket": "My ticket",
+    "language": "Switch language",
     "forgot-password": "Forgot password",
     "wishlist": "Favorite events",
     "logout": "Logout",
@@ -172,8 +174,11 @@
   "lotus": {
     "big-slogan": "HCMUTE'S TOP 1 ONLINE EVENT TICKETING SYSTEM",
     "description": "With an understanding of the technology and ticketing industry, Lotus Ticket is an event ticket management and distribution system that makes it easy to buy and sell event tickets.",
-    "slogan": "Premier ticketing platform of HCMUTE for events",
+    "slogan": "Premier ticketing platform of HCMUTE",
     "follow-us": "Follow us",
+    "hotline-title": "Hotline",
+    "hotline": "Ho Chi Minh: Mon to Fri (8:30 AM ~ 6:30 PM)",
+    "email-title": "Email support",
     "introduce": "Lotus Ticket provides a solution for online event ticketing and management",
     "intro": {
       "1": {
@@ -213,6 +218,9 @@
       "title": "Sent email",
       "content": "OTP was sent to your email address. Check it (check 'Spam' tab)!"
     },
+    "language": {
+      "success": "Switch language to {{lang, string}}"
+    },
     "changePassword": {
       "success": "Successfully change password",
       "error": "Failed change password"
@@ -222,6 +230,9 @@
         "200": "Update account successfully",
         "400": "Failed update account"
       }
+    },
+    "logout": {
+      "success": "Logged out successfully"
     },
     "payment": {
       "success": "Successfully placed order",
@@ -235,5 +246,7 @@
     "quantity": "Quantity",
     "total": "Total",
     "submit": "Place Order"
-  }
+  },
+  "SG": "Ho Chi Minh city",
+  "HN": "Ha Noi"
 }

@@ -20,7 +20,6 @@ function UploadAvatar({ avatar }) {
   const [showCameraButton, setShowCameraButton] = useState(true);
   const email = useSelector(emailSelector);
   const dispatch = useDispatch();
-  console.log({ avatarFile, avatarPreview });
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -40,7 +39,6 @@ function UploadAvatar({ avatar }) {
   const UploadAvatar = async () => {
     setShowCameraButton(true);
     const formData = new FormData();
-    console.log({avatarFile})
     formData.append("file", avatarFile);
     dispatch(setUserAvatar(formData));
   };

@@ -10,10 +10,10 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
-const addOrganizerBio = async (email, body) => {
+const addOrganizerBio = async (id, body) => {
   try {
     const response = await httpRequest(
-      OrganizationAPI.addOrganizerBio(email, body)
+      OrganizationAPI.addOrganizerBio(id, body)
     );
     return response;
   } catch (error) {

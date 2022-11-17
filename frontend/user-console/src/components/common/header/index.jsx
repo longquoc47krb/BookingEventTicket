@@ -169,6 +169,7 @@ function Header(props) {
           <SearchBox
             placeholder={t("event.placeholder-searchbox")}
             data={allEventsStatus === "success" ? allEvents : []}
+            isExpand={true}
           />
         ) : null}
       </div>

@@ -6,10 +6,10 @@ import { useUserActionContext } from "../../../context/UserActionContext";
 import SiderBar from "../sider";
 
 function AppDrawer() {
-  const { showDrawer, setShowDrawer } = useUserActionContext();
+  const { activeDrawer, toggleDrawer } = useUserActionContext();
   const ref = useRef();
   useClickAway(ref, () => {
-    setShowDrawer(false);
+    toggleDrawer(false);
   });
   return (
     <div ref={ref}>
@@ -17,8 +17,8 @@ function AppDrawer() {
         closeIcon={<CloseOutlined />}
         placement={"left"}
         closable={false}
-        onClose={() => setShowDrawer(false)}
-        open={showDrawer}
+        onClose={() => toggleDrawer(false)}
+        open={activeDrawer}
         key={"left"}
         className="w-[50vw]"
       >

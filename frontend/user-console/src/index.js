@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "../node_modules/sweetalert2/src/sweetalert2.scss";
-import "./index.css";
+// import "./index.css";
+import "./styles/global.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GoogleOAuthProvider } from "@react-oauth/google";

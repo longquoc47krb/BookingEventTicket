@@ -54,7 +54,7 @@ function AddEditEvent(props) {
     endingTime: moment(),
     description: "",
     province: "",
-    currency: "USD",
+    currency: "VND",
     venue: "",
     venue_address: "",
     ticketList: [
@@ -62,7 +62,7 @@ function AddEditEvent(props) {
         id: generateId(user.name, date),
         price: 0,
         ticketName: "",
-        currency: "USD",
+        currency: "VND",
         quantity: 0,
         description: "",
       },
@@ -126,6 +126,7 @@ function AddEditEvent(props) {
         }
         if (responseUpdate.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
+          dispatch(setInitialBackground(null));
         }
         showNotification(
           responseUpdate.status === 200 || uploadBackground.status === 200

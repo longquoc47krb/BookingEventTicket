@@ -87,7 +87,6 @@
     @include for-phone {
       width: 100% !important;
       height: auto !important;
-      max-height: 11rem !important;
     }
   }
   &-home-item {
@@ -104,6 +103,9 @@
       @include for-phone {
         width: 100% !important;
         margin-bottom: 0 !important;
+      }
+      @include for-tablet {
+        width: auto !important;
       }
       h1 {
         font-size: 1.125rem;
@@ -127,6 +129,10 @@
       @include for-phone {
         width: 40vw !important;
         height: 20vw !important;
+      }
+      @include for-tablet {
+        width: 50vw !important;
+        height: 25vh !important;
       }
     }
   }

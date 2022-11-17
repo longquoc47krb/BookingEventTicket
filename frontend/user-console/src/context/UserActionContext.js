@@ -15,7 +15,7 @@ const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [wishlistEvent, setWishlistEvent] = useState();
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [activeDrawer, toggleDrawer] = useState(false);
   const { t } = useTranslation();
   const userInfo = useSelector(userInfoSelector);
   const { data: checkedEvents, status: eventstatusStatus } =
@@ -98,8 +98,8 @@ export const UserActionContextProvider = ({ children }) => {
         removeFromWishlist,
         getWishlist,
         clearWishlist,
-        showDrawer,
-        setShowDrawer,
+        activeDrawer,
+        toggleDrawer,
         checkedEvents,
         user,
       }}

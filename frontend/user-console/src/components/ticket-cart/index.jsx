@@ -13,14 +13,12 @@ function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
   const newArr = tickets.map((t) => ({
     ...t,
-    totalPrice: t.quantity * t.price,
+    totalPrice: t.quantity * Number(t.price),
   }));
   const ticketCart = newArr.filter((ticket) => ticket.quantity > 0);
-  console.log({ ticketCart });
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
   const handlePayOrder = async () => {
     const response = await payOrder({ price: cartTotalPrice.toString() });
-    console.log(">> response:", response);
     if (response.status !== 200) {
       AlertErrorPopup({
         title: t("popup.payment.error"),
@@ -29,6 +27,7 @@ function TicketCart() {
       window.open(response.data, "_blank");
     }
   };
+  console.log({ tickets, cartTotalPrice });
   return (
     <>
       <div className="ticket-cart">
@@ -47,7 +46,10 @@ function TicketCart() {
         <th>{t("ticket.total")}</th>
         <th>{formatter(tickets[0].currency).format(cartTotalPrice)}</th>
       </div>
-      <button className="primary-button mt-2" onClick={handlePayOrder}>
+      <button
+        className="primary-button text-xl p-3 mt-2"
+        onClick={handlePayOrder}
+      >
         {t("ticket.submit")}
       </button>
     </>

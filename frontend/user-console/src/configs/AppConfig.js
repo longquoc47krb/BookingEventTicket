@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+import i18next, { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import {
   AiFillCheckCircle,
   AiOutlineAreaChart,
@@ -14,10 +17,13 @@ import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import {
   MdExitToApp,
   MdOutlineAccountCircle,
-  MdScreenSearchDesktop,
   MdSportsSoccer,
 } from "react-icons/md";
-import { RiCustomerServiceFill, RiLockPasswordLine } from "react-icons/ri";
+import {
+  RiBookmark3Fill,
+  RiCustomerServiceFill,
+  RiLockPasswordLine,
+} from "react-icons/ri";
 import { TbPlaneInflight } from "react-icons/tb";
 import BigHit from "../assets/BIGHIT.webp";
 import Metub from "../assets/Metub.png";
@@ -27,6 +33,9 @@ import SM from "../assets/SM.png";
 import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
 import VietnamFlag from "../assets/vietnam-flag.png";
 import YG from "../assets/YG.png";
+import { AlertPopup } from "../components/common/alert";
+import { logOutAccount } from "../redux/slices/accountSlice";
+import { store } from "../redux/store";
 import theme from "../shared/theme";
 const USER_CONFIG = {
   SYSTEM_ADMIN: {
@@ -282,6 +291,81 @@ const ORGANIZATION_PARTNERS = [
     image: BigHit,
   },
 ];
+const MOBILE_DRAWER_UNAUTHEN = [
+  {
+    icon: <AiOutlineGlobal className="text-2xl cursor-pointer" />,
+    label: "user.language",
+    function: () => {
+      var language = localStorage.getItem("i18nextLng");
+      const switchLanguague = async () => {
+        if (language === "en") {
+          await i18next.changeLanguage("vn");
+        } else {
+          await i18next.changeLanguage("en");
+        }
+      };
+      switchLanguague();
+      AlertPopup({
+        title: t("popup.language.success", {
+          lang:
+            language === "en"
+              ? t("language.vietnamese")
+              : t("language.english"),
+        }),
+      });
+    },
+  },
+];
+const MOBILE_DRAWER = [
+  {
+    icon: <RiBookmark3Fill className="text-2xl cursor-pointer" />,
+    label: "user.wishlist",
+    link: "/wishlist",
+  },
+  {
+    icon: <BsCashCoin className="text-2xl cursor-pointer" />,
+    label: "user.my-ticket",
+    link: "/purchase-order",
+  },
+  {
+    icon: <RiLockPasswordLine className="text-2xl cursor-pointer" />,
+    label: "user.changePassword",
+    link: "/update-password",
+  },
+  {
+    icon: <AiOutlineGlobal className="text-2xl cursor-pointer" />,
+    label: "user.language",
+    function: () => {
+      var language = localStorage.getItem("i18nextLng");
+      const switchLanguague = async () => {
+        if (language === "en") {
+          await i18next.changeLanguage("vn");
+        } else {
+          await i18next.changeLanguage("en");
+        }
+      };
+      switchLanguague();
+      AlertPopup({
+        title: t("popup.language.success", {
+          lang:
+            language === "en"
+              ? t("language.vietnamese")
+              : t("language.english"),
+        }),
+      });
+    },
+  },
+  {
+    icon: <MdExitToApp className="text-2xl cursor-pointer" />,
+    label: "user.logout",
+    function: () => {
+      store.dispatch(logOutAccount());
+      AlertPopup({
+        title: t("popup.logout.success"),
+      });
+    },
+  },
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -296,5 +380,7 @@ const AppConfig = {
   ORGANIZER_LANDINGPAGE_PICTURE,
   ORGANIZATION_INTRODUCE_ITEM,
   ORGANIZATION_PARTNERS,
+  MOBILE_DRAWER_UNAUTHEN,
+  MOBILE_DRAWER,
 };
 export default AppConfig;

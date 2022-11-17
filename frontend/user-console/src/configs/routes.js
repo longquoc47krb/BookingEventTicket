@@ -2,6 +2,7 @@ import Loadable from "react-loadable";
 import Loading from "../components/loading";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import UserRegister from "../views/auth/UserRegister";
+import FavoritePage from "../views/favorite-list";
 import Payment from "../views/ticket-booking/payment";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
@@ -86,6 +87,10 @@ const routes = [
   {
     element: <EventDetailPage />,
     path: "/event/:eventId",
+  },
+  {
+    element: <FavoritePage />,
+    path: "/wishlist",
   },
   {
     element: <NewPasswordPage />,

@@ -41,7 +41,6 @@ function OrganizeRegistration() {
       phoneNumber: YupValidations.phone,
     }),
     onSubmit: async (values) => {
-      console.log({ values });
       const { email, name, phoneNumber } = values;
       const response = await submitOrganizer({
         email,

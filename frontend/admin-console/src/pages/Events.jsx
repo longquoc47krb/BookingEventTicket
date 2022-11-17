@@ -9,8 +9,6 @@ import {
   Toolbar,
   Filter,
   Sort,
-  ExcelExport,
-  ContextMenu,
 } from "@syncfusion/ej2-react-grids";
 import { Spin } from "antd";
 import { eventGrid, contextMenuItems } from "../data/dummy";
@@ -61,17 +59,7 @@ const Events = () => {
               <ColumnDirective key={index} {...item} />
             ))}
           </ColumnsDirective>
-          <Inject
-            services={[
-              Search,
-              Page,
-              Toolbar,
-              Filter,
-              Sort,
-              ContextMenu,
-              ExcelExport,
-            ]}
-          />
+          <Inject services={[Search, Page, Toolbar, Filter, Sort]} />
         </GridComponent>
       )}
     </div>

@@ -15,7 +15,8 @@
     "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
-    "near-you": "Sự kiện gần bạn",
+    "address": "Bản đồ địa điểm tổ chức",
+    "near-you": "{{val, string}} có gì vui?",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
     "book-now": "Đặt vé ngay",
@@ -67,6 +68,7 @@
   "user": {
     "profile": "Thông tin cá nhân",
     "my-ticket": "Đơn hàng đã mua",
+    "language": "Chuyển đổi ngôn ngữ",
     "forgot-password": "Quên mật khẩu",
     "wishlist": "Sự kiện yêu thích",
     "logout": "Đăng xuất",
@@ -174,6 +176,9 @@
     "slogan": "Hệ thống đặt vé sự kiện số 1 HCMUTE",
     "follow-us": "Kết nối với chúng tôi",
     "introduce": "Lotus Ticket cung cấp giải pháp cho việc quản lý và bán vé trực tuyến sự kiện",
+    "hotline-title": "Đường dây nóng",
+    "email-title": "Email hỗ trợ",
+    "hotline": "TP. Hồ Chí Minh: T.2 - T.6 (8:30 ~ 18:30)",
     "intro": {
       "1": {
         "title": "Soát vé tại cổng",
@@ -212,6 +217,9 @@
       "title": "Đã gửi email",
       "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
     },
+    "language": {
+      "success": "Đã chuyển ngôn ngữ thành {{lang, string}}"
+    },
     "changePassword": {
       "success": "Thay đổi mật khẩu thành công",
       "error": "Thay đổi mật khẩu thất bại"
@@ -221,6 +229,9 @@
         "200": "Cập nhật thông tin tài khoản thành công",
         "400": "Cập nhật thông tin tài khoản thất bại"
       }
+    },
+    "logout": {
+      "success": "Đăng xuất thành công"
     },
     "payment": {
       "success": "Thanh toán thành công",
@@ -234,5 +245,7 @@
     "quantity": "Số lượng",
     "total": "Tổng cộng",
     "submit": "Thanh toán"
-  }
+  },
+  "SG": "Sài Gòn",
+  "HN": "Hà Nội"
 }
