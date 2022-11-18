@@ -24,7 +24,7 @@
 @import "./user-profile.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
 * {
-  font-family: SVN-Gilroy, sans-serif;
+  font-family: SVN-Gilroy, sans-serif !important;
 }
 body {
   width: 100vw;

@@ -679,7 +679,6 @@
 .event-container-title {
   width: auto;
   font-size: 3rem;
-  font-family: SVN-Magnificent, sans-serif !important;
   font-weight: 800;
   position: relative;
   text-transform: capitalize;
@@ -746,7 +745,6 @@
   .event-item-image {
     width: 100% !important;
     height: auto !important;
-    max-height: 11rem !important;
   }
 }
 .event-home-item-container {
@@ -851,10 +849,6 @@
   border-color: #1f3e82 !important;
 }
 
-@font-face {
-  font-family: "SVN-Magnificent";
-  src: local("SVN-Magnificent"), url(../assets/fonts/SVN-Magnificent.otf) format("opentype");
-}
 .event-detail-container {
   width: 100vw;
   height: 110%;
@@ -2142,7 +2136,7 @@
 }
 
 * {
-  font-family: SVN-Gilroy, sans-serif;
+  font-family: SVN-Gilroy, sans-serif !important;
 }
 
 body {

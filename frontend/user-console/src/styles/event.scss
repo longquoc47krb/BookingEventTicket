@@ -22,7 +22,6 @@
     &-title {
       width: auto;
       font-size: 3rem;
-      font-family: SVN-Magnificent, sans-serif !important;
       font-weight: 800;
       position: relative;
       text-transform: capitalize;
@@ -212,9 +211,4 @@
   color: white !important;
   background: $primary-color !important;
   border-color: $primary-color !important;
-}
-@font-face {
-  font-family: "SVN-Magnificent";
-  src: local("SVN-Magnificent"),
-    url(../assets/fonts/SVN-Magnificent.otf) format("opentype");
 }

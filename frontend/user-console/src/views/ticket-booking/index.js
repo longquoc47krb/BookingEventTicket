@@ -41,16 +41,20 @@ function TicketBooking() {
   useEffect(() => {
     dispatch(setEventId(eventId));
   }, []);
+  console.log({ event });
   function renderFragment(step) {
-    switch (step) {
-      case 0:
-        return <SelectTicket data={event.organizationTickets} />;
-      case 1:
-        return <div>Step 2</div>;
-      case 2:
-        return <div>Step 3</div>;
-      default:
-        return <SelectTicket />;
+    if (status === "success") {
+      console.log(event.organizationTickets);
+      switch (step) {
+        case 0:
+          return <SelectTicket data={event.organizationTickets} />;
+        case 1:
+          return <div>Step 2</div>;
+        case 2:
+          return <div>Step 3</div>;
+        default:
+          return <SelectTicket />;
+      }
     }
   }
   return (
