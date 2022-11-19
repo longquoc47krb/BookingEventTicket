@@ -110,8 +110,8 @@ function AddEditEvent(props) {
         venue: values.venue,
         venue_address: values.venue_address,
         organizationTickets: handleTicketList(values.ticketList),
-        totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
-        remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+        ticketTotal: sumBy(handleTicketList(values.ticketList), "quantity"),
+        ticketRemaining: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
       };
       console.log({ request });
