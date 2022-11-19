@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const getGeoLocation = async () => {
+export const getMyIP = async () => {
   try {
     const response = await axios.get(
       "https://find-any-ip-address-or-domain-location-world-wide.p.rapidapi.com/iplocation",
@@ -16,6 +16,41 @@ export const getGeoLocation = async () => {
       }
     );
     return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const getGeoLocation = async () => {
+  try {
+    const getIP = await getMyIP();
+    const response = await axios.get(
+      "https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/",
+      {
+        params: { ip: getIP.ip },
+        headers: {
+          "X-RapidAPI-Key":
+            "e0fc34f8b5msh684f83a00348d4fp1c8d01jsn2c61c634edff",
+          "X-RapidAPI-Host": "ip-geolocation-ipwhois-io.p.rapidapi.com",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const convertToUSD = async (amount) => {
+  try {
+    const response = await axios.get(
+      "https://api.apilayer.com/exchangerates_data/convert",
+      {
+        params: { amount: amount, from: "VND", to: "USD" },
+        headers: {
+          apikey: "wXiILyIuSslr360NjCK9zdR6fmDD2ryC",
+        },
+      }
+    );
+    return response.data.result;
   } catch (error) {
     return error.response.data;
   }

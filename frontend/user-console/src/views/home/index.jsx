@@ -27,7 +27,7 @@ import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
-const { provinceMapping } = constants;
+const { provinceMapping, province } = constants;
 function Home() {
   const { data: location, status: locationStatus } = useLocationName();
   const [openModal, setOpenModal] = useState(true);
@@ -36,9 +36,8 @@ function Home() {
     useFetchFeaturedEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
     useFetchEventsByProvince(
-      provinceMapping.get(location ? location.stateCode : "")
+      provinceMapping.get(location ? location.region : "")
     );
-  // console.log("provinceMapping:", provinceMapping.get("61"));
   console.log({ location, eventsByProvince });
   const sucessStatus =
     featuredEventStatus === "success" && eventsByProvinceStatus === "success";
@@ -88,7 +87,7 @@ function Home() {
             isNotEmpty(eventsByProvince.data) && (
               <div className="home-event-near-you">
                 <SectionTitle>
-                  {t("event.near-you", { val: t(location.stateCode) })}
+                  {t("event.near-you", { val: t(location.region) })}
                 </SectionTitle>
                 <div className="home-event-near-you-content">
                   {!sucessStatus
@@ -103,9 +102,9 @@ function Home() {
                     dispatch(
                       setProvince(
                         location
-                          ? location.stateCode === "SG" ||
-                            location.stateCode === "HN"
-                            ? provinceMapping.get(location.stateCode)
+                          ? location.region === province.SG ||
+                            location.region === province.HN
+                            ? provinceMapping.get(location.region)
                             : "others"
                           : ""
                       )

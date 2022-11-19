@@ -245,8 +245,9 @@
     "price": "Unit price",
     "quantity": "Quantity",
     "total": "Total",
-    "submit": "Place Order"
+    "submit": "Place Order",
+    "reload": ""
   },
-  "SG": "Ho Chi Minh city",
-  "HN": "Ha Noi"
+  "Ho Chi Minh": "Ho Chi Minh city",
+  "Hanoi": "Ha Noi"
 }

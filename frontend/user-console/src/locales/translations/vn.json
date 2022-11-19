@@ -15,7 +15,7 @@
     "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
-    "address": "Bản đồ địa điểm tổ chức",
+    "address": "Bản đồ nơi tổ chức",
     "near-you": "{{val, string}} có gì vui?",
     "hero-slogan": "Thế giới giải trí đặc sắc",
     "placeholder-searchbox": "Tìm kiếm sự kiện theo tên, địa chỉ, thể loại",
@@ -246,6 +246,6 @@
     "total": "Tổng cộng",
     "submit": "Thanh toán"
   },
-  "SG": "Sài Gòn",
-  "HN": "Hà Nội"
+  "Ho Chi Minh": "Sài Gòn",
+  "Hanoi": "Hà Nội"
 }
