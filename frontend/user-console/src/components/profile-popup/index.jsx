@@ -22,7 +22,7 @@ const UserProfile = ({ setOpen }) => {
   };
 
   return (
-    <div className="nav-item bg-white dark:bg-[#42464D] p-4 rounded-lg w-96 shadow-sm shadow-slate-400">
+    <div className="nav-item bg-white dark:bg-[#42464D] p-2 rounded-lg w-96">
       <div className="flex justify-end items-center">
         <MdOutlineCancel
           className="text-2xl rounded-full text-gray-500"

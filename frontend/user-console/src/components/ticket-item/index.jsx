@@ -9,7 +9,11 @@ function TicketItem({ ticket }) {
   return (
     <tr className="ticket-table-item">
       <th>{ticket.ticketName}</th>
-      <th>{formatter(ticket.currency).format(ticket.price)}</th>
+      <th>
+        <span className="font-semibold text-[#1f3e82]">
+          {formatter(ticket.currency).format(ticket.price)}
+        </span>
+      </th>
       <th className="flex items-center">
         <button onClick={() => dispatch(decreaseTicket(ticket.ticketName))}>
           -

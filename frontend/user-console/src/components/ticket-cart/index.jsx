@@ -1,14 +1,17 @@
 import { t } from "i18next";
 import { sumBy } from "lodash";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { convertToUSD } from "../../api/services/generalServices";
 import paymentServices from "../../api/services/paymentServices";
 import { ticketTypeSelector } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
 import { AlertErrorPopup, AlertPopup } from "../common/alert";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder } = paymentServices;
+
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
   const newArr = tickets.map((t) => ({
@@ -27,7 +30,7 @@ function TicketCart() {
       window.open(response.data, "_blank");
     }
   };
-  console.log({ tickets, cartTotalPrice });
+
   return (
     <>
       <div className="ticket-cart">

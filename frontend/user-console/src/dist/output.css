@@ -679,7 +679,6 @@
 .event-container-title {
   width: auto;
   font-size: 3rem;
-  font-family: SVN-Magnificent, sans-serif !important;
   font-weight: 800;
   position: relative;
   text-transform: capitalize;
@@ -746,7 +745,6 @@
   .event-item-image {
     width: 100% !important;
     height: auto !important;
-    max-height: 11rem !important;
   }
 }
 .event-home-item-container {
@@ -851,10 +849,6 @@
   border-color: #1f3e82 !important;
 }
 
-@font-face {
-  font-family: "SVN-Magnificent";
-  src: local("SVN-Magnificent"), url(../assets/fonts/SVN-Magnificent.otf) format("opentype");
-}
 .event-detail-container {
   width: 100vw;
   height: 110%;
@@ -2032,7 +2026,11 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
+  align-items: center;
   margin: 1rem 0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0.4px 0.5px 2.3px rgba(0, 0, 0, 0.01), 1px 1.2px 5.2px rgba(0, 0, 0, 0.014), 1.7px 2px 9px rgba(0, 0, 0, 0.017), 2.6px 3.3px 14.3px rgba(0, 0, 0, 0.02), 4.1px 5px 22px rgba(0, 0, 0, 0.023), 6.3px 7.8px 34.4px rgba(0, 0, 0, 0.026), 10.5px 13px 57.1px rgba(0, 0, 0, 0.03), 21px 26px 114px rgba(0, 0, 0, 0.04);
 }
 .ticket-table-item th {
   font-weight: 500;
@@ -2142,7 +2140,7 @@
 }
 
 * {
-  font-family: SVN-Gilroy, sans-serif;
+  font-family: SVN-Gilroy, sans-serif !important;
 }
 
 body {

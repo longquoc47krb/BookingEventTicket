@@ -5,7 +5,7 @@ function SectionTitle({ children, className }) {
   return (
     // <Divider style={{ color: "black", border: "gray" }}>
     <h1
-      className={`flex justify-center text-[${theme.main}] font-bold event-container-title`}
+      className={`flex justify-center text-[${theme.main}] font-bold event-container-title mb-4`}
     >
       {children}
     </h1>

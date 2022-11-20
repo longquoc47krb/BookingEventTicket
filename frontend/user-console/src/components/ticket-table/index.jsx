@@ -9,12 +9,6 @@ import {
 import TicketItem from "../ticket-item";
 
 function TicketTable({ ticketType }) {
-  const tickets = useSelector(ticketTypeSelector);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const newArr = ticketType.map((v) => ({ ...v, quantity: 0 }));
-    dispatch(setTicketTypeArray(newArr));
-  }, []);
   return (
     <div className="ticket-table-container">
       <table className="w-full">
@@ -23,7 +17,7 @@ function TicketTable({ ticketType }) {
           <th>{t("ticket.price")}</th>
           <th>{t("ticket.quantity")}</th>
         </tr>
-        {tickets.map((ticket, index) => (
+        {ticketType.map((ticket, index) => (
           <TicketItem ticket={ticket} key={index} />
         ))}
       </table>

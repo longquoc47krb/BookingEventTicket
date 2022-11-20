@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Header from "../../components/common/header";
@@ -21,10 +21,17 @@ import {
   setCurrentStep,
   setEventId,
 } from "../../redux/slices/ticketSlice";
+import { useBeforeUnload, useToggle } from "react-use";
 const { EventStatus } = constants;
 function TicketBooking() {
   const { t } = useTranslation();
   const currentStep = useSelector(currentStepSelector);
+  const [dirty, toggleDirty] = useToggle(true);
+  const dirtyFn = useCallback(() => {
+    return dirty;
+  }, [dirty]);
+  console.log({ dirty });
+  useBeforeUnload(dirtyFn, t("ticket.reload"));
   const { eventId } = useParams();
   const { data: event, status } = useEventDetails(eventId);
   const dispatch = useDispatch();
@@ -41,16 +48,20 @@ function TicketBooking() {
   useEffect(() => {
     dispatch(setEventId(eventId));
   }, []);
+  console.log({ event });
   function renderFragment(step) {
-    switch (step) {
-      case 0:
-        return <SelectTicket data={event.organizationTickets} />;
-      case 1:
-        return <div>Step 2</div>;
-      case 2:
-        return <div>Step 3</div>;
-      default:
-        return <SelectTicket />;
+    if (status === "success") {
+      console.log(event.organizationTickets);
+      switch (step) {
+        case 0:
+          return <SelectTicket data={event.organizationTickets} />;
+        case 1:
+          return <div>Step 2</div>;
+        case 2:
+          return <div>Step 3</div>;
+        default:
+          return <SelectTicket />;
+      }
     }
   }
   return (

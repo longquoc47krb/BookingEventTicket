@@ -148,7 +148,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventsByProvince(String province) {
-        List<Event> eventList = eventRepository.findAllByProvince(province);
+        List<Event> eventList = sortEventByDateAsc(eventRepository.findAllByProvince(province));
         List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(

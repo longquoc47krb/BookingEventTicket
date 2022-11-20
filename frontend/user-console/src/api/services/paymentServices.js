@@ -9,5 +9,6 @@ const payOrder = async (data) => {
     return error.response.data;
   }
 };
+
 const paymentServices = { payOrder };
 export default paymentServices;
