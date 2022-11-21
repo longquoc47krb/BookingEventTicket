@@ -71,15 +71,31 @@ export const unauthorizedRoute = [
     path: "/forgot-password",
   },
 ];
+export const authorizedRoutes = [
+  {
+    element: <ChangePasswordPage />,
+    path: "/update-password",
+  },
+  {
+    element: <FavoritePage />,
+    path: "/wishlist",
+  },
+  {
+    element: <TicketBookingPage />,
+    path: "/ticket-booking/:eventId",
+  },
+  {
+    element: <UserProfilePage />,
+    path: "/profile",
+    protected: true,
+  },
+];
 const routes = [
   {
     element: <BeAnOrganizerPage />,
     path: "/organizer-registration",
   },
-  {
-    element: <ChangePasswordPage />,
-    path: "/update-password",
-  },
+
   {
     element: <EventDashBoardPage />,
     path: "/events",
@@ -87,10 +103,6 @@ const routes = [
   {
     element: <EventDetailPage />,
     path: "/event/:eventId",
-  },
-  {
-    element: <FavoritePage />,
-    path: "/wishlist",
   },
   {
     element: <NewPasswordPage />,
@@ -114,18 +126,10 @@ const routes = [
     element: <OAuthLoginPage />,
     path: "/oauth2/redirect",
   },
-  {
-    element: <TicketBookingPage />,
-    path: "/ticket-booking/:eventId",
-  },
+
   {
     element: <Payment />,
     path: "/payment/redirect",
-  },
-  {
-    element: <UserProfilePage />,
-    path: "/profile",
-    protected: true,
   },
 ];
 export {
