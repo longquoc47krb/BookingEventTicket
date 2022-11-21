@@ -1,11 +1,5 @@
-import axios from "axios";
 import { t } from "i18next";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setTicketTypeArray,
-  ticketTypeSelector,
-} from "../../redux/slices/ticketSlice";
+import React from "react";
 import TicketItem from "../ticket-item";
 
 function TicketTable({ ticketType }) {

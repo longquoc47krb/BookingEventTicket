@@ -1,27 +1,23 @@
-import React, { useCallback } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import moment from "moment";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Header from "../../components/common/header";
-import StepBox from "../../components/step-box";
-import PropTypes from "prop-types";
-import AppConfig from "../../configs/AppConfig";
-import { useEventDetails } from "../../api/services/eventServices";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { displayDate, displayTime, titleCase } from "../../utils/utils";
-import constants from "../../utils/constants";
-import NotFoundPage from "../not-found";
-import TicketTable from "../../components/ticket-table";
-import Footer from "../../components/common/footer";
-import HelmetHeader from "../../components/helmet";
-import SelectTicket from "./select-ticket";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useBeforeUnload, useToggle } from "react-use";
+import { useEventDetails } from "../../api/services/eventServices";
+import Footer from "../../components/common/footer";
+import Header from "../../components/common/header";
+import HelmetHeader from "../../components/helmet";
+import StepBox from "../../components/step-box";
 import {
   currentStepSelector,
-  setCurrentStep,
   setEventId,
 } from "../../redux/slices/ticketSlice";
-import { useBeforeUnload, useToggle } from "react-use";
+import constants from "../../utils/constants";
+import { displayDate, displayTime, titleCase } from "../../utils/utils";
+import SelectTicket from "./select-ticket";
 const { EventStatus } = constants;
 function TicketBooking() {
   const { t } = useTranslation();
@@ -30,7 +26,6 @@ function TicketBooking() {
   const dirtyFn = useCallback(() => {
     return dirty;
   }, [dirty]);
-  console.log({ dirty });
   useBeforeUnload(dirtyFn, t("ticket.reload"));
   const { eventId } = useParams();
   const { data: event, status } = useEventDetails(eventId);
@@ -48,10 +43,8 @@ function TicketBooking() {
   useEffect(() => {
     dispatch(setEventId(eventId));
   }, []);
-  console.log({ event });
   function renderFragment(step) {
     if (status === "success") {
-      console.log(event.organizationTickets);
       switch (step) {
         case 0:
           return <SelectTicket data={event.organizationTickets} />;

@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   ticketType: [],
   ticketCart: [],
+  totalPrice: 0,
+  totalQuantity: 0,
   currentStep: 0,
   eventId: "",
   success: false,
@@ -36,14 +38,6 @@ const ticketSlice = createSlice({
     setCurrentStep: (state, { payload }) => {
       state.currentStep = payload;
     },
-    nextStep: (state) => {
-      state.currentStep =
-        state.currentStep === 2 ? state.currentStep : state.currentStep + 1;
-    },
-    prevStep: (state) => {
-      state.currentStep =
-        state.currentStep === 0 ? state.currentStep : state.currentStep - 1;
-    },
     setSuccess: (state, { payload }) => {
       state.success = payload;
     },
@@ -52,6 +46,18 @@ const ticketSlice = createSlice({
     },
     setEventId: (state, { payload }) => {
       state.eventId = payload;
+    },
+    setTotalPrice: (state, { payload }) => {
+      state.totalPrice = payload;
+    },
+    setTotalQuantity: (state, { payload }) => {
+      state.totalQuantity = payload;
+    },
+    clearCart: (state) => {
+      state.ticketCart = [];
+      state.success = false;
+      state.cancel = false;
+      state.totalPrice = 0;
     },
   },
 });
@@ -62,13 +68,15 @@ export const {
   increaseTicket,
   decreaseTicket,
   setCurrentStep,
-  nextStep,
-  prevStep,
   setSuccess,
   setCancel,
   setEventId,
+  setTotalPrice,
+  setTotalQuantity,
+  clearCart,
 } = ticketSlice.actions;
 export const ticketTypeSelector = (state) => state.ticket.ticketType;
+export const ticketCartSelector = (state) => state.ticket.ticketCart;
 export const currentStepSelector = (state) => state.ticket.currentStep;
 export const successSelector = (state) => state.ticket.success;
 export const cancelSelector = (state) => state.ticket.cancel;

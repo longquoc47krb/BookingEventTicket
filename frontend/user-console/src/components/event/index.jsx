@@ -24,7 +24,7 @@ function Event(props) {
   };
   const dispatch = useDispatch();
   function handleEventCurrency() {
-    if (isNotEmpty(event)) {
+    if (isNotEmpty(event.organizationTickets)) {
       const currency = event.organizationTickets[0].currency;
       return currency;
     }
@@ -79,7 +79,7 @@ function Event(props) {
         <span className="text-base pl-1 ">
           {t("price-from")}
           <strong className="text-[#1f3e82]">
-            {formatter(handleEventCurrency()).format(
+            {formatter(handleEventCurrency() ?? "VND").format(
               minBy(event?.organizationTickets, function (o) {
                 const price = Number(o.price);
                 return price;

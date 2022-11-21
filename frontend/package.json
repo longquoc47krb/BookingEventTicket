@@ -1,0 +1,12 @@
+{
+  "name": "lotus-ticket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-user": "cd ./user-console && yarn build && netlify deploy --prod && build"
+  },
+  "author": "longquoc47krb",
+  "license": "MIT"
+}
