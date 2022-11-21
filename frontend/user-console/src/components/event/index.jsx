@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { setCategoryId } from "../../redux/slices/filterSlice";
 import AppConfig from "../../configs/AppConfig";
 import { minBy } from "lodash";
+import { formatter, isNotEmpty } from "../../utils/utils";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
@@ -22,8 +23,12 @@ function Event(props) {
     navigate(`/event/${event.id}`);
   };
   const dispatch = useDispatch();
-  console.log(event);
-  console.log(minBy(event.organizationTickets, "price"));
+  function handleEventCurrency() {
+    if (isNotEmpty(event)) {
+      const currency = event.organizationTickets[0].currency;
+      return currency;
+    }
+  }
   return (
     <div
       className="event-item-container float"
@@ -71,7 +76,17 @@ function Event(props) {
         ))}
       </div>
       <div>
-        <span className="text-lg pl-2">Từ 9000000đ</span>
+        <span className="text-base pl-1 ">
+          {t("price-from")}
+          <strong className="text-[#1f3e82]">
+            {formatter(handleEventCurrency()).format(
+              minBy(event?.organizationTickets, function (o) {
+                const price = Number(o.price);
+                return price;
+              })?.price
+            )}
+          </strong>
+        </span>
       </div>
       <Calendar
         className="absolute right-2 bottom-5"

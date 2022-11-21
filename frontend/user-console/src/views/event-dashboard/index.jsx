@@ -14,6 +14,7 @@ import HelmetHeader from "../../components/helmet";
 import HeroBanner from "../../components/hero";
 import HomeDrawer from "../../components/home-drawer";
 import { setCategoryId } from "../../redux/slices/filterSlice";
+import { setPathName } from "../../redux/slices/routeSlice";
 import { resultSelector } from "../../redux/slices/searchSlice";
 import { isEmpty } from "../../utils/utils";
 import FilterEventFragment from "./filterEvent";
@@ -31,7 +32,9 @@ function EventDashBoard() {
       : null;
   const { data: allEvents, status: allEventsStatus } = useFetchEvents();
 
-  useEffect(() => {});
+  useEffect(() => {
+    dispatch(setPathName(window.location.pathname));
+  });
 
   useEffect(() => {
     dispatch(setCategoryId(categoryId));

@@ -5,6 +5,16 @@ export const provinces = [
     unit: "Thành phố Trung ương",
   },
   {
+    code: "79",
+    name: "TP. Hồ Chí Minh",
+    unit: "Thành phố Trung ương",
+  },
+  {
+    code: "68",
+    name: "Lâm Đồng",
+    unit: "Tỉnh",
+  },
+  {
     code: "02",
     name: "Hà Giang",
     unit: "Tỉnh",
@@ -215,11 +225,6 @@ export const provinces = [
     unit: "Tỉnh",
   },
   {
-    code: "68",
-    name: "Lâm Đồng",
-    unit: "Tỉnh",
-  },
-  {
     code: "70",
     name: "Bình Phước",
     unit: "Tỉnh",
@@ -243,11 +248,6 @@ export const provinces = [
     code: "77",
     name: "Bà Rịa - Vũng Tàu",
     unit: "Tỉnh",
-  },
-  {
-    code: "79",
-    name: "TP. Hồ Chí Minh",
-    unit: "Thành phố Trung ương",
   },
   {
     code: "80",
