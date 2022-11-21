@@ -13,6 +13,7 @@ import authServices from "../../api/services/authServices";
 import Authentication from "../../assets/Authentication.svg";
 import Google from "../../assets/google.svg";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
+import { useSelector } from "react-redux";
 import {
   Input,
   InputPassword,
@@ -24,11 +25,13 @@ import { setToken, setUserProfile } from "../../redux/slices/accountSlice";
 import { ROLE } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
+import { pathNameSelector } from "../../redux/slices/routeSlice";
 const { loginByEmail } = authServices;
 const { findUser } = accountServices;
 const UserLogin = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const previousPathname = useSelector(pathNameSelector);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
@@ -77,7 +80,7 @@ const UserLogin = (props) => {
       case 201:
         if (role === ROLE.Customer) {
           setTimeout(() => {
-            navigate("/");
+            navigate(previousPathname ? previousPathname : "/");
           }, 3000);
           return AlertPopup({
             title: t("status.login.200"),

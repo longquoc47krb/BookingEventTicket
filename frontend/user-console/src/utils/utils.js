@@ -500,14 +500,15 @@ export function filterData(dateType, dateRange, list) {
  * Convert number to currency format
  */
 export const formatter = (currency) => {
-  if (currency === "VND") {
+  if (currency === "USD") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  } else {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     });
   }
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
 };
