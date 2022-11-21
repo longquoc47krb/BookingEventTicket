@@ -12,6 +12,7 @@ import { EventStatus } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { setCategoryId } from "../../redux/slices/filterSlice";
 import AppConfig from "../../configs/AppConfig";
+import { minBy } from "lodash";
 function Event(props) {
   const { event } = props;
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ function Event(props) {
     navigate(`/event/${event.id}`);
   };
   const dispatch = useDispatch();
+  console.log(event);
+  console.log(minBy(event.organizationTickets, "price"));
   return (
     <div
       className="event-item-container float"
@@ -42,9 +45,6 @@ function Event(props) {
           ? t(event.status)
           : null}
       </h1>
-      <div>
-        <strong className="text-xl">{event.price}</strong>
-      </div>
       <div className="flex items-center">
         {event.province ? (
           <Tag
@@ -69,6 +69,9 @@ function Event(props) {
             {t(item?.name)}
           </p>
         ))}
+      </div>
+      <div>
+        <span className="text-lg pl-2">Từ 9000000đ</span>
       </div>
       <Calendar
         className="absolute right-2 bottom-5"

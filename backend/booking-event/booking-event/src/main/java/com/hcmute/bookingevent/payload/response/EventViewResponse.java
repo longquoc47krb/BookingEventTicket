@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.payload.response;
 
 import com.hcmute.bookingevent.models.EventCategory;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class EventViewResponse {
     private String background;
     private String status;
     private List<EventCategory> eventCategoryList;
+    private List<Ticket> organizationTickets;
 
 }
