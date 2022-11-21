@@ -5,10 +5,11 @@ import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoutes from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 import ScrollToTopPage from "./components/scroll-to-top";
 import TicketTable from "./components/ticket-table";
-import routes, { unauthorizedRoute } from "./configs/routes";
+import routes, { authorizedRoutes, unauthorizedRoute } from "./configs/routes";
 import { UserActionContextProvider } from "./context/UserActionContext";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { tokenSelector } from "./redux/slices/accountSlice";
@@ -46,10 +47,14 @@ function App() {
                   <Route path={route.path} element={route.element} />
                 ))}
               </Route>
+              <Route element={<PrivateRoutes isAuth={token} />}>
+                {authorizedRoutes.map((route) => (
+                  <Route path={route.path} element={route.element} />
+                ))}
+              </Route>
               {routes.map((route) => (
                 <Route path={route.path} element={route.element} />
               ))}
-              <Route path="/test" element={<TicketTable />} />
               {/* // <Route
               //   path="/profile"
               //   roles={[Role.User]}
