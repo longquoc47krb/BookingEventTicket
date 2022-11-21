@@ -1,9 +1,9 @@
 export const paragraph = "";
 
 export const TicketStatus = {
-  COMPLETED: "event.completed",
-  SOLDOUT: "event.sold-out",
-  AVAILABLE: "event.available",
+  SOLDOUT: "ticket.soldout",
+  AVAILABLE: "ticket.available",
+  DISABLE: "ticket.disabled",
 };
 export const comparisonStatus = {
   EQUAL: "equal",
