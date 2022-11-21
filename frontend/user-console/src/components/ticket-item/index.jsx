@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { decreaseTicket, increaseTicket } from "../../redux/slices/ticketSlice";
 import { formatter, isNotEmpty } from "../../utils/utils";

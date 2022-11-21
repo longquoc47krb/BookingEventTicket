@@ -38,7 +38,6 @@ function Home() {
     useFetchEventsByProvince(
       provinceMapping.get(location ? location.region : "")
     );
-  console.log({ location, eventsByProvince });
   const sucessStatus =
     featuredEventStatus === "success" && eventsByProvinceStatus === "success";
   const { t } = useTranslation();
