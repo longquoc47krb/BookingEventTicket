@@ -3,7 +3,6 @@ import { Col, Row } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { t } from "i18next";
 import { decode, encode } from "js-base64";
-import htmlToDraft from "html-to-draftjs";
 import { map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -18,7 +17,6 @@ import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import {
   DatePicker,
   Input,
-  InputNumber,
   Select,
   SelectHorizonal,
   TimePicker,
@@ -27,7 +25,7 @@ import ThreeDotsLoading from "../components/ThreeLoading";
 import UploadImage from "../components/Upload";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { setInitialBackground } from "../redux/slices/eventSlice";
-import constants from "../utils/constants";
+import constants, { TicketStatus } from "../utils/constants";
 import { provinces } from "../utils/provinces";
 import { generateId } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
@@ -62,9 +60,10 @@ function AddEditEvent(props) {
         id: generateId(user.name, date),
         price: 0,
         ticketName: "",
+        status: TicketStatus.AVAILABLE,
+        description: "",
         currency: "VND",
         quantity: 0,
-        description: "",
       },
     ],
   };
@@ -341,9 +340,10 @@ function AddEditEvent(props) {
                               id: generateId(user.name, date),
                               price: 0,
                               ticketName: "",
+                              status: TicketStatus.AVAILABLE,
+                              description: "",
                               currency: values.currency,
                               quantity: 0,
-                              description: "",
                             })
                           }
                         >
