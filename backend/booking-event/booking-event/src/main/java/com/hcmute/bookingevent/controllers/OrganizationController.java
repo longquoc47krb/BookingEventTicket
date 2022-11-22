@@ -3,7 +3,9 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EmailReq;
+import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.request.OrganizerBioReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -76,11 +79,11 @@ public class OrganizationController {
 
         }
     }
-    @PostMapping("/organization/bio/{userid}")
-    public ResponseEntity<?> addOrganizerBio(@PathVariable String userid, @RequestBody OrganizerBioReq bioReq,HttpServletRequest request){
+    @PostMapping("/organization/organizerProfile/{userid}")
+    public ResponseEntity<?> updateBioAndAddress(@PathVariable String userid, @RequestBody OrganizationProfileReq profileReq, HttpServletRequest request){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userid)) {
-            return iOrganizationService.addBio(bioReq.getBiography(), account.getEmail());
+            return iOrganizationService.updateBioAndAddress(account.getEmail(), profileReq);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
@@ -93,5 +96,21 @@ public class OrganizationController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
+    }
+    @PostMapping("/organization/templateTickets/{userId}")
+    public ResponseEntity<?> createTemplateTickets(@PathVariable String userId, HttpServletRequest request, @RequestBody List<Ticket> tickets){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)) {
+            return iOrganizationService.createTemplateTickets(account.getEmail(), tickets);
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+    @GetMapping("/organization/templateTickets/{userId}")
+    public ResponseEntity<?> getTemplateTickets(@PathVariable String userId, HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)){
+            return iOrganizationService.getTemplateTickets(account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
 }

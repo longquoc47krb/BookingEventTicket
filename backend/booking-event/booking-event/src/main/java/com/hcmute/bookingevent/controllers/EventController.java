@@ -4,6 +4,7 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @RestController
@@ -107,4 +109,5 @@ public class EventController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
+
 }

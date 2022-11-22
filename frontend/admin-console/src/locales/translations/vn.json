@@ -214,5 +214,7 @@
         "create": "Create new ticket",
         "remove": "Remove this ticket"
     },
-    "template-ticket": "Use saved template ticket"
+    "template-ticket": "Use saved template",
+    "save-template-ticket": "Save this ticket list",
+    "default-address": "Use default address"
 }

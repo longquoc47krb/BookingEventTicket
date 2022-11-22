@@ -30,6 +30,5 @@ public interface IEventService {
                                    String status);
     ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file);
 
-    ResponseEntity<?> createTemplateTicket(String eventId, List<Ticket> ticketReq);
 
 }

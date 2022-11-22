@@ -234,22 +234,6 @@ public class EventService implements IEventService {
 
 
     }
-
-    @Override
-    public ResponseEntity<?> createTemplateTicket(String eventId, List<Ticket> ticketReq) {
-        Optional<Event> event = eventRepository.findById(eventId);
-        if (event.isPresent()) {
-            event.get().setTemplateTickets(ticketReq);
-            eventRepository.save(event.get());
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Update template ticket successfully ", "", 200));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Update template ticket fail:", "", 404));
-        }
-    }
-
-
     @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria

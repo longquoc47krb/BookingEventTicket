@@ -7,6 +7,8 @@ import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
+import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
@@ -24,6 +26,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,6 +100,25 @@ public class OrganizationService implements IOrganizationService {
     }
 
     @Override
+    public ResponseEntity<?> updateBioAndAddress(String email, OrganizationProfileReq profileReq) {
+        Optional<Organization> organization =  organizationRepository.findByEmail(email);
+        if(organization.isPresent()) {
+            organization.get().setBiography(profileReq.getBiography());
+            organization.get().setProvince(profileReq.getProvince());
+            organization.get().setVenue(profileReq.getVenue());
+            organization.get().setAddress(profileReq.getAddress());
+            organizationRepository.save(organization.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Add bio successfully ", organization.get(), 200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Add bio failed", "",404));
+        }
+    }
+
+    @Override
     public ResponseEntity<?> findOrganizationByEmail(String email)
     {
         try
@@ -105,7 +128,7 @@ public class OrganizationService implements IOrganizationService {
             if(organization.isPresent())
             {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(), account.get().getPhone(),account.get().getRole(),organization.get().getEmail(),organization.get().getBiography());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(), account.get().getPhone(),account.get().getRole(),organization.get().getEmail(),organization.get().getBiography(),organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse,200));
@@ -201,23 +224,6 @@ public class OrganizationService implements IOrganizationService {
     }
 
     @Override
-    public ResponseEntity<?> addBio(String bio, String email) {
-        Optional<Organization> organization =  organizationRepository.findByEmail(email);
-        if(organization.isPresent()) {
-            organization.get().setBiography(bio);
-            organizationRepository.save(organization.get());
-
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Add bio successfully ", "", 200));
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Add bio failed", "",404));
-        }
-
-    }
-
-    @Override
     public ResponseEntity<?> removeBio(String email) {
         Optional<Organization> organization =  organizationRepository.findByEmail(email);
         if(organization.isPresent()) {
@@ -231,5 +237,34 @@ public class OrganizationService implements IOrganizationService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject(false, "Remove bio failed", "",404));
         }
+    }
+
+    @Override
+    public ResponseEntity<?> createTemplateTickets(String email, List<Ticket> tickets) {
+        Optional<Organization> organization =  organizationRepository.findByEmail(email);
+        if(organization.isPresent()) {
+            organization.get().setTemplateTickets(tickets);
+            organizationRepository.save(organization.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Saved template tickets successfully ", "", 200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Save tenplate tickets failed", "",404));
+        }
+
+
+    }
+
+    @Override
+    public ResponseEntity<?> getTemplateTickets(String email) {
+        Optional<Organization> organization =   organizationRepository.findByEmail(email);
+        if(!organization.get().getTemplateTickets().isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Get template tickets successfully ", organization.get().getTemplateTickets(), 200));
+
+        }
+        return null;
     }
 }

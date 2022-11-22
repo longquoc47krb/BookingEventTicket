@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
-import { Col, Row, Checkbox } from "antd";
+import { Col, Row, Switch } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
+import styled from "styled-components";
 import { t } from "i18next";
 import { decode, encode } from "js-base64";
 import { map, sumBy } from "lodash";
@@ -25,23 +26,41 @@ import ThreeDotsLoading from "../components/ThreeLoading";
 import UploadImage from "../components/Upload";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { setInitialBackground } from "../redux/slices/eventSlice";
+import theme from "../shared/theme";
 import constants, { TicketStatus } from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { generateId } from "../utils/utils";
+import { generateId, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
+import organizationServices, {
+  useFetchTemplateTicket,
+} from "../api/services/organizationServices";
 const { getEventById, createEvent, uploadEventBackground, updateEvent } =
   eventServices;
+const { createTemplateTicket } = organizationServices;
 const { PATTERNS } = constants;
+
+const StyledSwitch = styled(Switch)`
+  &&&.ant-switch-checked {
+    background-color: #1f3e82;
+  }
+  &&&.ant-switch {
+    outline: 1.2px solid gray;
+  }
+`;
+
 function AddEditEvent(props) {
   const { eventId } = useParams();
-  const [event, setEvent] = useState({});
+  const [useTemplate, setUseTemplate] = useState(false);
+  const [saveTemplate, setSaveTemplate] = useState(false);
+  const [useDefaultAddress, setUseDefaultAddress] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
-
+  const { data: templateTickets, status: templateStatus } =
+    useFetchTemplateTicket(user.id);
   const initialValues = {
     background: null,
     name: "",
@@ -67,6 +86,24 @@ function AddEditEvent(props) {
       },
     ],
   };
+  const handleTemplateTicket = () => {
+    let newArr = [];
+    if (isNotEmpty(templateTickets)) {
+      for (const element of templateTickets) {
+        newArr.push({
+          id: generateId(user.name, date),
+          ticketName: element?.ticketName,
+          price: element?.price,
+          description: element?.description,
+          quantity: element?.quantity,
+          currency: element?.currency,
+          status: "ticket.available",
+        });
+      }
+    }
+    return newArr;
+  };
+  console.log(handleTemplateTicket());
   const handleEventCategoryList = (list) => {
     let temp = [];
     for (const element of list) {
@@ -115,7 +152,6 @@ function AddEditEvent(props) {
         ticketRemaining: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
       };
-      console.log({ request });
       if (!eventId) {
         let responseUpdate = await createEvent(user.id, request);
         if (responseUpdate.status === 200) {
@@ -125,8 +161,12 @@ function AddEditEvent(props) {
             handleFormData(values.background)
           );
         }
+        if (saveTemplate) {
+          await createTemplateTicket(user.id, request.organizationTickets);
+        }
         if (responseUpdate.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
+          setUseTemplate(false);
           dispatch(setInitialBackground(null));
         }
         showNotification(
@@ -149,38 +189,61 @@ function AddEditEvent(props) {
       }
     },
   });
-  const { handleSubmit, values, setValues, errors } = formik;
+  const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
   useEffect(() => {
     console.group();
-    console.log({ values });
-    console.log("type:", typeof values.startingTime);
-    console.log({
-      name: values.name,
-      description: encode(values.description),
-      endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
-      endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
-      startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
-      startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
-      eventCategoryList: handleEventCategoryList(values.eventCategoryList),
-      province: values.province,
-      venue: values.venue,
-      venue_address: values.venue_address,
-      organizationTickets: handleTicketList(values.ticketList),
-      totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
-      remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
-      host_id: user.id,
-    });
+    console.log({ eventId });
+    console.log(user.id);
+    console.log("useTemplate:", useTemplate);
+    console.log("saveTemplate:", saveTemplate);
+    console.log("handleTemplateTicket:", handleTemplateTicket());
+    // console.log({
+    //   name: values.name,
+    //   description: encode(values.description),
+    //   endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
+    //   endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
+    //   startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
+    //   startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
+    //   eventCategoryList: handleEventCategoryList(values.eventCategoryList),
+    //   province: values.province,
+    //   venue: values.venue,
+    //   venue_address: values.venue_address,
+    //   organizationTickets: handleTicketList(values.ticketList),
+    //   totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+    //   remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
+    //   host_id: user.id,
+    // });
     console.groupEnd();
   }, [values, errors]);
 
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
   }, [values.startingDate]);
+  // For fetch template tickets
+  useEffect(() => {
+    if (!eventId) {
+      if (useTemplate) {
+        setFieldValue("ticketList", handleTemplateTicket());
+      } else {
+        setFieldValue("ticketList", initialValues.ticketList);
+      }
+      if (useDefaultAddress) {
+        setFieldValue("province", user.province);
+        setFieldValue("venue", user.venue);
+        setFieldValue("venue_address", user.address);
+      } else {
+        setFieldValue("province", initialValues.province);
+        setFieldValue("venue", initialValues.venue);
+        setFieldValue("venue_address", initialValues.venue_address);
+      }
+    }
+  }, [useTemplate, useDefaultAddress]);
+
+  // For edit event
   useEffect(() => {
     if (eventId) {
       async function fetchEvent() {
         const res = await getEventById(eventId);
-        setEvent(res);
         dispatch(setInitialBackground(res.background));
         setValues({
           background: res.background,
@@ -295,7 +358,7 @@ function AddEditEvent(props) {
                 />
               </Col>
             </Row>
-            <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
+            <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
               <Col span={12}>
                 <Field
                   name="province"
@@ -324,6 +387,21 @@ function AddEditEvent(props) {
                 />
               </Col>
             </Row>
+            {!eventId && (
+              <Col span={8}>
+                <div className="flex gap-x-3 items-center mb-4">
+                  <h1 className="text-primary text-xl font-semibold">
+                    {t("default-address")}
+                  </h1>
+
+                  <StyledSwitch
+                    defaultChecked={false}
+                    checked={useDefaultAddress}
+                    onChange={(checked) => setUseDefaultAddress(checked)}
+                  />
+                </div>
+              </Col>
+            )}
             <FieldArray name="ticketList">
               {(fieldArrayProps) => {
                 const { push, remove, form } = fieldArrayProps;
@@ -364,14 +442,21 @@ function AddEditEvent(props) {
                           }))}
                         />
                       </Col>
-                      <Col span={8}>
-                        <div className="flex justify-center items-center">
-                          <h1 className="text-primary text-xl font-semibold mb-4">
-                            {t("template-ticket")}
-                          </h1>
-                          <Checkbox defaultChecked={false} />
-                        </div>
-                      </Col>
+                      {!eventId && (
+                        <Col span={8}>
+                          <div className="flex gap-x-3 items-center">
+                            <h1 className="text-primary text-xl font-semibold">
+                              {t("template-ticket")}
+                            </h1>
+
+                            <StyledSwitch
+                              defaultChecked={false}
+                              checked={useTemplate}
+                              onChange={(checked) => setUseTemplate(checked)}
+                            />
+                          </div>
+                        </Col>
+                      )}
                     </Row>
                     {values.ticketList?.map((_, index) => (
                       <div className="p-3 border-gray-400 border-4 border-dashed my-2 rounded-lg bg-gray-200 relative">
@@ -429,6 +514,15 @@ function AddEditEvent(props) {
                 );
               }}
             </FieldArray>
+            <div className="flex gap-x-3 items-center mb-4">
+              <h1 className="text-primary text-xl font-semibold">
+                {t("save-template-ticket")}
+              </h1>
+              <StyledSwitch
+                defaultChecked={false}
+                onChange={(checked) => setSaveTemplate(checked)}
+              />
+            </div>
             <Row gutter={[48, 40]}>
               <Col span={24}>
                 <Editor name="description" label={t("event.description")} />
