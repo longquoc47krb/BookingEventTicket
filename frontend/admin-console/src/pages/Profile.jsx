@@ -11,7 +11,7 @@ import accountServices from "../api/services/accountServices";
 import organizationServices from "../api/services/organizationServices";
 import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import UploadAvatar from "../components/common/upload-avatar";
-import { Input } from "../components/customField";
+import { Input, Select } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
 import {
   setEmail,
@@ -20,11 +20,12 @@ import {
   userInfoSelector,
 } from "../redux/slices/accountSlice";
 import { pathNameSelector } from "../redux/slices/routeSlice";
+import { provinces } from "../utils/provinces";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
 const { updateAvatar, updateAccount, findUserById } = accountServices;
-const { addOrganizerBio, findOrganizerById } = organizationServices;
+const { updateBioAndAddress, findOrganizerById } = organizationServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ function UserProfile() {
     email: user?.email,
     phone: user?.phone ?? null,
     biography: user?.biography ?? "",
+    province: user?.province ?? "",
+    venue: user?.venue ?? "",
+    address: user?.address ?? "",
   };
   // formik
   const formik = useFormik({
@@ -54,16 +58,25 @@ function UserProfile() {
       email: YupValidations.email,
       phone: YupValidations.phone,
       biography: YupValidations.description,
+      province: YupValidations.province,
+      venue: YupValidations.venue,
+      address: YupValidations.address,
     }),
     onSubmit: async (values) => {
-      const { id, name, phone, email, biography } = values;
+      const { id, name, phone, email, biography, address, province, venue } =
+        values;
       setLoading(true);
       console.log({ values });
       let updateAvatarResponse;
       if (avatar) {
         updateAvatarResponse = await updateAvatar(id, avatar);
       }
-      const updateBio = await addOrganizerBio(id, { biography });
+      const updateBioAndAddressRes = await updateBioAndAddress(id, {
+        address,
+        biography,
+        province,
+        venue,
+      });
       const updateAccountResponse = await updateAccount(id, { name, phone });
       const userInfo = await findOrganizerById(id);
       if (userInfo.status === 200) {
@@ -72,14 +85,13 @@ function UserProfile() {
       showNotification(
         updateAvatarResponse.status === 200 ||
           updateAccountResponse.status === 200 ||
-          updateBio.status === 200
+          updateBioAndAddressRes.status === 200
       );
+      setLoading(false);
     },
   });
   const showNotification = (code) => {
     if (code) {
-      setLoading(false);
-
       return AlertPopup({
         title: t("popup.update-account.account.200"),
       });
@@ -123,6 +135,35 @@ function UserProfile() {
                     label={t("user.phone")}
                     name="phone"
                   />
+                  <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
+                    <Col span={12}>
+                      <Field
+                        name="province"
+                        component={Select}
+                        label={t("event.province")}
+                        options={Object.values(provinces).map((field) => ({
+                          value: field.name,
+                          name: field.name,
+                        }))}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Field
+                        name="venue"
+                        component={Input}
+                        label={t("event.venue")}
+                      />
+                    </Col>
+                  </Row>
+                  <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
+                    <Col span={24}>
+                      <Field
+                        name="address"
+                        component={Input}
+                        label={t("event.venue_address")}
+                      />
+                    </Col>
+                  </Row>
                   <Editor name="biography" label={t("user.biography")} />
                 </Col>
               </Row>

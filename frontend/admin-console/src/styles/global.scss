@@ -78,7 +78,14 @@ body {
   pointer-events: auto;
   transform: scale3d(1, 1, 1) rotate(0deg) translate(0px, -256px);
 }
-
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  height: 2.5rem !important;
+  border-radius: 2px !important;
+  &:hover {
+    border: 1px solid rgb(117, 186, 242) !important;
+    outline: none !important;
+  }
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

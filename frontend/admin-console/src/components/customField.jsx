@@ -3,9 +3,12 @@ import {
   Form,
   Input as AntdInput,
   Select as AntdSelect,
-  TimePicker as AntdTimePicker,
 } from "antd";
-import MoneyInput from "antd-money";
+import dayjs from "dayjs";
+import { TimePicker as MuiTimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import TextField from "@mui/material/TextField";
 import { ErrorMessage } from "formik";
 import React from "react";
 const { Item } = Form;
@@ -54,38 +57,6 @@ function Input(props) {
     </>
   );
 }
-function InputNumber(props) {
-  const {
-    field,
-    form,
-    label,
-    width,
-    type,
-    onChange: onChangeCustom,
-    disabled,
-  } = props;
-  const { value, onChange, onBlur, name } = field;
-  const { errors } = form;
-  return (
-    <>
-      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
-      <MoneyInput
-        name={name}
-        value={value}
-        onBlur={onBlur}
-        onChange={onChange}
-        commaSeperator={true}
-        status={errors[name] ? "error" : ""}
-        thousandSeparator=","
-        style={{ width: width }}
-        className="p-[0.5rem] mb-4 ant-input"
-      />
-      <p className="error-message w-[100%]">
-        <ErrorMessage name={name} />
-      </p>
-    </>
-  );
-}
 function DatePicker(props) {
   const dateFormat = "DD/MM/YYYY";
   const { form, field, label } = props;
@@ -111,7 +82,6 @@ function DatePicker(props) {
   );
 }
 function TimePicker(props) {
-  const format = "HH:mm";
   const { form, field, label } = props;
   const { value, onBlur, name } = field;
   const { setFieldValue } = form;
@@ -119,14 +89,19 @@ function TimePicker(props) {
     <>
       <Item>
         <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
-        <AntdTimePicker
-          className="w-full p-[0.5rem] mb-4"
-          format={format}
-          name={name}
-          value={value}
-          onChange={(value) => setFieldValue(name, value)}
-          onBlur={onBlur}
-        />
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <MuiTimePicker
+            className="w-full mb-4 h-[2.5rem] border-none outline-none"
+            name={name}
+            value={value}
+            ampm={false}
+            onChange={(value) => setFieldValue(name, value)}
+            onBlur={onBlur}
+            renderInput={(params) => (
+              <TextField {...params} onChange={(value) => console.log(value)} />
+            )}
+          />
+        </LocalizationProvider>
         <p className="error-message">
           <ErrorMessage name={name} />
         </p>
@@ -135,7 +110,7 @@ function TimePicker(props) {
   );
 }
 function Select(props) {
-  const { field, form, label, mode, options, width } = props;
+  const { field, form, label, mode, options } = props;
   const { value, name, onChange } = field;
   const { errors } = form;
   const handleChange = (value) => {
@@ -173,7 +148,7 @@ function Select(props) {
   );
 }
 function SelectHorizonal(props) {
-  const { field, form, label, mode, options, width } = props;
+  const { field, form, label, mode, options } = props;
   const { value, name, onChange } = field;
   const { errors } = form;
   const handleChange = (value) => {
@@ -250,7 +225,6 @@ function InputPassword(props) {
 
 export {
   Input,
-  InputNumber,
   InputPassword,
   DatePicker,
   TimePicker,

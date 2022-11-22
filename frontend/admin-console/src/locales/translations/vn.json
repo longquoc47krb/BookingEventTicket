@@ -177,9 +177,18 @@
             "min": "Min date is today",
             "max": "Max date is equal to ending date"
         },
+        "startingTime": {
+            "required": "Starting time is required",
+            "min": "Min time is 0:00",
+            "max": "Max time is equal to ending time"
+        },
         "endingDate": {
             "required": "Ending date is required",
             "min": "Min date is equal to starting dâtte"
+        },
+        "endingTime": {
+            "required": "Ending time is required",
+            "min": "Min time is equal to starting time"
         },
         "ticket": {
             "currency": {
@@ -204,5 +213,8 @@
     "ticket": {
         "create": "Create new ticket",
         "remove": "Remove this ticket"
-    }
+    },
+    "template-ticket": "Use saved template",
+    "save-template-ticket": "Save this ticket list",
+    "default-address": "Use default address"
 }

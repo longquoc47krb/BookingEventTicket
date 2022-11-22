@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.models.organization;
 
 import com.hcmute.bookingevent.models.organization.EOrganization;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,6 @@ public class Organization {
     @Id
     private String id;
     private String biography;
-    private String address;
     @NotBlank(message = "Email is required")
     @Size(max = 100)
     @Email(message = "Email is invalidate")
@@ -38,7 +38,10 @@ public class Organization {
 
     private List<String> eventList;
 
-
+    private List<Ticket> templateTickets = new ArrayList<>();
+    private String province;
+    private String venue;
+    private String address;
     public Organization(String id) {
         this.id = id;
     }

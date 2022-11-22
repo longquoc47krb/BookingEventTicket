@@ -9,7 +9,9 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EventReq;
+import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
@@ -221,10 +223,10 @@ public class EventService implements IEventService {
                 event.get().setBackground(imgUrl);
                 eventRepository.save(event.get());
                 return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject(true, "Update back ground successfully ", "", 200));
+                        new ResponseObject(true, "Update background successfully ", "", 200));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        new ResponseObject(false, "Update back ground  fail with id event:" + id, "", 404));
+                        new ResponseObject(false, "Update background  fail with id event:" + id, "", 404));
             }
         } catch (IOException e) {
             throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), "Error when upload image");
@@ -232,8 +234,6 @@ public class EventService implements IEventService {
 
 
     }
-
-
     @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria
@@ -256,7 +256,6 @@ public class EventService implements IEventService {
         }
         throw new NotFoundException("Can not found any product with id: " + id);
     }
-
 
     @Override
     public ResponseEntity<?> findEventListById(String id) {

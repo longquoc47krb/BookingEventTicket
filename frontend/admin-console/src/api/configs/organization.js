@@ -12,8 +12,8 @@ export const OrganizationAPI = {
     url: `/organization/${email}`,
     method: "GET",
   }),
-  addOrganizerBio: (id, data) => ({
-    url: `/organization/bio/${id}`,
+  updateBioAndAddress: (id, data) => ({
+    url: `/organization/organizerProfile/${id}`,
     method: "POST",
     data,
   }),
@@ -23,5 +23,14 @@ export const OrganizationAPI = {
     params: {
       id,
     },
+  }),
+  createTemplateTicket: (id, data) => ({
+    url: `/organization/templateTickets/${id}`,
+    method: "POST",
+    data,
+  }),
+  getTemplateTicket: (id) => ({
+    url: `/organization/templateTickets/${id}`,
+    method: "GET",
   }),
 };

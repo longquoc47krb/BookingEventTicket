@@ -17,4 +17,7 @@ public class OrganizerResponse {
     private String role;
     private String email;
     private String biography;
+    private String province;
+    private String venue;
+    private String address;
 }
