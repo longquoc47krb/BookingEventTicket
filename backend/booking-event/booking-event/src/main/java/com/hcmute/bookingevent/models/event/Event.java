@@ -51,6 +51,7 @@ public class Event {
     @DBRef
     private List<EventCategory> eventCategoryList ;
     private List<Ticket> organizationTickets = new ArrayList<>();
+    private List<Ticket> templateTickets = new ArrayList<>();
     public Event(String name,String province,String venue,String venue_address,String startingTime,String endingTime,String startingDate,String endingDate,String host_id,String description,List<EventCategory> eventCategoryList,List<Ticket> organizationTickets,Date createdDate,int totalTicket,int remainingTicket )
     {
         this.name=name;

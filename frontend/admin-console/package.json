@@ -6,6 +6,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.13",
+    "@mui/x-date-pickers": "^5.0.8",
     "@reduxjs/toolkit": "^1.9.0",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
@@ -19,8 +20,8 @@
     "@tanstack/react-query-devtools": "^4.14.5",
     "@tanstack/react-query-persist-client": "^4.14.5",
     "antd": "^4.24.1",
-    "antd-money": "^1.0.4",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.6",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "eslint-config-react-app": "^7.0.1",
@@ -33,7 +34,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
     "moment": "^2.29.4",
-    "node-sass": "^7.0.3",
+    "node-sass": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.15.0",
@@ -48,7 +49,7 @@
     "react-rte": "^0.16.5",
     "react-scripts": "5.0.0",
     "redux-persist": "^6.0.0",
-    "sass": "^1.56.0",
+    "sass": "^1.56.1",
     "sweetalert2": "^11.6.7",
     "xlsx": "^0.18.5",
     "yup": "^0.32.11",
@@ -59,7 +60,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && netlify deploy --prod"
+    "deploy": "yarn build && netlify deploy --prod",
+    "sass": "sass --watch src/styles/global.scss src/dist/output.css"
   },
   "eslintConfig": {
     "extends": [

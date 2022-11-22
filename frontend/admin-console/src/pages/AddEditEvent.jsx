@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { Col, Row } from "antd";
+import { Col, Row, Checkbox } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { t } from "i18next";
 import { decode, encode } from "js-base64";
@@ -87,8 +87,10 @@ function AddEditEvent(props) {
     validationSchema: Yup.object().shape({
       name: YupValidations.name,
       startingDate: YupValidations.startingDate,
+      startingTime: YupValidations.startingTime,
       eventCategoryList: YupValidations.categories,
       endingDate: YupValidations.endingDate,
+      endingTime: YupValidations.endingTime,
       description: YupValidations.description,
       venue: YupValidations.venue,
       province: YupValidations.province,
@@ -150,10 +152,8 @@ function AddEditEvent(props) {
   const { handleSubmit, values, setValues, errors } = formik;
   useEffect(() => {
     console.group();
-    console.log({ event });
     console.log({ values });
-    console.log({ eventId });
-    console.log({ errors });
+    console.log("type:", typeof values.startingTime);
     console.log({
       name: values.name,
       description: encode(values.description),
@@ -350,7 +350,7 @@ function AddEditEvent(props) {
                           {t("ticket.create")}
                         </button>
                       </Col>
-                      <Col span={16}>
+                      <Col span={8}>
                         <Field
                           name="currency"
                           component={SelectHorizonal}
@@ -363,6 +363,14 @@ function AddEditEvent(props) {
                             name: field.label,
                           }))}
                         />
+                      </Col>
+                      <Col span={8}>
+                        <div className="flex justify-center items-center">
+                          <h1 className="text-primary text-xl font-semibold mb-4">
+                            {t("template-ticket")}
+                          </h1>
+                          <Checkbox defaultChecked={false} />
+                        </div>
                       </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (

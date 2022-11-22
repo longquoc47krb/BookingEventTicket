@@ -4,6 +4,8 @@ import "yup-phone";
 import moment from "moment";
 import constants from "./constants";
 const { PATTERNS } = constants;
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 export const YupValidations = {
   email: Yup.string()
     .required(t("validate.email.required"))
@@ -48,7 +50,7 @@ export const YupValidations = {
     .max(2, t("validate.categories.max")),
   startingDate: Yup.date()
     .required(t("validate.startingDate.required"))
-    .min(moment(), t("validate.startingDate.min"))
+    .min(today, t("validate.startingDate.min"))
     .max(Yup.ref("endingDate"), t("validate.startingDate.max")),
   endingDate: Yup.date()
     .required(t("validate.endingDate.required"))
@@ -57,6 +59,18 @@ export const YupValidations = {
       (startingDate, yupSchema) =>
         startingDate &&
         yupSchema.min(startingDate, t("validate.endingDate.min"))
+    ),
+  startingTime: Yup.date()
+    .required(t("validate.startingTime.required"))
+    .min(today, t("validate.startingTime.min"))
+    .max(Yup.ref("endingTime"), t("validate.startingTime.max")),
+  endingTime: Yup.date()
+    .required(t("validate.endingTime.required"))
+    .when(
+      "startingTime",
+      (startingTime, yupSchema) =>
+        startingTime &&
+        yupSchema.min(startingTime, t("validate.endingTime.min"))
     ),
   ticketList: Yup.array()
     .of(
