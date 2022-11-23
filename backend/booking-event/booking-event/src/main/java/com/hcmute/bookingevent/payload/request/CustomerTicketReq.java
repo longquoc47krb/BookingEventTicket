@@ -25,6 +25,7 @@ public class CustomerTicketReq {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int quantity;
+    private int quantityRemaining;
     @NotBlank(message = "currency is required")
     private String currency;
     private String status;
