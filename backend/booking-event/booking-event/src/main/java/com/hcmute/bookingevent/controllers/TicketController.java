@@ -43,7 +43,7 @@ public class TicketController {
 
     }
     @GetMapping("/ticket/{eventId}/{ticketId}")
-    public ResponseEntity<?> decreaseTicket(@PathVariable String eventId, @PathVariable String ticketId){
+    public ResponseEntity<?> reducerTicketQuantity(@PathVariable String eventId, @PathVariable String ticketId){
         return ticketService.reduceTicketQuantity(eventId, ticketId);
     }
 
