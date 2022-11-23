@@ -115,7 +115,7 @@ public class TicketService implements ITicketService {
             filterTicket.setStatus(TicketStatus.SOLD_OUT);
         }
         else {
-            filterTicket.setQuantity(quantityRemaining - 1);
+            filterTicket.setQuantityRemaining(quantityRemaining - 1);
             if(filterTicket.getQuantityRemaining() == 0){
                 filterTicket.setStatus(TicketStatus.SOLD_OUT);
             }else{
