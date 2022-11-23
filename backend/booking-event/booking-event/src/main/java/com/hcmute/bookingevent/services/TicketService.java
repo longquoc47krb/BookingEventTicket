@@ -110,7 +110,6 @@ public class TicketService implements ITicketService {
         Ticket filterTicket = tickets.stream().filter(t -> t.getId().equals(ticketId)).collect(Collectors.toList()).get(0);
 
         int quantityRemaining = filterTicket.getQuantityRemaining();
-        filterTicket.setQuantityRemaining(filterTicket.getQuantity());
         if(quantityRemaining == 0){
             filterTicket.setStatus(TicketStatus.SOLD_OUT);
         }
