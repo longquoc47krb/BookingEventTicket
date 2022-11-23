@@ -653,6 +653,7 @@
 
 .event-container {
   padding: 2rem;
+  padding-right: 2.5rem;
 }
 .event-container-grid {
   display: grid;
@@ -708,7 +709,7 @@
   overflow: hidden;
 }
 .event-item-container {
-  width: 360px;
+  width: 30vw;
   height: 260px;
   padding: 0.5rem;
   position: relative;
@@ -787,6 +788,7 @@
   border-radius: 1rem;
   height: auto;
   object-fit: cover;
+  object-position: left bottom;
   margin-bottom: 0.2rem;
 }
 @media (max-width: 767px) {
@@ -1128,7 +1130,7 @@
 }
 
 .filter-container {
-  width: 84vw;
+  width: 94vw;
   height: auto;
   padding: 0.5rem;
   background: transparent;

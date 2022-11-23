@@ -40,7 +40,7 @@ function FilterEventFragment(props) {
         <div className="event-container-grid">
           {filteredEventsStatus === "loading" ? (
             [...Array(6)].map((i) => (
-              <Skeleton width={360} height={260} key={i} />
+              <Skeleton width={"30vw"} height={260} key={i} />
             ))
           ) : isEmpty(filterData(dateType, dateRange, filteredEvents)) ? (
             <EmptyData />
