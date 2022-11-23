@@ -12,5 +12,7 @@ public class OrderReq {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int totalQuantity;
+    @NotBlank(message = "idEvent is required")
+    private String idEvent;
     List<CustomerTicketReq> customerTicketReqList;
 }

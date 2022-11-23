@@ -35,7 +35,7 @@ public class Ticket {
         this.price= organizationTicketReq.getPrice();
         this.description= organizationTicketReq.getDescription();
         this.quantity= organizationTicketReq.getQuantity();
-        this.quantityRemaining = organizationTicketReq.getQuantityRemaining();
+        //this.quantityRemaining = organizationTicketReq.getQuantityRemaining();
         this.currency= organizationTicketReq.getCurrency();
         this.status = TicketStatus.AVAILABLE;
     }
@@ -45,7 +45,7 @@ public class Ticket {
         this.price= customerTicketReq.getPrice();
         this.description= customerTicketReq.getDescription();
         this.quantity= customerTicketReq.getQuantity();
-        this.quantityRemaining = customerTicketReq.getQuantityRemaining();
+        //this.quantityRemaining = customerTicketReq.getQuantityRemaining();
         this.currency= customerTicketReq.getCurrency();
         this.status = TicketStatus.AVAILABLE;
     }

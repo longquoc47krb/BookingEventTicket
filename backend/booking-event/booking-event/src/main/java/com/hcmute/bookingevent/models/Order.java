@@ -18,6 +18,8 @@ import java.util.List;
 public class Order {
     @Id
     private String id;
+    @NotBlank(message = "idEvent is required")
+    private String idEvent;
     @NotBlank(message = "totalPrice is required")
     private String totalPrice;
     @Size(min=1,message="required")
