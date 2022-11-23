@@ -198,8 +198,14 @@ public class EventService implements IEventService {
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
             event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
             event.get().setCreatedDate(eventReq.getCreatedDate());
-            event.get().setTicketTotal(eventReq.getTicketTotal());
-            event.get().setTicketRemaining(eventReq.getTicketRemaining());
+            //
+            int count=0;
+            for (Ticket ticket : eventReq.getOrganizationTickets()) {
+                count+= ticket.getQuantity();
+            }
+            event.get().setTicketTotal(count);
+            //
+            event.get().setTicketRemaining( eventReq.getTicketTotal()- event.get().getTicketRemaining());
             eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Update event successfully ", "", 200));

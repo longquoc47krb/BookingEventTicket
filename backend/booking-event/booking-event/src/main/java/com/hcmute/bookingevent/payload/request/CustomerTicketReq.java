@@ -15,8 +15,8 @@ import javax.validation.constraints.Size;
 public class CustomerTicketReq {
 //    @Id
 //    private String id;
-    @NotBlank(message = "idEvent is required")
-    private String idEvent;
+//    @NotBlank(message = "idEvent is required")
+//    private String idEvent;
     @NotBlank(message = "ticketName is required")
     private String ticketName;
     @NotBlank(message = "price is required")
@@ -25,7 +25,7 @@ public class CustomerTicketReq {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int quantity;
-    private int quantityRemaining;
+    //private int quantityRemaining;
     @NotBlank(message = "currency is required")
     private String currency;
     private String status;
