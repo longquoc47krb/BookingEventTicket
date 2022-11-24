@@ -2,25 +2,28 @@ package com.hcmute.bookingevent.models;
 
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Document("order")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 //@ToString
 public class Order {
-//    @Id
-//    private String id;
+    @Id
+    private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
+    @NotBlank(message = "email is required")
+    private String email;
     @NotBlank(message = "totalPrice is required")
     private String totalPrice;
     @Size(min=1,message="required")

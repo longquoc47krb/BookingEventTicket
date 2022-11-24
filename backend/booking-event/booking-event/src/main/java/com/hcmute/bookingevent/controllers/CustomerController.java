@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.AppException;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
@@ -64,22 +65,7 @@ public class CustomerController {
         }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @PostMapping(path = "/customer/order/{userId}")
-    public ResponseEntity<?> createCustomerOrder (@PathVariable String userId, @Valid @RequestBody OrderReq orderReq, HttpServletRequest request   ){
-        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(userId)) {
-            return iCustomerService.createCustomerOrder(account.getEmail(),orderReq);
-        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
-    }
-    @GetMapping(path = "/customer/order/{userId}")
-    public ResponseEntity<?> viewCustomerOrder (@PathVariable String userId, HttpServletRequest request   ){
-        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(userId)) {
-            return iCustomerService.viewCustomerOrder(account.getEmail());
-        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
-
-    }
     @DeleteMapping(path = "/customer/wishlist/all/{userId}")
     public ResponseEntity<?> deleteAllWishList (@PathVariable String userId, HttpServletRequest request ){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
