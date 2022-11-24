@@ -5,6 +5,11 @@ export const EventStatus = {
   SOLDOUT: "event.sold-out",
   AVAILABLE: "event.available",
 };
+export const TicketStatus = {
+  AVAILABLE: "ticket.available",
+  SOLD_OUT: "ticket.sold-out",
+  BEST_SELLER: "ticket.best-seller",
+};
 export const ROLE = {
   Customer: "ROLE_USER",
   Organizer: "ROLE_ORGANIZATION",

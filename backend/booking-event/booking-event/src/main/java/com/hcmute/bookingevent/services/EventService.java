@@ -10,8 +10,8 @@ import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.models.ticket.TicketStatus;
 import com.hcmute.bookingevent.payload.request.EventReq;
-import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
@@ -104,25 +104,55 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> checkEventStatus(){
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
-        List<Event> eventList = new ArrayList<>();
-        for(Event event : events){
-            if(isBeforeToday(event.getEndingDate())) {
-                event.setStatus(EventStatus.COMPLETED);
-                eventList.add(event);
+
+        for(Event event : events) {
+            List<Ticket> tickets = event.getOrganizationTickets();
+            int ticketRemaining = 0;
+            int ticketTotal = 0;
+            for (Ticket ticket : tickets) {
+                int quantityRemaining = ticket.getQuantityRemaining();
+                if (quantityRemaining == 0) {
+                    ticket.setStatus(TicketStatus.SOLD_OUT);
+                } else {
+                    float soldTicket = ticket.getQuantity() - ticket.getQuantityRemaining();
+                    float totallyTicket = ticket.getQuantity();
+                    if (soldTicket / totallyTicket > 0.7) {
+                        ticket.setStatus(TicketStatus.BEST_SELLER);
+                    } else {
+                        ticket.setStatus(TicketStatus.AVAILABLE);
+                    }
+
+                }
+                ticketRemaining += ticket.getQuantityRemaining();
+                ticketTotal += ticket.getQuantity();
             }
-            else if(event.getTicketRemaining() == 0){
+            event.setTicketRemaining(ticketRemaining);
+            event.setTicketTotal(ticketTotal);
+            if (ticketRemaining == 0) {
                 event.setStatus(EventStatus.SOLD_OUT);
-                eventList.add(event);
+            } else {
+                if (isBeforeToday(event.getEndingDate())) {
+                    event.setStatus(EventStatus.COMPLETED);
+                } else if (event.getTicketRemaining() == 0) {
+                    event.setStatus(EventStatus.SOLD_OUT);
+                } else {
+                    event.setStatus(EventStatus.AVAILABLE);
+                }
+
             }
-            else{
-                event.setStatus(EventStatus.AVAILABLE);
-                eventList.add(event);
-            }
+            event.setOrganizationTickets(tickets);
             eventRepository.save(event);
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", "",200));
+                new ResponseObject(true, "Handling data successfully", eventRepository.findAll(),200));
     }
+
+
+    static void setStatusForEvent(Event event, int ticketRemaining, int ticketTotal) {
+        List<Ticket> tickets = event.getOrganizationTickets();
+
+    }
+
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date

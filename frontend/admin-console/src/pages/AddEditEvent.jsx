@@ -83,6 +83,7 @@ function AddEditEvent(props) {
         description: "",
         currency: "VND",
         quantity: 0,
+        quantityRemaining: 0,
       },
     ],
   };
@@ -96,6 +97,7 @@ function AddEditEvent(props) {
           price: element?.price,
           description: element?.description,
           quantity: element?.quantity,
+          quantityRemaining: element?.quantity,
           currency: element?.currency,
           status: "ticket.available",
         });
@@ -103,7 +105,6 @@ function AddEditEvent(props) {
     }
     return newArr;
   };
-  console.log(handleTemplateTicket());
   const handleEventCategoryList = (list) => {
     let temp = [];
     for (const element of list) {
@@ -192,11 +193,11 @@ function AddEditEvent(props) {
   const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
   useEffect(() => {
     console.group();
-    console.log({ eventId });
-    console.log(user.id);
-    console.log("useTemplate:", useTemplate);
-    console.log("saveTemplate:", saveTemplate);
-    console.log("handleTemplateTicket:", handleTemplateTicket());
+    // console.log({ eventId });
+    // console.log({ errors });
+    // console.log("useTemplate:", useTemplate);
+    // console.log("saveTemplate:", saveTemplate);
+    // console.log("handleTemplateTicket:", handleTemplateTicket());
     // console.log({
     //   name: values.name,
     //   description: encode(values.description),
@@ -269,6 +270,11 @@ function AddEditEvent(props) {
       ...t,
       currency: values.currency,
       quantity: Number(t.quantity),
+      quantityRemaining: Number(t.quantity),
+      status:
+        Number(t.quantity) === 0
+          ? TicketStatus.SOLDOUT
+          : TicketStatus.AVAILABLE,
     }));
     return newArr;
   };
@@ -422,6 +428,7 @@ function AddEditEvent(props) {
                               description: "",
                               currency: values.currency,
                               quantity: 0,
+                              quantityRemaining: 0,
                             })
                           }
                         >
