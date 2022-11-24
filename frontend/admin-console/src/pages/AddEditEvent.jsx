@@ -194,7 +194,7 @@ function AddEditEvent(props) {
   useEffect(() => {
     console.group();
     // console.log({ eventId });
-    // console.log({ errors });
+    console.log({ errors });
     // console.log("useTemplate:", useTemplate);
     // console.log("saveTemplate:", saveTemplate);
     // console.log("handleTemplateTicket:", handleTemplateTicket());
