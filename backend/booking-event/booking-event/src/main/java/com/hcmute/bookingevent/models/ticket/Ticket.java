@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ticket {
-    @Id
+    //@Id
     private String id;
     @NotBlank(message = "ticketName is required")
     private String ticketName;
@@ -41,9 +41,10 @@ public class Ticket {
     }
     public Ticket(CustomerTicketReq customerTicketReq)
     {
+        this.id = customerTicketReq.getId();
         this.ticketName= customerTicketReq.getTicketName();
         this.price= customerTicketReq.getPrice();
-        this.description= customerTicketReq.getDescription();
+        //this.description= customerTicketReq.getDescription();
         this.quantity= customerTicketReq.getQuantity();
         //this.quantityRemaining = customerTicketReq.getQuantityRemaining();
         this.currency= customerTicketReq.getCurrency();

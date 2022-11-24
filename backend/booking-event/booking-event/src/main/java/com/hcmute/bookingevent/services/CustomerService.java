@@ -150,7 +150,7 @@ public class CustomerService  implements ICustomerService {
 
                 for (CustomerTicketReq ticketOfCustomer : orderReq.getCustomerTicketReqList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
-                        if (ticket.getTicketName().equals(ticketOfCustomer.getTicketName())) {
+                        if (ticket.getId().equals(ticketOfCustomer.getId())) {
                             ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity());
                         }
                     }
