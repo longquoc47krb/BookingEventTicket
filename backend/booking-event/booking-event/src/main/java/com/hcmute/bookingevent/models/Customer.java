@@ -33,12 +33,11 @@ public class Customer {
     //private int role;
     //private List<String> ticketList;
 
-    private List<String> eventWishList;
-    private List<Order> orderList;
+    private List<String> eventWishList = new ArrayList<>();
+    private List<Order> orderList = new ArrayList<>();
     public Customer(String email)
     {
         this.email=email;
-
         this.eventWishList = new ArrayList<>();
         this.orderList = new ArrayList<>();
     }

@@ -13,14 +13,13 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerTicketReq {
-//    @Id
-//    private String id;
-//    @NotBlank(message = "idEvent is required")
-//    private String idEvent;
+
+    private String id;
     @NotBlank(message = "ticketName is required")
     private String ticketName;
+    //private String description;
+
     @NotBlank(message = "price is required")
-    private String description;
     private String price;
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")

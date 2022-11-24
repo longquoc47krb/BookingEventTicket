@@ -51,6 +51,11 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationByEmail(email);
     }
+    @GetMapping("/organization/manage/event/{eventId}")
+    public ResponseEntity<?> mangeOrderByEvent(@PathVariable(value="eventId") String eventId)
+    {
+        return iOrganizationService.mangeOrderByEvent(eventId);
+    }
     @GetMapping("/organization")
     public ResponseEntity<?> findOrganizationById(@RequestParam(value="id") String id)
     {

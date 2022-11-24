@@ -4,6 +4,8 @@ import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
+import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
@@ -15,6 +17,7 @@ import com.hcmute.bookingevent.payload.response.MessageResponse;
 import com.hcmute.bookingevent.payload.response.OrganizerResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,8 @@ import java.util.stream.Collectors;
 public class OrganizationService implements IOrganizationService {
 
     private final OrganizationRepository organizationRepository;
+    private final CustomerRepository customerRepository;
+
     private final AccountRepository accountRepository;
     private final MailService mailService;
     private final EventMapper eventMapper;
@@ -48,7 +53,23 @@ public class OrganizationService implements IOrganizationService {
                 new ResponseObject(true, "Create Organization successfully ", organizationRepository.save(organization),200));
 
     }
+    @Override
+    public ResponseEntity<?> mangeOrderByEvent(String eventId)
+    {
+        try
+        {
+        List<Order> orderList= customerRepository.findAllByOrderList_IdEvent(eventId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "mangeOrderByEvent successfully ", orderList,200));
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "mangeOrderByEvent fail ", e.getMessage(),400));
 
+        }
+
+    }
     @Override
     public ResponseEntity<?> findAll()
     {
