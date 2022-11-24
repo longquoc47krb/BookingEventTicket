@@ -14,6 +14,7 @@ import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
+import com.hcmute.bookingevent.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CustomerService  implements ICustomerService {
-
     private final CustomerRepository customerRepository;
-    private final AccountRepository accountRepository;
-    private final EventRepository eventRepository;
-    private final EventMapper eventMapper;
-    private final TicketMapper ticketMapper;
-
     @Override
     public ResponseEntity<?> findAll()
     {
@@ -72,17 +67,6 @@ public class CustomerService  implements ICustomerService {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
         if(customer.isPresent())
         {
-//            List<Event> eventList = new ArrayList<>();
-//            for(String eventId: customer.get().getEventWishList())
-//            {
-//                Optional<Event>  event=  eventRepository.findEventById(eventId);
-//                if(event.isPresent())
-//                {
-//                    eventList.add(event.get());
-//                }
-//            }
-            //List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
-
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "show WishList Event successfully ", customer.get().getEventWishList(),200));
         }
@@ -138,58 +122,6 @@ public class CustomerService  implements ICustomerService {
 
         }
     }
-
-    @Override
-    public ResponseEntity<?> createCustomerOrder(String email, OrderReq orderReq) {
-        Optional<Customer> customer = customerRepository.findByEmail(email);
-        if (customer.isPresent()) {
-            Optional<Event> event = eventRepository.findEventById(orderReq.getIdEvent());
-            if (event.isPresent()) {
-                // cap nhat o event
-                event.get().setTicketRemaining(event.get().getTicketRemaining() - orderReq.getTotalQuantity());
-
-                for (CustomerTicketReq ticketOfCustomer : orderReq.getCustomerTicketReqList()) {
-                    for (Ticket ticket : event.get().getOrganizationTickets()) {
-                        if (ticket.getId().equals(ticketOfCustomer.getId())) {
-                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity());
-                        }
-                    }
-                }
-                eventRepository.save(event.get());
-            }
-            //convert CustomerTicket to Ticket
-            List<Ticket> ticketList = orderReq.getCustomerTicketReqList().stream().map(ticketMapper::toTicket).collect(Collectors.toList());
-            Order order = new Order(orderReq);
-            order.setIdEvent(orderReq.getIdEvent());
-            order.setCustomerTicketList(ticketList);
-            //add order from order request
-            customer.get().getOrderList().add(order);
-            //save order to customer
-            customerRepository.save(customer.get());
-
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Create Order for Customer successfully ", "", 200));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Create Order fail with email:" + email, "", 404));
-        }
-    }
-
-    @Override
-    public ResponseEntity<?> viewCustomerOrder(String email) {
-        Optional<Customer> customer = customerRepository.findByEmail(email);
-        if (customer.isPresent()) {
-
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "View Order for Customer successfully ", customer.get().getOrderList(), 200));
-
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "View Order fail with email:" + email, "", 400));
-
-        }
-    }
-
     @Override
     public ResponseEntity<?> createAccount(Customer newAccount) {
         Customer account = customerRepository.save(newAccount);
