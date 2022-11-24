@@ -17,12 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -109,21 +107,9 @@ public class TicketService implements ITicketService {
 
         Ticket filterTicket = tickets.stream().filter(t -> t.getId().equals(ticketId)).collect(Collectors.toList()).get(0);
 
-        int quantityRemaining = filterTicket.getQuantityRemaining();
-        if(quantityRemaining == 0){
-            filterTicket.setStatus(TicketStatus.SOLD_OUT);
-        }
-        else {
-            filterTicket.setQuantityRemaining(quantityRemaining - 1);
-            if(filterTicket.getQuantityRemaining() == 0){
-                filterTicket.setStatus(TicketStatus.SOLD_OUT);
-            }else{
-                filterTicket.setStatus(TicketStatus.AVAILABLE);
-            }
+            setStatusForTicketType(filterTicket);
 
-        }
-
-        int index = IntStream.range(0, tickets.size()).filter(t -> filterTicket.equals(tickets.get(t))).findFirst().orElse(-1);
+            int index = IntStream.range(0, tickets.size()).filter(t -> filterTicket.equals(tickets.get(t))).findFirst().orElse(-1);
 
         int ticketRemaining = event.get().getTicketRemaining();
 
@@ -159,6 +145,21 @@ public class TicketService implements ITicketService {
         {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
                     new ResponseObject(true, e.getMessage(), "",400));
+        }
+    }
+    static void setStatusForTicketType(Ticket ticket) {
+        int quantityRemaining = ticket.getQuantityRemaining();
+        if(quantityRemaining == 0){
+            ticket.setStatus(TicketStatus.SOLD_OUT);
+        }
+        else {
+            ticket.setQuantityRemaining(quantityRemaining - 1);
+            if(ticket.getQuantityRemaining() == 0){
+                ticket.setStatus(TicketStatus.SOLD_OUT);
+            }else{
+                ticket.setStatus(TicketStatus.AVAILABLE);
+            }
+
         }
     }
 

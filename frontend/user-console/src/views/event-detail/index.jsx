@@ -77,6 +77,7 @@ function EventDetail(props) {
   const info = useRef(null);
   const organization = useRef(null);
 
+  console.log({ event });
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
       window.scrollTo({

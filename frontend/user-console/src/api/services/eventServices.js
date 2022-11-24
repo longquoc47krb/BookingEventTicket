@@ -44,19 +44,21 @@ const fetchEventByFilter = async (params) => {
 
 export const useFetchEvents = (staleTime = 30000) => {
   return useQuery(["events"], fetchAllEvents, {
-    staleTime,
+    staleTime: 1000 * 60 * 60,
     cacheTime: 1000 * 60 * 60 * 24,
+    refetchIntervalInBackground: 1000 * 10,
   });
 };
 export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
-    staleTime: 30000,
+    staleTime: 0,
     cacheTime: 1000 * 60 * 60,
+    refetchInterval: 1000 * 5,
   });
 };
 export const useFetchFeaturedEvents = (staleTime = 30000) => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
-    staleTime,
+    staleTime: 0,
     cacheTime: 1000 * 60 * 60,
     refetchInterval: 30000,
   });
@@ -72,7 +74,10 @@ export const useFetchEventsForPagination = (params) => {
 };
 export const useEventDetails = (id) => {
   return useQuery(["getEventDetail", id], () => getEventById(id), {
-    staleTime: 30000,
+    staleTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: true,
+    cacheTime: 1000 * 60 * 10,
+    notifyOnChangeProps: "all",
   });
 };
 export const useFetchEventsByFilter = (params) => {

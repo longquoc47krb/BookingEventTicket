@@ -1947,7 +1947,7 @@
 }
 .booking-body {
   width: 100%;
-  background: rgb(228, 228, 228);
+  background: #e4e4e4;
 }
 .booking-ticket-table {
   width: 60vw;
@@ -2053,6 +2053,10 @@
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 10%;
+}
+.ticket-table-item #soldout {
+  background: gray;
+  color: rgb(170, 166, 166);
 }
 
 .ticket-cart {
