@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 //@ToString
 public class Order {
-    @Id
-    private String id;
+//    @Id
+//    private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
     @NotBlank(message = "totalPrice is required")
@@ -25,7 +26,7 @@ public class Order {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int totalQuantity;
-    List<Ticket> customerTicketList  ;
+    List<Ticket> customerTicketList  = new ArrayList<>();
     public Order(OrderReq orderReq)
     {
         this.totalPrice=orderReq.getTotalPrice();
