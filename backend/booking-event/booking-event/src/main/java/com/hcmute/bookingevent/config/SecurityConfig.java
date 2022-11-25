@@ -76,10 +76,12 @@ public class SecurityConfig {
             //"/api/**",
             "/api/event/**",
             "/api/account/findAll",
+            "/api/account/findAccount",
             "/api/order/**",
             "/api/category/**",
             "/api/ticket/**",
-            "/api/organization/findAll"
+            "/api/organization/findAll",
+            "/api/organization/test/**"
             //"/api/ticket/**",
             //organizer
             //"/api/organization/**",

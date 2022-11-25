@@ -58,6 +58,11 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationById(id);
     }
+    @GetMapping("/organization/test/event/{eventId}")
+    public ResponseEntity<?> findOrganizationByEventId(@PathVariable String eventId)
+    {
+        return iOrganizationService.findOrganizationByEventid(eventId);
+    }
     @PostMapping("/organization")
     public ResponseEntity<?> submitOrganization(@RequestBody OrganizationSubmitReq organizationSubmitReq)
     {

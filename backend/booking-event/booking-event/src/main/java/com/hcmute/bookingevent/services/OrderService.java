@@ -4,11 +4,13 @@ import com.hcmute.bookingevent.Implement.IOrderService;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrderRepository;
+import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
+    private final OrganizationRepository organizationRepository;
+
     private final EventRepository eventRepository;
 
     @Override
@@ -42,7 +46,7 @@ public class OrderService implements IOrderService {
                 }
                 eventRepository.save(event.get());
             }
-
+            organizationRepository.findOrganizationByEventId(order.getIdEvent());
 
             orderRepository.save(order);
             customerRepository.save(customer.get());
