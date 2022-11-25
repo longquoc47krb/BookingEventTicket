@@ -50,10 +50,12 @@ public class AccountController {
 
     }
     @GetMapping("/account/{id}")
-    public ResponseEntity<?> findAccountById(@PathVariable String id) {
-
+    public ResponseEntity<?> findAccountById(@PathVariable String id,HttpServletRequest request) {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(id)) {
             return iAccountService.findAccountById(id);
-
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
     @PostMapping(path = "/account/avatar/{id}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String id,
