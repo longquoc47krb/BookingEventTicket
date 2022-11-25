@@ -25,5 +25,6 @@ public interface IOrganizationService {
      ResponseEntity<?> removeBio(String email);
      ResponseEntity<?> createTemplateTickets(String email, List<Ticket> tickets);
      ResponseEntity<?> getTemplateTickets(String email);
+     ResponseEntity<?> findOrganizationByEventid(String eventId);
 
 }
