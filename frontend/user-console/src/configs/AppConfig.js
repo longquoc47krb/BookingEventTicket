@@ -366,6 +366,13 @@ const MOBILE_DRAWER = [
     },
   },
 ];
+const ORDER_TABLE_HEADER = [
+  "id",
+  "ticket.type",
+  "ticket.price",
+  "ticket.quantity",
+  "ticket.total",
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -382,5 +389,6 @@ const AppConfig = {
   ORGANIZATION_PARTNERS,
   MOBILE_DRAWER_UNAUTHEN,
   MOBILE_DRAWER,
+  ORDER_TABLE_HEADER,
 };
 export default AppConfig;

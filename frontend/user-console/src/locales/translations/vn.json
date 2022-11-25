@@ -12,6 +12,7 @@
     "ticket-booking": "Đặt vé"
   },
   "event": {
+    "title": "Sự kiện",
     "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
@@ -252,5 +253,8 @@
   },
   "Ho Chi Minh": "Sài Gòn",
   "Hanoi": "Hà Nội",
-  "price-from": "Từ "
+  "price-from": "Từ ",
+  "customer": {
+    "name": "Tên khách hàng"
+  }
 }

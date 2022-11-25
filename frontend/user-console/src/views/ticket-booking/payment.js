@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,21 +63,15 @@ function Payment() {
         );
         if (createOrderResponse.status === 200) {
           dispatch(setCustomerOrder(createOrderResponse.data));
-          // for (let ticketId = 0; ticketIdArray.length; ticketId++) {
-          //   await reduceTicketQuantityAsync(eventId, ticketId);
-          // }
+          navigate(`/ticket-booking/${eventId}`);
           return navigate(`/ticket-booking/${eventId}`);
         } else {
           return null;
         }
       };
       createOrderAsync();
-      setTimeout(() => {
-        return navigate(`/ticket-booking/${eventId}`);
-      }, 200);
     }
   }, [
-    dispatch,
     eventId,
     isCancel,
     isSuccess,
