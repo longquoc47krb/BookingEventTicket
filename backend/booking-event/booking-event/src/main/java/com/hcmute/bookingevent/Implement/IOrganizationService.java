@@ -2,10 +2,12 @@ package com.hcmute.bookingevent.Implement;
 
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,5 +25,5 @@ public interface IOrganizationService {
      ResponseEntity<?> removeBio(String email);
      ResponseEntity<?> createTemplateTickets(String email, List<Ticket> tickets);
      ResponseEntity<?> getTemplateTickets(String email);
-     ResponseEntity<?> mangeOrderByEvent(String eventId);
+
 }

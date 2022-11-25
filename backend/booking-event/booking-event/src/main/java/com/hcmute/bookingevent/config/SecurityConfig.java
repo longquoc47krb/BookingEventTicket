@@ -53,9 +53,11 @@ public class SecurityConfig {
 
     private final String[] ALLOWED_LIST_URLS = {
             // System
+            "/api/auth/**",
+            "/oauth2/**",
             "/login/**",
             "/payment/**",
-            //"/oauth2/**",
+            "/api/payment/**",
             // SwaggerUI
             "/v2/api-docs",
             "/swagger-resources",
@@ -67,13 +69,23 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/ws/**"
-            //System
-            //"/api/**"
     };
 
     private final String[] ALLOWED_GET_LIST_URLS = {
             //"/api/event/**",
-            "/api/**"
+            //"/api/**",
+            "/api/event/**",
+            "/api/account/findAll",
+            "/api/order/**",
+            "/api/category/**",
+            "/api/ticket/**"
+            //"/api/ticket/**",
+            //organizer
+            //"/api/organization/**",
+            //customer
+            //"/api/customer/**",
+            //admin
+            //"/api/admin"
 
     };
 
@@ -84,9 +96,11 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers(ALLOWED_LIST_URLS).permitAll()
                 .and()
-                .authorizeRequests().antMatchers( ALLOWED_GET_LIST_URLS).permitAll()
+                .authorizeRequests().antMatchers( HttpMethod.GET,ALLOWED_GET_LIST_URLS).permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/api/admin/**").hasAuthority(Constants.ROLE_ADMIN)
+                .and().authorizeRequests().antMatchers("/api/customer/**").hasAuthority(Constants.ROLE_USER)
+                .and().authorizeRequests().antMatchers("/api/organization/**").hasAuthority(Constants.ROLE_ORGANIZATION)
                 .and()
                 .authorizeRequests().antMatchers("/api/account/**").hasAnyAuthority(Constants.ROLE_USER,Constants.ROLE_ORGANIZATION)
                 .anyRequest().authenticated()

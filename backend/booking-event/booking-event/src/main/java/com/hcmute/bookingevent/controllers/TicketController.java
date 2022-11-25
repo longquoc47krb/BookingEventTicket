@@ -20,7 +20,7 @@ public class TicketController {
     private final TicketService ticketService;
     private final JwtTokenProvider jwtUtils;
 
-    @PostMapping("/ticket/{userId}/{eventId}")
+    @PostMapping("/organization/ticket/{userId}/{eventId}")
     public ResponseEntity<?> createSingleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody OrganizationTicketReq organizationTicketReq, HttpServletRequest request)
     {
 
@@ -31,7 +31,7 @@ public class TicketController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @PostMapping("/ticket/list/{userId}")
+    @PostMapping("/organization/ticket/list/{userId}")
     public ResponseEntity<?> createMultipleTicket(@PathVariable String userId, @PathVariable String eventId, @RequestBody List<OrganizationTicketReq> organizationTicketReq, HttpServletRequest request)
     {
 

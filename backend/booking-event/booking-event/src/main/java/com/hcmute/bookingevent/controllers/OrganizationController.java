@@ -5,6 +5,7 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EmailReq;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -51,11 +53,6 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationByEmail(email);
     }
-    @GetMapping("/organization/manage/event/{eventId}")
-    public ResponseEntity<?> mangeOrderByEvent(@PathVariable(value="eventId") String eventId)
-    {
-        return iOrganizationService.mangeOrderByEvent(eventId);
-    }
     @GetMapping("/organization")
     public ResponseEntity<?> findOrganizationById(@RequestParam(value="id") String id)
     {
@@ -83,6 +80,7 @@ public class OrganizationController {
 
         }
     }
+
     @PostMapping("/organization/organizerProfile/{userid}")
     public ResponseEntity<?> updateBioAndAddress(@PathVariable String userid, @RequestBody OrganizationProfileReq profileReq, HttpServletRequest request){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
@@ -92,6 +90,7 @@ public class OrganizationController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+
     @DeleteMapping("/organization/bio/{userid}")
     public ResponseEntity<?> deleteOrganizerBio(@PathVariable String userid,HttpServletRequest request){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));

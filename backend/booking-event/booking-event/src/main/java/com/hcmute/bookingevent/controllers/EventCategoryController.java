@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 
-@RequestMapping(path = "/api/eventCategory")
+@RequestMapping(path = "/api")
 public class EventCategoryController {
     private  final IEventCategory iEventCategory;
 
-    @GetMapping("/findAll")
+    @GetMapping("/category/findAll")
     public ResponseEntity<?> findAllCategory() {
         return iEventCategory.findAll();
     }
-    @PostMapping("/Category")
+    @PostMapping("/admin/category")
     public ResponseEntity<?> addCategory(@RequestBody  CategoryReq categoryReq) {
         return iEventCategory.addCategory(categoryReq);
     }
-    @DeleteMapping("/Category")
+    @DeleteMapping("/admin/category")
     public ResponseEntity<?> deleteCategory(@RequestBody  CategoryReq categoryReq) {
         return iEventCategory.deleteCategory(categoryReq);
     }
