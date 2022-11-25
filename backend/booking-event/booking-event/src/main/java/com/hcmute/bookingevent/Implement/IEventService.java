@@ -1,14 +1,9 @@
 package com.hcmute.bookingevent.Implement;
 
-import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EventReq;
-import com.hcmute.bookingevent.payload.request.OrganizationTicketReq;
-import io.swagger.models.Response;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public interface IEventService {
     ResponseEntity<?> createEvent(EventReq eventReq, String email);
@@ -28,7 +23,7 @@ public interface IEventService {
     ResponseEntity<?> filterEvents(String province,
                                    String categoryId,
                                    String status);
-    ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file);
+    ResponseEntity<?> updateEventBackground(String id, MultipartFile file);
 
 
 }

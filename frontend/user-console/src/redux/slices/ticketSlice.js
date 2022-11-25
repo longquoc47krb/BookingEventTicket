@@ -56,8 +56,6 @@ const ticketSlice = createSlice({
     },
     clearCart: (state) => {
       state.ticketCart = [];
-      state.success = false;
-      state.cancel = false;
       state.totalPrice = 0;
     },
   },

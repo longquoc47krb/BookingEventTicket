@@ -47,12 +47,12 @@ export const EventAPI = {
     method: "GET",
   }),
   createEvent: (userId, data) => ({
-    url: `/event/${userId}`,
+    url: `/organization/event/${userId}`,
     method: "POST",
     data,
   }),
   uploadEventBackground: (eventId, userId, data) => ({
-    url: `/event/avatar/${eventId}/${userId}`,
+    url: `/organization/eventBackground/${eventId}/${userId}`,
     method: "POST",
     data,
     headers: {
@@ -60,12 +60,12 @@ export const EventAPI = {
     },
   }),
   updateEvent: (eventId, userId, data) => ({
-    url: `/event/${eventId}/${userId}`,
+    url: `/organization/event/${eventId}/${userId}`,
     method: "PUT",
     data,
   }),
   deleteEvent: (eventId, userId) => ({
-    url: `/event/${eventId}/${userId}`,
+    url: `/admin/event/${eventId}/${userId}`,
     method: "DELETE",
   }),
 };

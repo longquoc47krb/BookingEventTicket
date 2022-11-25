@@ -248,7 +248,7 @@ public class EventService implements IEventService {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<?> updateAvatarEvent(String id, MultipartFile file) {
+    public ResponseEntity<?> updateEventBackground(String id, MultipartFile file) {
 
         try {
             Optional<Event> event = eventRepository.findById(id);

@@ -1,6 +1,6 @@
 export const OrderAPI = {
   createOrder: (userId, data) => ({
-    url: `/order/${userId}`,
+    url: `/customer/order/${userId}`,
     method: "POST",
     data,
   }),
