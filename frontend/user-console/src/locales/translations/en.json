@@ -12,6 +12,7 @@
     "ticket-booking": "Booking ticket"
   },
   "event": {
+    "title": "Event name",
     "all": "All status",
     "list": "Events",
     "address": "Location map",
@@ -254,5 +255,8 @@
   },
   "Ho Chi Minh": "Ho Chi Minh city",
   "Hanoi": "Ha Noi",
-  "price-from": "From "
+  "price-from": "From ",
+  "customer": {
+    "name": "Customer name"
+  }
 }
