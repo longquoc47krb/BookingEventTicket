@@ -15,36 +15,36 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/auth")
+@RequestMapping(path = "/api")
 public class AuthController {
     private final JwtTokenProvider jwtUtils;
 
     private  final IAuthService iAuthService;
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);
     }
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterReq registerReq) {
         return iAuthService.registerUser(registerReq);
     }
-    @PostMapping("/forget")
+    @PostMapping("/auth/forget")
     public ResponseEntity<?> forgetPassword(@Valid @RequestBody EmailReq emailReq) {
         return iAuthService.forgetPassword(emailReq);
     }
-    @PostMapping("/verifyOTP")
+    @PostMapping("/auth/verifyOTP")
     public ResponseEntity<?> verifyOTP(@Valid @RequestBody VerifyOTPReq verifyOTPReq) {
         return iAuthService.verifyOTP(verifyOTPReq);
     }
-    @PostMapping("/verifyChangePassword")
+    @PostMapping("/auth/verifyChangePassword")
     public ResponseEntity<?> verifyChangePassword(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.verifyChangePassword(loginReq);
     }
-    @PostMapping("/generateNewPassword")
+    @PostMapping("/auth/generateNewPassword")
     public ResponseEntity<?> generateNewPassword(@Valid @RequestBody EmailReq emailReq) {
         return iAuthService.generateNewPassword(emailReq.getEmail());
     }
-    @PostMapping("/changePassword/{id}")
+    @PostMapping("/account/changePassword/{id}")
     public ResponseEntity<?> changePassword(@PathVariable String id, @Valid @RequestBody ChangePasswordReq changePasswordReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(id)) {

@@ -20,7 +20,7 @@ public class OrderController {
     private final IOrderService iOrderService;
     private final JwtTokenProvider jwtUtils;
 
-    @PostMapping(path = "/order/{userId}")
+    @PostMapping(path = "/customer/order/{userId}")
     public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
@@ -33,7 +33,7 @@ public class OrderController {
     public ResponseEntity<?> findAll() {
         return  iOrderService.findAll();
     }
-    @GetMapping(path = "/order/customer")
+    @GetMapping(path = "/customer/order")
     public ResponseEntity<?> findCustomerOrderByEmail(@RequestParam(value="userId", required = false) String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
@@ -42,7 +42,7 @@ public class OrderController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping(path = "/order")
+    @GetMapping(path = "/organization/order")
     public ResponseEntity<?> findOrderByEventId(@RequestParam(value="userId", required = false) String userId,@RequestParam(value="eventId", required = false) String eventId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
@@ -51,7 +51,7 @@ public class OrderController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping(path = "/order/ticketType/{userId}")
+    @GetMapping(path = "/organization/order/ticketType/{userId}")
     public ResponseEntity<?> findOrderByTicketType(@PathVariable String userId,@RequestParam(value="ticketTypeId", required = false) String ticketTypeId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {

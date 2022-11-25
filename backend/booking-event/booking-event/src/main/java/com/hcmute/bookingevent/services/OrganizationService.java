@@ -2,14 +2,18 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.common.Constants;
+import com.hcmute.bookingevent.config.CloudinaryConfig;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
@@ -18,6 +22,7 @@ import com.hcmute.bookingevent.payload.response.OrganizerResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
+import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +33,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +47,9 @@ import java.util.stream.Collectors;
 public class OrganizationService implements IOrganizationService {
 
     private final OrganizationRepository organizationRepository;
-    private final CustomerRepository customerRepository;
+    private final CloudinaryConfig cloudinary;
+
+    private final EventRepository eventRepository;
 
     private final AccountRepository accountRepository;
     private final MailService mailService;
@@ -53,23 +62,7 @@ public class OrganizationService implements IOrganizationService {
                 new ResponseObject(true, "Create Organization successfully ", organizationRepository.save(organization),200));
 
     }
-    @Override
-    public ResponseEntity<?> mangeOrderByEvent(String eventId)
-    {
-        try
-        {
-        List<Order> orderList= customerRepository.findAllByOrderList_IdEvent(eventId);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "mangeOrderByEvent successfully ", orderList,200));
-        }
-        catch (Exception e)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "mangeOrderByEvent fail ", e.getMessage(),400));
 
-        }
-
-    }
     @Override
     public ResponseEntity<?> findAll()
     {
@@ -138,6 +131,7 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(false, "Add bio failed", "",404));
         }
     }
+
 
     @Override
     public ResponseEntity<?> findOrganizationByEmail(String email)
