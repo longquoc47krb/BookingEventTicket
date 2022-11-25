@@ -97,7 +97,7 @@ public class EventController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @PostMapping(path = "/organization/avatar/{id}/{userId}")
+    @PostMapping(path = "/organization/avatarEvent/{id}/{userId}")
     public ResponseEntity<?> updateAvatarEvent (@PathVariable String id,
                                                 @PathVariable String userId,
                                                HttpServletRequest request,
