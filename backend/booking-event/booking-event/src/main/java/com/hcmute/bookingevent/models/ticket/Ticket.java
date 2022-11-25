@@ -26,7 +26,6 @@ public class Ticket {
     private int quantity;
     private int quantityRemaining;
     @NotBlank(message = "currency is required")
-    //private String currency;
     @NotBlank(message = "currency is required")
     public String status;
     public Ticket(OrganizationTicketReq organizationTicketReq)
