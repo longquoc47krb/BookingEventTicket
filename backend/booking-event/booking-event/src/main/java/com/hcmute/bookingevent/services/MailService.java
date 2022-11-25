@@ -41,6 +41,8 @@ public class MailService {
     final String OFFICIAL_ORGANIZATION_CONTENT ="We have reviewed your application form. After taking into consideration based on our term conditions. We officially inform that you have full authorization of organization role." +
             "<br>Please use this password below to sign in your account in our system" +
             "<br>Regards,";
+    final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
+            "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
 
 
@@ -80,6 +82,11 @@ public class MailService {
             {
                 model.put("header", "Register for organization successfully");
                 model.put("content", OFFICIAL_ORGANIZATION_CONTENT);
+            }
+            else if(type.equals(EMailType.REFUSE_ORGANIZATION))
+            {
+                model.put("header", "Refuse for organization successfully");
+                model.put("content", REFUSE_ORGANIZATION_CONTENT);
             }
 
             model.put("title", "LOTUS TICKET");
