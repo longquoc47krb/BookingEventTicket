@@ -234,6 +234,30 @@ public class OrganizationService implements IOrganizationService {
         }
 
     }
+    @SneakyThrows
+    @Override
+    public ResponseEntity<?> refuseOrganization(String email)
+    {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        Optional<Account> account = accountRepository.findByEmail(email);
+        if(account.isPresent() && organization.isPresent())
+        {
+            mailService.sendMail(account.get(), "", EMailType.REFUSE_ORGANIZATION);
+
+            accountRepository.delete(account.get());
+            organizationRepository.delete(organization.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "refuse organization account successfully", "",200));
+
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "can not refuse form", "",400));
+
+        }
+
+    }
     @Override
     public ResponseEntity<?> findAll(Pageable pageable) {
         Page<Organization> organizations = organizationRepository.findAll(pageable);
