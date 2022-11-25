@@ -31,6 +31,9 @@ public class Order {
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int totalQuantity;
+
+    private String currency;
+
     List<Ticket> customerTicketList  = new ArrayList<>();
     public Order(OrderReq orderReq)
     {
