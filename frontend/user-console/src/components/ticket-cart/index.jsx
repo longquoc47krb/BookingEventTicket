@@ -34,7 +34,7 @@ function TicketCart() {
         title: t("popup.payment.error"),
       });
     } else {
-      window.open(response.data, "_blank");
+      window.open(response.data);
     }
   };
   const handleTicketCart = (cart) => {

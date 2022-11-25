@@ -4,7 +4,6 @@ package com.hcmute.bookingevent.controllers;
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
-import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 @RestController
@@ -80,7 +78,7 @@ public class EventController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iEventService.eventPagination(pageable);
     }
-    @GetMapping(path = "/event//filter")
+    @GetMapping(path = "/event/filter")
     public ResponseEntity<?> findEventByFilter(@RequestParam(value="province", required = false) String province, @RequestParam(value="categoryId", required = false) String categoryId, @RequestParam(value="status", required = false) String status){
         return iEventService.filterEvents(province, categoryId, status);
     }
@@ -97,15 +95,15 @@ public class EventController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @PostMapping(path = "/organization/avatar/{id}/{userId}")
-    public ResponseEntity<?> updateAvatarEvent (@PathVariable String id,
-                                                @PathVariable String userId,
-                                               HttpServletRequest request,
-                                               @RequestParam MultipartFile file){
+    @PostMapping(path = "/organization/eventBackground/{id}/{userId}")
+    public ResponseEntity<?> updateEventBackground(@PathVariable String id,
+                                                   @PathVariable String userId,
+                                                   HttpServletRequest request,
+                                                   @RequestParam MultipartFile file){
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return iEventService.updateAvatarEvent(id, file);
+            return iEventService.updateEventBackground(id, file);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
