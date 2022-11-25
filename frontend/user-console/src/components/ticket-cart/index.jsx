@@ -39,6 +39,7 @@ function TicketCart() {
   };
   const handleTicketCart = (cart) => {
     const ticketCart = cart.map((item) => ({
+      id: item.id,
       currency: item.currency,
       description: item.description,
       idEvent: eventId,

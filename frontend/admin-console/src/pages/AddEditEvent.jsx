@@ -195,6 +195,7 @@ function AddEditEvent(props) {
     console.group();
     // console.log({ eventId });
     // console.log({ errors });
+    // console.log("ticketList:", handleTicketList(values.ticketList));
     // console.log("useTemplate:", useTemplate);
     // console.log("saveTemplate:", saveTemplate);
     // console.log("handleTemplateTicket:", handleTemplateTicket());

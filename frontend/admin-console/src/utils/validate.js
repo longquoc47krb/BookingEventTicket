@@ -3,25 +3,18 @@ import * as Yup from "yup";
 import "yup-phone";
 import moment from "moment";
 import constants from "./constants";
+import { first } from "lodash";
 const { PATTERNS } = constants;
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 // custom method to check if array contains any duplicate email address
-Yup.addMethod(
-  Yup.array,
-  "unique",
-  function unique(
-    mapper = (a) => a,
-    message
-    // eslint-disable-next-line no-template-curly-in-string
-  ) {
-    return this.test("unique", message, (list) => {
-      return list.length === new Set(list.map(mapper)).size;
-    });
-  }
-);
-console.log(Yup);
+Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
+  return this.test("unique", message, function (list) {
+    return list.length === new Set(list.map(mapper)).size;
+  });
+});
+console.log({ Yup });
 export const YupValidations = {
   email: Yup.string()
     .required(t("validate.email.required"))
@@ -103,6 +96,9 @@ export const YupValidations = {
           .min(30, t("validate.ticket.quantity.min")),
       })
     )
-    .unique((s) => s.ticketName, t("validate.ticket.unique")),
+    .test("unique", "validate.ticket.unique", function (list) {
+      var mapper = (a) => a.ticketName;
+      return list.length === new Set(list.map(mapper)).size;
+    }),
   // .unique("validate.ticket.unique", (a) => a.ticketName),
 };

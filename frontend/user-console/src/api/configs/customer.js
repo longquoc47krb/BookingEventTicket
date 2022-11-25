@@ -21,4 +21,9 @@ export const CustomerAPI = {
     url: `/customer/wishlist/all/${userId}`,
     method: "DELETE",
   }),
+  createOrder: (userId, data) => ({
+    url: `/customer/order/${userId}`,
+    method: "POST",
+    data,
+  }),
 };

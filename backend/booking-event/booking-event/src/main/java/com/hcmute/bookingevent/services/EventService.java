@@ -128,7 +128,7 @@ public class EventService implements IEventService {
             }
             event.setTicketRemaining(ticketRemaining);
             event.setTicketTotal(ticketTotal);
-            if (ticketRemaining == 0) {
+            if (ticketRemaining == 0 && !isBeforeToday(event.getEndingDate())) {
                 event.setStatus(EventStatus.SOLD_OUT);
             } else {
                 if (isBeforeToday(event.getEndingDate())) {
