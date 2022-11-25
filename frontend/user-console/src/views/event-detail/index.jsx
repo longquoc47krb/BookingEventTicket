@@ -26,7 +26,7 @@ import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { setCurrentStep } from "../../redux/slices/ticketSlice";
+import { clearCart, setCurrentStep } from "../../redux/slices/ticketSlice";
 import { EventStatus } from "../../utils/constants";
 import {
   displayDate,
@@ -77,7 +77,6 @@ function EventDetail(props) {
   const info = useRef(null);
   const organization = useRef(null);
 
-  console.log({ event });
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
       window.scrollTo({

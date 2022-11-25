@@ -96,57 +96,6 @@ public class TicketService implements ITicketService {
                     new ResponseObject(true, e.getMessage(), "",400));
         }
     }
-
-    @Override
-    public ResponseEntity<?> reduceTicketQuantity(String eventId, String ticketId) {
-        try
-        {
-        Optional<Event> event = eventRepository.findEventById(eventId);
-        if(event.isPresent()){
-        List<Ticket> tickets = event.get().getOrganizationTickets();
-
-        Ticket filterTicket = tickets.stream().filter(t -> t.getId().equals(ticketId)).collect(Collectors.toList()).get(0);
-
-            setStatusForTicketType(filterTicket);
-
-            int index = IntStream.range(0, tickets.size()).filter(t -> filterTicket.equals(tickets.get(t))).findFirst().orElse(-1);
-
-        int ticketRemaining = event.get().getTicketRemaining();
-
-
-            for (Ticket ticket : tickets) {
-                if (ticket.getId().equals(filterTicket.getId())) {
-                    tickets.set(index, filterTicket);
-                }
-
-            }
-            if(ticketRemaining == 0){
-                event.get().setStatus(EventStatus.SOLD_OUT);
-            }
-            else {
-                event.get().setTicketRemaining(ticketRemaining - 1);
-                if(event.get().getTicketRemaining() == 0){
-                    event.get().setStatus(EventStatus.SOLD_OUT);
-                }else{
-                    event.get().setStatus(EventStatus.AVAILABLE);
-                }
-
-            }
-            event.get().setOrganizationTickets(tickets);
-            eventRepository.save(event.get());
-             return ResponseEntity.status(HttpStatus.OK).body(
-                     new ResponseObject(true, "Success ", tickets,200));
-
-          }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(true, "Failure ", "",400));
-        }
-        catch (Exception e)
-        {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
-                    new ResponseObject(true, e.getMessage(), "",400));
-        }
-    }
     static void setStatusForTicketType(Ticket ticket) {
         int quantityRemaining = ticket.getQuantityRemaining();
         if(quantityRemaining == 0){

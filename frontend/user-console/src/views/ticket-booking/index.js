@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
+import { map } from "lodash";
 import moment from "moment";
 import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,9 +15,12 @@ import StepBox from "../../components/step-box";
 import {
   currentStepSelector,
   setEventId,
+  ticketCartSelector,
+  totalPriceSelector,
 } from "../../redux/slices/ticketSlice";
 import constants from "../../utils/constants";
 import { displayDate, displayTime, titleCase } from "../../utils/utils";
+import OrderView from "./order-view";
 import SelectTicket from "./select-ticket";
 const { EventStatus } = constants;
 function TicketBooking() {
@@ -30,6 +34,12 @@ function TicketBooking() {
   const { eventId } = useParams();
   const { data: event, status } = useEventDetails(eventId);
   const dispatch = useDispatch();
+  const ticketCart = useSelector(ticketCartSelector);
+  useEffect(() => {
+    const ticketIdArray = map(ticketCart, "id");
+    console.log({ ticketCart });
+    console.log({ ticketIdArray });
+  }, []);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
   } else {
@@ -51,7 +61,7 @@ function TicketBooking() {
         case 1:
           return <div>Step 2</div>;
         case 2:
-          return <div>Step 3</div>;
+          return <OrderView />;
         default:
           return <SelectTicket />;
       }

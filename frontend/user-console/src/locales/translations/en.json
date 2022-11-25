@@ -67,6 +67,8 @@
   "ticket-info": "Ticket Information",
   "organizer": "Organizer",
   "user": {
+    "order-title": "Customer Order",
+    "payment-success": "Thank you! Your payment is successful.",
     "profile": "Profile",
     "my-ticket": "My ticket",
     "language": "Switch language",

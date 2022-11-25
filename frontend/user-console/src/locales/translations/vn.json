@@ -66,6 +66,8 @@
   "ticket-info": "Thông tin vé",
   "organizer": "Nhà tổ chức",
   "user": {
+    "order-title": "Đơn hàng",
+    "payment-success": "Cảm ơn bạn! Bạn đã thanh toán thành công.",
     "profile": "Thông tin cá nhân",
     "my-ticket": "Đơn hàng đã mua",
     "language": "Chuyển đổi ngôn ngữ",
