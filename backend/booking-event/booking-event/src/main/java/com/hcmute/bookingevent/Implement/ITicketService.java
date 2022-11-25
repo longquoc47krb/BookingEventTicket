@@ -9,6 +9,5 @@ public interface ITicketService {
 //    ResponseEntity<?> findAll();
     ResponseEntity<?> createTicket(String email, OrganizationTicketReq organizationTicketReq, String eventId);
     ResponseEntity<?> createMultipleTickets(String email, List<OrganizationTicketReq> organizationTicketReq, String eventId);
-    ResponseEntity<?> reduceTicketQuantity(String eventId, String ticketId);
 
 }

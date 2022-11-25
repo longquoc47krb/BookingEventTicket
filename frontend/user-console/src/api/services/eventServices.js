@@ -74,9 +74,9 @@ export const useFetchEventsForPagination = (params) => {
 };
 export const useEventDetails = (id) => {
   return useQuery(["getEventDetail", id], () => getEventById(id), {
-    staleTime: 1000 * 60 * 10,
+    staleTime: 0,
     refetchOnWindowFocus: true,
-    cacheTime: 1000 * 60 * 10,
+    cacheTime: 1000 * 60,
     notifyOnChangeProps: "all",
   });
 };

@@ -6,25 +6,28 @@ import orderServices from "../../api/services/orderServices";
 import ticketServices from "../../api/services/ticketServices";
 import { userInfoSelector } from "../../redux/slices/accountSlice";
 import {
+  setCustomerOrder,
   eventIdSelector,
   setCancel,
   setCurrentStep,
   setSuccess,
   ticketCartSelector,
-  ticketIdArraySelector,
   totalPriceSelector,
   totalQuantitySelector,
 } from "../../redux/slices/ticketSlice";
+import { map } from "lodash";
 const { createOrder } = orderServices;
 const { reduceTicketQuantityAsync } = ticketServices;
 function Payment() {
   const [query, setQueryParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const ticketIdArray = useSelector(ticketIdArraySelector);
   const eventId = useSelector(eventIdSelector);
   const ticketCart = useSelector(ticketCartSelector);
+  const ticketIdArray = map(ticketCart, "id");
   const totalPrice = useSelector(totalPriceSelector);
+  console.log({ ticketCart });
+  console.log({ ticketIdArray });
   const totalQuantity = useSelector(totalQuantitySelector);
   const user = useSelector(userInfoSelector);
   const isSuccess =
@@ -42,9 +45,7 @@ function Payment() {
   useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
-  }, []);
-  const pageRendering = (success, cancel) => {
-    if (success) {
+    if (isSuccess) {
       const createOrderRequest = {
         customerTicketList: ticketCart,
         email: user.email,
@@ -60,9 +61,10 @@ function Payment() {
           createOrderRequest
         );
         if (createOrderResponse.status === 200) {
-          for (const ticketId of ticketIdArray) {
-            await reduceTicketQuantityAsync(eventId, ticketId);
-          }
+          dispatch(setCustomerOrder(createOrderResponse.data));
+          // for (let ticketId = 0; ticketIdArray.length; ticketId++) {
+          //   await reduceTicketQuantityAsync(eventId, ticketId);
+          // }
           return navigate(`/ticket-booking/${eventId}`);
         } else {
           return null;
@@ -72,7 +74,21 @@ function Payment() {
       setTimeout(() => {
         return navigate(`/ticket-booking/${eventId}`);
       }, 200);
-
+    }
+  }, [
+    dispatch,
+    eventId,
+    isCancel,
+    isSuccess,
+    navigate,
+    ticketCart,
+    totalPrice,
+    totalQuantity,
+    user.email,
+    user.id,
+  ]);
+  const pageRendering = (success, cancel) => {
+    if (success) {
       return <h1 className="text-2xl">{t("user.payment.success")}</h1>;
     } else {
       return <h1 className="text-2xl">{t("user.payment.error")}</h1>;
