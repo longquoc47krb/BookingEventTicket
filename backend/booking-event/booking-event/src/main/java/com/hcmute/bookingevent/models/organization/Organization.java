@@ -33,9 +33,10 @@ public class Organization {
     @Email(message = "Email is invalidate")
     @Indexed(unique = true)
     private String email;
-
+    private String USDBalance;
+    private String VNDBalance;
+    private CreditCard creditCard;
     private EOrganization status;
-
     private List<String> eventList;
 
     private List<Ticket> templateTickets = new ArrayList<>();
