@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class OrderService implements IOrderService {
     public ResponseEntity<?> createCustomerOrder(String email, Order order) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
         if (customer.isPresent()) {
+            // cap nhat o event
             Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
             if (event.isPresent()) {
                 // cap nhat o event
@@ -49,11 +51,32 @@ public class OrderService implements IOrderService {
                 }
                 eventRepository.save(event.get());
             }
-            organizationRepository.findOrganizationByEventId(order.getIdEvent());
+            //cap nhat o organization  (cong tien)
+            Optional<Organization> organization =  organizationRepository.findOrganizationByEventId(order.getIdEvent());
+            if(organization.isPresent())
+            {
+                BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
 
+                if(order.getCurrency().equals("USD"))
+                {
+                    BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
+                    organization.get().setUSDBalance(usdBalance.add(orderPrice).toString());
+                }
+                else if(order.getCurrency().equals("VND"))
+                {
+                    BigDecimal vndBalance = new BigDecimal(organization.get().getVNDBalance());
+                    organization.get().setVNDBalance(vndBalance.add(orderPrice).toString());
+                }
+                else
+                {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                            new ResponseObject(false, "Problem with currency ", "", 400));
+
+                }
+                organizationRepository.save(organization.get());
+            }
             orderRepository.save(order);
             customerRepository.save(customer.get());
-
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Create Order for Customer successfully ", orderRepository.findById(order.getId()), 200));

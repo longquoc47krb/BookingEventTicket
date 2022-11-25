@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -38,11 +39,15 @@ public class OrganizationController {
     }
 
     @PostMapping("/admin/approve/organization")
-    public ResponseEntity<?> approveOrganization(@RequestBody EmailReq emailReq)
+    public ResponseEntity<?> approveOrganization(@Valid @RequestBody EmailReq emailReq)
     {
         return iOrganizationService.approveOrganization(emailReq.getEmail());
     }
-
+    @PostMapping("/admin/refuse/organization")
+    public ResponseEntity<?> refuseOrganization(@Valid @RequestBody EmailReq emailReq)
+    {
+        return iOrganizationService.refuseOrganization(emailReq.getEmail());
+    }
     @GetMapping("/organization/findAll")
     public ResponseEntity<?> findAll()
     {

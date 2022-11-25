@@ -26,7 +26,6 @@ public class Ticket {
     private int quantity;
     private int quantityRemaining;
     @NotBlank(message = "currency is required")
-    private String currency;
     @NotBlank(message = "currency is required")
     public String status;
     public Ticket(OrganizationTicketReq organizationTicketReq)
@@ -36,7 +35,7 @@ public class Ticket {
         this.description= organizationTicketReq.getDescription();
         this.quantity= organizationTicketReq.getQuantity();
         //this.quantityRemaining = organizationTicketReq.getQuantityRemaining();
-        this.currency= organizationTicketReq.getCurrency();
+        //this.currency= organizationTicketReq.getCurrency();
         this.status = TicketStatus.AVAILABLE;
     }
     public Ticket(CustomerTicketReq customerTicketReq)
@@ -47,7 +46,7 @@ public class Ticket {
         //this.description= customerTicketReq.getDescription();
         this.quantity= customerTicketReq.getQuantity();
         //this.quantityRemaining = customerTicketReq.getQuantityRemaining();
-        this.currency= customerTicketReq.getCurrency();
+        //this.currency= customerTicketReq.getCurrency();
         this.status = TicketStatus.AVAILABLE;
     }
 }
