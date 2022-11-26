@@ -79,7 +79,8 @@ public class SecurityConfig {
             "/api/ticket/**",
             "/api/organization/findAll",
             "/api/organization/test/**",
-            "/api/organization"
+            "/api/organization",
+            "/api/email/organization/**"
     };
 
     @Bean
