@@ -12,6 +12,7 @@
     "ticket-booking": "Đặt vé"
   },
   "event": {
+    "title": "Sự kiện",
     "all": "Tất cả trạng thái",
     "list": "Danh sách sự kiện",
     "trending": "Sự kiện nổi bật",
@@ -66,6 +67,8 @@
   "ticket-info": "Thông tin vé",
   "organizer": "Nhà tổ chức",
   "user": {
+    "order-title": "Đơn hàng",
+    "payment-success": "Cảm ơn bạn! Bạn đã thanh toán thành công.",
     "profile": "Thông tin cá nhân",
     "my-ticket": "Đơn hàng đã mua",
     "language": "Chuyển đổi ngôn ngữ",
@@ -244,9 +247,14 @@
     "price": "Giá vé",
     "quantity": "Số lượng",
     "total": "Tổng cộng",
-    "submit": "Thanh toán"
+    "submit": "Thanh toán",
+    "best-seller": "Bán chạy",
+    "sold-out": "Hết vé"
   },
   "Ho Chi Minh": "Sài Gòn",
   "Hanoi": "Hà Nội",
-  "price-from": "Từ "
+  "price-from": "Từ ",
+  "customer": {
+    "name": "Tên khách hàng"
+  }
 }

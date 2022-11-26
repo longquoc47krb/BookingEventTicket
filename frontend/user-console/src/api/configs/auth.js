@@ -20,7 +20,7 @@ export const AuthAPI = {
     data,
   }),
   changePassword: (id, data) => ({
-    url: `/auth/changePassword/${id}`,
+    url: `/account/changePassword/${id}`,
     method: "POST",
     data,
   }),

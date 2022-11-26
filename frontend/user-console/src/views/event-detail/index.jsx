@@ -26,7 +26,7 @@ import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { setCurrentStep } from "../../redux/slices/ticketSlice";
+import { clearCart, setCurrentStep } from "../../redux/slices/ticketSlice";
 import { EventStatus } from "../../utils/constants";
 import {
   displayDate,

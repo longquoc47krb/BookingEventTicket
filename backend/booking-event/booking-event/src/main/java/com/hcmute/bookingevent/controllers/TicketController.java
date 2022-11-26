@@ -42,9 +42,5 @@ public class TicketController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping("/ticket/{eventId}/{ticketId}")
-    public ResponseEntity<?> decreaseTicket(@PathVariable String eventId, @PathVariable String ticketId){
-        return ticketService.reduceTicketQuantity(eventId, ticketId);
-    }
 
 }

@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService implements IOrderService {
@@ -42,7 +44,8 @@ public class OrderService implements IOrderService {
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
                         if (ticket.getId().equals(ticketOfCustomer.getId())) {
-                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity());
+                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() + 1);
+                            setStatusForTicketType(ticket);
                         }
                     }
                 }
@@ -74,8 +77,9 @@ public class OrderService implements IOrderService {
             }
             orderRepository.save(order);
             customerRepository.save(customer.get());
+
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Create Order for Customer successfully ", "", 200));
+                    new ResponseObject(true, "Create Order for Customer successfully ", orderRepository.findById(order.getId()), 200));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject(false, "Create Order fail with email:" + email, "", 404));

@@ -62,6 +62,8 @@ function UserProfile() {
         var updateAvatarResponse = await updateAvatar(id, avatar);
       }
       var updateAccountResponse = await updateAccount(id, { name, phone });
+
+      setLoading(false);
       showNotification(
         updateAvatarResponse.status === 200 ||
           updateAccountResponse.status === 200
@@ -70,13 +72,10 @@ function UserProfile() {
   });
   const showNotification = (code) => {
     if (code) {
-      setLoading(false);
-
       return AlertPopup({
         title: t("popup.update-account.account.200"),
       });
     }
-    setLoading(false);
     return AlertErrorPopup({
       title: t("popup.update-account.account.400"),
     });
@@ -128,11 +127,11 @@ function UserProfile() {
                       label={t("user.name")}
                     />
                     <Field
-                    component={Input}
-                    label="Email"
-                    name="email"
-                    disabled={isEmpty(initialValues.email) ? false : true}
-                  />
+                      component={Input}
+                      label="Email"
+                      name="email"
+                      disabled={isEmpty(initialValues.email) ? false : true}
+                    />
                     <Field
                       component={Input}
                       label={t("user.phone")}

@@ -34,11 +34,12 @@ function TicketCart() {
         title: t("popup.payment.error"),
       });
     } else {
-      window.open(response.data, "_blank");
+      window.open(response.data);
     }
   };
   const handleTicketCart = (cart) => {
     const ticketCart = cart.map((item) => ({
+      id: item.id,
       currency: item.currency,
       description: item.description,
       idEvent: eventId,
@@ -53,7 +54,7 @@ function TicketCart() {
     dispatch(setTicketCart(handleTicketCart(ticketCart)));
     dispatch(setTotalPrice(cartTotalPrice));
     dispatch(setTotalQuantity(cartTotalQuantity));
-  }, [cartTotalPrice, ticketCart]);
+  }, [cartTotalPrice]);
   return (
     <>
       <div className="ticket-cart">

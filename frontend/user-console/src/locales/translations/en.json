@@ -12,6 +12,7 @@
     "ticket-booking": "Booking ticket"
   },
   "event": {
+    "title": "Event name",
     "all": "All status",
     "list": "Events",
     "address": "Location map",
@@ -67,6 +68,8 @@
   "ticket-info": "Ticket Information",
   "organizer": "Organizer",
   "user": {
+    "order-title": "Customer Order",
+    "payment-success": "Thank you! Your payment is successful.",
     "profile": "Profile",
     "my-ticket": "My ticket",
     "language": "Switch language",
@@ -246,9 +249,14 @@
     "quantity": "Quantity",
     "total": "Total",
     "submit": "Place Order",
-    "reload": ""
+    "reload": "",
+    "best-seller": "Best seller",
+    "sold-out": "Sold out"
   },
   "Ho Chi Minh": "Ho Chi Minh city",
   "Hanoi": "Ha Noi",
-  "price-from": "From "
+  "price-from": "From ",
+  "customer": {
+    "name": "Customer name"
+  }
 }
