@@ -63,6 +63,11 @@ public class OrganizationController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+    @GetMapping("/email/organization/{email}")
+    public ResponseEntity<?> findOrganizationByEmail(@PathVariable String email)
+    {
+            return iOrganizationService.findOrganizationByEmail(email);
+    }
     @GetMapping("/organization")
     public ResponseEntity<?> findOrganizationById(@RequestParam(value="id") String id)
     {
