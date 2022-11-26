@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import orderServices from "../../api/services/orderServices";
@@ -25,12 +25,13 @@ function Payment() {
   const navigate = useNavigate();
   const eventId = useSelector(eventIdSelector);
   const ticketCart = useSelector(ticketCartSelector);
-  const ticketIdArray = map(ticketCart, "id");
   const totalPrice = useSelector(totalPriceSelector);
   console.log({ ticketCart });
-  console.log({ ticketIdArray });
   const totalQuantity = useSelector(totalQuantitySelector);
   const user = useSelector(userInfoSelector);
+  const currency = map(ticketCart, "currency")[0];
+  console.log({ currency });
+  console.log({ ticketCart });
   const isSuccess =
     query.get("success") !== null
       ? query.get("success") === "true"
@@ -43,11 +44,13 @@ function Payment() {
         ? true
         : false
       : false;
-  useEffect(() => {
+  useMemo(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
+    console.log(isSuccess);
     if (isSuccess) {
       const createOrderRequest = {
+        currency: map(ticketCart, "currency")[0],
         customerTicketList: ticketCart,
         email: user.email,
         idEvent: eventId,

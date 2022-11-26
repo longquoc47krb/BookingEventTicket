@@ -63,6 +63,11 @@ public class EventController {
         return iEventService.findEventAfterToday();
 
     }
+    @GetMapping("/event/findBestSellerEvent")
+    public ResponseEntity<?> findBestSellerEvent(){
+        return iEventService.findBestSellerEvent();
+
+    }
     @GetMapping("/event/checkEventStatus")
     public ResponseEntity<?> checkEventStatus(){
         return iEventService.checkEventStatus();

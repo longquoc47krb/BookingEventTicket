@@ -13,6 +13,7 @@
   },
   "event": {
     "title": "Event name",
+    "best-seller": "Top 10 Best Seller",
     "all": "All status",
     "list": "Events",
     "address": "Location map",
