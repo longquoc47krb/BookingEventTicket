@@ -72,8 +72,6 @@ public class SecurityConfig {
     };
 
     private final String[] ALLOWED_GET_LIST_URLS = {
-            //"/api/event/**",
-            //"/api/**",
             "/api/event/**",
             "/api/account/findAll",
             "/api/order/**",
@@ -82,14 +80,6 @@ public class SecurityConfig {
             "/api/organization/findAll",
             "/api/organization/test/**",
             "/api/organization"
-            //"/api/ticket/**",
-            //organizer
-            //"/api/organization/**",
-            //customer
-            //"/api/customer/**",
-            //admin
-            //"/api/admin"
-
     };
 
     @Bean
