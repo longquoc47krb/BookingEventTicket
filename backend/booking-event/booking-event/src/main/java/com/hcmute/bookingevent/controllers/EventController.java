@@ -40,7 +40,7 @@ public class EventController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-    @DeleteMapping("/admin/event/{id}/{userId}")
+    @DeleteMapping("/organization/event/{id}/{userId}")
     public ResponseEntity<?> deleteEvent(@PathVariable String id,@PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
