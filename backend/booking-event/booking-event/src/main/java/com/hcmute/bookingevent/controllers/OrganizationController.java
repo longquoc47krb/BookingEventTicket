@@ -53,10 +53,15 @@ public class OrganizationController {
     {
         return iOrganizationService.findAll();
     }
-    @GetMapping("/organization/{email}")
-    public ResponseEntity<?> findOrganizationByEmail(@PathVariable String email)
+    @GetMapping("/organization/{userid}")
+    public ResponseEntity<?> findOrganizationByUserId(@PathVariable String userid,HttpServletRequest request)
     {
-        return iOrganizationService.findOrganizationByEmail(email);
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userid)) {
+            return iOrganizationService.findOrganizationByEmail(account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+
     }
     @GetMapping("/organization")
     public ResponseEntity<?> findOrganizationById(@RequestParam(value="id") String id)
