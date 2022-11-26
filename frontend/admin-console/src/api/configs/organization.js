@@ -9,7 +9,7 @@ export const OrganizationAPI = {
     method: "GET",
   }),
   findOrganizerByEmail: (email) => ({
-    url: `/organization/${email}`,
+    url: `/email/organization/${email}`,
     method: "GET",
   }),
   updateBioAndAddress: (id, data) => ({

@@ -42,29 +42,27 @@ function Login() {
         password,
       });
       const userProfileResponse = await getOrganizerByEmail(email);
-      showNotification(response.status, userProfileResponse.data.role);
-      if (isNotEmpty(response)) {
-        setLoading(false);
-      }
+      setLoading(false);
+      showNotification(response);
+
       if (
-        (response.status === 200 || userProfileResponse.status === 200) &&
-        userProfileResponse.data.role === ROLE.Organizer
+        ((response.status === 200 || userProfileResponse.status === 200) &&
+          response.data.roles[0] === ROLE.Organizer) ||
+        response.data.roles[0] === ROLE.Admin
       ) {
         dispatch(setToken(response.data.token));
         dispatch(setUserProfile(userProfileResponse.data));
       }
     },
   });
-  const showNotification = (statusCode, role) => {
-    switch (statusCode) {
-      case 400:
-        return AlertErrorPopup({
-          title: t("popup.login.error"),
-          text: t("popup.login.error"),
-        });
+  const showNotification = (response) => {
+    switch (response.status) {
       case 200:
       case 201:
-        if (role === ROLE.Organizer) {
+        if (
+          response.data.roles[0] === ROLE.Organizer ||
+          response.data.roles[0] === ROLE.Admin
+        ) {
           setTimeout(() => {
             navigate("/");
           }, 3000);
@@ -78,7 +76,10 @@ function Login() {
           });
         }
       default:
-        return null;
+        return AlertErrorPopup({
+          title: t("popup.login.error"),
+          text: t("popup.login.error"),
+        });
     }
   };
   const { handleSubmit } = formikLogin;

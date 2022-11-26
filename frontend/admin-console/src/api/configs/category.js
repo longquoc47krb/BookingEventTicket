@@ -1,6 +1,6 @@
 export const CategoryAPI = {
   fetchAllCategories: {
-    url: "/eventCategory/findAll",
+    url: "/category/findAll",
     method: "GET",
   },
 };
