@@ -78,12 +78,6 @@ function Home() {
                     .slice(0, 10)
                     .map((event) => <EventHomeItem event={event} />)}
             </div>
-            <ViewMoreButton
-              onClick={() => {
-                dispatch(setStatus(EventStatus.AVAILABLE));
-                navigate("/events");
-              }}
-            />
           </div>
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
