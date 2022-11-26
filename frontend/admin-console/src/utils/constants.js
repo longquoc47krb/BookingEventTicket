@@ -26,6 +26,7 @@ provinceMapping.set("CT", "Cần Thơ");
 export const ROLE = {
   Customer: "ROLE_USER",
   Organizer: "ROLE_ORGANIZATION",
+  Admin: "ROLE_ADMIN",
 };
 const PATTERNS = {
   OLD_EMAIL_PATTERN:
