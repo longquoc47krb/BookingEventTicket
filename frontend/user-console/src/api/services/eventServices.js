@@ -14,6 +14,10 @@ const fetchFeaturedEvents = async () => {
   const response = await httpRequest(EventAPI.getFeaturedEvents);
   return response.data;
 };
+const fetchBestSellerEvents = async () => {
+  const response = await httpRequest(EventAPI.getBestSellerEvents);
+  return response.data;
+};
 const getEventByName = async (name) => {
   const response = await httpRequest(EventAPI.getEventByName(name));
   return response.data;
@@ -58,6 +62,13 @@ export const useCheckEventsStatus = () => {
 };
 export const useFetchFeaturedEvents = (staleTime = 30000) => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
+    staleTime: 0,
+    cacheTime: 1000 * 60 * 60,
+    refetchInterval: 30000,
+  });
+};
+export const useFetchBestSellerEvents = (staleTime = 30000) => {
+  return useQuery(["fetchBestSellerEvents"], fetchBestSellerEvents, {
     staleTime: 0,
     cacheTime: 1000 * 60 * 60,
     refetchInterval: 30000,

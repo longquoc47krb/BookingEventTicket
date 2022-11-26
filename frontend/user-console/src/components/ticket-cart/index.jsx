@@ -24,6 +24,7 @@ function TicketCart() {
     totalPrice: t.quantity * Number(t.price),
   }));
   const ticketCart = newArr.filter((ticket) => ticket.quantity > 0);
+  console.log({ ticketCart, tickets });
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
   const cartTotalQuantity = sumBy(ticketCart, "quantity");
   const eventId = useSelector(eventIdSelector);

@@ -179,6 +179,20 @@ public class EventService implements IEventService {
     }
 
     @Override
+    public ResponseEntity<?> findBestSellerEvent() {
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
+        List<Event> eventList = new ArrayList<>();
+        for(Event event : events){
+            if((float)(event.getTicketTotal() - event.getTicketRemaining()) / event.getTicketTotal() >= 0.7 && event.getStatus().equals(EventStatus.AVAILABLE)){
+                eventList.add(event);
+            }
+        }
+        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", eventRes,200));
+    }
+
+    @Override
     public ResponseEntity<?> findEventsByProvince(String province) {
         List<Event> eventList = sortEventByDateAsc(eventRepository.findAllByProvince(province));
         List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
