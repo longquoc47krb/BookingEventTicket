@@ -15,6 +15,10 @@ export const EventAPI = {
     url: "/event/checkEventStatus",
     method: "GET",
   },
+  getBestSellerEvents: {
+    url: "/event/findBestSellerEvent",
+    method: "GET",
+  },
   getFeaturedEvents: {
     url: "/event/findEventAfterToday",
     method: "GET",

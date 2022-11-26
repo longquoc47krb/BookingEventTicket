@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import {
+  useFetchBestSellerEvents,
   useFetchEventsByProvince,
   useFetchFeaturedEvents,
 } from "../../api/services/eventServices";
@@ -34,6 +35,8 @@ function Home() {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();
+  const { data: bestSellerEvents, status: bestSellerEventsStatus } =
+    useFetchBestSellerEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
     useFetchEventsByProvince(
       provinceMapping.get(location ? location.region : "")
@@ -65,6 +68,17 @@ function Home() {
             <Carousel data={featuredEvents} loop={false} />
           )}
           <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
+          <div className="home-popular">
+            <SectionTitle>{t("event.best-seller")}</SectionTitle>
+            <div className="home-popular-content">
+              {bestSellerEventsStatus !== "success"
+                ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
+                : bestSellerEvents
+                    .filter((e) => e.remainingTicket !== 0)
+                    .slice(0, 10)
+                    .map((event) => <EventHomeItem event={event} />)}
+            </div>
+          </div>
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
             <div className="home-popular-content">
