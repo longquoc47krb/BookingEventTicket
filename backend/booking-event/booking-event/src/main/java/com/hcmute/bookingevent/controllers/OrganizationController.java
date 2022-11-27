@@ -78,7 +78,7 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationByEventid(eventId);
     }
-    @PostMapping("/organization")
+    @PostMapping("/form/organization")
     public ResponseEntity<?> submitOrganization(@RequestBody OrganizationSubmitReq organizationSubmitReq)
     {
         return iOrganizationService.submitOrganization(organizationSubmitReq);
