@@ -221,6 +221,7 @@ public class OrganizationService implements IOrganizationService {
             account.get().setPassWord(encoder.encode(randomPassword));
             accountRepository.save(account.get());
             organization.get().setStatus(EOrganization.ACCEPTED);
+            organizationRepository.save(organization.get());
             mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Create organization account successfully", "",200));
