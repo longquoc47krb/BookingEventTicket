@@ -55,6 +55,14 @@ const findOrganizerById = async (id) => {
     return response.data;
   } catch (error) {}
 };
+const findAllOrganizers = async () => {
+  try {
+    const response = await httpRequest(OrganizationAPI.findAllOrganizers);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const getEventsByOrganizationId = async (id) => {
   try {
     const response = await httpRequest(OrganizationAPI.findEventByOrgId(id));
@@ -78,6 +86,12 @@ export const useFetchOrganizerByEmail = (email) => {
       refetchInterval: 5000,
     }
   );
+};
+export const useFetchAllOrganizers = () => {
+  return useQuery(["findAllOrganizers"], findAllOrganizers, {
+    staleTime: 30000,
+    refetchInterval: 5000,
+  });
 };
 export const useFetchEventsByOrgID = (id) => {
   return useQuery(

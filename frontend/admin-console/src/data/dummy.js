@@ -34,6 +34,7 @@ import product7 from "./product7.jpg";
 import { AlertQuestion, AlertPopup } from "../components/Alert";
 import eventServices from "../api/services/eventServices";
 import { store } from "../redux/store";
+import { StyledSwitch } from "../pages/AddEditEvent";
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
   <div>
@@ -80,6 +81,24 @@ const gridEventStatus = (props) => (
     )}
   </div>
 );
+const gridAccountStatus = (props) => (
+  <div className="flex items-center gap-2">
+    {props.status !== "DISABLED" ? (
+      <span className="bg-green-500 text-white p-1 text-xs rounded-md">
+        {t("account.approved")}
+      </span>
+    ) : (
+      <span className="bg-red-600 text-white p-1 text-xs rounded-md">
+        {t("account.disabled")}
+      </span>
+    )}
+  </div>
+);
+const gridEventQuantity = (props) => (
+  <div className="flex items-center justify-center">
+    <span>{props.eventList.length}</span>
+  </div>
+);
 const gridEventModify = (props) => (
   <div className="flex items-center gap-2">
     <RiEditFill
@@ -106,6 +125,19 @@ const gridEventModify = (props) => (
         });
       }}
     />
+  </div>
+);
+const gridAccountOption = (props) => (
+  <div className="flex items-center">
+    {props.status === "DISABLED" ? (
+      <button className="border-green-600 border-b-2  text-green-600 font-semibold py-2">
+        {t("account.approve")}
+      </button>
+    ) : (
+      <button className="border-red-600 border-b-2  text-red-600 font-semibold py-2">
+        {t("account.disabled")}
+      </button>
+    )}
   </div>
 );
 const gridEventCategory = (props) => (
@@ -531,8 +563,32 @@ export const eventGrid = [
     template: gridEventModify,
   },
 ];
+export const accountGrid = [
+  {
+    headerText: "ID",
+    field: "id",
+  },
+  {
+    headerText: t("account.email"),
+    field: "email",
+  },
+  {
+    headerText: t("account.events"),
+    field: "eventList",
+    template: gridEventQuantity,
+  },
+  {
+    headerText: t("account.status"),
+    field: "status",
+    template: gridAccountStatus,
+  },
+  {
+    headerText: t("account.options"),
+    template: gridAccountOption,
+  },
+];
 
-export const links = [
+export const OrganizerRoute = [
   {
     title: "sider.dashboard",
     links: [
@@ -571,6 +627,34 @@ export const links = [
         name: "sider.calendar",
         route: "calendar",
         icon: <AiOutlineCalendar />,
+      },
+    ],
+  },
+];
+export const AdminRoute = [
+  {
+    title: "sider.dashboard",
+    links: [
+      {
+        name: "sider.overview",
+        route: "overview",
+        icon: <FiShoppingBag />,
+      },
+    ],
+  },
+
+  {
+    title: "sider.management",
+    links: [
+      {
+        name: "sider.account",
+        route: "accounts",
+        icon: <AiOutlineCalendar />,
+      },
+      {
+        name: "sider.category",
+        route: "categories",
+        icon: <AiOutlineShoppingCart />,
       },
     ],
   },

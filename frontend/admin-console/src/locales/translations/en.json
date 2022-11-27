@@ -1,5 +1,7 @@
 {
     "sider": {
+        "account": "Accounts",
+        "category": "Categories",
         "dashboard": "Dashboard",
         "overview": "Overview",
         "management": "Management",
@@ -89,6 +91,12 @@
         "create-event": {
             "success": "Successfully create new event",
             "error": "Failed create event"
+        },
+        "update-account": {
+            "account": {
+                "200": "Update profile successfully!",
+                "400": "Update profile failed"
+            }
         }
     },
     "user": {
@@ -216,5 +224,14 @@
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
-    "default-address": "Use default address"
+    "default-address": "Use default address",
+    "account": {
+        "email": "Email",
+        "events": "Event quantity",
+        "status": "Account status",
+        "disabled": "Disabled",
+        "accepted": "Accepted",
+        "approve": "Approve",
+        "options": "Option"
+    }
 }

@@ -1,21 +1,24 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Outlet } from "react-router-dom";
 import { Footer, Navbar, Sidebar } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
+import { roleSelector } from "../redux/slices/accountSlice";
 
 function Layout() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
     useStateContext();
+  const role = useSelector(roleSelector);
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
         {activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
+            <Sidebar role={role} />
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
+            <Sidebar role={role} />
           </div>
         )}
         <div

@@ -40,7 +40,7 @@ const { getEventById, createEvent, uploadEventBackground, updateEvent } =
 const { createTemplateTicket } = organizationServices;
 const { PATTERNS } = constants;
 
-const StyledSwitch = styled(Switch)`
+export const StyledSwitch = styled(Switch)`
   &&&.ant-switch-checked {
     background-color: #1f3e82;
   }

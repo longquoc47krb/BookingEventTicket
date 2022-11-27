@@ -57,7 +57,7 @@ export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
     staleTime: 0,
     cacheTime: 1000 * 60 * 60,
-    refetchInterval: 1000 * 5,
+    refetchInterval: 1000 * 10,
   });
 };
 export const useFetchFeaturedEvents = (staleTime = 30000) => {
@@ -85,10 +85,8 @@ export const useFetchEventsForPagination = (params) => {
 };
 export const useEventDetails = (id) => {
   return useQuery(["getEventDetail", id], () => getEventById(id), {
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 30,
     cacheTime: 1000 * 60,
-    notifyOnChangeProps: "all",
   });
 };
 export const useFetchEventsByFilter = (params) => {

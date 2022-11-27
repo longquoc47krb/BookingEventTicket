@@ -7,6 +7,7 @@ export const accountSlice = createSlice({
     email: "",
     avatar: null,
     token: "",
+    role: ""
   },
   reducers: {
     setUserProfile: (state, action) => {
@@ -25,6 +26,9 @@ export const accountSlice = createSlice({
     setToken: (state, { payload }) => {
       state.token = payload;
     },
+    setRole: (state, {payload}) => {
+      state.role = payload;
+    }
   },
 });
 
@@ -34,9 +38,11 @@ export const {
   setEmail,
   setUserAvatar,
   setToken,
+  setRole
 } = accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
 export const emailSelector = (state) => state.account.email;
 export const tokenSelector = (state) => state.account.token;
+export const roleSelector = state => state.account.role;
 export const userAvatarSelector = (state) => state.account.avatar;
 export default accountSlice.reducer;

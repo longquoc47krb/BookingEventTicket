@@ -82,24 +82,31 @@ function UserProfile() {
       if (userInfo.status === 200) {
         dispatch(setUserProfile(userInfo.data));
       }
-      showNotification(
-        updateAvatarResponse.status === 200 ||
-          updateAccountResponse.status === 200 ||
-          updateBioAndAddressRes.status === 200
-      );
       setLoading(false);
+      console.log("updateBioAndAddressRes", updateBioAndAddressRes);
+      console.log("updateAccountResponse", updateAccountResponse);
+      console.log("updateAvatarResponse", updateAvatarResponse);
+      console.log(
+        "condition:",
+        updateBioAndAddressRes.status === 200 ||
+          updateAccountResponse.status === 200
+      );
+      showNotification(
+        updateBioAndAddressRes.status === 200 ||
+          updateAccountResponse.status === 200
+      );
     },
   });
   const showNotification = (code) => {
     if (code) {
-      return AlertPopup({
+      AlertPopup({
         title: t("popup.update-account.account.200"),
       });
+    } else {
+      AlertErrorPopup({
+        title: t("popup.update-account.account.400"),
+      });
     }
-    setLoading(false);
-    return AlertErrorPopup({
-      title: t("popup.update-account.account.400"),
-    });
   };
   const { values, handleSubmit } = formik;
   return (

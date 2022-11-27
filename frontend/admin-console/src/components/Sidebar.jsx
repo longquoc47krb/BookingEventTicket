@@ -9,12 +9,12 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
-import { links } from "../data/dummy";
+import { ROLE } from "../utils/constants";
+import { OrganizerRoute, AdminRoute } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useTranslation } from "react-i18next";
 
-const Sidebar = () => {
+const Sidebar = ({ role }) => {
   const { t } = useTranslation();
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
@@ -59,29 +59,53 @@ const Sidebar = () => {
             </TooltipComponent>
           </div>
           <div className="mt-10 ">
-            {links.map((item) => (
-              <div key={item.title}>
-                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-                  {t(item.title)}
-                </p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/${link.route}`}
-                    key={link.route}
-                    onClick={handleCloseSideBar}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize ">{t(link.name)}</span>
-                  </NavLink>
+            {role === ROLE.Organizer
+              ? OrganizerRoute.map((item) => (
+                  <div key={item.title}>
+                    <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                      {t(item.title)}
+                    </p>
+                    {item.links.map((link) => (
+                      <NavLink
+                        to={`/${link.route}`}
+                        key={link.route}
+                        onClick={handleCloseSideBar}
+                        style={({ isActive }) => ({
+                          backgroundColor: isActive ? currentColor : "",
+                        })}
+                        className={({ isActive }) =>
+                          isActive ? activeLink : normalLink
+                        }
+                      >
+                        {link.icon}
+                        <span className="capitalize ">{t(link.name)}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                ))
+              : AdminRoute.map((item) => (
+                  <div key={item.title}>
+                    <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                      {t(item.title)}
+                    </p>
+                    {item.links.map((link) => (
+                      <NavLink
+                        to={`/${link.route}`}
+                        key={link.route}
+                        onClick={handleCloseSideBar}
+                        style={({ isActive }) => ({
+                          backgroundColor: isActive ? currentColor : "",
+                        })}
+                        className={({ isActive }) =>
+                          isActive ? activeLink : normalLink
+                        }
+                      >
+                        {link.icon}
+                        <span className="capitalize ">{t(link.name)}</span>
+                      </NavLink>
+                    ))}
+                  </div>
                 ))}
-              </div>
-            ))}
           </div>
         </>
       )}

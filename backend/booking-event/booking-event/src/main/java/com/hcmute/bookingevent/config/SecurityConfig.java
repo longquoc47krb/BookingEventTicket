@@ -74,6 +74,7 @@ public class SecurityConfig {
     private final String[] ALLOWED_GET_LIST_URLS = {
             "/api/event/**",
             "/api/account/findAll",
+            "/api/account/findAccount",
             "/api/order/**",
             "/api/category/**",
             "/api/ticket/**",
