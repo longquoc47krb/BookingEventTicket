@@ -14,12 +14,14 @@ import UploadAvatar from "../components/common/upload-avatar";
 import { Input, Select } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
 import {
+  roleSelector,
   setEmail,
   setUserProfile,
   userAvatarSelector,
   userInfoSelector,
 } from "../redux/slices/accountSlice";
 import { pathNameSelector } from "../redux/slices/routeSlice";
+import { ROLE } from "../utils/constants";
 import { provinces } from "../utils/provinces";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
@@ -34,6 +36,7 @@ function UserProfile() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const avatar = useSelector(userAvatarSelector);
+  const role = useSelector(roleSelector);
   useEffect(() => {
     if (isNotEmpty(user)) {
       dispatch(setEmail(user.email));
@@ -58,9 +61,9 @@ function UserProfile() {
       email: YupValidations.email,
       phone: YupValidations.phone,
       biography: YupValidations.description,
-      province: YupValidations.province,
-      venue: YupValidations.venue,
-      address: YupValidations.address,
+      province: YupValidations.province_profile,
+      venue: YupValidations.venue_profile,
+      address: YupValidations.address_profile,
     }),
     onSubmit: async (values) => {
       const { id, name, phone, email, biography, address, province, venue } =
@@ -127,7 +130,15 @@ function UserProfile() {
               <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
                 <Col span={24}>
                   <div className="w-full flex justify-center my-2">
-                    <UploadAvatar avatar={values.avatar} />
+                    {role === ROLE.Organizer ? (
+                      <UploadAvatar avatar={values.avatar} />
+                    ) : (
+                      <img
+                        src={process.env.PUBLIC_URL + "/logo.png"}
+                        alt="logo"
+                        className="h-auto w-[200px] object-cover "
+                      />
+                    )}
                   </div>
 
                   <Field name="name" component={Input} label={t("user.name")} />

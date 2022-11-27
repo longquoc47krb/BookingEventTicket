@@ -10,6 +10,14 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const approveOrganizer = async (body) => {
+  try {
+    const response = await httpRequest(OrganizationAPI.approveOrganizer(body));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const updateBioAndAddress = async (id, body) => {
   try {
     const response = await httpRequest(
@@ -89,7 +97,7 @@ export const useFetchOrganizerByEmail = (email) => {
 };
 export const useFetchAllOrganizers = () => {
   return useQuery(["findAllOrganizers"], findAllOrganizers, {
-    staleTime: 30000,
+    staleTime: 0,
     refetchInterval: 5000,
   });
 };
@@ -111,5 +119,6 @@ const organizationServices = {
   findOrganizerById,
   createTemplateTicket,
   getTemplateTicket,
+  approveOrganizer,
 };
 export default organizationServices;

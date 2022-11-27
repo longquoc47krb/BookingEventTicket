@@ -55,8 +55,18 @@ function Login() {
         response.data.roles[0] === ROLE.Admin
       ) {
         dispatch(setRole(response.data.roles[0]));
+        if (response.data.roles[0] === ROLE.Admin) {
+          dispatch(
+            setUserProfile({
+              id: response.data.id,
+              name: response.data.name,
+              email: response.data.email,
+            })
+          );
+        } else {
+          dispatch(setUserProfile(userProfileResponse.data));
+        }
         dispatch(setToken(response.data.token));
-        dispatch(setUserProfile(userProfileResponse.data));
       }
     },
   });

@@ -8,6 +8,7 @@ import customerReducer from "./slices/customerSlice";
 import ticketReducer from "./slices/ticketSlice";
 import eventReducer from "./slices/eventSlice";
 import routeReducer from "./slices/routeSlice";
+import categoryReducer from "./slices/categorySlice";
 import {
   persistStore,
   persistReducer,
@@ -51,6 +52,7 @@ const reducer = combineReducers({
   event: eventReducer,
   ticket: ticketPersistedReducer,
   route: routePersistedReducer,
+  category: categoryReducer,
 });
 export const store = configureStore({
   reducer,

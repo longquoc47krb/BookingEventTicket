@@ -18,7 +18,7 @@ export const OrganizationAPI = {
     data,
   }),
   findAllOrganizers: {
-    url: `/admin/organizations`,
+    url: `/organization/findAll`,
     method: "GET",
   },
   findOrganizerById: (id) => ({
@@ -39,6 +39,11 @@ export const OrganizationAPI = {
   }),
   refuseOrganizer: (data) => ({
     url: `/admin/refuse/organization`,
+    method: "POST",
+    data,
+  }),
+  approveOrganizer: (data) => ({
+    url: `/admin/approve/organization`,
     method: "POST",
     data,
   }),

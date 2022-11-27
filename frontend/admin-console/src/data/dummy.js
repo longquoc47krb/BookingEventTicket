@@ -21,7 +21,10 @@ import {
 import { GrLocation } from "react-icons/gr";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
-import { MdOutlineSupervisorAccount } from "react-icons/md";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineSupervisorAccount,
+} from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
 import product1 from "./product1.jpg";
@@ -35,6 +38,7 @@ import { AlertQuestion, AlertPopup } from "../components/Alert";
 import eventServices from "../api/services/eventServices";
 import { store } from "../redux/store";
 import { StyledSwitch } from "../pages/AddEditEvent";
+import { BiCategory } from "react-icons/bi";
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
   <div>
@@ -85,7 +89,7 @@ const gridAccountStatus = (props) => (
   <div className="flex items-center gap-2">
     {props.status !== "DISABLED" ? (
       <span className="bg-green-500 text-white p-1 text-xs rounded-md">
-        {t("account.approved")}
+        {t("account.accepted")}
       </span>
     ) : (
       <span className="bg-red-600 text-white p-1 text-xs rounded-md">
@@ -97,6 +101,11 @@ const gridAccountStatus = (props) => (
 const gridEventQuantity = (props) => (
   <div className="flex items-center justify-center">
     <span>{props.eventList.length}</span>
+  </div>
+);
+const gridCategoryName = (props) => (
+  <div className="flex items-center">
+    <span>{t(props.name)}</span>
   </div>
 );
 const gridEventModify = (props) => (
@@ -131,7 +140,7 @@ const gridAccountOption = (props) => (
   <div className="flex items-center">
     {props.status === "DISABLED" ? (
       <button className="border-green-600 border-b-2  text-green-600 font-semibold py-2">
-        {t("account.approve")}
+        {t("account.accepted")}
       </button>
     ) : (
       <button className="border-red-600 border-b-2  text-red-600 font-semibold py-2">
@@ -563,6 +572,22 @@ export const eventGrid = [
     template: gridEventModify,
   },
 ];
+export const categoryGrid = [
+  {
+    headerText: "ID",
+    field: "id",
+  },
+  {
+    headerText: t("event.category"),
+    field: "name",
+    template: gridCategoryName,
+  },
+  {
+    headerText: t("event.modify"),
+    width: "100",
+    template: gridEventModify,
+  },
+];
 export const accountGrid = [
   {
     headerText: "ID",
@@ -649,12 +674,12 @@ export const AdminRoute = [
       {
         name: "sider.account",
         route: "accounts",
-        icon: <AiOutlineCalendar />,
+        icon: <MdOutlineAccountCircle />,
       },
       {
         name: "sider.category",
         route: "categories",
-        icon: <AiOutlineShoppingCart />,
+        icon: <BiCategory />,
       },
     ],
   },

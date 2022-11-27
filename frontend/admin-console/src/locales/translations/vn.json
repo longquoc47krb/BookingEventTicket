@@ -54,6 +54,8 @@
         "modify": "Modify"
     },
     "category": {
+        "new": "New Category",
+        "edit": "Edit Category",
         "menu": "Categories",
         "all": "All categories",
         "music": "Music",

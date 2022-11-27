@@ -41,6 +41,10 @@ const ChangePasswordPage = Loadable({
   loader: () => import("../pages/ChangePassword"),
   loading: Loading,
 });
+const CategoriesPage = Loadable({
+  loader: () => import("../pages/Categories"),
+  loading: Loading,
+});
 const TicketPage = Loadable({
   loader: () => import("../pages/Tickets"),
   loading: Loading,
@@ -88,6 +92,10 @@ export const privateRoutes = [
   {
     element: <OverviewPage />,
     path: "/overview",
+  },
+  {
+    element: <CategoriesPage />,
+    path: "/categories",
   },
   {
     element: <OrderPage />,
