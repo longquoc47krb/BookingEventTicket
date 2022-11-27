@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class EventMapper {
     private final EventRepository eventRepository;
 
