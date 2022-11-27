@@ -57,6 +57,7 @@ const ticketSlice = createSlice({
     clearCart: (state) => {
       state.ticketCart = [];
       state.totalPrice = 0;
+      state.totalQuantity = 0;
     },
     setCustomerOrder: (state, { payload }) => {
       state.customerOrder = payload;

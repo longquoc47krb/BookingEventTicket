@@ -55,7 +55,7 @@ function TicketCart() {
     dispatch(setTicketCart(handleTicketCart(ticketCart)));
     dispatch(setTotalPrice(cartTotalPrice));
     dispatch(setTotalQuantity(cartTotalQuantity));
-  }, [cartTotalPrice]);
+  }, [cartTotalPrice, ticketCart, cartTotalQuantity]);
   return (
     <>
       <div className="ticket-cart">

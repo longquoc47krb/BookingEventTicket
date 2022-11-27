@@ -15,6 +15,8 @@ import {
   ticketCartSelector,
   totalPriceSelector,
   totalQuantitySelector,
+  setTicketCart,
+  clearCart,
 } from "../../redux/slices/ticketSlice";
 import { map } from "lodash";
 const { createOrder } = orderServices;
@@ -44,7 +46,7 @@ function Payment() {
         ? true
         : false
       : false;
-  useMemo(() => {
+  useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
     console.log(isSuccess);
@@ -66,6 +68,7 @@ function Payment() {
         );
         if (createOrderResponse.status === 200) {
           dispatch(setCustomerOrder(createOrderResponse.data));
+          dispatch(clearCart());
           navigate(`/ticket-booking/${eventId}`);
           return navigate(`/ticket-booking/${eventId}`);
         } else {
