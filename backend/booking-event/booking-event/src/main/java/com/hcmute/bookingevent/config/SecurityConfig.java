@@ -58,6 +58,7 @@ public class SecurityConfig {
             "/login/**",
             "/payment/**",
             "/api/payment/**",
+            //"/api/form/organization",
             // SwaggerUI
             "/v2/api-docs",
             "/swagger-resources",
@@ -82,7 +83,9 @@ public class SecurityConfig {
             "/api/organization",
             "/api/email/organization/**"
     };
-
+    private final String[] ALLOWED_POST_LIST_URLS = {
+            "/api/form/organization"
+    };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -92,9 +95,13 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests().antMatchers( HttpMethod.GET,ALLOWED_GET_LIST_URLS).permitAll()
                 .and()
+                .authorizeRequests().antMatchers(HttpMethod.POST,ALLOWED_POST_LIST_URLS).permitAll()
+                .and()
                 .authorizeRequests().antMatchers("/api/admin/**").hasAuthority(Constants.ROLE_ADMIN)
-                .and().authorizeRequests().antMatchers("/api/customer/**").hasAuthority(Constants.ROLE_USER)
-                .and().authorizeRequests().antMatchers("/api/organization/**").hasAuthority(Constants.ROLE_ORGANIZATION)
+                .and()
+                .authorizeRequests().antMatchers("/api/customer/**").hasAuthority(Constants.ROLE_USER)
+                .and()
+                .authorizeRequests().antMatchers("/api/organization/**").hasAuthority(Constants.ROLE_ORGANIZATION)
                 .and()
                 .authorizeRequests().antMatchers("/api/account/**").hasAnyAuthority(Constants.ROLE_USER,Constants.ROLE_ORGANIZATION)
                 .anyRequest().authenticated()
