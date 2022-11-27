@@ -2,12 +2,14 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IOrderService;
 import com.hcmute.bookingevent.exception.AppException;
+import com.hcmute.bookingevent.exception.ExceptionRes;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +22,25 @@ public class OrderController {
     private final IOrderService iOrderService;
     private final JwtTokenProvider jwtUtils;
 
+
     @PostMapping(path = "/customer/order/{userId}")
-    public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) {
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
             return iOrderService.createCustomerOrder(account.getEmail(), order);
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
-
+        //throw new Exception(" You don't have permission! Token is invalid or fall by order");
+    }
+    @GetMapping(path = "/customer/availability/order/{userId}")
+    public ResponseEntity<?> checkOrderAvailability(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if (account.getId().equals(userId)) {
+            return iOrderService.checkOrderAvailability( order);
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+        //throw new Exception(" You don't have permission! Token is invalid or fall by order");
     }
     @GetMapping(path = "/order/all")
     public ResponseEntity<?> findAll() {
