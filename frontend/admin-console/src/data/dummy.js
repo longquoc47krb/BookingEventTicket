@@ -574,10 +574,6 @@ export const eventGrid = [
 ];
 export const categoryGrid = [
   {
-    headerText: "ID",
-    field: "id",
-  },
-  {
     headerText: t("event.category"),
     field: "name",
     template: gridCategoryName,

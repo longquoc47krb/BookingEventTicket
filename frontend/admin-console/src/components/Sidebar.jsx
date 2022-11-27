@@ -31,7 +31,7 @@ const Sidebar = ({ role }) => {
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
   return (
-    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10 shadow-md shadow-gray-400">
+    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10 shadow-md shadow-gray-400 relative">
       {activeMenu && (
         <>
           <div className="flex justify-between items-center">
@@ -58,7 +58,7 @@ const Sidebar = ({ role }) => {
               </button>
             </TooltipComponent>
           </div>
-          <div className="mt-10 ">
+          <div className="mt-10 relative">
             {role === ROLE.Organizer
               ? OrganizerRoute.map((item) => (
                   <div key={item.title}>
@@ -109,6 +109,7 @@ const Sidebar = ({ role }) => {
           </div>
         </>
       )}
+      <div className="absolute bottom-4 left-4">Choose langauge</div>
     </div>
   );
 };
