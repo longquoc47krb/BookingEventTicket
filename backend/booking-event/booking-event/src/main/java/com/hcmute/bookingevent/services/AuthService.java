@@ -151,7 +151,7 @@ public class AuthService implements IAuthService {
         }
         catch(Exception ex)
         {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(true,"Sent OTP fail","",400));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(false,"Sent OTP fail","",400));
 
         }
     }
