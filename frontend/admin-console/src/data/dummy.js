@@ -34,11 +34,17 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import { AlertQuestion, AlertPopup } from "../components/Alert";
+import {
+  AlertQuestion,
+  AlertPopup,
+  AlertErrorPopup,
+} from "../components/Alert";
 import eventServices from "../api/services/eventServices";
 import { store } from "../redux/store";
 import { StyledSwitch } from "../pages/AddEditEvent";
 import { BiCategory } from "react-icons/bi";
+import organizationServices from "../api/services/organizationServices";
+const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
   <div>
@@ -87,7 +93,7 @@ const gridEventStatus = (props) => (
 );
 const gridAccountStatus = (props) => (
   <div className="flex items-center gap-2">
-    {props.status !== "DISABLED" ? (
+    {props.organization.status !== "DISABLED" ? (
       <span className="bg-green-500 text-white p-1 text-xs rounded-md">
         {t("account.accepted")}
       </span>
@@ -100,7 +106,7 @@ const gridAccountStatus = (props) => (
 );
 const gridEventQuantity = (props) => (
   <div className="flex items-center justify-center">
-    <span>{props.eventList.length}</span>
+    <span>{props.organization.eventList.length}</span>
   </div>
 );
 const gridCategoryName = (props) => (
@@ -138,15 +144,62 @@ const gridEventModify = (props) => (
 );
 const gridAccountOption = (props) => (
   <div className="flex items-center">
-    {props.status === "DISABLED" ? (
-      <button className="border-green-600 border-b-2  text-green-600 font-semibold py-2">
-        {t("account.accepted")}
-      </button>
-    ) : (
-      <button className="border-red-600 border-b-2  text-red-600 font-semibold py-2">
-        {t("account.disabled")}
-      </button>
-    )}
+    {props.organization.status === "DISABLED" ? (
+      <div className="flex items-center justify-center gap-x-4">
+        <button
+          className="border-green-600 border-b-2  text-green-600 font-semibold py-2"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.approve"),
+              callback: async () => {
+                const response = await approveOrganizer({
+                  email: props.organization.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.approve-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.approve-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          {t("account.approve")}
+        </button>
+        <button
+          className="border-red-600 border-b-2  text-red-600 font-semibold py-2"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.refuse"),
+              callback: async () => {
+                const response = await refuseOrganizer({
+                  email: props.organization.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.refuse-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.refuse-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          {t("account.disabled")}
+        </button>
+      </div>
+    ) : null}
   </div>
 );
 const gridEventCategory = (props) => (
@@ -586,21 +639,21 @@ export const categoryGrid = [
 ];
 export const accountGrid = [
   {
-    headerText: "ID",
-    field: "id",
+    headerText: t("account.name"),
+    field: "name",
   },
   {
     headerText: t("account.email"),
-    field: "email",
+    field: "organization.email",
   },
   {
     headerText: t("account.events"),
-    field: "eventList",
+    field: "organization.eventList",
     template: gridEventQuantity,
   },
   {
     headerText: t("account.status"),
-    field: "status",
+    field: "organization.status",
     template: gridAccountStatus,
   },
   {

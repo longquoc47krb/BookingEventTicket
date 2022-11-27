@@ -18,6 +18,14 @@ const approveOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const refuseOrganizer = async (body) => {
+  try {
+    const response = await httpRequest(OrganizationAPI.refuseOrganizer(body));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const updateBioAndAddress = async (id, body) => {
   try {
     const response = await httpRequest(
@@ -120,5 +128,6 @@ const organizationServices = {
   createTemplateTicket,
   getTemplateTicket,
   approveOrganizer,
+  refuseOrganizer,
 };
 export default organizationServices;

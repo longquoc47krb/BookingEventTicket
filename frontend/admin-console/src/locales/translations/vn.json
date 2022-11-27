@@ -75,6 +75,14 @@
             "error": "Email is already registered",
             "success": "Successfully registered!"
         },
+        "account": {
+            "approve": "Approve this account?",
+            "approve-success": "Successful approval",
+            "approve-fail": "Failed approval",
+            "refuse": "Reject this account?",
+            "refuse-success": "Successful refusal",
+            "refuse-fail": "Failed refusal"
+        },
         "login": {
             "success": "Successfully logged in",
             "error": "Wrong email or password",
