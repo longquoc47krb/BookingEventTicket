@@ -8,5 +8,6 @@ public interface IOrderService {
     ResponseEntity<?> findCustomerOrderByEmail(String email);
     ResponseEntity<?> findOrderByEventId(String eventId);
     ResponseEntity<?> findOrderByTicketType(String ticketTypeId);
+    ResponseEntity<?> checkOrderAvailability( Order order);
     ResponseEntity<?> findAll();
 }
