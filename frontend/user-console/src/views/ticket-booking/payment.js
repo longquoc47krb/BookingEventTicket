@@ -59,7 +59,7 @@ function Payment() {
         totalPrice: String(totalPrice),
         totalQuantity,
       };
-
+      console.log({ createOrderRequest });
       dispatch(setCurrentStep(2));
       const createOrderAsync = async () => {
         const createOrderResponse = await createOrder(
@@ -75,7 +75,7 @@ function Payment() {
           return null;
         }
       };
-      createOrderAsync();
+      // createOrderAsync();
     }
   }, [
     eventId,
