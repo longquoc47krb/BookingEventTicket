@@ -91,6 +91,27 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public ResponseEntity<?> checkOrderAvailability( Order order) {
+        Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
+        if(event.isPresent())
+        {
+            for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
+                for (Ticket ticket : event.get().getOrganizationTickets()) {
+                    //
+                    if (ticket.getId().equals(ticketOfCustomer.getId())) {
+                        if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() + 1<0)
+                        {
+                            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
+                                    new ResponseObject(false, "check  Order availability fail with ticket: " + ticket.getTicketName() ,"", 400));
+                        }
+                    }
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "check  Order availability successfully" , "", 200));
+    }
+    @Override
     public ResponseEntity<?> findCustomerOrderByEmail(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
         if (customer.isPresent()) {

@@ -9,4 +9,5 @@ public interface IOrderService {
     ResponseEntity<?> findOrderByEventId(String eventId);
     ResponseEntity<?> findOrderByTicketType(String ticketTypeId);
     ResponseEntity<?> findAll();
+    ResponseEntity<?> checkOrderAvailability( Order order);
 }

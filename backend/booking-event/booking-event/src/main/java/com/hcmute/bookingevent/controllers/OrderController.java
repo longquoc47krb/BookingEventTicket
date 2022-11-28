@@ -55,6 +55,15 @@ public class OrderController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+    @GetMapping(path = "/customer/availability/order/{userId}")
+    public ResponseEntity<?> checkOrderAvailability(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if (account.getId().equals(userId)) {
+            return iOrderService.checkOrderAvailability(order);
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+        //throw new Exception(" You don't have permission! Token is invalid or fall by order");
+    }
     @GetMapping(path = "/organization/order/ticketType/{userId}")
     public ResponseEntity<?> findOrderByTicketType(@PathVariable String userId,@RequestParam(value="ticketTypeId", required = false) String ticketTypeId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));

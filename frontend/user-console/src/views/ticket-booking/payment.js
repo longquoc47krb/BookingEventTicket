@@ -51,6 +51,7 @@ function Payment() {
     dispatch(setCancel(isCancel));
     console.log(isSuccess);
     if (isSuccess) {
+      dispatch();
       const createOrderRequest = {
         currency: map(ticketCart, "currency")[0],
         customerTicketList: ticketCart,

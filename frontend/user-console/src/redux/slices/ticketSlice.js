@@ -4,6 +4,7 @@ const initialState = {
   ticketType: [],
   ticketCart: [],
   customerOrder: null,
+  orderRequest: null,
   totalPrice: 0,
   totalQuantity: 0,
   currentStep: 0,
@@ -62,6 +63,9 @@ const ticketSlice = createSlice({
     setCustomerOrder: (state, { payload }) => {
       state.customerOrder = payload;
     },
+    createOrderRequest: (state, { payload }) => {
+      state.orderRequest = payload;
+    },
   },
 });
 
@@ -78,10 +82,12 @@ export const {
   setTotalQuantity,
   clearCart,
   setCustomerOrder,
+  createOrderRequest,
 } = ticketSlice.actions;
 export const ticketTypeSelector = (state) => state.ticket.ticketType;
 export const ticketCartSelector = (state) => state.ticket.ticketCart;
 export const currentStepSelector = (state) => state.ticket.currentStep;
+export const createOrderRequestSelector = (state) => state.ticket.orderRequest;
 export const orderSelector = (state) => state.ticket.customerOrder;
 export const successSelector = (state) => state.ticket.success;
 export const cancelSelector = (state) => state.ticket.cancel;

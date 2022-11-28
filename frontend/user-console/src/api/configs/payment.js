@@ -4,4 +4,9 @@ export const PaymentAPI = {
     method: "POST",
     data,
   }),
+  checkOrderAvailability: (userId, data) => ({
+    url: `/customer/availability/order/${userId}`,
+    method: "GET",
+    data,
+  }),
 };
