@@ -246,6 +246,10 @@
     }
   },
   "ticket": {
+    "not-found": "Danh sách vé đã mua trống",
+    "booking-id": "Mã đặt vé",
+    "customer": "Khách hàng",
+    "organizer": "BTC",
     "cart": "Giỏ hàng",
     "type": "Loại vé",
     "price": "Giá vé",

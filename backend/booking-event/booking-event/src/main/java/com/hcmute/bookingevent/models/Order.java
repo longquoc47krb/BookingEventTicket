@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import lombok.*;
@@ -21,8 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 //@ToString
 public class Order {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
-    @JsonIgnore
+    @GeneratedValue
     private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;

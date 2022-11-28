@@ -512,3 +512,8 @@ export const formatter = (currency) => {
     });
   }
 };
+export const convertMongodbTimeToString = (date) => {
+  // "2022-11-28T08:07:35.041+00:00"
+  let dateStr = moment(date);
+  return moment(dateStr).format("DD/MM/YYYY HH:mm");
+};
