@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Document("order")
@@ -35,6 +37,7 @@ public class Order {
     private String currency;
 
     List<Ticket> customerTicketList  = new ArrayList<>();
+    private Date createdDate;
     public Order(OrderReq orderReq)
     {
         this.totalPrice=orderReq.getTotalPrice();

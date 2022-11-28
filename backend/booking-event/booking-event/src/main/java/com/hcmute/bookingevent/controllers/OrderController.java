@@ -2,7 +2,6 @@ package com.hcmute.bookingevent.controllers;
 
 import com.hcmute.bookingevent.Implement.IOrderService;
 import com.hcmute.bookingevent.exception.AppException;
-import com.hcmute.bookingevent.exception.ExceptionRes;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -38,7 +37,7 @@ public class OrderController {
         return  iOrderService.findAll();
     }
     @GetMapping(path = "/customer/order")
-    public ResponseEntity<?> findCustomerOrderByEmail(@RequestParam(value="userId", required = false) String userId, HttpServletRequest request) {
+    public ResponseEntity<?> findCustomerOrderByUserId(@RequestParam(value="userId", required = false) String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
             return iOrderService.findCustomerOrderByEmail(account.getEmail());
@@ -55,7 +54,7 @@ public class OrderController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping(path = "/customer/availability/order/{userId}")
+    @PostMapping(path = "/customer/availability/order/{userId}")
     public ResponseEntity<?> checkOrderAvailability(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {

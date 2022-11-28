@@ -102,10 +102,12 @@ public class TicketService implements ITicketService {
             ticket.setStatus(TicketStatus.SOLD_OUT);
         }
         else {
-            ticket.setQuantityRemaining(quantityRemaining - 1);
-            if(ticket.getQuantityRemaining() == 0){
-                ticket.setStatus(TicketStatus.SOLD_OUT);
-            }else{
+            if((float)((ticket.getQuantity() - ticket.getQuantityRemaining() )/ ticket.getQuantity()) > 0.7)
+            {
+                ticket.setStatus(TicketStatus.BEST_SELLER);
+            }
+            else
+            {
                 ticket.setStatus(TicketStatus.AVAILABLE);
             }
 
