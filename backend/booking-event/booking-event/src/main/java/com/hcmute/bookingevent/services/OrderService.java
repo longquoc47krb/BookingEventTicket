@@ -17,8 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.*;
 
 import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
 
@@ -36,6 +42,8 @@ public class OrderService implements IOrderService {
     @Override
     public ResponseEntity<?> createCustomerOrder(String email, Order order) {
         try {
+            System.out.println("date:" + new Date());
+            order.setCreatedDate(new Date());
             Optional<Customer> customer = customerRepository.findByEmail(email);
             Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
             if (customer.isPresent() && event.isPresent()) {
@@ -44,7 +52,7 @@ public class OrderService implements IOrderService {
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
                         if (ticket.getId().equals(ticketOfCustomer.getId())) {
-                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() + 1);
+                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() );
                             setStatusForTicketType(ticket);
                         }
                     }
@@ -83,6 +91,7 @@ public class OrderService implements IOrderService {
                     new ResponseObject(false, "Create Order fail with email:" + email, e.getMessage(), 404));
         }
     }
+
     @Override
     public ResponseEntity<?> checkOrderAvailability( Order order) {
         Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
@@ -92,10 +101,10 @@ public class OrderService implements IOrderService {
                 for (Ticket ticket : event.get().getOrganizationTickets()) {
                     //
                     if (ticket.getId().equals(ticketOfCustomer.getId())) {
-                        if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() + 1<0)
+                        if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() <0)
                         {
                             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
-                                    new ResponseObject(false, "check  Order availability fail with ticket: " + ticket.getTicketName() ,"", 400));
+                                    new ResponseObject(false, "check  Order availability fail with ticket: " + ticket.getTicketName() ,ticket.getTicketName(), 400));
                         }
                     }
                 }
@@ -104,7 +113,6 @@ public class OrderService implements IOrderService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "check  Order availability successfully" , "", 200));
     }
-
     @Override
     public ResponseEntity<?> findCustomerOrderByEmail(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);

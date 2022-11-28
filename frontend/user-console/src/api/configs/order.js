@@ -4,4 +4,11 @@ export const OrderAPI = {
     method: "POST",
     data,
   }),
+  getOrderListByUserId: (userId) => ({
+    url: `/customer/order`,
+    method: "GET",
+    params: {
+      userId,
+    },
+  }),
 };

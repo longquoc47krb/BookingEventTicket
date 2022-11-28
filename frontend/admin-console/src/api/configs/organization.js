@@ -17,6 +17,10 @@ export const OrganizationAPI = {
     method: "POST",
     data,
   }),
+  findAllOrganizers: {
+    url: `/organization/findAll`,
+    method: "GET",
+  },
   findOrganizerById: (id) => ({
     url: `/organization`,
     method: "GET",
@@ -32,5 +36,15 @@ export const OrganizationAPI = {
   getTemplateTicket: (id) => ({
     url: `/organization/templateTickets/${id}`,
     method: "GET",
+  }),
+  refuseOrganizer: (data) => ({
+    url: `/admin/refuse/organization`,
+    method: "POST",
+    data,
+  }),
+  approveOrganizer: (data) => ({
+    url: `/admin/approve/organization`,
+    method: "POST",
+    data,
   }),
 };

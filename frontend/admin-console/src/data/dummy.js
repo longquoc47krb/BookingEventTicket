@@ -21,7 +21,10 @@ import {
 import { GrLocation } from "react-icons/gr";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
-import { MdOutlineSupervisorAccount } from "react-icons/md";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineSupervisorAccount,
+} from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
 import product1 from "./product1.jpg";
@@ -31,9 +34,17 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import { AlertQuestion, AlertPopup } from "../components/Alert";
+import {
+  AlertQuestion,
+  AlertPopup,
+  AlertErrorPopup,
+} from "../components/Alert";
 import eventServices from "../api/services/eventServices";
 import { store } from "../redux/store";
+import { StyledSwitch } from "../pages/AddEditEvent";
+import { BiCategory } from "react-icons/bi";
+import organizationServices from "../api/services/organizationServices";
+const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
   <div>
@@ -80,6 +91,29 @@ const gridEventStatus = (props) => (
     )}
   </div>
 );
+const gridAccountStatus = (props) => (
+  <div className="flex items-center gap-2">
+    {props.organization.status !== "DISABLED" ? (
+      <span className="bg-green-500 text-white p-1 text-xs rounded-md">
+        {t("account.accepted")}
+      </span>
+    ) : (
+      <span className="bg-red-600 text-white p-1 text-xs rounded-md">
+        {t("account.disabled")}
+      </span>
+    )}
+  </div>
+);
+const gridEventQuantity = (props) => (
+  <div className="flex items-center justify-center">
+    <span>{props.organization.eventList.length}</span>
+  </div>
+);
+const gridCategoryName = (props) => (
+  <div className="flex items-center">
+    <span>{t(props.name)}</span>
+  </div>
+);
 const gridEventModify = (props) => (
   <div className="flex items-center gap-2">
     <RiEditFill
@@ -106,6 +140,66 @@ const gridEventModify = (props) => (
         });
       }}
     />
+  </div>
+);
+const gridAccountOption = (props) => (
+  <div className="flex items-center">
+    {props.organization.status === "DISABLED" ? (
+      <div className="flex items-center justify-center gap-x-4">
+        <button
+          className="border-green-600 border-b-2  text-green-600 font-semibold py-2"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.approve"),
+              callback: async () => {
+                const response = await approveOrganizer({
+                  email: props.organization.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.approve-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.approve-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          {t("account.approve")}
+        </button>
+        <button
+          className="border-red-600 border-b-2  text-red-600 font-semibold py-2"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.refuse"),
+              callback: async () => {
+                const response = await refuseOrganizer({
+                  email: props.organization.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.refuse-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.refuse-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          {t("account.disabled")}
+        </button>
+      </div>
+    ) : null}
   </div>
 );
 const gridEventCategory = (props) => (
@@ -531,8 +625,44 @@ export const eventGrid = [
     template: gridEventModify,
   },
 ];
+export const categoryGrid = [
+  {
+    headerText: t("event.category"),
+    field: "name",
+    template: gridCategoryName,
+  },
+  {
+    headerText: t("event.modify"),
+    width: "100",
+    template: gridEventModify,
+  },
+];
+export const accountGrid = [
+  {
+    headerText: t("account.name"),
+    field: "name",
+  },
+  {
+    headerText: t("account.email"),
+    field: "organization.email",
+  },
+  {
+    headerText: t("account.events"),
+    field: "organization.eventList",
+    template: gridEventQuantity,
+  },
+  {
+    headerText: t("account.status"),
+    field: "organization.status",
+    template: gridAccountStatus,
+  },
+  {
+    headerText: t("account.options"),
+    template: gridAccountOption,
+  },
+];
 
-export const links = [
+export const OrganizerRoute = [
   {
     title: "sider.dashboard",
     links: [
@@ -571,6 +701,34 @@ export const links = [
         name: "sider.calendar",
         route: "calendar",
         icon: <AiOutlineCalendar />,
+      },
+    ],
+  },
+];
+export const AdminRoute = [
+  {
+    title: "sider.dashboard",
+    links: [
+      {
+        name: "sider.overview",
+        route: "overview",
+        icon: <FiShoppingBag />,
+      },
+    ],
+  },
+
+  {
+    title: "sider.management",
+    links: [
+      {
+        name: "sider.account",
+        route: "accounts",
+        icon: <MdOutlineAccountCircle />,
+      },
+      {
+        name: "sider.category",
+        route: "categories",
+        icon: <BiCategory />,
       },
     ],
   },

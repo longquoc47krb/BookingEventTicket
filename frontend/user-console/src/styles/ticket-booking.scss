@@ -138,11 +138,20 @@
   }
 }
 .ticket {
+  &-item {
+    border-radius: 45px;
+    background: linear-gradient(145deg, #1c3875, #21428b);
+    box-shadow: 7px 7px 14px #797979, -7px -7px 14px #b4b4b4;
+    * {
+      font-family: "Ticketing" !important;
+    }
+  }
   &-cart {
     width: 100%;
     height: auto;
     padding: 1rem;
     background: #ffffff;
+
     &-item {
       justify-content: space-between;
       display: grid;
@@ -191,4 +200,10 @@
       font-size: 1rem;
     }
   }
+}
+@font-face {
+  font-family: "Ticketing";
+  font-weight: 400;
+  src: local("Ticketing"),
+    url(../assets/fonts/Ticketing-jJB0.ttf) format("opentype");
 }

@@ -11,7 +11,11 @@ import organizationServices from "../api/services/organizationServices";
 import { AlertErrorPopup, AlertPopup } from "../components/Alert";
 import { Input, InputPassword } from "../components/customField";
 import ThreeDotsLoading from "../components/ThreeLoading";
-import { setToken, setUserProfile } from "../redux/slices/accountSlice";
+import {
+  setRole,
+  setToken,
+  setUserProfile,
+} from "../redux/slices/accountSlice";
 import { ROLE } from "../utils/constants";
 import { isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
@@ -50,8 +54,19 @@ function Login() {
           response.data.roles[0] === ROLE.Organizer) ||
         response.data.roles[0] === ROLE.Admin
       ) {
+        dispatch(setRole(response.data.roles[0]));
+        if (response.data.roles[0] === ROLE.Admin) {
+          dispatch(
+            setUserProfile({
+              id: response.data.id,
+              name: response.data.name,
+              email: response.data.email,
+            })
+          );
+        } else {
+          dispatch(setUserProfile(userProfileResponse.data));
+        }
         dispatch(setToken(response.data.token));
-        dispatch(setUserProfile(userProfileResponse.data));
       }
     },
   });

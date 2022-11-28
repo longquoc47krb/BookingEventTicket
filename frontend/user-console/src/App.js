@@ -55,22 +55,12 @@ function App() {
               {routes.map((route) => (
                 <Route path={route.path} element={route.element} />
               ))}
-              {/* // <Route
-              //   path="/profile"
-              //   roles={[Role.User]}
-              //   element={
-              //     <UserRoute
-              //       roles={[Role.User]}
-              //       component={UserProfile}
-              //     ></UserRoute>
-              //   } */}
-              <Route path="/test" element={<TicketTable />} />
             </Routes>
           </UserActionContextProvider>
         </UserAuthContextProvider>
       </BrowserRouter>
       <ScrollToTopPage top={1500} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

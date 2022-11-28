@@ -1,22 +1,20 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable operator-linebreak */
 /* eslint-disable quotes */
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Navbar, Footer, Sidebar } from "./components";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 import { useStateContext } from "./contexts/ContextProvider";
 import routes, { privateRoutes } from "./helper/routes";
-import PrivateRoute from "./components/PrivateRoute";
-import { useSelector } from "react-redux";
-import { tokenSelector } from "./redux/slices/accountSlice";
-import Layout from "./pages/Layout";
 import Editor from "./pages/Editor";
-import PublicRoute from "./components/PublicRoute";
+import Layout from "./pages/Layout";
+import { tokenSelector } from "./redux/slices/accountSlice";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =

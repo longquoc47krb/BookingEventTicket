@@ -15,11 +15,14 @@ import {
   ticketCartSelector,
   totalPriceSelector,
   totalQuantitySelector,
+  setTicketCart,
+  clearCart,
+  createOrderRequestSelector,
 } from "../../redux/slices/ticketSlice";
 import { map } from "lodash";
 const { createOrder } = orderServices;
 const { reduceTicketQuantityAsync } = ticketServices;
-function Payment() {
+function PaymentPage() {
   const [query, setQueryParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +33,7 @@ function Payment() {
   const totalQuantity = useSelector(totalQuantitySelector);
   const user = useSelector(userInfoSelector);
   const currency = map(ticketCart, "currency")[0];
+  const createOrderRequest = useSelector(createOrderRequestSelector);
   console.log({ currency });
   console.log({ ticketCart });
   const isSuccess =
@@ -44,20 +48,12 @@ function Payment() {
         ? true
         : false
       : false;
-  useMemo(() => {
+  useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
     console.log(isSuccess);
     if (isSuccess) {
-      const createOrderRequest = {
-        currency: map(ticketCart, "currency")[0],
-        customerTicketList: ticketCart,
-        email: user.email,
-        idEvent: eventId,
-        totalPrice: String(totalPrice),
-        totalQuantity,
-      };
-
+      console.log({ createOrderRequest });
       dispatch(setCurrentStep(2));
       const createOrderAsync = async () => {
         const createOrderResponse = await createOrder(
@@ -66,10 +62,10 @@ function Payment() {
         );
         if (createOrderResponse.status === 200) {
           dispatch(setCustomerOrder(createOrderResponse.data));
+          dispatch(clearCart());
           navigate(`/ticket-booking/${eventId}`);
-          return navigate(`/ticket-booking/${eventId}`);
         } else {
-          return null;
+          navigate(`/event/${eventId}`);
         }
       };
       createOrderAsync();
@@ -99,4 +95,4 @@ function Payment() {
   );
 }
 
-export default Payment;
+export default PaymentPage;

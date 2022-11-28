@@ -65,7 +65,7 @@ export const EventAPI = {
     data,
   }),
   deleteEvent: (eventId, userId) => ({
-    url: `/admin/event/${eventId}/${userId}`,
+    url: `/organization/event/${eventId}/${userId}`,
     method: "DELETE",
   }),
 };

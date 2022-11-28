@@ -1,15 +1,18 @@
 package com.hcmute.bookingevent.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Document("order")
@@ -19,8 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 //@ToString
 public class Order {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
-    @JsonIgnore
+    @GeneratedValue
     private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
@@ -35,6 +39,7 @@ public class Order {
     private String currency;
 
     List<Ticket> customerTicketList  = new ArrayList<>();
+    private Date createdDate;
     public Order(OrderReq orderReq)
     {
         this.totalPrice=orderReq.getTotalPrice();
