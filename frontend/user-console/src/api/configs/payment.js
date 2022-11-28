@@ -6,7 +6,7 @@ export const PaymentAPI = {
   }),
   checkOrderAvailability: (userId, data) => ({
     url: `/customer/availability/order/${userId}`,
-    method: "GET",
+    method: "POST",
     data,
   }),
 };

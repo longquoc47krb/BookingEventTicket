@@ -14,7 +14,7 @@ const checkOrderAvailability = async (userId, body) => {
     const response = await httpRequest(
       PaymentAPI.checkOrderAvailability(userId, body)
     );
-    return response.status;
+    return response;
   } catch (error) {
     return error.response.data;
   }

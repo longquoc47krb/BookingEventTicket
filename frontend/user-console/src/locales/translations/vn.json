@@ -217,6 +217,9 @@
     "step3": "Hoàn thành"
   },
   "popup": {
+    "check-order": {
+      "400": "Vé '{{val, string}}' đã hết !"
+    },
     "email": {
       "title": "Đã gửi email",
       "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"

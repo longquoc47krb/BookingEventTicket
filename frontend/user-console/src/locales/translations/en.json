@@ -218,6 +218,9 @@
     "step3": "Finish"
   },
   "popup": {
+    "check-order": {
+      "400": "'{{val, string}}' is out of stock"
+    },
     "email": {
       "title": "Sent email",
       "content": "OTP was sent to your email address. Check it (check 'Spam' tab)!"

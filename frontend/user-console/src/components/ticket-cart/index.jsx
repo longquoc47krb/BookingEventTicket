@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
 import { map, sumBy } from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import paymentServices, {
   useCheckOrderAvailability,
@@ -18,13 +18,15 @@ import {
   totalQuantitySelector,
 } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
-import { AlertErrorPopup } from "../common/alert";
+import { AlertErrorPopup, AlertPopup } from "../common/alert";
+import ThreeDotsLoading from "../loading/three-dots";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder, checkOrderAvailability } = paymentServices;
 
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const newArr = tickets.map((t) => ({
     ...t,
     totalPrice: t.quantity * Number(t.price),
@@ -35,33 +37,43 @@ function TicketCart() {
   const cartTotalQuantity = sumBy(ticketCart, "quantity");
   const eventId = useSelector(eventIdSelector);
   const handlePayOrder = async () => {
+    setLoading(true);
     dispatch(
       createOrderRequest({
         currency: map(ticketCart, "currency")[0],
-        customerTicketList: ticketCart,
+        customerTicketList: handleTicketCart(ticketCart),
         email: user.email,
         idEvent: eventId,
         totalPrice: String(cartTotalPrice),
         totalQuantity: cartTotalQuantity,
       })
     );
-    const checkOrderResponse = await checkOrderAvailability({
+    const checkOrderResponse = await checkOrderAvailability(user.id, {
       currency: map(ticketCart, "currency")[0],
-      customerTicketList: ticketCart,
+      customerTicketList: handleTicketCart(ticketCart),
       email: user.email,
       idEvent: eventId,
       totalPrice: String(cartTotalPrice),
       totalQuantity: cartTotalQuantity,
     });
     console.log({ checkOrderResponse });
-    // const response = await payOrder({ price: cartTotalPrice.toString() });
-    // if (response.status !== 200) {
-    //   AlertErrorPopup({
-    //     title: t("popup.payment.error"),
-    //   });
-    // } else {
-    //   window.open(response.data);
-    // }
+    setLoading(checkOrderResponse.status ? false : true);
+    showNotification(checkOrderResponse.status, checkOrderResponse.data);
+    if (checkOrderResponse.status === 200) {
+      const response = await payOrder({ price: cartTotalPrice.toString() });
+      if (response.status === 200) {
+        window.open(response.data, "_self");
+      }
+    }
+  };
+
+  const showNotification = (code, ticketType) => {
+    if (code === 400) {
+      console.log(code);
+      return AlertErrorPopup({
+        title: t("popup.check-order.400", { val: ticketType }),
+      });
+    }
   };
   const handleTicketCart = (cart) => {
     const ticketCart = cart.map((item) => ({
@@ -76,11 +88,6 @@ function TicketCart() {
     }));
     return ticketCart;
   };
-  useEffect(() => {
-    dispatch(setTicketCart(handleTicketCart(ticketCart)));
-    dispatch(setTotalPrice(cartTotalPrice));
-    dispatch(setTotalQuantity(cartTotalQuantity));
-  }, [cartTotalPrice, ticketCart, cartTotalQuantity]);
   return (
     <>
       <div className="ticket-cart">
@@ -103,7 +110,7 @@ function TicketCart() {
         className="primary-button text-xl p-3 mt-2"
         onClick={handlePayOrder}
       >
-        {t("ticket.submit")}
+        {loading ? <ThreeDotsLoading /> : t("ticket.submit")}
       </button>
     </>
   );
