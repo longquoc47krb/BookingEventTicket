@@ -23,12 +23,15 @@ export const YupValidations = {
     .required(t("validate.name.required"))
     .max(200, t("validate.name.max")),
   province: Yup.string().required(t("validate.province.required")),
+  province_profile: Yup.string(),
   venue: Yup.string()
     .required(t("validate.venue.required"))
     .max(128, t("validate.venue.max")),
+  venue_profile: Yup.string().max(128, t("validate.venue.max")),
   address: Yup.string()
     .required(t("validate.address.required"))
     .max(255, t("validate.address.max")),
+  address_profile: Yup.string().max(255, t("validate.address.max")),
   description: Yup.string()
     .required(t("validate.description.required"))
     .min(9, t("validate.description.required"))

@@ -63,7 +63,9 @@ body {
   z-index: 10;
   color: white;
 }
-
+.gilroy {
+  font-family: "SVN-Gilroy" !important;
+}
 @font-face {
   font-family: "SVN-Gilroy";
   font-weight: 400;
@@ -88,6 +90,7 @@ body {
   src: local("SVN-Gilroy"),
     url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
 }
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

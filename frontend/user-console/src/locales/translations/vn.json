@@ -217,6 +217,9 @@
     "step3": "Hoàn thành"
   },
   "popup": {
+    "check-order": {
+      "400": "Vé '{{val, string}}' đã hết !"
+    },
     "email": {
       "title": "Đã gửi email",
       "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
@@ -243,6 +246,17 @@
     }
   },
   "ticket": {
+    "ticket-detail": "Chi tiết vé",
+    "print-your-ticket": "In vé",
+    "order-info": "Chi tiết đơn hàng",
+    "buyer-info": "Thông tin người mua hàng",
+    "orderTime": "Thời gian thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "createdAt": "Vé được thanh toán lúc",
+    "not-found": "Danh sách vé đã mua trống",
+    "booking-id": "Mã đặt vé: {{val,string}}",
+    "customer": "Khách hàng",
+    "organizer": "BTC",
     "cart": "Giỏ hàng",
     "type": "Loại vé",
     "price": "Giá vé",

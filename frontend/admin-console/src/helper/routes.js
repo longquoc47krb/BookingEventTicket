@@ -33,8 +33,16 @@ const CalendarPage = Loadable({
   loader: () => import("../pages/Calendar"),
   loading: Loading,
 });
+const AccountPage = Loadable({
+  loader: () => import("../pages/Accounts"),
+  loading: Loading,
+});
 const ChangePasswordPage = Loadable({
   loader: () => import("../pages/ChangePassword"),
+  loading: Loading,
+});
+const CategoriesPage = Loadable({
+  loader: () => import("../pages/Categories"),
   loading: Loading,
 });
 const TicketPage = Loadable({
@@ -52,6 +60,10 @@ export const routes = [
   },
 ];
 export const privateRoutes = [
+  {
+    element: <AccountPage />,
+    path: "/accounts",
+  },
   {
     element: <AddEditEventPage />,
     path: "/event/create",
@@ -80,6 +92,10 @@ export const privateRoutes = [
   {
     element: <OverviewPage />,
     path: "/overview",
+  },
+  {
+    element: <CategoriesPage />,
+    path: "/categories",
   },
   {
     element: <OrderPage />,

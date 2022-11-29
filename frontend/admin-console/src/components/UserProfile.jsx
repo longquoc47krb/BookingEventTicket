@@ -11,14 +11,20 @@ import { MdExitToApp, MdOutlineCancel } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logOutAccount, userInfoSelector } from "../redux/slices/accountSlice";
+import {
+  logOutAccount,
+  roleSelector,
+  userInfoSelector,
+} from "../redux/slices/accountSlice";
 import AppConfig from "../configs/AppConfig";
+import { ROLE } from "../utils/constants";
 const { USER_PROFILE_MENU } = AppConfig;
 const UserProfile = ({ setOpen }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
+  const role = useSelector(roleSelector);
   const handleLogout = () => {
     dispatch(logOutAccount());
   };
@@ -32,11 +38,19 @@ const UserProfile = ({ setOpen }) => {
         />
       </div>
       <div className="flex gap-4 items-center border-color border-b-1 pb-4">
-        <img
-          className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
-          src={user.avatar}
-          alt="user-profile"
-        />
+        {role === ROLE.Organizer ? (
+          <img
+            className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
+            src={user.avatar}
+            alt="user-profile"
+          />
+        ) : (
+          <img
+            src={process.env.PUBLIC_URL + "/logo.png"}
+            alt="logo"
+            className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
+          />
+        )}
         <div>
           <p className="font-semibold text-2xl text-[#1F3E82]"> {user.name}</p>
           <p className="text-gray-500 text-sm dark:text-gray-400">

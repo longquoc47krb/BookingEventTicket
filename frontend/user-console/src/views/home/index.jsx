@@ -74,7 +74,6 @@ function Home() {
               {bestSellerEventsStatus !== "success"
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : bestSellerEvents
-                    .filter((e) => e.remainingTicket !== 0)
                     .slice(0, 10)
                     .map((event) => <EventHomeItem event={event} />)}
             </div>
@@ -85,7 +84,7 @@ function Home() {
               {!sucessStatus
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : featuredEvents
-                    .filter((e) => e.remainingTicket !== 0)
+                    .filter((e) => e.status !== EventStatus.SOLDOUT)
                     .slice(0, 16)
                     .map((event) => <EventHomeItem event={event} />)}
             </div>

@@ -10,6 +10,22 @@ const submitOrganizer = async (body) => {
     return error.response.data;
   }
 };
+const approveOrganizer = async (body) => {
+  try {
+    const response = await httpRequest(OrganizationAPI.approveOrganizer(body));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+const refuseOrganizer = async (body) => {
+  try {
+    const response = await httpRequest(OrganizationAPI.refuseOrganizer(body));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const updateBioAndAddress = async (id, body) => {
   try {
     const response = await httpRequest(
@@ -55,6 +71,14 @@ const findOrganizerById = async (id) => {
     return response.data;
   } catch (error) {}
 };
+const findAllOrganizers = async () => {
+  try {
+    const response = await httpRequest(OrganizationAPI.findAllOrganizers);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const getEventsByOrganizationId = async (id) => {
   try {
     const response = await httpRequest(OrganizationAPI.findEventByOrgId(id));
@@ -79,6 +103,12 @@ export const useFetchOrganizerByEmail = (email) => {
     }
   );
 };
+export const useFetchAllOrganizers = () => {
+  return useQuery(["findAllOrganizers"], findAllOrganizers, {
+    staleTime: 0,
+    refetchInterval: 5000,
+  });
+};
 export const useFetchEventsByOrgID = (id) => {
   return useQuery(
     ["getEventsByOrganizationId", id],
@@ -97,5 +127,7 @@ const organizationServices = {
   findOrganizerById,
   createTemplateTicket,
   getTemplateTicket,
+  approveOrganizer,
+  refuseOrganizer,
 };
 export default organizationServices;

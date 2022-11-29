@@ -56,9 +56,7 @@ const UserLogin = (props) => {
       });
       const userProfileResponse = await findUser(email);
       showNotification(response.status, userProfileResponse.data.role);
-      if (isNotEmpty(response)) {
-        setLoading(false);
-      }
+      setLoading(false);
       if (
         (response.status === 200 || userProfileResponse.status === 200) &&
         userProfileResponse.data.role === ROLE.Customer

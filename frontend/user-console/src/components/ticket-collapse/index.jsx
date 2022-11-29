@@ -1,6 +1,5 @@
 import React from "react";
 import Collapse from "@mui/material/Collapse";
-import { data } from "autoprefixer";
 import { t } from "i18next";
 import {
   List,

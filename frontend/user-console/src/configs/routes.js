@@ -3,9 +3,13 @@ import Loading from "../components/loading";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import UserRegister from "../views/auth/UserRegister";
 import FavoritePage from "../views/favorite-list";
-import Payment from "../views/ticket-booking/payment";
+import Payment from "../views/ticket-booking/paymentPage";
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
+  loading: Loading,
+});
+const MyTicket = Loadable({
+  loader: () => import("../views/purchased-ticket"),
   loading: Loading,
 });
 const AdminLoginPage = Loadable({
@@ -75,6 +79,10 @@ export const authorizedRoutes = [
   {
     element: <ChangePasswordPage />,
     path: "/update-password",
+  },
+  {
+    element: <MyTicket />,
+    path: "/my-orders",
   },
   {
     element: <FavoritePage />,

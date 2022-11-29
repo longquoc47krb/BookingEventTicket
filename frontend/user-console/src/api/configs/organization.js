@@ -1,6 +1,6 @@
 export const OrganizationAPI = {
   submitOrganizer: (data) => ({
-    url: "/organization",
+    url: "/form/organization",
     method: "POST",
     data,
   }),

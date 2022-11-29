@@ -512,3 +512,14 @@ export const formatter = (currency) => {
     });
   }
 };
+export const convertMongodbTimeToString = (date) => {
+  var language = localStorage.getItem("i18nextLng");
+  let dateStr = moment(date);
+  if (language === "en") {
+    moment.locale("en");
+    return moment(dateStr).format("DD/MM/YYYY hh:mm a");
+  } else {
+    moment.locale("vi");
+    return moment(dateStr).format("DD/MM/YYYY HH:mm");
+  }
+};
