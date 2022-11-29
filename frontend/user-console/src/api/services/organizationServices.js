@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import httpRequest from "../../services/httpRequest";
 import { OrganizationAPI } from "../configs/organization";
 
@@ -14,6 +15,12 @@ const findOrganizerById = async (id) => {
     const response = await httpRequest(OrganizationAPI.findOrganizerById(id));
     return response.data;
   } catch (error) {}
+};
+export const useFindOrganizerById = (id) => {
+  return useQuery(["findOrganizerById", id], () => findOrganizerById(id), {
+    staleTime: 1000 * 30,
+    cacheTime: 1000 * 60,
+  });
 };
 const organizationServices = { submitOrganizer, findOrganizerById };
 export default organizationServices;

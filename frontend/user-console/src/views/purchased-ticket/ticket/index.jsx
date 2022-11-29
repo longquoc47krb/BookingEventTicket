@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slices/accountSlice";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
-function PurchaseTicketItem(props) {
+function TicketItem(props) {
   const { data } = props;
   const { customerTicketList } = data;
   const user = useSelector(userInfoSelector);
@@ -22,7 +22,7 @@ function PurchaseTicketItem(props) {
         <div
           className="mb-4 w-[calc(100%-2rem)] h-[25rem] relative p-4 rounded-[1rem] ticket-item flex"
           style={{
-            background: `linear-gradient(178deg, rgb(16, 30, 62), rgb(0 0 0 / 83%)), url(${event.background})`,
+            background: `linear-gradient(178deg, rgb(16, 30, 62), rgb(0 0 0 / 80%)), url(${event.background})`,
             backgroundSize: "contain",
           }}
         >
@@ -50,7 +50,7 @@ function PurchaseTicketItem(props) {
                   <p className="text-lg tracking-[0.1rem] px-2 uppercase">
                     {t("ticket.customer")}
                   </p>
-                  <p className="text-2xl font-semibold gilroy tracking-[0.15rem] w-auto px-2 py-1 rounded-md text-white">
+                  <p className="text-2xl font-semibold tracking-[0.15rem] w-auto px-2 py-1 rounded-md text-white">
                     {user.name}
                   </p>
                 </div>
@@ -58,7 +58,7 @@ function PurchaseTicketItem(props) {
                   <p className="text-lg tracking-[0.1rem] px-2 uppercase">
                     {t("ticket.booking-id")}
                   </p>
-                  <p className="text-2xl font-semibold gilroy tracking-[0.2rem]  w-auto px-2 py-1 rounded-md text-white">
+                  <p className="text-2xl font-semibold tracking-[0.2rem]  w-auto px-2 py-1 rounded-md text-white">
                     {data.id}
                   </p>
                 </div>
@@ -80,4 +80,4 @@ function PurchaseTicketItem(props) {
   );
 }
 
-export default PurchaseTicketItem;
+export default TicketItem;

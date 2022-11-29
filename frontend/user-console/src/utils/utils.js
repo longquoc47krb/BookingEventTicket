@@ -513,7 +513,13 @@ export const formatter = (currency) => {
   }
 };
 export const convertMongodbTimeToString = (date) => {
-  // "2022-11-28T08:07:35.041+00:00"
+  var language = localStorage.getItem("i18nextLng");
   let dateStr = moment(date);
-  return moment(dateStr).format("DD/MM/YYYY HH:mm");
+  if (language === "en") {
+    moment.locale("en");
+    return moment(dateStr).format("DD/MM/YYYY hh:mm a");
+  } else {
+    moment.locale("vi");
+    return moment(dateStr).format("DD/MM/YYYY HH:mm");
+  }
 };

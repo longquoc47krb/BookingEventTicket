@@ -24,7 +24,6 @@ import java.util.List;
 public class Order {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
-    @GeneratedValue
     private String id;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
