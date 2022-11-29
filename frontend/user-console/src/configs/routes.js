@@ -82,7 +82,7 @@ export const authorizedRoutes = [
   },
   {
     element: <MyTicket />,
-    path: "/purchase-order",
+    path: "/my-orders",
   },
   {
     element: <FavoritePage />,

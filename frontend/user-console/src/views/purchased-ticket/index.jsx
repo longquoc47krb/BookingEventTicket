@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slices/accountSlice";
 import { useGetOrderListByUserId } from "../../api/services/orderServices";
 import { map } from "lodash";
-import PurchaseTicketItem from "./ticket-item";
+import PurchaseTicketItem from "./purchased-ticket-item";
 import Skeleton from "react-loading-skeleton";
 import { isEmpty, convertMongodbTimeToString } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
@@ -32,8 +32,9 @@ const PurchasedTickets = () => {
                 ))
               : tickets.map((ticket) => (
                   <>
-                    <div className="flex gap-x-4 items-center text-black mb-4 border-b-2 border-black text-2xl font-medium w-auto">
-                      <MdAccessTime />{" "}
+                    <div className="flex gap-x-4 items-center text-white mb-4 text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2">
+                      <MdAccessTime />
+                      <span className="font-thin">{t("ticket.createdAt")}</span>
                       {convertMongodbTimeToString(ticket.createdDate)}
                     </div>
                     <PurchaseTicketItem data={ticket} />

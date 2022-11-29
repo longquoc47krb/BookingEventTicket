@@ -139,11 +139,11 @@
 }
 .ticket {
   &-item {
-    border-radius: 45px;
-    background: linear-gradient(145deg, #1c3875, #21428b);
-    box-shadow: 7px 7px 14px #797979, -7px -7px 14px #b4b4b4;
-    * {
-      font-family: "Ticketing" !important;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    box-shadow: 6px 6px 21px #666666, -6px -6px 21px #ffffff;
+    &-card {
+      font-family: "Qatar" !important;
     }
   }
   &-cart {
@@ -202,8 +202,20 @@
   }
 }
 @font-face {
-  font-family: "Ticketing";
+  font-family: "Qatar";
   font-weight: 400;
-  src: local("Ticketing"),
-    url(../assets/fonts/Ticketing-jJB0.ttf) format("opentype");
+  src: local("Qatar"),
+    url(../assets/fonts/Qatar2022/Qatar2022Thin.otf) format("opentype");
+}
+@font-face {
+  font-family: "Qatar";
+  font-weight: 500;
+  src: local("Qatar"),
+    url(../assets/fonts/Qatar2022/Qatar2022Medium.otf) format("opentype");
+}
+@font-face {
+  font-family: "Qatar";
+  font-weight: 600;
+  src: local("Qatar"),
+    url(../assets/fonts/Qatar2022/Qatar2022Bold.otf) format("opentype");
 }

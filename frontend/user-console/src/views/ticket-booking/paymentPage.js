@@ -48,7 +48,7 @@ function PaymentPage() {
         ? true
         : false
       : false;
-  useEffect(() => {
+  useMemo(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
     console.log(isSuccess);
@@ -70,17 +70,7 @@ function PaymentPage() {
       };
       createOrderAsync();
     }
-  }, [
-    eventId,
-    isCancel,
-    isSuccess,
-    navigate,
-    ticketCart,
-    totalPrice,
-    totalQuantity,
-    user.email,
-    user.id,
-  ]);
+  }, [isCancel, isSuccess]);
   const pageRendering = (success, cancel) => {
     if (success) {
       return <h1 className="text-2xl">{t("user.payment.success")}</h1>;

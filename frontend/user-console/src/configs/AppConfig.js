@@ -13,7 +13,7 @@ import { BsBriefcase, BsCashCoin, BsInstagram } from "react-icons/bs";
 import { FaInfo, FaSearchLocation, FaTheaterMasks } from "react-icons/fa";
 import { HiOutlineMusicNote } from "react-icons/hi";
 import { IoIosApps } from "react-icons/io";
-import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
+import { IoLogoFacebook, IoTicket, IoWineOutline } from "react-icons/io5";
 import {
   MdExitToApp,
   MdOutlineAccountCircle,
@@ -134,7 +134,7 @@ const USER_PROFILE_MENU = [
   {
     label: "user.my-ticket",
     key: "order",
-    link: "/purchase-order",
+    link: "/my-orders",
     icon: <BsCashCoin fontSize={16} />,
   },
 ];
@@ -325,7 +325,7 @@ const MOBILE_DRAWER = [
   {
     icon: <BsCashCoin className="text-2xl cursor-pointer" />,
     label: "user.my-ticket",
-    link: "/purchase-order",
+    link: "/my-orders",
   },
   {
     icon: <RiLockPasswordLine className="text-2xl cursor-pointer" />,
@@ -373,6 +373,30 @@ const ORDER_TABLE_HEADER = [
   "ticket.quantity",
   "ticket.total",
 ];
+const ORDER_HEADER = [
+  {
+    key: "orderTime",
+    title: "ticket.orderTime",
+  },
+  {
+    key: "paymentMethod",
+    title: "ticket.paymentMethod",
+  },
+];
+const BUYER_HEADER = [
+  {
+    key: "fullName",
+    title: "user.name",
+  },
+  {
+    key: "email",
+    title: "email",
+  },
+  {
+    key: "phone",
+    title: "user.phone",
+  },
+];
 const AppConfig = {
   USER_CONFIG,
   DEFAULT_PROPS,
@@ -390,5 +414,7 @@ const AppConfig = {
   MOBILE_DRAWER_UNAUTHEN,
   MOBILE_DRAWER,
   ORDER_TABLE_HEADER,
+  ORDER_HEADER,
+  BUYER_HEADER,
 };
 export default AppConfig;
