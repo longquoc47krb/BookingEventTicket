@@ -2,6 +2,7 @@ package com.hcmute.bookingevent.mapper;
 
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.payload.response.EventOrderViewResponse;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,16 @@ public class EventMapper {
 
         }
        throw new NotFoundException("Can not find any event");
+    }
+    public EventOrderViewResponse toEventOrder(String eventId){
+        Optional<Event> event= eventRepository.findEventById(eventId);
+        if(event.isPresent())
+        {
+            return new EventOrderViewResponse(event.get().getId(),event.get().getName(),event.get().getStartingDate(),event.get().getEndingDate(),event.get().getBackground(),event.get().getStatus(), event.get().getTicketTotal(),event.get().getTicketRemaining(),event.get().getCreatedDate(),event.get().getUpdatedDate(), event.get().getEventCategoryList(), event.get().getOrganizationTickets());
+
+        }
+        throw new NotFoundException("Can not find any event");
+
     }
 //    public Event toCreateEvent(EventReq eventReq) {
 //        return new Event(eventReq.getName(),eventReq.getProvince(),eventReq.getVenue(),eventReq.getVenue_address(),eventReq.getStartingTime(),

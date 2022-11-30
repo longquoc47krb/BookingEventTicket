@@ -246,6 +246,7 @@
     }
   },
   "ticket": {
+    "download": "Tải vé xuống",
     "ticket-detail": "Chi tiết vé",
     "print-your-ticket": "In vé",
     "order-info": "Chi tiết đơn hàng",
@@ -254,7 +255,8 @@
     "paymentMethod": "Phương thức thanh toán",
     "createdAt": "Vé được thanh toán lúc",
     "not-found": "Danh sách vé đã mua trống",
-    "booking-id": "Mã đặt vé: {{val,string}}",
+    "booking": "Mã đặt vé: {{val,string}}",
+    "booking-id": "Mã đặt vé",
     "customer": "Khách hàng",
     "organizer": "BTC",
     "cart": "Giỏ hàng",

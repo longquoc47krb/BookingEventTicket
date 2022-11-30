@@ -48,7 +48,7 @@ function PaymentPage() {
         ? true
         : false
       : false;
-  useMemo(() => {
+  useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
     console.log(isSuccess);
@@ -70,7 +70,7 @@ function PaymentPage() {
       };
       createOrderAsync();
     }
-  }, [isCancel, isSuccess]);
+  }, []);
   const pageRendering = (success, cancel) => {
     if (success) {
       return <h1 className="text-2xl">{t("user.payment.success")}</h1>;

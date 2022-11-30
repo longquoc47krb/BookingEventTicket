@@ -71,9 +71,9 @@ public class OrganizationService implements IOrganizationService {
             if(organization.isPresent()) {
                 // ds các id
                 List<String> eventList= organization.get().getEventList();
-                List<EventViewResponse> eventViewResponses= eventList.stream().map(eventMapper::toEventTicket ).collect(Collectors.toList());
+                List<EventOrderViewResponse> eventOrderViewResponses= eventList.stream().map(eventMapper::toEventOrder).collect(Collectors.toList());
                 return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject(true, "Get all ticket", eventViewResponses,200));
+                        new ResponseObject(true, "Get all ticket", eventOrderViewResponses,200));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         new ResponseObject(false, "Organization has no exist", "", 200));
@@ -83,7 +83,6 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(true, e.getMessage(), "", 400));
         }
     }
-
     @Override
     public ResponseEntity<?> findOrganizationById(String id) {
         try {
@@ -137,7 +136,7 @@ public class OrganizationService implements IOrganizationService {
             Optional<Organization> organization = organizationRepository.findByEmail(email);
             if (organization.isPresent()) {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress(),organization.get().getUSDBalance(),organization.get().getVNDBalance());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse, 200));
