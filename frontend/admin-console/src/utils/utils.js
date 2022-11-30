@@ -561,3 +561,14 @@ export function generateId(name, date) {
 export function CommaFormatted(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+export const convertMongodbTimeToString = (date) => {
+  var language = localStorage.getItem("i18nextLng");
+  let dateStr = moment(date);
+  if (language === "en") {
+    moment.locale("en");
+    return moment(dateStr).format("DD/MM/YYYY hh:mm a");
+  } else {
+    moment.locale("vi");
+    return moment(dateStr).format("DD/MM/YYYY HH:mm");
+  }
+};

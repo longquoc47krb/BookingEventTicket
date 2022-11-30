@@ -15,6 +15,10 @@
         "profile": "Organizer Profile"
     },
     "event": {
+        "ticketTotal": "Ticket total",
+        "ticketRemaining": "Ticket remaining",
+        "createDate": "Created at ",
+        "updateDate": "Last edited at ",
         "background": "Background",
         "name": "Title",
         "currency": "Select currency:",
@@ -243,5 +247,6 @@
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option"
-    }
+    },
+    "view-detail": "View detail"
 }

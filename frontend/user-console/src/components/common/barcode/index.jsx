@@ -6,8 +6,7 @@ function Barcode(props) {
   const { inputRef } = useBarcode({
     value,
     options: {
-      displayValue: false,
-      background: "#ffffff",
+      height: 50,
     },
   });
 

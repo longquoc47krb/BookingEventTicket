@@ -30,16 +30,7 @@ const PurchasedTickets = () => {
               ? [...Array(3)].map((i) => (
                   <Skeleton style={{ height: 400, width: "100%" }} />
                 ))
-              : tickets.map((ticket) => (
-                  <>
-                    <div className="flex gap-x-4 items-center text-white mb-4 text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2">
-                      <MdAccessTime />
-                      <span className="font-thin">{t("ticket.createdAt")}</span>
-                      {convertMongodbTimeToString(ticket.createdDate)}
-                    </div>
-                    <PurchaseTicketItem data={ticket} />
-                  </>
-                ))}
+              : tickets.map((ticket) => <PurchaseTicketItem data={ticket} />)}
             {isEmpty(tickets) && (
               <div className="w-auto flex justify-center items-center flex-col mb-5">
                 <img

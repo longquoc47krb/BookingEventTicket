@@ -4,7 +4,7 @@ import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import styled from "styled-components";
 import { t } from "i18next";
 import { decode, encode } from "js-base64";
-import { map, sumBy } from "lodash";
+import { has, map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
@@ -29,7 +29,11 @@ import { setInitialBackground } from "../redux/slices/eventSlice";
 import theme from "../shared/theme";
 import constants, { TicketStatus } from "../utils/constants";
 import { provinces } from "../utils/provinces";
-import { generateId, isNotEmpty } from "../utils/utils";
+import {
+  convertMongodbTimeToString,
+  generateId,
+  isNotEmpty,
+} from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
 import organizationServices, {
@@ -58,6 +62,8 @@ function AddEditEvent(props) {
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
+  const [event, setEvent] = useState({});
+  console.log({ event });
   const { data: categories, status } = useFetchCategories();
   const { data: templateTickets, status: templateStatus } =
     useFetchTemplateTicket(user.id);
@@ -246,6 +252,7 @@ function AddEditEvent(props) {
     if (eventId) {
       async function fetchEvent() {
         const res = await getEventById(eventId);
+        setEvent(res);
         dispatch(setInitialBackground(res.background));
         setValues({
           background: res.background,
@@ -296,6 +303,22 @@ function AddEditEvent(props) {
         title={t("sider.event")}
       />
       <div>
+        <div className="flex justify-between w-full">
+          <h1 className="font-medium text-lg text-gray-400">
+            {eventId
+              ? `${t("event.createDate")}${convertMongodbTimeToString(
+                  event.createdDate
+                )}`
+              : null}
+          </h1>
+          <h1 className="font-medium text-lg text-gray-400">
+            {has(event, "updatedDate")
+              ? `${t("event.updateDate")}${convertMongodbTimeToString(
+                  event.updatedDate
+                )}`
+              : null}
+          </h1>
+        </div>
         <FormikProvider value={formik}>
           <Form
             style={{
