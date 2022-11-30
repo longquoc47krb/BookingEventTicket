@@ -136,7 +136,7 @@ public class OrganizationService implements IOrganizationService {
             Optional<Organization> organization = organizationRepository.findByEmail(email);
             if (organization.isPresent()) {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress(),organization.get().getUSDBalance(),organization.get().getVNDBalance());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse, 200));

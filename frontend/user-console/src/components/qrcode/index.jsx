@@ -1,10 +1,24 @@
 import React from "react";
-import QRCode from "qrcode-react";
+import { useQRCode } from "next-qrcode";
 
 function QRCodeComponent(props) {
   const { value, logo } = props;
-
-  return <QRCode value={value} size={128} logo={logo} logoWidth={48} />;
+  const { SVG } = useQRCode();
+  return (
+    <SVG
+      text={value}
+      options={{
+        level: "M",
+        margin: 2,
+        scale: 4,
+        width: 128,
+        color: {
+          dark: "#000000",
+          light: "#ffffff",
+        },
+      }}
+    />
+  );
 }
 
 export default QRCodeComponent;

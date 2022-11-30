@@ -22,10 +22,11 @@ function TicketItem(props) {
       {eventStatus === "success" && (
         <div
           id={`ticket-${id}`}
-          className="mb-4 w-full aspect-[3] relative p-4 rounded-[0.5rem] flex ticket-item-card"
+          className="mb-4 w-full aspect-[2.75] relative p-4 rounded-[0.5rem] flex ticket-item-card"
           style={{
             background: `linear-gradient(178deg, rgb(16, 30, 62), rgb(0 0 0 / 80%)), url(${event.background})`,
             backgroundSize: "contain",
+            backgroundColor: "white",
           }}
         >
           <div className="flex flex-col w-[80%]">
@@ -67,7 +68,7 @@ function TicketItem(props) {
           </div>
           <div className="w-1 h-full border-l-2 border-gray-400 border-dashed"></div>
           <div className="absolute right-6 bottom-20 border-8 border-white">
-            <QRCodeComponent value={data.id} logo={organizer?.avatar} />
+            <QRCodeComponent value={data.id} />
           </div>
           <img
             src={process.env.PUBLIC_URL + "/logo.png"}

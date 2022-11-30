@@ -1,26 +1,27 @@
-import React from "react";
-import domtoimage from "dom-to-image-more";
-import JSZip from "jszip";
-import html2canvas from "html2canvas";
+import React, { useState } from "react";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { saveAs } from "file-saver";
 import { useTranslation } from "react-i18next";
 import { MdOutlineDownload } from "react-icons/md";
+import { upperCase } from "lodash";
+import jsPDF from "jspdf";
+import "svg2pdf.js";
+
 function Download(props) {
   const { bookingId } = props;
   const { t } = useTranslation();
-
-  const downloadImage = () => {
+  const downloadImage = async () => {
     var node = document.getElementById(`ticket-${bookingId}`);
     node.crossOrigin = "anonymous";
-    console.log({ node });
-    // html2canvas(node).then((canvas) => {
-    //   canvas.toBlob(function (blob) {
-    //     window.saveAs(blob, `${bookingId}.jpg`);
-    //   });
-    // });
-    domtoimage.toBlob(node).then(function (blob) {
-      window.saveAs(blob, "my-node.png");
-    });
+    var pdf = new jsPDF("letter");
+    const filename = `LotusTicket-${bookingId}`;
+    const imagePng = await htmlToImage.toPng(node);
+    const imgProps = pdf.getImageProperties(imagePng);
+    const pdfWidth = pdf.internal.pageSize.getWidth() - 8;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imagePng, "PNG", 4, 4, pdfWidth, pdfHeight);
+    pdf.save(filename + ".pdf");
   };
   return (
     <button

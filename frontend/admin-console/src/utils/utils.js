@@ -516,10 +516,19 @@ export function filterData(dateType, dateRange, list) {
 /**
  * Convert number to currency format
  */
-export const formatter = new Intl.NumberFormat("vi-VN", {
-  style: "currency",
-  currency: "VND",
-});
+export const formatter = (currency) => {
+  if (currency === "USD") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  } else {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  }
+};
 export function convertToYearMonthDayFormat(dateString) {
   const [day, month, year] = dateString.split("/");
   return `${year}-${month}-${day}`;

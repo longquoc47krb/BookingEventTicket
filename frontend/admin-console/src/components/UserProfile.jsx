@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { MdExitToApp, MdOutlineCancel } from "react-icons/md";
-
+import { FaWallet } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ import {
 } from "../redux/slices/accountSlice";
 import AppConfig from "../configs/AppConfig";
 import { ROLE } from "../utils/constants";
+import { formatter } from "../utils/utils";
 const { USER_PROFILE_MENU } = AppConfig;
 const UserProfile = ({ setOpen }) => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const UserProfile = ({ setOpen }) => {
           onClick={() => setOpen(false)}
         />
       </div>
-      <div className="flex gap-4 items-center border-color border-b-1 pb-4">
+      <div className="flex gap-4 items-center border-color border-b-1 pb-6 relative">
         {role === ROLE.Organizer ? (
           <img
             className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
@@ -57,6 +58,22 @@ const UserProfile = ({ setOpen }) => {
             {" "}
             {user.email}
           </p>
+          {role === ROLE.Organizer ? (
+            <div className="mt-2 flex justify-start items-center gap-x-8">
+              <div className="flex items-center gap-x-2">
+                <FaWallet color="#17AE17" fontSize={16} />
+                <span className="font-bold text-lg">
+                  {formatter("USD").format(user.usdbalance)}
+                </span>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <FaWallet color="#FEC90F" fontSize={16} />
+                <span className="font-bold text-lg">
+                  {formatter("VND").format(user.vndbalance)}
+                </span>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
       <hr></hr>
