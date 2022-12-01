@@ -18,6 +18,29 @@ const getOrderListByUserId = async (userId) => {
     return error.response.data;
   }
 };
+export const createOrderByFetchAPI = async (userId, data) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HEROKU_SERVER}/api/customer/order/${userId}`,
+      {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+      }
+    );
+    return response.json();
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 export const useGetOrderListByUserId = (id) => {
   return useQuery(
     ["getOrderListByUserId", id],

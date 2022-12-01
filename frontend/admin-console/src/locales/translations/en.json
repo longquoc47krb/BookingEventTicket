@@ -75,6 +75,9 @@
         "community": "Community"
     },
     "popup": {
+        "edit-event": {
+            "success": "Update event successfully"
+        },
         "register": {
             "error": "Email is already registered",
             "success": "Successfully registered!"

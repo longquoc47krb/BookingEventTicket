@@ -3,14 +3,12 @@ import { store } from "../redux/store";
 const axiosClient = axios.create({
   baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
   // baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
-  withCredentials: true,
+  // withCredentials: true,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    "Access-Control-Allow-Credentials": true,
     Authorization: `Bearer ${store.getState().account.token}`,
-    Accept: "application/json",
   },
 });
 
@@ -19,6 +17,7 @@ axiosClient.interceptors.request.use(
   function (config) {
     config.headers = {
       "Content-type": "application/json",
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${store.getState().account.token}`,
     };
     return config;

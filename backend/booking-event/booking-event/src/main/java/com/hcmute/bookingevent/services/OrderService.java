@@ -42,6 +42,7 @@ public class OrderService implements IOrderService {
             order.setCreatedDate(new Date());
             Optional<Customer> customer = customerRepository.findByEmail(email);
             Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
+            int ticketRemainingTemp = event.get().
             if (customer.isPresent() && event.isPresent()) {
                 event.get().setTicketRemaining(event.get().getTicketRemaining() - order.getTotalQuantity());
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
@@ -71,6 +72,7 @@ public class OrderService implements IOrderService {
                     organizationRepository.save(organization.get());
                 }
                 eventRepository.save(event.get());
+                if()
                 orderRepository.save(order);
                 customerRepository.save(customer.get());
 
