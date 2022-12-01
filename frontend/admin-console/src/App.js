@@ -3,6 +3,7 @@
 /* eslint-disable quotes */
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -71,6 +72,7 @@ function App() {
           </div>
         </BrowserRouter>
       </div>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

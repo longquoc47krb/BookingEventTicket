@@ -247,6 +247,7 @@
     }
   },
   "ticket": {
+    "download": "Download ticket",
     "ticket-detail": "Ticket detail",
     "print-your-ticket": "Print your ticket",
     "order-info": "Order detail",
@@ -255,7 +256,8 @@
     "paymentMethod": "Payment method",
     "createdAt": "Ticket was purchased at",
     "not-found": "Ticket list is empty",
-    "booking-id": "Booking ID: {{val,string}}",
+    "booking": "Booking ID: {{val,string}}",
+    "booking-id": "Booking ID",
     "customer": "Customer",
     "organizer": "Host",
     "cart": "Booking cart",

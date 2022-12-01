@@ -516,10 +516,19 @@ export function filterData(dateType, dateRange, list) {
 /**
  * Convert number to currency format
  */
-export const formatter = new Intl.NumberFormat("vi-VN", {
-  style: "currency",
-  currency: "VND",
-});
+export const formatter = (currency) => {
+  if (currency === "USD") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  } else {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  }
+};
 export function convertToYearMonthDayFormat(dateString) {
   const [day, month, year] = dateString.split("/");
   return `${year}-${month}-${day}`;
@@ -561,3 +570,14 @@ export function generateId(name, date) {
 export function CommaFormatted(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+export const convertMongodbTimeToString = (date) => {
+  var language = localStorage.getItem("i18nextLng");
+  let dateStr = moment(date);
+  if (language === "en") {
+    moment.locale("en");
+    return moment(dateStr).format("DD/MM/YYYY hh:mm a");
+  } else {
+    moment.locale("vi");
+    return moment(dateStr).format("DD/MM/YYYY HH:mm");
+  }
+};

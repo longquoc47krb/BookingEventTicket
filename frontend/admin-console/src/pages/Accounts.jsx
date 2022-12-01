@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import {
   GridComponent,
-  Inject,
   ColumnsDirective,
   ColumnDirective,
+  Resize,
+  Sort,
+  ContextMenu,
+  Filter,
   Search,
   Page,
   Toolbar,
-  Filter,
-  Sort,
+  ExcelExport,
+  Edit,
+  Inject,
 } from "@syncfusion/ej2-react-grids";
 import { Spin } from "antd";
 import { accountGrid, contextMenuItems } from "../data/dummy";
@@ -23,22 +27,23 @@ import {
   useFetchAllOrganizers,
   useFetchEventsByOrgID,
 } from "../api/services/organizationServices";
+import Link from "@mui/material/Link";
 
 const Accounts = () => {
   const toolbarOptions = ["Search"];
   const user = useSelector(userInfoSelector);
   const { data: organizers, status } = useFetchAllOrganizers();
-  // console.log(events[0]);
+  const editing = { allowDeleting: true, allowEditing: true };
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       <Header category={t("sider.management")} title={t("sider.account")} />
-      <div className="flex w-full justify-end">
+      {/* <div className="flex w-full justify-end">
         <button className="p-2 bg-primary rounded-md mb-2 text-white text-lg">
           {t("account.export-excel")}
         </button>
-      </div>
+      </div> */}
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />
@@ -52,6 +57,7 @@ const Accounts = () => {
           allowExcelExport
           pageSettings={{ pageCount: 5 }}
           toolbar={toolbarOptions}
+          editSettings={editing}
           contextMenuItems={contextMenuItems}
         >
           <ColumnsDirective>
@@ -59,7 +65,17 @@ const Accounts = () => {
               <ColumnDirective key={index} {...item} />
             ))}
           </ColumnsDirective>
-          <Inject services={[Search, Page, Toolbar, Filter, Sort]} />
+          <Inject
+            services={[
+              Search,
+              Page,
+              Toolbar,
+              Filter,
+              Sort,
+              ContextMenu,
+              ExcelExport,
+            ]}
+          />
         </GridComponent>
       )}
     </div>
