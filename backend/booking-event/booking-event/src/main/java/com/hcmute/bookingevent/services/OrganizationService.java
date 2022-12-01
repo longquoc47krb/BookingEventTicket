@@ -193,6 +193,8 @@ public class OrganizationService implements IOrganizationService {
             account.get().setPassWord(encoder.encode(randomPassword));
             accountRepository.save(account.get());
             organization.get().setStatus(EOrganization.ACCEPTED);
+            organization.get().setVNDBalance("0");
+            organization.get().setUSDBalance("0");
             organizationRepository.save(organization.get());
             mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);
             return ResponseEntity.status(HttpStatus.OK).body(
