@@ -73,7 +73,7 @@ public class OrganizationController {
     {
         return iOrganizationService.findOrganizationById(id);
     }
-    @GetMapping("/organization/test/event/{eventId}")
+    @GetMapping("/event/{eventId}")
     public ResponseEntity<?> findOrganizationByEventId(@PathVariable String eventId)
     {
         return iOrganizationService.findOrganizationByEventid(eventId);

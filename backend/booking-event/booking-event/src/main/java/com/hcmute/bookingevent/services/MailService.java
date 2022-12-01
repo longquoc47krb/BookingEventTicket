@@ -39,7 +39,7 @@ public class MailService {
     final String BECOME_ORGANIZATION_CONTENT ="Welcome to LotusTicket! You have successfully sent your application form . Please wait for a few days to allow us to verify your information before you have full authentication to our website. We will notify you  of result as soon as possible" +
             "<br>Regards,";
     final String OFFICIAL_ORGANIZATION_CONTENT ="We have reviewed your application form. After taking into consideration based on our term conditions. We officially inform that you have full authorization of organization role." +
-            "<br>Please use this password below to sign in your account in our system" +
+            "<br>Please use this password below to sign in your account in our system. Click <a href=\"https://lotusticket-admin.netlify.app\">here</a> to login " +
             "<br>Regards,";
     final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
             "<br>Regards,";
