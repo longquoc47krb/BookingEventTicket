@@ -75,6 +75,9 @@
         "community": "Community"
     },
     "popup": {
+        "edit-event": {
+            "success": "Update event successfully"
+        },
         "register": {
             "error": "Email is already registered",
             "success": "Successfully registered!"
@@ -156,6 +159,9 @@
         "email": {
             "required": "Email is required",
             "invalid": "Email is invalid"
+        },
+        "phone": {
+            "error": "Phone number is not in Vietnam"
         },
         "name": {
             "required": "Name is required",
@@ -246,7 +252,10 @@
         "disabled": "Disabled",
         "accepted": "Accepted",
         "approve": "Approve",
-        "options": "Option"
+        "options": "Option",
+        "all": "All Organizer Accounts",
+        "accepted-accounts": "Accepted Organizers",
+        "pending-accounts": "Pending Accounts"
     },
     "view-detail": "View detail"
 }

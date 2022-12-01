@@ -1,12 +1,8 @@
-import React, { useState } from "react";
 import * as htmlToImage from "html-to-image";
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
-import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineDownload } from "react-icons/md";
-import { upperCase } from "lodash";
-import jsPDF from "jspdf";
-import "svg2pdf.js";
 
 function Download(props) {
   const { bookingId } = props;
