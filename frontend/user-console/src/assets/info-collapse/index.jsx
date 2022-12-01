@@ -21,7 +21,7 @@ function InfoCollapse(props) {
     <div className="block">
       <ListItemButton
         onClick={handleClick}
-        style={{ borderBottom: "1px solid #dddddd" }}
+        style={{ borderBottom: "1px solid #dddddd", color: "black" }}
       >
         <div className="flex w-full justify-between ">
           <div style={{ display: "flex", alignItems: "center", gap: "0 1rem" }}>

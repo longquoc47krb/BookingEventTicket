@@ -80,7 +80,7 @@ public class SecurityConfig {
             "/api/category/**",
             "/api/ticket/**",
             "/api/organization/findAll",
-            "/api/organization/test/**",
+            //"/api/organization/test/**",
             "/api/organization",
             "/api/email/organization/**"
     };

@@ -8,8 +8,11 @@ import { FaTrashAlt } from "react-icons/fa";
 import {
   BsBoxSeam,
   BsChatLeft,
+  BsCheckLg,
   BsCurrencyDollar,
+  BsFillEyeFill,
   BsShield,
+  BsXLg,
 } from "react-icons/bs";
 import {
   FiBarChart,
@@ -44,6 +47,7 @@ import { store } from "../redux/store";
 import { StyledSwitch } from "../pages/AddEditEvent";
 import { BiCategory } from "react-icons/bi";
 import organizationServices from "../api/services/organizationServices";
+import { has } from "lodash";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
@@ -106,7 +110,9 @@ const gridAccountStatus = (props) => (
 );
 const gridEventQuantity = (props) => (
   <div className="flex items-center justify-center">
-    <span>{props.organization.eventList.length}</span>
+    <span>
+      {has(props, "organization") ? props.organization.eventList.length : null}
+    </span>
   </div>
 );
 const gridCategoryName = (props) => (
@@ -145,9 +151,9 @@ const gridEventModify = (props) => (
 const gridAccountOption = (props) => (
   <div className="flex items-center">
     {props.organization.status === "DISABLED" ? (
-      <div className="flex items-center justify-center gap-x-4">
+      <div className="flex items-center justify-center gap-x-2">
         <button
-          className="border-green-600 border-b-2  text-green-600 font-semibold py-2"
+          className="text-white font-semibold bg-green-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
           onClick={() => {
             AlertQuestion({
               title: t("popup.account.approve"),
@@ -170,10 +176,11 @@ const gridAccountOption = (props) => (
             });
           }}
         >
-          {t("account.approve")}
+          <BsCheckLg />
+          <span>{t("account.approve")}</span>
         </button>
         <button
-          className="border-red-600 border-b-2  text-red-600 font-semibold py-2"
+          className="text-white font-semibold bg-red-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
           onClick={() => {
             AlertQuestion({
               title: t("popup.account.refuse"),
@@ -196,10 +203,19 @@ const gridAccountOption = (props) => (
             });
           }}
         >
-          {t("account.disabled")}
+          <BsXLg />
+          <span>{t("account.disabled")}</span>
         </button>
       </div>
     ) : null}
+  </div>
+);
+const gridOrderModify = (props) => (
+  <div
+    className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
+    onClick={() => window.location.replace(`/orders/${props.id}`)}
+  >
+    <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}
   </div>
 );
 const gridEventCategory = (props) => (
@@ -604,7 +620,7 @@ export const eventGrid = [
   {
     headerText: t("event.category"),
     field: "eventCategoryList.name",
-    width: "80",
+    width: "200",
     template: gridEventCategory,
   },
   {
@@ -616,13 +632,46 @@ export const eventGrid = [
   {
     headerText: t("event.status.title"),
     field: "status",
-    width: "80",
+    width: "100",
     template: gridEventStatus,
   },
   {
     headerText: t("event.modify"),
-    width: "100",
+    width: "80",
     template: gridEventModify,
+  },
+];
+export const orderGrid = [
+  {
+    headerText: t("event.name"),
+    field: "name",
+    width: "200",
+  },
+  {
+    headerText: t("event.date"),
+    field: "startingDate",
+    width: "100",
+    template: gridEventDate,
+  },
+  {
+    headerText: t("event.ticketTotal"),
+    field: "ticketTotal",
+    width: "100",
+  },
+  {
+    headerText: t("event.ticketRemaining"),
+    field: "ticketRemaining",
+    width: "100",
+  },
+  {
+    headerText: t("event.status.title"),
+    field: "status",
+    width: "100",
+    template: gridEventStatus,
+  },
+  {
+    width: "100",
+    template: gridOrderModify,
   },
 ];
 export const categoryGrid = [
@@ -650,11 +699,13 @@ export const accountGrid = [
     headerText: t("account.events"),
     field: "organization.eventList",
     template: gridEventQuantity,
+    width: "150",
   },
   {
     headerText: t("account.status"),
     field: "organization.status",
     template: gridAccountStatus,
+    width: "100",
   },
   {
     headerText: t("account.options"),

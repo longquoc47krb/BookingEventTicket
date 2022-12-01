@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -63,6 +64,7 @@ public class EventService implements IEventService {
             String idSlung = slugGeneratorService.generateSlug(toSlug(eventReq.getName() + "-" + randomNum));
             Event event = new Event(eventReq);
             event.setId(idSlung);
+            event.setCreatedDate(new Date());
             event.setStatus(EventStatus.AVAILABLE);
 
             //
@@ -230,6 +232,7 @@ public class EventService implements IEventService {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             event.get().setName(eventReq.getName());
+            event.get().setUpdatedDate(new Date());
             event.get().setProvince(eventReq.getProvince());
             event.get().setVenue(eventReq.getVenue());
             event.get().setVenue_address(eventReq.getVenue_address());
@@ -241,7 +244,7 @@ public class EventService implements IEventService {
             event.get().setDescription(eventReq.getDescription());
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
             event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
-            event.get().setCreatedDate(eventReq.getCreatedDate());
+            event.get().setCreatedDate(event.get().getCreatedDate());
             //
             int count=0;
             for (Ticket ticket : eventReq.getOrganizationTickets()) {

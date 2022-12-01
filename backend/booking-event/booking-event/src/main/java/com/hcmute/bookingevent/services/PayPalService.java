@@ -28,12 +28,10 @@ public class PayPalService implements IPayPayService {
     //public static final String MAIN_URL ="http://localhost:3000";
     //public static final String MAIN_URL ="http://localhost:3000/payment/redirect?";
     //https://lotusticket-vn.netlify.app/
-//    public static final String MAIN_URL ="https://lotusticket-vn.netlify.app/payment/redirect?";
-    public static final String MAIN_URL ="http://localhost:3000/payment/redirect?";
+    public static final String MAIN_URL ="https://lotusticket-vn.netlify.app/payment/redirect?";
     public static final String SUCCESS_URL = "/api/payment/pay/success";
     public static final String CANCEL_URL = "/api/payment/pay/cancel";
-//"http://localhost:3000/" + CANCEL_URL;
-//"http://localhost:3000/" + SUCCESS_URL;
+
 
     private final APIContext apiContext;
 

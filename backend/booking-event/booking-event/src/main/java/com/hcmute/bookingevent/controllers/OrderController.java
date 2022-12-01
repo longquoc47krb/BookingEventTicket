@@ -23,7 +23,11 @@ public class OrderController {
 
 
     @PostMapping(path = "/customer/order/{userId}")
+<<<<<<< .mine
     //@Transactional(rollbackFor = {Exception.class})
+=======
+//    @Transactional(rollbackFor = {Exception.class})
+>>>>>>> .theirs
     public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {

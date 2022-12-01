@@ -6,11 +6,12 @@ import QRCodeComponent from "../../../components/qrcode";
 import { useFindOrganizerById } from "../../../api/services/organizationServices";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slices/accountSlice";
+import { MdAccessTime } from "react-icons/md";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
+import Barcode from "../../../components/common/barcode";
 function TicketItem(props) {
-  const { data } = props;
-  const { customerTicketList } = data;
+  const { data, id } = props;
   const user = useSelector(userInfoSelector);
   const { data: event, status: eventStatus } = useEventDetails(data.idEvent);
   const { data: organizer, status: organizerStatus } = useFindOrganizerById(
@@ -20,10 +21,12 @@ function TicketItem(props) {
     <>
       {eventStatus === "success" && (
         <div
-          className="mb-4 w-[calc(100%-2rem)] h-[25rem] relative p-4 rounded-[1rem] ticket-item flex"
+          id={`ticket-${id}`}
+          className="mb-4 w-full aspect-[2.75] relative p-4 rounded-[0.5rem] flex ticket-item-card"
           style={{
             background: `linear-gradient(178deg, rgb(16, 30, 62), rgb(0 0 0 / 80%)), url(${event.background})`,
             backgroundSize: "contain",
+            backgroundColor: "white",
           }}
         >
           <div className="flex flex-col w-[80%]">
@@ -58,21 +61,20 @@ function TicketItem(props) {
                   <p className="text-lg tracking-[0.1rem] px-2 uppercase">
                     {t("ticket.booking-id")}
                   </p>
-                  <p className="text-2xl font-semibold tracking-[0.2rem]  w-auto px-2 py-1 rounded-md text-white">
-                    {data.id}
-                  </p>
+                  <Barcode value={data.id} />
                 </div>
               </div>
             </div>
           </div>
           <div className="w-1 h-full border-l-2 border-gray-400 border-dashed"></div>
-          <div className="absolute right-6 bottom-20 border-2 border-white">
-            <QRCodeComponent value={data.id} logo={organizer?.avatar} />
+          <div className="absolute right-6 bottom-20 border-8 border-white">
+            <QRCodeComponent value={data.id} />
           </div>
           <img
             src={process.env.PUBLIC_URL + "/logo.png"}
             className="w-[100px] absolute top-4 right-4"
             alt="logo"
+            crossOrigin="anonymous"
           />
         </div>
       )}

@@ -20,4 +20,6 @@ public class OrganizerResponse {
     private String province;
     private String venue;
     private String address;
+    private String USDBalance;
+    private String VNDBalance;
 }

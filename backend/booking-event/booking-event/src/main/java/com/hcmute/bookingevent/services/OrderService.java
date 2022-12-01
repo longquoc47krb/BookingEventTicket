@@ -1,30 +1,34 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IOrderService;
+import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
-import com.hcmute.bookingevent.repository.CustomerRepository;
-import com.hcmute.bookingevent.repository.EventRepository;
-import com.hcmute.bookingevent.repository.OrderRepository;
-import com.hcmute.bookingevent.repository.OrganizationRepository;
+import com.hcmute.bookingevent.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
+import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 
 @Service
 @RequiredArgsConstructor
 //@Transactional
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
+    private final AccountRepository accountRepository;
+    private final EventMapper eventMapper;
     private final CustomerRepository customerRepository;
     private final OrganizationRepository organizationRepository;
 
@@ -40,7 +44,6 @@ public class OrderService implements IOrderService {
             Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
             if (customer.isPresent() && event.isPresent()) {
                 event.get().setTicketRemaining(event.get().getTicketRemaining() - order.getTotalQuantity());
-                //
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
                         if (ticket.getId().equals(ticketOfCustomer.getId())) {
@@ -105,6 +108,9 @@ public class OrderService implements IOrderService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "check  Order availability successfully" , "", 200));
     }
+
+
+
     @Override
     public ResponseEntity<?> findCustomerOrderByEmail(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);

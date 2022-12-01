@@ -42,7 +42,7 @@ function Home() {
       provinceMapping.get(location ? location.region : "")
     );
   const sucessStatus =
-    featuredEventStatus === "success" && eventsByProvinceStatus === "success";
+    featuredEventStatus === "success" || eventsByProvinceStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -69,14 +69,20 @@ function Home() {
           )}
           <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4 w-[80%]" />
           <div className="home-popular">
-            <SectionTitle>{t("event.best-seller")}</SectionTitle>
-            <div className="home-popular-content">
-              {bestSellerEventsStatus !== "success"
-                ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
-                : bestSellerEvents
-                    .slice(0, 10)
-                    .map((event) => <EventHomeItem event={event} />)}
-            </div>
+            {bestSellerEventsStatus === "success" &&
+              isNotEmpty(bestSellerEvents) &&
+              bestSellerEvents.length >= 10 && (
+                <div className="home-popular">
+                  <SectionTitle>{t("event.best-seller")}</SectionTitle>
+                  <div className="home-popular-content">
+                    {!sucessStatus
+                      ? [...Array(10)].map((i) => <EventHomeSkeletonItem />)
+                      : bestSellerEvents
+                          .slice(0, 10)
+                          .map((event) => <EventHomeItem event={event} />)}
+                  </div>
+                </div>
+              )}
           </div>
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>

@@ -45,8 +45,8 @@ public class Event {
     private String status;
     private int ticketTotal;
     private int ticketRemaining;
-    @CreatedDate
     private Date createdDate;
+    private Date updatedDate;
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList ;
