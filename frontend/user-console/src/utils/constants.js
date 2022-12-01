@@ -43,6 +43,7 @@ const PATTERNS = {
   IP_PATTERN:
     /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/,
   USERNAME_PATTERN: /^[A-Za-z0-9_.-]{6,64}$/,
+  NAME_PATTERN: /^([^0-9]*)$/,
   PASSWORD_PATTERN: /^.{8,}$/,
   PASSWORD_UPPER: /^(?=.*[A-Z]).{8,}$/,
   PASSWORD_LOWER: /^(?=.*[a-z]).{8,}$/,

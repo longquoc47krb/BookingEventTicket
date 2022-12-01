@@ -157,6 +157,9 @@
             "required": "Email is required",
             "invalid": "Email is invalid"
         },
+        "phone": {
+            "error": "Phone number is not in Vietnam"
+        },
         "name": {
             "required": "Name is required",
             "max": "Max length of name is 64 characters"
@@ -246,7 +249,10 @@
         "disabled": "Disabled",
         "accepted": "Accepted",
         "approve": "Approve",
-        "options": "Option"
+        "options": "Option",
+        "all": "All Organizer Accounts",
+        "accepted-accounts": "Accepted Organizers",
+        "pending-accounts": "Pending Accounts"
     },
     "view-detail": "View detail"
 }

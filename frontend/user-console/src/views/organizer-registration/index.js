@@ -50,10 +50,12 @@ function OrganizeRegistration() {
       if (response.status === 200) {
         AlertPopup({
           title: t("popup.organizer.success"),
+          text: t("popup.organizer.success-text"),
         });
       } else {
         AlertErrorPopup({
           title: t("popup.organizer.error"),
+          text: t("popup.organizer.error-text"),
         });
       }
     },

@@ -289,11 +289,15 @@ function AddEditEvent(props) {
   const showNotification = (code) => {
     if (code) {
       return AlertPopup({
-        title: t("popup.create-event.success"),
+        title: !eventId
+          ? t("popup.create-event.success")
+          : t("popup.edit-event.success"),
       });
     }
     return AlertErrorPopup({
-      title: t("popup.create-event.error"),
+      title: !eventId
+        ? t("popup.create-event.error")
+        : t("popup.edit-event.error"),
     });
   };
   return (
