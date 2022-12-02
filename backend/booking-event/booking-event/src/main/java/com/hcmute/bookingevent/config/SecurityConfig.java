@@ -76,6 +76,7 @@ public class SecurityConfig {
             "/api/event/**",
             "/api/account/findAll",
             "/api/account/findAccount",
+            "/api/customer/findAll",
             "/api/order/**",
             "/api/category/**",
             "/api/ticket/**",

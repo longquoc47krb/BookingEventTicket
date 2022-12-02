@@ -55,4 +55,8 @@ export const EventAPI = {
     method: "POST",
     data,
   }),
+  findOrganizerByEventId: (eventId) => ({
+    url: `/event/${eventId}`,
+    method: "GET",
+  }),
 };
