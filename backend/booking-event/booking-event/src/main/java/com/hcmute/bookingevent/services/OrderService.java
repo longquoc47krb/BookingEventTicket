@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IOrderService;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
@@ -134,17 +135,28 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public ResponseEntity<?> findOrderByEventId(String eventId) {
-        try {
+    public ResponseEntity<?> findOrderByEventId(String eventId,String email) {
+        List <Order> orderList = orderRepository.findAllByIdEvent(eventId);
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+
+        if(organization.isPresent() && !organization.get().getEventList().contains(eventId))
+        {
+            throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+        }
+        if(orderList.size()>0)
+        {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "findOrderByEventId successfully ", orderRepository.findAllByIdEvent(eventId), 200));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "findOrderByEventId fail ", e.getMessage(), 400));
+                    new ResponseObject(true, "finding List of Order successfully ", orderList, 200));
 
         }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "finding List of Order  fail ", "", 400));
 
+        }
     }
+
 
     @Override
     public ResponseEntity<?> findOrderByTicketType(String ticketTypeId) {

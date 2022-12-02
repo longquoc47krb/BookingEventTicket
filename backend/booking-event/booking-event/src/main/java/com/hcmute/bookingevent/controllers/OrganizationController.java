@@ -136,4 +136,20 @@ public class OrganizationController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
+    @GetMapping("/organization/ticketList/{userId}")
+    public ResponseEntity<?> findTicketListByEventId(@PathVariable String userId,@RequestParam(value="eventId", required = false) String eventId, HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)){
+            return iOrganizationService.findTicketListByEventId(eventId,account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+    @GetMapping("/organization/manage/customerList/{userId}")
+    public ResponseEntity<?> findCustomerListByEventId(@PathVariable String userId,@RequestParam(value="eventId", required = false) String eventId, HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)){
+            return iOrganizationService.findCustomerListByEventId(eventId,account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
 }

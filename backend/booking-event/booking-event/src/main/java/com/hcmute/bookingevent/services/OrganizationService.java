@@ -3,10 +3,13 @@ package com.hcmute.bookingevent.services;
 import com.hcmute.bookingevent.Implement.IOrganizationService;
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
+import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.mapper.OrganizationMapper;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
@@ -15,6 +18,7 @@ import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.*;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
+import com.hcmute.bookingevent.repository.OrderRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +41,7 @@ public class OrganizationService implements IOrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final CloudinaryConfig cloudinary;
-
+    private final OrderRepository orderRepository;
     private final EventRepository eventRepository;
 
     private final AccountRepository accountRepository;
@@ -297,5 +301,50 @@ public class OrganizationService implements IOrganizationService {
 
         }
         return null;
+    }
+    @Override
+    public ResponseEntity<?> findTicketListByEventId(String eventId,String email) {
+        Optional<Event> event= eventRepository.findEventById(eventId);
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+
+        if(organization.isPresent() && !organization.get().getEventList().contains(eventId))
+        {
+            throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+        }
+        if(event.isPresent())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "findTicketListByEventId successfully ",  event.get().getOrganizationTickets(), 200));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "findTicketListByEventId fail ", "", 400));
+
+        }
+    }
+    @Override
+    public ResponseEntity<?> findCustomerListByEventId(String eventId,String email) {
+        //Optional<Event> event= eventRepository.findEventById(eventId);
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+
+        if(organization.isPresent() && !organization.get().getEventList().contains(eventId))
+        {
+            throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+        }
+        List<Order> orderList = orderRepository.getOrderDistance();
+        if(orderList.size()>0)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "findTicketListByEventId successfully ",  orderList, 200));
+
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "findTicketListByEventId fail ", "", 400));
+
+        }
+
     }
 }

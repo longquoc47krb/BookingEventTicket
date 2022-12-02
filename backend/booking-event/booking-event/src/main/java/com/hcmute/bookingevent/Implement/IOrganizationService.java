@@ -27,5 +27,7 @@ public interface IOrganizationService {
      ResponseEntity<?> createTemplateTickets(String email, List<Ticket> tickets);
      ResponseEntity<?> getTemplateTickets(String email);
      ResponseEntity<?> findOrganizationByEventid(String eventId);
+     ResponseEntity<?> findTicketListByEventId(String eventId,String email);
+     ResponseEntity<?> findCustomerListByEventId(String eventId,String email);
 
 }

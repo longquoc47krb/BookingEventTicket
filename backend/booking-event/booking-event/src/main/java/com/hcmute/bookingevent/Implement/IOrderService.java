@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 public interface IOrderService {
     ResponseEntity<?> createCustomerOrder(String email, Order order);
     ResponseEntity<?> findCustomerOrderByEmail(String email);
-    ResponseEntity<?> findOrderByEventId(String eventId);
+    ResponseEntity<?> findOrderByEventId(String eventId,String email);
     ResponseEntity<?> findOrderByTicketType(String ticketTypeId);
     ResponseEntity<?> findAll();
     ResponseEntity<?> checkOrderAvailability( Order order);
