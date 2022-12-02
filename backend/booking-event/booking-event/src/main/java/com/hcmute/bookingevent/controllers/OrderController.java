@@ -23,19 +23,6 @@ public class OrderController {
 
 
     @PostMapping(path = "/customer/order/{userId}")
-<<<<<<< .mine
-<<<<<<< .mine
-    //@Transactional(rollbackFor = {Exception.class})
-=======
-//    @Transactional(rollbackFor = {Exception.class})
->>>>>>> .theirs
-=======
-
-
-
-
-
->>>>>>> .theirs
     public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
@@ -57,11 +44,11 @@ public class OrderController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping(path = "/organization/order")
+    @GetMapping(path = "/organization/manage/customerOrder")
     public ResponseEntity<?> findOrderByEventId(@RequestParam(value="userId", required = false) String userId,@RequestParam(value="eventId", required = false) String eventId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if (account.getId().equals(userId)) {
-            return iOrderService.findOrderByEventId(eventId);
+            return iOrderService.findOrderByEventId(eventId, account.getEmail());
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
