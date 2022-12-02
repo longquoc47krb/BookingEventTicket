@@ -122,9 +122,7 @@ public class OrganizationService implements IOrganizationService {
             Optional<Organization> organization = organizationRepository.findOrganizationByEventId(eventId);
             if (organization.isPresent()) {
                 Optional<Account> account = accountRepository.findByEmail(organization.get().getEmail());
-                OrganizerResponse organizationProfileReq = new OrganizerResponse(organization.get().getId(), account.get().getName(),account.get().getAvatar(),account.get().getPhone(),account.get().getRole(),organization.get().getEmail(),organization.get().getBiography(),organization.get().getProvince(),organization.get().getVenue(),organization.get().getAddress(),organization.get().getUSDBalance());
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject(true, "Get Organization successfully", organization, 200));
+                return getOrganizerResponse(organization, account);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         new ResponseObject(false, "Organization has no exist", "", 400));
@@ -135,6 +133,13 @@ public class OrganizationService implements IOrganizationService {
         }
     }
 
+    private ResponseEntity<?> getOrganizerResponse(Optional<Organization> organization, Optional<Account> account) {
+        OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(),account.get().getName(),account.get().getAvatar(),account.get().getPhone(),account.get().getRole(),account.get().getEmail(),organization.get().getBiography(),organization.get().getProvince(),organization.get().getVenue(),organization.get().getAddress(),organization.get().getUSDBalance(),organization.get().getVNDBalance());
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Get Organization successfully", organizerResponse, 200));
+    }
+
     @Override
     public ResponseEntity<?> findOrganizationByEmail(String email) {
         try {
@@ -142,10 +147,7 @@ public class OrganizationService implements IOrganizationService {
             Optional<Organization> organization = organizationRepository.findByEmail(email);
             if (organization.isPresent()) {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress(),organization.get().getUSDBalance());
-
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject(true, "Get Organization successfully", organizerResponse, 200));
+                return getOrganizerResponse(organization, account);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         new ResponseObject(false, "Organization has no exist", "", 400));
@@ -200,6 +202,7 @@ public class OrganizationService implements IOrganizationService {
             accountRepository.save(account.get());
             organization.get().setStatus(EOrganization.ACCEPTED);
             organization.get().setUSDBalance("0");
+            organization.get().setVNDBalance("0");
             organizationRepository.save(organization.get());
             mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);
             return ResponseEntity.status(HttpStatus.OK).body(

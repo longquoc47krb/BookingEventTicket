@@ -34,6 +34,7 @@ public class Organization {
     @Indexed(unique = true)
     private String email;
     private String USDBalance;
+    private String VNDBalance;
     private CreditCard creditCard;
     private EOrganization status;
     private List<String> eventList;
