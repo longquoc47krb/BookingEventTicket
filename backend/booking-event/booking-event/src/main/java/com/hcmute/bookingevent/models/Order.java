@@ -35,7 +35,7 @@ public class Order {
     @NotBlank(message = "quantity is required")
     private int totalQuantity;
 
-    private String currency = "USD";
+    private String currency;
 
     List<Ticket> customerTicketList  = new ArrayList<>();
     private Date createdDate;
