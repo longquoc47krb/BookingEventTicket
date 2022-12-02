@@ -66,12 +66,6 @@ const UserProfile = ({ setOpen }) => {
                   {formatter("USD").format(user.usdbalance)}
                 </span>
               </div>
-              <div className="flex items-center gap-x-2">
-                <FaWallet color="#FEC90F" fontSize={16} />
-                <span className="font-bold text-lg">
-                  {formatter("VND").format(user.vndbalance)}
-                </span>
-              </div>
             </div>
           ) : null}
         </div>

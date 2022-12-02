@@ -42,7 +42,7 @@ public class Account {
     @NotBlank(message = "Role is required")
     private String role;
     private OTP otp;
-    private Date
+    private Date loginTime;
     private EAccount loginType;
     public Account(String name,  String email,String passWord, String avatar) {
 
