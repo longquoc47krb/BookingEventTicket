@@ -57,21 +57,11 @@ public class OrderService implements IOrderService {
                 if (organization.isPresent()) {
                     BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
 
-                    if (order.getCurrency().equals("USD")) {
-                        BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
-                        organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());
-                    } else if (order.getCurrency().equals("VND")) {
-                        BigDecimal vndBalance = new BigDecimal(organization.get().getVNDBalance());
-                        organization.get().setVNDBalance(vndBalance.add(orderPrice).toString());
-                    } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                                new ResponseObject(false, "Problem with currency ", "", 400));
-
-                    }
+                    BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
+                    organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());
                     organizationRepository.save(organization.get());
                 }
                 eventRepository.save(event.get());
-                if()
                 orderRepository.save(order);
                 customerRepository.save(customer.get());
 

@@ -117,6 +117,8 @@ public class OrganizationService implements IOrganizationService {
         try {
             Optional<Organization> organization = organizationRepository.findOrganizationByEventId(eventId);
             if (organization.isPresent()) {
+                Optional<Account> account = accountRepository.findByEmail(organization.get().getEmail());
+                OrganizerResponse organizationProfileReq = new OrganizerResponse(organization.get().getId(), account.get().getName(),account.get().getAvatar(),account.get().getPhone(),account.get().getRole(),organization.get().getEmail(),organization.get().getBiography(),organization.get().getProvince(),organization.get().getVenue(),organization.get().getAddress(),organization.get().getUSDBalance());
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organization, 200));
             } else {
@@ -136,7 +138,7 @@ public class OrganizationService implements IOrganizationService {
             Optional<Organization> organization = organizationRepository.findByEmail(email);
             if (organization.isPresent()) {
                 // ds các id
-                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress(),organization.get().getUSDBalance(),organization.get().getVNDBalance());
+                OrganizerResponse organizerResponse = new OrganizerResponse(account.get().getId(), account.get().getName(), account.get().getAvatar(), account.get().getPhone(), account.get().getRole(), organization.get().getEmail(), organization.get().getBiography(), organization.get().getProvince(), organization.get().getVenue(), organization.get().getAddress(),organization.get().getUSDBalance());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Get Organization successfully", organizerResponse, 200));
@@ -193,7 +195,6 @@ public class OrganizationService implements IOrganizationService {
             account.get().setPassWord(encoder.encode(randomPassword));
             accountRepository.save(account.get());
             organization.get().setStatus(EOrganization.ACCEPTED);
-            organization.get().setVNDBalance("0");
             organization.get().setUSDBalance("0");
             organizationRepository.save(organization.get());
             mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);

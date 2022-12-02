@@ -21,5 +21,4 @@ public class OrganizerResponse {
     private String venue;
     private String address;
     private String USDBalance;
-    private String VNDBalance;
 }
