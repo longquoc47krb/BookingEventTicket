@@ -14,7 +14,9 @@ const findOrganizerById = async (id) => {
   try {
     const response = await httpRequest(OrganizationAPI.findOrganizerById(id));
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    return error.response.data;
+  }
 };
 export const useFindOrganizerById = (id) => {
   return useQuery(["findOrganizerById", id], () => findOrganizerById(id), {

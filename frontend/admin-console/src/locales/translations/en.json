@@ -246,6 +246,8 @@
     "save-template-ticket": "Save this ticket list",
     "default-address": "Use default address",
     "account": {
+        "customer": "Customer's accounts",
+        "organization": "Organizer's accounts",
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
@@ -253,7 +255,7 @@
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option",
-        "all": "All Organizer Accounts",
+        "all": "All Accounts",
         "accepted-accounts": "Accepted Organizers",
         "pending-accounts": "Pending Accounts"
     },

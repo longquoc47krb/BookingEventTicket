@@ -9,6 +9,7 @@ import { TimePicker as MuiTimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
+import { ErrorMessage } from "formik";
 import { useTranslation } from "react-i18next";
 import React from "react";
 const { Item } = Form;
@@ -52,9 +53,15 @@ function Input(props) {
         style={{ width: width }}
         className="p-[0.5rem]"
       />
-      <p className="text-red-600 font-medium text-lg mb-0">
-        {touched[name] && t(errors[name])}
-      </p>
+      {/* <p className="text-red-600 font-medium text-lg mb-0">
+        {touched[name] && t(errors.name)}
+      </p> */}
+      <ErrorMessage
+        name={name}
+        render={(msg) => (
+          <p className="text-red-600 font-medium text-lg mb-0">{t(msg)}</p>
+        )}
+      />
     </>
   );
 }

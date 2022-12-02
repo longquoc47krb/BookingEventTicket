@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   ColumnDirective,
   ColumnsDirective,
@@ -14,6 +15,10 @@ import {
 import { Radio, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  useFindAllAccount,
+  useFindAllCustomer,
+} from "../api/services/adminServices";
 import { useFetchAllOrganizers } from "../api/services/organizationServices";
 import { Header } from "../components";
 import { accountGrid, contextMenuItems } from "../data/dummy";
@@ -21,43 +26,38 @@ const { Group } = Radio;
 const Accounts = () => {
   const toolbarOptions = ["Search"];
   const { data: organizers, status } = useFetchAllOrganizers();
+  const { data: accounts, status: accountStatus } = useFindAllAccount();
+  const { data: customers, status: customerStatus } = useFindAllCustomer();
+  const [dataSource, setDataSource] = useState([]);
   const editing = { allowDeleting: true, allowEditing: true };
   const { t } = useTranslation();
-  const [value, setValue] = useState("pending");
-  const [accounts, setAccounts] = useState([]);
+  const [value, setValue] = useState("all");
+  console.log({ organizers, accounts, customers });
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
   useEffect(() => {
-    if (status === "success") {
-      switch (value) {
-        case "all": {
-          setAccounts(organizers);
-          break;
-        }
-        case "pending": {
-          // const pending = organizers.organization?.filter(
-          //   (o) => o.status === "DISABLED"
-          // );
-          // setAccounts(pending);
-          break;
-        }
-        case "accepted": {
-          // const accepted = organizers.organization?.filter(
-          //   (o) => o.status === "ACCEPTED"
-          // );
-          // setAccounts(accepted);
-          break;
-        }
-        default: {
-          setAccounts(organizers);
-          break;
-        }
+    switch (value) {
+      case "all": {
+        setDataSource(accounts);
+        break;
+      }
+      case "customer": {
+        setDataSource(customers);
+        break;
+      }
+      case "organization": {
+        setDataSource(organizers);
+        break;
+      }
+      default: {
+        setDataSource(accounts);
+        break;
       }
     }
-  }, [value, status, organizers]);
-  console.log({ accounts });
+  }, [value]);
+  console.log({ dataSource });
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       <Header category={t("sider.management")} title={t("sider.account")} />
@@ -67,9 +67,10 @@ const Accounts = () => {
         </button>
       </div> */}
       <div className="absolute top-[4.5rem] right-10">
-        <Group onChange={onChange} value={value}>
+        <Group onChange={onChange} value={value} defaultValue="all">
           <Radio value="all">{t("account.all")}</Radio>
-          <Radio value="accepted">{t("account.accepted-accounts")}</Radio>
+          <Radio value="customer">{t("account.customer")}</Radio>
+          <Radio value="organization">{t("account.organization")}</Radio>
           <Radio value="pending">{t("account.pending-accounts")}</Radio>
         </Group>
       </div>
@@ -79,7 +80,7 @@ const Accounts = () => {
         </div>
       ) : (
         <GridComponent
-          dataSource={organizers}
+          dataSource={dataSource}
           width="auto"
           allowPaging
           allowSorting
@@ -89,11 +90,11 @@ const Accounts = () => {
           editSettings={editing}
           contextMenuItems={contextMenuItems}
         >
-          <ColumnsDirective>
+          {/* <ColumnsDirective>
             {accountGrid.map((item, index) => (
               <ColumnDirective key={index} {...item} />
             ))}
-          </ColumnsDirective>
+          </ColumnsDirective> */}
           <Inject
             services={[
               Search,
