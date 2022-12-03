@@ -21,7 +21,12 @@ import {
 } from "../api/services/adminServices";
 import { useFetchAllOrganizers } from "../api/services/organizationServices";
 import { Header } from "../components";
-import { accountGrid, contextMenuItems } from "../data/dummy";
+import {
+  accountGrid,
+  customerGrid,
+  organizationGrid,
+  contextMenuItems,
+} from "../data/dummy";
 const { Group } = Radio;
 const Accounts = () => {
   const toolbarOptions = ["Search"];
@@ -58,6 +63,46 @@ const Accounts = () => {
     }
   }, [value]);
   console.log({ dataSource });
+  function renderColumnDirective(value) {
+    switch (value) {
+      case "all": {
+        return (
+          <ColumnsDirective>
+            {accountGrid.map((item, index) => (
+              <ColumnDirective key={index} {...item} />
+            ))}
+          </ColumnsDirective>
+        );
+      }
+      case "customer": {
+        return (
+          <ColumnsDirective>
+            {customerGrid.map((item, index) => (
+              <ColumnDirective key={index} {...item} />
+            ))}
+          </ColumnsDirective>
+        );
+      }
+      case "organization": {
+        return (
+          <ColumnsDirective>
+            {organizationGrid.map((item, index) => (
+              <ColumnDirective key={index} {...item} />
+            ))}
+          </ColumnsDirective>
+        );
+      }
+      default: {
+        return (
+          <ColumnsDirective>
+            {accountGrid.map((item, index) => (
+              <ColumnDirective key={index} {...item} />
+            ))}
+          </ColumnsDirective>
+        );
+      }
+    }
+  }
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       <Header category={t("sider.management")} title={t("sider.account")} />
@@ -90,11 +135,7 @@ const Accounts = () => {
           editSettings={editing}
           contextMenuItems={contextMenuItems}
         >
-          {/* <ColumnsDirective>
-            {accountGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective> */}
+          {renderColumnDirective(value)}
           <Inject
             services={[
               Search,

@@ -688,12 +688,34 @@ export const categoryGrid = [
 ];
 export const accountGrid = [
   {
-    headerText: t("account.name"),
+    headerText: "ID",
+    field: "id",
+  },
+  {
+    headerText: t("user.name"),
     field: "name",
   },
   {
-    headerText: t("account.email"),
-    field: "organization.email",
+    headerText: "Email",
+    field: "email",
+  },
+  {
+    headerText: t("user.phone"),
+    field: "phone",
+  },
+  {
+    headerText: t("account.role"),
+    field: "role"
+  },
+];
+export const customerGrid = [
+  {
+    headerText: "ID",
+    field: "id",
+  },
+  {
+    headerText: t("account.name"),
+    field: "name",
   },
   {
     headerText: t("account.events"),
@@ -710,6 +732,31 @@ export const accountGrid = [
   {
     headerText: t("account.options"),
     template: gridAccountOption,
+  },
+];
+export const organizationGrid = [
+  {
+    headerText: t("account.name"),
+    field: "name",
+  },
+  {
+    headerText: "Email",
+    field: "organization.email",
+    width: "150",
+  },
+  {
+    headerText: t("event.venue_address"),
+    field: "organization.address",
+  },
+  {
+    headerText: t("event.venue_address"),
+    field: "organization.address",
+  },
+  {
+    headerText: t("account.status"),
+    field: "organization.status",
+    template: gridAccountStatus,
+    width: "100",
   },
 ];
 

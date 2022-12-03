@@ -246,6 +246,7 @@
     "save-template-ticket": "Save this ticket list",
     "default-address": "Use default address",
     "account": {
+        "role": "Role",
         "customer": "Customer's accounts",
         "organization": "Organizer's accounts",
         "email": "Email",
