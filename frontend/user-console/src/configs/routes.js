@@ -4,6 +4,10 @@ import ForgotPassword from "../views/auth/ForgotPassword";
 import UserRegister from "../views/auth/UserRegister";
 import FavoritePage from "../views/favorite-list";
 import Payment from "../views/ticket-booking/paymentPage";
+const ComingSoon = Loadable({
+  loader: () => import("../views/comming-soon"),
+  loading: Loading,
+});
 const LoginPage = Loadable({
   loader: () => import("../views/auth/UserLogin"),
   loading: Loading,
@@ -96,6 +100,18 @@ export const authorizedRoutes = [
     element: <UserProfilePage />,
     path: "/profile",
     protected: true,
+  },
+  {
+    element: <ComingSoon />,
+    path: "/contact",
+  },
+  {
+    element: <ComingSoon />,
+    path: "/help-center",
+  },
+  {
+    element: <ComingSoon />,
+    path: "/about",
   },
 ];
 const routes = [

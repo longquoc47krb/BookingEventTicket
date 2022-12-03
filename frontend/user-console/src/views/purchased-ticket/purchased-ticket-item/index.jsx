@@ -28,7 +28,7 @@ function PurchaseTicketItem(props) {
   const user = useSelector(userInfoSelector);
   const { data: event, status: eventStatus } = useEventDetails(data.idEvent);
   const { data: organizer, status: organizerStatus } =
-    useFetchOrganizerByEventId(event.id);
+    useFetchOrganizerByEventId(data.idEvent);
   const HeadingList = [
     {
       icon: <HiIdentification />,
