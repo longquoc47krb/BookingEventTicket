@@ -1,10 +1,3 @@
-/* eslint-disable import/order */
-/* eslint-disable operator-linebreak */
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable prefer-template */
-/* eslint-disable quotes */
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
@@ -13,9 +6,11 @@ import { ROLE } from "../utils/constants";
 import { OrganizerRoute, AdminRoute } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useTranslation } from "react-i18next";
+import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
+import VietnamFlag from "../assets/vietnam-flag.png";
 
 const Sidebar = ({ role }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
 
@@ -24,7 +19,6 @@ const Sidebar = ({ role }) => {
       setActiveMenu(false);
     }
   };
-
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
   const normalLink =
@@ -109,7 +103,25 @@ const Sidebar = ({ role }) => {
           </div>
         </>
       )}
-      <div className="absolute bottom-4 left-4">Choose langauge</div>
+      <div className="absolute bottom-4 left-4 flex items-center gap-x-4">
+        <span>{t("choose-language")}</span>
+        <img
+          src={UnitedKingdomFlag}
+          alt="UK"
+          onClick={() => {
+            i18n.changeLanguage("en");
+          }}
+          className="h-[1.5rem] w-auto cursor-pointer"
+        />
+        <img
+          src={VietnamFlag}
+          alt="UK"
+          onClick={() => {
+            i18n.changeLanguage("vn");
+          }}
+          className="h-[1.5rem] w-auto cursor-pointer"
+        />
+      </div>
     </div>
   );
 };

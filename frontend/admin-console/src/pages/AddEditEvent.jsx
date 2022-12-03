@@ -437,6 +437,7 @@ function AddEditEvent(props) {
                     defaultChecked={false}
                     checked={useDefaultAddress}
                     onChange={(checked) => setUseDefaultAddress(checked)}
+                    className="my-4"
                   />
                 </div>
               </Col>
@@ -470,8 +471,8 @@ function AddEditEvent(props) {
                         </button>
                       </Col>
                       <Col span={8}>
-                        <h1 className="font-medium text-black text-lg my-2">
-                          {t("default-currencry")}
+                        <h1 className="text-gray-400 italic text-lg my-2">
+                          {t("default-currency")}
                         </h1>
                       </Col>
                       {!eventId && (
