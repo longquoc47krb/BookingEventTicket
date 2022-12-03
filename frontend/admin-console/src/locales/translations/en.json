@@ -58,6 +58,7 @@
         "modify": "Modify"
     },
     "category": {
+        "title": "Category name",
         "new": "New Category",
         "edit": "Edit Category",
         "menu": "Categories",
@@ -250,15 +251,19 @@
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Disabled",
+        "disabled": "Pending",
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option",
-        "all": "All Accounts",
-        "accepted-accounts": "Accepted Organizers",
+        "all": "Accounts",
         "pending-accounts": "Pending Accounts"
     },
     "view-detail": "View detail",
     "default-currency": "Currency unit: US Dollar",
-    "choose-language": "Choose language: "
+    "choose-language": "Choose language: ",
+    "role": {
+        "user": "Customer",
+        "organizer": "Organizer",
+        "admin": "System Admin"
+    }
 }

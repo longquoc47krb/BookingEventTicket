@@ -5,6 +5,10 @@ export const TicketStatus = {
   AVAILABLE: "ticket.available",
   DISABLE: "ticket.disabled",
 };
+export const AccountStatus = {
+  accepted: "ACCEPTED",
+  disabled: "DISABLED"
+}
 export const comparisonStatus = {
   EQUAL: "equal",
   MORE: "more",

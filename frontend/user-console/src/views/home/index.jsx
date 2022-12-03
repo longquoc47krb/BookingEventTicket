@@ -60,7 +60,7 @@ function Home() {
           <SiderBar className="sider" />
         </div>
         <div className="home-content">
-          {!sucessStatus ? (
+          {featuredEventStatus !== "success" ? (
             <Skeleton width={"100%"} height={"20vh"} />
           ) : isMobile ? (
             <Carousel data={featuredEvents} />
@@ -87,7 +87,7 @@ function Home() {
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
             <div className="home-popular-content">
-              {!sucessStatus
+              {featuredEventStatus !== "success"
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : featuredEvents
                     .filter((e) => e.status !== EventStatus.SOLDOUT)

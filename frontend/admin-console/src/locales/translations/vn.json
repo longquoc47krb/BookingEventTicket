@@ -55,9 +55,10 @@
             "currency": "Currency No.{{val, number}}",
             "description": "Mô tả loại {{val, number}}"
         },
-        "modify": "Modify"
+        "modify": "Tùy chọn"
     },
     "category": {
+        "title": "Tên thể loại",
         "new": "Danh mục mới",
         "edit": "Cập nhật danh mục",
         "menu": "Danh mục",
@@ -252,15 +253,19 @@
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Disabled",
+        "disabled": "Đang chờ",
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option",
-        "all": "All Accounts",
-        "accepted-accounts": "Accepted Organizers",
-        "pending-accounts": "Pending Accounts"
+        "all": "Danh sách tài khoản",
+        "pending-accounts": "Danh sách tài khoản chờ phê duyệt"
     },
-    "view-detail": "View detail",
+    "view-detail": "Xem chi tiết",
     "default-currency": "Currency unit: US Dollar",
-    "choose-language": "Chọn ngôn ngữ: "
+    "choose-language": "Chọn ngôn ngữ: ",
+    "role": {
+        "user": "Khách hàng",
+        "organizer": "Nhà tổ chức",
+        "admin": "Quản trị viên"
+    }
 }
