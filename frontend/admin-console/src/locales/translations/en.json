@@ -119,8 +119,6 @@
     "user": {
         "biography": "Biography",
         "profile": "Profile",
-        "my-ticket": "My ticket",
-        "forgot-password": "Forgot password",
         "wishlist": "Favorite events",
         "logout": "Logout",
         "name": "Full name",
@@ -260,5 +258,7 @@
         "accepted-accounts": "Accepted Organizers",
         "pending-accounts": "Pending Accounts"
     },
-    "view-detail": "View detail"
+    "view-detail": "View detail",
+    "default-currency": "Currency unit: US Dollar",
+    "choose-language": "Choose language: "
 }
