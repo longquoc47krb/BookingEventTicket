@@ -12,7 +12,7 @@ import {
 } from "@syncfusion/ej2-react-grids";
 import { Modal } from "antd";
 import { Spin } from "antd";
-import { categoryGrid, contextMenuItems } from "../data/dummy";
+import { categoryColumns, contextMenuItems } from "../data/dummy";
 import { Header } from "../components";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
 import { useFetchCategories } from "../api/services/categoryServices";
-
+import Table from "../components/Table";
 const Categories = () => {
   const toolbarOptions = ["Search"];
   const user = useSelector(userInfoSelector);
@@ -60,23 +60,7 @@ const Categories = () => {
           <Spin />
         </div>
       ) : (
-        <GridComponent
-          dataSource={categories}
-          width="auto"
-          allowPaging
-          allowSorting
-          allowExcelExport
-          pageSettings={{ pageCount: 5 }}
-          toolbar={toolbarOptions}
-          contextMenuItems={contextMenuItems}
-        >
-          <ColumnsDirective>
-            {categoryGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-          <Inject services={[Search, Page, Toolbar, Filter, Sort]} />
-        </GridComponent>
+       <Table columns={categoryColumns} dataSource={categories}/>
       )}
       <Modal
         title={isEdit ? t("category.edit") : t("category.new")}

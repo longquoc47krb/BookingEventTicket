@@ -1,17 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  ColumnDirective,
-  ColumnsDirective,
-  ContextMenu,
-  ExcelExport,
-  Filter,
-  GridComponent,
-  Inject,
-  Page,
-  Search,
-  Sort,
-  Toolbar,
-} from "@syncfusion/ej2-react-grids";
+import { ColumnDirective, ColumnsDirective } from "@syncfusion/ej2-react-grids";
 import { Radio, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,14 +7,12 @@ import {
   useFindAllAccount,
   useFindAllCustomer,
 } from "../api/services/adminServices";
+import { filter } from "lodash";
 import { useFetchAllOrganizers } from "../api/services/organizationServices";
 import { Header } from "../components";
-import {
-  accountGrid,
-  customerGrid,
-  organizationGrid,
-  contextMenuItems,
-} from "../data/dummy";
+import Table from "../components/Table";
+import { AccountStatus } from "../utils/constants";
+import { accountColumns, pendingAccountsColumns, customerGrid, organizationGrid } from "../data/dummy";
 const { Group } = Radio;
 const Accounts = () => {
   const toolbarOptions = ["Search"];
@@ -37,11 +23,25 @@ const Accounts = () => {
   const editing = { allowDeleting: true, allowEditing: true };
   const { t } = useTranslation();
   const [value, setValue] = useState("all");
-  console.log({ organizers, accounts, customers });
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
+  const accountData = accounts?.map((item) => ({
+    key: item.id,
+    id: item.id,
+    name: item.name,
+    email: item.email,
+    role: item.role,
+  }));
+  const pendingAccountData = filter(organizers, {organization
+    :{status: AccountStatus.disabled}}).map((item) => ({
+    name: item.name,
+    email: item.organization.email,
+    province: item.organization.province,
+    status: item.organization.status
+    
+  }));
+
   useEffect(() => {
     switch (value) {
       case "all": {
@@ -62,47 +62,7 @@ const Accounts = () => {
       }
     }
   }, [value]);
-  console.log({ dataSource });
-  function renderColumnDirective(value) {
-    switch (value) {
-      case "all": {
-        return (
-          <ColumnsDirective>
-            {accountGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-        );
-      }
-      case "customer": {
-        return (
-          <ColumnsDirective>
-            {customerGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-        );
-      }
-      case "organization": {
-        return (
-          <ColumnsDirective>
-            {organizationGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-        );
-      }
-      default: {
-        return (
-          <ColumnsDirective>
-            {accountGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-        );
-      }
-    }
-  }
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       <Header category={t("sider.management")} title={t("sider.account")} />
@@ -114,8 +74,6 @@ const Accounts = () => {
       <div className="absolute top-[4.5rem] right-10">
         <Group onChange={onChange} value={value} defaultValue="all">
           <Radio value="all">{t("account.all")}</Radio>
-          <Radio value="customer">{t("account.customer")}</Radio>
-          <Radio value="organization">{t("account.organization")}</Radio>
           <Radio value="pending">{t("account.pending-accounts")}</Radio>
         </Group>
       </div>
@@ -124,30 +82,10 @@ const Accounts = () => {
           <Spin />
         </div>
       ) : (
-        <GridComponent
-          dataSource={dataSource}
-          width="auto"
-          allowPaging
-          allowSorting
-          allowExcelExport
-          pageSettings={{ pageCount: 5 }}
-          toolbar={toolbarOptions}
-          editSettings={editing}
-          contextMenuItems={contextMenuItems}
-        >
-          {renderColumnDirective(value)}
-          <Inject
-            services={[
-              Search,
-              Page,
-              Toolbar,
-              Filter,
-              Sort,
-              ContextMenu,
-              ExcelExport,
-            ]}
-          />
-        </GridComponent>
+        <Table
+          columns={value === "all" ? accountColumns : pendingAccountsColumns }
+          dataSource={value === "all" ? accountData : pendingAccountData}
+        />
       )}
     </div>
   );

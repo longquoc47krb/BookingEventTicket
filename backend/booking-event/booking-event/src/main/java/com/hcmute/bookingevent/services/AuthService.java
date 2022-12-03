@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -53,11 +54,13 @@ public class AuthService implements IAuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         //
-         Optional<Account>  account=  accountRepository.findByEmail(userDetails.getEmail());
+         Optional<Account> account=  accountRepository.findByEmail(userDetails.getEmail());
         // Trả về jwt cho người dùng.
             String jwt;
             if(account.isPresent())
             {
+                 account.get().setLoginTime(new Date());
+                 accountRepository.save(account.get());
                  jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail(),account.get().getId());
 
             }

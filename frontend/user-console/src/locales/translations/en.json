@@ -287,5 +287,6 @@
   "price-from": "From ",
   "customer": {
     "name": "Customer name"
-  }
+  },
+  "coming-soon": "Coming Soon ..."
 }
