@@ -1,26 +1,13 @@
-import React, { useState } from "react";
-import {
-  GridComponent,
-  Inject,
-  ColumnsDirective,
-  ColumnDirective,
-  Search,
-  Page,
-  Toolbar,
-  Filter,
-  Sort,
-} from "@syncfusion/ej2-react-grids";
 import { Spin } from "antd";
-import { eventColumns, contextMenuItems } from "../data/dummy";
-import { Header } from "../components";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { useFetchEvents } from "../api/services/eventServices";
-import { convertToYearMonthDayFormat } from "../utils/utils";
 import { useSelector } from "react-redux";
-import { userInfoSelector } from "../redux/slices/accountSlice";
+import { useNavigate } from "react-router-dom";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
+import { Header } from "../components";
 import Table from "../components/Table";
+import { eventColumns } from "../data/dummy";
+import { userInfoSelector } from "../redux/slices/accountSlice";
 const Events = () => {
   const toolbarOptions = ["Search"];
   const user = useSelector(userInfoSelector);
@@ -34,9 +21,9 @@ const Events = () => {
     name: item.name,
     categories: item.eventCategoryList,
     date: item.startingDate,
-    status: item.status
-  }))
-  console.log({events, eventData})
+    status: item.status,
+  }));
+  console.log({ events, eventData });
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />
@@ -53,7 +40,7 @@ const Events = () => {
           <Spin />
         </div>
       ) : (
-       <Table columns={eventColumns} dataSource={eventData}/>
+        <Table columns={eventColumns} dataSource={eventData} />
       )}
     </div>
   );

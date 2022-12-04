@@ -265,5 +265,9 @@
         "user": "Customer",
         "organizer": "Organizer",
         "admin": "System Admin"
+    },
+    "order": {
+        "by-event": "Orders by event",
+        "by-account": "Orders by account"
     }
 }

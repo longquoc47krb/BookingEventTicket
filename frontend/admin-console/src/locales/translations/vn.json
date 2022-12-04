@@ -267,5 +267,9 @@
         "user": "Khách hàng",
         "organizer": "Nhà tổ chức",
         "admin": "Quản trị viên"
+    },
+    "order": {
+        "by-event": "Danh sách hóa đơn theo sự kiện",
+        "by-account": "Danh sách hóa đơn theo tài khoản"
     }
 }
