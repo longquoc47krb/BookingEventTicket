@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,12 @@ public class AccountService implements IAccountService {
     }
     @Override
     public ResponseEntity<?> findAll(Pageable pageable) {
-        Page<Account> users = accountRepository.findAll(pageable);
-        List<Account> userResList = users.toList();
+        List<Account> userResList;
+        if(pageable.toOptional().isPresent()){
+            userResList = accountRepository.findAll(pageable).toList();
+        }else{
+            userResList = accountRepository.findAll();
+        }
         if (userResList.size() > 0)
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Get all user success", userResList,200));

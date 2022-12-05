@@ -48,6 +48,7 @@ import { StyledSwitch } from "../pages/AddEditEvent";
 import { BiCategory } from "react-icons/bi";
 import organizationServices from "../api/services/organizationServices";
 import { has } from "lodash";
+import { ROLE, AccountStatus } from "../utils/constants";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
@@ -241,7 +242,7 @@ const gridEventDate = (props) => (
 const customerGridImage = (props) => (
   <div className="image flex gap-4">
     <img
-      className="rounded-full w-10 h-10"
+      className="rounded-md w-10 h-10"
       src={props.CustomerImage}
       alt="employee"
     />
@@ -256,7 +257,7 @@ const customerGridStatus = (props) => (
   <div className="flex gap-2 justify-center items-center text-gray-700 capitalize">
     <p
       style={{ background: props.StatusBg }}
-      className="rounded-full h-3 w-3"
+      className="rounded-md h-3 w-3"
     />
     <p>{props.Status}</p>
   </div>
@@ -509,102 +510,6 @@ export const LinePrimaryYAxis = {
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },
 };
-
-export const customersGrid = [
-  { type: "checkbox", width: "50" },
-  {
-    headerText: "Name",
-    width: "150",
-    template: customerGridImage,
-    textAlign: "Center",
-  },
-  {
-    field: "ProjectName",
-    headerText: "Project Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "Status",
-    headerText: "Status",
-    width: "130",
-    format: "yMd",
-    textAlign: "Center",
-    template: customerGridStatus,
-  },
-  {
-    field: "Weeks",
-    headerText: "Weeks",
-    width: "100",
-    format: "C2",
-    textAlign: "Center",
-  },
-  {
-    field: "Budget",
-    headerText: "Budget",
-    width: "100",
-    format: "yMd",
-    textAlign: "Center",
-  },
-
-  {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
-  },
-
-  {
-    field: "CustomerID",
-    headerText: "Customer ID",
-    width: "120",
-    textAlign: "Center",
-    isPrimaryKey: true,
-  },
-];
-
-// export const employeesGrid = [
-//   {
-//     headerText: "Employee",
-//     width: "150",
-//     template: gridEmployeeProfile,
-//     textAlign: "Center",
-//   },
-//   { field: "Name", headerText: "", width: "0", textAlign: "Center" },
-//   {
-//     field: "Title",
-//     headerText: "Designation",
-//     width: "170",
-//     textAlign: "Center",
-//   },
-//   {
-//     headerText: "Country",
-//     width: "120",
-//     textAlign: "Center",
-//     template: gridEmployeeCountry,
-//   },
-
-//   {
-//     field: "HireDate",
-//     headerText: "Hire Date",
-//     width: "135",
-//     format: "yMd",
-//     textAlign: "Center",
-//   },
-
-//   {
-//     field: "ReportsTo",
-//     headerText: "Reports To",
-//     width: "120",
-//     textAlign: "Center",
-//   },
-//   {
-//     field: "EmployeeID",
-//     headerText: "Employee ID",
-//     width: "125",
-//     textAlign: "Center",
-//   },
-// ];
 export const eventGrid = [
   {
     headerText: t("event.background"),
@@ -686,30 +591,301 @@ export const categoryGrid = [
     template: gridEventModify,
   },
 ];
-export const accountGrid = [
+export const eventColumns = [
   {
-    headerText: t("account.name"),
-    field: "name",
+    title: t("event.background"),
+    dataIndex: "background",
+    render: (background) => <img src={background} className="h-[2rem] w-auto"/>
   },
   {
-    headerText: t("account.email"),
-    field: "organization.email",
+    title: t("event.name"),
+    dataIndex: "name",
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
   },
   {
-    headerText: t("account.events"),
-    field: "organization.eventList",
-    template: gridEventQuantity,
-    width: "150",
+    title: t("event.category"),
+    dataIndex: "categories",
+    render: (categories) => 
+      categories.map(item => <span className="p-2 bg-gray-100 border-2  rounded-md border-gray-500 text-gray-500 font-medium mr-2">
+      {t(item.name)} 
+    </span>)
+    
   },
   {
-    headerText: t("account.status"),
-    field: "organization.status",
-    template: gridAccountStatus,
-    width: "100",
+    title: t("event.status.title"),
+    dataIndex: "status",
+    filters: [
+      {
+        text: t("event.status.available"),
+        value: "event.available",
+      },
+      {
+        text: t("event.status.completed"),
+        value: "event.completed",
+      },
+      {
+        text: t("event.status.soldout"),
+        value: "event.sold-out",
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>  status === "event.available" ? <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
+    {t("event.status.available")} 
+  </span> : status === "event.completed" ? <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
+    {t("event.status.completed")} 
+  </span> : <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
+    {t("event.status.soldout")} 
+  </span>
+    
   },
   {
-    headerText: t("account.options"),
-    template: gridAccountOption,
+    title: t("event.modify"),
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex items-center gap-2">
+    <RiEditFill
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => window.location.replace(`/event/update/${record.id}`)}
+    />
+    <FaTrashAlt
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => {
+        AlertQuestion({
+          title: t("popup.event.delete"),
+          callback: async () => {
+            const response = await deleteEvent(
+              record.id,
+              store.getState().account.userInfo.id
+            );
+            if (response.status === 200) {
+              AlertPopup({
+                title: t("popup.event.delete-success"),
+                timer: 5000,
+              });
+            }
+          },
+        });
+      }}
+    />
+  </div>
+    ),
+  },
+]
+export const categoryColumns = [
+  {
+    title: t("category.title"),
+    dataIndex: "name",
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+    render: (category) => <p>{t(category)}</p>
+  },
+  {
+    title: t("event.modify"),
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex items-center gap-2">
+    <RiEditFill
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => window.location.replace(`/event/update/${record.id}`)}
+    />
+    <FaTrashAlt
+      className="text-primary text-xl cursor-pointer"
+      onClick={() => {
+        AlertQuestion({
+          title: t("popup.event.delete"),
+          callback: async () => {
+            const response = await deleteEvent(
+              record.id,
+              store.getState().account.userInfo.id
+            );
+            if (response.status === 200) {
+              AlertPopup({
+                title: t("popup.event.delete-success"),
+                timer: 5000,
+              });
+            }
+          },
+        });
+      }}
+    />
+  </div>
+    ),
+  },
+]
+export const accountColumns = [
+  {
+    title: t("user.name"),
+    dataIndex: "name",
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    defaultSortOrder: "descend",
+    onFilter: (value, record) => record.email.indexOf(value) === 0,
+    sorter: (a, b) => a.email - b.email,
+    sortDirections: ["descend"],
+  },
+  {
+    title: t("account.role"),
+    dataIndex: "role",
+    filters: [
+      {
+        text: t("role.user"),
+        value: ROLE.Customer,
+      },
+      {
+        text: t("role.organizer"),
+        value: ROLE.Organizer,
+      },
+      {
+        text: t("role.admin"),
+        value: ROLE.Admin,
+      },
+    ],
+    render: (role) => (
+      <>
+        {role === ROLE.Customer ? (
+          <span className="p-2 bg-yellow-100 border-2  rounded-md border-yellow-500 text-yellow-500 font-medium">
+            {t("role.user")}
+          </span>
+        ) : role === ROLE.Organizer ? (
+          <span className="p-2 bg-blue-100 border-2  rounded-md border-blue-500 text-blue-500 font-medium ">
+            {t("role.organizer")}
+          </span>
+        ) : (
+          <span className="p-2 bg-violet-100 border-2 rounded-md  border-violet-500 text-violet-500 font-medium ">
+            {t("role.admin")}
+          </span>
+        )}
+      </>
+    ),
+    onFilter: (value, record) => record.role.indexOf(value) === 0,
+  },
+  {
+    title: t("event.modify"),
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex items-center gap-x-2 cursor-pointer"><BsFillEyeFill color="#1f3e82"/><span className="text-[#1f3e82] font-medium">{t("view-detail")}</span></div>
+    ),
+  },
+];
+export const pendingAccountsColumns = [
+  {
+    title: t("user.name"),
+    dataIndex: "name",
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    defaultSortOrder: "descend",
+    onFilter: (value, record) => record.email.indexOf(value) === 0,
+    sorter: (a, b) => a.email - b.email,
+    sortDirections: ["descend"],
+  },
+  {
+    title: t("event.province"),
+    dataIndex: "province",
+    filters: [
+      {
+        text: "Ho Chi Minh",
+        value: "TP. Hồ Chí Minh",
+      },
+      {
+        text: "Ha Noi",
+        value: "Hà Nội",
+      },
+    ],
+    onFilter: (value, record) => record.province.indexOf(value) === 0,
+  },
+  {
+    title: t("account.status"),
+    dataIndex: "status",
+    render: (status) => (
+      <>
+        {status === AccountStatus.disabled && (
+          <span className="p-2 bg-yellow-100 border-2  rounded-md border-yellow-500 text-yellow-500 font-medium">
+            {t("account.disabled")}
+          </span>
+        ) }
+      </>
+    ),
+  },
+  {
+    title: t("event.modify"),
+    key: 'action',
+    render: (_, record) => (
+      <div className="flex items-center justify-center gap-x-2">
+        <button
+          className="text-white font-semibold bg-green-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.approve"),
+              callback: async () => {
+                const response = await approveOrganizer({
+                  email: record.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.approve-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.approve-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          <BsCheckLg />
+          <span>{t("account.approve")}</span>
+        </button>
+        <button
+          className="text-white font-semibold bg-red-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.account.refuse"),
+              callback: async () => {
+                const response = await refuseOrganizer({
+                  email: record.email,
+                });
+                if (response.status === 200) {
+                  AlertPopup({
+                    title: t("popup.account.refuse-success"),
+                    timer: 5000,
+                  });
+                } else {
+                  AlertErrorPopup({
+                    title: t("popup.account.refuse-fail"),
+                    timer: 5000,
+                  });
+                }
+              },
+            });
+          }}
+        >
+          <BsXLg />
+          <span>{t("account.disabled")}</span>
+        </button>
+      </div>
+    ),
   },
 ];
 
@@ -785,26 +961,6 @@ export const AdminRoute = [
   },
 ];
 
-export const cartData = [
-  {
-    image: product5,
-    name: "butterscotch ice-cream",
-    category: "Milk product",
-    price: "$250",
-  },
-  {
-    image: product6,
-    name: "Supreme fresh tomato",
-    category: "Vegetable Item",
-    price: "$450",
-  },
-  {
-    image: product7,
-    name: "Red color candy",
-    category: "Food Item",
-    price: "$190",
-  },
-];
 
 export const earningData = [
   {
@@ -2120,359 +2276,6 @@ export const stackedPrimaryYAxis = {
   minorTickLines: { width: 0 },
   labelFormat: "{value}",
 };
-
-export const kanbanData = [
-  {
-    Id: "Task 1",
-    Title: "Task - 29001",
-    Status: "Open",
-    Summary: "Analyze the new requirements gathered from the customer.",
-    Type: "Story",
-    Priority: "Low",
-    Tags: "Analyze,Customer",
-    Estimate: 3.5,
-    Assignee: "Nancy Davloio",
-    RankId: 1,
-    Color: "#02897B",
-    ClassName: "e-story, e-low, e-nancy-davloio",
-  },
-  {
-    Id: "Task 2",
-    Title: "Task - 29002",
-    Status: "InProgress",
-    Summary: "Improve application performance",
-    Type: "Improvement",
-    Priority: "Normal",
-    Tags: "Improvement",
-    Estimate: 6,
-    Assignee: "Andrew Fuller",
-    RankId: 1,
-    Color: "#673AB8",
-    ClassName: "e-improvement, e-normal, e-andrew-fuller",
-  },
-  {
-    Id: "Task 3",
-    Title: "Task - 29003",
-    Status: "Open",
-    Summary: "Arrange a web meeting with the customer to get new requirements.",
-    Type: "Others",
-    Priority: "Critical",
-    Tags: "Meeting",
-    Estimate: 5.5,
-    Assignee: "Janet Leverling",
-    RankId: 2,
-    Color: "#1F88E5",
-    ClassName: "e-others, e-critical, e-janet-leverling",
-  },
-  {
-    Id: "Task 4",
-    Title: "Task - 29004",
-    Status: "InProgress",
-    Summary: "Fix the issues reported in the IE browser.",
-    Type: "Bug",
-    Priority: "Critical",
-    Tags: "IE",
-    Estimate: 2.5,
-    Assignee: "Janet Leverling",
-    RankId: 2,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-release, e-janet-leverling",
-  },
-  {
-    Id: "Task 5",
-    Title: "Task - 29005",
-    Status: "Review",
-    Summary: "Fix the issues reported by the customer.",
-    Type: "Bug",
-    Priority: "Low",
-    Tags: "Customer",
-    Estimate: "3.5",
-    Assignee: "Steven walker",
-    RankId: 1,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-low, e-steven-walker",
-  },
-  {
-    Id: "Task 6",
-    Title: "Task - 29007",
-    Status: "Validate",
-    Summary: "Validate new requirements",
-    Type: "Improvement",
-    Priority: "Low",
-    Tags: "Validation",
-    Estimate: 1.5,
-    Assignee: "Robert King",
-    RankId: 1,
-    Color: "#673AB8",
-    ClassName: "e-improvement, e-low, e-robert-king",
-  },
-  {
-    Id: "Task 7",
-    Title: "Task - 29009",
-    Status: "Review",
-    Summary: "Fix the issues reported in Safari browser.",
-    Type: "Bug",
-    Priority: "Critical",
-    Tags: "Fix,Safari",
-    Estimate: 1.5,
-    Assignee: "Nancy Davloio",
-    RankId: 2,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-release, e-nancy-davloio",
-  },
-  {
-    Id: "Task 8",
-    Title: "Task - 29010",
-    Status: "Close",
-    Summary: "Test the application in the IE browser.",
-    Type: "Story",
-    Priority: "Low",
-    Tags: "Review,IE",
-    Estimate: 5.5,
-    Assignee: "Margaret hamilt",
-    RankId: 3,
-    Color: "#02897B",
-    ClassName: "e-story, e-low, e-margaret-hamilt",
-  },
-  {
-    Id: "Task 9",
-    Title: "Task - 29011",
-    Status: "Validate",
-    Summary: "Validate the issues reported by the customer.",
-    Type: "Story",
-    Priority: "High",
-    Tags: "Validation,Fix",
-    Estimate: 1,
-    Assignee: "Steven walker",
-    RankId: 1,
-    Color: "#02897B",
-    ClassName: "e-story, e-high, e-steven-walker",
-  },
-  {
-    Id: "Task 10",
-    Title: "Task - 29015",
-    Status: "Open",
-    Summary: "Show the retrieved data from the server in grid control.",
-    Type: "Story",
-    Priority: "High",
-    Tags: "Database,SQL",
-    Estimate: 5.5,
-    Assignee: "Margaret hamilt",
-    RankId: 4,
-    Color: "#02897B",
-    ClassName: "e-story, e-high, e-margaret-hamilt",
-  },
-  {
-    Id: "Task 11",
-    Title: "Task - 29016",
-    Status: "InProgress",
-    Summary: "Fix cannot open user’s default database SQL error.",
-    Priority: "Critical",
-    Type: "Bug",
-    Tags: "Database,Sql2008",
-    Estimate: 2.5,
-    Assignee: "Janet Leverling",
-    RankId: 4,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-critical, e-janet-leverling",
-  },
-  {
-    Id: "Task 12",
-    Title: "Task - 29017",
-    Status: "Review",
-    Summary: "Fix the issues reported in data binding.",
-    Type: "Story",
-    Priority: "Normal",
-    Tags: "Databinding",
-    Estimate: "3.5",
-    Assignee: "Janet Leverling",
-    RankId: 4,
-    Color: "#02897B",
-    ClassName: "e-story, e-normal, e-janet-leverling",
-  },
-  {
-    Id: "Task 13",
-    Title: "Task - 29018",
-    Status: "Close",
-    Summary: "Analyze SQL server 2008 connection.",
-    Type: "Story",
-    Priority: "Critical",
-    Tags: "Grid,Sql",
-    Estimate: 2,
-    Assignee: "Andrew Fuller",
-    RankId: 4,
-    Color: "#02897B",
-    ClassName: "e-story, e-release, e-andrew-fuller",
-  },
-  {
-    Id: "Task 14",
-    Title: "Task - 29019",
-    Status: "Validate",
-    Summary: "Validate databinding issues.",
-    Type: "Story",
-    Priority: "Low",
-    Tags: "Validation",
-    Estimate: 1.5,
-    Assignee: "Margaret hamilt",
-    RankId: 1,
-    Color: "#02897B",
-    ClassName: "e-story, e-low, e-margaret-hamilt",
-  },
-  {
-    Id: "Task 15",
-    Title: "Task - 29020",
-    Status: "Close",
-    Summary: "Analyze grid control.",
-    Type: "Story",
-    Priority: "High",
-    Tags: "Analyze",
-    Estimate: 2.5,
-    Assignee: "Margaret hamilt",
-    RankId: 5,
-    Color: "#02897B",
-    ClassName: "e-story, e-high, e-margaret-hamilt",
-  },
-  {
-    Id: "Task 16",
-    Title: "Task - 29021",
-    Status: "Close",
-    Summary: "Stored procedure for initial data binding of the grid.",
-    Type: "Others",
-    Priority: "Critical",
-    Tags: "Databinding",
-    Estimate: 1.5,
-    Assignee: "Steven walker",
-    RankId: 6,
-    Color: "#1F88E5",
-    ClassName: "e-others, e-release, e-steven-walker",
-  },
-  {
-    Id: "Task 17",
-    Title: "Task - 29022",
-    Status: "Close",
-    Summary: "Analyze stored procedures.",
-    Type: "Story",
-    Priority: "Critical",
-    Tags: "Procedures",
-    Estimate: 5.5,
-    Assignee: "Janet Leverling",
-    RankId: 7,
-    Color: "#02897B",
-    ClassName: "e-story, e-release, e-janet-leverling",
-  },
-  {
-    Id: "Task 18",
-    Title: "Task - 29023",
-    Status: "Validate",
-    Summary: "Validate editing issues.",
-    Type: "Story",
-    Priority: "Critical",
-    Tags: "Editing",
-    Estimate: 1,
-    Assignee: "Nancy Davloio",
-    RankId: 1,
-    Color: "#02897B",
-    ClassName: "e-story, e-critical, e-nancy-davloio",
-  },
-  {
-    Id: "Task 19",
-    Title: "Task - 29024",
-    Status: "Review",
-    Summary: "Test editing functionality.",
-    Type: "Story",
-    Priority: "Normal",
-    Tags: "Editing,Test",
-    Estimate: 0.5,
-    Assignee: "Nancy Davloio",
-    RankId: 5,
-    Color: "#02897B",
-    ClassName: "e-story, e-normal, e-nancy-davloio",
-  },
-  {
-    Id: "Task 20",
-    Title: "Task - 29025",
-    Status: "Open",
-    Summary: "Enhance editing functionality.",
-    Type: "Improvement",
-    Priority: "Low",
-    Tags: "Editing",
-    Estimate: 3.5,
-    Assignee: "Andrew Fuller",
-    RankId: 5,
-    Color: "#673AB8",
-    ClassName: "e-improvement, e-low, e-andrew-fuller",
-  },
-  {
-    Id: "Task 21",
-    Title: "Task - 29026",
-    Status: "InProgress",
-    Summary: "Improve the performance of the editing functionality.",
-    Type: "Epic",
-    Priority: "High",
-    Tags: "Performance",
-    Estimate: 6,
-    Assignee: "Nancy Davloio",
-    RankId: 5,
-    Color: "#e91e64",
-    ClassName: "e-epic, e-high, e-nancy-davloio",
-  },
-  {
-    Id: "Task 22",
-    Title: "Task - 29027",
-    Status: "Open",
-    Summary: "Arrange web meeting with the customer to show editing demo.",
-    Type: "Others",
-    Priority: "High",
-    Tags: "Meeting,Editing",
-    Estimate: 5.5,
-    Assignee: "Steven walker",
-    RankId: 6,
-    Color: "#1F88E5",
-    ClassName: "e-others, e-high, e-steven-walker",
-  },
-  {
-    Id: "Task 23",
-    Title: "Task - 29029",
-    Status: "Review",
-    Summary: "Fix the editing issues reported by the customer.",
-    Type: "Bug",
-    Priority: "Low",
-    Tags: "Editing,Fix",
-    Estimate: "3.5",
-    Assignee: "Janet Leverling",
-    RankId: 6,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-low, e-janet-leverling",
-  },
-  {
-    Id: "Task 24",
-    Title: "Task - 29030",
-    Status: "Testing",
-    Summary: "Fix the issues reported by the customer.",
-    Type: "Bug",
-    Priority: "Critical",
-    Tags: "Customer",
-    Estimate: "3.5",
-    Assignee: "Steven walker",
-    RankId: 1,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-critical, e-steven-walker",
-  },
-  {
-    Id: "Task 25",
-    Title: "Task - 29031",
-    Status: "Testing",
-    Summary: "Fix the issues reported in Safari browser.",
-    Type: "Bug",
-    Priority: "Critical",
-    Tags: "Fix,Safari",
-    Estimate: 1.5,
-    Assignee: "Nancy Davloio",
-    RankId: 2,
-    Color: "#E64A19",
-    ClassName: "e-bug, e-release, e-nancy-davloio",
-  },
-];
 
 export const financialChartData = [
   {

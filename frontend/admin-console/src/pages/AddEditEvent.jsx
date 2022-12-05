@@ -63,7 +63,6 @@ function AddEditEvent(props) {
   const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
   const user = useSelector(userInfoSelector);
   const [event, setEvent] = useState({});
-  console.log({ event });
   const { data: categories, status } = useFetchCategories();
   const { data: templateTickets, status: templateStatus } =
     useFetchTemplateTicket(user.id);
@@ -77,7 +76,8 @@ function AddEditEvent(props) {
     endingTime: moment(),
     description: "",
     province: "",
-    currency: "VND",
+    // currency: "VND",
+    currency: "USD",
     venue: "",
     venue_address: "",
     ticketList: [
@@ -87,7 +87,8 @@ function AddEditEvent(props) {
         ticketName: "",
         status: TicketStatus.AVAILABLE,
         description: "",
-        currency: "VND",
+        // currency: "VND",
+        currency: "USD",
         quantity: 0,
         quantityRemaining: 0,
       },
@@ -104,7 +105,8 @@ function AddEditEvent(props) {
           description: element?.description,
           quantity: element?.quantity,
           quantityRemaining: element?.quantity,
-          currency: element?.currency,
+          // currency: element?.currency,
+          currency: "USD",
           status: "ticket.available",
         });
       }
@@ -198,7 +200,8 @@ function AddEditEvent(props) {
   });
   const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
   useEffect(() => {
-    console.group();
+    console.log({ values, errors });
+    // console.group();
     // console.log({ eventId });
     // console.log({ errors });
     // console.log("ticketList:", handleTicketList(values.ticketList));
@@ -221,7 +224,7 @@ function AddEditEvent(props) {
     //   remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
     //   host_id: user.id,
     // });
-    console.groupEnd();
+    // console.groupEnd();
   }, [values, errors]);
 
   useEffect(() => {
@@ -257,7 +260,8 @@ function AddEditEvent(props) {
         setValues({
           background: res.background,
           name: res.name,
-          currency: res.organizationTickets[0].currency,
+          // currency: res.organizationTickets[0].currency,
+          currency: "USD",
           startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
           startingTime: moment(res.startingTime, PATTERNS.TIME_FORMAT),
           endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
@@ -276,7 +280,8 @@ function AddEditEvent(props) {
   const handleTicketList = (list) => {
     const newArr = list.map((t) => ({
       ...t,
-      currency: values.currency,
+      // currency: values.currency,
+      currency: "USD",
       quantity: Number(t.quantity),
       quantityRemaining: Number(t.quantity),
       status:
@@ -289,11 +294,15 @@ function AddEditEvent(props) {
   const showNotification = (code) => {
     if (code) {
       return AlertPopup({
-        title: t("popup.create-event.success"),
+        title: !eventId
+          ? t("popup.create-event.success")
+          : t("popup.edit-event.success"),
       });
     }
     return AlertErrorPopup({
-      title: t("popup.create-event.error"),
+      title: !eventId
+        ? t("popup.create-event.error")
+        : t("popup.edit-event.error"),
     });
   };
   return (
@@ -428,6 +437,7 @@ function AddEditEvent(props) {
                     defaultChecked={false}
                     checked={useDefaultAddress}
                     onChange={(checked) => setUseDefaultAddress(checked)}
+                    className="my-4"
                   />
                 </div>
               </Col>
@@ -450,7 +460,8 @@ function AddEditEvent(props) {
                               ticketName: "",
                               status: TicketStatus.AVAILABLE,
                               description: "",
-                              currency: values.currency,
+                              // currency: values.currency,
+                              currency: "USD",
                               quantity: 0,
                               quantityRemaining: 0,
                             })
@@ -460,18 +471,9 @@ function AddEditEvent(props) {
                         </button>
                       </Col>
                       <Col span={8}>
-                        <Field
-                          name="currency"
-                          component={SelectHorizonal}
-                          label={t("event.currency")}
-                          options={Object.values([
-                            { value: "USD", label: "USD" },
-                            { value: "VND", label: "VND" },
-                          ]).map((field) => ({
-                            value: field.value,
-                            name: field.label,
-                          }))}
-                        />
+                        <h1 className="text-gray-400 italic text-lg my-2">
+                          {t("default-currency")}
+                        </h1>
                       </Col>
                       {!eventId && (
                         <Col span={8}>

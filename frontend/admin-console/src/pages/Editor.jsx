@@ -9,12 +9,14 @@ import { ErrorMessage, useField } from "formik";
 import React, { useEffect, useState } from "react";
 import { Editor as EditorDraft } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useTranslation } from "react-i18next";
 const Editor = (props) => {
   const { name, label } = props;
   const [field, meta, helpers] = useField(name);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const { t } = useTranslation();
   const formikValue = meta.value;
   // Convert formik value to an editor state.
   // This is triggered when we change the subject.
@@ -45,9 +47,12 @@ const Editor = (props) => {
         editorClassName="bg-white border-2 border-gray-200 p-2"
         onBlur={saveStateToFormik}
       />
-      <p className="error-message w-[100%]">
-        <ErrorMessage name={name} />
-      </p>
+      <ErrorMessage
+        name={name}
+        render={(msg) => (
+          <p className="text-red-600 font-medium text-lg mb-0">{t(msg)}</p>
+        )}
+      />
     </div>
   );
 };

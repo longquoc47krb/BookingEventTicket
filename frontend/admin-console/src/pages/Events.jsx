@@ -11,7 +11,7 @@ import {
   Sort,
 } from "@syncfusion/ej2-react-grids";
 import { Spin } from "antd";
-import { eventGrid, contextMenuItems } from "../data/dummy";
+import { eventColumns, contextMenuItems } from "../data/dummy";
 import { Header } from "../components";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ import { convertToYearMonthDayFormat } from "../utils/utils";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
-
+import Table from "../components/Table";
 const Events = () => {
   const toolbarOptions = ["Search"];
   const user = useSelector(userInfoSelector);
@@ -28,6 +28,15 @@ const Events = () => {
   // console.log(events[0]);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const eventData = events?.map((item) => ({
+    id: item.id,
+    background: item.background,
+    name: item.name,
+    categories: item.eventCategoryList,
+    date: item.startingDate,
+    status: item.status
+  }))
+  console.log({events, eventData})
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />
@@ -44,23 +53,7 @@ const Events = () => {
           <Spin />
         </div>
       ) : (
-        <GridComponent
-          dataSource={events}
-          width="auto"
-          allowPaging
-          allowSorting
-          allowExcelExport
-          pageSettings={{ pageCount: 5 }}
-          toolbar={toolbarOptions}
-          contextMenuItems={contextMenuItems}
-        >
-          <ColumnsDirective>
-            {eventGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-          <Inject services={[Search, Page, Toolbar, Filter, Sort]} />
-        </GridComponent>
+       <Table columns={eventColumns} dataSource={eventData}/>
       )}
     </div>
   );

@@ -86,6 +86,10 @@ body {
     outline: none !important;
   }
 }
+.ant-btn.ant-btn-primary.ant-btn-sm {
+  border-color: $primary-color !important;
+  background: $primary-color !important;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

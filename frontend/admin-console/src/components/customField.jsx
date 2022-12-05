@@ -10,6 +10,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import { ErrorMessage } from "formik";
+import { useTranslation } from "react-i18next";
 import React from "react";
 const { Item } = Form;
 const { Option } = AntdSelect;
@@ -19,17 +20,18 @@ function Input(props) {
     form,
     label,
     width,
-    type,
+    uppercase,
     onChange: onChangeCustom,
     disabled,
   } = props;
+  const { t } = useTranslation();
   const { value, onChange, onBlur, name } = field;
-  const { errors } = form;
+  const { errors, touched } = form;
   const handleChange = (e) => {
     const { value } = e.target;
     var customEvent = {
       target: {
-        value,
+        value: uppercase ? value.toUpperCase() : value,
         name,
       },
     };
@@ -40,7 +42,7 @@ function Input(props) {
   };
   return (
     <>
-      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
+      <h1 className="font-medium text-black text-lg my-2">{label}</h1>
       <AntdInput
         disabled={disabled}
         name={name}
@@ -49,11 +51,17 @@ function Input(props) {
         status={errors[name] ? "error" : ""}
         onChange={handleChange}
         style={{ width: width }}
-        className={"p-[0.5rem] mb-4"}
+        className="p-[0.5rem]"
       />
-      <p className="error-message w-[100%]">
-        <ErrorMessage name={name} />
-      </p>
+      {/* <p className="text-red-600 font-medium text-lg mb-0">
+        {touched[name] && t(errors.name)}
+      </p> */}
+      <ErrorMessage
+        name={name}
+        render={(msg) => (
+          <p className="text-red-600 font-medium text-lg mb-0">{t(msg)}</p>
+        )}
+      />
     </>
   );
 }
@@ -61,7 +69,8 @@ function DatePicker(props) {
   const dateFormat = "DD/MM/YYYY";
   const { form, field, label } = props;
   const { value, onBlur, name } = field;
-  const { setFieldValue } = form;
+  const { t } = useTranslation();
+  const { setFieldValue, errors, touched } = form;
   return (
     <>
       <Item>
@@ -74,8 +83,8 @@ function DatePicker(props) {
           onChange={(value) => setFieldValue(name, value)}
           onBlur={onBlur}
         />
-        <p className="error-message">
-          <ErrorMessage name={name} />
+        <p className="text-red-600 font-medium text-lg mb-0">
+          {touched[name] && t(errors[name])}
         </p>
       </Item>
     </>
@@ -84,7 +93,8 @@ function DatePicker(props) {
 function TimePicker(props) {
   const { form, field, label } = props;
   const { value, onBlur, name } = field;
-  const { setFieldValue } = form;
+  const { t } = useTranslation();
+  const { setFieldValue, errors, touched } = form;
   return (
     <>
       <Item>
@@ -102,8 +112,8 @@ function TimePicker(props) {
             )}
           />
         </LocalizationProvider>
-        <p className="error-message">
-          <ErrorMessage name={name} />
+        <p className="text-red-600 font-medium text-lg mb-0">
+          {touched[name] && t(errors[name])}
         </p>
       </Item>
     </>
@@ -112,7 +122,8 @@ function TimePicker(props) {
 function Select(props) {
   const { field, form, label, mode, options } = props;
   const { value, name, onChange } = field;
-  const { errors } = form;
+  const { t } = useTranslation();
+  const { errors, touched } = form;
   const handleChange = (value) => {
     const customEvent = {
       target: {
@@ -140,8 +151,8 @@ function Select(props) {
             </Option>
           ))}
         </AntdSelect>
-        <p className="error-message">
-          <ErrorMessage name={name} />
+        <p className="text-red-600 font-medium text-lg mb-0">
+          {touched[name] && t(errors[name])}
         </p>
       </Item>
     </>
@@ -150,7 +161,8 @@ function Select(props) {
 function SelectHorizonal(props) {
   const { field, form, label, mode, options } = props;
   const { value, name, onChange } = field;
-  const { errors } = form;
+  const { t } = useTranslation();
+  const { errors, touched } = form;
   const handleChange = (value) => {
     const customEvent = {
       target: {
@@ -181,8 +193,8 @@ function SelectHorizonal(props) {
             ))}
           </AntdSelect>
         </div>
-        <p className="error-message">
-          <ErrorMessage name={name} />
+        <p className="text-red-600 font-medium text-lg mb-0">
+          {touched[name] && t(errors[name])}
         </p>
       </Item>
     </>
@@ -190,8 +202,9 @@ function SelectHorizonal(props) {
 }
 function InputPassword(props) {
   const { field, form, label, uppercase, onChange: onChangeCustom } = props;
+  const { t } = useTranslation();
   const { value, onChange, onBlur, name } = field;
-  const { errors } = form;
+  const { errors, touched } = form;
   const handleChange = (e) => {
     const { value } = e.target;
     var customEvent = {
@@ -207,17 +220,18 @@ function InputPassword(props) {
   };
   return (
     <>
-      <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
+      <h1 className="font-medium text-black text-lg my-2">{label}</h1>
       <AntdInput.Password
         name={name}
         value={value}
         onBlur={onBlur}
         onChange={handleChange}
         status={errors[name] ? "error" : ""}
-        className="p-[0.5rem] mb-4"
+        className="p-[0.5rem]"
       />
-      <p className="error-message">
-        <ErrorMessage name={name} />
+
+      <p className="text-red-600 font-medium text-lg mb-0">
+        {touched[name] && t(errors[name])}
       </p>
     </>
   );

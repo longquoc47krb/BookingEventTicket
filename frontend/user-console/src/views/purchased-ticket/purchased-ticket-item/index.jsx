@@ -7,7 +7,10 @@ import { IoLocationSharp, IoTicket } from "react-icons/io5";
 import { MdAccessTime } from "react-icons/md";
 import { TbFileInvoice } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { useEventDetails } from "../../../api/services/eventServices";
+import {
+  useEventDetails,
+  useFetchOrganizerByEventId,
+} from "../../../api/services/eventServices";
 import { useFindOrganizerById } from "../../../api/services/organizationServices";
 import InfoCollapse from "../../../assets/info-collapse";
 import Table from "../../../components/common/table";
@@ -24,9 +27,8 @@ function PurchaseTicketItem(props) {
   const { customerTicketList } = data;
   const user = useSelector(userInfoSelector);
   const { data: event, status: eventStatus } = useEventDetails(data.idEvent);
-  const { data: organizer, status: organizerStatus } = useFindOrganizerById(
-    event?.host_id
-  );
+  const { data: organizer, status: organizerStatus } =
+    useFetchOrganizerByEventId(data.idEvent);
   const HeadingList = [
     {
       icon: <HiIdentification />,

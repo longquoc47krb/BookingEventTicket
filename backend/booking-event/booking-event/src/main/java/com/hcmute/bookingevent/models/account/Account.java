@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 
 @Document("account")
@@ -41,6 +42,7 @@ public class Account {
     @NotBlank(message = "Role is required")
     private String role;
     private OTP otp;
+    private Date loginTime;
     private EAccount loginType;
     public Account(String name,  String email,String passWord, String avatar) {
 

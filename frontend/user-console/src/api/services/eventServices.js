@@ -44,6 +44,16 @@ const fetchEventByFilter = async (params) => {
   const response = await httpRequest(EventAPI.getEventByFilter(params));
   return response.data;
 };
+const fetchOrganizerByEventId = async (eventId) => {
+  try {
+    const response = await httpRequest(
+      EventAPI.findOrganizerByEventId(eventId)
+    );
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+};
 // React Query
 
 export const useFetchEvents = (staleTime = 30000) => {
@@ -52,6 +62,17 @@ export const useFetchEvents = (staleTime = 30000) => {
     cacheTime: 1000 * 60 * 60 * 24,
     refetchIntervalInBackground: 1000 * 10,
   });
+};
+export const useFetchOrganizerByEventId = (id) => {
+  return useQuery(
+    ["findOrganizerByEventId", id],
+    () => fetchOrganizerByEventId(id),
+    {
+      staleTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 60 * 24,
+      refetchIntervalInBackground: 1000 * 10,
+    }
+  );
 };
 export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
@@ -118,6 +139,7 @@ const eventServices = {
   fetchEventByFilter,
   setEventStatus,
   fetchFeaturedEvents,
+  fetchOrganizerByEventId,
   createEvent,
 };
 export default eventServices;

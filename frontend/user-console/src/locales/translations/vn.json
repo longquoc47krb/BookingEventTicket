@@ -143,18 +143,24 @@
       "required": "Mật khẩu không được để trống",
       "invalid": "Mật khẩu không hợp lệ",
       "upper": "Phải chứa ký tự in hoa",
-      "number": "Phải chứa ký tự số"
+      "number": "Phải chứa ký tự số",
+      "min": "Mật khẩu ít nhất 8 ký tự"
+    },
+    "confirmPassword": {
+      "invalid": "Nhập lại mật khẩu không trùng khớp"
     },
     "name": {
       "required": "Tên không được để trống",
-      "max": "Tối đa 64 ký tự"
+      "max": "Tối đa 64 ký tự",
+      "number-not-allowed": "Tên không chứa số"
     },
     "otp": {
       "required": "OTP không được để trống",
       "min": "Vui lòng nhập đủ OTP 6 số"
     },
     "phone": {
-      "invalid": "Số điện thoại không hợp lệ"
+      "invalid": "Số điện thoại không hợp lệ",
+      "error": "Số điện thoại không thuộc Việt Nam"
     }
   },
   "status": {
@@ -217,6 +223,12 @@
     "step3": "Hoàn thành"
   },
   "popup": {
+    "organizer": {
+      "success": "Đã gửi yêu cầu",
+      "success-text": "Vui lòng kiểm tra email và làm theo hướng dẫn",
+      "error": "Gửi yêu cầu thất bại",
+      "error-text": "Có lỗi xảy ra!"
+    },
     "check-order": {
       "400": "Vé '{{val, string}}' đã hết !"
     },
@@ -273,5 +285,6 @@
   "price-from": "Từ ",
   "customer": {
     "name": "Tên khách hàng"
-  }
+  },
+  "coming-soon": "Sắp ra mắt ..."
 }

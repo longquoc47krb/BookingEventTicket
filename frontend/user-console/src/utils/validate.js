@@ -5,41 +5,28 @@ import constants from "./constants";
 const { PATTERNS } = constants;
 export const YupValidations = {
   email: Yup.string()
-    .required(t("validate.email.required"))
-    .email(t("validate.email.invalid")),
+    .required("validate.email.required")
+    .email("validate.email.invalid"),
   name: Yup.string()
-    .required(t("validate.name.required"))
-    .max(64, t("validate.name.max")),
-  phone: Yup.string()
-    .phone("VN", t("validate.phone.error"))
-    .notRequired(),
+    .required("validate.name.required")
+    .max(64, "validate.name.max")
+    .matches(PATTERNS.NAME_PATTERN, "validate.name.number-not-allowed"),
+  phone: Yup.string().phone("VN", true, "validate.phone.error").notRequired(),
   password: Yup.string()
-    .required(t("validate.password"))
-    .matches(PATTERNS.PASSWORD_PATTERN, {
-      message: t("validate.password.notMatch"),
-    })
-    .max(20, t("validate.password.max"))
-    .matches(PATTERNS.PASSWORD_LETTER, {
-      message: t("validate.password.letter"),
-    })
-    .matches(PATTERNS.PASSWORD_NUMBER, {
-      message: "validate.password.number",
-    }),
+    .required("validate.password.required")
+    .matches(PATTERNS.PASSWORD_PATTERN, "validate.password.min")
+    .max(20, "validate.password.max")
+    .matches(PATTERNS.PASSWORD_LETTER, "validate.password.letter")
+    .matches(PATTERNS.PASSWORD_NUMBER, "validate.password.number"),
   confirmPassword: Yup.string()
     .trim()
-    .oneOf([Yup.ref("password")], t("validate.confirmPassword.invalid"))
-    .required(t("validate.password.required"))
-    .matches(PATTERNS.PASSWORD_PATTERN, {
-      message: t("validate.password.notMatch"),
-    })
-    .max(20, t("validate.password.max"))
-    .matches(PATTERNS.PASSWORD_LETTER, {
-      message: t("validate.password.letter"),
-    })
-    .matches(PATTERNS.PASSWORD_NUMBER, {
-      message: t("validate.password.number"),
-    }),
+    .oneOf([Yup.ref("password")], "validate.confirmPassword.invalid")
+    .required("validate.password.required")
+    .matches(PATTERNS.PASSWORD_PATTERN, "validate.password.min")
+    .max(20, "validate.password.max")
+    .matches(PATTERNS.PASSWORD_LETTER, "validate.password.letter")
+    .matches(PATTERNS.PASSWORD_NUMBER, "validate.password.number"),
   otp: Yup.string()
-    .required(t("validate.otp.required"))
-    .min(6, t("validate.otp.min")),
+    .required("validate.otp.required")
+    .min(6, "validate.otp.min"),
 };

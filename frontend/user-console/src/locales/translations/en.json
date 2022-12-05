@@ -144,18 +144,24 @@
       "required": "Password is required",
       "invalid": "Password is invalid",
       "upper": "Must contain uppercase character(s)",
-      "number": "At lease include number character(s)"
+      "number": "At lease include number character(s)",
+      "min": "Min length is 8 characters"
+    },
+    "confirmPassword": {
+      "invalid": "Confirm password doesn't match with new password"
     },
     "name": {
       "required": "Name is required",
-      "max": "Max length is 64"
+      "max": "Max length is 64",
+      "number-not-allowed": "Number is not allowed"
     },
     "otp": {
       "required": "OTP is required",
       "min": "Length is 6 numbers"
     },
     "phone": {
-      "invalid": "Phonenumber is invalid"
+      "invalid": "Phone number is invalid",
+      "error": "Phone number is not in Vietnam"
     }
   },
   "status": {
@@ -218,6 +224,12 @@
     "step3": "Finish"
   },
   "popup": {
+    "organizer": {
+      "success": "Request has been sent",
+      "success-text": "Please check mail and follow the instruction",
+      "error": "Request failed",
+      "error-text": "Something went wrong"
+    },
     "check-order": {
       "400": "'{{val, string}}' is out of stock"
     },
@@ -275,5 +287,6 @@
   "price-from": "From ",
   "customer": {
     "name": "Customer name"
-  }
+  },
+  "coming-soon": "Coming Soon ..."
 }

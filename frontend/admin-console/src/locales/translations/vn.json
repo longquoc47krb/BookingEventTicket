@@ -1,134 +1,138 @@
 {
     "sider": {
-        "account": "Accounts",
-        "category": "Categories",
-        "dashboard": "Dashboard",
-        "overview": "Overview",
-        "management": "Management",
-        "order": "Orders",
-        "event": "Events",
-        "ticket": "Tickets",
-        "utilities": "Utilities",
-        "calendar": "Calendar"
+        "account": "Tài khoản",
+        "category": "Thể loại",
+        "dashboard": "Bảng điều khiển",
+        "overview": "Tổng quan",
+        "management": "Quản lý",
+        "order": "Đơn hàng",
+        "event": "Sự kiện",
+        "ticket": "Vé",
+        "utilities": "Tiện ích",
+        "calendar": "Lịch"
     },
     "org": {
-        "profile": "Organizer Profile"
+        "profile": "Hồ sơ tổ chức"
     },
     "event": {
-        "ticketTotal": "Ticket total",
-        "ticketRemaining": "Ticket remaining",
-        "createDate": "Created at ",
-        "updateDate": "Last edited at ",
-        "background": "Background",
-        "name": "Title",
+        "ticketTotal": "Tổng vé",
+        "ticketRemaining": "Vé còn lại",
+        "createDate": "Được tạo lúc ",
+        "updateDate": "Cập nhật lần cuối lúc ",
+        "background": "Ảnh bìa",
+        "name": "Tiêu đề",
         "currency": "Select currency:",
-        "category": "Categories",
-        "startingDate": "Start date",
-        "endingDate": "End date",
-        "startingTime": "Start time",
-        "endingTime": "End time",
-        "description": "Description of event",
-        "venue": "Venue",
-        "venue_address": "Address",
-        "province": "Province",
-        "date": "Date",
+        "category": "Thể loại",
+        "startingDate": "Ngày bắt đầu",
+        "endingDate": "Ngày kết thúc",
+        "startingTime": "Thời gian bắt đầu",
+        "endingTime": "Thời gian kết thúc",
+        "description": "Giới thiệu sự kiện",
+        "venue": "Địa điểm",
+        "venue_address": "Địa chỉ chi tiết",
+        "province": "Tỉnh/TP",
+        "date": "Thời gian",
         "status": {
-            "title": "Status",
-            "available": "Available",
-            "completed": "Completed",
-            "soldout": "Sold out"
+            "title": "Trạng thái",
+            "available": "Có sẵn",
+            "completed": "Đã kết thúc",
+            "soldout": "Hết vé"
         },
-        "create": "Create new event",
-        "edit": "Edit event",
+        "create": "Tạo sự kiện mới",
+        "edit": "Cập nhật sự kiện",
         "upload": {
-            "text": "Click or drag and drop the image here.",
-            "hint": "Recommended image size 1560 x 600",
+            "text": "Nhấn vào hoặc kéo thả ảnh vào đây",
+            "hint": "Kích cỡ đề nghị 1560 x 600",
             "validate": {
-                "success": "Successfully upload image",
-                "error": "Image is larger than {{val, number}}KB"
+                "success": "Cập nhật ảnh thành công",
+                "error": "Ảnh lớn hơn {{val, number}}KB"
             }
         },
         "ticketList": {
-            "ticketName": "Ticket Type No.{{val, number}}",
-            "price": "Price No.{{val, number}}",
-            "quantity": "Quantity No.{{val, number}}",
+            "ticketName": "Loại vé số {{val, number}}",
+            "price": "Giá loại {{val, number}}",
+            "quantity": "Số lượng loại {{val, number}}",
             "currency": "Currency No.{{val, number}}",
-            "description": "Description No.{{val, number}}"
+            "description": "Mô tả loại {{val, number}}"
         },
-        "modify": "Modify"
+        "modify": "Tùy chọn"
     },
     "category": {
-        "new": "New Category",
-        "edit": "Edit Category",
-        "menu": "Categories",
-        "all": "All categories",
-        "music": "Music",
-        "exhibition": "Exhibition",
-        "courses": "Courses",
-        "theater": "Theater",
-        "online": "Online",
+        "title": "Tên thể loại",
+        "new": "Danh mục mới",
+        "edit": "Cập nhật danh mục",
+        "menu": "Danh mục",
+        "all": "Tất cả danh mục",
+        "music": "Âm nhạc",
+        "exhibition": "Triển lãm",
+        "courses": "Khóa học",
+        "theater": "Sân khấu",
+        "online": "Trực tiếp",
         "nightlife": "Nightlife",
-        "sport": "Sport",
-        "seminar": "Seminar",
-        "travel": "Travel",
-        "conference": "Conference",
-        "community": "Community"
+        "sport": "Thể thao",
+        "seminar": "Hội thảo",
+        "travel": "Du lịch",
+        "conference": "Hội nghị",
+        "community": "Cộng đồng"
     },
     "popup": {
+        "edit-event": {
+            "success": "Cập nhật sự kiện thành công"
+        },
         "register": {
-            "error": "Email is already registered",
-            "success": "Successfully registered!"
+            "error": "Email đã được đăng ký",
+            "success": "Đăng ký tài khoản thành công!"
         },
         "account": {
-            "approve": "Approve this account?",
-            "approve-success": "Successful approval",
-            "approve-fail": "Failed approval",
-            "refuse": "Reject this account?",
-            "refuse-success": "Successful refusal",
-            "refuse-fail": "Failed refusal"
+            "approve": "Phê duyệt tài khoản này?",
+            "approve-success": "Phê duyệt thành công",
+            "approve-fail": "Phê duyệt thất bại",
+            "refuse": "Từ chối tài khoản này?",
+            "refuse-success": "Từ chối tài khoản thành công",
+            "refuse-fail": "Từ chối tài khoản thất bại"
         },
         "login": {
-            "success": "Successfully logged in",
-            "error": "Wrong email or password",
-            "unauthorized": "Unauthorized: Access is denied"
+            "success": "Đăng nhập thành công",
+            "error": "Email hoặc mật khẩu không đúng",
+            "unauthorized": "Không được phép: Quyền truy cập bị từ chối"
         },
         "forgot": {
-            "error": "Email address doesn't exist"
+            "error": "Email không tồn tại"
         },
         "verify": {
-            "error": "OTP doesn't exist"
+            "error": "OTP không tồn tại"
         },
         "event": {
-            "delete": "Do you want delete this event?",
-            "delete-success": "Successfully delete event"
+            "delete": "Bạn muốn xóa sự kiện này?",
+            "delete-success": "Xóa sự kiện thành công"
         },
         "create-event": {
-            "success": "Successfully create new event",
-            "error": "Failed create event"
+            "success": "Tạo sự kiện thành công",
+            "error": "Tạo sự kiện thất bại"
         },
         "update-account": {
             "account": {
-                "200": "Update profile successfully!",
-                "400": "Update profile failed"
+                "200": "Cập nhật thông tin tài khoản thành công!",
+                "400": "Cập nhật thông tin tài khoản thất bại"
             }
         }
     },
     "user": {
-        "biography": "Biography",
-        "profile": "Profile",
+        "biography": "Mô tả",
+        "profile": "Hồ sơ người dùng",
         "my-ticket": "My ticket",
-        "forgot-password": "Forgot password",
-        "wishlist": "Favorite events",
-        "logout": "Logout",
-        "name": "Full name",
-        "phone": "Phone number",
-        "password": "Password",
-        "phone-placeholder": "Enter Phone Number",
-        "login-by-email": "Login by Email",
-        "login-by-google": "Login by Google",
+        "forgot-password": "Quên mật khẩu",
+        "wishlist": "Sự kiện yêu thích",
+        "logout": "Đăng xuất",
+        "name": "Họ và tên",
+        "phone": "Số điện thoại",
+        "password": "Mật khẩu",
+        "phone-placeholder": "Nhập số điện thoại",
+        "login-by-email": "Đăng nhập bằng email",
+        "login-by-google": "Đăng nhập bằng Google",
         "unauthenticated": {
-            "title": "Unauthenticated",
-            "text": "Please log in to add event to wishlist"
+            "title": "Chưa đăng nhập",
+            "text": "Vui lòng đăng nhập để thêm sự kiện vào danh sách yêu thích"
         },
         "authentication": "Login | Register",
         "confirmPassword": "Confirm new password",
@@ -152,84 +156,87 @@
         "login": "Login"
     },
     "validate": {
-        "background": "Background is required",
+        "background": "Ảnh bìa không được bỏ trống",
         "email": {
-            "required": "Email is required",
-            "invalid": "Email is invalid"
+            "required": "Email không được để trống",
+            "invalid": "Email không hợp lệ"
+        },
+        "phone": {
+            "error": "Số điện thoại không ở khu vực Việt Nam"
         },
         "name": {
-            "required": "Name is required",
-            "max": "Max length of name is 64 characters"
+            "required": "Tên không được để trống",
+            "max": "Chiều dài tối đa của tên không được quá 64 kí tự"
         },
         "venue": {
-            "required": "Venue is required",
-            "max": "Max length of Venue is 128 characters"
+            "required": "Địa điểm không được để trống",
+            "max": "Chiều dài tối đa của địa điểm không được quá 128 kí tự"
         },
         "province": {
-            "required": "Province is required"
+            "required": "Tỉnh/TP không được để trống"
         },
         "address": {
-            "required": "Address is required",
-            "max": "Max length of Address is 255 characters"
+            "required": "Địa chỉ không được để trống",
+            "max": "Chiều dài tối đa là 255 kí tự"
         },
         "password": {
-            "required": "Password is required",
-            "notMatch": "Password must contain both letters and numbers",
-            "max": "Max length of password is 32 characters"
+            "required": "Mật khẩu không được để trống",
+            "notMatch": "Mật khẩu phải chứa cả chữ và số",
+            "max": "Tối đa 32 kí tự"
         },
         "confirmPassword": {
-            "invalid": "Confirm password and password do not match",
-            "required": "Confirm password is required",
-            "notMatch": "Confirm password must contain both letters and numbers",
-            "max": "Max length of confirm password is 32 characters"
+            "invalid": "Mật khẩu không khớp",
+            "required": "Nhập lại mật khẩu không được để trống",
+            "notMatch": "Nhập lại mật khẩu phải chứa cả chữ và số",
+            "max": "Tối đa 32 kí tự"
         },
         "otp": {
-            "required": "OTP is required",
-            "min": "Length is 6"
+            "required": "OTP không được để trống",
+            "min": "Chiều dài 6 kí tự"
         },
         "description": {
-            "required": "Description is required"
+            "required": "Mô tả không được để trống"
         },
         "categories": {
-            "required": "Category is required",
-            "max": "Max items of Category list is 2 items"
+            "required": "Thể loại không được để trống",
+            "max": "Tối đa 2 thể loại"
         },
         "startingDate": {
-            "required": "Starting date is required",
-            "min": "Min date is today",
-            "max": "Max date is equal to ending date"
+            "required": "Ngày bắt đầu không được để trống",
+            "min": "Ngày tối thiểu là hôm nay",
+            "max": "Ngày tối đa không lớn hơn ngày kết thúc"
         },
         "startingTime": {
-            "required": "Starting time is required",
-            "min": "Min time is 0:00",
-            "max": "Max time is equal to ending time"
+            "required": "Thời gian bắt đầu không được để trống",
+            "min": "Thời gian tối thiểu là 0:00",
+            "max": "Thời gian tối đa bằng với thời gian kết thúc"
         },
         "endingDate": {
-            "required": "Ending date is required",
-            "min": "Min date is equal to starting dâtte"
+            "required": "Ngày kết thúc không được để trống",
+            "min": "Ngày tối thiểu bằng với ngày bắt đầu"
         },
         "endingTime": {
-            "required": "Ending time is required",
-            "min": "Min time is equal to starting time"
+            "required": "Thời gian kết thúc không được để trống",
+            "min": "Thời gian tối thiểu bằng với thời gian bắt đầu"
         },
         "ticket": {
             "currency": {
-                "required": "Currency is required"
+                "required": "Currency không được để trống"
             },
             "quantity": {
-                "number": "Quantity must be numberic",
-                "required": "Quantity is required",
-                "min": "Min is 30 tickets"
+                "number": "Số lượng phải là số",
+                "required": "Số lượng không được để trống",
+                "min": "Tối thiểu 30 vé"
             },
             "price": {
-                "number": "Price must be numberic",
-                "required": "Price is required",
-                "min": "Min price is greater than 0"
+                "number": "Giá phải là số",
+                "required": "Giá không được để trống",
+                "min": "Giá tối thiểu phải lớn hơn 0"
             },
             "name": {
-                "required": "Ticket type name is required"
+                "required": "Tên loại vé không được để trống"
             },
-            "unique": "Ticket is duplicated"
+            "unique": "Vé bị trùng"
         }
     },
     "ticket": {
@@ -240,13 +247,25 @@
     "save-template-ticket": "Save this ticket list",
     "default-address": "Use default address",
     "account": {
+        "role": "Role",
+        "customer": "Customer's accounts",
+        "organization": "Organizer's accounts",
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Disabled",
+        "disabled": "Đang chờ",
         "accepted": "Accepted",
         "approve": "Approve",
-        "options": "Option"
+        "options": "Option",
+        "all": "Danh sách tài khoản",
+        "pending-accounts": "Danh sách tài khoản chờ phê duyệt"
     },
-    "view-detail": "View detail"
+    "view-detail": "Xem chi tiết",
+    "default-currency": "Currency unit: US Dollar",
+    "choose-language": "Chọn ngôn ngữ: ",
+    "role": {
+        "user": "Khách hàng",
+        "organizer": "Nhà tổ chức",
+        "admin": "Quản trị viên"
+    }
 }

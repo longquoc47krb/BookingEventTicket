@@ -58,6 +58,7 @@
         "modify": "Modify"
     },
     "category": {
+        "title": "Category name",
         "new": "New Category",
         "edit": "Edit Category",
         "menu": "Categories",
@@ -75,6 +76,9 @@
         "community": "Community"
     },
     "popup": {
+        "edit-event": {
+            "success": "Update event successfully"
+        },
         "register": {
             "error": "Email is already registered",
             "success": "Successfully registered!"
@@ -116,8 +120,6 @@
     "user": {
         "biography": "Biography",
         "profile": "Profile",
-        "my-ticket": "My ticket",
-        "forgot-password": "Forgot password",
         "wishlist": "Favorite events",
         "logout": "Logout",
         "name": "Full name",
@@ -156,6 +158,9 @@
         "email": {
             "required": "Email is required",
             "invalid": "Email is invalid"
+        },
+        "phone": {
+            "error": "Phone number is not in Vietnam"
         },
         "name": {
             "required": "Name is required",
@@ -240,13 +245,25 @@
     "save-template-ticket": "Save this ticket list",
     "default-address": "Use default address",
     "account": {
+        "role": "Role",
+        "customer": "Customer's accounts",
+        "organization": "Organizer's accounts",
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Disabled",
+        "disabled": "Pending",
         "accepted": "Accepted",
         "approve": "Approve",
-        "options": "Option"
+        "options": "Option",
+        "all": "Accounts",
+        "pending-accounts": "Pending Accounts"
     },
-    "view-detail": "View detail"
+    "view-detail": "View detail",
+    "default-currency": "Currency unit: US Dollar",
+    "choose-language": "Choose language: ",
+    "role": {
+        "user": "Customer",
+        "organizer": "Organizer",
+        "admin": "System Admin"
+    }
 }

@@ -57,7 +57,6 @@ public class OrderService implements IOrderService {
                 Optional<Organization> organization = organizationRepository.findOrganizationByEventId(order.getIdEvent());
                 if (organization.isPresent()) {
                     BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
-
                     if (order.getCurrency().equals("USD")) {
                         BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
                         organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());

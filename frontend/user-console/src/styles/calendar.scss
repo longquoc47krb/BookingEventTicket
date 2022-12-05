@@ -4,11 +4,10 @@
     width: 80px;
     height: 90px;
     max-height: 100px;
-    background: white;
     text-align: center;
-    box-shadow: 0px 1.5px 2.7px rgba(0, 0, 0, 0.028),
-      0px 3.7px 6.9px rgba(0, 0, 0, 0.04), 0px 7.6px 14.2px rgba(0, 0, 0, 0.05),
-      0px 15.7px 29.2px rgba(0, 0, 0, 0.062), 0px 43px 80px rgba(0, 0, 0, 0.09);
+    border-radius: 7px;
+    background: linear-gradient(145deg, #d8d8d8, #ffffff);
+    box-shadow: 5px 5px 6px #bebebe, -5px -5px 6px #ffffff;
   }
   &-upper {
     height: 1.5rem;

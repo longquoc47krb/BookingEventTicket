@@ -53,18 +53,26 @@ function UserProfile() {
     venue: user?.venue ?? "",
     address: user?.address ?? "",
   };
+  const organizationSchema = {
+    name: YupValidations.name,
+    email: YupValidations.email,
+    phone: YupValidations.phone,
+    biography: YupValidations.description,
+    province: YupValidations.province_profile,
+    venue: YupValidations.venue_profile,
+    address: YupValidations.address_profile,
+  };
+  const adminSchema = {
+    name: YupValidations.name,
+    email: YupValidations.email,
+    phone: YupValidations.phone,
+  };
   // formik
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: Yup.object().shape({
-      name: YupValidations.name,
-      email: YupValidations.email,
-      phone: YupValidations.phone,
-      biography: YupValidations.description,
-      province: YupValidations.province_profile,
-      venue: YupValidations.venue_profile,
-      address: YupValidations.address_profile,
-    }),
+    validationSchema: Yup.object().shape(
+      role === "ROLE_ADMIN" ? adminSchema : organizationSchema
+    ),
     onSubmit: async (values) => {
       const { id, name, phone, email, biography, address, province, venue } =
         values;
@@ -112,6 +120,7 @@ function UserProfile() {
     }
   };
   const { values, handleSubmit } = formik;
+  console.log({ values });
   return (
     <>
       <div>
@@ -153,36 +162,40 @@ function UserProfile() {
                     label={t("user.phone")}
                     name="phone"
                   />
-                  <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
-                    <Col span={12}>
-                      <Field
-                        name="province"
-                        component={Select}
-                        label={t("event.province")}
-                        options={Object.values(provinces).map((field) => ({
-                          value: field.name,
-                          name: field.name,
-                        }))}
-                      />
-                    </Col>
-                    <Col span={12}>
-                      <Field
-                        name="venue"
-                        component={Input}
-                        label={t("event.venue")}
-                      />
-                    </Col>
-                  </Row>
-                  <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
-                    <Col span={24}>
-                      <Field
-                        name="address"
-                        component={Input}
-                        label={t("event.venue_address")}
-                      />
-                    </Col>
-                  </Row>
-                  <Editor name="biography" label={t("user.biography")} />
+                  {role !== "ROLE_ADMIN" && (
+                    <div>
+                      <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
+                        <Col span={12}>
+                          <Field
+                            name="province"
+                            component={Select}
+                            label={t("event.province")}
+                            options={Object.values(provinces).map((field) => ({
+                              value: field.name,
+                              name: field.name,
+                            }))}
+                          />
+                        </Col>
+                        <Col span={12}>
+                          <Field
+                            name="venue"
+                            component={Input}
+                            label={t("event.venue")}
+                          />
+                        </Col>
+                      </Row>
+                      <Row gutter={[48, 40]} style={{ lineHeight: "2rem" }}>
+                        <Col span={24}>
+                          <Field
+                            name="address"
+                            component={Input}
+                            label={t("event.venue_address")}
+                          />
+                        </Col>
+                      </Row>
+                      <Editor name="biography" label={t("user.biography")} />
+                    </div>
+                  )}
                 </Col>
               </Row>
               <Row gutter={[48, 40]} style={{ marginTop: "1rem" }}>
