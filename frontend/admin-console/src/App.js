@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import "antd/dist/antd.css";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { useStateContext } from "./contexts/ContextProvider";

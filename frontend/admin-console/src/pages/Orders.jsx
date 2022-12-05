@@ -10,6 +10,7 @@ import { useFindAllAccount } from "../api/services/adminServices";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
 import { Header } from "../components";
 import BreadCrumbs from "../components/BreadCrumb";
+import OrdersByEventModal from "../components/OrdersByEventModal";
 import Table from "../components/Table";
 import { orderColumns, orderByAccountColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
@@ -18,6 +19,7 @@ import { ROLE } from "../utils/constants";
 const Orders = () => {
   const user = useSelector(userInfoSelector);
   const [value, setValue] = useState("by-event");
+  const openModal = useSelector((state) => state.event.openModal);
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -82,6 +84,7 @@ const Orders = () => {
           dataSource={orderByAccountData}
         />
       )}
+      <OrdersByEventModal open={openModal} />
     </div>
   );
 };

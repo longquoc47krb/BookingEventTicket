@@ -256,7 +256,7 @@
         "approve": "Approve",
         "options": "Option",
         "all": "Accounts",
-        "pending-accounts": "Pending Accounts"
+        "pending-accounts": "Pending Organizer Accounts"
     },
     "view-detail": "View detail",
     "default-currency": "Currency unit: US Dollar",
