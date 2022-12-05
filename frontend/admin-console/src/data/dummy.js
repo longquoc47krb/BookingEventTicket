@@ -1,6 +1,3 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable comma-dangle */
-/* eslint-disable quotes */
 import { t } from "i18next";
 import React from "react";
 import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
@@ -49,6 +46,8 @@ import { BiCategory } from "react-icons/bi";
 import organizationServices from "../api/services/organizationServices";
 import { has } from "lodash";
 import { ROLE, AccountStatus } from "../utils/constants";
+import { convertMongodbTimeToString } from "../utils/utils";
+import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
@@ -70,198 +69,7 @@ export const gridOrderStatus = (props) => (
     {props.Status}
   </button>
 );
-const gridEventBackground = (props) => (
-  <div className="flex items-center gap-2">
-    <img
-      className="w-20 h-10 object-cover rounded-md"
-      src={props.background}
-      alt="employee"
-    />
-  </div>
-);
-const gridEventStatus = (props) => (
-  <div className="flex items-center gap-2">
-    {props.status === "event.available" ? (
-      <span className="bg-green-500 text-white p-1 text-xs rounded-md">
-        {t("event.status.available")}
-      </span>
-    ) : props.status === "event.completed" ? (
-      <span className="bg-yellow-500 text-white p-1 text-xs rounded-md">
-        {t("event.status.completed")}
-      </span>
-    ) : (
-      <span className="bg-red-600 text-white p-1 text-xs rounded-md">
-        {t("event.status.soldout")}
-      </span>
-    )}
-  </div>
-);
-const gridAccountStatus = (props) => (
-  <div className="flex items-center gap-2">
-    {props.organization.status !== "DISABLED" ? (
-      <span className="bg-green-500 text-white p-1 text-xs rounded-md">
-        {t("account.accepted")}
-      </span>
-    ) : (
-      <span className="bg-red-600 text-white p-1 text-xs rounded-md">
-        {t("account.disabled")}
-      </span>
-    )}
-  </div>
-);
-const gridEventQuantity = (props) => (
-  <div className="flex items-center justify-center">
-    <span>
-      {has(props, "organization") ? props.organization.eventList.length : null}
-    </span>
-  </div>
-);
-const gridCategoryName = (props) => (
-  <div className="flex items-center">
-    <span>{t(props.name)}</span>
-  </div>
-);
-const gridEventModify = (props) => (
-  <div className="flex items-center gap-2">
-    <RiEditFill
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => window.location.replace(`/event/update/${props.id}`)}
-    />
-    <FaTrashAlt
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => {
-        AlertQuestion({
-          title: t("popup.event.delete"),
-          callback: async () => {
-            const response = await deleteEvent(
-              props.id,
-              store.getState().account.userInfo.id
-            );
-            if (response.status === 200) {
-              AlertPopup({
-                title: t("popup.event.delete-success"),
-                timer: 5000,
-              });
-            }
-          },
-        });
-      }}
-    />
-  </div>
-);
-const gridAccountOption = (props) => (
-  <div className="flex items-center">
-    {props.organization.status === "DISABLED" ? (
-      <div className="flex items-center justify-center gap-x-2">
-        <button
-          className="text-white font-semibold bg-green-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
-          onClick={() => {
-            AlertQuestion({
-              title: t("popup.account.approve"),
-              callback: async () => {
-                const response = await approveOrganizer({
-                  email: props.organization.email,
-                });
-                if (response.status === 200) {
-                  AlertPopup({
-                    title: t("popup.account.approve-success"),
-                    timer: 5000,
-                  });
-                } else {
-                  AlertErrorPopup({
-                    title: t("popup.account.approve-fail"),
-                    timer: 5000,
-                  });
-                }
-              },
-            });
-          }}
-        >
-          <BsCheckLg />
-          <span>{t("account.approve")}</span>
-        </button>
-        <button
-          className="text-white font-semibold bg-red-600 px-2 py-1 flex items-center gap-x-1 rounded-sm"
-          onClick={() => {
-            AlertQuestion({
-              title: t("popup.account.refuse"),
-              callback: async () => {
-                const response = await refuseOrganizer({
-                  email: props.organization.email,
-                });
-                if (response.status === 200) {
-                  AlertPopup({
-                    title: t("popup.account.refuse-success"),
-                    timer: 5000,
-                  });
-                } else {
-                  AlertErrorPopup({
-                    title: t("popup.account.refuse-fail"),
-                    timer: 5000,
-                  });
-                }
-              },
-            });
-          }}
-        >
-          <BsXLg />
-          <span>{t("account.disabled")}</span>
-        </button>
-      </div>
-    ) : null}
-  </div>
-);
-const gridOrderModify = (props) => (
-  <div
-    className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
-    onClick={() => window.location.replace(`/orders/${props.id}`)}
-  >
-    <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}
-  </div>
-);
-const gridEventCategory = (props) => (
-  <div className="flex items-center gap-2">
-    {props.eventCategoryList.map((category) => (
-      <span className="bg-transparent border-2 border-gray-500 text-gray-500 px-1 py-1 rounded-md mr-1 text-xs">
-        {t(category.name)}
-      </span>
-    ))}
-  </div>
-);
-const gridEventDate = (props) => (
-  <div className="flex items-center gap-2">
-    {props.startingDate === props.endingDate ? (
-      <span>{props.startingDate}</span>
-    ) : (
-      <span>
-        {props.startingDate} ~ {props.endingDate}
-      </span>
-    )}
-  </div>
-);
-const customerGridImage = (props) => (
-  <div className="image flex gap-4">
-    <img
-      className="rounded-md w-10 h-10"
-      src={props.CustomerImage}
-      alt="employee"
-    />
-    <div>
-      <p>{props.CustomerName}</p>
-      <p>{props.CustomerEmail}</p>
-    </div>
-  </div>
-);
 
-const customerGridStatus = (props) => (
-  <div className="flex gap-2 justify-center items-center text-gray-700 capitalize">
-    <p
-      style={{ background: props.StatusBg }}
-      className="rounded-md h-3 w-3"
-    />
-    <p>{props.Status}</p>
-  </div>
-);
 export const areaPrimaryXAxis = {
   valueType: "DateTime",
   labelFormat: "y",
@@ -510,92 +318,13 @@ export const LinePrimaryYAxis = {
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },
 };
-export const eventGrid = [
-  {
-    headerText: t("event.background"),
-    field: "background",
-    width: "80",
-    template: gridEventBackground,
-  },
-  {
-    headerText: t("event.name"),
-    field: "name",
-    width: "100",
-  },
-  {
-    headerText: t("event.category"),
-    field: "eventCategoryList.name",
-    width: "200",
-    template: gridEventCategory,
-  },
-  {
-    headerText: t("event.date"),
-    field: "startingDate",
-    width: "100",
-    template: gridEventDate,
-  },
-  {
-    headerText: t("event.status.title"),
-    field: "status",
-    width: "100",
-    template: gridEventStatus,
-  },
-  {
-    headerText: t("event.modify"),
-    width: "80",
-    template: gridEventModify,
-  },
-];
-export const orderGrid = [
-  {
-    headerText: t("event.name"),
-    field: "name",
-    width: "200",
-  },
-  {
-    headerText: t("event.date"),
-    field: "startingDate",
-    width: "100",
-    template: gridEventDate,
-  },
-  {
-    headerText: t("event.ticketTotal"),
-    field: "ticketTotal",
-    width: "100",
-  },
-  {
-    headerText: t("event.ticketRemaining"),
-    field: "ticketRemaining",
-    width: "100",
-  },
-  {
-    headerText: t("event.status.title"),
-    field: "status",
-    width: "100",
-    template: gridEventStatus,
-  },
-  {
-    width: "100",
-    template: gridOrderModify,
-  },
-];
-export const categoryGrid = [
-  {
-    headerText: t("event.category"),
-    field: "name",
-    template: gridCategoryName,
-  },
-  {
-    headerText: t("event.modify"),
-    width: "100",
-    template: gridEventModify,
-  },
-];
 export const eventColumns = [
   {
     title: t("event.background"),
     dataIndex: "background",
-    render: (background) => <img src={background} className="h-[2rem] w-auto"/>
+    render: (background) => (
+      <img src={background} className="h-[2rem] w-auto" />
+    ),
   },
   {
     title: t("event.name"),
@@ -603,15 +332,17 @@ export const eventColumns = [
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ["descend"],
+    width: 250,
   },
   {
     title: t("event.category"),
     dataIndex: "categories",
-    render: (categories) => 
-      categories.map(item => <span className="p-2 bg-gray-100 border-2  rounded-md border-gray-500 text-gray-500 font-medium mr-2">
-      {t(item.name)} 
-    </span>)
-    
+    render: (categories) =>
+      categories.map((item) => (
+        <span className="p-2 bg-gray-100 border-2  rounded-md border-gray-500 text-gray-500 font-medium mr-2">
+          {t(item.name)}
+        </span>
+      )),
   },
   {
     title: t("event.status.title"),
@@ -631,48 +362,129 @@ export const eventColumns = [
       },
     ],
     onFilter: (value, record) => record.status.indexOf(value) === 0,
-    render: (status) =>  status === "event.available" ? <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
-    {t("event.status.available")} 
-  </span> : status === "event.completed" ? <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
-    {t("event.status.completed")} 
-  </span> : <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
-    {t("event.status.soldout")} 
-  </span>
-    
+    render: (status) =>
+      status === "event.available" ? (
+        <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
+          {t("event.status.available")}
+        </span>
+      ) : status === "event.completed" ? (
+        <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
+          {t("event.status.completed")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
+          {t("event.status.soldout")}
+        </span>
+      ),
   },
   {
     title: t("event.modify"),
-    key: 'action',
+    key: "action",
     render: (_, record) => (
       <div className="flex items-center gap-2">
-    <RiEditFill
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => window.location.replace(`/event/update/${record.id}`)}
-    />
-    <FaTrashAlt
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => {
-        AlertQuestion({
-          title: t("popup.event.delete"),
-          callback: async () => {
-            const response = await deleteEvent(
-              record.id,
-              store.getState().account.userInfo.id
-            );
-            if (response.status === 200) {
-              AlertPopup({
-                title: t("popup.event.delete-success"),
-                timer: 5000,
-              });
-            }
-          },
-        });
-      }}
-    />
-  </div>
+        <RiEditFill
+          className="text-primary text-xl cursor-pointer"
+          onClick={() => window.location.replace(`/event/update/${record.id}`)}
+        />
+        <FaTrashAlt
+          className="text-primary text-xl cursor-pointer"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.event.delete"),
+              callback: async (result) => {
+                if (result.isConfirmed) {
+                  const response = await deleteEvent(
+                    record.id,
+                    store.getState().account.userInfo.id
+                  );
+                  if (response.status === 200) {
+                    AlertPopup({
+                      title: t("popup.event.delete-success"),
+                      timer: 5000,
+                    });
+                  }
+                }
+              },
+            });
+          }}
+        />
+      </div>
     ),
   },
-]
+];
+export const orderColumns = [
+  {
+    title: t("event.background"),
+    dataIndex: "background",
+    render: (background) => (
+      <img src={background} className="h-[2rem] w-auto" />
+    ),
+  },
+  {
+    title: t("event.name"),
+    dataIndex: "name",
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+    width: 250,
+  },
+  {
+    title: t("event.ticketTotal"),
+    dataIndex: "ticketTotal",
+  },
+  {
+    title: t("event.ticketRemaining"),
+    dataIndex: "ticketRemaining",
+  },
+  {
+    title: t("event.status.title"),
+    dataIndex: "status",
+    filters: [
+      {
+        text: t("event.status.available"),
+        value: "event.available",
+      },
+      {
+        text: t("event.status.completed"),
+        value: "event.completed",
+      },
+      {
+        text: t("event.status.soldout"),
+        value: "event.sold-out",
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>
+      status === "event.available" ? (
+        <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
+          {t("event.status.available")}
+        </span>
+      ) : status === "event.completed" ? (
+        <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
+          {t("event.status.completed")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
+          {t("event.status.soldout")}
+        </span>
+      ),
+  },
+  {
+    title: t("event.modify"),
+    key: "action",
+    render: (_, record) => (
+      <div
+        className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
+        onClick={() => {
+          store.dispatch(setEventId(record.id));
+          store.dispatch(setOpenModal(true));
+        }}
+      >
+        <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}
+      </div>
+    ),
+  },
+];
 export const categoryColumns = [
   {
     title: t("category.title"),
@@ -682,41 +494,43 @@ export const categoryColumns = [
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ["descend"],
-    render: (category) => <p>{t(category)}</p>
+    render: (category) => <p>{t(category)}</p>,
   },
   {
     title: t("event.modify"),
-    key: 'action',
+    key: "action",
     render: (_, record) => (
       <div className="flex items-center gap-2">
-    <RiEditFill
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => window.location.replace(`/event/update/${record.id}`)}
-    />
-    <FaTrashAlt
-      className="text-primary text-xl cursor-pointer"
-      onClick={() => {
-        AlertQuestion({
-          title: t("popup.event.delete"),
-          callback: async () => {
-            const response = await deleteEvent(
-              record.id,
-              store.getState().account.userInfo.id
-            );
-            if (response.status === 200) {
-              AlertPopup({
-                title: t("popup.event.delete-success"),
-                timer: 5000,
-              });
-            }
-          },
-        });
-      }}
-    />
-  </div>
+        <RiEditFill
+          className="text-primary text-xl cursor-pointer"
+          onClick={() => window.location.replace(`/event/update/${record.id}`)}
+        />
+        <FaTrashAlt
+          className="text-primary text-xl cursor-pointer"
+          onClick={() => {
+            AlertQuestion({
+              title: t("popup.event.delete"),
+              callback: async (result) => {
+                if (result.isConfirmed) {
+                  const response = await deleteEvent(
+                    record.id,
+                    store.getState().account.userInfo.id
+                  );
+                  if (response.status === 200) {
+                    AlertPopup({
+                      title: t("popup.event.delete-success"),
+                      timer: 5000,
+                    });
+                  }
+                }
+              },
+            });
+          }}
+        />
+      </div>
     ),
   },
-]
+];
 export const accountColumns = [
   {
     title: t("user.name"),
@@ -734,6 +548,17 @@ export const accountColumns = [
     onFilter: (value, record) => record.email.indexOf(value) === 0,
     sorter: (a, b) => a.email - b.email,
     sortDirections: ["descend"],
+  },
+  {
+    title: t("loginTime"),
+    dataIndex: "loginTime",
+    defaultSortOrder: "descend",
+    onFilter: (value, record) => record.loginTime.indexOf(value) === 0,
+    sorter: (a, b) => a.loginTime - b.loginTime,
+    sortDirections: ["descend"],
+    render: (time) => (
+      <p>{time ? convertMongodbTimeToString(time) : t("no-infomation")}</p>
+    ),
   },
   {
     title: t("account.role"),
@@ -773,9 +598,52 @@ export const accountColumns = [
   },
   {
     title: t("event.modify"),
-    key: 'action',
+    key: "action",
     render: (_, record) => (
-      <div className="flex items-center gap-x-2 cursor-pointer"><BsFillEyeFill color="#1f3e82"/><span className="text-[#1f3e82] font-medium">{t("view-detail")}</span></div>
+      <div className="flex items-center gap-x-2 cursor-pointer">
+        <BsFillEyeFill color="#1f3e82" />
+        <span className="text-[#1f3e82] font-medium">{t("view-detail")}</span>
+      </div>
+    ),
+  },
+];
+export const orderByAccountColumns = [
+  {
+    title: t("user.name"),
+    dataIndex: "name",
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    defaultSortOrder: "descend",
+    onFilter: (value, record) => record.email.indexOf(value) === 0,
+    sorter: (a, b) => a.email - b.email,
+    sortDirections: ["descend"],
+  },
+  {
+    title: t("loginTime"),
+    dataIndex: "loginTime",
+    defaultSortOrder: "descend",
+    onFilter: (value, record) => record.loginTime.indexOf(value) === 0,
+    sorter: (a, b) => a.loginTime - b.loginTime,
+    sortDirections: ["descend"],
+    render: (time) => (
+      <p>{time ? convertMongodbTimeToString(time) : t("no-infomation")}</p>
+    ),
+  },
+  {
+    title: t("event.modify"),
+    key: "action",
+    render: (_, record) => (
+      <div className="flex items-center gap-x-2 cursor-pointer">
+        <BsFillEyeFill color="#1f3e82" />
+        <span className="text-[#1f3e82] font-medium">{t("view-detail")}</span>
+      </div>
     ),
   },
 ];
@@ -821,13 +689,13 @@ export const pendingAccountsColumns = [
           <span className="p-2 bg-yellow-100 border-2  rounded-md border-yellow-500 text-yellow-500 font-medium">
             {t("account.disabled")}
           </span>
-        ) }
+        )}
       </>
     ),
   },
   {
     title: t("event.modify"),
-    key: 'action',
+    key: "action",
     render: (_, record) => (
       <div className="flex items-center justify-center gap-x-2">
         <button
@@ -835,20 +703,22 @@ export const pendingAccountsColumns = [
           onClick={() => {
             AlertQuestion({
               title: t("popup.account.approve"),
-              callback: async () => {
-                const response = await approveOrganizer({
-                  email: record.email,
-                });
-                if (response.status === 200) {
-                  AlertPopup({
-                    title: t("popup.account.approve-success"),
-                    timer: 5000,
+              callback: async (result) => {
+                if (result.isConfirmed) {
+                  const response = await approveOrganizer({
+                    email: record.email,
                   });
-                } else {
-                  AlertErrorPopup({
-                    title: t("popup.account.approve-fail"),
-                    timer: 5000,
-                  });
+                  if (response.status === 200) {
+                    AlertPopup({
+                      title: t("popup.account.approve-success"),
+                      timer: 5000,
+                    });
+                  } else {
+                    AlertErrorPopup({
+                      title: t("popup.account.approve-fail"),
+                      timer: 5000,
+                    });
+                  }
                 }
               },
             });
@@ -862,20 +732,22 @@ export const pendingAccountsColumns = [
           onClick={() => {
             AlertQuestion({
               title: t("popup.account.refuse"),
-              callback: async () => {
-                const response = await refuseOrganizer({
-                  email: record.email,
-                });
-                if (response.status === 200) {
-                  AlertPopup({
-                    title: t("popup.account.refuse-success"),
-                    timer: 5000,
+              callback: async (result) => {
+                if (result.isConfirmed) {
+                  const response = await refuseOrganizer({
+                    email: record.email,
                   });
-                } else {
-                  AlertErrorPopup({
-                    title: t("popup.account.refuse-fail"),
-                    timer: 5000,
-                  });
+                  if (response.status === 200) {
+                    AlertPopup({
+                      title: t("popup.account.refuse-success"),
+                      timer: 5000,
+                    });
+                  } else {
+                    AlertErrorPopup({
+                      title: t("popup.account.refuse-fail"),
+                      timer: 5000,
+                    });
+                  }
                 }
               },
             });
@@ -960,7 +832,6 @@ export const AdminRoute = [
     ],
   },
 ];
-
 
 export const earningData = [
   {

@@ -258,7 +258,7 @@
         "approve": "Approve",
         "options": "Option",
         "all": "Danh sách tài khoản",
-        "pending-accounts": "Danh sách tài khoản chờ phê duyệt"
+        "pending-accounts": "Danh sách tài khoản Nhà tổ chức chờ duyệt"
     },
     "view-detail": "Xem chi tiết",
     "default-currency": "Currency unit: US Dollar",
@@ -267,5 +267,9 @@
         "user": "Khách hàng",
         "organizer": "Nhà tổ chức",
         "admin": "Quản trị viên"
+    },
+    "order": {
+        "by-event": "Danh sách hóa đơn theo sự kiện",
+        "by-account": "Danh sách hóa đơn theo tài khoản"
     }
 }
