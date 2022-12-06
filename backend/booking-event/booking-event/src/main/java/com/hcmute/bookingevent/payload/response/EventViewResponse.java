@@ -24,5 +24,6 @@ public class EventViewResponse {
     private String status;
     private List<EventCategory> eventCategoryList;
     private List<Ticket> organizationTickets;
-
+    private int ticketTotal;
+    private int ticketRemaining;
 }
