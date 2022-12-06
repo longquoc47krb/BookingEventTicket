@@ -243,7 +243,13 @@
     },
     "ticket": {
         "create": "Create new ticket",
-        "remove": "Remove this ticket"
+        "remove": "Remove this ticket",
+        "list": "Danh sách vé",
+        "type": "Loại vé",
+        "price": "Giá",
+        "totalQuantity": "Tổng lượng",
+        "totalRemaining": "Còn lại",
+        "status": "Tr.Thái"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
@@ -273,5 +279,6 @@
     "order": {
         "by-event": "Danh sách hóa đơn theo sự kiện",
         "by-account": "Danh sách hóa đơn theo tài khoản"
-    }
+    },
+    "orders-of-event": "Danh sách hóa đơn của {{val, string}}"
 }

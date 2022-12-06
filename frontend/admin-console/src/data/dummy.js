@@ -326,7 +326,7 @@ export const orderByEventColumns = [
   {
     title: "ID",
     dataIndex: "id",
-    width: 100,
+    width: 50,
   },
   {
     title: "Email",
@@ -334,7 +334,6 @@ export const orderByEventColumns = [
     onFilter: (value, record) => record.email.indexOf(value) === 0,
     sorter: (a, b) => a.email.length - b.email.length,
     sortDirections: ["descend"],
-    width: 150,
   },
   {
     title: t("event.totalPrice"),
@@ -343,7 +342,7 @@ export const orderByEventColumns = [
     sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
     sortDirections: ["descend"],
     render: (price) => <span>{formatter("USD").format(price)}</span>,
-    width: 100,
+    width: 200,
   },
   {
     title: t("event.totalQuantity"),
@@ -351,7 +350,22 @@ export const orderByEventColumns = [
     onFilter: (value, record) => record.totalQuantity.indexOf(value) === 0,
     sorter: (a, b) => a.totalQuantity.length - b.totalQuantity.length,
     sortDirections: ["descend"],
-    width: 100,
+    width: 200,
+  },{
+    title: t("event.modify"),
+    key: "action",
+    render: (_, record) => (
+      <div
+        className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
+        // onClick={() => {
+        //   store.dispatch(setEventId(record.id));
+        //   store.dispatch(setOpenModal(true));
+        // }}
+      >
+        <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}
+      </div>
+    ),
+    width: 200,
   },
 ];
 export const eventColumns = [

@@ -15,6 +15,7 @@ import OrdersByEventModal from "../components/OrdersByEventModal";
 import Table from "../components/Table";
 import { orderColumns, orderByAccountColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
+import { eventIdSelector } from "../redux/slices/eventSlice";
 import { ROLE } from "../utils/constants";
 
 const Orders = () => {
@@ -50,6 +51,7 @@ const Orders = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
+  const eventId = useSelector(eventIdSelector)
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -164,6 +166,8 @@ const Orders = () => {
   // end for table
   const nameColumn = orderColumns.find((e) => e.dataIndex === "name");
   Object.assign(nameColumn, getColumnSearchProps("name"));
+  const title = orderByEventData?.find(e => e.id === eventId).name; 
+  console.log({eventId, title})
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       {/* <BreadCrumbs
@@ -189,7 +193,7 @@ const Orders = () => {
           dataSource={orderByAccountData}
         />
       )}
-      <OrdersByEventModal open={openModal} />
+      <OrdersByEventModal open={openModal} title={t("orders-of-event", {val: title})}/>
     </div>
   );
 };

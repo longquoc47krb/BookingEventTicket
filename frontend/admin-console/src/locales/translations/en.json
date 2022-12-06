@@ -241,7 +241,13 @@
     },
     "ticket": {
         "create": "Create new ticket",
-        "remove": "Remove this ticket"
+        "remove": "Remove this ticket",
+        "list": "Ticket list",
+        "type": "Ticket type",
+        "price": "Price",
+        "totalQuantity": "Total quantity",
+        "totalRemaining": "Total remaining",
+        "status": "Status"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
@@ -271,5 +277,6 @@
     "order": {
         "by-event": "Orders by event",
         "by-account": "Orders by account"
-    }
+    },
+    "orders-of-event": "Orders of {{val, string}}"
 }
