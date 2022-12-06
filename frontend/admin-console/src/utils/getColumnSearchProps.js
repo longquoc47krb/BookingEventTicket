@@ -1,34 +1,11 @@
+import { Button, Input, Space } from "antd";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useFetchEventsByOrgID } from "../api/services/organizationServices";
-import { Header } from "../components";
-// import for table
-import { SearchOutlined } from "@ant-design/icons";
-import { Spin, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
-import { useRef } from "react";
-import { useState } from "react";
-// end import for table
-import Table from "../components/Table";
-import { eventColumns } from "../data/dummy";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-const Events = () => {
-  const user = useSelector(userInfoSelector);
-  const { data: events, status } = useFetchEventsByOrgID(user.id);
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const eventData = events?.map((item) => ({
-    id: item.id,
-    background: item.background,
-    name: item.name,
-    categories: item.eventCategoryList,
-    date: item.startingDate,
-    status: item.status,
-  }));
 
-  // for table
+import { SearchOutlined } from "@ant-design/icons";
+import { useRef, useState } from "react";
+
+function GetColumnSearchProps(dataIndex) {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -41,7 +18,7 @@ const Events = () => {
     clearFilters();
     setSearchText("");
   };
-  const getColumnSearchProps = (dataIndex) => ({
+  return {
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -142,30 +119,7 @@ const Events = () => {
       ) : (
         text
       ),
-  });
-  // end for table
-  const nameColumn = eventColumns.find((e) => e.dataIndex === "name");
-  Object.assign(nameColumn, getColumnSearchProps("name"));
-  console.log({ eventColumns });
-  return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category={t("sider.management")} title={t("sider.event")} />
-      <div className="flex w-full justify-end">
-        <button
-          className="p-2 bg-primary rounded-md mb-2 text-white text-lg"
-          onClick={() => navigate("/event/create")}
-        >
-          {t("event.create")}
-        </button>
-      </div>
-      {status === "loading" ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <Spin />
-        </div>
-      ) : (
-        <Table columns={eventColumns} dataSource={eventData} />
-      )}
-    </div>
-  );
-};
-export default Events;
+  };
+}
+
+export default GetColumnSearchProps;

@@ -1,9 +1,8 @@
-import { Table as AntdTable } from "antd";
-import { t } from "i18next";
+import { Table as AntdTable, Input, Button, Space } from "antd";
+
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
-
 const Table = (props) => {
   const { dataSource, columns } = props;
   return (
