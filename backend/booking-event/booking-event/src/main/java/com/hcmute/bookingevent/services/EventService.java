@@ -207,14 +207,16 @@ public class EventService implements IEventService {
     public ResponseEntity<?> deleteEvent(String id,String email) {
 
         Optional<Organization> organization = organizationRepository.findByEmail(email);
-        if (organization.isPresent()) {
+        Optional<Event> event = eventRepository.findEventById(id);
+        if (organization.isPresent() && event.isPresent()) {
             //remove 1 item Id in listEvent
             List<String> eventList = organization.get().getEventList();
             eventList.remove(id);
             organization.get().setEventList(eventList);
-            //save
             organizationRepository.save(organization.get());
-            eventRepository.deleteById(id);
+            //change status when deleted by organizer
+            event.get().setStatus(EventStatus.DELETED);
+            //eventRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Delete event successfully ", "", 200));
         } else {
