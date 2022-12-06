@@ -9,7 +9,8 @@ const findOrdersByEventId = async (eventId, userId) => {
     );
     return response.data;
   } catch (error) {
-    return error.response.data;
+    console.log({ error });
+    return error.response.data.data;
   }
 };
 export const useFetchOrdersByEventId = (eventId, userId) => {
@@ -17,7 +18,7 @@ export const useFetchOrdersByEventId = (eventId, userId) => {
     ["findOrdersByEventId", (eventId, userId)],
     () => findOrdersByEventId(eventId, userId),
     {
-      staleTime: 30000,
+      staleTime: 0,
       refetchInterval: 5000,
     }
   );

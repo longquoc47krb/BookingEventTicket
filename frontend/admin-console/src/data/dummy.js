@@ -1,5 +1,7 @@
 import { t } from "i18next";
 import React from "react";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import {
@@ -46,8 +48,10 @@ import { BiCategory } from "react-icons/bi";
 import organizationServices from "../api/services/organizationServices";
 import { has } from "lodash";
 import { ROLE, AccountStatus } from "../utils/constants";
-import { convertMongodbTimeToString } from "../utils/utils";
+import { convertMongodbTimeToString, formatter } from "../utils/utils";
 import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
+import { Button, Input, Space } from "antd";
+import GetColumnSearchProps from "../utils/getColumnSearchProps";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (
@@ -318,6 +322,38 @@ export const LinePrimaryYAxis = {
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },
 };
+export const orderByEventColumns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    width: 100,
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    onFilter: (value, record) => record.email.indexOf(value) === 0,
+    sorter: (a, b) => a.email.length - b.email.length,
+    sortDirections: ["descend"],
+    width: 150,
+  },
+  {
+    title: t("event.totalPrice"),
+    dataIndex: "totalPrice",
+    onFilter: (value, record) => record.totalPrice.indexOf(value) === 0,
+    sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
+    sortDirections: ["descend"],
+    render: (price) => <span>{formatter("USD").format(price)}</span>,
+    width: 100,
+  },
+  {
+    title: t("event.totalQuantity"),
+    dataIndex: "totalQuantity",
+    onFilter: (value, record) => record.totalQuantity.indexOf(value) === 0,
+    sorter: (a, b) => a.totalQuantity.length - b.totalQuantity.length,
+    sortDirections: ["descend"],
+    width: 100,
+  },
+];
 export const eventColumns = [
   {
     title: t("event.background"),
@@ -339,7 +375,7 @@ export const eventColumns = [
     dataIndex: "categories",
     render: (categories) =>
       categories.map((item) => (
-        <span className="p-2 bg-gray-100 border-2  rounded-md border-gray-500 text-gray-500 font-medium mr-2">
+        <span className="p-2 bg-gray-100 border-2 text-xs rounded-md border-gray-500 text-gray-500 font-medium mr-2">
           {t(item.name)}
         </span>
       )),
@@ -364,15 +400,15 @@ export const eventColumns = [
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     render: (status) =>
       status === "event.available" ? (
-        <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
+        <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
           {t("event.status.available")}
         </span>
       ) : status === "event.completed" ? (
-        <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
+        <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
           {t("event.status.completed")}
         </span>
       ) : (
-        <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
           {t("event.status.soldout")}
         </span>
       ),
@@ -456,15 +492,15 @@ export const orderColumns = [
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     render: (status) =>
       status === "event.available" ? (
-        <span className="p-2 border-2 rounded-md bg-green-500 text-white font-medium mr-2">
+        <span className="p-2 border-2 rounded-md text-xs  bg-green-500 text-white font-medium mr-2">
           {t("event.status.available")}
         </span>
       ) : status === "event.completed" ? (
-        <span className="p-2 bg-yellow-500 text-white rounded-md font-medium mr-2">
+        <span className="p-2 bg-yellow-500 text-xs  text-white rounded-md font-medium mr-2">
           {t("event.status.completed")}
         </span>
       ) : (
-        <span className="p-2 rounded-md bg-red-500 text-white font-medium mr-2">
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
           {t("event.status.soldout")}
         </span>
       ),
@@ -580,15 +616,15 @@ export const accountColumns = [
     render: (role) => (
       <>
         {role === ROLE.Customer ? (
-          <span className="p-2 bg-yellow-100 border-2  rounded-md border-yellow-500 text-yellow-500 font-medium">
+          <span className="p-2 bg-yellow-100 border-2 text-xs   rounded-md border-yellow-500 text-yellow-500 font-medium">
             {t("role.user")}
           </span>
         ) : role === ROLE.Organizer ? (
-          <span className="p-2 bg-blue-100 border-2  rounded-md border-blue-500 text-blue-500 font-medium ">
+          <span className="p-2 bg-blue-100 border-2  text-xs  rounded-md border-blue-500 text-blue-500 font-medium ">
             {t("role.organizer")}
           </span>
         ) : (
-          <span className="p-2 bg-violet-100 border-2 rounded-md  border-violet-500 text-violet-500 font-medium ">
+          <span className="p-2 bg-violet-100 border-2 text-xs  rounded-md  border-violet-500 text-violet-500 font-medium ">
             {t("role.admin")}
           </span>
         )}
@@ -790,16 +826,6 @@ export const OrganizerRoute = [
         name: "sider.ticket",
         route: "tickets",
         icon: <IoTicketOutline />,
-      },
-    ],
-  },
-  {
-    title: "sider.utilities",
-    links: [
-      {
-        name: "sider.calendar",
-        route: "calendar",
-        icon: <AiOutlineCalendar />,
       },
     ],
   },

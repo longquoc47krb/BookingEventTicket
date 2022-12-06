@@ -6,9 +6,6 @@
     height: 100%;
   }
 }
-.ant-input[disabled] {
-  color: black !important;
-}
 .profile {
   height: auto;
   width: 40vw;
@@ -22,4 +19,7 @@
 }
 .ant-image-mask {
   border-radius: 9999px !important;
+}
+.ant-input {
+  height: 2.5rem !important;
 }

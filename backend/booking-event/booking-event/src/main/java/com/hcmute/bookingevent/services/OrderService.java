@@ -160,7 +160,7 @@ public class OrderService implements IOrderService {
         else
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "finding List of Order  fail ", "", 400));
+                    new ResponseObject(false, "finding List of Order   fail ", new ArrayList<>(), 400));
 
         }
     }
