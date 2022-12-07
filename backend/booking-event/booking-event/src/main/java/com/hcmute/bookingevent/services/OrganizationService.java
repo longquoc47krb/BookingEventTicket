@@ -31,6 +31,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -334,18 +335,20 @@ public class OrganizationService implements IOrganizationService {
         {
             throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
         }
-       // List<Order> orderList = orderRepository.findAllByIdEvent(eventId);
-
         List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity();
+        for(CustomerListRes element:orderList){
+            List <Order> orderListwithEmail = orderRepository.findAllByEmail(element.getEmail());
+            //int count=0;
+            BigDecimal temp = new BigDecimal("0");
+            for(Order totalPrice: orderListwithEmail)
+            {
+                BigDecimal ticketQuantity = new BigDecimal(totalPrice.getTotalPrice());
+                temp = temp.add(ticketQuantity);
+            }
+           // System.out.println(temp.toString());
+            element.setTotalPrice(temp);
 
-        // Constructing HashSet using listWithDuplicateElements
-        //Set<Order> set = new HashSet<Order>(orderList);
-        // Constructing listWithoutDuplicateElements using set
-        //List<Order> listWithoutDuplicateElements = new ArrayList<Order>(set);
-
-//        Set orderListwithout = orderList.stream()
-//                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Order::getEmail))));
-
+        }
 
         if(orderList.size()>0)
         {
@@ -356,7 +359,7 @@ public class OrganizationService implements IOrganizationService {
         else
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "findTicketListByEventId fail ", "", 400));
+                    new ResponseObject(false, "order is empty ", "", 400));
 
         }
 

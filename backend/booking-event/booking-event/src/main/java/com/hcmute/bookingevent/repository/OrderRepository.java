@@ -17,10 +17,11 @@ public interface OrderRepository extends MongoRepository<Order,String> {
     @Query("{ 'idEvent' : ?0 }")
     List<Order> findAllByIdEvent(String idEvent);
     List<Order> findAllByCustomerTicketList_Id(String ticketTypeId);
-    //@Query("{ distinct:'order', key: 'email' }")
-    @Aggregation(" { $group : { _id : '$email' }} ")
-    List<Order> getOrderDistance();
+
+   // @Aggregation(" { $group : { _id : '$email' }} ")
+   // List<Order> getOrderDistance();
     @Aggregation("{ $group : { _id : $email, idEvent  : { $first: $idEvent }, currency  : { $first: $currency } , totalPrice : { $sum : $totalPrice },totalQuantity : { $sum : $totalQuantity } } }")
     List<CustomerListRes> getOrderWithTotalPriceAndQuantity();
+
     List<Order> findDistinctByEmail();
 }

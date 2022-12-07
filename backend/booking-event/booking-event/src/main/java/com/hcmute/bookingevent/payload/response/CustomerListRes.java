@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class CustomerListRes {
     private String idEvent;
     @Id
     private String email;
-    private String totalPrice;
+    private BigDecimal totalPrice;
     private int totalQuantity;
     private String currency;
 }

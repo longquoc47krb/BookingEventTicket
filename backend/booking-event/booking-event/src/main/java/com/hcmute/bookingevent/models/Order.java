@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Order {
     private String email;
     @NotBlank(message = "totalPrice is required")
     private String totalPrice;
+
     @Size(min=1,message="required")
     @NotBlank(message = "quantity is required")
     private int totalQuantity;
