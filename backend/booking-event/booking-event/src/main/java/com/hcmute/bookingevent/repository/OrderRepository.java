@@ -22,6 +22,7 @@ public interface OrderRepository extends MongoRepository<Order,String> {
 
    // @Aggregation(" { $group : { _id : '$email' }} ")
    // List<Order> getOrderDistance();
+
     @Query("{ 'idEvent' : ?0 }")
     @Aggregation("{ $group : { _id :  { email : $email , id :$idEvent} , email  : { $first: $email } , idEvent  : { $first: $idEvent }, currency  : { $first: $currency } , totalPrice : { $sum : $totalPrice },totalTicket : { $sum : $totalQuantity } } }")
     //@Aggregation("{ $group : { _id : $email, idEvent  : { $first: $idEvent }, currency  : { $first: $currency } , USDRevenue : { $sum : $USDRevenue },totalTicket : { $sum : $totalQuantity } } }")
@@ -34,6 +35,7 @@ public interface OrderRepository extends MongoRepository<Order,String> {
 
     @Query(value = "{idEvent: ?0}", count = true)
     Long countOrderByEventId(String idEvent);
+
 
 
 }
