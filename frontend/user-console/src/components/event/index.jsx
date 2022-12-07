@@ -22,6 +22,7 @@ function Event(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
+  console.log({ event });
   const dispatch = useDispatch();
   function handleEventCurrency() {
     if (isNotEmpty(event.organizationTickets)) {
@@ -50,7 +51,7 @@ function Event(props) {
           ? t(event.status)
           : null}
       </h1>
-      <div className="flex items-center">
+      <div className="flex items-center w-[calc(100%-80px)]">
         {event.province ? (
           <Tag
             onClick={(event) => event.stopPropagation()}
@@ -75,7 +76,7 @@ function Event(props) {
           </p>
         ))}
       </div>
-      <div>
+      <div className="flex justify-start gap-x-12 items-center">
         <span className="text-base pl-1 ">
           {t("price-from")}
           <strong className="text-[#1f3e82]">
@@ -86,6 +87,11 @@ function Event(props) {
               })?.price
             )}
           </strong>
+        </span>
+        <span className="text-sm font-medium text-gray-400 tracking-wide ">
+          {t("sold-ticket", {
+            val: event?.ticketTotal - event?.ticketRemaining,
+          })}
         </span>
       </div>
       <Calendar

@@ -18,6 +18,7 @@ import {
   setTicketCart,
   clearCart,
   createOrderRequestSelector,
+  createOrderRequest,
 } from "../../redux/slices/ticketSlice";
 import { map } from "lodash";
 const { createOrder } = orderServices;
@@ -29,13 +30,10 @@ function PaymentPage() {
   const eventId = useSelector(eventIdSelector);
   const ticketCart = useSelector(ticketCartSelector);
   const totalPrice = useSelector(totalPriceSelector);
-  console.log({ ticketCart });
   const totalQuantity = useSelector(totalQuantitySelector);
   const user = useSelector(userInfoSelector);
   const currency = map(ticketCart, "currency")[0];
-  const createOrderRequest = useSelector(createOrderRequestSelector);
-  console.log({ currency });
-  console.log({ ticketCart });
+  const createOrderReq = useSelector(createOrderRequestSelector);
   const isSuccess =
     query.get("success") !== null
       ? query.get("success") === "true"
@@ -51,18 +49,14 @@ function PaymentPage() {
   useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
-    console.log(isSuccess);
     if (isSuccess) {
-      console.log({ createOrderRequest });
+      console.log({ createOrderReq });
       dispatch(setCurrentStep(2));
       const createOrderAsync = async () => {
-        const createOrderResponse = await createOrder(
-          user.id,
-          createOrderRequest
-        );
+        const createOrderResponse = await createOrder(user.id, createOrderReq);
         if (createOrderResponse.status === 200) {
           dispatch(setCustomerOrder(createOrderResponse.data));
-          dispatch(clearCart());
+          dispatch(createOrderRequest(null));
           navigate(`/ticket-booking/${eventId}`);
         } else {
           navigate(`/event/${eventId}`);

@@ -451,42 +451,6 @@ export const debounce = (callback, delay = 200) => {
     timeId = setTimeout(() => callback(...args), delay);
   };
 };
-//* FILTER AN ARRAY OF OBJECTS WITH MULTIPLE CHAINED CONDITIONS.
-export function evaluate(expr) {
-  switch (expr?.type) {
-    case "filter":
-      return (v) => evaluateFilter(v, expr);
-    case "and":
-      return (v) => expr.filters.every((e) => evaluate(e)(v));
-    case "or":
-      return (v) => expr.filters.some((e) => evaluate(e)(v));
-    //case ...:
-    //  implement any other filters you wish to support
-    default:
-      throw Error(`unsupported filter expression: ${JSON.stringify(expr)}`);
-  }
-}
-function evaluateFilter(t, { key, condition, value }) {
-  switch (condition) {
-    case comparisonStatus.EQUAL:
-      return t?.[key] === value;
-    case comparisonStatus.MORE:
-      return t?.[key] > value;
-    case comparisonStatus.LESS:
-      return t?.[key] < value;
-    case comparisonStatus.DIFFERENT:
-      return t?.[key] !== value;
-    //case ...:
-    //  implement other supported conditions here
-    default:
-      throw Error(`Unsupported filter condition: ${condition}`);
-  }
-}
-export default function fakeDelay(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
 export function filterData(dateType, dateRange, list) {
   return list && dateType === "date-range"
     ? filterByDate(dateType, list, {

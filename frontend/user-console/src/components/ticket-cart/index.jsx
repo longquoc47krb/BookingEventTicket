@@ -1,24 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
 import { map, sumBy } from "lodash";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import paymentServices, {
-  useCheckOrderAvailability,
-} from "../../api/services/paymentServices";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import paymentServices from "../../api/services/paymentServices";
 import { userInfoSelector } from "../../redux/slices/accountSlice";
 import {
-  setTicketCart,
-  setTotalPrice,
-  setTotalQuantity,
-  ticketTypeSelector,
-  eventIdSelector,
   createOrderRequest,
-  totalPriceSelector,
-  totalQuantitySelector,
+  eventIdSelector,
+  ticketTypeSelector,
 } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
-import { AlertErrorPopup, AlertPopup } from "../common/alert";
+import { AlertErrorPopup } from "../common/alert";
 import ThreeDotsLoading from "../loading/three-dots";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder, checkOrderAvailability } = paymentServices;
@@ -29,13 +22,14 @@ function TicketCart() {
   const [loading, setLoading] = useState(false);
   const newArr = tickets.map((t) => ({
     ...t,
-    totalPrice: t.quantity * Number(t.price),
+    totalPrice: t.ticketInCartQuantity * Number(t.price),
   }));
   const user = useSelector(userInfoSelector);
-  const ticketCart = newArr.filter((ticket) => ticket.quantity > 0);
+  const ticketCart = newArr.filter((ticket) => ticket.ticketInCartQuantity > 0);
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
-  const cartTotalQuantity = sumBy(ticketCart, "quantity");
+  const cartTotalQuantity = sumBy(ticketCart, "ticketInCartQuantity");
   const eventId = useSelector(eventIdSelector);
+
   const handlePayOrder = async () => {
     setLoading(true);
     dispatch(
@@ -66,7 +60,28 @@ function TicketCart() {
       }
     }
   };
-
+  const handleTicketCart = (cart) => {
+    const ticketCart = cart.map((item) => ({
+      id: item.id,
+      currency: item.currency,
+      description: item.description,
+      idEvent: eventId,
+      price: item.price,
+      quantity: item.ticketInCartQuantity,
+      status: item.status,
+      ticketName: item.ticketName,
+    }));
+    return ticketCart;
+  };
+  console.log({ ticketCart, cartTotalPrice, cartTotalQuantity });
+  console.log("create order:", {
+    currency: map(ticketCart, "currency")[0],
+    customerTicketList: handleTicketCart(ticketCart),
+    email: user.email,
+    idEvent: eventId,
+    totalPrice: String(cartTotalPrice),
+    totalQuantity: cartTotalQuantity,
+  });
   const showNotification = (code, ticketType) => {
     if (code === 400) {
       console.log(code);
@@ -75,19 +90,7 @@ function TicketCart() {
       });
     }
   };
-  const handleTicketCart = (cart) => {
-    const ticketCart = cart.map((item) => ({
-      id: item.id,
-      currency: item.currency,
-      description: item.description,
-      idEvent: eventId,
-      price: item.price,
-      quantity: item.quantity,
-      status: item.status,
-      ticketName: item.ticketName,
-    }));
-    return ticketCart;
-  };
+
   return (
     <>
       <div className="ticket-cart">

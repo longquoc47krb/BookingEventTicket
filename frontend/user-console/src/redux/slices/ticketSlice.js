@@ -27,15 +27,17 @@ const ticketSlice = createSlice({
       const ticketItem = state.ticketType.find(
         (item) => item.ticketName === payload
       );
-      ticketItem.quantity =
-        ticketItem.quantity + (ticketItem.quantity < 5 ? 1 : 0);
+      ticketItem.ticketInCartQuantity =
+        ticketItem.ticketInCartQuantity +
+        (ticketItem.ticketInCartQuantity < 5 ? 1 : 0);
     },
     decreaseTicket: (state, { payload }) => {
       const ticketItem = state.ticketType.find(
         (item) => item.ticketName === payload
       );
-      ticketItem.quantity =
-        ticketItem.quantity - (ticketItem.quantity === 0 ? 0 : 1);
+      ticketItem.ticketInCartQuantity =
+        ticketItem.ticketInCartQuantity -
+        (ticketItem.ticketInCartQuantity === 0 ? 0 : 1);
     },
     setCurrentStep: (state, { payload }) => {
       state.currentStep = payload;

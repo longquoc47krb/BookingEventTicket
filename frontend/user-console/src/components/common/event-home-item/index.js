@@ -7,6 +7,7 @@ import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import AppConfig from "../../../configs/AppConfig";
 function EventHomeItem(props) {
   const { event } = props;
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const goToEventDetail = () => {
@@ -26,13 +27,22 @@ function EventHomeItem(props) {
         className="event-home-item-image"
       />
       <h1 className="w-full mb- event-home-item-name">{event.name}</h1>
-      <span className="font-medium text-sm">{event.startingDate}</span>
-      <div className="flex items-center gap-x-2">
-        {event.eventCategoryList.map((category, index) => (
-          <h2 className="font-thin text-sm text-gray-400">
-            {t(category.name)}
-          </h2>
-        ))}
+      <div class="flex justify-start gap-x-8 items-end">
+        <div>
+          <span className="font-medium text-sm">{event.startingDate}</span>
+          <div className="flex items-center justify-start gap-x-2">
+            {event.eventCategoryList.map((category, index) => (
+              <h2 className="font-thin text-xs text-gray-400">
+                {t(category.name)}
+              </h2>
+            ))}
+          </div>
+        </div>
+        <span className="text-xs font-medium text-gray-400 tracking-wide ">
+          {t("sold-ticket", {
+            val: event?.ticketTotal - event?.ticketRemaining,
+          })}
+        </span>
       </div>
 
       <div>

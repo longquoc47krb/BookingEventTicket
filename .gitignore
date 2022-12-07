@@ -15,3 +15,4 @@ event.json
 .netlify
 frontend/admin-console/yarn.lock
 /organization.json
+/event-temp.json
