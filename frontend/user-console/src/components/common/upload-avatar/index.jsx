@@ -1,6 +1,7 @@
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import { Badge } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import { Spin } from "antd";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -16,6 +17,7 @@ function UploadAvatar({ avatar }) {
   const user = useSelector(userInfoSelector);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
+  const [loading, setLoading] = useState(false);
   const [showCameraButton, setShowCameraButton] = useState(true);
   const { t } = useTranslation();
   const updateProfileDataChange = (e) => {
@@ -35,14 +37,21 @@ function UploadAvatar({ avatar }) {
     setAvatarFile(avatar);
   };
   const UploadAvatar = async () => {
+    setLoading(true);
     setShowCameraButton(true);
     const formData = new FormData();
     formData.append("file", avatarFile);
     const response = await updateAvatar(user.id, formData);
     if (response.status === 200) {
-      toast.success(t("update-avatar.success"));
+      setLoading(false);
+      toast.success(t("update-avatar.success"), {
+        duration: 5000,
+      });
     } else {
-      toast.error(t("update-avatar.error"));
+      setLoading(false);
+      toast.error(t("update-avatar.error"), {
+        duration: 5000,
+      });
     }
   };
   return (
@@ -116,10 +125,11 @@ function UploadAvatar({ avatar }) {
             avatar={avatarPreview ? avatarPreview : avatarFile}
             className="object-cover rounded-full"
             style={{ width: "120px", height: "120px" }}
+            loading={loading}
           />
         </Badge>
       </div>
-      <Toaster />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </div>
   );
 }
