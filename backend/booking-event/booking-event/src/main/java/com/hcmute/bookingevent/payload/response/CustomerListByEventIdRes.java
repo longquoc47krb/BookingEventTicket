@@ -5,20 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerListRes {
+public class CustomerListByEventIdRes {
     @Id
-    private String id;
     private String idEvent;
-    private String email;
     private BigDecimal USDRevenue;
     private BigDecimal VNDRevenue;
-    private int totalTicket;
+    private int totalQuantity;
     private String currency;
 }

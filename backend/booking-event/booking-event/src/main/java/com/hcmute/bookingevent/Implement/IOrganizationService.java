@@ -29,5 +29,6 @@ public interface IOrganizationService {
      ResponseEntity<?> findOrganizationByEventid(String eventId);
      ResponseEntity<?> findTicketListByEventId(String eventId,String email);
      ResponseEntity<?> findCustomerListByEventId(String eventId,String email);
+     ResponseEntity<?> statistic(String email);
 
 }
