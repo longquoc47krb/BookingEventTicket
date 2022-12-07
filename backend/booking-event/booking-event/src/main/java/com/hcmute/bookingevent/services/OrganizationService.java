@@ -327,41 +327,69 @@ public class OrganizationService implements IOrganizationService {
         }
     }
     @Override
+    public ResponseEntity<?> statistic(String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if(organization.isPresent())
+        {
+            int count=0;
+            int countOder=0;
+            List<CustomerListByEventIdRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantityByIdEvent();
+            for(CustomerListByEventIdRes element: orderList)
+            {
+                count+= element.getTotalQuantity();
+                countOder+= orderRepository.countOrderByEventId(element.getIdEvent());
+                System.out.println(countOder);
+            }
+
+            OrganizationStatics organizationStatics = new OrganizationStatics(organization.get().getUSDBalance(),organization.get().getVNDBalance(),organization.get().getEventList().size(),count, (long) countOder);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "statistic successfully ",organizationStatics, 200));
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(false, "statistic fail ",  "", 200));
+
+    }
+    @Override
     public ResponseEntity<?> findCustomerListByEventId(String eventId,String email) {
-        //Optional<Event> event= eventRepository.findEventById(eventId);
         Optional<Organization> organization = organizationRepository.findByEmail(email);
 
         if(organization.isPresent() && !organization.get().getEventList().contains(eventId))
         {
             throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
         }
-        List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity();
+        List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity(eventId);
+
+        orderList.removeIf(element -> !element.getIdEvent().equals(eventId));
+
         for(CustomerListRes element:orderList){
-            List <Order> orderListwithEmail = orderRepository.findAllByEmail(element.getEmail());
-            //int count=0;
-            BigDecimal temp = new BigDecimal("0");
-            for(Order totalPrice: orderListwithEmail)
+            List <Order> orderListWithEmailList = orderRepository.findAllByIdEventAndEmail(element.getIdEvent(),element.getEmail());
+            BigDecimal tempx = new BigDecimal("0");
+            element.setVNDRevenue(tempx);
+            element.setUSDRevenue(tempx);
+            for(Order orderInside: orderListWithEmailList)
             {
-                BigDecimal ticketQuantity = new BigDecimal(totalPrice.getTotalPrice());
-                temp = temp.add(ticketQuantity);
+                BigDecimal temp = new BigDecimal("0");
+                BigDecimal ticketPrice = new BigDecimal(orderInside.getTotalPrice());
+                temp = temp.add(ticketPrice);
+                if(orderInside.getCurrency().equals("USD"))
+                {
+                    element.setUSDRevenue( element.getUSDRevenue().add(temp) );
+                }
+                else {
+                    element.setVNDRevenue( element.getVNDRevenue().add(temp) );
+                }
             }
-           // System.out.println(temp.toString());
-            element.setTotalPrice(temp);
-
         }
-
         if(orderList.size()>0)
         {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "findTicketListByEventId successfully ",  orderList, 200));
-
         }
         else
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject(false, "order is empty ", "", 400));
-
         }
-
     }
 }
