@@ -48,6 +48,12 @@ public class OrderService implements IOrderService {
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
                         if (ticket.getId().equals(ticketOfCustomer.getId())) {
+                            if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() <0)
+                            {
+                                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                                        new ResponseObject(false, "No more ticket", "", 501));
+
+                            }
                             ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() );
                             setStatusForTicketType(ticket);
                         }
@@ -70,7 +76,12 @@ public class OrderService implements IOrderService {
                     }
                     organizationRepository.save(organization.get());
                 }
+                System.out.println(event.get().getOrganizationTickets().get(0));
                 eventRepository.save(event.get());
+
+                Optional<Event> eventtest = eventRepository.findEventById(order.getIdEvent());
+                System.out.println(eventtest.get().getOrganizationTickets().get(0));
+
                 orderRepository.save(order);
                 customerRepository.save(customer.get());
 
