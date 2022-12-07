@@ -15,6 +15,8 @@
         "profile": "Hồ sơ tổ chức"
     },
     "event": {
+        "totalPrice": "Tổng tiền",
+        "totalQuantity": "Tổng lượng",
         "ticketTotal": "Tổng vé",
         "ticketRemaining": "Vé còn lại",
         "createDate": "Được tạo lúc ",
@@ -241,7 +243,13 @@
     },
     "ticket": {
         "create": "Create new ticket",
-        "remove": "Remove this ticket"
+        "remove": "Remove this ticket",
+        "list": "Danh sách vé",
+        "type": "Loại vé",
+        "price": "Giá",
+        "totalQuantity": "Tổng lượng",
+        "totalRemaining": "Còn lại",
+        "status": "Tr.Thái"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
@@ -258,7 +266,7 @@
         "approve": "Approve",
         "options": "Option",
         "all": "Danh sách tài khoản",
-        "pending-accounts": "Danh sách tài khoản chờ phê duyệt"
+        "pending-accounts": "Danh sách tài khoản Nhà tổ chức chờ duyệt"
     },
     "view-detail": "Xem chi tiết",
     "default-currency": "Currency unit: US Dollar",
@@ -267,5 +275,10 @@
         "user": "Khách hàng",
         "organizer": "Nhà tổ chức",
         "admin": "Quản trị viên"
-    }
+    },
+    "order": {
+        "by-event": "Danh sách hóa đơn theo sự kiện",
+        "by-account": "Danh sách hóa đơn theo tài khoản"
+    },
+    "orders-of-event": "Danh sách hóa đơn của {{val, string}}"
 }

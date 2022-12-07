@@ -231,7 +231,7 @@
       "error-text": "Something went wrong"
     },
     "check-order": {
-      "400": "'{{val, string}}' is out of stock"
+      "400": "'{{val, string}}' is not enough to sell"
     },
     "email": {
       "title": "Sent email",
@@ -288,5 +288,7 @@
   "customer": {
     "name": "Customer name"
   },
-  "coming-soon": "Coming Soon ..."
+  "coming-soon": "Coming Soon ...",
+  "sold-ticket": "Sold: {{val, number}}",
+  "ticket-remaining": "{{val, number}} ticket(s) left"
 }

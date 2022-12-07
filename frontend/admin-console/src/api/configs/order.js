@@ -1,6 +1,6 @@
 export const OrderAPI = {
   findOrderByEventId: (eventId, userId) => ({
-    url: "/organization/order",
+    url: "/organization/manage/customerOrder",
     method: "GET",
     params: {
       eventId,

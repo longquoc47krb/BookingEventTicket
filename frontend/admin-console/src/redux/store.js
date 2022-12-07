@@ -1,26 +1,24 @@
 import {
+  combineReducers,
   configureStore,
   getDefaultMiddleware,
-  combineReducers,
 } from "@reduxjs/toolkit";
-import accountReducer from "./slices/accountSlice";
-import customerReducer from "./slices/customerSlice";
-import ticketReducer from "./slices/ticketSlice";
-import eventReducer from "./slices/eventSlice";
-import routeReducer from "./slices/routeSlice";
-import categoryReducer from "./slices/categorySlice";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import {
-  persistStore,
-  persistReducer,
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
+  persistReducer,
+  persistStore,
   PURGE,
   REGISTER,
+  REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import accountReducer from "./slices/accountSlice";
+import categoryReducer from "./slices/categorySlice";
+import eventReducer from "./slices/eventSlice";
+import routeReducer from "./slices/routeSlice";
 
 const accountPersistConfig = {
   key: "account",
@@ -32,25 +30,14 @@ const routePersistConfig = {
   version: 1,
   storage,
 };
-const ticketPersistConfig = {
-  key: "ticket",
-  version: 1,
-  storage,
-};
 const accountPersistedReducer = persistReducer(
   accountPersistConfig,
   accountReducer
 );
 const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
-const ticketPersistedReducer = persistReducer(
-  ticketPersistConfig,
-  ticketReducer
-);
 const reducer = combineReducers({
   account: accountPersistedReducer,
-  customer: customerReducer,
   event: eventReducer,
-  ticket: ticketPersistedReducer,
   route: routePersistedReducer,
   category: categoryReducer,
 });

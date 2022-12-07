@@ -38,7 +38,7 @@ const UserProfile = ({ setOpen }) => {
           onClick={() => setOpen(false)}
         />
       </div>
-      <div className="flex gap-4 items-center border-color border-b-1 pb-6 relative">
+      <div className="flex gap-4 items-start border-color border-b-1 pb-6 relative">
         {role === ROLE.Organizer ? (
           <img
             className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
@@ -53,12 +53,12 @@ const UserProfile = ({ setOpen }) => {
           />
         )}
         <div>
-          <p className="font-semibold text-2xl text-[#1F3E82]"> {user.name}</p>
+          <p className="font-semibold text-2xl text-[#1F3E82] mb-1"> {user.name}</p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
             {user.email}
           </p>
-          {role === ROLE.Organizer ? (
+          {role === ROLE.Organizer && (
             <div className="mt-2 flex justify-start items-center gap-x-8">
               <div className="flex items-center gap-x-2">
                 <FaWallet color="#17AE17" fontSize={16} />
@@ -67,7 +67,7 @@ const UserProfile = ({ setOpen }) => {
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
       <hr></hr>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { decreaseTicket, increaseTicket } from "../../redux/slices/ticketSlice";
 import { TicketStatus } from "../../utils/constants";
@@ -6,7 +7,7 @@ import { formatter, isNotEmpty } from "../../utils/utils";
 
 function TicketItem({ ticket }) {
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   return (
     <tr
       className={
@@ -15,7 +16,12 @@ function TicketItem({ ticket }) {
           : "ticket-table-item"
       }
     >
-      <th>{ticket.ticketName}</th>
+      <th>
+        {ticket.ticketName}{" "}
+        <span className="text-gray-400 text-xs">
+          ({t("ticket-remaining", { val: ticket.quantityRemaining })})
+        </span>
+      </th>
       <th>
         <span
           className={
@@ -40,8 +46,9 @@ function TicketItem({ ticket }) {
         </button>
         <input
           value={
-            ticket.quantity < 6 && isNotEmpty(ticket.quantity)
-              ? ticket.quantity
+            ticket.ticketInCartQuantity < 6 &&
+            isNotEmpty(ticket.ticketInCartQuantity)
+              ? ticket.ticketInCartQuantity
               : 5
           }
         />

@@ -66,6 +66,7 @@ const Sidebar = ({ role }) => {
                         onClick={handleCloseSideBar}
                         style={({ isActive }) => ({
                           backgroundColor: isActive ? currentColor : "",
+                          color: "#1f3e82"
                         })}
                         className={({ isActive }) =>
                           isActive ? activeLink : normalLink
@@ -89,6 +90,7 @@ const Sidebar = ({ role }) => {
                         onClick={handleCloseSideBar}
                         style={({ isActive }) => ({
                           backgroundColor: isActive ? currentColor : "",
+                          color: "#1f3e82"
                         })}
                         className={({ isActive }) =>
                           isActive ? activeLink : normalLink

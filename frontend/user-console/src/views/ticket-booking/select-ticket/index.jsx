@@ -12,7 +12,7 @@ function SelectTicket({ data }) {
   const tickets = useSelector(ticketTypeSelector);
   const dispatch = useDispatch();
   useMemo(() => {
-    const newArr = data.map((v) => ({ ...v, quantity: 0 }));
+    const newArr = data.map((v) => ({ ...v, ticketInCartQuantity: 0 }));
     dispatch(setTicketTypeArray(newArr));
   }, []);
   return (

@@ -575,9 +575,9 @@ export const convertMongodbTimeToString = (date) => {
   let dateStr = moment(date);
   if (language === "en") {
     moment.locale("en");
-    return moment(dateStr).format("DD/MM/YYYY hh:mm a");
+    return moment(dateStr).format("DD/MM/YYYY hh:mm:ss a");
   } else {
     moment.locale("vi");
-    return moment(dateStr).format("DD/MM/YYYY HH:mm");
+    return moment(dateStr).format("DD/MM/YYYY HH:mm:ss");
   }
 };
