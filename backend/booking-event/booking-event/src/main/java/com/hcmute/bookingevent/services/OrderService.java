@@ -101,6 +101,7 @@ public class OrderService implements IOrderService {
     @Override
     public ResponseEntity<?> checkOrderAvailability( Order order) {
         Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
+        Map<String,Boolean> map=new HashMap<String,Boolean>();
         if(event.isPresent())
         {
             for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
@@ -109,11 +110,16 @@ public class OrderService implements IOrderService {
                     if (ticket.getId().equals(ticketOfCustomer.getId())) {
                         if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() <0)
                         {
-                            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
-                                    new ResponseObject(false, "check  Order availability fail with ticket: " + ticket.getTicketName() ,ticket.getTicketName(), 400));
+                            map.put(ticket.getTicketName(),false);
                         }
                     }
                 }
+            }
+            if(!map.isEmpty())
+            {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
+                        new ResponseObject(false, "check  Order availability fail " ,map, 400));
+
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(

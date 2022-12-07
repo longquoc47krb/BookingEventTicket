@@ -31,8 +31,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -335,7 +334,19 @@ public class OrganizationService implements IOrganizationService {
         {
             throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
         }
-        List<Order> orderList = orderRepository.getOrderDistance();
+       // List<Order> orderList = orderRepository.findAllByIdEvent(eventId);
+
+        List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity();
+
+        // Constructing HashSet using listWithDuplicateElements
+        //Set<Order> set = new HashSet<Order>(orderList);
+        // Constructing listWithoutDuplicateElements using set
+        //List<Order> listWithoutDuplicateElements = new ArrayList<Order>(set);
+
+//        Set orderListwithout = orderList.stream()
+//                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Order::getEmail))));
+
+
         if(orderList.size()>0)
         {
             return ResponseEntity.status(HttpStatus.OK).body(
