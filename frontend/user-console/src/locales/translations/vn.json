@@ -230,7 +230,7 @@
       "error-text": "Có lỗi xảy ra!"
     },
     "check-order": {
-      "400": "Vé '{{val, string}}' đã hết !"
+      "400": "Vé '{{val, string}}' không đủ hàng!"
     },
     "email": {
       "title": "Đã gửi email",
@@ -286,5 +286,7 @@
   "customer": {
     "name": "Tên khách hàng"
   },
-  "coming-soon": "Sắp ra mắt ..."
+  "coming-soon": "Sắp ra mắt ...",
+  "sold-ticket": "Đã bán: {{val, number}}",
+  "ticket-remaining": "Còn lại {{val, number}} vé"
 }

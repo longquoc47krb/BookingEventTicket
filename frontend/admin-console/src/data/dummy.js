@@ -326,7 +326,7 @@ export const orderByEventColumns = [
   {
     title: "ID",
     dataIndex: "id",
-    width: 50,
+    width: 250,
   },
   {
     title: "Email",
@@ -351,7 +351,16 @@ export const orderByEventColumns = [
     sorter: (a, b) => a.totalQuantity.length - b.totalQuantity.length,
     sortDirections: ["descend"],
     width: 200,
-  },{
+  },
+  {
+    title: t("event.createDate"),
+    dataIndex: "createdDate",
+    onFilter: (value, record) => record.createdDate.indexOf(value) === 0,
+    sorter: (a, b) => a.createdDate.length - b.createdDate.length,
+    sortDirections: ["descend"],
+    render: (date) => <span>{convertMongodbTimeToString(date)}</span>,
+  },
+  {
     title: t("event.modify"),
     key: "action",
     render: (_, record) => (
@@ -382,7 +391,6 @@ export const eventColumns = [
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ["descend"],
-    width: 250,
   },
   {
     title: t("event.category"),
@@ -393,6 +401,7 @@ export const eventColumns = [
           {t(item.name)}
         </span>
       )),
+    width: 250,
   },
   {
     title: t("event.status.title"),

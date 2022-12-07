@@ -19,14 +19,16 @@ function OrdersByEventModal(props) {
       title={title}
       centered
       visible={open}
-      onCancel={() => dispatch(setOpenModal(false))}
       width={"100%"}
+      onCancel={() => dispatch(setOpenModal(false))}
     >
-      {
-        status === "loading" ?  <div className="w-full h-full flex items-center justify-center">
-        <Spin />
-      </div> : <Table dataSource={data ? data : []} columns={orderByEventColumns} />
-      }      
+      {status === "loading" ? (
+        <div className="w-full h-full flex items-center justify-center">
+          <Spin />
+        </div>
+      ) : (
+        <Table dataSource={data ? data : []} columns={orderByEventColumns} />
+      )}
     </Modal>
   );
 }

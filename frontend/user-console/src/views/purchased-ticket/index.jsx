@@ -16,7 +16,6 @@ import { useTranslation } from "react-i18next";
 const PurchasedTickets = () => {
   const user = useSelector(userInfoSelector);
   const { data: tickets, status, isLoading } = useGetOrderListByUserId(user.id);
-  console.log({ tickets });
   const { t } = useTranslation();
   return (
     <div className="bg-[#dedede]">
@@ -30,7 +29,9 @@ const PurchasedTickets = () => {
               ? [...Array(3)].map((i) => (
                   <Skeleton style={{ height: 400, width: "100%" }} />
                 ))
-              : tickets.map((ticket) => <PurchaseTicketItem data={ticket} />)}
+              : tickets
+                  .reverse()
+                  .map((ticket) => <PurchaseTicketItem data={ticket} />)}
             {isEmpty(tickets) && (
               <div className="w-auto flex justify-center items-center flex-col mb-5">
                 <img
