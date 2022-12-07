@@ -76,11 +76,7 @@ public class OrderService implements IOrderService {
                     }
                     organizationRepository.save(organization.get());
                 }
-                System.out.println(event.get().getOrganizationTickets().get(0));
                 eventRepository.save(event.get());
-
-                Optional<Event> eventtest = eventRepository.findEventById(order.getIdEvent());
-                System.out.println(eventtest.get().getOrganizationTickets().get(0));
 
                 orderRepository.save(order);
                 customerRepository.save(customer.get());
