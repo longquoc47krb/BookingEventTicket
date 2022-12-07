@@ -11,9 +11,7 @@ function OrdersByEventModal(props) {
   const dispatch = useDispatch();
   const eventId = useSelector(eventIdSelector);
   const user = useSelector(userInfoSelector);
-  console.log({ eventId, user });
   const { data, status } = useFetchOrdersByEventId(eventId, user.id);
-  console.log({ data });
   return (
     <Modal
       title={title}

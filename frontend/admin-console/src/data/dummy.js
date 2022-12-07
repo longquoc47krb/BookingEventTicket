@@ -1,9 +1,7 @@
 import { t } from "i18next";
 import React from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
 import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa";
+import { BiCategory } from "react-icons/bi";
 import {
   BsBoxSeam,
   BsChatLeft,
@@ -13,6 +11,7 @@ import {
   BsShield,
   BsXLg,
 } from "react-icons/bs";
+import { FaTrashAlt } from "react-icons/fa";
 import {
   FiBarChart,
   FiCreditCard,
@@ -20,7 +19,6 @@ import {
   FiShoppingCart,
   FiStar,
 } from "react-icons/fi";
-import { GrLocation } from "react-icons/gr";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 import {
@@ -29,6 +27,17 @@ import {
 } from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
+import eventServices from "../api/services/eventServices";
+import organizationServices from "../api/services/organizationServices";
+import {
+  AlertErrorPopup,
+  AlertPopup,
+  AlertQuestion,
+} from "../components/Alert";
+import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
+import { store } from "../redux/store";
+import { AccountStatus, ROLE } from "../utils/constants";
+import { convertMongodbTimeToString, formatter } from "../utils/utils";
 import product1 from "./product1.jpg";
 import product2 from "./product2.jpg";
 import product3 from "./product3.jpg";
@@ -36,22 +45,6 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import {
-  AlertQuestion,
-  AlertPopup,
-  AlertErrorPopup,
-} from "../components/Alert";
-import eventServices from "../api/services/eventServices";
-import { store } from "../redux/store";
-import { StyledSwitch } from "../pages/AddEditEvent";
-import { BiCategory } from "react-icons/bi";
-import organizationServices from "../api/services/organizationServices";
-import { has } from "lodash";
-import { ROLE, AccountStatus } from "../utils/constants";
-import { convertMongodbTimeToString, formatter } from "../utils/utils";
-import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
-import { Button, Input, Space } from "antd";
-import GetColumnSearchProps from "../utils/getColumnSearchProps";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
 export const gridOrderImage = (props) => (

@@ -77,7 +77,6 @@ function UserProfile() {
       const { id, name, phone, email, biography, address, province, venue } =
         values;
       setLoading(true);
-      console.log({ values });
       let updateAvatarResponse;
       if (avatar) {
         updateAvatarResponse = await updateAvatar(id, avatar);
@@ -94,14 +93,6 @@ function UserProfile() {
         dispatch(setUserProfile(userInfo.data));
       }
       setLoading(false);
-      console.log("updateBioAndAddressRes", updateBioAndAddressRes);
-      console.log("updateAccountResponse", updateAccountResponse);
-      console.log("updateAvatarResponse", updateAvatarResponse);
-      console.log(
-        "condition:",
-        updateBioAndAddressRes.status === 200 ||
-          updateAccountResponse.status === 200
-      );
       showNotification(
         updateBioAndAddressRes.status === 200 ||
           updateAccountResponse.status === 200
@@ -120,7 +111,6 @@ function UserProfile() {
     }
   };
   const { values, handleSubmit } = formik;
-  console.log({ values });
   return (
     <>
       <div>

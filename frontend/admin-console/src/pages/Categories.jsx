@@ -1,30 +1,14 @@
+import { Modal, Spin } from "antd";
 import React, { useState } from "react";
-import {
-  GridComponent,
-  Inject,
-  ColumnsDirective,
-  ColumnDirective,
-  Search,
-  Page,
-  Toolbar,
-  Filter,
-  Sort,
-} from "@syncfusion/ej2-react-grids";
-import { Modal } from "antd";
-import { Spin } from "antd";
-import { categoryColumns, contextMenuItems } from "../data/dummy";
-import { Header } from "../components";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { useFetchEvents } from "../api/services/eventServices";
-import { convertToYearMonthDayFormat } from "../utils/utils";
 import { useSelector } from "react-redux";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-import { useFetchEventsByOrgID } from "../api/services/organizationServices";
+import { useNavigate } from "react-router-dom";
 import { useFetchCategories } from "../api/services/categoryServices";
+import { Header } from "../components";
 import Table from "../components/Table";
+import { categoryColumns } from "../data/dummy";
+import { userInfoSelector } from "../redux/slices/accountSlice";
 const Categories = () => {
-  const toolbarOptions = ["Search"];
   const user = useSelector(userInfoSelector);
   const { data: categories, status } = useFetchCategories();
   // console.log(events[0]);
@@ -60,7 +44,7 @@ const Categories = () => {
           <Spin />
         </div>
       ) : (
-       <Table columns={categoryColumns} dataSource={categories}/>
+        <Table columns={categoryColumns} dataSource={categories} />
       )}
       <Modal
         title={isEdit ? t("category.edit") : t("category.new")}
