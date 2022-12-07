@@ -11,6 +11,7 @@ const initialState = {
   eventId: "",
   success: false,
   cancel: false,
+  errors: [],
 };
 
 const ticketSlice = createSlice({
@@ -25,11 +26,17 @@ const ticketSlice = createSlice({
     },
     increaseTicket: (state, { payload }) => {
       const ticketItem = state.ticketType.find(
-        (item) => item.ticketName === payload
+        (item) => item.ticketName === payload.ticketName
       );
-      ticketItem.ticketInCartQuantity =
-        ticketItem.ticketInCartQuantity +
-        (ticketItem.ticketInCartQuantity < 5 ? 1 : 0);
+      if (payload.quantityRemaining > 5) {
+        ticketItem.ticketInCartQuantity =
+          ticketItem.ticketInCartQuantity +
+          (ticketItem.ticketInCartQuantity < 5 ? 1 : 0);
+      } else {
+        ticketItem.ticketInCartQuantity =
+          ticketItem.ticketInCartQuantity +
+          (ticketItem.ticketInCartQuantity < payload.quantityRemaining ? 1 : 0);
+      }
     },
     decreaseTicket: (state, { payload }) => {
       const ticketItem = state.ticketType.find(
@@ -68,6 +75,9 @@ const ticketSlice = createSlice({
     createOrderRequest: (state, { payload }) => {
       state.orderRequest = payload;
     },
+    setErrors: (state, { payload }) => {
+      state.errors = payload;
+    },
   },
 });
 
@@ -85,11 +95,13 @@ export const {
   clearCart,
   setCustomerOrder,
   createOrderRequest,
+  setErrors,
 } = ticketSlice.actions;
 export const ticketTypeSelector = (state) => state.ticket.ticketType;
 export const ticketCartSelector = (state) => state.ticket.ticketCart;
 export const currentStepSelector = (state) => state.ticket.currentStep;
 export const createOrderRequestSelector = (state) => state.ticket.orderRequest;
+export const errorsSelector = (state) => state.ticket.errors;
 export const orderSelector = (state) => state.ticket.customerOrder;
 export const successSelector = (state) => state.ticket.success;
 export const cancelSelector = (state) => state.ticket.cancel;

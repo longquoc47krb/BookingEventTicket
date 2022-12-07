@@ -6,10 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import CrossIcon from "../../../assets/CrossIcon.svg";
-import { setUserAvatar } from "../../../redux/slices/accountSlice";
+import {
+  setUserAvatar,
+  userInfoSelector,
+} from "../../../redux/slices/accountSlice";
 import { isNotEmpty } from "../../../utils/utils";
 import Avatar from "../avatar";
+const { updateAvatar } = accountServices;
 function UploadAvatar({ avatar }) {
+  const user = useSelector(userInfoSelector);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
@@ -34,7 +39,7 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const form = new FormData();
     form.append("file", avatarFile);
-    dispatch(setUserAvatar(form))
+    await updateAvatar(user.id, form);
   };
   return (
     <div>

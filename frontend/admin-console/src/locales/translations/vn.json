@@ -249,7 +249,10 @@
         "price": "Giá",
         "totalQuantity": "Tổng lượng",
         "totalRemaining": "Còn lại",
-        "status": "Tr.Thái"
+        "status": "Trạng  Thái",
+        "available": "Có sẵn",
+        "sold-out": "Hết vé",
+        "best-seller": "Bán chạy"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",

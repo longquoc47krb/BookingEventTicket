@@ -20,6 +20,7 @@ import AppConfig from "../../../configs/AppConfig";
 import { userInfoSelector } from "../../../redux/slices/accountSlice";
 import { convertMongodbTimeToString } from "../../../utils/utils";
 import TicketItem from "../ticket";
+import { useMedia } from "react-use";
 const { ORDER_HEADER, BUYER_HEADER, ORDER_TABLE_HEADER } = AppConfig;
 
 function PurchaseTicketItem(props) {
@@ -29,6 +30,7 @@ function PurchaseTicketItem(props) {
   const { data: event, status: eventStatus } = useEventDetails(data.idEvent);
   const { data: organizer, status: organizerStatus } =
     useFetchOrganizerByEventId(data.idEvent);
+  const isMobile = useMedia("(max-width: 767px)");
   const HeadingList = [
     {
       icon: <HiIdentification />,
@@ -77,15 +79,29 @@ function PurchaseTicketItem(props) {
   ];
   return (
     <>
-      <div className="flex gap-x-4 items-center text-white text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mb-4 mt-8">
+      <div
+        className={
+          isMobile
+            ? "flex gap-x-4 items-center text-white text-base font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mb-4 mt-8"
+            : "flex gap-x-4 items-center text-white text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mb-4 mt-8"
+        }
+      >
         <MdAccessTime />
-        <span className="font-thin">{t("ticket.createdAt")}</span>
+        <span className={isMobile ? "font-thin text-base" : "font-thin"}>
+          {t("ticket.createdAt")}
+        </span>
         {convertMongodbTimeToString(data.createdDate)}
       </div>
       {eventStatus === "success" && (
         <div className="mb-4 w-[calc(100%-2rem)] min-h-[25rem] relative p-4 rounded-[1rem] ticket-item flex">
           <div className="flex flex-col w-full">
-            <div className="flex items-center justify-start border-b-[1px] border-[#aa9f9f] border-dashed">
+            <div
+              className={
+                isMobile
+                  ? "block border-b-[1px] border-[#aa9f9f] border-dashed"
+                  : "flex items-center justify-start border-b-[1px] border-[#aa9f9f] border-dashed"
+              }
+            >
               <img
                 src={organizerStatus === "success" && organizer.avatar}
                 className="h-[10rem] w-auto p-4 rounded-full"
@@ -106,7 +122,7 @@ function PurchaseTicketItem(props) {
                   {/* {convertMongodbTimeToString(data.createdDate)} */}
                 </p>
                 <span className="text-base text-[#1f3e82] text-ellipsis overflow-hidden flex items-center gap-x-3">
-                  <IoLocationSharp />
+                  <IoLocationSharp fontSize={isMobile && "2rem"} />
                   <p>
                     {event.venue} - {event.venue_address}
                   </p>

@@ -8,6 +8,7 @@ import { userInfoSelector } from "../../redux/slices/accountSlice";
 import {
   createOrderRequest,
   eventIdSelector,
+  setErrors,
   ticketTypeSelector,
 } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
@@ -50,9 +51,15 @@ function TicketCart() {
       totalPrice: String(cartTotalPrice),
       totalQuantity: cartTotalQuantity,
     });
-    console.log({ checkOrderResponse });
+
+    dispatch(
+      setErrors(
+        checkOrderResponse.status === 200
+          ? []
+          : Object.keys(checkOrderResponse.data)
+      )
+    );
     setLoading(checkOrderResponse.status ? false : true);
-    showNotification(checkOrderResponse.status, checkOrderResponse.data);
     if (checkOrderResponse.status === 200) {
       const response = await payOrder({ price: cartTotalPrice.toString() });
       if (response.status === 200) {
@@ -72,23 +79,6 @@ function TicketCart() {
       ticketName: item.ticketName,
     }));
     return ticketCart;
-  };
-  console.log({ ticketCart, cartTotalPrice, cartTotalQuantity });
-  console.log("create order:", {
-    currency: map(ticketCart, "currency")[0],
-    customerTicketList: handleTicketCart(ticketCart),
-    email: user.email,
-    idEvent: eventId,
-    totalPrice: String(cartTotalPrice),
-    totalQuantity: cartTotalQuantity,
-  });
-  const showNotification = (code, ticketType) => {
-    if (code === 400) {
-      console.log(code);
-      return AlertErrorPopup({
-        title: t("popup.check-order.400", { val: ticketType }),
-      });
-    }
   };
 
   return (

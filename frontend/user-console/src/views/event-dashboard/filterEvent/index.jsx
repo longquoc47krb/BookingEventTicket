@@ -31,7 +31,7 @@ function FilterEventFragment(props) {
     setCurrentPage(0);
   }, [filter, dateType]);
   const firstIndex = currentPage * 6;
-  const lastIndex = currentPage * 6 + 6;
+  const lastIndex = (currentPage + 1) * 6;
   return (
     <>
       <div className="event-container">

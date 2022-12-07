@@ -247,7 +247,10 @@
         "price": "Price",
         "totalQuantity": "Total quantity",
         "totalRemaining": "Total remaining",
-        "status": "Status"
+        "status": "Status",
+        "available": "Available",
+        "sold-out": "Sold out",
+        "best-seller": "Best seller"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",

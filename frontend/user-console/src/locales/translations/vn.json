@@ -288,5 +288,9 @@
   },
   "coming-soon": "Sắp ra mắt ...",
   "sold-ticket": "Đã bán: {{val, number}}",
-  "ticket-remaining": "Còn lại {{val, number}} vé"
+  "ticket-remaining": "Còn lại {{val, number}} vé",
+  "update-avatar": {
+    "success": "Cập nhật ảnh đại diện thành công",
+    "error": "Cập nhật ảnh đại diện thất bại"
+  }
 }

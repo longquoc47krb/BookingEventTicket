@@ -1,9 +1,11 @@
 import React from "react";
 import { useQRCode } from "next-qrcode";
+import { useMedia } from "react-use";
 
 function QRCodeComponent(props) {
   const { value, logo } = props;
   const { SVG } = useQRCode();
+  const isMobile = useMedia("(max-width: 767px)");
   return (
     <SVG
       text={value}

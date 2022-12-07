@@ -123,7 +123,7 @@ public class OrderService implements IOrderService {
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "check  Order availability successfully" , "", 200));
+                new ResponseObject(true, "check  Order availability successfully" , new ArrayList<>(), 200));
     }
 
 

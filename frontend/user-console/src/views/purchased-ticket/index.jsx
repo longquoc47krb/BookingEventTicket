@@ -1,21 +1,28 @@
-import React from "react";
-import Header from "../../components/common/header";
-import HelmetHeader from "../../components/helmet";
-import { MdAccessTime } from "react-icons/md";
+import { Pagination } from "antd";
+import { reverse } from "lodash";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
+import { useGetOrderListByUserId } from "../../api/services/orderServices";
 import Empty from "../../assets/Empty.svg";
 import Footer from "../../components/common/footer";
+import Header from "../../components/common/header";
 import SectionTitle from "../../components/common/section-title";
-import { useSelector } from "react-redux";
+import HelmetHeader from "../../components/helmet";
 import { userInfoSelector } from "../../redux/slices/accountSlice";
-import { useGetOrderListByUserId } from "../../api/services/orderServices";
-import { map } from "lodash";
+import { isEmpty, isNotEmpty } from "../../utils/utils";
 import PurchaseTicketItem from "./purchased-ticket-item";
-import Skeleton from "react-loading-skeleton";
-import { isEmpty, convertMongodbTimeToString } from "../../utils/utils";
-import { useTranslation } from "react-i18next";
 const PurchasedTickets = () => {
   const user = useSelector(userInfoSelector);
   const { data: tickets, status, isLoading } = useGetOrderListByUserId(user.id);
+  const [currentPage, setCurrentPage] = useState(0);
+  // Change page
+  const onChange = (page) => {
+    setCurrentPage(page - 1);
+  };
+  const firstIndex = currentPage * 3;
+  const lastIndex = (currentPage + 1) * 3;
   const { t } = useTranslation();
   return (
     <div className="bg-[#dedede]">
@@ -29,8 +36,9 @@ const PurchasedTickets = () => {
               ? [...Array(3)].map((i) => (
                   <Skeleton style={{ height: 400, width: "100%" }} />
                 ))
-              : tickets
+              : [...tickets]
                   .reverse()
+                  .slice(firstIndex, lastIndex)
                   .map((ticket) => <PurchaseTicketItem data={ticket} />)}
             {isEmpty(tickets) && (
               <div className="w-auto flex justify-center items-center flex-col mb-5">
@@ -44,6 +52,15 @@ const PurchasedTickets = () => {
                   {t("ticket.not-found")}
                 </span>
               </div>
+            )}
+            {isNotEmpty(tickets) && (
+              <Pagination
+                current={currentPage + 1}
+                onChange={onChange}
+                total={tickets.length}
+                pageSize={3}
+                defaultCurrent={1}
+              />
             )}
           </div>
         </div>

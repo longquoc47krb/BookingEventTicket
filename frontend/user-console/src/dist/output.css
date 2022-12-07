@@ -401,7 +401,10 @@
   align-items: center;
   flex-direction: column;
   position: relative;
-  background: linear-gradient(53deg, #000000 0%, #1f3e82 100%);
+  background-color: #1f3e82;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23091225' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%231F3E82' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%231e3b7c' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%231e3876' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%231d3471' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%231c316b' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%231a2e66' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23192b60' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%2318285b' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23172555' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23152250' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23141f4b' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23121c45' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23111a40' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%230f173b' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%230d1436' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%230c1131' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%230b0d2d' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%230A0828' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
 }
 @media (max-width: 767px) {
   .auth-container {
@@ -577,9 +580,10 @@
   width: 80px;
   height: 90px;
   max-height: 100px;
-  background: white;
   text-align: center;
-  box-shadow: 0px 1.5px 2.7px rgba(0, 0, 0, 0.028), 0px 3.7px 6.9px rgba(0, 0, 0, 0.04), 0px 7.6px 14.2px rgba(0, 0, 0, 0.05), 0px 15.7px 29.2px rgba(0, 0, 0, 0.062), 0px 43px 80px rgba(0, 0, 0, 0.09);
+  border-radius: 7px;
+  background: linear-gradient(145deg, #d8d8d8, #ffffff);
+  box-shadow: 5px 5px 6px #bebebe, -5px -5px 6px #ffffff;
 }
 .calendar-upper {
   height: 1.5rem;
@@ -1251,6 +1255,29 @@
 }
 @media (max-width: 767px) {
   .header-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+.header-glassmorphism {
+  height: auto;
+  width: 100vw;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 0.5rem;
+  z-index: 10;
+  background: rgba(31, 62, 130, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+@media (max-width: 767px) {
+  .header-glassmorphism {
     padding-left: 1rem;
     padding-right: 1rem;
   }
@@ -2071,12 +2098,16 @@
 }
 
 .ticket-item {
+  color: #ffffff;
   border-radius: 15px;
   background: linear-gradient(145deg, #e6e6e6, #ffffff);
   box-shadow: 6px 6px 21px #666666, -6px -6px 21px #ffffff;
 }
 .ticket-item-card {
   background: linear-gradient(145deg, #0b1e48, #0d2356);
+}
+.ticket-item-card * {
+  font-family: "Qatar";
 }
 .ticket-cart {
   width: 100%;
@@ -2147,7 +2178,10 @@
   src: local("Qatar"), url(../assets/fonts/Qatar2022/Qatar2022Bold.otf) format("opentype");
 }
 .user-profile-container {
-  background: linear-gradient(53deg, #000000 0%, #1f3e82 100%);
+  background-color: #1f3e82;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23091225' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%231F3E82' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%231e3b7c' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%231e3876' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%231d3471' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%231c316b' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%231a2e66' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23192b60' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%2318285b' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23172555' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23152250' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23141f4b' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23121c45' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23111a40' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%230f173b' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%230d1436' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%230c1131' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%230b0d2d' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%230A0828' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
   width: 100vw;
   min-height: 100vh;
   height: 100%;
@@ -2212,6 +2246,7 @@ body {
 .primary-button {
   width: 100%;
   padding: 0.5rem 1.5rem;
+  margin: 1rem 0;
   background: linear-gradient(53deg, rgb(31, 62, 130) 0%, rgb(0, 39, 125) 100%) !important;
   border-radius: 0.25rem;
   z-index: 10;

@@ -47,26 +47,6 @@ import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
-export const gridOrderImage = (props) => (
-  <div>
-    <img
-      className="rounded-xl h-20 md:ml-3"
-      src={props.ProductImage}
-      alt="order-item"
-    />
-  </div>
-);
-
-export const gridOrderStatus = (props) => (
-  <button
-    type="button"
-    style={{ background: props.StatusBg }}
-    className="text-white py-1 px-1 capitalize rounded-2xl text-xs"
-  >
-    {props.Status}
-  </button>
-);
-
 export const areaPrimaryXAxis = {
   valueType: "DateTime",
   labelFormat: "y",
@@ -368,6 +348,62 @@ export const orderByEventColumns = [
       </div>
     ),
     width: 200,
+  },
+];
+export const ticketColumns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+  },
+  {
+    title: t("ticket.type"),
+    dataIndex: "ticketName",
+  },
+  {
+    title: t("ticket.price"),
+    dataIndex: "price",
+    render: (price) => <span>{formatter("USD").format(price)}</span>,
+  },
+  {
+    title: t("ticket.totalQuantity"),
+    dataIndex: "quantity",
+  },
+  {
+    title: t("ticket.totalRemaining"),
+    dataIndex: "quantityRemaining",
+  },
+  {
+    title: t("ticket.status"),
+    dataIndex: "status",
+    filters: [
+      {
+        text: t("ticket.available"),
+        value: "ticket.available",
+      },
+      {
+        text: t("ticket.sold-out"),
+        value: "ticket.sold-out",
+      },
+      {
+        text: t("ticket.best-seller"),
+        value: "ticket.best-seller",
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>
+      status === "ticket.available" ? (
+        <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
+          {t("ticket.available")}
+        </span>
+      ) : status === "ticket.sold-out" ? (
+        <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
+          {t("ticket.sold-out")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
+          {t("ticket.best-seller")}
+        </span>
+      ),
   },
 ];
 export const eventColumns = [
@@ -1076,56 +1112,6 @@ export const userProfileData = [
     desc: "To-do and Daily Tasks",
     iconColor: "rgb(255, 244, 229)",
     iconBg: "rgb(254, 201, 15)",
-  },
-];
-
-export const ordersGrid = [
-  {
-    headerText: "Image",
-    template: gridOrderImage,
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderItems",
-    headerText: "Item",
-    width: "150",
-    editType: "dropdownedit",
-    textAlign: "Center",
-  },
-  {
-    field: "CustomerName",
-    headerText: "Customer Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "TotalAmount",
-    headerText: "Total Amount",
-    format: "C2",
-    textAlign: "Center",
-    editType: "numericedit",
-    width: "150",
-  },
-  {
-    headerText: "Status",
-    template: gridOrderStatus,
-    field: "OrderItems",
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderID",
-    headerText: "Order ID",
-    width: "120",
-    textAlign: "Center",
-  },
-
-  {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
   },
 ];
 export const ordersData = [

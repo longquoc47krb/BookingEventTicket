@@ -3,7 +3,6 @@ import { Col, Row } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BiX } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -26,7 +25,7 @@ import { provinces } from "../utils/provinces";
 import { isEmpty, isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
-const { updateAvatar, updateAccount, findUserById } = accountServices;
+const { updateAccount } = accountServices;
 const { updateBioAndAddress, findOrganizerById } = organizationServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
@@ -77,10 +76,7 @@ function UserProfile() {
       const { id, name, phone, email, biography, address, province, venue } =
         values;
       setLoading(true);
-      let updateAvatarResponse;
-      if (avatar) {
-        updateAvatarResponse = await updateAvatar(id, avatar);
-      }
+
       const updateBioAndAddressRes = await updateBioAndAddress(id, {
         address,
         biography,

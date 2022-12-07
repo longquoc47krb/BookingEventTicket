@@ -161,6 +161,9 @@ function AddEditEvent(props) {
         ticketRemaining: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
       };
+      if (saveTemplate) {
+        await createTemplateTicket(user.id, request.organizationTickets);
+      }
       if (!eventId) {
         let responseUpdate = await createEvent(user.id, request);
         if (responseUpdate.status === 200) {
@@ -170,9 +173,7 @@ function AddEditEvent(props) {
             handleFormData(values.background)
           );
         }
-        if (saveTemplate) {
-          await createTemplateTicket(user.id, request.organizationTickets);
-        }
+
         if (responseUpdate.status === 200 || uploadBackground.status === 200) {
           formik.setValues(initialValues);
           setUseTemplate(false);
@@ -232,21 +233,19 @@ function AddEditEvent(props) {
   }, [values.startingDate]);
   // For fetch template tickets
   useEffect(() => {
-    if (!eventId) {
-      if (useTemplate) {
-        setFieldValue("ticketList", handleTemplateTicket());
-      } else {
-        setFieldValue("ticketList", initialValues.ticketList);
-      }
-      if (useDefaultAddress) {
-        setFieldValue("province", user.province);
-        setFieldValue("venue", user.venue);
-        setFieldValue("venue_address", user.address);
-      } else {
-        setFieldValue("province", initialValues.province);
-        setFieldValue("venue", initialValues.venue);
-        setFieldValue("venue_address", initialValues.venue_address);
-      }
+    if (useTemplate && useDefaultAddress) {
+      setFieldValue("province", user.province);
+      setFieldValue("venue", user.venue);
+      setFieldValue("venue_address", user.address);
+    } else if (useTemplate && !useDefaultAddress) {
+      setFieldValue("ticketList", handleTemplateTicket());
+    } else if (!useTemplate && useDefaultAddress) {
+      setFieldValue("province", user.province);
+      setFieldValue("venue", user.venue);
+      setFieldValue("venue_address", user.address);
+    }
+    if (!useTemplate) {
+      setFieldValue("ticketList", initialValues.ticketList);
     }
   }, [useTemplate, useDefaultAddress]);
 
@@ -321,7 +320,7 @@ function AddEditEvent(props) {
               : null}
           </h1>
           <h1 className="font-medium text-lg text-gray-400">
-            {has(event, "updatedDate")
+            {has(event, "updatedDate") && event.updatedDate
               ? `${t("event.updateDate")}${convertMongodbTimeToString(
                   event.updatedDate
                 )}`
@@ -366,14 +365,14 @@ function AddEditEvent(props) {
               </Col>
             </Row>
             <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={20}>
+              <Col span={16}>
                 <Field
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
                 />
               </Col>
-              <Col span={4}>
+              <Col span={8}>
                 <Field
                   name="startingTime"
                   component={TimePicker}
@@ -382,14 +381,14 @@ function AddEditEvent(props) {
               </Col>
             </Row>
             <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={20}>
+              <Col span={16}>
                 <Field
                   name="endingDate"
                   component={DatePicker}
                   label={t("event.endingDate")}
                 />
               </Col>
-              <Col span={4}>
+              <Col span={8}>
                 <Field
                   name="endingTime"
                   component={TimePicker}
@@ -426,22 +425,20 @@ function AddEditEvent(props) {
                 />
               </Col>
             </Row>
-            {!eventId && (
-              <Col span={8}>
-                <div className="flex gap-x-3 items-center mb-4">
-                  <h1 className="text-primary text-xl font-semibold">
-                    {t("default-address")}
-                  </h1>
 
-                  <StyledSwitch
-                    defaultChecked={false}
-                    checked={useDefaultAddress}
-                    onChange={(checked) => setUseDefaultAddress(checked)}
-                    className="my-4"
-                  />
-                </div>
-              </Col>
-            )}
+            <Col span={8}>
+              <div className="flex gap-x-3 items-center mb-4">
+                <h1 className="text-primary text-xl font-semibold">
+                  {t("default-address")}
+                </h1>
+                <StyledSwitch
+                  defaultChecked={false}
+                  checked={useDefaultAddress}
+                  onChange={(checked) => setUseDefaultAddress(checked)}
+                  className="my-4"
+                />
+              </div>
+            </Col>
             <FieldArray name="ticketList">
               {(fieldArrayProps) => {
                 const { push, remove, form } = fieldArrayProps;
@@ -475,21 +472,19 @@ function AddEditEvent(props) {
                           {t("default-currency")}
                         </h1>
                       </Col>
-                      {!eventId && (
-                        <Col span={8}>
-                          <div className="flex gap-x-3 items-center">
-                            <h1 className="text-primary text-xl font-semibold">
-                              {t("template-ticket")}
-                            </h1>
+                      <Col span={8}>
+                        <div className="flex gap-x-3 items-center">
+                          <h1 className="text-primary text-xl font-semibold">
+                            {t("template-ticket")}
+                          </h1>
 
-                            <StyledSwitch
-                              defaultChecked={false}
-                              checked={useTemplate}
-                              onChange={(checked) => setUseTemplate(checked)}
-                            />
-                          </div>
-                        </Col>
-                      )}
+                          <StyledSwitch
+                            defaultChecked={false}
+                            checked={useTemplate}
+                            onChange={(checked) => setUseTemplate(checked)}
+                          />
+                        </div>
+                      </Col>
                     </Row>
                     {values.ticketList?.map((_, index) => (
                       <div className="p-3 border-gray-400 border-4 border-dashed my-2 rounded-lg bg-gray-200 relative">

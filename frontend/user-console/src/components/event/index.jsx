@@ -22,7 +22,6 @@ function Event(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
-  console.log({ event });
   const dispatch = useDispatch();
   function handleEventCurrency() {
     if (isNotEmpty(event.organizationTickets)) {

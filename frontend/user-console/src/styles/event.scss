@@ -26,6 +26,15 @@
       font-weight: 800;
       position: relative;
       text-transform: capitalize;
+      background: -webkit-radial-gradient(
+          #1f3e82 0%,
+          #00287f 50.173%,
+          #1f3e82 100%
+        )
+        14% 9%/159% 176%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
       @include for-phone {
         font-size: 2rem !important;
       }

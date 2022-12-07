@@ -16,16 +16,12 @@ import UploadAvatar from "../../components/common/upload-avatar";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import ThreeDotsLoading from "../../components/loading/three-dots";
-import {
-  setEmail,
-  userAvatarSelector,
-  userInfoSelector,
-} from "../../redux/slices/accountSlice";
+import { setEmail, userInfoSelector } from "../../redux/slices/accountSlice";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 import theme from "../../shared/theme";
 import { isEmpty, isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
-const { updateAvatar, updateAccount } = accountServices;
+const { updateAccount } = accountServices;
 function UserProfile() {
   const user = useSelector(userInfoSelector);
   const navigate = useNavigate();
@@ -33,7 +29,6 @@ function UserProfile() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const avatar = useSelector(userAvatarSelector);
 
   useEffect(() => {
     if (isNotEmpty(user)) {
@@ -58,16 +53,10 @@ function UserProfile() {
     onSubmit: async (values) => {
       const { id, name, phone } = values;
       setLoading(true);
-      if (avatar) {
-        var updateAvatarResponse = await updateAvatar(id, avatar);
-      }
       var updateAccountResponse = await updateAccount(id, { name, phone });
 
       setLoading(false);
-      showNotification(
-        updateAvatarResponse.status === 200 ||
-          updateAccountResponse.status === 200
-      );
+      showNotification(updateAccountResponse.status === 200);
     },
   });
   const showNotification = (code) => {

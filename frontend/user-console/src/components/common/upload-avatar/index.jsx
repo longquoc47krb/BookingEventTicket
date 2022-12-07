@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
+import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
+import { Badge } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import accountServices from "../../../api/services/accountServices";
+import CheckIcon from "../../../assets/CheckIcon.svg";
+import CrossIcon from "../../../assets/CrossIcon.svg";
+import { userInfoSelector } from "../../../redux/slices/accountSlice";
 import theme from "../../../shared/theme";
 import Avatar from "../avatar";
-import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
-import IconButton from "@mui/material/IconButton";
-import { Badge } from "@mui/material";
-import CrossIcon from "../../../assets/CrossIcon.svg";
-import CheckIcon from "../../../assets/CheckIcon.svg";
-import { useDispatch, useSelector } from "react-redux";
-import accountServices from "../../../api/services/accountServices";
-import {
-  emailSelector,
-  setUserAvatar,
-  userInfoSelector,
-} from "../../../redux/slices/accountSlice";
 const { updateAvatar } = accountServices;
 function UploadAvatar({ avatar }) {
+  const user = useSelector(userInfoSelector);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
-  const email = useSelector(emailSelector);
-  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -40,7 +38,12 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const formData = new FormData();
     formData.append("file", avatarFile);
-    dispatch(setUserAvatar(formData));
+    const response = await updateAvatar(user.id, formData);
+    if (response.status === 200) {
+      toast.success(t("update-avatar.success"));
+    } else {
+      toast.error(t("update-avatar.error"));
+    }
   };
   return (
     <div>
@@ -116,6 +119,7 @@ function UploadAvatar({ avatar }) {
           />
         </Badge>
       </div>
+      <Toaster />
     </div>
   );
 }

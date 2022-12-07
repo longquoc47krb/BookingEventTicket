@@ -80,3 +80,23 @@
     transform: translate(24px, 0);
   }
 }
+@keyframes circle-in-hesitate {
+  0% {
+    clip-path: circle(0%);
+  }
+  40% {
+    clip-path: circle(40%);
+  }
+  100% {
+    clip-path: circle(125%);
+  }
+}
+
+[transition-style="in:circle:hesitate"] {
+  animation: 5s cubic-bezier(0.25, 1, 0.3, 1) circle-in-hesitate both;
+}
+.loading-custom {
+  --transition__duration: 5s;
+  --transition__easing: ease-in-out;
+  animation-name: circle-in-hesitate;
+}
