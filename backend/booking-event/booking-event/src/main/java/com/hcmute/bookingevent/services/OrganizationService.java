@@ -31,6 +31,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -326,39 +327,71 @@ public class OrganizationService implements IOrganizationService {
         }
     }
     @Override
+    public ResponseEntity<?> statistic(String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if(organization.isPresent())
+        {
+            int count=0;
+            int countOder=0;
+            List<CustomerListByEventIdRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantityByIdEvent();
+            for(CustomerListByEventIdRes element: orderList)
+            {
+                count+= element.getTotalQuantity();
+                countOder+= orderRepository.countOrderByEventId(element.getIdEvent());
+                System.out.println(countOder);
+            }
+
+            OrganizationStatics organizationStatics = new OrganizationStatics(organization.get().getUSDBalance(),organization.get().getVNDBalance(),organization.get().getEventList().size(),count, (long) countOder);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "statistic successfully ",organizationStatics, 200));
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(false, "statistic fail ",  "", 200));
+
+    }
+    @Override
     public ResponseEntity<?> findCustomerListByEventId(String eventId,String email) {
-        //Optional<Event> event= eventRepository.findEventById(eventId);
         Optional<Organization> organization = organizationRepository.findByEmail(email);
 
         if(organization.isPresent() && !organization.get().getEventList().contains(eventId))
         {
             throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
         }
-       // List<Order> orderList = orderRepository.findAllByIdEvent(eventId);
+        List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity(eventId);
 
-        List<CustomerListRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantity();
+        orderList.removeIf(element -> !element.getIdEvent().equals(eventId));
 
-        // Constructing HashSet using listWithDuplicateElements
-        //Set<Order> set = new HashSet<Order>(orderList);
-        // Constructing listWithoutDuplicateElements using set
-        //List<Order> listWithoutDuplicateElements = new ArrayList<Order>(set);
-
-//        Set orderListwithout = orderList.stream()
-//                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Order::getEmail))));
-
+        for(CustomerListRes element:orderList){
+            List <Order> orderListWithEmailList = orderRepository.findAllByIdEventAndEmail(element.getIdEvent(),element.getEmail());
+            BigDecimal tempx = new BigDecimal("0");
+            element.setVNDRevenue(tempx);
+            element.setUSDRevenue(tempx);
+            for(Order orderInside: orderListWithEmailList)
+            {
+                BigDecimal temp = new BigDecimal("0");
+                BigDecimal ticketPrice = new BigDecimal(orderInside.getTotalPrice());
+                temp = temp.add(ticketPrice);
+                if(orderInside.getCurrency().equals("USD"))
+                {
+                    element.setUSDRevenue( element.getUSDRevenue().add(temp) );
+                }
+                else {
+                    element.setVNDRevenue( element.getVNDRevenue().add(temp) );
+                }
+            }
+        }
 
         if(orderList.size()>0)
         {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "findTicketListByEventId successfully ",  orderList, 200));
-
         }
         else
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "findTicketListByEventId fail ", "", 400));
+                    new ResponseObject(false, "order is empty ", "", 400));
 
         }
-
     }
 }
