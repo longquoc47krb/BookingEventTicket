@@ -1,4 +1,5 @@
 import { Badge } from "@mui/material";
+import toast, { Toaster } from "react-hot-toast";
 import IconButton from "@mui/material/IconButton";
 import React, { useState } from "react";
 import { BsFillCameraFill } from "react-icons/bs";
@@ -6,19 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
 import CheckIcon from "../../../assets/CheckIcon.svg";
 import CrossIcon from "../../../assets/CrossIcon.svg";
-import {
-  setUserAvatar,
-  userInfoSelector,
-} from "../../../redux/slices/accountSlice";
-import { isNotEmpty } from "../../../utils/utils";
+import { userInfoSelector } from "../../../redux/slices/accountSlice";
 import Avatar from "../avatar";
+import { useTranslation } from "react-i18next";
 const { updateAvatar } = accountServices;
 function UploadAvatar({ avatar }) {
   const user = useSelector(userInfoSelector);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
+  const [loading, setLoading] = useState(false);
   const [showCameraButton, setShowCameraButton] = useState(true);
-  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -39,7 +38,18 @@ function UploadAvatar({ avatar }) {
     setShowCameraButton(true);
     const form = new FormData();
     form.append("file", avatarFile);
-    await updateAvatar(user.id, form);
+    const response = await updateAvatar(user.id, form);
+    if (response.status === 200) {
+      setLoading(false);
+      toast.success(t("update-avatar.success"), {
+        duration: 5000,
+      });
+    } else {
+      setLoading(false);
+      toast.error(t("update-avatar.error"), {
+        duration: 5000,
+      });
+    }
   };
   return (
     <div>
@@ -111,9 +121,11 @@ function UploadAvatar({ avatar }) {
             avatar={avatarPreview ? avatarPreview : avatarFile}
             className="object-cover rounded-full"
             style={{ width: "120px", height: "120px" }}
+            loading={loading}
           />
         </Badge>
       </div>
+      <Toaster position="bottom-center" reverseOrder={false} />
     </div>
   );
 }

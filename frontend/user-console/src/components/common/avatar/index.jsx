@@ -1,4 +1,4 @@
-import { Image, Spin } from "antd";
+import { Image } from "antd";
 import React from "react";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import SKLoading from "../../loading/sk-loading";

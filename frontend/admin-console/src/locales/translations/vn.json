@@ -283,5 +283,9 @@
         "by-event": "Danh sách hóa đơn theo sự kiện",
         "by-account": "Danh sách hóa đơn theo tài khoản"
     },
-    "orders-of-event": "Danh sách hóa đơn của {{val, string}}"
+    "orders-of-event": "Danh sách hóa đơn của {{val, string}}",
+    "update-avatar": {
+        "success": "Cập nhật ảnh đại diện thành công",
+        "error": "Cập nhật ảnh đại diện thất bại"
+    }
 }

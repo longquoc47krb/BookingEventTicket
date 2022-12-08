@@ -281,5 +281,9 @@
         "by-event": "Orders by event",
         "by-account": "Orders by account"
     },
-    "orders-of-event": "Orders of {{val, string}}"
+    "orders-of-event": "Orders of {{val, string}}",
+    "update-avatar": {
+        "success": "Upload avatar successfully",
+        "error": "Upload avatar failed"
+    }
 }
