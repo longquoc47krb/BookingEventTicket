@@ -285,5 +285,7 @@
     "update-avatar": {
         "success": "Upload avatar successfully",
         "error": "Upload avatar failed"
-    }
+    },
+    "revenue": "Revenue",
+    "ticketSold": "Tickets sold"
 }

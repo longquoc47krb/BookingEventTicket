@@ -7,7 +7,7 @@
         "management": "Quản lý",
         "order": "Đơn hàng",
         "event": "Sự kiện",
-        "ticket": "Vé",
+        "ticket": "Vé sự kiện",
         "utilities": "Tiện ích",
         "calendar": "Lịch"
     },
@@ -287,5 +287,7 @@
     "update-avatar": {
         "success": "Cập nhật ảnh đại diện thành công",
         "error": "Cập nhật ảnh đại diện thất bại"
-    }
+    },
+    "revenue": "Doanh thu",
+    "ticketSold": "Vé đã bán"
 }

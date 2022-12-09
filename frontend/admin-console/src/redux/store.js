@@ -19,7 +19,7 @@ import accountReducer from "./slices/accountSlice";
 import categoryReducer from "./slices/categorySlice";
 import eventReducer from "./slices/eventSlice";
 import routeReducer from "./slices/routeSlice";
-
+import statisticReducer from "./slices/statisticSlice";
 const accountPersistConfig = {
   key: "account",
   version: 1,
@@ -30,9 +30,18 @@ const routePersistConfig = {
   version: 1,
   storage,
 };
+const statisticPersistConfig = {
+  key: "statistic",
+  version: 1,
+  storage,
+};
 const accountPersistedReducer = persistReducer(
   accountPersistConfig,
   accountReducer
+);
+const statisticPersistedReducer = persistReducer(
+  statisticPersistConfig,
+  statisticReducer
 );
 const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
 const reducer = combineReducers({
@@ -40,6 +49,7 @@ const reducer = combineReducers({
   event: eventReducer,
   route: routePersistedReducer,
   category: categoryReducer,
+  statistic: statisticReducer,
 });
 export const store = configureStore({
   reducer,
