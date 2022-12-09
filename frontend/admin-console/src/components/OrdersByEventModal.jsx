@@ -1,11 +1,11 @@
+import { Modal, Spin } from "antd";
 import React from "react";
-import { Col, Form, Modal, Radio, Row, Typography, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { eventIdSelector, setOpenModal } from "../redux/slices/eventSlice";
 import { useFetchOrdersByEventId } from "../api/services/orderServices";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-import Table from "./Table";
 import { orderByEventColumns } from "../data/dummy";
+import { userInfoSelector } from "../redux/slices/accountSlice";
+import { eventIdSelector, setOpenModal } from "../redux/slices/eventSlice";
+import Table from "./Table";
 function OrdersByEventModal(props) {
   const { title, open } = props;
   const dispatch = useDispatch();

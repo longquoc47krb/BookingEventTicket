@@ -2,7 +2,6 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable quotes */
 import React, { createContext, useContext, useState } from "react";
-import theme from "../shared/theme";
 
 const StateContext = createContext();
 
