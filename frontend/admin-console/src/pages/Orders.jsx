@@ -48,7 +48,6 @@ const Orders = () => {
       email: item.email,
       loginTime: item.loginTime,
     }));
-  console.log({ orderByEventData });
   const [title, setTitle] = useState("");
   // for table
   const [searchText, setSearchText] = useState("");
@@ -173,13 +172,11 @@ const Orders = () => {
   useEffect(() => {
     if (isNotEmpty(events) && eventId) {
       const obj = events.find((e) => e.id === eventId);
-      console.log({ obj });
       const titleTemp = has(obj, "name") ? obj.name : "";
       setTitle(titleTemp);
     }
   }, [events, eventId]);
 
-  console.log({ eventId, title });
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       {/* <BreadCrumbs

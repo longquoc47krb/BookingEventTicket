@@ -50,7 +50,6 @@ function PaymentPage() {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
     if (isSuccess) {
-      console.log({ createOrderReq });
       dispatch(setCurrentStep(2));
       const createOrderAsync = async () => {
         const createOrderResponse = await createOrder(user.id, createOrderReq);

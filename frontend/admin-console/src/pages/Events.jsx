@@ -146,7 +146,6 @@ const Events = () => {
   // end for table
   const nameColumn = eventColumns.find((e) => e.dataIndex === "name");
   Object.assign(nameColumn, getColumnSearchProps("name"));
-  console.log({ eventColumns });
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />

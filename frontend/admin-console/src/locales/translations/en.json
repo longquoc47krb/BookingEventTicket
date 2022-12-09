@@ -247,7 +247,10 @@
         "price": "Price",
         "totalQuantity": "Total quantity",
         "totalRemaining": "Total remaining",
-        "status": "Status"
+        "status": "Status",
+        "available": "Available",
+        "sold-out": "Sold out",
+        "best-seller": "Best seller"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
@@ -278,5 +281,11 @@
         "by-event": "Orders by event",
         "by-account": "Orders by account"
     },
-    "orders-of-event": "Orders of {{val, string}}"
+    "orders-of-event": "Orders of {{val, string}}",
+    "update-avatar": {
+        "success": "Upload avatar successfully",
+        "error": "Upload avatar failed"
+    },
+    "revenue": "Revenue",
+    "ticketSold": "Tickets sold"
 }

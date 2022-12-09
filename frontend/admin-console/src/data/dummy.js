@@ -1,11 +1,10 @@
 import { t } from "i18next";
 import React from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
 import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa";
+import { BiCategory, BiMoney } from "react-icons/bi";
 import {
-  BsBoxSeam,
+  BsCartFill,
+  BsCalendarEventFill,
   BsChatLeft,
   BsCheckLg,
   BsCurrencyDollar,
@@ -13,6 +12,7 @@ import {
   BsShield,
   BsXLg,
 } from "react-icons/bs";
+import { FaTrashAlt } from "react-icons/fa";
 import {
   FiBarChart,
   FiCreditCard,
@@ -20,7 +20,6 @@ import {
   FiShoppingCart,
   FiStar,
 } from "react-icons/fi";
-import { GrLocation } from "react-icons/gr";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 import {
@@ -29,6 +28,17 @@ import {
 } from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
+import eventServices from "../api/services/eventServices";
+import organizationServices from "../api/services/organizationServices";
+import {
+  AlertErrorPopup,
+  AlertPopup,
+  AlertQuestion,
+} from "../components/Alert";
+import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
+import { store } from "../redux/store";
+import { AccountStatus, ROLE } from "../utils/constants";
+import { convertMongodbTimeToString, formatter } from "../utils/utils";
 import product1 from "./product1.jpg";
 import product2 from "./product2.jpg";
 import product3 from "./product3.jpg";
@@ -36,44 +46,8 @@ import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
 import product7 from "./product7.jpg";
-import {
-  AlertQuestion,
-  AlertPopup,
-  AlertErrorPopup,
-} from "../components/Alert";
-import eventServices from "../api/services/eventServices";
-import { store } from "../redux/store";
-import { StyledSwitch } from "../pages/AddEditEvent";
-import { BiCategory } from "react-icons/bi";
-import organizationServices from "../api/services/organizationServices";
-import { has } from "lodash";
-import { ROLE, AccountStatus } from "../utils/constants";
-import { convertMongodbTimeToString, formatter } from "../utils/utils";
-import { setEventId, setOpenModal } from "../redux/slices/eventSlice";
-import { Button, Input, Space } from "antd";
-import GetColumnSearchProps from "../utils/getColumnSearchProps";
 const { approveOrganizer, refuseOrganizer } = organizationServices;
 const { deleteEvent } = eventServices;
-export const gridOrderImage = (props) => (
-  <div>
-    <img
-      className="rounded-xl h-20 md:ml-3"
-      src={props.ProductImage}
-      alt="order-item"
-    />
-  </div>
-);
-
-export const gridOrderStatus = (props) => (
-  <button
-    type="button"
-    style={{ background: props.StatusBg }}
-    className="text-white py-1 px-1 capitalize rounded-2xl text-xs"
-  >
-    {props.Status}
-  </button>
-);
-
 export const areaPrimaryXAxis = {
   valueType: "DateTime",
   labelFormat: "y",
@@ -375,6 +349,62 @@ export const orderByEventColumns = [
       </div>
     ),
     width: 200,
+  },
+];
+export const ticketColumns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+  },
+  {
+    title: t("ticket.type"),
+    dataIndex: "ticketName",
+  },
+  {
+    title: t("ticket.price"),
+    dataIndex: "price",
+    render: (price) => <span>{formatter("USD").format(price)}</span>,
+  },
+  {
+    title: t("ticket.totalQuantity"),
+    dataIndex: "quantity",
+  },
+  {
+    title: t("ticket.totalRemaining"),
+    dataIndex: "quantityRemaining",
+  },
+  {
+    title: t("ticket.status"),
+    dataIndex: "status",
+    filters: [
+      {
+        text: t("ticket.available"),
+        value: "ticket.available",
+      },
+      {
+        text: t("ticket.sold-out"),
+        value: "ticket.sold-out",
+      },
+      {
+        text: t("ticket.best-seller"),
+        value: "ticket.best-seller",
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>
+      status === "ticket.available" ? (
+        <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
+          {t("ticket.available")}
+        </span>
+      ) : status === "ticket.sold-out" ? (
+        <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
+          {t("ticket.sold-out")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
+          {t("ticket.best-seller")}
+        </span>
+      ),
   },
 ];
 export const eventColumns = [
@@ -881,47 +911,6 @@ export const AdminRoute = [
     ],
   },
 ];
-
-export const earningData = [
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: "39,354",
-    percentage: "-4%",
-    title: "Tickets",
-    iconColor: "#03C9D7",
-    iconBg: "#E5FAFB",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxSeam />,
-    amount: "4,396",
-    percentage: "+23%",
-    title: "Products",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <FiBarChart />,
-    amount: "423,39",
-    percentage: "+38%",
-    title: "Sales",
-    iconColor: "rgb(228, 106, 118)",
-    iconBg: "rgb(255, 244, 229)",
-
-    pcColor: "green-600",
-  },
-  {
-    icon: <HiOutlineRefresh />,
-    amount: "39,354",
-    percentage: "-12%",
-    title: "Refunds",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-];
-
 export const recentTransactions = [
   {
     icon: <BsCurrencyDollar />,
@@ -1083,56 +1072,6 @@ export const userProfileData = [
     desc: "To-do and Daily Tasks",
     iconColor: "rgb(255, 244, 229)",
     iconBg: "rgb(254, 201, 15)",
-  },
-];
-
-export const ordersGrid = [
-  {
-    headerText: "Image",
-    template: gridOrderImage,
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderItems",
-    headerText: "Item",
-    width: "150",
-    editType: "dropdownedit",
-    textAlign: "Center",
-  },
-  {
-    field: "CustomerName",
-    headerText: "Customer Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "TotalAmount",
-    headerText: "Total Amount",
-    format: "C2",
-    textAlign: "Center",
-    editType: "numericedit",
-    width: "150",
-  },
-  {
-    headerText: "Status",
-    template: gridOrderStatus,
-    field: "OrderItems",
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderID",
-    headerText: "Order ID",
-    width: "120",
-    textAlign: "Center",
-  },
-
-  {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
   },
 ];
 export const ordersData = [

@@ -10,6 +10,7 @@ import { MdAccessTime } from "react-icons/md";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import Barcode from "../../../components/common/barcode";
+import { useMedia } from "react-use";
 function TicketItem(props) {
   const { data, id } = props;
   const user = useSelector(userInfoSelector);
@@ -17,12 +18,15 @@ function TicketItem(props) {
   const { data: organizer, status: organizerStatus } = useFindOrganizerById(
     event?.host_id
   );
+  const isMobile = useMedia("(max-width: 767px)");
   return (
     <>
       {eventStatus === "success" && (
         <div
           id={`ticket-${id}`}
-          className="mb-4 w-full aspect-[2.75] relative p-4 rounded-[0.5rem] flex ticket-item-card"
+          className={
+            "mb-4 w-[76rem] aspect-[2.75] relative p-4 rounded-[0.5rem] flex ticket-item-card"
+          }
           style={{
             background: `linear-gradient(178deg, rgb(16, 30, 62), rgb(0 0 0 / 80%)), url(${event.background})`,
             backgroundSize: "contain",

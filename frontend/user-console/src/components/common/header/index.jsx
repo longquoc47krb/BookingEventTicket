@@ -15,7 +15,7 @@ import { BiX } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMedia } from "react-use";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import AppConfig from "../../../configs/AppConfig";
@@ -44,11 +44,19 @@ function Header(props) {
   const { data: allEvents, status: allEventsStatus } = useFetchEvents();
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const user = useSelector(userInfoSelector);
   const isMobile = useMedia("(max-width: 767px)");
   const [open, setOpen] = useState(false);
+  const [yPosition, setY] = useState(window.scrollY);
+  useEffect(() => {
+    const handleYPosition = (e) => {
+      setY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleYPosition);
+  }, [yPosition]);
   const hide = () => {
     setOpen(false);
   };
@@ -157,7 +165,13 @@ function Header(props) {
     </div>
   );
   return (
-    <div className="header-container">
+    <div
+      className={
+        yPosition > 72.188 && location.pathname === "/"
+          ? "header-glassmorphism absolute"
+          : "header-container"
+      }
+    >
       <div className="md:w-[60%] w-full flex md:gap-x-4 items-center">
         <img
           src="/logo.png"

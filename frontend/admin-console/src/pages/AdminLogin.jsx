@@ -136,7 +136,7 @@ function Login() {
             </Col>
           </Row>
           <Col span={24}>
-            <button className={"primary-button"} type="submit">
+            <button className={"primary-button mt-4"} type="submit">
               {loading ? <ThreeDotsLoading /> : t("pages.login")}
             </button>
           </Col>

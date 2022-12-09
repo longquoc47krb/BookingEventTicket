@@ -7,7 +7,7 @@
         "management": "Quản lý",
         "order": "Đơn hàng",
         "event": "Sự kiện",
-        "ticket": "Vé",
+        "ticket": "Vé sự kiện",
         "utilities": "Tiện ích",
         "calendar": "Lịch"
     },
@@ -249,7 +249,10 @@
         "price": "Giá",
         "totalQuantity": "Tổng lượng",
         "totalRemaining": "Còn lại",
-        "status": "Tr.Thái"
+        "status": "Trạng  Thái",
+        "available": "Có sẵn",
+        "sold-out": "Hết vé",
+        "best-seller": "Bán chạy"
     },
     "template-ticket": "Use saved template",
     "save-template-ticket": "Save this ticket list",
@@ -280,5 +283,11 @@
         "by-event": "Danh sách hóa đơn theo sự kiện",
         "by-account": "Danh sách hóa đơn theo tài khoản"
     },
-    "orders-of-event": "Danh sách hóa đơn của {{val, string}}"
+    "orders-of-event": "Danh sách hóa đơn của {{val, string}}",
+    "update-avatar": {
+        "success": "Cập nhật ảnh đại diện thành công",
+        "error": "Cập nhật ảnh đại diện thất bại"
+    },
+    "revenue": "Doanh thu",
+    "ticketSold": "Vé đã bán"
 }

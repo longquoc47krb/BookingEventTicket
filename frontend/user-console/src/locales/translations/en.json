@@ -290,5 +290,9 @@
   },
   "coming-soon": "Coming Soon ...",
   "sold-ticket": "Sold: {{val, number}}",
-  "ticket-remaining": "{{val, number}} ticket(s) left"
+  "ticket-remaining": "{{val, number}} ticket(s) left",
+  "update-avatar": {
+    "success": "Upload avatar successfully",
+    "error": "Upload avatar failed"
+  }
 }

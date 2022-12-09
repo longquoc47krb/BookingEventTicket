@@ -47,4 +47,8 @@ export const OrganizationAPI = {
     method: "POST",
     data,
   }),
+  statistic: (userId) => ({
+    url: `/organization/statistic/${userId}`,
+    method: "GET"
+  })
 };

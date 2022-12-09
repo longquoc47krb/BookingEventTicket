@@ -14,7 +14,7 @@ function CollapseComponent(props) {
         onClick={handleClick}
         style={{ borderBottom: "1px solid #dddddd", color: "black" }}
       >
-        <div className="flex w-full justify-between ">
+        <div className="flex w-full justify-between items-center">
           <ListItemText primary={text} />
           {open ? <AiOutlineMinusCircle /> : <AiOutlinePlusCircle />}
         </div>

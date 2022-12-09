@@ -37,8 +37,6 @@ function TicketBooking() {
   const ticketCart = useSelector(ticketCartSelector);
   useEffect(() => {
     const ticketIdArray = map(ticketCart, "id");
-    console.log({ ticketCart });
-    console.log({ ticketIdArray });
   }, []);
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
