@@ -7,7 +7,7 @@ import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
 import constants from "./constants";
-const { comparisonStatus, PATTERNS } = constants;
+const { PATTERNS } = constants;
 const timeFormat = "HH:mm";
 export const LOCALE = "en-US";
 export const CURRENCY = "USD";

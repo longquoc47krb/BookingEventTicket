@@ -14,11 +14,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import eventServices, {
   useEventDetails,
 } from "../../api/services/eventServices";
-import organizationServices from "../../api/services/organizationServices";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
 import AppDrawer from "../../components/common/drawer";
-import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
 import Loading from "../../components/loading";
@@ -28,7 +26,7 @@ import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { clearCart, setCurrentStep } from "../../redux/slices/ticketSlice";
+import { setCurrentStep } from "../../redux/slices/ticketSlice";
 import { EventStatus } from "../../utils/constants";
 import {
   displayDate,
@@ -39,7 +37,6 @@ import {
 } from "../../utils/utils";
 import FooterComponent from "../../components/FooterComponent";
 import HomeDrawer from "../../components/home-drawer";
-const { findOrganizerById } = organizationServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();

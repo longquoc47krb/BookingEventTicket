@@ -1,5 +1,5 @@
 // import for table
-import { Radio, Spin, Input, Button, Space } from "antd";
+import { Spin, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
@@ -7,27 +7,20 @@ import { SearchOutlined } from "@ant-design/icons";
 // end import for table
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useFindAllAccount } from "../api/services/adminServices";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
 import { Header } from "../components";
 import OrdersByEventModal from "../components/OrdersByEventModal";
 import Table from "../components/Table";
-import { orderColumns, orderByAccountColumns } from "../data/dummy";
+import { orderColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { eventIdSelector } from "../redux/slices/eventSlice";
-import { ROLE } from "../utils/constants";
 import { isNotEmpty } from "../utils/utils";
 import { has } from "lodash";
 
 const Orders = () => {
   const user = useSelector(userInfoSelector);
-  const [value, setValue] = useState("by-event");
   const openModal = useSelector((state) => state.event.openModal);
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
   const { data: events, status } = useFetchEventsByOrgID(user.id);
-  const { data: accounts, status: accountStatus } = useFindAllAccount();
   const { t } = useTranslation();
   const orderByEventData = events?.map((item) => ({
     id: item.id,
@@ -38,15 +31,6 @@ const Orders = () => {
     date: item.startingDate,
     status: item.status,
   }));
-  const orderByAccountData = accounts
-    ?.filter((a) => a.role === ROLE.Customer)
-    .map((item) => ({
-      key: item.id,
-      id: item.id,
-      name: item.name,
-      email: item.email,
-      loginTime: item.loginTime,
-    }));
   const [title, setTitle] = useState("");
   // for table
   const [searchText, setSearchText] = useState("");
@@ -183,23 +167,13 @@ const Orders = () => {
         className="absolute top-10 right-10"
       /> */}
       <Header category={t("sider.management")} title={t("sider.order")} />
-      <div className="absolute top-[4.5rem] right-10">
-        <Radio.Group onChange={onChange} value={value} defaultValue="all">
-          <Radio value="by-event">{t("order.by-event")}</Radio>
-          <Radio value="by-account">{t("order.by-account")}</Radio>
-        </Radio.Group>
-      </div>
+
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />
         </div>
-      ) : value === "by-event" ? (
-        <Table columns={orderColumns} dataSource={orderByEventData} />
       ) : (
-        <Table
-          columns={orderByAccountColumns}
-          dataSource={orderByAccountData}
-        />
+        <Table columns={orderColumns} dataSource={orderByEventData} />
       )}
       <OrdersByEventModal
         open={openModal}

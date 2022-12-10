@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { Editor as EditorDraft } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 const Editor = (props) => {
   const { name, label } = props;
   const [field, meta, helpers] = useField(name);
@@ -36,7 +37,20 @@ const Editor = (props) => {
     );
     helpers.setValue(htmlString);
   }
-
+  const uploadImageCallBack = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "admin_preset");
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/lotus-ticket-2022/image/upload",
+        formData
+      );
+      return { data: { link: response.data.url } };
+    } catch (error) {
+      return error.response.data;
+    }
+  };
   return (
     <div>
       <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
@@ -46,6 +60,17 @@ const Editor = (props) => {
         wrapperClassName="w-auto"
         editorClassName="bg-white border-2 border-gray-200 p-2"
         onBlur={saveStateToFormik}
+        toolbar={{
+          image: {
+            urlEnabled: true,
+            uploadEnabled: true,
+            alignmentEnabled: true,
+            uploadCallback: uploadImageCallBack,
+            previewImage: true,
+            inputAccept: "image/*",
+            alt: { present: false, mandatory: false, previewImage: true },
+          },
+        }}
       />
       <ErrorMessage
         name={name}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import {
   BsCalendarEventFill,
@@ -8,6 +9,7 @@ import {
 
 import { t } from "i18next";
 import { has } from "lodash";
+import { Tooltip } from "antd";
 import moment from "moment";
 import { useEffect } from "react";
 import { BiMoney } from "react-icons/bi";
@@ -15,7 +17,6 @@ import { IoTicketSharp } from "react-icons/io5";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetStatisticByID } from "../api/services/organizationServices";
-import { useStateContext } from "../contexts/ContextProvider";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import {
   eventStatsSelector,
@@ -27,7 +28,7 @@ import {
   setTicketStats,
   ticketStatsSelector,
 } from "../redux/slices/statisticSlice";
-import { isNotEmpty, nFormatter } from "../utils/utils";
+import { isNotEmpty, nFormatter, formatter } from "../utils/utils";
 
 const Overview = () => {
   const user = useSelector(userInfoSelector);
@@ -86,6 +87,7 @@ const Overview = () => {
       {
         icon: <BsCalendarEventFill />,
         amount: data.eventSize,
+        rawAmount: data.eventSize,
         variability: handleVariability(eventStats, "eventQuantity").variability,
         title: t("sider.event"),
         iconColor: "#03C9D7",
@@ -95,6 +97,7 @@ const Overview = () => {
       {
         icon: <IoTicketSharp />,
         amount: data.totalTicketSold,
+        rawAmount: data.totalTicketSold,
         variability: handleVariability(ticketStats, "ticketQuantity")
           .variability,
         title: t("ticketSold"),
@@ -105,6 +108,7 @@ const Overview = () => {
       {
         icon: <BsCartFill />,
         amount: data.totalOrder,
+        rawAmount: data.totalOrder,
         variability: handleVariability(orderStats, "orderQuantity").variability,
         title: t("sider.order"),
         iconColor: "rgb(255, 244, 229)",
@@ -114,6 +118,7 @@ const Overview = () => {
       {
         icon: <BiMoney />,
         amount: `$${nFormatter(data.usdrevenue, 2)}`,
+        rawAmount: formatter("USD").format(data.usdrevenue),
         variability: handleVariability(revenueStats, "revenue").variability
           ? `$${nFormatter(
               handleVariability(revenueStats, "revenue").variability,
@@ -149,7 +154,17 @@ const Overview = () => {
               </button>
               <p className="mt-3">
                 <div className="flex items-end gap-x-4">
-                  <span className="text-4xl font-bold">{item.amount}</span>
+                  {" "}
+                  <Tooltip
+                    placement="rightBottom"
+                    title={
+                      <span className="text-4xl font-bold">
+                        {item.rawAmount}
+                      </span>
+                    }
+                  >
+                    <span className="text-4xl font-bold">{item.amount}</span>
+                  </Tooltip>
                   <span
                     className={`text-sm ml-2`}
                     style={{ color: item.pcColor, display: "flex" }}

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { useFetchCategories } from "../../api/services/categoryServices";
 import { useFetchEvents } from "../../api/services/eventServices";
-import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
@@ -21,6 +20,7 @@ import FilterEventFragment from "./filterEvent";
 import SearchResults from "./searchResults";
 function EventDashBoard() {
   const { t } = useTranslation();
+  // eslint-disable-next-line no-unused-vars
   const [categoryParams, setCategoryParams] = useSearchParams();
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const dispatch = useDispatch();

@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { authentication } from "../configs/firebaseConfig";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 

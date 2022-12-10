@@ -1,16 +1,8 @@
 import React from "react";
-import {
-  BsCalendarDateFill,
-  BsFillGridFill,
-  BsFillInfoCircleFill,
-} from "react-icons/bs";
+import { BsFillGridFill, BsFillInfoCircleFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { useFetchCategories } from "../../api/services/categoryServices";
-import {
-  locationSelect,
-  statusSelect,
-  dateSelect,
-} from "../../helpers/filter-data";
+import { locationSelect, statusSelect } from "../../helpers/filter-data";
 import theme from "../../shared/theme";
 import { Select } from "../common/select";
 import { DateSelect } from "../common/select/dateSelect";

@@ -12,7 +12,6 @@ import {
   ticketTypeSelector,
 } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
-import { AlertErrorPopup } from "../common/alert";
 import ThreeDotsLoading from "../loading/three-dots";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder, checkOrderAvailability } = paymentServices;

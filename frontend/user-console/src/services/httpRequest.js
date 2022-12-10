@@ -1,5 +1,4 @@
 import axiosClient from "./axiosClient";
-import { AxiosError } from "axios";
 const httpRequest = async ({ url, method, data, params, ...rest }) => {
   try {
     const response = await axiosClient.request({

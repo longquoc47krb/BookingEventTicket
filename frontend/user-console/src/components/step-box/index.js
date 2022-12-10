@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Steps } from "antd";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";

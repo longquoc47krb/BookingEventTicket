@@ -30,8 +30,8 @@ import constants, { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
 const { provinceMapping, province } = constants;
 function Home() {
+  // eslint-disable-next-line no-unused-vars
   const { data: location, status: locationStatus } = useLocationName();
-  const [openModal, setOpenModal] = useState(true);
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();

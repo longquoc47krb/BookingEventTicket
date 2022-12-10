@@ -195,7 +195,8 @@
             "min": "Length is 6"
         },
         "description": {
-            "required": "Description is required"
+            "required": "Description is required",
+            "max": "Description is too long"
         },
         "categories": {
             "required": "Category is required",
@@ -262,7 +263,8 @@
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Pending",
+        "pending-status": "Pending",
+        "disabled": "Reject",
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option",
@@ -279,7 +281,7 @@
     },
     "order": {
         "by-event": "Orders by event",
-        "by-account": "Orders by account"
+        "by-account": "Orders by event (unique accounts)"
     },
     "orders-of-event": "Orders of {{val, string}}",
     "update-avatar": {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
@@ -119,7 +120,7 @@ const Navbar = () => {
                 alt="user-profile"
               />
             )}
-            <p>
+            <p className="flex items-center gap-x-1">
               <span className="text-gray-400 text-14">Hi,</span>{" "}
               <span className="text-primary font-bold ml-1 text-14">
                 {user.name}

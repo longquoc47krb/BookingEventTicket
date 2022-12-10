@@ -11,7 +11,6 @@ import {
   useEventDetails,
   useFetchOrganizerByEventId,
 } from "../../../api/services/eventServices";
-import { useFindOrganizerById } from "../../../api/services/organizationServices";
 import InfoCollapse from "../../../components/info-collapse";
 import Table from "../../../components/common/table";
 import OrderTable from "../../../components/common/table/order-table";

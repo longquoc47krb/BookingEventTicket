@@ -115,7 +115,7 @@ export const useFetchEventsByFilter = (params) => {
     ["getEventsByFilter", params],
     () => fetchEventByFilter(params),
     {
-      staleTime: 30000,
+      staleTime: 0,
       cacheTime: 1000 * 60 * 60,
     }
   );
@@ -125,7 +125,7 @@ export const useFetchEventsByProvince = (params) => {
     ["getEventsByProvince", params],
     () => fetchEventsByProvince(params),
     {
-      staleTime: 30000,
+      staleTime: 0,
       cacheTime: 1000 * 60 * 60,
     }
   );

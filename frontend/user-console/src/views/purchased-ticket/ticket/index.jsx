@@ -1,16 +1,13 @@
-import React from "react";
-import { useEventDetails } from "../../../api/services/eventServices";
-import { convertMongodbTimeToString } from "../../../utils/utils";
 import { t } from "i18next";
-import QRCodeComponent from "../../../components/qrcode";
-import { useFindOrganizerById } from "../../../api/services/organizationServices";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../../../redux/slices/accountSlice";
-import { MdAccessTime } from "react-icons/md";
+import React from "react";
 import { BsFillCalendarCheckFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { useEventDetails } from "../../../api/services/eventServices";
+import { useFindOrganizerById } from "../../../api/services/organizationServices";
 import Barcode from "../../../components/common/barcode";
-import { useMedia } from "react-use";
+import QRCodeComponent from "../../../components/qrcode";
+import { userInfoSelector } from "../../../redux/slices/accountSlice";
 function TicketItem(props) {
   const { data, id } = props;
   const user = useSelector(userInfoSelector);
@@ -18,7 +15,6 @@ function TicketItem(props) {
   const { data: organizer, status: organizerStatus } = useFindOrganizerById(
     event?.host_id
   );
-  const isMobile = useMedia("(max-width: 767px)");
   return (
     <>
       {eventStatus === "success" && (

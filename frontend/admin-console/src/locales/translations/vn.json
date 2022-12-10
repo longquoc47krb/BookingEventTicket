@@ -197,7 +197,8 @@
             "min": "Chiều dài 6 kí tự"
         },
         "description": {
-            "required": "Mô tả không được để trống"
+            "required": "Mô tả không được để trống",
+            "max": "Mô tả quá dài ( phải ít hơn 10.000 kí tự )"
         },
         "categories": {
             "required": "Thể loại không được để trống",
@@ -264,7 +265,8 @@
         "email": "Email",
         "events": "Event quantity",
         "status": "Account status",
-        "disabled": "Đang chờ",
+        "pending-status": "Đang chờ",
+        "disabled": "Từ chối",
         "accepted": "Accepted",
         "approve": "Approve",
         "options": "Option",
@@ -280,8 +282,8 @@
         "admin": "Quản trị viên"
     },
     "order": {
-        "by-event": "Danh sách hóa đơn theo sự kiện",
-        "by-account": "Danh sách hóa đơn theo tài khoản"
+        "by-event": "Danh sách hóa đơn",
+        "by-account": "Danh sách hóa đơn (không trùng tài khoản)"
     },
     "orders-of-event": "Danh sách hóa đơn của {{val, string}}",
     "update-avatar": {
