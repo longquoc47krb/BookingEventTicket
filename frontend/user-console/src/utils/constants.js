@@ -36,8 +36,6 @@ provinceMapping.set("35", "Lâm Đồng");
 const PATTERNS = {
   OLD_EMAIL_PATTERN:
     /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/,
-  EMAIL_PATTERN:
-    /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   DOMAIN_PATTERN:
     /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/,
   IP_PATTERN:

@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import i18next, { t } from "i18next";
-import { useTranslation } from "react-i18next";
 import {
   AiFillCheckCircle,
   AiOutlineAreaChart,
@@ -13,7 +12,7 @@ import { BsBriefcase, BsCashCoin, BsInstagram } from "react-icons/bs";
 import { FaInfo, FaSearchLocation, FaTheaterMasks } from "react-icons/fa";
 import { HiOutlineMusicNote } from "react-icons/hi";
 import { IoIosApps } from "react-icons/io";
-import { IoLogoFacebook, IoTicket, IoWineOutline } from "react-icons/io5";
+import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import {
   MdExitToApp,
   MdOutlineAccountCircle,

@@ -1,15 +1,13 @@
-import { GoogleLogin } from "@react-oauth/google";
-import { Col, Divider, Row } from "antd";
-import { AxiosError } from "axios";
+import { Col, Row } from "antd";
 import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Authentication from "../../assets/Authentication.svg";
 import "react-phone-number-input/style.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import authServices from "../../api/services/authServices";
+import Authentication from "../../assets/Authentication.svg";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import {
   Input,
@@ -17,16 +15,14 @@ import {
 } from "../../components/common/input/customField";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
-import theme from "../../shared/theme";
-import { YupValidations } from "../../utils/validate";
-import constants, { ROLE } from "../../utils/constants";
-import { isNotEmpty } from "../../utils/utils";
 import ThreeDotsLoading from "../../components/loading/three-dots";
+import { ROLE } from "../../utils/constants";
+import { isNotEmpty } from "../../utils/utils";
+import { YupValidations } from "../../utils/validate";
 const { registerAccount } = authServices;
 const UserRegister = (props) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const initialValues = {

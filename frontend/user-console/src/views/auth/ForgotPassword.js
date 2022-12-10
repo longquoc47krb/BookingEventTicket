@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HelmetHeader from "../../components/helmet";
 import LanguageSwitch from "../../components/language-switch";
 import * as Yup from "yup";
-import Countdown from "react-countdown";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { YupValidations } from "../../utils/validate";
 import { Col, Row } from "antd";
@@ -19,11 +18,10 @@ import { isNotEmpty } from "../../utils/utils";
 import ThreeDotsLoading from "../../components/loading/three-dots";
 import { useDispatch, useSelector } from "react-redux";
 import { emailSelector, setEmail } from "../../redux/slices/accountSlice";
-const { forgotPassword, verifyOTP, newPassword } = authServices;
+const { forgotPassword, verifyOTP } = authServices;
 function ForgotPassword() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
   const navigate = useNavigate();
   const email = useSelector(emailSelector);
   const dispatch = useDispatch();
@@ -90,23 +88,6 @@ function ForgotPassword() {
   });
   const { handleSubmit } = formik;
   const { handleSubmit: handleSubmitOTP } = formikOTP;
-
-  // Random component
-  const Completionist = () => <span>You are good to go!</span>;
-  // Renderer callback with condition
-  const renderer = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-      // Render a completed state
-      return <Completionist />;
-    } else {
-      // Render a countdown
-      return (
-        <span>
-          {hours}:{minutes}:{seconds}
-        </span>
-      );
-    }
-  };
   return (
     <>
       <HelmetHeader title={t("pages.forgot-password")} content="Login" />

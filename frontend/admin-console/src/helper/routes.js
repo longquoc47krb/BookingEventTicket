@@ -29,10 +29,6 @@ const ForgotPasswordPage = Loadable({
   loader: () => import("../pages/ForgotPassword"),
   loading: Loading,
 });
-const CalendarPage = Loadable({
-  loader: () => import("../pages/Calendar"),
-  loading: Loading,
-});
 const AccountPage = Loadable({
   loader: () => import("../pages/Accounts"),
   loading: Loading,
@@ -77,10 +73,6 @@ export const privateRoutes = [
     path: "/update-password",
   },
   {
-    element: <CalendarPage />,
-    path: "/calendar",
-  },
-  {
     element: <EventsPage />,
     path: "/events",
   },
@@ -110,12 +102,5 @@ export const privateRoutes = [
     path: "/tickets",
   },
 ];
-export {
-  EventsPage,
-  OverviewPage,
-  OrderPage,
-  AddEditEventPage,
-  TicketPage,
-  CalendarPage,
-};
+export { EventsPage, OverviewPage, OrderPage, AddEditEventPage, TicketPage };
 export default routes;

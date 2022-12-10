@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useFetchUserInfo } from "../api/services/accountServices";
 import customerServices from "../api/services/customerServices";
 import eventServices, {
@@ -19,7 +18,6 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [activeDrawer, toggleDrawer] = useState(false);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   const { data: checkedEvents } = useCheckEventsStatus();
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");

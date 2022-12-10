@@ -1,5 +1,4 @@
 import { Pagination } from "antd";
-import { reverse } from "lodash";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
@@ -15,6 +14,7 @@ import { isEmpty, isNotEmpty } from "../../utils/utils";
 import PurchaseTicketItem from "./purchased-ticket-item";
 const PurchasedTickets = () => {
   const user = useSelector(userInfoSelector);
+  // eslint-disable-next-line no-unused-vars
   const { data: tickets, status, isLoading } = useGetOrderListByUserId(user.id);
   const [currentPage, setCurrentPage] = useState(0);
   // Change page

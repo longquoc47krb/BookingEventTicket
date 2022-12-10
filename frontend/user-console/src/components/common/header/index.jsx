@@ -1,48 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { Dropdown, Empty, Popover } from "antd";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
-import Badge from "../badge";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
-import { GrMore } from "react-icons/gr";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
+import accountServices from "../../../api/services/accountServices";
+import { useFetchEvents } from "../../../api/services/eventServices";
 import placeholderImg from "../../../assets/fallback-avatar.png";
 import AppConfig from "../../../configs/AppConfig";
 import { useUserActionContext } from "../../../context/UserActionContext";
-import { useUserAuth } from "../../../context/UserAuthContext";
 import {
-  logOutAccount,
   setUserProfile,
   userInfoSelector,
 } from "../../../redux/slices/accountSlice";
 import { setPathName } from "../../../redux/slices/routeSlice";
-import theme from "../../../shared/theme";
 import { isNotEmpty } from "../../../utils/utils";
 import LanguageSwitch from "../../language-switch";
+import UserProfile from "../../profile-popup";
+import Badge from "../badge";
 import SearchBox from "../searchbox";
 import WishListItem from "../wishlist-item";
-import { useFetchEvents } from "../../../api/services/eventServices";
-import accountServices from "../../../api/services/accountServices";
-import UserProfile from "../../profile-popup";
-const { USER_PROFILE_MENU } = AppConfig;
 const { findUser } = accountServices;
 function Header(props) {
   const { showSearchBox } = props;
   const { ROUTES } = AppConfig;
   const { wishlist, clearWishlist } = useUserActionContext();
   const { data: allEvents, status: allEventsStatus } = useFetchEvents();
-  const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -57,17 +50,9 @@ function Header(props) {
     };
     window.addEventListener("scroll", handleYPosition);
   }, [yPosition]);
-  const hide = () => {
-    setOpen(false);
-  };
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
-  function onLogout() {
-    dispatch(logOutAccount());
-    localStorage.removeItem("userWishlist");
-    logOut();
-  }
   useEffect(() => {
     const fetchUserInfor = async () => {
       const response = await findUser(user.email);
@@ -75,38 +60,6 @@ function Header(props) {
     };
     fetchUserInfor();
   }, []);
-  const menu = (
-    <MenuList
-      style={{
-        background: "white",
-        width: "auto",
-      }}
-      className="shadow-lg"
-    >
-      {USER_PROFILE_MENU.map((item, index) => (
-        <div key={index}>
-          <MenuItem
-            key={index}
-            className="mb-2"
-            style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
-            onClick={
-              item.key === "logout"
-                ? onLogout
-                : () => {
-                    dispatch(setPathName(window.location.pathname));
-                    navigate(item?.link);
-                  }
-            }
-          >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText>{t(item.label)}</ListItemText>
-          </MenuItem>
-
-          <Divider style={{ width: "100%" }} />
-        </div>
-      ))}
-    </MenuList>
-  );
   const wishListMenu = (
     <div className="shadow-md">
       <MenuList style={{ background: "white" }}>

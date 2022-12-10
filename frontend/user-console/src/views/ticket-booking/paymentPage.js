@@ -1,38 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { t } from "i18next";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import orderServices from "../../api/services/orderServices";
-import ticketServices from "../../api/services/ticketServices";
 import { userInfoSelector } from "../../redux/slices/accountSlice";
 import {
-  setCustomerOrder,
+  createOrderRequest,
+  createOrderRequestSelector,
   eventIdSelector,
   setCancel,
   setCurrentStep,
+  setCustomerOrder,
   setSuccess,
-  ticketCartSelector,
-  totalPriceSelector,
-  totalQuantitySelector,
-  setTicketCart,
-  clearCart,
-  createOrderRequestSelector,
-  createOrderRequest,
 } from "../../redux/slices/ticketSlice";
-import { map } from "lodash";
 const { createOrder } = orderServices;
-const { reduceTicketQuantityAsync } = ticketServices;
 function PaymentPage() {
+  // eslint-disable-next-line no-unused-vars
   const [query, setQueryParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const eventId = useSelector(eventIdSelector);
-  const ticketCart = useSelector(ticketCartSelector);
-  const totalPrice = useSelector(totalPriceSelector);
-  const totalQuantity = useSelector(totalQuantitySelector);
   const user = useSelector(userInfoSelector);
-  const currency = map(ticketCart, "currency")[0];
   const createOrderReq = useSelector(createOrderRequestSelector);
   const isSuccess =
     query.get("success") !== null

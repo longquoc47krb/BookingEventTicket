@@ -1,7 +1,6 @@
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import { Badge } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { Spin } from "antd";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";

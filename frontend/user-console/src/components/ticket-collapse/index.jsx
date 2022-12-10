@@ -1,14 +1,9 @@
 import React from "react";
 import Collapse from "@mui/material/Collapse";
 import { t } from "i18next";
-import {
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { List, ListItemButton, ListItemText } from "@mui/material";
 import parse from "html-react-parser";
-import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { formatter } from "../../utils/utils";
 import { TicketStatus } from "../../utils/constants";
 function TicketComponent(props) {

@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import * as Yup from "yup";
 import "yup-phone";
 import constants from "./constants";

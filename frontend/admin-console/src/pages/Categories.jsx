@@ -28,17 +28,6 @@ const Categories = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.category")} />
-      <div className="flex w-full justify-end">
-        <button
-          className="p-2 bg-primary rounded-md mb-2 text-white text-lg"
-          onClick={() => {
-            showModal();
-            setIsEdit(false);
-          }}
-        >
-          {t("event.create")}
-        </button>
-      </div>
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />

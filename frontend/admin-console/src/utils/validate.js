@@ -32,7 +32,7 @@ export const YupValidations = {
   description: Yup.string()
     .required("validate.description.required")
     .min(9, "validate.description.required")
-    .max(5000, "validate.description.max"),
+    .max(10000, "validate.description.max"),
   phone: Yup.string().phone("VN", true, "validate.phone.error"),
   password: Yup.string()
     .required("validate.password.required")

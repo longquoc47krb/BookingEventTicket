@@ -4,7 +4,7 @@ import {
   Input as AntdInput,
   Select as AntdSelect,
 } from "antd";
-import dayjs from "dayjs";
+import styled from "@emotion/styled";
 import { TimePicker as MuiTimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -76,7 +76,7 @@ function DatePicker(props) {
       <Item>
         <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
         <AntdDatePicker
-          className="w-full p-[0.5rem] mb-4"
+          className="w-full p-[0.5rem] mb-4 h-[2.5rem]"
           format={dateFormat}
           name={name}
           value={value}
@@ -101,14 +101,23 @@ function TimePicker(props) {
         <h1 className="text-primary text-xl font-semibold mb-4">{label}</h1>
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <MuiTimePicker
-            className="w-full mb-4 h-[2.5rem] border-none outline-none"
+            className="w-full"
             name={name}
             value={value}
             ampm={false}
+            sx={{ height: "1.5rem" }}
             onChange={(value) => setFieldValue(name, value)}
             onBlur={onBlur}
             renderInput={(params) => (
-              <TextField {...params} onChange={(value) => console.log(value)} />
+              <TextField
+                {...params}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "40px",
+                  },
+                }}
+                onChange={(value) => console.log(value)}
+              />
             )}
           />
         </LocalizationProvider>

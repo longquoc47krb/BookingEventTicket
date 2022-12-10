@@ -138,7 +138,13 @@ public class EventService implements IEventService {
                 } else if (event.getTicketRemaining() == 0) {
                     event.setStatus(EventStatus.SOLD_OUT);
                 } else {
-                    event.setStatus(EventStatus.AVAILABLE);
+                    if(event.getStatus().equals(EventStatus.DELETED)){
+                        event.setStatus(EventStatus.DELETED);
+                    }
+                    else {
+                        event.setStatus(EventStatus.AVAILABLE);
+                    }
+
                 }
 
             }
@@ -159,7 +165,7 @@ public class EventService implements IEventService {
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
         List<Event> events = sortEventByDateAsc( eventRepository.findAll());
-        List<EventViewResponse> eventRes = events.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        List<EventViewResponse> eventRes = events.stream().filter( e -> !e.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully ", eventRes,200));
 
@@ -171,7 +177,7 @@ public class EventService implements IEventService {
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
-            if(isAfterToday(event.getStartingDate())){
+            if(isAfterToday(event.getStartingDate()) && !event.getStatus().equals(EventStatus.DELETED)){
                 eventList.add(event);
             }
         }
@@ -189,7 +195,7 @@ public class EventService implements IEventService {
                 eventList.add(event);
             }
         }
-        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", eventRes,200));
     }
@@ -197,7 +203,7 @@ public class EventService implements IEventService {
     @Override
     public ResponseEntity<?> findEventsByProvince(String province) {
         List<Event> eventList = sortEventByDateAsc(eventRepository.findAllByProvince(province));
-        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Show data successfully", eventRes,200));
@@ -216,7 +222,7 @@ public class EventService implements IEventService {
             organizationRepository.save(organization.get());
             //change status when deleted by organizer
             event.get().setStatus(EventStatus.DELETED);
-            //eventRepository.deleteById(id);
+            eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Delete event successfully ", "", 200));
         } else {
@@ -352,7 +358,7 @@ public class EventService implements IEventService {
         eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
         }
 
-        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Successfully query data", eventRes,200));

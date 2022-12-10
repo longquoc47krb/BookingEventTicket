@@ -23,7 +23,6 @@ import LanguageSwitch from "../../components/language-switch";
 import ThreeDotsLoading from "../../components/loading/three-dots";
 import { setToken, setUserProfile } from "../../redux/slices/accountSlice";
 import { ROLE } from "../../utils/constants";
-import { isNotEmpty } from "../../utils/utils";
 import { YupValidations } from "../../utils/validate";
 import { pathNameSelector } from "../../redux/slices/routeSlice";
 const { loginByEmail } = authServices;

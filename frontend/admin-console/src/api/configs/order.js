@@ -7,4 +7,11 @@ export const OrderAPI = {
       userId,
     },
   }),
+  findOrderWithUniqueAccount: (eventId, userId) => ({
+    url: `/organization/manage/customerList/${userId}`,
+    method: "GET",
+    params: {
+      eventId,
+    },
+  }),
 };

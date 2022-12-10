@@ -1,16 +1,11 @@
 import { Pagination } from "antd";
-import { t } from "i18next";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import Header from "../../../components/common/header";
 import EmptyData from "../../../components/empty";
 import Event from "../../../components/event";
-import HelmetHeader from "../../../components/helmet";
-import HeroBanner from "../../../components/hero";
 import { resultSelector } from "../../../redux/slices/searchSlice";
-import { filterData } from "../../../utils/utils";
 
 function SearchResults() {
   const searchResults = useSelector(resultSelector);
