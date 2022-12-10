@@ -334,11 +334,15 @@ public class OrganizationService implements IOrganizationService {
             int count=0;
             int countOder=0;
             List<CustomerListByEventIdRes> orderList = orderRepository.getOrderWithTotalPriceAndQuantityByIdEvent();
+
             for(CustomerListByEventIdRes element: orderList)
             {
-                count+= element.getTotalQuantity();
-                countOder+= orderRepository.countOrderByEventId(element.getIdEvent());
-                System.out.println(countOder);
+                if(organization.get().getEventList().contains(element.getIdEvent()))
+                {
+                    count+= element.getTotalQuantity();
+                    countOder+= orderRepository.countOrderByEventId(element.getIdEvent());
+                    System.out.println(countOder);
+                }
             }
 
             OrganizationStatics organizationStatics = new OrganizationStatics(organization.get().getUSDBalance(),organization.get().getVNDBalance(),organization.get().getEventList().size(),count, (long) countOder);
