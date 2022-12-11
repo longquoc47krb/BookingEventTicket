@@ -78,6 +78,14 @@
         "community": "Cộng đồng"
     },
     "popup": {
+        "email": {
+            "title": "Đã gửi email",
+            "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
+        },
+        "changePassword": {
+            "success": "Thay đổi mật khẩu thành công",
+            "error": "Thay đổi mật khẩu thất bại"
+        },
         "edit-event": {
             "success": "Cập nhật sự kiện thành công"
         },

@@ -45,6 +45,10 @@ const TicketPage = Loadable({
   loader: () => import("../pages/Tickets"),
   loading: Loading,
 });
+const NewPasswordPage = Loadable({
+  loader: () => import("../pages/NewPassword"),
+  loading: Loading,
+});
 export const routes = [
   {
     element: <LoginPage />,
@@ -53,6 +57,10 @@ export const routes = [
   {
     element: <ForgotPasswordPage />,
     path: "/forgot-password",
+  },
+  {
+    element: <NewPasswordPage />,
+    path: "/new-password",
   },
 ];
 export const privateRoutes = [

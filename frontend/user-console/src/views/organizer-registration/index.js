@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
@@ -13,6 +13,7 @@ import { Col, Row } from "antd";
 import { Input } from "../../components/common/input/customField";
 import organizationServices from "../../api/services/organizationServices";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
+import ThreeDotsLoading from "../../components/loading/three-dots";
 const {
   ORGANIZER_CAROUSEL,
   ORGANIZER_LANDINGPAGE_PICTURE,
@@ -22,6 +23,7 @@ const {
 const { submitOrganizer } = organizationServices;
 function OrganizeRegistration() {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     new wowjs.WOW().init();
   }, []);
@@ -42,17 +44,20 @@ function OrganizeRegistration() {
     }),
     onSubmit: async (values) => {
       const { email, name, phoneNumber } = values;
+      setLoading(true);
       const response = await submitOrganizer({
         email,
         name,
         phoneNumber,
       });
       if (response.status === 200) {
+        setLoading(false);
         AlertPopup({
           title: t("popup.organizer.success"),
           text: t("popup.organizer.success-text"),
         });
       } else {
+        setLoading(false);
         AlertErrorPopup({
           title: t("popup.organizer.error"),
           text: t("popup.organizer.error-text"),
@@ -200,7 +205,7 @@ function OrganizeRegistration() {
                     className="primary-button w-[50%] text-xl"
                     type="submit"
                   >
-                    {t("submit")}
+                    {loading ? <ThreeDotsLoading /> : t("submit")}
                   </button>
                 </Col>
               </Form>
