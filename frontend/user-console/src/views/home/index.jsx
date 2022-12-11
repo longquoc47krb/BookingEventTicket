@@ -12,6 +12,7 @@ import {
   useFetchEventsByProvince,
   useFetchFeaturedEvents,
 } from "../../api/services/eventServices";
+import { motion } from "framer-motion";
 import { useLocationName } from "../../api/services/generalServices";
 import Carousel from "../../components/common/carousel";
 import AppDrawer from "../../components/common/drawer";
@@ -48,6 +49,19 @@ function Home() {
   const navigate = useNavigate();
   const isMobile = useMedia("(max-width: 767px)");
   dispatch(setPathName(window.location.pathname));
+
+  // framer motion
+  const container = {
+    hidden: { opacity: 0, x: 40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
   return (
     <>
       <HelmetHeader title={t("pages.home")} content="Home page" />
@@ -74,26 +88,38 @@ function Home() {
               bestSellerEvents.length >= 10 && (
                 <div className="home-popular">
                   <SectionTitle>{t("event.best-seller")}</SectionTitle>
-                  <div className="home-popular-content">
+                  <motion.div
+                    className="home-popular-content"
+                    variants={container}
+                    initial="hidden"
+                    animate="visible"
+                  >
                     {!sucessStatus
                       ? [...Array(10)].map((i) => <EventHomeSkeletonItem />)
                       : bestSellerEvents
                           .slice(0, 10)
-                          .map((event) => <EventHomeItem event={event} />)}
-                  </div>
+                          .map((event, index) => (
+                            <EventHomeItem event={event} />
+                          ))}
+                  </motion.div>
                 </div>
               )}
           </div>
           <div className="home-popular">
             <SectionTitle>{t("event.trending")}</SectionTitle>
-            <div className="home-popular-content">
+            <motion.div
+              className="home-popular-content"
+              variants={container}
+              initial="hidden"
+              animate="visible"
+            >
               {featuredEventStatus !== "success"
                 ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
                 : featuredEvents
                     .filter((e) => e.status !== EventStatus.SOLDOUT)
                     .slice(0, 16)
-                    .map((event) => <EventHomeItem event={event} />)}
-            </div>
+                    .map((event, index) => <EventHomeItem event={event} />)}
+            </motion.div>
             <ViewMoreButton
               onClick={() => {
                 dispatch(setStatus(EventStatus.AVAILABLE));
@@ -107,13 +133,18 @@ function Home() {
                 <SectionTitle>
                   {t("event.near-you", { val: t(location.region) })}
                 </SectionTitle>
-                <div className="home-event-near-you-content">
+                <motion.div
+                  className="home-event-near-you-content"
+                  variants={container}
+                  initial="hidden"
+                  animate="visible"
+                >
                   {!sucessStatus
                     ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                    : eventsByProvince.data.map((event) => (
+                    : eventsByProvince.data.map((event, index) => (
                         <EventHomeItem event={event} />
                       ))}
-                </div>
+                </motion.div>
                 <ViewMoreButton
                   onClick={() => {
                     dispatch(setStatus(EventStatus.AVAILABLE));

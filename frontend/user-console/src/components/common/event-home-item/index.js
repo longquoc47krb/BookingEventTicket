@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import AppConfig from "../../../configs/AppConfig";
 function EventHomeItem(props) {
-  const { event } = props;
+  const { event, key, variants } = props;
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -15,6 +15,8 @@ function EventHomeItem(props) {
   };
   return (
     <div
+      key={key}
+      variants={variants}
       className="event-home-item-container cursor-test float cursor-pointera"
       onClick={(e) => {
         e.preventDefault();

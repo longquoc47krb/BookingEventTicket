@@ -1,7 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Empty, Input } from "antd";
 import Fuse from "fuse.js";
 import { debounce } from "lodash";
@@ -11,13 +7,13 @@ import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useClickAway, useDebounce } from "react-use";
 import { setResult, setSearchResults } from "../../../redux/slices/searchSlice";
 import { isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { value, data, placeholder, isExpand } = props;
-  const [filterValue, setFilterValue] = useState(value || "");
+  const location = useLocation();
   const result = useSelector((state) => state.search.result);
   const [expand, setExpand] = useState(true);
   const navigate = useNavigate();
