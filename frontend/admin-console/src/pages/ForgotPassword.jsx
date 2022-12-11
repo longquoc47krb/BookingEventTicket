@@ -161,7 +161,7 @@ function ForgotPassword() {
                 )}
               </Row>
               <Col span={24}>
-                <button className={"primary-button"} type="submit">
+                <button className={"primary-button my-4"} type="submit">
                   {loading ? <ThreeDotsLoading /> : t("submit")}
                 </button>
               </Col>

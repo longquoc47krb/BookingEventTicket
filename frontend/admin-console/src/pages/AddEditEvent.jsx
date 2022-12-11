@@ -237,6 +237,7 @@ function AddEditEvent(props) {
       setFieldValue("province", user.province);
       setFieldValue("venue", user.venue);
       setFieldValue("venue_address", user.address);
+      setFieldValue("ticketList", handleTemplateTicket());
     } else if (useTemplate && !useDefaultAddress) {
       setFieldValue("ticketList", handleTemplateTicket());
     } else if (!useTemplate && useDefaultAddress) {
