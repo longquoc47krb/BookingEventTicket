@@ -38,12 +38,7 @@ function Home() {
     useFetchFeaturedEvents();
   const { data: bestSellerEvents, status: bestSellerEventsStatus } =
     useFetchBestSellerEvents();
-  const { data: eventsByProvince, status: eventsByProvinceStatus } =
-    useFetchEventsByProvince(
-      provinceMapping.get(location ? location.region : "")
-    );
-  const sucessStatus =
-    featuredEventStatus === "success" || eventsByProvinceStatus === "success";
+  const sucessStatus = featuredEventStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -127,42 +122,6 @@ function Home() {
               }}
             />
           </div>
-          {eventsByProvinceStatus === "success" &&
-            isNotEmpty(eventsByProvince.data) && (
-              <div className="home-event-near-you">
-                <SectionTitle>
-                  {t("event.near-you", { val: t(location.region) })}
-                </SectionTitle>
-                <motion.div
-                  className="home-event-near-you-content"
-                  variants={container}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {!sucessStatus
-                    ? [...Array(8)].map((i) => <EventHomeSkeletonItem />)
-                    : eventsByProvince.data.map((event, index) => (
-                        <EventHomeItem event={event} />
-                      ))}
-                </motion.div>
-                <ViewMoreButton
-                  onClick={() => {
-                    dispatch(setStatus(EventStatus.AVAILABLE));
-                    dispatch(
-                      setProvince(
-                        location
-                          ? location.region === province.SG ||
-                            location.region === province.HN
-                            ? provinceMapping.get(location.region)
-                            : "others"
-                          : ""
-                      )
-                    );
-                    navigate("/events");
-                  }}
-                />
-              </div>
-            )}
         </div>
       </div>
       <HomeDrawer

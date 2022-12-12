@@ -106,7 +106,7 @@ export const useFetchEventsForPagination = (params) => {
 };
 export const useEventDetails = (id) => {
   return useQuery(["getEventDetail", id], () => getEventById(id), {
-    staleTime: 0,
+    staleTime: 1000 * 60,
     cacheTime: 1000 * 60,
   });
 };

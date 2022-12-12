@@ -128,7 +128,6 @@ function Header(props) {
     >
       <div className="md:w-[60%] w-full flex md:gap-x-4 items-center">
         <motion.img
-          whileHover={{ scale: 1.2 }}
           whileTap={{
             scale: 0.8,
           }}

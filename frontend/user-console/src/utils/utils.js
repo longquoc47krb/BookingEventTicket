@@ -6,6 +6,7 @@ import memoize from "lodash/memoize";
 import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import constants from "./constants";
 const { PATTERNS } = constants;
 const timeFormat = "HH:mm";
@@ -444,13 +445,19 @@ export const toSlug = (str) => {
   // return
   return str;
 };
-export const debounce = (callback, delay = 200) => {
-  let timeId;
-  return (...args) => {
-    clearTimeout(timeId);
-    timeId = setTimeout(() => callback(...args), delay);
-  };
-};
+export function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 export function filterData(dateType, dateRange, list) {
   return list && dateType === "date-range"
     ? filterByDate(dateType, list, {
