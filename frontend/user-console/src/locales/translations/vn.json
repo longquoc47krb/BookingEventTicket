@@ -177,7 +177,8 @@
       "404": "Email không tồn tại"
     },
     "verify": {
-      "404": "OTP không tồn tại"
+      "404": "OTP không tồn tại",
+      "200": "Xác thực OTP thành công"
     }
   },
   "lotus": {

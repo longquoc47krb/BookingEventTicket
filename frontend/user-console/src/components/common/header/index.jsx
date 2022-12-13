@@ -4,6 +4,7 @@
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import { motion } from "framer-motion";
 import { Dropdown, Empty, Popover } from "antd";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -126,7 +127,10 @@ function Header(props) {
       }
     >
       <div className="md:w-[60%] w-full flex md:gap-x-4 items-center">
-        <img
+        <motion.img
+          whileTap={{
+            scale: 0.8,
+          }}
           src="/logo.png"
           alt="logo"
           className="brand-logo"

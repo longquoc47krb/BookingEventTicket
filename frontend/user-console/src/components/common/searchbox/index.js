@@ -1,8 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Empty, Input } from "antd";
+import { motion } from "framer-motion";
 import Fuse from "fuse.js";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
@@ -11,14 +8,20 @@ import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useClickAway, useDebounce } from "react-use";
-import { setResult, setSearchResults } from "../../../redux/slices/searchSlice";
+import Highlighter from "react-highlight-words";
+import {
+  setResult,
+  setSearchResults,
+  setResultSplit,
+  resultSplitSelector,
+} from "../../../redux/slices/searchSlice";
 import { isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
-  const { value, data, placeholder, isExpand } = props;
-  const [filterValue, setFilterValue] = useState(value || "");
+  const { data, placeholder } = props;
   const result = useSelector((state) => state.search.result);
+  const keywordsArray = useSelector(resultSplitSelector);
   const [expand, setExpand] = useState(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -27,20 +30,30 @@ const SearchBox = (props) => {
   useClickAway(ref, () => {
     setExpand(false);
   });
-
+  // framer motion
+  const container = {
+    hidden: { opacity: 0, y: -40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
   const fuse = new Fuse(data, {
     isCaseSensitive: false,
     findAllMatches: false,
     includeMatches: false,
     includeScore: false,
     useExtendedSearch: false,
-    minMatchCharLength: 1,
+    minMatchCharLength: 3,
     shouldSort: true,
-    threshold: 0.4,
+    threshold: 0.5,
     location: 0,
-    distance: 100,
+    distance: 1000,
     keys: [
-      "id",
       "name",
       "venue",
       "startingDate",
@@ -51,10 +64,12 @@ const SearchBox = (props) => {
   const results = data ? fuse.search(result) : [];
   useEffect(() => {
     dispatch(setSearchResults(results));
+    if (result) {
+      setExpand(true);
+    }
+    const arraySplit = result.split(" ");
+    dispatch(setResultSplit(arraySplit));
   }, [result]);
-  if (!data) {
-    return null;
-  }
   return (
     <div className="SearchBox" ref={ref}>
       <Input
@@ -70,7 +85,12 @@ const SearchBox = (props) => {
         allowClear
       />
       {result && expand ? (
-        <ul className="SearchBox_Results_List">
+        <motion.ul
+          className="SearchBox_Results_List"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
           {results && (
             <p className="p-2 text-black">
               {t("search.result", { val: results ? results.length : 0 })}
@@ -90,7 +110,7 @@ const SearchBox = (props) => {
                   alt="Event"
                 />
                 <div className="flex flex-col">
-                  <span
+                  {/* <span
                     style={{
                       display: "block",
                       textAlign: "left",
@@ -98,10 +118,24 @@ const SearchBox = (props) => {
                     }}
                   >
                     {row.item.name}
-                  </span>
-                  <span style={{ display: "block", textAlign: "left" }}>
-                    {row.item.venue}
-                  </span>
+                  </span> */}
+                  <Highlighter
+                    highlightClassName="bg-yellow-200 text-left font-bold"
+                    className="block text-left font-bold"
+                    searchWords={keywordsArray}
+                    autoEscape={true}
+                    textToHighlight={row.item.name}
+                    caseSensitive={false}
+                  />
+                  {console.log(row.item.name)}
+                  <Highlighter
+                    highlightClassName="bg-yellow-200 text-left "
+                    className="block text-left"
+                    searchWords={keywordsArray}
+                    autoEscape={true}
+                    textToHighlight={row.item.venue}
+                    caseSensitive={false}
+                  />
                 </div>
               </div>
             );
@@ -133,7 +167,7 @@ const SearchBox = (props) => {
               <GrMore />
             </li>
           ) : null}
-        </ul>
+        </motion.ul>
       ) : null}
     </div>
   );
