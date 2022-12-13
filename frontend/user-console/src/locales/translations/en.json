@@ -178,7 +178,8 @@
       "404": "Email address doesn't exist"
     },
     "verify": {
-      "404": "OTP doesn't exist"
+      "404": "OTP doesn't exist",
+      "200": "Verify OTP successfully"
     }
   },
   "lotus": {

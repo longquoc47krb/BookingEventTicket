@@ -48,9 +48,9 @@ const SearchBox = (props) => {
     includeMatches: false,
     includeScore: false,
     useExtendedSearch: false,
-    minMatchCharLength: 2,
+    minMatchCharLength: 3,
     shouldSort: true,
-    threshold: 0.8,
+    threshold: 0.5,
     location: 0,
     distance: 1000,
     keys: [
@@ -120,7 +120,7 @@ const SearchBox = (props) => {
                     {row.item.name}
                   </span> */}
                   <Highlighter
-                    highlightClassName="bg-primary text-left text-white font-bold"
+                    highlightClassName="bg-yellow-200 text-left font-bold"
                     className="block text-left font-bold"
                     searchWords={keywordsArray}
                     autoEscape={true}
@@ -129,7 +129,7 @@ const SearchBox = (props) => {
                   />
                   {console.log(row.item.name)}
                   <Highlighter
-                    highlightClassName="bg-primary text-left text-white"
+                    highlightClassName="bg-yellow-200 text-left "
                     className="block text-left"
                     searchWords={keywordsArray}
                     autoEscape={true}
