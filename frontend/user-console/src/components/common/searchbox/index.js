@@ -48,11 +48,12 @@ const SearchBox = (props) => {
     includeMatches: false,
     includeScore: false,
     useExtendedSearch: false,
-    minMatchCharLength: 3,
+    ignoreLocation: true,
+    minMatchCharLength: 1,
     shouldSort: true,
     threshold: 0.5,
     location: 0,
-    distance: 1000,
+    distance: 100,
     keys: [
       "name",
       "venue",
@@ -127,7 +128,6 @@ const SearchBox = (props) => {
                     textToHighlight={row.item.name}
                     caseSensitive={false}
                   />
-                  {console.log(row.item.name)}
                   <Highlighter
                     highlightClassName="bg-yellow-200 text-left "
                     className="block text-left"
