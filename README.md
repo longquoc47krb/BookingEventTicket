@@ -6,13 +6,13 @@
 ## Main features
 | Guest                                                        | Customer                                                     | Organizer                         | Admin             |
 |--------------------------------------------------------------|--------------------------------------------------------------|-----------------------------------|-------------------|
-| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              | ⬜ View revenue stats              | ✅ Manage accounts |
+| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              | ✅ View revenue stats              | ✅ Manage accounts |
 | ✅ Register                                                   | ✅ View event list                                            | ✅ Create new event                |                   |
 | ✅ Forgot password                                            | ✅ View event detail                                          | ✅ Update event                    |                   |
 | ✅ View homepage                                              | ✅ View organizer registration page                           | ✅ Delete event(s)                 |                   |
-| ✅ View event list                                            | ✅ Search event                                               | ⬜ View sold tickets               |                   |
+| ✅ View event list                                            | ✅ Search event                                               | ✅ View sold tickets               |                   |
 | ✅ View event detail                                          | ✅ Filter events by filter (province, category, date, status) | ✅ Update profile                  |                   |
-| ✅ View organizer registration page                           | ✅ Add/Remove event(s) to favorite list                       | ⬜ Send ticket to customer's email |                   |
+| ✅ View organizer registration page                           | ✅ Add/Remove event(s) to favorite list                       | ✅ Send ticket to customer's email |                   |
 | ✅ Search event                                               | ✅ Update profile                                             |                                   |                   |
 | ✅ Filter events by filter (province, category, date, status) | ✅ Payment (Almost)                                                    |                                   |                   |
 |                                                              | ✅ View purchased tickets                                     |                                   |                   |
