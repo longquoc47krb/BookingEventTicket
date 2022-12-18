@@ -14,7 +14,7 @@
 | ✅ View event detail                                          | ✅ Filter events by filter (province, category, date, status) | ✅ Update profile                  |                   |
 | ✅ View organizer registration page                           | ✅ Add/Remove event(s) to favorite list                       |  |                   |
 | ✅ Search event                                               | ✅ Update profile                                             |                                   |                   |
-| ✅ Filter events by filter (province, category, date, status) | ✅ Payment (Almost)                                                    |                                   |                   |
+| ✅ Filter events by filter (province, category, date, status) | ✅ Payment by Paypal                                                    |                                   |                   |
 |                                                              | ✅ View purchased tickets                                     |                                   |                   |
 ## Contacts
  - Members:
