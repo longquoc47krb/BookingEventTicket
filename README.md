@@ -6,7 +6,7 @@
 ## Main features
 | Guest                                                        | Customer                                                     | Organizer                         | Admin             |
 |--------------------------------------------------------------|--------------------------------------------------------------|-----------------------------------|-------------------|
-| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              | ✅ View revenue stats              | ✅ Manage accounts |
+| ✅ Login  (email/password & Google)                           | ✅ View homepage                                              | ✅ View stats              | ✅ Manage accounts |
 | ✅ Register                                                   | ✅ View event list                                            | ✅ Create new event                |            ✅ View Categories 
 | ✅ Forgot password                                            | ✅ View event detail                                          | ✅ Update event                    |                   |
 | ✅ View homepage                                              | ✅ View organizer registration page                           | ✅ Delete event(s)                 |                   |
