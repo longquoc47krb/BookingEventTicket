@@ -17,7 +17,7 @@ import { IoTicketSharp } from "react-icons/io5";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetStatisticByID } from "../api/services/organizationServices";
-import { userInfoSelector } from "../redux/slices/accountSlice";
+import { userInfoSelector, roleSelector } from "../redux/slices/accountSlice";
 import {
   eventStatsSelector,
   orderStatsSelector,
@@ -33,6 +33,7 @@ import { isNotEmpty, nFormatter, formatter } from "../utils/utils";
 const Overview = () => {
   const user = useSelector(userInfoSelector);
   const eventStats = useSelector(eventStatsSelector);
+  const role = useSelector(roleSelector);
   const ticketStats = useSelector(ticketStatsSelector);
   const orderStats = useSelector(orderStatsSelector);
   const revenueStats = useSelector(revenueStatsSelector);
@@ -135,55 +136,57 @@ const Overview = () => {
 
   return (
     <div className="mt-8">
-      <div className="grid grid-cols-2 gap-y-4 gap-x-4 justify-center px-8">
-        {status === "success" &&
-          earningData.map((item) => (
-            <div
-              key={item.title}
-              className="bg-white h-44 w-full dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
-            >
-              <button
-                type="button"
-                style={{
-                  color: item.iconColor,
-                  backgroundColor: item.iconBg,
-                }}
-                className="text-3xl opacity-0.9 rounded-lg  p-4 hover:drop-shadow-xl w-[100px] h-[100px] flex justify-center items-center"
+      {role !== "ROLE_ADMIN" && (
+        <div className="grid grid-cols-2 gap-y-4 gap-x-4 justify-center px-8">
+          {status === "success" &&
+            earningData.map((item) => (
+              <div
+                key={item.title}
+                className="bg-white h-44 w-full dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
               >
-                {item.icon}
-              </button>
-              <p className="mt-3">
-                <div className="flex items-end gap-x-4">
-                  {" "}
-                  <Tooltip
-                    placement="rightBottom"
-                    title={
-                      <span className="text-4xl font-bold">
-                        {item.rawAmount}
-                      </span>
-                    }
-                  >
-                    <span className="text-4xl font-bold">{item.amount}</span>
-                  </Tooltip>
-                  <span
-                    className={`text-sm ml-2`}
-                    style={{ color: item.pcColor, display: "flex" }}
-                  >
-                    {item.pcColor === "red" ? (
-                      <BsCaretDownFill />
-                    ) : item.pcColor === "green" ? (
-                      <BsCaretUpFill />
-                    ) : null}
-                    <span>{item.variability}</span>
-                  </span>
-                </div>
-                <p className="text-xl font-semibold text-primary  mt-1">
-                  {item.title}
+                <button
+                  type="button"
+                  style={{
+                    color: item.iconColor,
+                    backgroundColor: item.iconBg,
+                  }}
+                  className="text-3xl opacity-0.9 rounded-lg  p-4 hover:drop-shadow-xl w-[100px] h-[100px] flex justify-center items-center"
+                >
+                  {item.icon}
+                </button>
+                <p className="mt-3">
+                  <div className="flex items-end gap-x-4">
+                    {" "}
+                    <Tooltip
+                      placement="rightBottom"
+                      title={
+                        <span className="text-4xl font-bold">
+                          {item.rawAmount}
+                        </span>
+                      }
+                    >
+                      <span className="text-4xl font-bold">{item.amount}</span>
+                    </Tooltip>
+                    <span
+                      className={`text-sm ml-2`}
+                      style={{ color: item.pcColor, display: "flex" }}
+                    >
+                      {item.pcColor === "red" ? (
+                        <BsCaretDownFill />
+                      ) : item.pcColor === "green" ? (
+                        <BsCaretUpFill />
+                      ) : null}
+                      <span>{item.variability}</span>
+                    </span>
+                  </div>
+                  <p className="text-xl font-semibold text-primary  mt-1">
+                    {item.title}
+                  </p>
                 </p>
-              </p>
-            </div>
-          ))}
-      </div>
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 };
