@@ -63,10 +63,8 @@ export const UserActionContextProvider = ({ children }) => {
   };
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
-      // const latitude = position.coords.latitude;
-      const latitude = 11.0357144;
-      // const longitude = position.coords.longitude;
-      const longitude = 106.6320317;
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
       const getCityName = async () => {
         const response = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
