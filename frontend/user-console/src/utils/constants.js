@@ -1,3 +1,5 @@
+import { provinces } from "../helpers/provinces";
+
 export const paragraph = "";
 
 export const EventStatus = {
@@ -23,15 +25,19 @@ export const comparisonStatus = {
 const province = {
   HN: "Hanoi",
   HP: "Haiphong",
-  SG: "Ho Chi Minh",
-  DakNong: "Ðắk Nông",
+  SG: "Ho Chi Minh City",
+  LD: "Lam Dong",
 };
-const provinceMapping = new Map();
-provinceMapping.set(province.SG, "TP. Hồ Chí Minh");
-provinceMapping.set(province.HN, "Hà Nội");
-provinceMapping.set(province.HP, "Hải Phòng");
-provinceMapping.set(province.DakNong, "Lâm Đồng");
-provinceMapping.set("35", "Lâm Đồng");
+var provinceMapping = new Map();
+var translateProvinceMap = new Map();
+function mappingProvince() {
+  for (let i = 0; i < provinces.length; i++) {
+    provinceMapping.set(provinces[i].name, provinces[i].name);
+    translateProvinceMap.set(provinces[i].name, provinces[i].name);
+  }
+  provinceMapping.set("Thành phố Hồ Chí Minh", "TP. Hồ Chí Minh");
+  translateProvinceMap.set("Thành phố Hồ Chí Minh", "Ho Chi Minh City");
+}
 
 const PATTERNS = {
   OLD_EMAIL_PATTERN:
@@ -58,6 +64,8 @@ const PATTERNS = {
   RE_DIGIT: /^\d+$/,
 };
 const constants = {
+  mappingProvince,
+  translateProvinceMap,
   provinceMapping,
   province,
   EventStatus,
