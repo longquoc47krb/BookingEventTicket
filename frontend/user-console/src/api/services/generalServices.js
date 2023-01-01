@@ -20,25 +20,6 @@ export const getMyIP = async () => {
     return error.response.data;
   }
 };
-export const getGeoLocation = async () => {
-  try {
-    const getIP = await getMyIP();
-    const response = await axios.get(
-      "https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/",
-      {
-        params: { ip: getIP.ip },
-        headers: {
-          "X-RapidAPI-Key":
-            "e0fc34f8b5msh684f83a00348d4fp1c8d01jsn2c61c634edff",
-          "X-RapidAPI-Host": "ip-geolocation-ipwhois-io.p.rapidapi.com",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return error.response.data;
-  }
-};
 export const convertToUSD = async (amount) => {
   try {
     const response = await axios.get(
@@ -54,11 +35,4 @@ export const convertToUSD = async (amount) => {
   } catch (error) {
     return error.response.data;
   }
-};
-// React Query
-
-export const useLocationName = (staleTime = 60000) => {
-  return useQuery(["location"], getGeoLocation, {
-    staleTime,
-  });
 };

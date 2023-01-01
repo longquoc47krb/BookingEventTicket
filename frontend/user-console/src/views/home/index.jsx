@@ -13,7 +13,6 @@ import {
   useFetchFeaturedEvents,
 } from "../../api/services/eventServices";
 import { motion } from "framer-motion";
-import { useLocationName } from "../../api/services/generalServices";
 import Carousel from "../../components/common/carousel";
 import AppDrawer from "../../components/common/drawer";
 import EventHomeItem from "../../components/common/event-home-item";
@@ -25,19 +24,28 @@ import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
 import HomeDrawer from "../../components/home-drawer";
-import { setProvince, setStatus } from "../../redux/slices/filterSlice";
+import { setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
-const { provinceMapping, province } = constants;
+const { provinceMapping, translateProvinceMap } = constants;
 function Home() {
   // eslint-disable-next-line no-unused-vars
-  const { data: location, status: locationStatus } = useLocationName();
   const [toggleDrawer, setToggleDrawer] = useState(false);
+  const cityName = localStorage.getItem("city");
   const { data: featuredEvents, status: featuredEventStatus } =
     useFetchFeaturedEvents();
   const { data: bestSellerEvents, status: bestSellerEventsStatus } =
     useFetchBestSellerEvents();
+  const { data: eventsByProvince, status: eventsByProvinceStatus } =
+    useFetchEventsByProvince(
+      cityName
+        ? cityName === "Thành phố Hồ Chí Minh"
+          ? "TP. Hồ Chí Minh"
+          : cityName
+        : "TP. Hồ Chí Minh"
+    );
+  console.log({ eventsByProvince });
   const sucessStatus = featuredEventStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -122,6 +130,36 @@ function Home() {
               }}
             />
           </div>
+          {isNotEmpty(eventsByProvince) && (
+            <div className="home-popular">
+              <SectionTitle>
+                {t("event.near-you", {
+                  val: cityName,
+                })}
+              </SectionTitle>
+              (
+              <motion.div
+                className="home-popular-content"
+                variants={container}
+                initial="hidden"
+                animate="visible"
+              >
+                {eventsByProvinceStatus !== "success"
+                  ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
+                  : eventsByProvince
+                      .filter((e) => e.status !== EventStatus.SOLDOUT)
+                      .slice(0, 16)
+                      .map((event, index) => <EventHomeItem event={event} />)}
+              </motion.div>
+              )
+              <ViewMoreButton
+                onClick={() => {
+                  dispatch(setStatus(EventStatus.AVAILABLE));
+                  navigate("/events");
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
       <HomeDrawer

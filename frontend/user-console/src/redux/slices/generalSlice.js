@@ -14,6 +14,9 @@ const generalSlice = createSlice({
     toggleOffDrawer: (state) => {
       state.activeDrawer = false;
     },
+    setCityName: (state, { payload }) => {
+      state.cityName = payload;
+    },
   },
 });
 

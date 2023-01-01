@@ -38,7 +38,7 @@ const fetchEventsForPagination = async (params) => {
 };
 const fetchEventsByProvince = async (params) => {
   const response = await httpRequest(EventAPI.findEventsByProvince(params));
-  return response;
+  return response.data;
 };
 const fetchEventByFilter = async (params) => {
   const response = await httpRequest(EventAPI.getEventByFilter(params));

@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useFetchUserInfo } from "../api/services/accountServices";
 import customerServices from "../api/services/customerServices";
 import eventServices, {
@@ -18,7 +19,9 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [activeDrawer, toggleDrawer] = useState(false);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
+  const cityName = localStorage.getItem("city");
   const { data: checkedEvents } = useCheckEventsStatus();
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");
   const getWishlist = async () => {
@@ -58,10 +61,29 @@ export const UserActionContextProvider = ({ children }) => {
     });
     getWishlist();
   };
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const getCityName = async () => {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+        );
+        localStorage.setItem(
+          "city",
+          response.data.results[0].address_components[3].short_name
+        );
+        return response.data;
+      };
+      getCityName();
+    });
+  };
   useEffect(() => {
     getWishlist();
   }, [userInfo]);
-
+  useEffect(() => {
+    getLocation();
+  }, [cityName, userInfo]);
   const removeFromWishlist = async (eventId) => {
     let values = [...wishlist];
     values = values.filter((prod) => prod !== eventId);
