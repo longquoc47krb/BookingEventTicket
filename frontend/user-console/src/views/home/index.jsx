@@ -28,7 +28,7 @@ import { setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
-const { provinceMapping, translateProvinceMap } = constants;
+const { translateProvinceMap } = constants;
 function Home() {
   // eslint-disable-next-line no-unused-vars
   const [toggleDrawer, setToggleDrawer] = useState(false);
