@@ -28,14 +28,11 @@ const province = {
   SG: "Ho Chi Minh City",
   LD: "Lam Dong",
 };
-var provinceMapping = new Map();
 var translateProvinceMap = new Map();
 function mappingProvince() {
   for (let i = 0; i < provinces.length; i++) {
-    provinceMapping.set(provinces[i].name, provinces[i].name);
     translateProvinceMap.set(provinces[i].name, provinces[i].name);
   }
-  provinceMapping.set("Thành phố Hồ Chí Minh", "TP. Hồ Chí Minh");
   translateProvinceMap.set("Thành phố Hồ Chí Minh", "Ho Chi Minh City");
 }
 
