@@ -63,7 +63,6 @@ const PATTERNS = {
 const constants = {
   mappingProvince,
   translateProvinceMap,
-  provinceMapping,
   province,
   EventStatus,
   comparisonStatus,

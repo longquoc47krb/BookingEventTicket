@@ -24,7 +24,7 @@ import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
 import HomeDrawer from "../../components/home-drawer";
-import { setStatus } from "../../redux/slices/filterSlice";
+import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import constants, { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
@@ -155,6 +155,15 @@ function Home() {
               <ViewMoreButton
                 onClick={() => {
                   dispatch(setStatus(EventStatus.AVAILABLE));
+                  dispatch(
+                    setProvince(
+                      cityName
+                        ? cityName === "Thành phố Hồ Chí Minh"
+                          ? "TP. Hồ Chí Minh"
+                          : cityName
+                        : "TP. Hồ Chí Minh"
+                    )
+                  );
                   navigate("/events");
                 }}
               />
