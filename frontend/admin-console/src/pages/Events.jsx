@@ -14,6 +14,7 @@ import { useState } from "react";
 import Table from "../components/Table";
 import { eventColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
+import { reverseArray } from "../utils/utils";
 const Events = () => {
   const user = useSelector(userInfoSelector);
   const { data: events, status } = useFetchEventsByOrgID(user.id);
@@ -162,7 +163,7 @@ const Events = () => {
           <Spin />
         </div>
       ) : (
-        <Table columns={eventColumns} dataSource={eventData} />
+        <Table columns={eventColumns} dataSource={reverseArray(eventData)} />
       )}
     </div>
   );

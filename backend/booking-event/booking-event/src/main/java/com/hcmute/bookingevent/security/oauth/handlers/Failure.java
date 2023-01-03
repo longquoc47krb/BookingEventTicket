@@ -13,6 +13,6 @@ public class Failure implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.error("Login with failed with oauth2");
-        response.sendRedirect("http://localhost:3000/oauth2/redirect?success=false");
+        response.sendRedirect("https://lotusticket-vn.netlify.app/oauth2/redirect?success=false");
     }
 }
