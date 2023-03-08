@@ -127,6 +127,7 @@ export const useFetchEventsByProvince = (params) => {
     {
       staleTime: 0,
       cacheTime: 1000 * 60 * 60,
+      refetchInterval: 30000,
     }
   );
 };

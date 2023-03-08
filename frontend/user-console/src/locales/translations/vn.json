@@ -31,7 +31,7 @@
     "recommend-for-you": "Sự kiện dành cho bạn",
     "remain": "Còn lại",
     "ticket": "vé",
-    "not-found": "U là trời..! Trống trơn",
+    "not-found": "Không có sự kiện nào !?",
     "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
   },
   "search": {
@@ -66,6 +66,7 @@
   "signin": "Đăng nhập",
   "introduce": "Giới thiệu",
   "ticket-info": "Thông tin vé",
+  "review": "Đánh giá",
   "organizer": "Nhà tổ chức",
   "user": {
     "order-title": "Đơn hàng",
