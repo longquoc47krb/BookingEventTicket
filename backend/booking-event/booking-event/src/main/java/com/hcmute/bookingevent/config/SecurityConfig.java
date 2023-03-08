@@ -73,6 +73,7 @@ public class SecurityConfig {
     };
 
     private final String[] ALLOWED_GET_LIST_URLS = {
+            "/api/review/**",
             "/api/event/**",
             "/api/account/findAll",
             "/api/account/findAccount",
