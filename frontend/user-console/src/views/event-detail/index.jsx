@@ -46,6 +46,7 @@ function EventDetail(props) {
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
   const [organizer, setOrganizer] = useState();
+  console.log({ activeSection });
   useEffect(() => {
     async function fetchOrganizerInfo() {
       const res = await fetchOrganizerByEventId(eventId);
@@ -76,6 +77,7 @@ function EventDetail(props) {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
+  const review = useRef(null);
 
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
@@ -113,18 +115,21 @@ function EventDetail(props) {
       };
       if (
         yPosition >= sectionPosition.introduce - 30 &&
-        yPosition < sectionPosition.info - 30
+        yPosition < sectionPosition.info - 30 &&
+        activeSection !== "review"
       ) {
         setActiveSection("introduce");
       } else if (
         yPosition >= sectionPosition.info - 30 &&
-        yPosition < sectionPosition.organization - 30
+        yPosition < sectionPosition.organization - 30 &&
+        activeSection !== "review"
       ) {
         setActiveSection("info");
-      } else if (yPosition >= sectionPosition.organization - 30) {
+      } else if (
+        yPosition >= sectionPosition.organization - 30 &&
+        activeSection !== "review"
+      ) {
         setActiveSection("organization");
-      } else {
-        setActiveSection(null);
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
@@ -230,7 +235,10 @@ function EventDetail(props) {
               >
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(introduce)}
+                    onClick={() => {
+                      setActiveSection("introduce");
+                      scrollToSection(introduce);
+                    }}
                     active={activeSection === "introduce" ? true : false}
                   >
                     {t("introduce")}
@@ -238,7 +246,10 @@ function EventDetail(props) {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(info)}
+                    onClick={() => {
+                      setActiveSection("info");
+                      scrollToSection(info);
+                    }}
                     active={activeSection === "info" ? true : false}
                   >
                     {t("ticket-info")}
@@ -246,10 +257,21 @@ function EventDetail(props) {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(organization)}
+                    onClick={() => {
+                      setActiveSection("organization");
+                      scrollToSection(organization);
+                    }}
                     active={activeSection === "organization" ? true : false}
                   >
                     {t("organizer")}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={() => setActiveSection("review")}
+                    active={activeSection === "review" ? true : false}
+                  >
+                    {t("review")}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -264,10 +286,6 @@ function EventDetail(props) {
                 <ReadMoreLess className="event-detail-long-content">
                   {event?.description}
                 </ReadMoreLess>
-                {/* <DraftEditor
-                  content={content.length > 0 ? content : ""}
-                  setContent={setContent}
-                /> */}
               </div>
               <div className="event-detail-content">
                 <div ref={info} className="info">
@@ -361,9 +379,6 @@ function EventDetail(props) {
                     ></iframe>
                   </div>
                 </div>
-                {/* <div className="h-[87vh] mt-4">
-                  
-                </div> */}
               </div>
             </div>
           </div>
