@@ -294,5 +294,17 @@
   "update-avatar": {
     "success": "Cập nhật ảnh đại diện thành công",
     "error": "Cập nhật ảnh đại diện thất bại"
-  }
+  },
+  "rate": {
+    "bad": "Tệ!",
+    "avg": "Bình thường.",
+    "good": "Hay!",
+    "excellent": "Rất thú vị!",
+    "perfect": "Hoàn hảo!"
+  },
+  "unauthenticated": "Vui lòng đăng nhập để đánh giá sự kiện",
+  "rating-review": "Đánh giá và xếp hạng",
+  "ratings": "đánh giá",
+  "your-feedback": "Đánh giá của bạn",
+  "empty-feedbacks": "Chưa có đánh giá nào."
 }

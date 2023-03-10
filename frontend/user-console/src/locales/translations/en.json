@@ -296,5 +296,17 @@
   "update-avatar": {
     "success": "Upload avatar successfully",
     "error": "Upload avatar failed"
-  }
+  },
+  "rate": {
+    "bad": "Terrible!",
+    "avg": "Average.",
+    "good": "Good!",
+    "excellent": "Excellent!",
+    "perfect": "Perfect!"
+  },
+  "unauthenticated": "Please log in to send your feedback",
+  "rating-review": "Ratings and reviews",
+  "ratings": "ratings",
+  "your-feedback": "Your feedback",
+  "empty-feedbacks": "There are no reviewers yet"
 }

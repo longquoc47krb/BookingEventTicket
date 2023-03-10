@@ -1,31 +1,33 @@
-@import "./variables.scss";
-@import "./mixin.scss";
+@import "variables.scss";
+@import "mixin.scss";
 
 /* alphabetical sort */
-@import "./animation.scss";
-@import "./auth.scss";
-@import "./calendar.scss";
-@import "./carousel.scss";
-@import "./editor.scss";
-@import "./event.scss";
-@import "./event-detail.scss";
-@import "./filter.scss";
-@import "./footer.scss";
-@import "./header.scss";
-@import "./hero.scss";
-@import "./home.scss";
-@import "./loading.scss";
-@import "./notfound.scss";
-@import "./order.scss";
-@import "./organization.scss";
-@import "./readmore.scss";
-@import "./searchbox.scss";
-@import "./swipper.scss";
-@import "./ticket-booking.scss";
-@import "./user-profile.scss";
+@import "animation.scss";
+@import "auth.scss";
+@import "calendar.scss";
+@import "carousel.scss";
+@import "editor.scss";
+@import "event.scss";
+@import "event-detail.scss";
+@import "feedback.scss";
+@import "filter.scss";
+@import "footer.scss";
+@import "header.scss";
+@import "hero.scss";
+@import "home.scss";
+@import "loading.scss";
+@import "notfound.scss";
+@import "order.scss";
+@import "organization.scss";
+@import "readmore.scss";
+@import "review.scss";
+@import "searchbox.scss";
+@import "swipper.scss";
+@import "ticket-booking.scss";
+@import "user-profile.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
 * {
-  font-family: SVN-Gilroy, sans-serif !important;
+  font-family: "Quicksand", sans-serif !important;
 }
 body {
   width: 100vw;
@@ -64,33 +66,34 @@ body {
   z-index: 10;
   color: white;
 }
-.gilroy {
-  font-family: "SVN-Gilroy" !important;
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 400;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 500;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 600;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 700;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
-}
+// .gilroy {
+//   font-family: "SVN-Gilroy" !important;
+// }
+// @font-face {
+//   font-family: "SVN-Gilroy";
+//   font-weight: 400;
+//   src: local("SVN-Gilroy"),
+//     url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
+// }
+// @font-face {
+//   font-family: "SVN-Gilroy";
+//   font-weight: 500;
+//   src: local("SVN-Gilroy"),
+//     url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
+// }
+// @font-face {
+//   font-family: "SVN-Gilroy";
+//   font-weight: 600;
+//   src: local("SVN-Gilroy"),
+//     url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
+// }
+// @font-face {
+//   font-family: "SVN-Gilroy";
+//   font-weight: 700;
+//   src: local("SVN-Gilroy"),
+//     url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
+// }
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;

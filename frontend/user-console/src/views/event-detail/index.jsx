@@ -37,6 +37,7 @@ import {
 } from "../../utils/utils";
 import FooterComponent from "../../components/FooterComponent";
 import HomeDrawer from "../../components/home-drawer";
+import Review from "../../components/review";
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
@@ -46,7 +47,6 @@ function EventDetail(props) {
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
   const [organizer, setOrganizer] = useState();
-  console.log({ activeSection });
   useEffect(() => {
     async function fetchOrganizerInfo() {
       const res = await fetchOrganizerByEventId(eventId);
@@ -109,9 +109,11 @@ function EventDetail(props) {
   useEffect(() => {
     if (status !== "loading" && status !== "error" && !isFetching) {
       const sectionPosition = {
-        introduce: introduce.current.offsetTop,
-        info: info.current.offsetTop,
-        organization: organization.current.offsetTop,
+        introduce:
+          activeSection === "review" ? null : introduce.current.offsetTop,
+        info: activeSection === "review" ? null : info.current.offsetTop,
+        organization:
+          activeSection === "review" ? null : organization.current.offsetTop,
       };
       if (
         yPosition >= sectionPosition.introduce - 30 &&
@@ -278,46 +280,50 @@ function EventDetail(props) {
             </Affix>
           </div>
           <div className="event-detail-wrapper" ref={container}>
-            <div className="event-detail-wrapper-left">
-              <div className="event-detail-content">
-                <div ref={introduce} className="introduce">
-                  {t("introduce")}
+            {activeSection === "review" ? (
+              <Review />
+            ) : (
+              <div className="event-detail-wrapper-left">
+                <div className="event-detail-content">
+                  <div ref={introduce} className="introduce">
+                    {t("introduce")}
+                  </div>
+                  <ReadMoreLess className="event-detail-long-content">
+                    {event?.description}
+                  </ReadMoreLess>
                 </div>
-                <ReadMoreLess className="event-detail-long-content">
-                  {event?.description}
-                </ReadMoreLess>
-              </div>
-              <div className="event-detail-content">
-                <div ref={info} className="info">
-                  {t("ticket-info")}
+                <div className="event-detail-content">
+                  <div ref={info} className="info">
+                    {t("ticket-info")}
+                  </div>
+                  <div>
+                    {event.organizationTickets.map((ticket, index) => (
+                      <TicketComponent ticket={ticket} />
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  {event.organizationTickets.map((ticket, index) => (
-                    <TicketComponent ticket={ticket} />
-                  ))}
-                </div>
-              </div>
-              <div className="event-detail-content">
-                <div ref={organization} className="organization">
-                  {t("organizer")}
-                </div>
-                <div className="event-detail-organization">
-                  <img src={organizer?.avatar} alt="logo" />
-                  <h1>{organizer?.name}</h1>
+                <div className="event-detail-content">
+                  <div ref={organization} className="organization">
+                    {t("organizer")}
+                  </div>
+                  <div className="event-detail-organization">
+                    <img src={organizer?.avatar} alt="logo" />
+                    <h1>{organizer?.name}</h1>
 
-                  <p>{parse(String(organizer?.biography))}</p>
-                  <button
-                    className="event-detail-organization-contact"
-                    onClick={() => {
-                      window.open(`mailto:${organizer?.email}`, "_blank");
-                    }}
-                  >
-                    <AiOutlineMail />
-                    {t("org.contact")}
-                  </button>
+                    <p>{parse(String(organizer?.biography))}</p>
+                    <button
+                      className="event-detail-organization-contact"
+                      onClick={() => {
+                        window.open(`mailto:${organizer?.email}`, "_blank");
+                      }}
+                    >
+                      <AiOutlineMail />
+                      {t("org.contact")}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="event-detail-wrapper-right">
               <div className="h-full">
                 <div className="event-detail-booking sticky-container">

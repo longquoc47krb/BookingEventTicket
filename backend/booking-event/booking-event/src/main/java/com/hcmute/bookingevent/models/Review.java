@@ -19,8 +19,12 @@ public class Review {
     @Id
     @JsonIgnore
     private String id;
+    @NotBlank(message = "name is required")
+    private String name;
     @NotBlank(message = "email is required")
     private String email;
+    @NotBlank(message = "avatar is required")
+    private String avatar;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
     @NotBlank(message = "message is required")
