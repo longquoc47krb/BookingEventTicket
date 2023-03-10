@@ -8,4 +8,5 @@ public interface IReviewService {
     ResponseEntity<?> isReviewAvailable(String email,String eventId);
     ResponseEntity<?> findAllByEventId(String eventId);
     ResponseEntity<?> deleteReview(String email,String eventId);
+    ResponseEntity<?> updateReview(Review review,String email );
 }
