@@ -37,6 +37,7 @@ import {
 } from "../../utils/utils";
 import FooterComponent from "../../components/FooterComponent";
 import HomeDrawer from "../../components/home-drawer";
+import Review from "../../components/review";
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
@@ -76,6 +77,7 @@ function EventDetail(props) {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
+  const review = useRef(null);
 
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
@@ -107,24 +109,29 @@ function EventDetail(props) {
   useEffect(() => {
     if (status !== "loading" && status !== "error" && !isFetching) {
       const sectionPosition = {
-        introduce: introduce.current.offsetTop,
-        info: info.current.offsetTop,
-        organization: organization.current.offsetTop,
+        introduce:
+          activeSection === "review" ? null : introduce.current.offsetTop,
+        info: activeSection === "review" ? null : info.current.offsetTop,
+        organization:
+          activeSection === "review" ? null : organization.current.offsetTop,
       };
       if (
         yPosition >= sectionPosition.introduce - 30 &&
-        yPosition < sectionPosition.info - 30
+        yPosition < sectionPosition.info - 30 &&
+        activeSection !== "review"
       ) {
         setActiveSection("introduce");
       } else if (
         yPosition >= sectionPosition.info - 30 &&
-        yPosition < sectionPosition.organization - 30
+        yPosition < sectionPosition.organization - 30 &&
+        activeSection !== "review"
       ) {
         setActiveSection("info");
-      } else if (yPosition >= sectionPosition.organization - 30) {
+      } else if (
+        yPosition >= sectionPosition.organization - 30 &&
+        activeSection !== "review"
+      ) {
         setActiveSection("organization");
-      } else {
-        setActiveSection(null);
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
@@ -230,7 +237,10 @@ function EventDetail(props) {
               >
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(introduce)}
+                    onClick={() => {
+                      setActiveSection("introduce");
+                      scrollToSection(introduce);
+                    }}
                     active={activeSection === "introduce" ? true : false}
                   >
                     {t("introduce")}
@@ -238,7 +248,10 @@ function EventDetail(props) {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(info)}
+                    onClick={() => {
+                      setActiveSection("info");
+                      scrollToSection(info);
+                    }}
                     active={activeSection === "info" ? true : false}
                   >
                     {t("ticket-info")}
@@ -246,60 +259,71 @@ function EventDetail(props) {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
-                    onClick={() => scrollToSection(organization)}
+                    onClick={() => {
+                      setActiveSection("organization");
+                      scrollToSection(organization);
+                    }}
                     active={activeSection === "organization" ? true : false}
                   >
                     {t("organizer")}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={() => setActiveSection("review")}
+                    active={activeSection === "review" ? true : false}
+                  >
+                    {t("review")}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
             </Affix>
           </div>
           <div className="event-detail-wrapper" ref={container}>
-            <div className="event-detail-wrapper-left">
-              <div className="event-detail-content">
-                <div ref={introduce} className="introduce">
-                  {t("introduce")}
+            {activeSection === "review" ? (
+              <Review />
+            ) : (
+              <div className="event-detail-wrapper-left">
+                <div className="event-detail-content">
+                  <div ref={introduce} className="introduce">
+                    {t("introduce")}
+                  </div>
+                  <ReadMoreLess className="event-detail-long-content">
+                    {event?.description}
+                  </ReadMoreLess>
                 </div>
-                <ReadMoreLess className="event-detail-long-content">
-                  {event?.description}
-                </ReadMoreLess>
-                {/* <DraftEditor
-                  content={content.length > 0 ? content : ""}
-                  setContent={setContent}
-                /> */}
-              </div>
-              <div className="event-detail-content">
-                <div ref={info} className="info">
-                  {t("ticket-info")}
+                <div className="event-detail-content">
+                  <div ref={info} className="info">
+                    {t("ticket-info")}
+                  </div>
+                  <div>
+                    {event.organizationTickets.map((ticket, index) => (
+                      <TicketComponent ticket={ticket} />
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  {event.organizationTickets.map((ticket, index) => (
-                    <TicketComponent ticket={ticket} />
-                  ))}
-                </div>
-              </div>
-              <div className="event-detail-content">
-                <div ref={organization} className="organization">
-                  {t("organizer")}
-                </div>
-                <div className="event-detail-organization">
-                  <img src={organizer?.avatar} alt="logo" />
-                  <h1>{organizer?.name}</h1>
+                <div className="event-detail-content">
+                  <div ref={organization} className="organization">
+                    {t("organizer")}
+                  </div>
+                  <div className="event-detail-organization">
+                    <img src={organizer?.avatar} alt="logo" />
+                    <h1>{organizer?.name}</h1>
 
-                  <p>{parse(String(organizer?.biography))}</p>
-                  <button
-                    className="event-detail-organization-contact"
-                    onClick={() => {
-                      window.open(`mailto:${organizer?.email}`, "_blank");
-                    }}
-                  >
-                    <AiOutlineMail />
-                    {t("org.contact")}
-                  </button>
+                    <p>{parse(String(organizer?.biography))}</p>
+                    <button
+                      className="event-detail-organization-contact"
+                      onClick={() => {
+                        window.open(`mailto:${organizer?.email}`, "_blank");
+                      }}
+                    >
+                      <AiOutlineMail />
+                      {t("org.contact")}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="event-detail-wrapper-right">
               <div className="h-full">
                 <div className="event-detail-booking sticky-container">
@@ -361,9 +385,6 @@ function EventDetail(props) {
                     ></iframe>
                   </div>
                 </div>
-                {/* <div className="h-[87vh] mt-4">
-                  
-                </div> */}
               </div>
             </div>
           </div>
