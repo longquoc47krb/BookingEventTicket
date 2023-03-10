@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class ReviewService implements IReviewService {
     @Override
     public ResponseEntity<?> submitReview(Review review, String email) {
         if (review.getEmail().equals(email)) {
-            //List<Order> order = orderRepository.find(email);
+
             reviewRepository.save(review);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "submitReview successfully", "", 200));
@@ -65,4 +66,20 @@ public class ReviewService implements IReviewService {
         }
 
     }
+    @Override
+    public ResponseEntity<?> updateReview(Review review,String email )
+    {
+        if (review.getEmail().equals(email)) {
+            Optional<Review> newReview=  reviewRepository.findByEmailAndIdEvent(review.getEmail(), review.getIdEvent());
+            newReview.get().setMessage(review.getMessage());
+            newReview.get().setRate(review.getRate());
+            reviewRepository.save(newReview.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "edit review successfully", "", 200));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(true, "can not edit review", "", 400));
+
+    }
+
 }
