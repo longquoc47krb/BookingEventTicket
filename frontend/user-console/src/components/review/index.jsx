@@ -76,7 +76,7 @@ function Review() {
         {token ? (
           isFeedback && feedbackInfo ? (
             <div>
-              <p className="text-[#1f3e82] font-bold text-2xl px-4 py-2">
+              <p className="text-[#1f3e82] font-bold text-2xl py-2">
                 {t("your-feedback")}
               </p>
               <FeedbackComment
@@ -85,6 +85,7 @@ function Review() {
                 message={feedbackInfo[0]?.message}
                 rate={feedbackInfo[0]?.rate}
               />
+              <hr className="mb-4" />
             </div>
           ) : (
             <Feedback />
