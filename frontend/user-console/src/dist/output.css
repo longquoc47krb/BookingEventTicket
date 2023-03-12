@@ -2029,15 +2029,6 @@
   grid-area: feedbackInput;
 }
 
-.primary-button {
-  padding: 0.8rem 2rem;
-  margin-top: 0.5rem;
-  border-radius: 2px;
-  background: #1f3e82;
-  color: white;
-  font-weight: 700;
-}
-
 .unauthenticated-container {
   display: flex;
   flex-direction: column;
@@ -2067,6 +2058,17 @@
 .rating-bar-inner {
   height: 100%;
   background-color: #ffbe63;
+}
+
+.review-container {
+  background: white;
+  margin-right: 1.5rem;
+  border-radius: 5px;
+  width: calc(100% - 1.5rem);
+  height: auto;
+  box-shadow: 0px 4px 5px -1px rgb(82, 82, 82);
+  -webkit-box-shadow: 0px 4px 5px -1px rgb(82, 82, 82);
+  -moz-box-shadow: 0px 4px 5px -1px rgb(82, 82, 82);
 }
 
 .SearchBox {
@@ -2407,6 +2409,13 @@ body {
   gap: 0 1rem;
   background-color: white;
   border: 1px solid rgb(179, 179, 179);
+}
+
+.basic-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 2px;
+  color: white;
+  font-weight: 700;
 }
 
 .primary-button {

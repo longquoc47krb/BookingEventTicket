@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import {
   tokenSelector,
@@ -12,25 +14,36 @@ import reviewServices, {
   useFetchReviewList,
 } from "../../api/services/reviewServices";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   setIsFeedback,
   isFeedbackSelector,
 } from "../../redux/slices/generalSlice";
 import FeedbackComment from "../feedback-item";
 import { useTranslation } from "react-i18next";
-const { checkExistReview } = reviewServices;
+import {
+  AlertError,
+  AlertErrorPopup,
+  AlertPopup,
+  AlertQuestion,
+} from "../common/alert";
+import { hideBadWords } from "../../utils/badwords";
+const { checkExistReview, deleteReview, submitReview, editReview } =
+  reviewServices;
 function Review() {
   const token = useSelector(tokenSelector);
   const isFeedback = useSelector(isFeedbackSelector);
+  const [star, setStar] = useState(5);
+  const [message, setMessage] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const { data: allReviews, status } = useFetchReviewList(eventId);
   const { t } = useTranslation();
-  const reviews =
-    status === "success" && allReviews?.status !== 404 ? allReviews.data : [];
 
+  var reviews =
+    status === "success" && allReviews?.status !== 404 ? allReviews.data : [];
   useEffect(() => {
     const checkExistFeedback = async () => {
       const response = await checkExistReview(user.id, eventId);
@@ -68,9 +81,79 @@ function Review() {
   console.log({ feedbackInfo });
   const reviewsWithoutYours =
     user && reviews.filter((e) => e.email !== user.email);
-  console.log({ feedbackInfo, reviewsWithoutYours, reviews });
+  useEffect(() => {
+    if (isEdit) {
+      setStar(feedbackInfo[0]?.rate);
+      setMessage(hideBadWords(feedbackInfo[0]?.message || ""));
+    }
+  }, [isEdit]);
+  // delete review
+  const handleDelete = () => {
+    AlertQuestion({
+      title: t("popup.review.delete"),
+      callback: async (result) => {
+        if (result.isConfirmed) {
+          const response = await deleteReview(user.id, eventId);
+          if (response.status === 200) {
+            AlertPopup({
+              title: t("popup.review.delete-success"),
+              timer: 3000,
+            });
+          } else {
+            AlertErrorPopup({
+              title: t("popup.review.delete-failed"),
+              timer: 3000,
+            });
+          }
+        }
+      },
+    });
+  };
+  // submit feedback
+  const handleSubmit = async () => {
+    const response = await submitReview(user.id, {
+      avatar: user.avatar,
+      name: user.name,
+      email: user.email,
+      idEvent: eventId,
+      message,
+      rate: star,
+    });
+    if (response.status === 200) {
+      AlertPopup({
+        title: t("popup.review.submit-success"),
+      });
+    } else {
+      AlertError({ title: t("popup.review.submit-failed") });
+    }
+    setMessage("");
+    setStar(5);
+  };
+
+  // edit feedback
+  const handleUpdate = async () => {
+    const response = await editReview(user.id, {
+      avatar: user.avatar,
+      name: user.name,
+      email: user.email,
+      idEvent: eventId,
+      message,
+      rate: star,
+    });
+
+    if (response.status === 200) {
+      AlertPopup({
+        title: t("popup.review.update-success"),
+      });
+    } else {
+      AlertError({ title: t("popup.review.update-failed") });
+    }
+    setMessage("");
+    setStar(5);
+    setIsEdit(false);
+  };
   return (
-    <div className="w-full h-full bg-white mr-2">
+    <div className="w-full h-full review-container mr-6">
       <RatingStats ratingCounts={ratings} />
       <div className="mx-4">
         {token ? (
@@ -79,16 +162,49 @@ function Review() {
               <p className="text-[#1f3e82] font-bold text-2xl py-2">
                 {t("your-feedback")}
               </p>
-              <FeedbackComment
-                avatar={user.avatar}
-                name={user.name}
-                message={feedbackInfo[0]?.message}
-                rate={feedbackInfo[0]?.rate}
-              />
-              <hr className="mb-4" />
+              {!isEdit ? (
+                <>
+                  <FeedbackComment
+                    avatar={user.avatar}
+                    name={user.name}
+                    message={hideBadWords(feedbackInfo[0]?.message || "")}
+                    rate={feedbackInfo[0]?.rate}
+                    isCurrentUser={isFeedback}
+                    setIsEditing={setIsEdit}
+                    onDelete={handleDelete}
+                    time={moment(feedbackInfo[0]?.createdAt).fromNow()}
+                  />
+                  <hr className="mb-4" />
+                </>
+              ) : (
+                <Feedback
+                  message={message}
+                  star={star}
+                  setStar={setStar}
+                  setMessage={setMessage}
+                  isEditting={isEdit}
+                  onCancel={setIsEdit}
+                  onUpdate={handleUpdate}
+                  user={user}
+                />
+              )}
             </div>
           ) : (
-            <Feedback />
+            <>
+              <p className="text-[#1f3e82] font-bold text-2xl py-2">
+                {t("your-feedback")}
+              </p>
+              <Feedback
+                isEditting={isEdit}
+                star={star}
+                setStar={setStar}
+                message={message}
+                setMessage={setMessage}
+                onCancel={setIsEdit}
+                onSubmit={handleSubmit}
+                user={user}
+              />
+            </>
           )
         ) : (
           <Unauthenticated />

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class ReviewService implements IReviewService {
     @Override
     public ResponseEntity<?> submitReview(Review review, String email) {
         if (review.getEmail().equals(email)) {
-
+            review.setCreatedAt(new Date());
             reviewRepository.save(review);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "submitReview successfully", "", 200));
@@ -73,6 +74,7 @@ public class ReviewService implements IReviewService {
             Optional<Review> newReview=  reviewRepository.findByEmailAndIdEvent(review.getEmail(), review.getIdEvent());
             newReview.get().setMessage(review.getMessage());
             newReview.get().setRate(review.getRate());
+            newReview.get().setCreatedAt(new Date());
             reviewRepository.save(newReview.get());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "edit review successfully", "", 200));

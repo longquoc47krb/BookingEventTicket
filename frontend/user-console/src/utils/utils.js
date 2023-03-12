@@ -494,3 +494,10 @@ export const convertMongodbTimeToString = (date) => {
     return moment(dateStr).format("DD/MM/YYYY HH:mm");
   }
 };
+export const displayFeedbackTime = (time) => {
+  const now = moment();
+  const date = moment(time);
+
+  const diff = now.diff(date, "days");
+  return diff >= 1 ? date.calendar() : date.fromNow();
+};

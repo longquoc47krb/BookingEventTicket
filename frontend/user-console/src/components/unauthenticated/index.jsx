@@ -6,7 +6,7 @@ function Unauthenticated() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <div className="unauthenticated-container">
+    <div className="feedback-container flex flex-col items-center mx-0 mb-4">
       <span className="text-xl font-medium">{t("unauthenticated")}</span>
       <button
         onClick={() => navigate("/login")}

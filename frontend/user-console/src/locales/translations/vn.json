@@ -257,6 +257,15 @@
     "payment": {
       "success": "Thanh toán thành công",
       "error": "Thanh toán thất bại"
+    },
+    "review": {
+      "delete": "Bạn muốn xóa đánh giá này?",
+      "delete-success": "Đánh giá đã được xóa thành công",
+      "delete-failed": "Xóa đánh giá thất bại.",
+      "submit-success": "Cảm ơn bạn đã đánh giá!",
+      "submit-failed": "Gửi đánh giá thất bại.",
+      "update-success": "Đánh giá của bạn đã được cập nhật.",
+      "update-failed": "Cập nhật đánh giá thất bại."
     }
   },
   "ticket": {
@@ -306,5 +315,6 @@
   "rating-review": "Đánh giá và xếp hạng",
   "ratings": "đánh giá",
   "your-feedback": "Đánh giá của bạn",
-  "empty-feedbacks": "Chưa có đánh giá nào."
+  "empty-feedbacks": "Chưa có đánh giá nào.",
+  "cancel": "Hủy bỏ"
 }
