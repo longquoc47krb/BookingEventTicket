@@ -84,6 +84,7 @@ function Review() {
                 name={user.name}
                 message={feedbackInfo[0]?.message}
                 rate={feedbackInfo[0]?.rate}
+                isCurrentUser={isFeedback}
               />
               <hr className="mb-4" />
             </div>

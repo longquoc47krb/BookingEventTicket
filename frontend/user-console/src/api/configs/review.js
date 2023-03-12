@@ -7,16 +7,16 @@ export const ReviewAPI = {
     method: "GET",
   }),
   submitReview: (userId, data) => ({
-    url: `/review/${userId}`,
+    url: `/customer/review/${userId}`,
     method: "POST",
     data,
   }),
   deleteReview: (userId) => ({
-    url: `/review/${userId}`,
+    url: `/customer/review/${userId}`,
     method: "DELETE",
   }),
   checkExistReview: (userId, eventId) => ({
-    url: `/review/checkReview/${userId}`,
+    url: `/customer/review/checkReview/${userId}`,
     params: {
       eventId,
     },
