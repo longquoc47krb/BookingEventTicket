@@ -24,14 +24,6 @@
 .feedbackInput {
   grid-area: feedbackInput;
 }
-.primary-button {
-  padding: 0.8rem 2rem;
-  margin-top: 0.5rem;
-  border-radius: 2px;
-  background: $primary-color;
-  color: white;
-  font-weight: 700;
-}
 .unauthenticated {
   &-container {
     display: flex;
@@ -61,4 +53,16 @@
 .rating-bar-inner {
   height: 100%;
   background-color: #ffbe63;
+}
+.review {
+  &-container {
+    background: white;
+    margin-right: 1.5rem;
+    border-radius: 5px;
+    width: calc(100% - 1.5rem);
+    height: auto;
+    box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+    -webkit-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+    -moz-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+  }
 }

@@ -37,13 +37,13 @@ const RatingStats = ({ ratingCounts }) => {
     sum += ratingCounts[i] * (i + 1);
   }
 
-  const averageRating = Math.round((sum / totalCount) * 10) / 10;
+  const averageRating = (sum / totalCount).toFixed(1).toString() || 0;
   return (
     <div className="rating-stats">
-      <div className="font-semibold mb-2">{t("rating-review")}</div>
+      <div className="font-bold text-2xl mb-2">{t("rating-review")}</div>
       <div className="flex gap-x-16">
         <div>
-          <p className="text-6xl font-bold mt-4">{averageRating || 0}</p>
+          <p className="text-6xl font-bold mt-4">{averageRating}</p>
           <Rating
             name="size-small"
             value={averageRating}

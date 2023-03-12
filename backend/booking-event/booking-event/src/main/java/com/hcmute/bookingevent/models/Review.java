@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Document("review")
 @Getter
@@ -31,5 +32,6 @@ public class Review {
     private String message;
     @NotBlank(message = "rate is required")
     private int rate;
+    private Date createdAt;
 
 }

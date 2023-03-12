@@ -1,15 +1,17 @@
-import { MenuItem, Rating, Select } from "@mui/material";
+import { Rating } from "@mui/material";
 import { Popover } from "antd";
-import { t } from "i18next";
+import moment from "moment";
 import React, { useState } from "react";
-import UserProfile from "../profile-popup";
 import { BsThreeDotsVertical } from "react-icons/bs";
 function FeedbackComment({
   name,
   rate,
   message,
+  time,
   avatar,
   isCurrentUser = false,
+  setIsEditing,
+  onDelete,
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -24,7 +26,10 @@ function FeedbackComment({
           alt="avatar"
         />
         <div className="flex flex-col gap-x-2 w-5/6">
-          <p className="font-semibold text-lg">{name}</p>
+          <div className="flex items-center gap-x-2">
+            <p className="font-semibold text-lg">{name}</p>
+            <span className="text-gray-500 text-base">{time}</span>
+          </div>
           <Rating
             name="size-small"
             value={rate}
@@ -32,7 +37,7 @@ function FeedbackComment({
             readOnly
             size="small"
           />
-          <p>{message}</p>
+          <p className="text-lg font-medium mt-2">{message}</p>
         </div>
       </div>
 
@@ -41,10 +46,16 @@ function FeedbackComment({
           <Popover
             content={
               <ul>
-                <li className="py-2 px-3 hover:bg-slate-400 hover:text-white rounded-sm cursor-pointer">
+                <li
+                  className="py-2 px-3 hover:bg-slate-400 hover:text-white rounded-sm cursor-pointer"
+                  onClick={() => setIsEditing(true)}
+                >
                   Edit
                 </li>
-                <li className="py-2 px-3 hover:bg-slate-400 hover:text-white rounded-sm cursor-pointer">
+                <li
+                  className="py-2 px-3 hover:bg-slate-400 hover:text-white rounded-sm cursor-pointer"
+                  onClick={onDelete}
+                >
                   Delete
                 </li>
               </ul>

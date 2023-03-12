@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { hideBadWords } from "../../utils/badwords";
+import { displayFeedbackTime } from "../../utils/utils";
 import FeedbackComment from "../feedback-item";
-
 function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
   const { t } = useTranslation();
-
   return (
     <div className="feedback-list-container">
       {feedbacks.length > 0 ? (
@@ -12,8 +12,9 @@ function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
           <FeedbackComment
             avatar={item.avatar}
             name={item.name}
-            message={item.message}
+            message={hideBadWords(item.message)}
             rate={item.rate}
+            time={displayFeedbackTime(item.createdAt)}
           />
         ))
       ) : isFeedbackByCurrentUser ? (
