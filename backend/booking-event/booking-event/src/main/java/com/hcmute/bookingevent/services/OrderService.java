@@ -5,11 +5,9 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
-import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
-import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
-import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +30,8 @@ public class OrderService implements IOrderService {
     private final OrganizationRepository organizationRepository;
 
     private final EventRepository eventRepository;
+    private final PaymentService paymentService;
+
 
     //handle order after meeting all secure criteria
     @Override
@@ -64,11 +62,13 @@ public class OrderService implements IOrderService {
                 if (organization.isPresent()) {
                     BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
                     if (order.getCurrency().equals("USD")) {
-                        BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
-                        organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());
+                        //BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
+                        paymentService.setPaymentToCountedVND(organization.get(),order.getIdEvent(),orderPrice );
+                       // organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());
                     } else if (order.getCurrency().equals("VND")) {
-                        BigDecimal vndBalance = new BigDecimal(organization.get().getVNDBalance());
-                        organization.get().setVNDBalance(vndBalance.add(orderPrice).toString());
+                        //BigDecimal vndBalance = new BigDecimal(organization.get().getVNDBalance());
+                        paymentService.setPaymentToCountedUSD(organization.get(),order.getIdEvent(),orderPrice );
+                        //organization.get().setVNDBalance(vndBalance.add(orderPrice).toString());
                     } else {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                                 new ResponseObject(false, "Problem with currency ", "", 400));

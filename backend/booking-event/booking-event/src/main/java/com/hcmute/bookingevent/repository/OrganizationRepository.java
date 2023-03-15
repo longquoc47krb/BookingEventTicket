@@ -13,6 +13,7 @@ public interface OrganizationRepository extends MongoRepository<Organization,Str
     Optional<Organization> findOrganizationById(String id);
     @Query("{ 'eventList' : ?0 }")
     Optional<Organization> findOrganizationByEventId(String idEvent);
-
+    Optional<Organization> findByEventList(String id);
+    //Optional<Organization> findByCha(String id);
 
 }
