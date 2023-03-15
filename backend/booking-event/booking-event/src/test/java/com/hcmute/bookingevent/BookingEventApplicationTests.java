@@ -106,11 +106,13 @@ class BookingEventApplicationTests {
 //		Admin admin = new Admin();
 //		admin.getUSDBalance();
 		Optional<Admin> admin1= adminRepository.findByEmail("lotusticket.vn@gmail.com");
+
 		//admin1.get().setUSDBalance("0");
 		//admin1.get().setVNDBalance("0");
 		admin1.get().setUSDPendingProfit("0");
 		admin1.get().setVNDPendingProfit("0");
-
+		admin1.get().setUSDBalance("0");
+		admin1.get().setVNDBalance("0");
 		adminRepository.save(admin1.get());
 	}
 	@Test

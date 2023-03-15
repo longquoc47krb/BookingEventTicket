@@ -49,7 +49,9 @@ public class PaymentService {
     }
 
     public void setPaymentToCountedVND(Organization organization, String idEvent, BigDecimal valueVND) {
+
         Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
+
 
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
@@ -60,6 +62,7 @@ public class PaymentService {
                 admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
+                element.setVNDBalanceLock(result.toString());
 
                 return;
             }
@@ -67,8 +70,8 @@ public class PaymentService {
     }
 
     public void setPaymentToCountedUSD(Organization organization, String idEvent, BigDecimal valueUSD) {
-        Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
 
+        Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
                 BigDecimal usdBlock = new BigDecimal(element.getUSDBalanceLock());
@@ -78,6 +81,7 @@ public class PaymentService {
                 admin.get().setUSDPendingProfit(adminUSD.add(valueUSD).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
+                element.setVNDBalanceLock(result.toString());
                 return;
             }
         }
