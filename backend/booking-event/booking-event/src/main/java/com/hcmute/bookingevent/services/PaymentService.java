@@ -49,24 +49,35 @@ public class PaymentService {
     }
 
     public void setPaymentToCountedVND(Organization organization, String idEvent, BigDecimal valueVND) {
+        Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
 
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
                 BigDecimal vndBlock = new BigDecimal(element.getVNDBalanceLock());
                 BigDecimal result = vndBlock.add(valueVND).setScale(2, RoundingMode.DOWN);
+                //
+                BigDecimal adminVND = new BigDecimal(admin.get().getVNDPendingProfit());
+                admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
+                adminRepository.save(admin.get());
+
                 return;
             }
         }
     }
 
     public void setPaymentToCountedUSD(Organization organization, String idEvent, BigDecimal valueUSD) {
+        Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
 
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
                 BigDecimal usdBlock = new BigDecimal(element.getUSDBalanceLock());
                 BigDecimal result = usdBlock.add(valueUSD).setScale(2, RoundingMode.DOWN);
+                //
+                BigDecimal adminUSD = new BigDecimal(admin.get().getUSDPendingProfit());
+                admin.get().setUSDPendingProfit(adminUSD.add(valueUSD).toString() );
                 element.setVNDBalanceLock(result.toString());
+                adminRepository.save(admin.get());
                 return;
             }
         }
@@ -98,7 +109,6 @@ public class PaymentService {
                                 BigDecimal subtractResult = usdBlock.subtract(addMoneyForAdmin);
                                 //cộng vào số dư sau khi đã trừ đi tiền mà admin nhận
                                 BigDecimal result = totalPaymentOfOrganizerUSD.add(subtractResult).setScale(2, RoundingMode.DOWN);
-
                                 element.setUSDBalance(result.toString());
                             } else {
                                 BigDecimal totalPaymentOfOrganizerVND = new BigDecimal(element.getVNDBalance());
