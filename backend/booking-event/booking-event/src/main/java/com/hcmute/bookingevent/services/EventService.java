@@ -9,6 +9,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
+import com.hcmute.bookingevent.models.organization.PaymentPending;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.models.ticket.TicketStatus;
 import com.hcmute.bookingevent.payload.request.EventReq;
@@ -52,7 +53,7 @@ public class EventService implements IEventService {
     private final EventMapper eventMapper;
     private final IEventSlugGeneratorService slugGeneratorService;
     private final CloudinaryConfig cloudinary;
-
+    private final PaymentService paymentService;
 
     @SneakyThrows
     @Override
@@ -70,7 +71,10 @@ public class EventService implements IEventService {
             //
             eventRepository.save(event);
             //add event in organization
+            //add payment pending when not finished
             organization.get().getEventList().add(event.getId());
+            PaymentPending paymentPending = paymentService.setPaymentToInProgress(idSlung);
+            organization.get().getPaymentPendings().add(paymentPending);
             //save organization
             organizationRepository.save(organization.get());
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -138,6 +142,8 @@ public class EventService implements IEventService {
                 }
                 else if (isBeforeToday(event.getEndingDate())) {
                     event.setStatus(EventStatus.COMPLETED);
+                    //set status of payment when completed
+                    paymentService.setPaymentToCompleted(event);
                 } else if (event.getTicketRemaining() == 0) {
                     event.setStatus(EventStatus.SOLD_OUT);
                 }
@@ -213,6 +219,8 @@ public class EventService implements IEventService {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         Optional<Event> event = eventRepository.findEventById(id);
         if (organization.isPresent() && event.isPresent()) {
+            //
+            paymentService.setPaymentToCancel(organization.get().getPaymentPendings(),id);
             //remove 1 item Id in listEvent
             List<String> eventList = organization.get().getEventList();
             eventList.remove(id);

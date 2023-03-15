@@ -1,6 +1,5 @@
 package com.hcmute.bookingevent.models.organization;
 
-import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -38,8 +35,10 @@ public class Organization {
     private CreditCard creditCard;
     private EOrganization status;
     private List<String> eventList;
-
+    private List<PaymentPending> paymentPendings= new ArrayList<>();
     private List<Ticket> templateTickets = new ArrayList<>();
+    //private List
+
     private String province;
     private String venue;
     private String address;
