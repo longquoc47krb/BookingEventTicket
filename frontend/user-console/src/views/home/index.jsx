@@ -46,7 +46,7 @@ function Home() {
         : "TP. Hồ Chí Minh"
     );
   console.log({ eventsByProvince });
-  const sucessStatus = featuredEventStatus === "success";
+  const successStatus = featuredEventStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ function Home() {
                     initial="hidden"
                     animate="visible"
                   >
-                    {!sucessStatus
+                    {!successStatus
                       ? [...Array(10)].map((i) => <EventHomeSkeletonItem />)
                       : bestSellerEvents
                           .slice(0, 10)

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Document("review")
 @Getter
@@ -19,13 +20,18 @@ public class Review {
     @Id
     @JsonIgnore
     private String id;
+    @NotBlank(message = "name is required")
+    private String name;
     @NotBlank(message = "email is required")
     private String email;
+    @NotBlank(message = "avatar is required")
+    private String avatar;
     @NotBlank(message = "idEvent is required")
     private String idEvent;
     @NotBlank(message = "message is required")
     private String message;
     @NotBlank(message = "rate is required")
     private int rate;
+    private Date createdAt;
 
 }

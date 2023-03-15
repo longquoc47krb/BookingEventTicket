@@ -67,6 +67,7 @@
   "signin": "Sign in",
   "introduce": "Introduction",
   "ticket-info": "Ticket Information",
+  "review": "Review",
   "organizer": "Organizer",
   "user": {
     "order-title": "Customer Order",
@@ -257,6 +258,15 @@
     "payment": {
       "success": "Successfully placed order",
       "error": "Failed place order"
+    },
+    "review": {
+      "delete": "Do you wanna delete your feedback?",
+      "delete-success": "Your feedback was deleted",
+      "delete-failed": "Your feedback failed to be deleted.",
+      "submit-success": "Thank you for sending feedback",
+      "submit-failed": "Submit your feedback failed to be submitted",
+      "update-success": "Your feedback was updated",
+      "update-failed": "Your feedback failed to be updated"
     }
   },
   "ticket": {
@@ -295,5 +305,18 @@
   "update-avatar": {
     "success": "Upload avatar successfully",
     "error": "Upload avatar failed"
-  }
+  },
+  "rate": {
+    "bad": "Terrible!",
+    "avg": "Average.",
+    "good": "Good!",
+    "excellent": "Excellent!",
+    "perfect": "Perfect!"
+  },
+  "unauthenticated": "Please log in to send your feedback",
+  "rating-review": "Ratings and reviews",
+  "ratings": "ratings",
+  "your-feedback": "Your feedback",
+  "empty-feedbacks": "There are no reviewers yet",
+  "cancel": "Cancel"
 }

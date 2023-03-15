@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   activeDrawer: false,
+  isFeedback: false,
 };
 
 const generalSlice = createSlice({
@@ -17,9 +18,14 @@ const generalSlice = createSlice({
     setCityName: (state, { payload }) => {
       state.cityName = payload;
     },
+    setIsFeedback: (state, { payload }) => {
+      state.isFeedback = payload;
+    },
   },
 });
 
-export const { toggleOnDrawer, toggleOffDrawer } = generalSlice.actions;
+export const { toggleOnDrawer, toggleOffDrawer, setIsFeedback } =
+  generalSlice.actions;
 export const activeDrawerSelector = (state) => state.general.activeDrawer;
+export const isFeedbackSelector = (state) => state.general.isFeedback;
 export default generalSlice.reducer;

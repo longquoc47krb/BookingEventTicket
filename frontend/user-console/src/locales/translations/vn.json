@@ -31,7 +31,7 @@
     "recommend-for-you": "Sự kiện dành cho bạn",
     "remain": "Còn lại",
     "ticket": "vé",
-    "not-found": "U là trời..! Trống trơn",
+    "not-found": "Không có sự kiện nào !?",
     "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
   },
   "search": {
@@ -66,6 +66,7 @@
   "signin": "Đăng nhập",
   "introduce": "Giới thiệu",
   "ticket-info": "Thông tin vé",
+  "review": "Đánh giá",
   "organizer": "Nhà tổ chức",
   "user": {
     "order-title": "Đơn hàng",
@@ -256,6 +257,15 @@
     "payment": {
       "success": "Thanh toán thành công",
       "error": "Thanh toán thất bại"
+    },
+    "review": {
+      "delete": "Bạn muốn xóa đánh giá này?",
+      "delete-success": "Đánh giá đã được xóa thành công",
+      "delete-failed": "Xóa đánh giá thất bại.",
+      "submit-success": "Cảm ơn bạn đã đánh giá!",
+      "submit-failed": "Gửi đánh giá thất bại.",
+      "update-success": "Đánh giá của bạn đã được cập nhật.",
+      "update-failed": "Cập nhật đánh giá thất bại."
     }
   },
   "ticket": {
@@ -293,5 +303,18 @@
   "update-avatar": {
     "success": "Cập nhật ảnh đại diện thành công",
     "error": "Cập nhật ảnh đại diện thất bại"
-  }
+  },
+  "rate": {
+    "bad": "Tệ!",
+    "avg": "Bình thường.",
+    "good": "Hay!",
+    "excellent": "Rất thú vị!",
+    "perfect": "Hoàn hảo!"
+  },
+  "unauthenticated": "Vui lòng đăng nhập để đánh giá sự kiện",
+  "rating-review": "Đánh giá và xếp hạng",
+  "ratings": "đánh giá",
+  "your-feedback": "Đánh giá của bạn",
+  "empty-feedbacks": "Chưa có đánh giá nào.",
+  "cancel": "Hủy bỏ"
 }
