@@ -16,7 +16,9 @@ public class Admin extends Account {
     private String USDBalance;
     private String VNDBalance;
 
+
     private String USDPendingProfit;
     private String VNDPendingProfit;
+
 
 }
