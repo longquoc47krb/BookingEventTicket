@@ -53,10 +53,12 @@ public class PaymentService {
 
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
+                //get VNDBlock previous
                 BigDecimal vndBlock = new BigDecimal(element.getVNDBalanceLock());
-                BigDecimal result = vndBlock.add(valueVND).setScale(2, RoundingMode.DOWN);
-                //
+                //no rounded
+                BigDecimal result = vndBlock.add(valueVND);
                 BigDecimal adminVND = new BigDecimal(admin.get().getVNDPendingProfit());
+                //add
                 admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
@@ -102,6 +104,10 @@ public class PaymentService {
                                 //lấy số khóa chia cho 5
                                 BigDecimal addMoneyForAdmin = usdBlock.divide(num5);
                                 addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
+                                //trừ tiền pending của admin
+                                BigDecimal totalPendingUSD = new BigDecimal(admin.get().getUSDPendingProfit()) ;
+                                admin.get().setUSDPendingProfit(totalPendingUSD.subtract(totalPaymentOfOrganizerUSD).toString());
+                                //admin.get().setUSDPendingProfit();
                                 //add vào tài khoản admin
                                 admin.get().setUSDBalance(addMoneyForAdmin.toString());
                                 adminRepository.save(admin.get());
@@ -115,7 +121,11 @@ public class PaymentService {
                                 BigDecimal vndBlock = new BigDecimal(elementPayment.getVNDBalanceLock());
                                 //lấy số khóa chia cho 5
                                 BigDecimal addMoneyForAdmin = vndBlock.divide(num5);
-                                addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
+                                //k cần làm tròn
+                                //addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
+                                //trừ tiền pending profit của admin
+                                BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit()) ;
+                                admin.get().setVNDPendingProfit(totalPendingVND.subtract(totalPaymentOfOrganizerVND).toString());
                                 //add vào tài khoản admin
                                 admin.get().setVNDBalance(addMoneyForAdmin.toString());
                                 adminRepository.save(admin.get());

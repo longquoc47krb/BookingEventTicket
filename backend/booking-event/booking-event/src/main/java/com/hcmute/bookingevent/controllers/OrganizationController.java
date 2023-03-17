@@ -5,7 +5,6 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.EmailReq;
-import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -154,11 +152,25 @@ public class OrganizationController {
     }
 
     @GetMapping("/organization/statistic/{userId}")
-    public ResponseEntity<?> statistic(@PathVariable String userId, HttpServletRequest request){
+    public ResponseEntity<?> statistic(@PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(userId)){
+        if (account.getId().equals(userId)) {
             return iOrganizationService.statistic(account.getEmail());
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+
+    @GetMapping("/organization/payment/{userId}")
+    public ResponseEntity<?> PaymentStatusByEmail(@PathVariable String userId, HttpServletRequest request) {
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if (account.getId().equals(userId)) {
+            return iOrganizationService.PaymentStatus(account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+
+    @GetMapping("/admin/payment/status")
+    public ResponseEntity<?> PaymentStatus() {
+        return iOrganizationService.findAllPaymentStatus();
     }
 }

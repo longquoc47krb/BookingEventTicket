@@ -1,5 +1,7 @@
 package com.hcmute.bookingevent;
 
+import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.services.PaymentService;
 import com.hcmute.bookingevent.models.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -27,7 +30,8 @@ class BookingEventApplicationTests {
 	private AdminRepository adminRepository;
 	@Autowired
 	private PaymentService paymentService;
-
+	@Autowired
+	private EventRepository eventRepository;
 	private final PasswordEncoder encoder = new PasswordEncoder() {
 		@Override
 		public String encode(CharSequence rawPassword) {
@@ -79,7 +83,7 @@ class BookingEventApplicationTests {
 	{
 		Optional<Organization> organization = organizationRepository.findByEmail("ramen@konoha.com");
 
-		PaymentPending paymentPending = paymentService.setPaymentToInProgress("ha-noi-nhung-thanh-pho-mo-mang---summer-tour-2023-6421");
+		PaymentPending paymentPending = paymentService.setPaymentToInProgress("sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063");
 		organization.get().getPaymentPendings().add(paymentPending);
 
 		organizationRepository.save(organization.get());
@@ -121,5 +125,66 @@ class BookingEventApplicationTests {
 		BigDecimal result = num1.divide(num2);
 		result = result.setScale(2, RoundingMode.DOWN); // giới hạn số thập phân thành 2
 		System.out.println(result); // Output: 3.33
+	}
+	@Test
+	void testAdminPayment() {
+		//Optional<Admin> admin1= adminRepository.findByEmail("lotusticket.vn@gmail.com");
+		Optional<Event> event = eventRepository.findEventById("sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063");
+		List<Organization> organizationList = organizationRepository.findAll();
+		for (Organization element : organizationList) {
+			if (element.getEventList().contains("sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063")) {
+				for (PaymentPending elementPayment : element.getPaymentPendings()) {
+					if (elementPayment.getIdEvent().equals("sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063")) {
+						//get adminAccount
+						Optional<Admin> admin = adminRepository.findByEmail("lotusticket.vn@gmail.com");
+						elementPayment.setStatus(EPaymentStatus.COMPLETED);
+						//devide 5
+						BigDecimal num5 = new BigDecimal("5");
+						BigDecimal num100 = new BigDecimal("100");
+
+						if (event.get().getOrganizationTickets().get(0).getCurrency().equals("USD")) {
+							BigDecimal totalPaymentOfOrganizerUSD = new BigDecimal(element.getUSDBalance());
+							BigDecimal usdBlock = new BigDecimal(elementPayment.getUSDBalanceLock());
+							//lấy số khóa chia cho 5
+							BigDecimal addMoneyForAdmin = usdBlock.multiply(num5).divide(num100); //usdBlock.divide(num5);
+							//rounded
+							addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
+							//subtract pending của admin
+							BigDecimal totalPendingUSDAdmin = new BigDecimal(admin.get().getUSDPendingProfit());
+							admin.get().setUSDPendingProfit(totalPendingUSDAdmin.subtract(usdBlock).toString());
+							//admin.get().setUSDPendingProfit();
+							//add vào tài khoản admin
+							admin.get().setUSDBalance(addMoneyForAdmin.toString());
+							adminRepository.save(admin.get());
+							//số tiền thực mà organizer nhận được
+							BigDecimal subtractResult = usdBlock.subtract(addMoneyForAdmin);
+							//số tiền thực tế mà organizer nhận được sau khi trừ
+							BigDecimal result = totalPaymentOfOrganizerUSD.add(subtractResult).setScale(2, RoundingMode.DOWN);
+							element.setUSDBalance(result.toString());
+						} else {
+							BigDecimal totalPaymentOfOrganizerVND = new BigDecimal(element.getVNDBalance());
+							BigDecimal vndBlock = new BigDecimal(elementPayment.getVNDBalanceLock());
+							//lấy số khóa chia cho 5
+							BigDecimal addMoneyForAdmin = vndBlock.multiply(num5).divide(num100);
+							//k cần làm tròn
+							//addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
+							//trừ tiền pending profit của admin
+							BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit());
+							admin.get().setVNDPendingProfit(totalPendingVND.subtract(vndBlock).toString());
+							//add vào tài khoản admin
+							admin.get().setVNDBalance(addMoneyForAdmin.toString());
+							adminRepository.save(admin.get());
+							//số tiền thực mà organizer nhận được
+							BigDecimal subtractResult = vndBlock.subtract(addMoneyForAdmin);
+							//cộng vào số dư sau khi đã trừ đi tiền mà admin nhận
+							BigDecimal result = totalPaymentOfOrganizerVND.add(subtractResult).setScale(2, RoundingMode.DOWN);
+							element.setVNDBalance(result.toString());
+						}
+						organizationRepository.save(element);
+					}
+				}
+				return;
+			}
+		}
 	}
 }

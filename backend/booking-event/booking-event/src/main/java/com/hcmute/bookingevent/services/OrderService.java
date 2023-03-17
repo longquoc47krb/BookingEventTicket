@@ -50,7 +50,6 @@ public class OrderService implements IOrderService {
                             {
                                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                                         new ResponseObject(false, "No more ticket", "", 501));
-
                             }
                             ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() );
                             setStatusForTicketType(ticket);
@@ -62,13 +61,9 @@ public class OrderService implements IOrderService {
                 if (organization.isPresent()) {
                     BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
                     if (order.getCurrency().equals("USD")) {
-                        //BigDecimal usdBalance = new BigDecimal(organization.get().getUSDBalance());
-                        paymentService.setPaymentToCountedVND(organization.get(),order.getIdEvent(),orderPrice );
-                       // organization.get().setUSDBalance((usdBalance.add(orderPrice)).toString());
-                    } else if (order.getCurrency().equals("VND")) {
-                        //BigDecimal vndBalance = new BigDecimal(organization.get().getVNDBalance());
                         paymentService.setPaymentToCountedUSD(organization.get(),order.getIdEvent(),orderPrice );
-                        //organization.get().setVNDBalance(vndBalance.add(orderPrice).toString());
+                    } else if (order.getCurrency().equals("VND")) {
+                        paymentService.setPaymentToCountedVND(organization.get(),order.getIdEvent(),orderPrice );
                     } else {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                                 new ResponseObject(false, "Problem with currency ", "", 400));
