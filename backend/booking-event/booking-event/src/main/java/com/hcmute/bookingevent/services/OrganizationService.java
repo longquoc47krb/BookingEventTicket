@@ -262,7 +262,36 @@ public class OrganizationService implements IOrganizationService {
         }
 
     }
+    @Override
+    public ResponseEntity<?> PaymentStatus(String email)
+    {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        if (organization.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "show PaymentStatus successfully ", organization.get().getPaymentPendings(), 200));
 
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "can not show PaymentStatus with email:" + email, "", 404));
+        }
+    }
+    @Override
+    public ResponseEntity<?> findAllPaymentStatus()
+    {
+        List<Organization> organizationList = organizationRepository.findAll();
+
+
+        if (organizationList.size()>0) {
+            List<PaymentStatusRes> paymentStatusRes = organizationList.stream().map(organizationMapper::toPaymentStatusList ).collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "show paymentStatusRes successfully ", paymentStatusRes, 200));
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "can not show PaymentStatus with email:" , "", 404));
+        }
+    }
     @Override
     public ResponseEntity<?> removeBio(String email) {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
