@@ -2,6 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import httpRequest from "../../services/httpRequest";
 import { ReviewAPI } from "../configs/review";
 
+const getReviewListPaging = async (eventId, pageNumber, pageSize) => {
+  try {
+    const response = await httpRequest(
+      ReviewAPI.getReviewListPaging(eventId, pageNumber, pageSize)
+    );
+    return response;
+  } catch (err) {
+    console.log({ err });
+    return err.response.data;
+  }
+};
 const getReviewList = async (eventId) => {
   try {
     const response = await httpRequest(ReviewAPI.getReviewList(eventId));
@@ -47,6 +58,17 @@ const checkExistReview = async (userId, eventId) => {
 };
 // React Query
 
+export const useFetchReviewListPagin = ({ id, pageNumber, pageSize }) => {
+  return useQuery(
+    ["getReviewListPaging", { id, pageNumber, pageSize }],
+    () => getReviewListPaging(id, pageNumber, pageSize),
+    {
+      staleTime: 0,
+      cacheTime: 1000 * 60 * 60,
+      refetchInterval: 10000,
+    }
+  );
+};
 export const useFetchReviewList = (id) => {
   return useQuery(["getReviewList", id], () => getReviewList(id), {
     staleTime: 0,
@@ -56,6 +78,7 @@ export const useFetchReviewList = (id) => {
 };
 
 const reviewServices = {
+  getReviewListPaging,
   getReviewList,
   submitReview,
   checkExistReview,

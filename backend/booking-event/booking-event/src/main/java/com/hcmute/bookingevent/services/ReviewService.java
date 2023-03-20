@@ -5,6 +5,9 @@ import com.hcmute.bookingevent.models.Review;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,7 +48,19 @@ public class ReviewService implements IReviewService {
     }
 
     @Override
-    public ResponseEntity<?> findAllByEventId(String eventId) {
+    public ResponseEntity<?> findAllByEventId(String eventId, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Review> reviewPage = reviewRepository.findAllByIdEvent(eventId, pageable);
+        if (!reviewPage.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Review List by EventId", reviewPage.getContent(), 200));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(false, "List is empty", "", 404));
+    }
+
+    @Override
+    public ResponseEntity<?> findAllReviews(String eventId) {
         List<Review> reviewList = reviewRepository.findAllByIdEvent(eventId);
         if (!reviewList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(

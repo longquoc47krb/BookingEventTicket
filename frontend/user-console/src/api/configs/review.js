@@ -1,6 +1,15 @@
 export const ReviewAPI = {
-  getReviewList: (eventId) => ({
+  getReviewListPaging: (eventId, pageNumber, pageSize = 5) => ({
     url: `/review`,
+    params: {
+      eventId,
+      pageNumber,
+      pageSize,
+    },
+    method: "GET",
+  }),
+  getReviewList: (eventId) => ({
+    url: `/review/all`,
     params: {
       eventId,
     },
