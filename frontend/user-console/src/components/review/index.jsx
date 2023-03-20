@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useReducer } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import RatingStats from "../rating-stats";
 import Unauthenticated from "../unauthenticated";
 import reviewServices, {
   useFetchReviewList,
+  useFetchReviewListPagin,
 } from "../../api/services/reviewServices";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -28,6 +29,8 @@ import {
   AlertQuestion,
 } from "../common/alert";
 import { hideBadWords } from "../../utils/badwords";
+import { Pagination } from "antd";
+import { update } from "lodash";
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {
@@ -39,11 +42,44 @@ function Review() {
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
   const { eventId } = useParams();
-  const { data: allReviews, status } = useFetchReviewList(eventId);
+  const [state, updateState] = useReducer(
+    (prev, next) => {
+      const newEvent = { ...prev, ...next };
+      return newEvent;
+    },
+    {
+      currentPage: 0,
+      reviews: [],
+      feedbackInfo: [],
+      allReviews: [],
+      reviewsWithoutYours: [],
+    }
+  );
+  const {
+    data: reviewsPaging,
+    status,
+    isLoading,
+  } = useFetchReviewListPagin({
+    id: eventId,
+    pageNumber: state.currentPage,
+    pageSize: 10,
+  });
+  const { data: allReviews, status: allReviewsStatus } =
+    useFetchReviewList(eventId);
   const { t } = useTranslation();
-
-  var reviews =
-    status === "success" && allReviews?.status !== 404 ? allReviews.data : [];
+  useEffect(() => {
+    if (
+      status === "success" &&
+      reviewsPaging?.status !== 404 &&
+      allReviewsStatus === "success" &&
+      allReviews?.status !== 404
+    ) {
+      updateState({
+        reviews: reviewsPaging.data,
+        allReviews: allReviews.data,
+      });
+    }
+  }, [status, allReviewsStatus]);
   useEffect(() => {
     const checkExistFeedback = async () => {
       const response = await checkExistReview(user.id, eventId);
@@ -51,42 +87,50 @@ function Review() {
       dispatch(setIsFeedback(isFeedBackTemp));
     };
     checkExistFeedback();
-  }, [allReviews]);
+  }, [reviewsPaging]);
 
   // count stars
-  const oneStar = reviews.reduce(
+  const oneStar = state.allReviews.reduce(
     (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
     0
   );
-  const twoStar = reviews.reduce(
+  const twoStar = state.allReviews.reduce(
     (acc, obj) => (obj.rate === 2 ? acc + 1 : acc),
     0
   );
-  const threeStar = reviews.reduce(
+  const threeStar = state.allReviews.reduce(
     (acc, obj) => (obj.rate === 3 ? acc + 1 : acc),
     0
   );
-  const fourStar = reviews.reduce(
+  const fourStar = state.allReviews.reduce(
     (acc, obj) => (obj.rate === 4 ? acc + 1 : acc),
     0
   );
-  const fiveStar = reviews.reduce(
+  const fiveStar = state.allReviews.reduce(
     (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
     0
   );
   const ratings = [oneStar, twoStar, threeStar, fourStar, fiveStar] || [
     0, 0, 0, 0, 0,
   ];
-  const feedbackInfo = user && reviews.filter((e) => e.email === user.email);
-  console.log({ feedbackInfo });
-  const reviewsWithoutYours =
-    user && reviews.filter((e) => e.email !== user.email);
+  // const reviewsWithoutYours = reviewsPaging?.data.filter(
+  //   (e) => e.email !== user.email
+  // );
+  // const feedbackInfo = user
+  //   ? reviewsPaging.data.filter((e) => e.email === user.email)
+  //   : [];
   useEffect(() => {
     if (isEdit) {
-      setStar(feedbackInfo[0]?.rate);
-      setMessage(hideBadWords(feedbackInfo[0]?.message || ""));
+      setStar(state.feedbackInfo[0]?.rate);
+      setMessage(hideBadWords(state.feedbackInfo[0]?.message || ""));
     }
   }, [isEdit]);
+
+  console.log({
+    state,
+    reviewsPaging,
+    allReviews,
+  });
   // delete review
   const handleDelete = () => {
     AlertQuestion({
@@ -155,7 +199,7 @@ function Review() {
   return (
     <div className="w-full h-full review-container mr-6">
       <RatingStats ratingCounts={ratings} />
-      <div className="mx-4">
+      {/* <div className="mx-4">
         {token ? (
           isFeedback && feedbackInfo ? (
             <div>
@@ -209,13 +253,29 @@ function Review() {
         ) : (
           <Unauthenticated />
         )}
-        {reviews && (
-          <FeedbackList
-            feedbacks={reviewsWithoutYours || reviews}
-            isFeedbackByCurrentUser={isFeedback}
-          />
+        {!isLoading ? (
+          state.reviews && (
+            <FeedbackList
+              feedbacks={reviewsWithoutYours || state.reviews}
+              isFeedbackByCurrentUser={isFeedback}
+            />
+          )
+        ) : (
+          <p>Loading</p>
         )}
-      </div>
+        <Pagination
+          className="my-4"
+          current={state.currentPage + 1}
+          onChange={(page) => {
+            updateState({
+              currentPage: page - 1,
+            });
+          }}
+          total={state.allReviews.length}
+          pageSize={10}
+          defaultCurrent={1}
+        />
+      </div> */}
     </div>
   );
 }

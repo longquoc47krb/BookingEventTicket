@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import reviewServices from "../../api/services/reviewServices";
 import { ImCross } from "react-icons/im";
-const { submitReview, getReviewList, editReview } = reviewServices;
+const { submitReview, getReviewListPaging, editReview } = reviewServices;
 
 function Feedback(props) {
   const {

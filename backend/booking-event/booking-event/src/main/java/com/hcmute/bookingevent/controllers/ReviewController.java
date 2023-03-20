@@ -42,9 +42,13 @@ public class ReviewController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-    @GetMapping(path = "/review")
+    @GetMapping(path = "/review/all")
     public ResponseEntity<?> getAllReviewByEventId(String eventId) {
-       return iReviewService.findAllByEventId(eventId);
+       return iReviewService.findAllReviews(eventId);
+    }
+    @GetMapping(path = "/review")
+    public ResponseEntity<?> getAllReviewPagingByEventId(String eventId, int pageNumber, int pageSize) {
+        return iReviewService.findAllByEventId(eventId, pageNumber, pageSize);
     }
     @GetMapping(path = "/customer/review/checkReview/{id}")
     public ResponseEntity<?> checkReview(@PathVariable String id, @RequestParam(value="eventId", required = false) String  eventId,HttpServletRequest request) {
