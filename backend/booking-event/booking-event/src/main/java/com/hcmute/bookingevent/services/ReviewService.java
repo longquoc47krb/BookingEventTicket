@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class ReviewService implements IReviewService {
                     new ResponseObject(true, "Review List by EventId", reviewPage.getContent(), 200));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponseObject(false, "List is empty", "", 404));
+                new ResponseObject(false, "List is empty", new ArrayList<>(), 404));
     }
 
     @Override
@@ -67,7 +68,7 @@ public class ReviewService implements IReviewService {
                     new ResponseObject(true, "Review List by EventId", reviewList, 200));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponseObject(false, "List is empty", "", 404));
+                new ResponseObject(false, "List is empty", new ArrayList<>(), 404));
     }
 
     @Override
