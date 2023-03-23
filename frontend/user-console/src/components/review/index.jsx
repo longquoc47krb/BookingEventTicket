@@ -113,12 +113,14 @@ function Review() {
   const ratings = [oneStar, twoStar, threeStar, fourStar, fiveStar] || [
     0, 0, 0, 0, 0,
   ];
-  // const reviewsWithoutYours = reviewsPaging?.data.filter(
-  //   (e) => e.email !== user.email
-  // );
-  // const feedbackInfo = user
-  //   ? reviewsPaging.data.filter((e) => e.email === user.email)
-  //   : [];
+  const reviewsWithoutYours =
+    user && isLoading === false && reviewsPaging?.data.length > 0
+      ? reviewsPaging?.data.filter((e) => e.email !== user.email)
+      : [];
+  const feedbackInfo =
+    user && isLoading === false && reviewsPaging?.data.length > 0
+      ? reviewsPaging?.data.filter((e) => e.email === user.email)
+      : [];
   useEffect(() => {
     if (isEdit) {
       setStar(state.feedbackInfo[0]?.rate);
@@ -127,6 +129,8 @@ function Review() {
   }, [isEdit]);
 
   console.log({
+    reviewsWithoutYours,
+    feedbackInfo,
     state,
     reviewsPaging,
     allReviews,
@@ -199,7 +203,7 @@ function Review() {
   return (
     <div className="w-full h-full review-container mr-6">
       <RatingStats ratingCounts={ratings} />
-      {/* <div className="mx-4">
+      <div className="mx-4">
         {token ? (
           isFeedback && feedbackInfo ? (
             <div>
@@ -263,19 +267,21 @@ function Review() {
         ) : (
           <p>Loading</p>
         )}
-        <Pagination
-          className="my-4"
-          current={state.currentPage + 1}
-          onChange={(page) => {
-            updateState({
-              currentPage: page - 1,
-            });
-          }}
-          total={state.allReviews.length}
-          pageSize={10}
-          defaultCurrent={1}
-        />
-      </div> */}
+        {!isFeedback && state.reviews.length > 0 && (
+          <Pagination
+            className="my-4"
+            current={state.currentPage + 1}
+            onChange={(page) => {
+              updateState({
+                currentPage: page - 1,
+              });
+            }}
+            total={state.allReviews.length}
+            pageSize={10}
+            defaultCurrent={1}
+          />
+        )}
+      </div>
     </div>
   );
 }

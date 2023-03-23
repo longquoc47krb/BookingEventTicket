@@ -134,6 +134,26 @@ export const useGetStatisticByID = (id) => {
     refetchInterval: 1000 * 10,
   });
 };
+const getPaymentListByOrganizerID = async (userId) => {
+  try {
+    const response = await httpRequest(
+      OrganizationAPI.getPaymentListByOrganizerID(userId)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const useGetPaymentListByOrganizerID = (id) => {
+  return useQuery(
+    ["getPaymentListByOrganizerID", id],
+    () => getPaymentListByOrganizerID(id),
+    {
+      staleTime: 0,
+      refetchInterval: 1000 * 10,
+    }
+  );
+};
 const organizationServices = {
   submitOrganizer,
   getEventsByOrganizationId,
