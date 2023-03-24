@@ -50,5 +50,9 @@ export const OrganizationAPI = {
   statistic: (userId) => ({
     url: `/organization/statistic/${userId}`,
     method: "GET"
+  }),
+  getPaymentListByOrganizerID: (userId) => ({
+    url: `/organization/payment/${userId}`,
+    method: "GET"
   })
 };

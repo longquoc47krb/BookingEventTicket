@@ -274,6 +274,25 @@ export const eventColumns = [
     ),
   },
 ];
+export const paymentColumns = [
+  {
+    title: t("event.id"),
+    dataIndex: "idEvent",
+  },
+  {
+    title: t("payment.vndbalanceLock"),
+    dataIndex: "vndbalanceLock",
+  },
+  {
+    title: t("payment.usdbalanceLock"),
+    dataIndex: "usdbalanceLock",
+  },
+  {
+    title: "status",
+    key: "status",
+    dataIndex: "status",
+  },
+];
 export const orderColumns = [
   {
     title: t("event.background"),
@@ -637,6 +656,11 @@ export const OrganizerRoute = [
       {
         name: "sider.ticket",
         route: "tickets",
+        icon: <IoTicketOutline />,
+      },
+      {
+        name: "sider.payment",
+        route: "payment-list",
         icon: <IoTicketOutline />,
       },
     ],
