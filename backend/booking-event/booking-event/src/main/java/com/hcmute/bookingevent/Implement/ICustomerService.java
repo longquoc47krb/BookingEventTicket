@@ -15,6 +15,8 @@ public interface ICustomerService {
     ResponseEntity<?> deleteItemWishList(String idItem,String email);
     ResponseEntity<?> addWishList(String idItem,String email);
     ResponseEntity<?> viewWishList(String email);
-
+    ResponseEntity<?> followOrganizer(String idItem,String email);
+    ResponseEntity<?> findFollowOrganizerList(String email);
+    ResponseEntity<?> deleteFollowOrganizerItem(String idItem,String email);
 
 }

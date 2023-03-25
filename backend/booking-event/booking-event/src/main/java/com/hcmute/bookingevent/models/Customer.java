@@ -34,6 +34,7 @@ public class Customer {
     //private List<String> ticketList;
 
     private List<String> eventWishList = new ArrayList<>();
+    private List<String> followList = new ArrayList<>();
     //private List<Order> orderList = new ArrayList<>();
     public Customer(String email)
     {

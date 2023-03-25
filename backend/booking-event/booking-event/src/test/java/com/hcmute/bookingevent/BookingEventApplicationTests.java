@@ -1,6 +1,8 @@
 package com.hcmute.bookingevent;
 
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.services.PaymentService;
 import com.hcmute.bookingevent.models.Admin;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,8 @@ import java.util.Optional;
 class BookingEventApplicationTests {
 	@Autowired
 	private  OrganizationRepository organizationRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
 	@Autowired
 	private AdminRepository adminRepository;
 	@Autowired
@@ -189,4 +194,21 @@ class BookingEventApplicationTests {
 			}
 		}
 	}
+	@Test
+	void testAddFollow()
+	{
+		List<String> ids = Arrays.asList("ramen@konoha.com");
+		List<Customer> customer = customerRepository.findByFollowList(ids);
+		if(customer.size()>0)
+		{
+			System.out.println("co " + customer.size()); // Output: 3.33
+
+		}
+		else
+		{
+			System.out.println("khong "); // Output: 3.33
+
+		}
+	}
+
 }

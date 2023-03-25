@@ -57,6 +57,29 @@ public class CustomerController {
 
 
     }
+    @PostMapping(path = "/customer/followedOrganizer/{userId}")
+    public ResponseEntity<?> followOrganizer (@PathVariable String userId,@RequestParam(value="organizerEmail", required = false) String organizerEmail, HttpServletRequest request   ){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)) {
+            return iCustomerService.followOrganizer(organizerEmail,account.getEmail());
+        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+    @GetMapping(path = "/customer/followedOrganizer/{userId}")
+    public ResponseEntity<?> findFollowedOrganizerList (@PathVariable String userId, HttpServletRequest request   ){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)) {
+            return iCustomerService.findFollowOrganizerList(account.getEmail());
+        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+
+    @DeleteMapping(path = "/customer/followedOrganizer/{userId}")
+    public ResponseEntity<?> deleteFollowedOrganizerList (@PathVariable String userId,@RequestParam(value="organizerEmail", required = false) String organizerEmail, HttpServletRequest request   ){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)) {
+            return iCustomerService.deleteFollowOrganizerItem(organizerEmail,account.getEmail());
+        }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
+
     @DeleteMapping(path = "/customer/wishlist/{idItem}")
     public ResponseEntity<?> deleteItemWishList (@PathVariable String idItem,@RequestParam(value="userId", required = false) String userId , HttpServletRequest request ){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));

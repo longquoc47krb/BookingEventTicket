@@ -76,6 +76,53 @@ public class CustomerService  implements ICustomerService {
 
         }
     }
+    public ResponseEntity<?> followOrganizer(String idItem,String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent() && !customer.get().getFollowList().contains(idItem))
+        {
+
+            customer.get().getFollowList().add(idItem);
+            customerRepository.save(customer.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "save FollowOrganizerList successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "fail to FollowOrganizerList with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> findFollowOrganizerList(String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "show findFollowOrganizerList successfully ", customer.get().getFollowList(),200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "fail to findFollowOrganizerList with email:" + email, "",404));
+
+        }
+    }
+    public ResponseEntity<?> deleteFollowOrganizerItem(String idItem,String email)
+    {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent() && customer.get().getEventWishList().contains(idItem))
+        {
+            customer.get().getFollowList().remove(idItem);
+            customerRepository.save(customer.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "delete deleteFollowOrganizerItem successfully ", "",200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "fail to deleteFollowOrganizerItem with email:" + email, "",404));
+
+        }
+    }
     public ResponseEntity<?> addWishList(String idItem,String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);

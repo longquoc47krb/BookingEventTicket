@@ -17,4 +17,5 @@ public interface CustomerRepository extends MongoRepository<Customer,String> {
 
     List<Customer> findCustomerByEmail(String email);
     //List<Order> find
+    List<Customer> findByFollowList(Iterable<String>  id);
 }
