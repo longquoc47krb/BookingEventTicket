@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.models;
 
+import com.hcmute.bookingevent.models.account.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class Customer  {
     @Id
     private String id;
     //private int ticketAmount;
