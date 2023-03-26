@@ -9,11 +9,12 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import eventServices, {
   useEventDetails,
 } from "../../api/services/eventServices";
+import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
 import AppDrawer from "../../components/common/drawer";
@@ -24,7 +25,10 @@ import parse from "html-react-parser";
 import ReadMoreLess from "../../components/read-more";
 import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
-import { useUserAuth } from "../../context/UserAuthContext";
+import {
+  UserAuthContextProvider,
+  useUserAuth,
+} from "../../context/UserAuthContext";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
 import { EventStatus } from "../../utils/constants";
@@ -38,11 +42,53 @@ import {
 import FooterComponent from "../../components/FooterComponent";
 import HomeDrawer from "../../components/home-drawer";
 import Review from "../../components/review";
+import customerServices from "../../api/services/customerServices";
+import { userInfoSelector } from "../../redux/slices/accountSlice";
+import { useCallback } from "react";
+const { findFollowedOrganizerList } = customerServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
   // const wishList = useSelector(wishlistSelector);
   const [yPosition, setY] = useState(window.scrollY);
+  const { t } = useTranslation();
+  // const userInfo = useSelector(userInfoSelector);
+  const followButtonTheme = {
+    followed:
+      "bg-white px-4 py-2 text-[#1F3E82] border-[#1F3E82] border-2 rounded-2xl flex gap-x-2 items-center",
+    follow:
+      "bg-[#1F3E82] px-4 py-2 text-white border-white border-2 rounded-2xl flex gap-x-2 items-center",
+  };
+  const [follow, setFollow] = useState({
+    isFollowing: false,
+    theme: followButtonTheme.follow,
+    title: (
+      <>
+        <SlUserFollow />
+        <span>{t("org.follow")}</span>
+      </>
+    ),
+  });
+  const handleFollowClick = useCallback(() => {
+    setFollow((prevFollow) => ({
+      isFollowing: !prevFollow.isFollowing,
+      theme: prevFollow.isFollowing
+        ? followButtonTheme.followed
+        : followButtonTheme.follow,
+      title: prevFollow.isFollowing ? (
+        <>
+          <SlUserFollow />
+          <span>{t("org.follow")}</span>
+        </>
+      ) : (
+        <>
+          <SlUserFollowing />
+          <span>{t("org.followed")}</span>
+        </>
+      ),
+    }));
+  }, []);
+  console.log({ follow });
   const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
   const { data: event, status, isFetching } = useEventDetails(eventId);
@@ -54,12 +100,20 @@ function EventDetail(props) {
     }
     fetchOrganizerInfo();
   }, [event]);
+  // useEffect(() => {
+  //   async function findFollowedOrganizer() {
+  //     const findFollowedOrganizerListResponse = await findFollowedOrganizerList(
+  //       userInfo.id
+  //     );
+  //     console.log({ findFollowedOrganizerListResponse });
+  //   }
+  //   findFollowedOrganizer();
+  // }, [follow]);
   const [toggleDrawer, setToggleDrawer] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
-  const { t } = useTranslation();
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
   // const featuredEvent = status === "success" && featuredEventsTemp.data;
@@ -77,7 +131,6 @@ function EventDetail(props) {
   const introduce = useRef(null);
   const info = useRef(null);
   const organization = useRef(null);
-  const review = useRef(null);
 
   const scrollToSection = (elementRef) => {
     if (status !== "loading") {
@@ -308,8 +361,15 @@ function EventDetail(props) {
                   </div>
                   <div className="event-detail-organization">
                     <img src={organizer?.avatar} alt="logo" />
-                    <h1>{organizer?.name}</h1>
-
+                    <div className="flex gap-x-4 items-start">
+                      <h1>{organizer?.name}</h1>
+                      <button
+                        className={follow.theme}
+                        onClick={handleFollowClick}
+                      >
+                        {follow.title}
+                      </button>
+                    </div>
                     <p>{parse(String(organizer?.biography))}</p>
                     <button
                       className="event-detail-organization-contact"

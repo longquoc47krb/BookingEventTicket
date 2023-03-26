@@ -9,7 +9,8 @@
         "event": "Events",
         "ticket": "Tickets",
         "utilities": "Utilities",
-        "calendar": "Calendar"
+        "calendar": "Calendar",
+        "payment": "Payment"
     },
     "org": {
         "profile": "Organizer Profile"
@@ -297,5 +298,12 @@
         "error": "Upload avatar failed"
     },
     "revenue": "Revenue",
-    "ticketSold": "Tickets sold"
+    "ticketSold": "Tickets sold",
+    "payment": {
+        "vndbalanceLock": "VND Balance Lock",
+        "usdbalanceLock": "USD Balance Lock",
+        "inprogress": "INPROGRESS",
+        "completed": "COMPLETED",
+        "cancel": "CANCEL"
+    }
 }

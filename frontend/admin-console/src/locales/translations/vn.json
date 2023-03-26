@@ -9,7 +9,8 @@
         "event": "Sự kiện",
         "ticket": "Vé sự kiện",
         "utilities": "Tiện ích",
-        "calendar": "Lịch"
+        "calendar": "Lịch",
+        "payment": "Thanh toán"
     },
     "org": {
         "profile": "Hồ sơ tổ chức"
@@ -299,5 +300,12 @@
         "error": "Cập nhật ảnh đại diện thất bại"
     },
     "revenue": "Doanh thu",
-    "ticketSold": "Vé đã bán"
+    "ticketSold": "Vé đã bán",
+    "payment": {
+        "vndbalanceLock": "Doanh thu tạm tính (VND)",
+        "usdbalanceLock": "Doanh thu tạm tính (USD)",
+        "inprogress": "ĐANG XỬ LÝ",
+        "completed": "HOÀN THÀNH",
+        "cancel": "HỦY BỎ"
+    }
 }

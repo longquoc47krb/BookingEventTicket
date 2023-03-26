@@ -26,4 +26,15 @@ export const CustomerAPI = {
     method: "POST",
     data,
   }),
+  findFollowedOrganizerList: (userId) => ({
+    url: `/customer/followedOrganizer/${userId}`,
+    method: "GET",
+  }),
+  followOrg: (userId, organizerEmail) => ({
+    url: `/customer/followedOrganizer/${userId}`,
+    method: "POST",
+    params: {
+      organizerEmail,
+    },
+  }),
 };

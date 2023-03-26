@@ -34,6 +34,14 @@ const clearAllWishlist = async (userId) => {
     return error.response.data;
   }
 };
+const findFollowedOrganizerList = async (userId) => {
+  try {
+    const response = await httpRequest(CustomerAPI.findFollowedOrganizerList(userId));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+}
 export const useFetchWishlist = (userId) => {
   return useQuery(["wishlist", userId], () => fetchWishlist(userId), {
     staleTime: 30000,
@@ -45,6 +53,7 @@ const customerServices = {
   addWishlistItem,
   removeWishlistItem,
   clearAllWishlist,
+  findFollowedOrganizerList
 };
 
 export default customerServices;
