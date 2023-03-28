@@ -36,12 +36,34 @@ const clearAllWishlist = async (userId) => {
 };
 const findFollowedOrganizerList = async (userId) => {
   try {
-    const response = await httpRequest(CustomerAPI.findFollowedOrganizerList(userId));
-    return response;
+    const response = await httpRequest(
+      CustomerAPI.findFollowedOrganizerList(userId)
+    );
+    return response.data;
   } catch (error) {
     return error.response.data;
   }
-}
+};
+const followOrg = async (userId, organizerEmail) => {
+  try {
+    const response = await httpRequest(
+      CustomerAPI.followOrg(userId, organizerEmail)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+const unfollowOrg = async (userId, organizerEmail) => {
+  try {
+    const response = await httpRequest(
+      CustomerAPI.unfollowOrg(userId, organizerEmail)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 export const useFetchWishlist = (userId) => {
   return useQuery(["wishlist", userId], () => fetchWishlist(userId), {
     staleTime: 30000,
@@ -53,7 +75,9 @@ const customerServices = {
   addWishlistItem,
   removeWishlistItem,
   clearAllWishlist,
-  findFollowedOrganizerList
+  findFollowedOrganizerList,
+  followOrg,
+  unfollowOrg,
 };
 
 export default customerServices;

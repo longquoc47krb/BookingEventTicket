@@ -43,56 +43,76 @@ import FooterComponent from "../../components/FooterComponent";
 import HomeDrawer from "../../components/home-drawer";
 import Review from "../../components/review";
 import customerServices from "../../api/services/customerServices";
-import { userInfoSelector } from "../../redux/slices/accountSlice";
 import { useCallback } from "react";
-const { findFollowedOrganizerList } = customerServices;
+const { findFollowedOrganizerList, followOrg, unfollowOrg } = customerServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
-  // const wishList = useSelector(wishlistSelector);
   const [yPosition, setY] = useState(window.scrollY);
   const { t } = useTranslation();
-  // const userInfo = useSelector(userInfoSelector);
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useUserActionContext();
   const followButtonTheme = {
-    followed:
-      "bg-white px-4 py-2 text-[#1F3E82] border-[#1F3E82] border-2 rounded-2xl flex gap-x-2 items-center",
-    follow:
-      "bg-[#1F3E82] px-4 py-2 text-white border-white border-2 rounded-2xl flex gap-x-2 items-center",
-  };
-  const [follow, setFollow] = useState({
-    isFollowing: false,
-    theme: followButtonTheme.follow,
-    title: (
-      <>
-        <SlUserFollow />
-        <span>{t("org.follow")}</span>
-      </>
-    ),
-  });
-  const handleFollowClick = useCallback(() => {
-    setFollow((prevFollow) => ({
-      isFollowing: !prevFollow.isFollowing,
-      theme: prevFollow.isFollowing
-        ? followButtonTheme.followed
-        : followButtonTheme.follow,
-      title: prevFollow.isFollowing ? (
+    false: {
+      theme:
+        "bg-white px-4 py-2 text-[#1F3E82] border-[#1F3E82] border-2 rounded-2xl flex gap-x-2 items-center",
+      title: (
         <>
           <SlUserFollow />
           <span>{t("org.follow")}</span>
         </>
-      ) : (
+      ),
+    },
+    true: {
+      theme:
+        "bg-[#1F3E82] px-4 py-2 text-white border-white border-2 rounded-2xl flex gap-x-2 items-center",
+      title: (
         <>
           <SlUserFollowing />
           <span>{t("org.followed")}</span>
         </>
       ),
-    }));
-  }, []);
-  console.log({ follow });
+    },
+  };
   const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
+  const [isFollowed, setIsFollowed] = useState(false);
   const { data: event, status, isFetching } = useEventDetails(eventId);
-  const [organizer, setOrganizer] = useState();
+  const [organizer, setOrganizer] = useState({});
+  console.log({ isFollowed });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useUserAuth();
+  useEffect(() => {
+    async function fetchFollowingOrganizer() {
+      const response = await findFollowedOrganizerList(user.id);
+      const followedOrganizers = response.map((o) => o.email);
+      console.log("followed: " + followedOrganizers.includes(organizer.email));
+      setIsFollowed(followedOrganizers.includes(organizer.email));
+    }
+    fetchFollowingOrganizer();
+  }, [eventId]);
+
+  const handleFollowClick = () => {
+    const email = organizer.email;
+    console.log({ email });
+    async function handleFollowOrganizer() {
+      if (isEmpty(user)) {
+        handleCheckAuthenticated();
+      } else {
+        if (isFollowed) {
+          await unfollowOrg(user.id, email);
+          setIsFollowed(false);
+        }
+        // Otherwise, follow the organizer.
+        else {
+          await followOrg(user.id, email);
+          setIsFollowed(true);
+        }
+      }
+    }
+    handleFollowOrganizer();
+  };
   useEffect(() => {
     async function fetchOrganizerInfo() {
       const res = await fetchOrganizerByEventId(eventId);
@@ -100,22 +120,9 @@ function EventDetail(props) {
     }
     fetchOrganizerInfo();
   }, [event]);
-  // useEffect(() => {
-  //   async function findFollowedOrganizer() {
-  //     const findFollowedOrganizerListResponse = await findFollowedOrganizerList(
-  //       userInfo.id
-  //     );
-  //     console.log({ findFollowedOrganizerListResponse });
-  //   }
-  //   findFollowedOrganizer();
-  // }, [follow]);
   const [toggleDrawer, setToggleDrawer] = useState(false);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useUserAuth();
-  const { wishlist, addToWishlist, removeFromWishlist } =
-    useUserActionContext();
+  console.log({ user });
   // const featuredEvent = status === "success" && featuredEventsTemp.data;
   if (localStorage.getItem("i18nextLng") === "en") {
     moment.locale("en");
@@ -364,10 +371,10 @@ function EventDetail(props) {
                     <div className="flex gap-x-4 items-start">
                       <h1>{organizer?.name}</h1>
                       <button
-                        className={follow.theme}
+                        className={followButtonTheme[isFollowed].theme}
                         onClick={handleFollowClick}
                       >
-                        {follow.title}
+                        {followButtonTheme[isFollowed].title}
                       </button>
                     </div>
                     <p>{parse(String(organizer?.biography))}</p>
