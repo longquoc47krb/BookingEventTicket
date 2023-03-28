@@ -61,7 +61,9 @@
     "contact": "Contact",
     "about": "About us",
     "faq": "FAQs",
-    "become-an-org": "Be an Event Organizer"
+    "become-an-org": "Be an Event Organizer",
+    "follow": "Follow",
+    "followed": "Followed"
   },
   "home": "Home",
   "signin": "Sign in",

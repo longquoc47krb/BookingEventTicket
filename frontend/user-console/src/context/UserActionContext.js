@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -13,17 +14,22 @@ import { userInfoSelector } from "../redux/slices/accountSlice";
 const UserActionContext = createContext();
 const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
   customerServices;
-const { getEventById } = eventServices;
+
+const { getEventById, fetchOrganizerByEventId } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
+  const [eventId, setEventId] = useState("");
+  console.log({ eventId });
   const [wishlist, setWishlist] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
+  const [followingOrganizerList, setFollowingOrganizerList] = useState([]);
   const [wishlistEvent, setWishlistEvent] = useState();
   const [activeDrawer, toggleDrawer] = useState(false);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   const cityName = localStorage.getItem("city");
   const { data: checkedEvents } = useCheckEventsStatus();
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");
+
   const getWishlist = async () => {
     setWishlistEvent([]);
 
@@ -114,6 +120,8 @@ export const UserActionContextProvider = ({ children }) => {
       value={{
         wishlist,
         wishlistEvent,
+        followingList,
+        followingOrganizerList,
         addToWishlist,
         removeFromWishlist,
         getWishlist,
@@ -122,6 +130,8 @@ export const UserActionContextProvider = ({ children }) => {
         toggleDrawer,
         checkedEvents,
         user,
+        eventId,
+        setEventId,
       }}
     >
       {children}

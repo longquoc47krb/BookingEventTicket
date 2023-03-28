@@ -291,6 +291,21 @@ export const paymentColumns = [
     title: "status",
     key: "status",
     dataIndex: "status",
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>
+      status === "COMPLETED" ? (
+        <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
+          {t("payment.completed")}
+        </span>
+      ) : status === "INPROGRESS" ? (
+        <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
+          {t("payment.inprogress")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
+          {t("payment.cancel")}
+        </span>
+      ),
   },
 ];
 export const orderColumns = [
