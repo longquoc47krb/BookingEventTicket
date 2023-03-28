@@ -3,10 +3,7 @@ package com.hcmute.bookingevent.mapper;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
-import com.hcmute.bookingevent.payload.response.AllOrganizationRes;
-import com.hcmute.bookingevent.payload.response.EventViewResponse;
-import com.hcmute.bookingevent.payload.response.LoginRes;
-import com.hcmute.bookingevent.payload.response.PaymentStatusRes;
+import com.hcmute.bookingevent.payload.response.*;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +24,8 @@ public class OrganizationMapper {
     }
     public PaymentStatusRes toPaymentStatusList(Organization organization) {
         return new PaymentStatusRes(organization.getEmail(),organization.getPaymentPendings());
+    }
+    public FollowedListRes toFollowedListRes(Organization organization) {
+        return new FollowedListRes();
     }
 }

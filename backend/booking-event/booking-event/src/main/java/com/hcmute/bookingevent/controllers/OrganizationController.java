@@ -150,7 +150,14 @@ public class OrganizationController {
         }
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-
+    @GetMapping("/organization/manage/followedList/{userId}")
+    public ResponseEntity<?> getFollowedList(@PathVariable String userId, HttpServletRequest request){
+        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        if(account.getId().equals(userId)){
+            return iOrganizationService.getFollowedList(account.getEmail());
+        }
+        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+    }
     @GetMapping("/organization/statistic/{userId}")
     public ResponseEntity<?> statistic(@PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));

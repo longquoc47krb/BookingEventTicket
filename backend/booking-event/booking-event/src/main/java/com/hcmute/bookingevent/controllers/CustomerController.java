@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.Implement.ICustomerService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.payload.request.EmailReq;
 import com.hcmute.bookingevent.payload.request.OrderReq;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
@@ -58,10 +59,10 @@ public class CustomerController {
 
     }
     @PostMapping(path = "/customer/followedOrganizer/{userId}")
-    public ResponseEntity<?> followOrganizer (@PathVariable String userId,@RequestParam(value="organizerEmail", required = false) String organizerEmail, HttpServletRequest request   ){
+    public ResponseEntity<?> followOrganizer (@PathVariable String userId,@Valid @RequestBody EmailReq emailReq, HttpServletRequest request   ){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return iCustomerService.followOrganizer(organizerEmail,account.getEmail());
+            return iCustomerService.followOrganizer(emailReq.getEmail(),account.getEmail());
         }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
     @GetMapping(path = "/customer/followedOrganizer/{userId}")
@@ -73,10 +74,10 @@ public class CustomerController {
     }
 
     @DeleteMapping(path = "/customer/followedOrganizer/{userId}")
-    public ResponseEntity<?> deleteFollowedOrganizerList (@PathVariable String userId,@RequestParam(value="organizerEmail", required = false) String organizerEmail, HttpServletRequest request   ){
+    public ResponseEntity<?> deleteFollowedOrganizerList (@PathVariable String userId,@Valid @RequestBody EmailReq emailReq, HttpServletRequest request   ){
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
-            return iCustomerService.deleteFollowOrganizerItem(organizerEmail,account.getEmail());
+            return iCustomerService.deleteFollowOrganizerItem(emailReq.getEmail(),account.getEmail());
         }        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
 

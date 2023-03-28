@@ -5,8 +5,10 @@ import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.CustomerMapper;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.mapper.OrganizationMapper;
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
@@ -16,10 +18,7 @@ import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
 import com.hcmute.bookingevent.payload.response.*;
-import com.hcmute.bookingevent.repository.AccountRepository;
-import com.hcmute.bookingevent.repository.EventRepository;
-import com.hcmute.bookingevent.repository.OrderRepository;
-import com.hcmute.bookingevent.repository.OrganizationRepository;
+import com.hcmute.bookingevent.repository.*;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -49,6 +48,9 @@ public class OrganizationService implements IOrganizationService {
     private final EventMapper eventMapper;
     private final PasswordEncoder encoder;
     private final OrganizationMapper organizationMapper;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
+
 
     public ResponseEntity<?> createOrganization(Organization organization) {
 
@@ -261,6 +263,23 @@ public class OrganizationService implements IOrganizationService {
                     new ResponseObject(false, "Delete account fail with email:" + email, "", 404));
         }
 
+    }
+
+    public ResponseEntity<?> getFollowedList(String email)
+    {
+        List<String> ids = Arrays.asList(email);
+        List<Customer> customerList =  customerRepository.findByFollowList(ids);
+        if(customerList.size()>0)
+        {
+            List<FollowedListRes> followedListResList = customerList.stream().map(customerMapper::toFollowedListRes ).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "show getFollowedList successfully ",followedListResList ,200));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "fail to show getFollowedList with email:" + email, "",404));
+
+        }
     }
     @Override
     public ResponseEntity<?> PaymentStatus(String email)
