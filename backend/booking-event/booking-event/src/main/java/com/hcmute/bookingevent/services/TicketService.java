@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class TicketService implements ITicketService {
 
+
     private final OrganizationRepository organizationRepository;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
