@@ -110,7 +110,7 @@ public class CustomerService  implements ICustomerService {
     public ResponseEntity<?> deleteFollowOrganizerItem(String idItem,String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
-        if(customer.isPresent() && customer.get().getEventWishList().contains(idItem))
+        if(customer.isPresent() && customer.get().getFollowList().contains(idItem))
         {
             customer.get().getFollowList().remove(idItem);
             customerRepository.save(customer.get());
