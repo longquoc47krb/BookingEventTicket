@@ -40,8 +40,8 @@ export const CustomerAPI = {
   unfollowOrg: (userId, organizerEmail) => ({
     url: `/customer/followedOrganizer/${userId}`,
     method: "DELETE",
-    params: {
-      organizerEmail,
+    data: {
+      email: organizerEmail,
     },
   }),
 };
