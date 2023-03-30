@@ -33,15 +33,15 @@ export const CustomerAPI = {
   followOrg: (userId, organizerEmail) => ({
     url: `/customer/followedOrganizer/${userId}`,
     method: "POST",
-    params: {
-      organizerEmail,
+    data: {
+      email: organizerEmail,
     },
   }),
   unfollowOrg: (userId, organizerEmail) => ({
     url: `/customer/followedOrganizer/${userId}`,
     method: "DELETE",
-    params: {
-      organizerEmail,
+    data: {
+      email: organizerEmail,
     },
   }),
 };
