@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.config.paypal.VNPayConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.payload.request.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +29,9 @@ public class VNPayService {
 
     @SneakyThrows
     //@Override
-    public ResponseEntity<?> createPayment(HttpServletRequest request, Order order) {
-        //order.setState(Constants.ORDER_STATE_PROCESS);
-        //order.getPaymentDetail().getPaymentInfo().put("isPaid", false);
-        //orderRepository.save(order);
+    public ResponseEntity<?> createPayment(HttpServletRequest request, PriceRes priceRes) {
         //Config.getIpAddress(req)
-        Map<String, Object> vnp_Params = mapVnPayParam(order, request);
+        Map<String, Object> vnp_Params = mapVnPayParam(priceRes, request);
         //Build data to hash and querystring
         List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
@@ -62,47 +60,38 @@ public class VNPayService {
         String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.vnp_HashSecret, hashData.toString());
         queryUrl += VNPayConfig.vnp_SecureHash + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
-//        String checkUpdateQuantityProduct = paymentUtils.checkingUpdateQuantityProduct(order, true);
-//        if (checkUpdateQuantityProduct == null) {
-//            paymentValidatorUtils.setOrderId(order.getId());
-//            paymentValidatorUtils.setOrderRepository(orderRepository);
-//            paymentValidatorUtils.setPaymentUtils(paymentUtils);
-//            taskScheduler.schedule(paymentValidatorUtils, new Date(System.currentTimeMillis() + Constants.PAYMENT_TIMEOUT)) ;
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject(true, "Payment Complete", paymentUrl,200));
-//        } else throw new AppException(HttpStatus.CONFLICT.value(), "Quantity exceeds the available stock!");
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Payment Complete", paymentUrl, 200));
     }
 
-    public Map<String, Object> mapVnPayParam(Order order, HttpServletRequest request) {
+    public Map<String, Object> mapVnPayParam(PriceRes priceRes, HttpServletRequest request) {
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
         String vnp_TxnRef = String.valueOf(System.currentTimeMillis());
-//        String total = String.valueOf((order.getTotalPrice().add(new BigDecimal(order.getDeliveryDetail().getDeliveryInfo().get("fee").toString())))
-//                .multiply(BigDecimal.valueOf(100)));
-        String total = String.valueOf(order.getTotalPrice());
+        //String total = String.valueOf(order.getTotalPrice());
+        String total = String.valueOf(Integer.parseInt(priceRes.getPrice()) * 100);
         Map<String, Object> vnp_Params = new HashMap<>();
         vnp_Params.put(VNPayConfig.vnp_Version_k, VNPayConfig.vnp_Version);
         vnp_Params.put(VNPayConfig.vnp_Command_k, VNPayConfig.vnp_Command);
         vnp_Params.put(VNPayConfig.vnp_TmnCode_k, VNPayConfig.vnp_TmnCode);
         vnp_Params.put(VNPayConfig.vnp_CurrCode, VNPayConfig.vnp_currCode);
         vnp_Params.put(VNPayConfig.vnp_TxnRef_k, vnp_TxnRef);
-        vnp_Params.put(VNPayConfig.vnp_OrderInfo_k, order.getId());
+        vnp_Params.put(VNPayConfig.vnp_OrderInfo_k, "03");
         vnp_Params.put(VNPayConfig.vnp_OrderType, VNPayConfig.vnp_orderType);
         vnp_Params.put(VNPayConfig.vnp_Locale, VNPayConfig.vn);
         vnp_Params.put(VNPayConfig.vnp_ReturnUrl, StringUtils.getBaseURL(request) + VNPayConfig.vnp_Returnurl);
         vnp_Params.put(VNPayConfig.vnp_IpAddr, vnp_IpAddr);
+        vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put(VNPayConfig.vnp_Amount, total);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone(VNPayConfig.GMT));
         SimpleDateFormat formatter = new SimpleDateFormat(VNPayConfig.yyyyMMddHHmmss);
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_CreateDate, vnp_CreateDate);
-        cld.add(Calendar.MINUTE, 5);
+        cld.add(Calendar.MINUTE, 10);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_ExpireDate, vnp_ExpireDate);
         //get email order
-        String fullName = order.getEmail();
+        String fullName = "customer";
         if (fullName != null && !fullName.isEmpty()) {
             int idx = fullName.indexOf(' ');
             if (idx != -1) {
@@ -128,11 +117,6 @@ public class VNPayService {
 
     @SneakyThrows
     public ResponseEntity<?> executePayment(String responseCode, String id, HttpServletRequest request, HttpServletResponse response) {
-//        Optional<Order> order = orderRepository.findById(id);
-//        if (order.isEmpty() || !order.get().getState().equals(Constants.ORDER_STATE_PROCESS)) {
-//            response.sendRedirect(MAIN_URL + "success=false&cancel=false");
-//            throw new NotFoundException("Can not found order with id: " + id);
-//        }
         if (responseCode.equals(VNPayConfig.responseSuccessCode)) {
             response.sendRedirect(MAIN_URL + "success=true&cancel=false");
             return ResponseEntity.status(HttpStatus.OK).body(
