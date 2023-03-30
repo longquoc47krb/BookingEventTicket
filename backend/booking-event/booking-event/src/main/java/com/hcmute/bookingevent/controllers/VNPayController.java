@@ -20,8 +20,8 @@ public class VNPayController {
     private final VNPayService vnpayService;
 
     @PostMapping("/VNPayOrder")
-    public ResponseEntity<?> payment(@Valid @RequestBody Order order, HttpServletRequest request) {
-        return vnpayService.createPayment(request,order);
+    public ResponseEntity<?> payment(@Valid @RequestBody PriceRes priceRes, HttpServletRequest request) {
+        return vnpayService.createPayment(request,priceRes);
 
     }
     @GetMapping(value = "/VNPay/cancel")
