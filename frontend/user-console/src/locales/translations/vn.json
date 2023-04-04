@@ -267,7 +267,8 @@
       "submit-success": "Cảm ơn bạn đã đánh giá!",
       "submit-failed": "Gửi đánh giá thất bại.",
       "update-success": "Đánh giá của bạn đã được cập nhật.",
-      "update-failed": "Cập nhật đánh giá thất bại."
+      "update-failed": "Cập nhật đánh giá thất bại.",
+      "event-incompleted": "Chỉ có thể đánh giá khi sự kiện kết thúc"
     }
   },
   "ticket": {

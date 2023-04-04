@@ -19,7 +19,9 @@ import { useEffect, useState } from "react";
 import {
   setIsFeedback,
   isFeedbackSelector,
-} from "../../redux/slices/generalSlice";
+  updateRating,
+  ratingSelector,
+} from "../../redux/slices/eventSlice";
 import FeedbackComment from "../feedback-item";
 import { useTranslation } from "react-i18next";
 import {
@@ -30,17 +32,16 @@ import {
 } from "../common/alert";
 import { hideBadWords } from "../../utils/badwords";
 import { Pagination } from "antd";
-import { update } from "lodash";
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {
   const token = useSelector(tokenSelector);
   const isFeedback = useSelector(isFeedbackSelector);
-  const [star, setStar] = useState(5);
-  const [message, setMessage] = useState("");
+  const ratingInfo = useSelector(ratingSelector);
   const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
+
   const { eventId } = useParams();
   const [state, updateState] = useReducer(
     (prev, next) => {
@@ -123,8 +124,12 @@ function Review() {
       : [];
   useEffect(() => {
     if (isEdit) {
-      setStar(state.feedbackInfo[0]?.rate);
-      setMessage(hideBadWords(state.feedbackInfo[0]?.message || ""));
+      dispatch(
+        updateRating({
+          star: state.feedbackInfo[0]?.rate,
+          message: hideBadWords(state.feedbackInfo[0]?.message || ""),
+        })
+      );
     }
   }, [isEdit]);
 
@@ -164,8 +169,8 @@ function Review() {
       name: user.name,
       email: user.email,
       idEvent: eventId,
-      message,
-      rate: star,
+      message: ratingInfo.message,
+      rate: ratingInfo.star,
     });
     if (response.status === 200) {
       AlertPopup({
@@ -174,8 +179,12 @@ function Review() {
     } else {
       AlertError({ title: t("popup.review.submit-failed") });
     }
-    setMessage("");
-    setStar(5);
+    dispatch(
+      updateRating({
+        star: 5,
+        message: "",
+      })
+    );
   };
 
   // edit feedback
@@ -185,8 +194,8 @@ function Review() {
       name: user.name,
       email: user.email,
       idEvent: eventId,
-      message,
-      rate: star,
+      message: ratingInfo.message,
+      rate: ratingInfo.star,
     });
 
     if (response.status === 200) {
@@ -196,8 +205,12 @@ function Review() {
     } else {
       AlertError({ title: t("popup.review.update-failed") });
     }
-    setMessage("");
-    setStar(5);
+    dispatch(
+      updateRating({
+        star: 5,
+        message: "",
+      })
+    );
     setIsEdit(false);
   };
   return (
@@ -226,10 +239,8 @@ function Review() {
                 </>
               ) : (
                 <Feedback
-                  message={message}
-                  star={star}
-                  setStar={setStar}
-                  setMessage={setMessage}
+                  message={ratingInfo.message}
+                  star={ratingInfo.star}
                   isEditting={isEdit}
                   onCancel={setIsEdit}
                   onUpdate={handleUpdate}
@@ -244,10 +255,8 @@ function Review() {
               </p>
               <Feedback
                 isEditting={isEdit}
-                star={star}
-                setStar={setStar}
-                message={message}
-                setMessage={setMessage}
+                star={ratingInfo.star}
+                message={ratingInfo.message}
                 onCancel={setIsEdit}
                 onSubmit={handleSubmit}
                 user={user}

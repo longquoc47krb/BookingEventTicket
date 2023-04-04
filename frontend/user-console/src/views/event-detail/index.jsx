@@ -44,12 +44,18 @@ import HomeDrawer from "../../components/home-drawer";
 import Review from "../../components/review";
 import customerServices from "../../api/services/customerServices";
 import { useCallback } from "react";
+import {
+  isCompletedSelector,
+  setIsCompleted,
+} from "../../redux/slices/eventSlice";
+import EventIncompleted from "../../components/event-incompleted";
 const { findFollowedOrganizerList, followOrg, unfollowOrg } = customerServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
   const [yPosition, setY] = useState(window.scrollY);
   const { t } = useTranslation();
+  const isCompleted = useSelector(isCompletedSelector);
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
   const followButtonTheme = {
@@ -83,6 +89,11 @@ function EventDetail(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useUserAuth();
+  // Check if event is completed
+  useEffect(() => {
+    event &&
+      dispatch(setIsCompleted(!!(event["status"] === EventStatus.COMPLETED)));
+  }, []);
   useEffect(() => {
     async function fetchFollowingOrganizer() {
       const response = await findFollowedOrganizerList(user.id);
@@ -195,7 +206,6 @@ function EventDetail(props) {
       }
     }
   }, [introduce, info, organization, yPosition, activeSection, status]);
-  useEffect(() => {}, [wishlist]);
   if (status === "loading" || isFetching) {
     return <Loading />;
   } else if (status === "error" || isFetching) {
@@ -341,7 +351,11 @@ function EventDetail(props) {
           </div>
           <div className="event-detail-wrapper" ref={container}>
             {activeSection === "review" ? (
-              <Review />
+              isCompleted ? (
+                <Review />
+              ) : (
+                <EventIncompleted />
+              )
             ) : (
               <div className="event-detail-wrapper-left">
                 <div className="event-detail-content">

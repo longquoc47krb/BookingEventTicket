@@ -11,7 +11,6 @@ Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
     return list.length === new Set(list.map(mapper)).size;
   });
 });
-console.log({ Yup });
 export const YupValidations = {
   email: Yup.string()
     .required("validate.email.required")
