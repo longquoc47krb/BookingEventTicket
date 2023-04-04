@@ -112,7 +112,7 @@ function EventDetail(props) {
   useEffect(() => {
     event &&
       dispatch(setIsCompleted(!!(event["status"] === EventStatus.COMPLETED)));
-  }, [isFollowed]);
+  }, [event]);
   const handleFollowClick = () => {
     const email = organizer.email;
     async function handleFollowOrganizer() {

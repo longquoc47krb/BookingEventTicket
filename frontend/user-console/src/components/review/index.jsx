@@ -79,6 +79,11 @@ function Review() {
         reviews: reviewsPaging.data,
         allReviews: allReviews.data,
       });
+    } else {
+      updateState({
+        reviews: [],
+        allReviews: [],
+      });
     }
   }, [status, allReviewsStatus]);
   useEffect(() => {
