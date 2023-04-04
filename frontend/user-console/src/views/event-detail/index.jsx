@@ -1,36 +1,44 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Affix } from "antd";
+import parse from "html-react-parser";
 import moment from "moment";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { CustomerAPI } from "../../api/configs/customer";
+import customerServices from "../../api/services/customerServices";
 import eventServices, {
   useEventDetails,
 } from "../../api/services/eventServices";
-import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import Calendar from "../../components/calendar";
 import { AlertErrorPopup } from "../../components/common/alert";
 import AppDrawer from "../../components/common/drawer";
 import Header from "../../components/common/header";
+import EventIncompleted from "../../components/event-incompleted";
+import FooterComponent from "../../components/FooterComponent";
 import HelmetHeader from "../../components/helmet";
+import HomeDrawer from "../../components/home-drawer";
 import Loading from "../../components/loading";
-import parse from "html-react-parser";
 import ReadMoreLess from "../../components/read-more";
+import Review from "../../components/review";
 import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
+import { useUserAuth } from "../../context/UserAuthContext";
 import {
-  UserAuthContextProvider,
-  useUserAuth,
-} from "../../context/UserAuthContext";
+  isCompletedSelector,
+  setIsCompleted,
+} from "../../redux/slices/eventSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
+import httpRequest from "../../services/httpRequest";
 import { EventStatus } from "../../utils/constants";
 import {
   displayDate,
@@ -39,20 +47,36 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-import FooterComponent from "../../components/FooterComponent";
-import HomeDrawer from "../../components/home-drawer";
-import Review from "../../components/review";
-import customerServices from "../../api/services/customerServices";
-import { useCallback } from "react";
-import {
-  isCompletedSelector,
-  setIsCompleted,
-} from "../../redux/slices/eventSlice";
-import EventIncompleted from "../../components/event-incompleted";
-const { findFollowedOrganizerList, followOrg, unfollowOrg } = customerServices;
+const { followOrg, unfollowOrg } = customerServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
+  const queryClient = useQueryClient();
   const { eventId } = useParams();
+  const [organizer, setOrganizer] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useUserAuth();
+  const [showFollowed, setShowFollowed] = useState(false);
+  const { data: isFollowed } = useQuery(
+    ["checkFollowedOrganizer", user.email, organizer.email],
+    () => {
+      const checkIsFollowedOrganizer = async (userId, organizerEmail) => {
+        try {
+          const response = await httpRequest(
+            CustomerAPI.checkIsFollowedOrganizer(userId, organizerEmail)
+          );
+          setShowFollowed(response.data);
+          return response.data;
+        } catch (error) {
+          return error.response.data;
+        }
+      };
+      checkIsFollowedOrganizer(user.email, organizer.email);
+    },
+    {
+      staleTime: 0,
+    }
+  );
   const [yPosition, setY] = useState(window.scrollY);
   const { t } = useTranslation();
   const isCompleted = useSelector(isCompletedSelector);
@@ -82,43 +106,27 @@ function EventDetail(props) {
   };
   const container = useRef(null);
   const [activeSection, setActiveSection] = useState(null);
-  const [isFollowed, setIsFollowed] = useState(false);
   const { data: event, status, isFetching } = useEventDetails(eventId);
-  const [organizer, setOrganizer] = useState({});
-  console.log({ isFollowed });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useUserAuth();
+
   // Check if event is completed
   useEffect(() => {
     event &&
       dispatch(setIsCompleted(!!(event["status"] === EventStatus.COMPLETED)));
-  }, []);
-  useEffect(() => {
-    async function fetchFollowingOrganizer() {
-      const response = await findFollowedOrganizerList(user.id);
-      const followedOrganizers = response.map((o) => o.email);
-      console.log("followed: " + followedOrganizers.includes(organizer.email));
-      setIsFollowed(followedOrganizers.includes(organizer.email));
-    }
-    fetchFollowingOrganizer();
-  }, [eventId]);
-
+  }, [isFollowed]);
   const handleFollowClick = () => {
     const email = organizer.email;
-    console.log({ email });
     async function handleFollowOrganizer() {
       if (isEmpty(user)) {
         handleCheckAuthenticated();
       } else {
         if (isFollowed) {
           await unfollowOrg(user.id, email);
-          setIsFollowed(false);
+          setShowFollowed(false);
         }
         // Otherwise, follow the organizer.
         else {
           await followOrg(user.id, email);
-          setIsFollowed(true);
+          setShowFollowed(true);
         }
       }
     }
@@ -385,10 +393,10 @@ function EventDetail(props) {
                     <div className="flex gap-x-4 items-start">
                       <h1>{organizer?.name}</h1>
                       <button
-                        className={followButtonTheme[isFollowed].theme}
+                        className={followButtonTheme[showFollowed].theme}
                         onClick={handleFollowClick}
                       >
-                        {followButtonTheme[isFollowed].title}
+                        {followButtonTheme[showFollowed].title}
                       </button>
                     </div>
                     <p>{parse(String(organizer?.biography))}</p>
@@ -482,15 +490,15 @@ function EventDetail(props) {
     );
   }
 }
-EventDetail.propTypes = {
-  organizer: PropTypes.object.isRequired,
-};
-EventDetail.defaultProps = {
-  organizer: {
-    logo: "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
-    name: "AMAZING SHOW",
-    description:
-      "Amazing Show là đơn vị tổ chức sự kiện, biểu diễn âm nhạc hàng tuần tại Đà Lạt. Follow Amazing show: - Youtube: https://bit.ly/3pw3XPT - Tiktok: https://bit.ly/32rlQXv - Website: amazingshow.vn - Địa Chỉ: Số 14 Đống Đa, Phường 3, Đà Lạt",
-  },
-};
+// EventDetail.propTypes = {
+//   organizer: PropTypes.object.isRequired,
+// };
+// EventDetail.defaultProps = {
+//   organizer: {
+//     logo: "https://static.tkbcdn.com/Upload/organizerlogo/2022/07/26/6ABB7F.jpg",
+//     name: "AMAZING SHOW",
+//     description:
+//       "Amazing Show là đơn vị tổ chức sự kiện, biểu diễn âm nhạc hàng tuần tại Đà Lạt. Follow Amazing show: - Youtube: https://bit.ly/3pw3XPT - Tiktok: https://bit.ly/32rlQXv - Website: amazingshow.vn - Địa Chỉ: Số 14 Đống Đa, Phường 3, Đà Lạt",
+//   },
+// };
 export default EventDetail;

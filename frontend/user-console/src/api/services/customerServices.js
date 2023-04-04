@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import httpRequest from "../../services/httpRequest";
 import { CustomerAPI } from "../configs/customer";
 
@@ -44,6 +45,16 @@ const findFollowedOrganizerList = async (userId) => {
     return error.response.data;
   }
 };
+const checkIsFollowedOrganizer = async (userId, organizerEmail) => {
+  try {
+    const response = await httpRequest(
+      CustomerAPI.checkIsFollowedOrganizer(userId, organizerEmail)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const followOrg = async (userId, organizerEmail) => {
   try {
     const response = await httpRequest(
@@ -69,6 +80,25 @@ export const useFetchWishlist = (userId) => {
     staleTime: 30000,
     cacheTime: 1000 * 60 * 60 * 24,
   });
+};
+export const useFetchFollowingOrganizer = (userId) => {
+  return useQuery(
+    ["findFollowedOrganizerList", userId],
+    () => findFollowedOrganizerList(userId),
+    {
+      staleTime: 0,
+      cacheTime: 1000 * 60 * 60,
+    }
+  );
+};
+export const useCheckFollowedOrg = (userId, organizerEmail) => {
+  return useQuery(
+    ["checkFollowedOrganizer", userId, organizerEmail],
+    () => checkIsFollowedOrganizer(userId, organizerEmail),
+    {
+      staleTime: 0,
+    }
+  );
 };
 const customerServices = {
   fetchWishlist,

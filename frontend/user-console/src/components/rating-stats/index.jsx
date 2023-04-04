@@ -1,8 +1,22 @@
 import { Rating } from "@mui/material";
 import React from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const RatingStats = ({ ratingCounts }) => {
+const RatingStats = ({ reviewList }) => {
+  const [ratingCounts, setRatingCounts] = useState([]);
+  console.log({ reviewList });
+  useEffect(() => {
+    const ratingArray = [
+      reviewList.data.reduce((acc, obj) => (obj.rate === 1 ? acc + 1 : acc), 0),
+      reviewList.data.reduce((acc, obj) => (obj.rate === 2 ? acc + 1 : acc), 0),
+      reviewList.data.reduce((acc, obj) => (obj.rate === 3 ? acc + 1 : acc), 0),
+      reviewList.data.reduce((acc, obj) => (obj.rate === 4 ? acc + 1 : acc), 0),
+      reviewList.data.reduce((acc, obj) => (obj.rate === 5 ? acc + 1 : acc), 0),
+    ];
+    setRatingCounts(ratingArray || []);
+  }, [reviewList]);
+
   const totalRatings = ratingCounts.reduce((total, count) => total + count, 0);
   const { t } = useTranslation();
   const percentageRatings = ratingCounts.map((count) =>
@@ -37,7 +51,7 @@ const RatingStats = ({ ratingCounts }) => {
     sum += ratingCounts[i] * (i + 1);
   }
 
-  const averageRating = (sum / totalCount).toFixed(1).toString() || 0;
+  const averageRating = totalCount != 0 ? (sum / totalCount).toFixed(1) : 0;
   return (
     <div className="rating-stats">
       <div className="font-bold text-2xl mb-2">{t("rating-review")}</div>

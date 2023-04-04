@@ -41,7 +41,7 @@ function Review() {
   const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
-
+  const [ratings, setRatings] = useState([]);
   const { eventId } = useParams();
   const [state, updateState] = useReducer(
     (prev, next) => {
@@ -88,32 +88,10 @@ function Review() {
       dispatch(setIsFeedback(isFeedBackTemp));
     };
     checkExistFeedback();
-  }, [reviewsPaging]);
+  }, [reviewsPaging, status]);
 
   // count stars
-  const oneStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
-    0
-  );
-  const twoStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 2 ? acc + 1 : acc),
-    0
-  );
-  const threeStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 3 ? acc + 1 : acc),
-    0
-  );
-  const fourStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 4 ? acc + 1 : acc),
-    0
-  );
-  const fiveStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
-    0
-  );
-  const ratings = [oneStar, twoStar, threeStar, fourStar, fiveStar] || [
-    0, 0, 0, 0, 0,
-  ];
+
   const reviewsWithoutYours =
     user && isLoading === false && reviewsPaging?.data.length > 0
       ? reviewsPaging?.data.filter((e) => e.email !== user.email)
@@ -131,15 +109,7 @@ function Review() {
         })
       );
     }
-  }, [isEdit]);
-
-  console.log({
-    reviewsWithoutYours,
-    feedbackInfo,
-    state,
-    reviewsPaging,
-    allReviews,
-  });
+  }, [isEdit, state]);
   // delete review
   const handleDelete = () => {
     AlertQuestion({
@@ -215,7 +185,7 @@ function Review() {
   };
   return (
     <div className="w-full h-full review-container mr-6">
-      <RatingStats ratingCounts={ratings} />
+      <RatingStats reviewList={allReviews} />
       <div className="mx-4">
         {token ? (
           isFeedback && feedbackInfo ? (

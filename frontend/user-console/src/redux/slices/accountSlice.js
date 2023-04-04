@@ -8,10 +8,15 @@ export const accountSlice = createSlice({
     avatar: null,
     token: "",
     isUpdated: false,
+    followingOrganizerList: [],
+    isFollowed: false,
   },
   reducers: {
     setUserProfile: (state, action) => {
       state.userInfo = action.payload;
+    },
+    updateFollowingOrganizers: (state, action) => {
+      state.followingOrganizerList = action.payload;
     },
     logOutAccount: (state, action) => {
       state.userInfo = null;
@@ -29,6 +34,9 @@ export const accountSlice = createSlice({
     setIsUpdated: (state, { payload }) => {
       state.isUpdated = payload;
     },
+    checkIsFollowed: (state, { payload }) => {
+      state.isFollowed = payload;
+    },
   },
 });
 
@@ -39,8 +47,13 @@ export const {
   setUserAvatar,
   setToken,
   setIsUpdated,
+  updateFollowingOrganizers,
+  checkIsFollowed,
 } = accountSlice.actions;
 export const userInfoSelector = (state) => state.account.userInfo;
+export const followingOrganizerSelector = (state) =>
+  state.account.followingOrganizerList;
+export const isFollowedSelector = (state) => state.account.isFollowed;
 export const emailSelector = (state) => state.account.email;
 export const tokenSelector = (state) => state.account.token;
 export const userAvatarSelector = (state) => state.account.avatar;

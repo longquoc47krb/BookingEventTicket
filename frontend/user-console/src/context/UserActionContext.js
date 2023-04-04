@@ -5,12 +5,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useFetchUserInfo } from "../api/services/accountServices";
-import customerServices from "../api/services/customerServices";
+import customerServices, {
+  useFetchFollowingOrganizer,
+} from "../api/services/customerServices";
 import eventServices, {
   useCheckEventsStatus,
 } from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
-import { userInfoSelector } from "../redux/slices/accountSlice";
+import {
+  updateFollowingOrganizers,
+  userInfoSelector,
+} from "../redux/slices/accountSlice";
 const UserActionContext = createContext();
 const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
   customerServices;
@@ -25,9 +30,13 @@ export const UserActionContextProvider = ({ children }) => {
   const [wishlistEvent, setWishlistEvent] = useState();
   const [activeDrawer, toggleDrawer] = useState(false);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   const cityName = localStorage.getItem("city");
   const { data: checkedEvents } = useCheckEventsStatus();
+  const { data: followingOrganizer, iisLoading } = useFetchFollowingOrganizer(
+    userInfo.id
+  );
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");
 
   const getWishlist = async () => {
@@ -87,6 +96,9 @@ export const UserActionContextProvider = ({ children }) => {
   useEffect(() => {
     getWishlist();
   }, [userInfo]);
+  useEffect(() => {
+    dispatch(updateFollowingOrganizers(followingOrganizer));
+  }, [followingOrganizer]);
   useEffect(() => {
     getLocation();
   }, [cityName, userInfo]);

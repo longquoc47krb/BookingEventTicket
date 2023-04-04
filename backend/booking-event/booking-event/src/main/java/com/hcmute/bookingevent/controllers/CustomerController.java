@@ -105,4 +105,8 @@ public class CustomerController {
         return iCustomerService.findAll();
 
     }
+    @GetMapping("/customer/checkFollowedOrganizer/{userId}")
+    public ResponseEntity<?> checkIsFollowedOrganizer(@PathVariable String userId, @RequestParam String organizerEmail){
+        return iCustomerService.checkIsFollowedOrganizer(userId, organizerEmail);
+    }
 }
