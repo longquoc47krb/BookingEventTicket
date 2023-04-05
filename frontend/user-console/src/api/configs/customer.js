@@ -44,4 +44,11 @@ export const CustomerAPI = {
       email: organizerEmail,
     },
   }),
+  checkIsFollowedOrganizer: (userId, organizerEmail) => ({
+    url: `/customer/checkFollowedOrganizer/${userId}`,
+    method: "GET",
+    params: {
+      organizerEmail,
+    },
+  }),
 };

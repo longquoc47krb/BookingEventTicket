@@ -39,10 +39,8 @@ const Overview = () => {
   const revenueStats = useSelector(revenueStatsSelector);
   const { data, status } = useGetStatisticByID(user.id);
   const dispatch = useDispatch();
-  console.log({ data });
   const today = moment().format("DD/MM/YYYY");
   const randomDay = moment("29/12/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
-  console.log("randomDay:", randomDay);
   useEffect(() => {
     if (status === "success") {
       dispatch(

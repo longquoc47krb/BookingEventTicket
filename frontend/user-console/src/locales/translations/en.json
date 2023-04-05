@@ -268,7 +268,8 @@
       "submit-success": "Thank you for sending feedback",
       "submit-failed": "Submit your feedback failed to be submitted",
       "update-success": "Your feedback was updated",
-      "update-failed": "Your feedback failed to be updated"
+      "update-failed": "Your feedback failed to be updated",
+      "event-incompleted": "Can only be evaluated when the event is over"
     }
   },
   "ticket": {

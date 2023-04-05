@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/accountSlice";
 import customerReducer from "./slices/customerSlice";
+import eventReducer from "./slices/eventSlice";
 import searchReducer from "./slices/searchSlice";
 import routeReducer from "./slices/routeSlice";
 import filterReducer from "./slices/filterSlice";
@@ -38,6 +39,7 @@ export const store = configureStore({
   reducer: {
     account: accountPersistedReducer,
     customer: customerReducer,
+    event: eventReducer,
     general: generalReducer,
     route: routePersistedReducer,
     search: searchReducer,

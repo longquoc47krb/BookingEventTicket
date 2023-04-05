@@ -19,7 +19,9 @@ import { useEffect, useState } from "react";
 import {
   setIsFeedback,
   isFeedbackSelector,
-} from "../../redux/slices/generalSlice";
+  updateRating,
+  ratingSelector,
+} from "../../redux/slices/eventSlice";
 import FeedbackComment from "../feedback-item";
 import { useTranslation } from "react-i18next";
 import {
@@ -30,17 +32,16 @@ import {
 } from "../common/alert";
 import { hideBadWords } from "../../utils/badwords";
 import { Pagination } from "antd";
-import { update } from "lodash";
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {
   const token = useSelector(tokenSelector);
   const isFeedback = useSelector(isFeedbackSelector);
-  const [star, setStar] = useState(5);
-  const [message, setMessage] = useState("");
+  const ratingInfo = useSelector(ratingSelector);
   const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
+  const [ratings, setRatings] = useState([]);
   const { eventId } = useParams();
   const [state, updateState] = useReducer(
     (prev, next) => {
@@ -78,6 +79,11 @@ function Review() {
         reviews: reviewsPaging.data,
         allReviews: allReviews.data,
       });
+    } else {
+      updateState({
+        reviews: [],
+        allReviews: [],
+      });
     }
   }, [status, allReviewsStatus]);
   useEffect(() => {
@@ -87,32 +93,10 @@ function Review() {
       dispatch(setIsFeedback(isFeedBackTemp));
     };
     checkExistFeedback();
-  }, [reviewsPaging]);
+  }, [reviewsPaging, status]);
 
   // count stars
-  const oneStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
-    0
-  );
-  const twoStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 2 ? acc + 1 : acc),
-    0
-  );
-  const threeStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 3 ? acc + 1 : acc),
-    0
-  );
-  const fourStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 4 ? acc + 1 : acc),
-    0
-  );
-  const fiveStar = state.allReviews.reduce(
-    (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
-    0
-  );
-  const ratings = [oneStar, twoStar, threeStar, fourStar, fiveStar] || [
-    0, 0, 0, 0, 0,
-  ];
+
   const reviewsWithoutYours =
     user && isLoading === false && reviewsPaging?.data.length > 0
       ? reviewsPaging?.data.filter((e) => e.email !== user.email)
@@ -123,18 +107,14 @@ function Review() {
       : [];
   useEffect(() => {
     if (isEdit) {
-      setStar(state.feedbackInfo[0]?.rate);
-      setMessage(hideBadWords(state.feedbackInfo[0]?.message || ""));
+      dispatch(
+        updateRating({
+          star: state.feedbackInfo[0]?.rate,
+          message: hideBadWords(state.feedbackInfo[0]?.message || ""),
+        })
+      );
     }
-  }, [isEdit]);
-
-  console.log({
-    reviewsWithoutYours,
-    feedbackInfo,
-    state,
-    reviewsPaging,
-    allReviews,
-  });
+  }, [isEdit, state]);
   // delete review
   const handleDelete = () => {
     AlertQuestion({
@@ -164,8 +144,8 @@ function Review() {
       name: user.name,
       email: user.email,
       idEvent: eventId,
-      message,
-      rate: star,
+      message: ratingInfo.message,
+      rate: ratingInfo.star,
     });
     if (response.status === 200) {
       AlertPopup({
@@ -174,8 +154,12 @@ function Review() {
     } else {
       AlertError({ title: t("popup.review.submit-failed") });
     }
-    setMessage("");
-    setStar(5);
+    dispatch(
+      updateRating({
+        star: 5,
+        message: "",
+      })
+    );
   };
 
   // edit feedback
@@ -185,8 +169,8 @@ function Review() {
       name: user.name,
       email: user.email,
       idEvent: eventId,
-      message,
-      rate: star,
+      message: ratingInfo.message,
+      rate: ratingInfo.star,
     });
 
     if (response.status === 200) {
@@ -196,13 +180,17 @@ function Review() {
     } else {
       AlertError({ title: t("popup.review.update-failed") });
     }
-    setMessage("");
-    setStar(5);
+    dispatch(
+      updateRating({
+        star: 5,
+        message: "",
+      })
+    );
     setIsEdit(false);
   };
   return (
     <div className="w-full h-full review-container mr-6">
-      <RatingStats ratingCounts={ratings} />
+      <RatingStats reviewList={allReviews} />
       <div className="mx-4">
         {token ? (
           isFeedback && feedbackInfo ? (
@@ -226,10 +214,8 @@ function Review() {
                 </>
               ) : (
                 <Feedback
-                  message={message}
-                  star={star}
-                  setStar={setStar}
-                  setMessage={setMessage}
+                  message={ratingInfo.message}
+                  star={ratingInfo.star}
                   isEditting={isEdit}
                   onCancel={setIsEdit}
                   onUpdate={handleUpdate}
@@ -244,10 +230,8 @@ function Review() {
               </p>
               <Feedback
                 isEditting={isEdit}
-                star={star}
-                setStar={setStar}
-                message={message}
-                setMessage={setMessage}
+                star={ratingInfo.star}
+                message={ratingInfo.message}
                 onCancel={setIsEdit}
                 onSubmit={handleSubmit}
                 user={user}

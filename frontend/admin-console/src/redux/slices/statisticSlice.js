@@ -26,7 +26,6 @@ const statisticSlice = createSlice({
   reducers: {
     setEventStats: (state, { payload }) => {
       const { date, eventQuantity } = payload;
-      console.log(state);
       if (isEmpty(state.eventStats)) {
         state.eventStats.current = { date, eventQuantity };
       } else if (state.eventStats.current?.date === date) {
@@ -38,7 +37,6 @@ const statisticSlice = createSlice({
     },
     setTicketStats: (state, { payload }) => {
       const { date, ticketQuantity } = payload;
-      console.log(state);
       if (isEmpty(state.ticketStats)) {
         state.ticketStats.current = { date, ticketQuantity };
       } else if (state.ticketStats.current?.date === date) {
@@ -50,7 +48,6 @@ const statisticSlice = createSlice({
     },
     setOrderStats: (state, { payload }) => {
       const { date, orderQuantity } = payload;
-      console.log(state);
       if (isEmpty(state.orderStats)) {
         state.orderStats.current = { date, orderQuantity };
       } else if (state.orderStats.current?.date === date) {
@@ -62,7 +59,6 @@ const statisticSlice = createSlice({
     },
     setRevenueStats: (state, { payload }) => {
       const { date, revenue } = payload;
-      console.log(state);
       if (isEmpty(state.revenueStats)) {
         state.revenueStats.current = { date, revenue };
       } else if (state.revenueStats.current?.date === date) {

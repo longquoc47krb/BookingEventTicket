@@ -97,17 +97,26 @@ public class CustomerService  implements ICustomerService {
     public ResponseEntity<?> findFollowOrganizerList(String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);
-        if(customer.isPresent())
-        {
+        return customer.map(value -> ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "show findFollowOrganizerList successfully ", value.getFollowList(), 200))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ResponseObject(false, "fail to findFollowOrganizerList with email:" + email, new ArrayList<>(), 404)));
+    }
+
+    public ResponseEntity<?> checkIsFollowedOrganizer(String email, String organizerEmail) {
+        Optional<Customer> customer =  customerRepository.findByEmail(email);
+        if(customer.isPresent()){
+            boolean isFollowed = customer.get().getFollowList().contains(organizerEmail);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "show findFollowOrganizerList successfully ", customer.get().getFollowList(),200));
+                    new ResponseObject(true, "checked successfully" , isFollowed,200));
+
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "fail to findFollowOrganizerList with email:" + email, new ArrayList<>(),404));
+                    new ResponseObject(false, "not found" , false,404));
 
         }
-    }
+     }
+
     public ResponseEntity<?> deleteFollowOrganizerItem(String idItem,String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);

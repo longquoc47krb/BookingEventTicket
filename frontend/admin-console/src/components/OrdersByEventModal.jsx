@@ -36,7 +36,6 @@ function OrdersByEventModal(props) {
     eventId,
     user.id
   );
-  console.log({ data, data2 });
   return (
     <div>
       <Modal
