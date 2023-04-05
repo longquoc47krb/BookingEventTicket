@@ -20,7 +20,7 @@ const findOrganizerById = async (id) => {
 };
 export const useFindOrganizerById = (id) => {
   return useQuery(["findOrganizerById", id], () => findOrganizerById(id), {
-    staleTime: 1000 * 30,
+    staleTime: 0,
     cacheTime: 1000 * 60,
   });
 };

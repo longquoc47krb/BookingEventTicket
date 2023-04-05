@@ -1,5 +1,6 @@
 import { provinces } from "../helpers/provinces";
-
+import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
+import { t } from "i18next";
 export const paragraph = "";
 
 export const EventStatus = {

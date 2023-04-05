@@ -65,7 +65,7 @@ export const useFetchReviewListPagin = ({ id, pageNumber, pageSize }) => {
     {
       staleTime: 0,
       cacheTime: 1000 * 60 * 60,
-      refetchInterval: 10000,
+      refetchInterval: 5,
     }
   );
 };

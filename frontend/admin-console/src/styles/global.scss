@@ -5,37 +5,13 @@
 @import "./user-profile.scss";
 @import "./upload.scss";
 
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 400;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 500;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 600;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
-}
-@font-face {
-  font-family: "SVN-Gilroy";
-  font-weight: 700;
-  src: local("SVN-Gilroy"),
-    url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
-}
 * {
-  font-family: SVN-Gilroy, sans-serif !important;
+  font-family: "Open Sans", sans-serif;
 }
 body {
   margin: 0;
   padding: 0;
-  font-family: FS PFBeauSansPro, sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 .secondary-button {
   width: 100%;
@@ -88,3 +64,4 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
