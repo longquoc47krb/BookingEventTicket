@@ -97,6 +97,7 @@ export const useCheckFollowedOrg = (userId, organizerEmail) => {
     () => checkIsFollowedOrganizer(userId, organizerEmail),
     {
       staleTime: 0,
+      enabled: !!userId,
     }
   );
 };

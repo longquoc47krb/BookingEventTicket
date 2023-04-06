@@ -79,7 +79,7 @@ function EventDetail(props) {
   useEffect(() => {
     event &&
       dispatch(setIsCompleted(!!(event["status"] === EventStatus.COMPLETED)));
-  }, [eventId]);
+  }, [eventId, event]);
   // display date
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);

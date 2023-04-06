@@ -262,7 +262,7 @@
       "error": "Failed place order"
     },
     "review": {
-      "delete": "Do you wanna delete your feedback?",
+      "delete": "Do you want to delete your feedback?",
       "delete-success": "Your feedback was deleted",
       "delete-failed": "Your feedback failed to be deleted.",
       "submit-success": "Thank you for sending feedback",

@@ -9,6 +9,14 @@ const payOrder = async (data) => {
     return error.response.data;
   }
 };
+const payOrderVNPay = async (data) => {
+  try {
+    const response = await httpRequest(PaymentAPI.payOrderVNPay(data));
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 const checkOrderAvailability = async (userId, body) => {
   try {
     const response = await httpRequest(
@@ -19,5 +27,5 @@ const checkOrderAvailability = async (userId, body) => {
     return error.response.data;
   }
 };
-const paymentServices = { payOrder, checkOrderAvailability };
+const paymentServices = { payOrder, checkOrderAvailability, payOrderVNPay };
 export default paymentServices;

@@ -41,7 +41,6 @@ function Review() {
   const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
   const dispatch = useDispatch();
-  const [ratings, setRatings] = useState([]);
   const { eventId } = useParams();
   const [state, updateState] = useReducer(
     (prev, next) => {

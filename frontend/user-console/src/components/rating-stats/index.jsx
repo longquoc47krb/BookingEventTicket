@@ -2,19 +2,36 @@ import { Rating } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import { isNotEmpty } from "../../utils/utils";
 const RatingStats = ({ reviewList }) => {
   const [ratingCounts, setRatingCounts] = useState([]);
   console.log({ reviewList });
   useEffect(() => {
-    const ratingArray = [
-      reviewList.data.reduce((acc, obj) => (obj.rate === 1 ? acc + 1 : acc), 0),
-      reviewList.data.reduce((acc, obj) => (obj.rate === 2 ? acc + 1 : acc), 0),
-      reviewList.data.reduce((acc, obj) => (obj.rate === 3 ? acc + 1 : acc), 0),
-      reviewList.data.reduce((acc, obj) => (obj.rate === 4 ? acc + 1 : acc), 0),
-      reviewList.data.reduce((acc, obj) => (obj.rate === 5 ? acc + 1 : acc), 0),
-    ];
-    setRatingCounts(ratingArray || []);
+    if (isNotEmpty(reviewList)) {
+      const ratingArray = [
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 2 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 3 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 4 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
+          0
+        ),
+      ];
+      setRatingCounts(ratingArray || []);
+    }
   }, [reviewList]);
 
   const totalRatings = ratingCounts.reduce((total, count) => total + count, 0);

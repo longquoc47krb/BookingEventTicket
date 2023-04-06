@@ -56,8 +56,12 @@ function Header(props) {
   };
   useEffect(() => {
     const fetchUserInfor = async () => {
-      const response = await findUser(user.email);
-      return response.status === 200 && dispatch(setUserProfile(response.data));
+      if (user) {
+        const response = await findUser(user.email);
+        return (
+          response.status === 200 && dispatch(setUserProfile(response.data))
+        );
+      }
     };
     fetchUserInfor();
   }, []);
