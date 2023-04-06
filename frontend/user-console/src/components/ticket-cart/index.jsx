@@ -14,7 +14,7 @@ import {
 import { formatter } from "../../utils/utils";
 import ThreeDotsLoading from "../loading/three-dots";
 import TicketCartItem from "../ticket-cart-item";
-const { payOrder, checkOrderAvailability } = paymentServices;
+const { payOrder, checkOrderAvailability, payOrderVNPay } = paymentServices;
 
 function TicketCart() {
   const tickets = useSelector(ticketTypeSelector);
@@ -26,6 +26,7 @@ function TicketCart() {
   }));
   const user = useSelector(userInfoSelector);
   const ticketCart = newArr.filter((ticket) => ticket.ticketInCartQuantity > 0);
+  var currency = map(ticketCart, "currency")[0];
   const cartTotalPrice = sumBy(ticketCart, "totalPrice");
   const cartTotalQuantity = sumBy(ticketCart, "ticketInCartQuantity");
   const eventId = useSelector(eventIdSelector);
@@ -60,9 +61,23 @@ function TicketCart() {
     );
     setLoading(checkOrderResponse.status ? false : true);
     if (checkOrderResponse.status === 200) {
-      const response = await payOrder({ price: cartTotalPrice.toString() });
-      if (response.status === 200) {
-        window.open(response.data, "_self");
+      if (currency === "USD") {
+        const response = await payOrder({ price: cartTotalPrice.toString() });
+        if (response.status === 200) {
+          window.open(response.data, "_self");
+        }
+      } else {
+        const response = await payOrderVNPay({
+          currency: map(ticketCart, "currency")[0],
+          customerTicketList: handleTicketCart(ticketCart),
+          email: user.email,
+          idEvent: eventId,
+          totalPrice: String(cartTotalPrice),
+          totalQuantity: cartTotalQuantity,
+        });
+        if (response.status === 200) {
+          window.open(response.data, "_self");
+        }
       }
     }
   };
@@ -79,7 +94,6 @@ function TicketCart() {
     }));
     return ticketCart;
   };
-
   return (
     <>
       <div className="ticket-cart">
@@ -96,7 +110,7 @@ function TicketCart() {
       </div>
       <div className="ticket-cart-total">
         <th>{t("ticket.total")}</th>
-        <th>${cartTotalPrice}</th>
+        <th>{formatter(currency).format(cartTotalPrice)}</th>
       </div>
       <button
         className="primary-button text-xl p-3 mt-2"

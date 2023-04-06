@@ -9,4 +9,9 @@ export const PaymentAPI = {
     method: "POST",
     data,
   }),
+  payOrderVNPay: (data) => ({
+    url: "/payment/VNPayOrder",
+    method: "POST",
+    data,
+  }),
 };
