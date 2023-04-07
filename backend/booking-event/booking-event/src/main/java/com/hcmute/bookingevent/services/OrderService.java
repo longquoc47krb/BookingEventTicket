@@ -5,16 +5,24 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.models.OrderStats;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
@@ -29,6 +37,7 @@ public class OrderService implements IOrderService {
     private final CustomerRepository customerRepository;
     private final OrganizationRepository organizationRepository;
 
+    private final MongoTemplate mongoTemplate;
     private final EventRepository eventRepository;
     private final PaymentService paymentService;
 
@@ -119,6 +128,7 @@ public class OrderService implements IOrderService {
 
 
 
+
     @Override
     public ResponseEntity<?> findCustomerOrderByEmail(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
@@ -186,4 +196,5 @@ public class OrderService implements IOrderService {
         }
 
     }
+
 }

@@ -1,22 +1,17 @@
 /* eslint-disable quotes */
 /* eslint-disable import/order */
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
-import { MdExitToApp, MdOutlineCancel } from "react-icons/md";
-import { FaWallet } from "react-icons/fa";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { FaWallet } from "react-icons/fa";
+import { MdExitToApp, MdOutlineCancel } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import AppConfig from "../configs/AppConfig";
 import {
   logOutAccount,
   roleSelector,
   userInfoSelector,
 } from "../redux/slices/accountSlice";
-import AppConfig from "../configs/AppConfig";
 import { ROLE } from "../utils/constants";
 import { formatter } from "../utils/utils";
 const { USER_PROFILE_MENU } = AppConfig;
@@ -53,7 +48,10 @@ const UserProfile = ({ setOpen }) => {
           />
         )}
         <div>
-          <p className="font-semibold text-2xl text-[#1F3E82] mb-1"> {user.name}</p>
+          <p className="font-semibold text-2xl text-[#1F3E82] mb-1">
+            {" "}
+            {user.name}
+          </p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
             {user.email}
@@ -61,10 +59,18 @@ const UserProfile = ({ setOpen }) => {
           {role === ROLE.Organizer && (
             <div className="mt-2 flex justify-start items-center gap-x-8">
               <div className="flex items-center gap-x-2">
-                <FaWallet color="#17AE17" fontSize={16} />
-                <span className="font-bold text-lg">
-                  {formatter("USD").format(user.usdbalance)}
-                </span>
+                <>
+                  <FaWallet color="#17AE17" fontSize={16} />
+                  <span className="font-bold text-lg">
+                    {formatter("USD").format(user.usdbalance)}
+                  </span>
+                </>
+                <>
+                  <FaWallet color="#17AE17" fontSize={16} />
+                  <span className="font-bold text-lg">
+                    {formatter("VND").format(user.vndbalance)}
+                  </span>
+                </>
               </div>
             </div>
           )}

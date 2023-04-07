@@ -6,11 +6,10 @@ import {
   BsCaretUpFill,
   BsCartFill,
 } from "react-icons/bs";
-
+import moment from "moment";
 import { t } from "i18next";
 import { has } from "lodash";
 import { Tooltip } from "antd";
-import moment from "moment";
 import { useEffect } from "react";
 import { BiMoney } from "react-icons/bi";
 import { IoTicketSharp } from "react-icons/io5";
@@ -29,6 +28,7 @@ import {
   ticketStatsSelector,
 } from "../redux/slices/statisticSlice";
 import { isNotEmpty, nFormatter, formatter } from "../utils/utils";
+import { OrderStatistics } from "../components/charts/OrderStatistics";
 
 const Overview = () => {
   const user = useSelector(userInfoSelector);
@@ -185,6 +185,7 @@ const Overview = () => {
             ))}
         </div>
       )}
+      <OrderStatistics organizationEmail={user.email} />
     </div>
   );
 };
