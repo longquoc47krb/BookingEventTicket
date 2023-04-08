@@ -122,54 +122,87 @@ public class TicketService implements ITicketService {
         }
     }
     @Override
-    public ResponseEntity<?> getListOrderPerDay(String email, String period) {
-        Organization organization = organizationRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
-        int numOrders = 0;
-        List<Event> events = new ArrayList<>();
-        List<Order> orders = new ArrayList<>();
+    public ResponseEntity<?> getTicketStatistics(String email, String period, LocalDate startDate, LocalDate endDate) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
 
-        // Get the start and end dates for the desired period
-        LocalDate startDate, endDate;
-        switch (period) {
-            case "week":
-                startDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-                endDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-                break;
-            case "month":
-                startDate = LocalDate.now().withDayOfMonth(1);
-                endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
-                break;
-            case "year":
-                startDate = LocalDate.now().withDayOfYear(1);
-                endDate = LocalDate.now().withDayOfYear(LocalDate.now().lengthOfYear());
-                break;
-            default:
-                // If no period is specified, default to counting orders for all time
-                startDate = LocalDate.MIN;
-                endDate = LocalDate.MAX;
+        List<Event> events = new ArrayList<>();
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            event.ifPresent(events::add);
         }
-        // Iterate over all events and orders and count the number of orders for each date
-        Map<LocalDate, Integer> orderCountsByDate = new HashMap<>();
-        for(String eventName: organization.getEventList() ){
+        // Initialize the orderCountsByDate map with 0 values for each day in the range
+        Map<LocalDate, Integer> ticketCountsByDate = new HashMap<>();
+        Map<LocalDate, Integer> ticketCountsByWeek = new HashMap<>();
+        Map<LocalDate, Integer> ticketCountsByMonth = new HashMap<>();
+        Map<LocalDate, Integer> ticketCountsByYear = new HashMap<>();
+        Map<LocalDate, String> revenueCountByDate = new HashMap<>();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            ticketCountsByDate.put(date, 0);
+        }
+
+        for (String eventName: organization.getEventList()) {
             Optional<Event> event = eventRepository.findEventById(eventName);
             for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
                 LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if (orderDate.isAfter(startDate) && orderDate.isBefore(endDate)) {
-                    orderCountsByDate.put(orderDate, orderCountsByDate.getOrDefault(orderDate, 0) + order.getTotalQuantity());
-                }   }
+                if (isWithinPeriod(orderDate, period, startDate, endDate)) {
+                    ticketCountsByDate.put(orderDate, ticketCountsByDate.getOrDefault(orderDate, 0) + order.getTotalQuantity());
+                    revenueCountByDate.put(orderDate, revenueCountByDate.getOrDefault(orderDate, "0") + order.getTotalPrice());
+                }
+            }
         }
 
-        // Convert the order counts map to an array of objects
-        List<Map<String, Object>> orderStatistics = new ArrayList<>();
-        for (Map.Entry<LocalDate, Integer> entry : orderCountsByDate.entrySet()) {
-            Map<String, Object> orderStat = new HashMap<>();
-            orderStat.put("date", entry.getKey());
-            orderStat.put("numOrders", entry.getValue());
-            orderStatistics.add(orderStat);
+        List<Map<String, Object>> ticketStatistics = new ArrayList<>();
+        LocalDate currentDate = startDate;
+        while (!currentDate.isAfter(endDate)) {
+            Map<String, Object> ticketStat = new HashMap<>();
+            ticketStat.put("date", currentDate);
+            ticketStat.put("numberTickets", ticketCountsByDate.getOrDefault(currentDate, 0));
+            ticketStat.put("revenue", revenueCountByDate.getOrDefault(currentDate, "0"));
+            ticketStatistics.add(ticketStat);
+            currentDate = getNextDate(currentDate, period);
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "getListOrderPerDay successfully ", orderStatistics, 200));
+                new ResponseObject(true, "Ticket statistics for " + period + " period", ticketStatistics, 200));
 
+    }
+    private boolean isWithinPeriod(LocalDate date, String period, LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) {
+            return false;
+        }
+        switch (period) {
+            case "daily":
+                LocalDate startOfWeek = startDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                LocalDate endOfWeek = endDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                return date.isEqual(startOfWeek) || date.isEqual(endOfWeek) || (date.isAfter(startOfWeek) && date.isBefore(endOfWeek));
+            case "weekly":
+                startOfWeek = startDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                endOfWeek = endDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                return date.isEqual(startDate) || (date.isAfter(startOfWeek) && date.isBefore(endOfWeek));
+            case "monthly":
+                return date.getMonthValue() == startDate.getMonthValue() && date.getYear() == startDate.getYear();
+            case "yearly":
+                return date.getYear() == startDate.getYear();
+            case "custom":
+                return !date.isBefore(startDate) && !date.isAfter(endDate);
+            default:
+                return false;
+        }
+    }
+
+    private LocalDate getNextDate(LocalDate date, String period) {
+        switch (period) {
+            case "daily":
+                return date.plusDays(1);
+            case "weekly":
+                return date.plusWeeks(1);
+            case "monthly":
+                return date.plusMonths(1);
+            case "yearly":
+                return date.plusYears(1);
+            default:
+                return date;
+        }
     }
 
 

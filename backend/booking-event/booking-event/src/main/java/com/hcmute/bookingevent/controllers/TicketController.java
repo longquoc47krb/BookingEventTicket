@@ -11,6 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 import java.util.List;
 
 @AllArgsConstructor
@@ -44,9 +49,53 @@ public class TicketController {
     }
     @GetMapping(path = "/organization/{userId}/ticket-statistics")
     public ResponseEntity<?> getOrderStatisticsForDate(
-            @PathVariable String userId, @RequestParam(required = false) String period
+            @PathVariable String userId, @RequestParam(value = "period", required = false) String period,
+            @RequestParam(value = "startDate", required = false) String startDateString,
+            @RequestParam(value = "endDate", required = false) String endDateString
+
     ){
-        return ticketService.getListOrderPerDay(userId, period);
+        // Get the current date
+        Calendar today = Calendar.getInstance();
+        Calendar firstDay = Calendar.getInstance();
+        Calendar lastDay = Calendar.getInstance();
+        Calendar prevWeeks = Calendar.getInstance();
+        Calendar prevYears = Calendar.getInstance();
+        // Set the day of the week to Sunday (1 = Sunday, 2 = Monday, etc.)
+        firstDay.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        lastDay.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        prevWeeks.add(Calendar.WEEK_OF_YEAR, -4);
+        prevWeeks.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        prevYears.add(Calendar.YEAR, -4);
+        prevYears.set(Calendar.DAY_OF_YEAR, 1);
+        prevYears.set(Calendar.MONTH, Calendar.JANUARY);
+        LocalDate startDate;
+        LocalDate endDate;
+        if (startDateString != null && endDateString != null) {
+            startDate = firstDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            endDate = lastDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        switch(period){
+            case "weekly":
+                startDate = prevWeeks.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                endDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                break;
+            case "yearly":
+                startDate = prevYears.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                endDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                break;
+            case "custom":
+                startDate = LocalDate.parse(startDateString);
+                endDate = LocalDate.parse(endDateString);
+                break;
+            case "daily":
+            default:
+                startDate = firstDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                endDate = lastDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                break;
+
+
+        }
+        return ticketService.getTicketStatistics(userId, period, startDate, endDate);
     }
 
 }

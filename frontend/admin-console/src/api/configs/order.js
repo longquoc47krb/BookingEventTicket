@@ -14,11 +14,18 @@ export const OrderAPI = {
       eventId,
     },
   }),
-  getTicketStatisticsForDate: (organinzationEmail, period) => ({
+  getTicketStatisticsForDate: (
+    organinzationEmail,
+    period,
+    startDate,
+    endDate
+  ) => ({
     url: `/organization/${organinzationEmail}/ticket-statistics`,
     method: "GET",
     params: {
       period,
+      startDate,
+      endDate,
     },
   }),
 };
