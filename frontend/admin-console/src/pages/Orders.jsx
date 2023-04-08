@@ -1,10 +1,10 @@
 // import for table
-import { Spin, Input, Button, Space } from "antd";
-import Highlighter from "react-highlight-words";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Spin } from "antd";
+import { useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
 // end import for table
+import { has } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
@@ -15,7 +15,6 @@ import { orderColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { eventIdSelector } from "../redux/slices/eventSlice";
 import { isNotEmpty } from "../utils/utils";
-import { has } from "lodash";
 
 const Orders = () => {
   const user = useSelector(userInfoSelector);

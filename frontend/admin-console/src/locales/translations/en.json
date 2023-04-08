@@ -305,5 +305,34 @@
         "inprogress": "INPROGRESS",
         "completed": "COMPLETED",
         "cancel": "CANCEL"
+    },
+    "stats": {
+        "ticket": "Ticket statistics of events by period",
+        "period": "Period"
+    },
+    "time": {
+        "day": {
+            "mon": "Monday",
+            "tue": "Tuesday",
+            "wed": "Wednesday",
+            "thu": "Thursday",
+            "fri": "Friday",
+            "sat": "Saturday",
+            "sun": "Sunday"
+        },
+        "month": {
+            "jan": "January",
+            "feb": "February",
+            "mar": "March",
+            "apr": "April",
+            "may": "May",
+            "jun": "June",
+            "jul": "July",
+            "aug": "August",
+            "sep": "September",
+            "oct": "October",
+            "nov": "November",
+            "dec": "December"
+        }
     }
 }

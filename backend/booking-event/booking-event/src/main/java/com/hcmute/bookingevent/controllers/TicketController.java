@@ -42,5 +42,11 @@ public class TicketController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+    @GetMapping(path = "/organization/{userId}/ticket-statistics")
+    public ResponseEntity<?> getOrderStatisticsForDate(
+            @PathVariable String userId, @RequestParam(required = false) String period
+    ){
+        return ticketService.getListOrderPerDay(userId, period);
+    }
 
 }

@@ -68,12 +68,7 @@ function TicketCart() {
         }
       } else {
         const response = await payOrderVNPay({
-          currency: map(ticketCart, "currency")[0],
-          customerTicketList: handleTicketCart(ticketCart),
-          email: user.email,
-          idEvent: eventId,
-          totalPrice: String(cartTotalPrice),
-          totalQuantity: cartTotalQuantity,
+          price: cartTotalPrice.toString(),
         });
         if (response.status === 200) {
           window.open(response.data, "_self");
