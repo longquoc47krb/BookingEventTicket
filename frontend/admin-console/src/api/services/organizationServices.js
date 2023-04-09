@@ -103,9 +103,9 @@ export const useFetchOrganizerByEmail = (email) => {
     }
   );
 };
-const getStatistic = async (userId) => {
+const getStatistic = async (email) => {
   try {
-    const response = await httpRequest(OrganizationAPI.statistic(userId));
+    const response = await httpRequest(OrganizationAPI.statistic(email));
     return response.data;
   } catch (error) {
     return error.response.data;
@@ -128,8 +128,8 @@ export const useFetchEventsByOrgID = (id) => {
     }
   );
 };
-export const useGetStatisticByID = (id) => {
-  return useQuery(["getStatistic", id], () => getStatistic(id), {
+export const useGetStatisticByID = (email) => {
+  return useQuery(["getStatistic", email], () => getStatistic(email), {
     staleTime: 0,
     refetchInterval: 1000 * 10,
   });

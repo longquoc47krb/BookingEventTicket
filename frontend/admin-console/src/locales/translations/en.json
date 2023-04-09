@@ -297,7 +297,8 @@
         "success": "Upload avatar successfully",
         "error": "Upload avatar failed"
     },
-    "revenue": "Revenue",
+    "usdRevenue": "USD Revenue",
+    "vndRevenue": "VND Revenue",
     "ticketSold": "Tickets sold",
     "payment": {
         "vndbalanceLock": "VND Balance Lock",
@@ -308,7 +309,9 @@
     },
     "stats": {
         "ticket": "Ticket statistics of events by period",
-        "period": "Period"
+        "period": "Period",
+        "numTickets": "Number of tickets",
+        "revenue": "Revenue"
     },
     "time": {
         "day": {
@@ -334,5 +337,8 @@
             "nov": "November",
             "dec": "December"
         }
-    }
+    },
+    "goodMorning": "Good Morning,",
+    "goodAfternoon": "Good Afternoon,",
+    "goodEvening": "Good Evening,"
 }

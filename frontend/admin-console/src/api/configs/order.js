@@ -28,4 +28,16 @@ export const OrderAPI = {
       endDate,
     },
   }),
+  getDailyTicketStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/ticket-statistics/last-seven-days`,
+    method: "GET",
+  }),
+  getLastFourWeeksTicketStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/ticket-statistics/last-four-weeks`,
+    method: "GET",
+  }),
+  getMonthlyTicketStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/ticket-statistics/monthly`,
+    method: "GET",
+  }),
 };

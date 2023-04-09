@@ -167,3 +167,50 @@
     transform: scale(1);
   }
 }
+// loading 2
+
+.lds-ripple {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 0.5rem solid #ff0c0c;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 5rem;
+    left: 5rem;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 5rem;
+    left: 5rem;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 5rem;
+    left: 5rem;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 10rem;
+    height: 10rem;
+    opacity: 0;
+  }
+}

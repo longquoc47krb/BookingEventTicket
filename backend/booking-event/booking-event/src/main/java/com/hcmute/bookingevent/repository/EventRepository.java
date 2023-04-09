@@ -5,11 +5,15 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllBy(TextCriteria textCriteria);
+
+    List<Event> findAllByCreatedDateBetween(Date start, Date end);
     @Query(value="{'province': ?0, 'status' : 'event.available'}")
     List<Event> findAllByProvince(String province);
 

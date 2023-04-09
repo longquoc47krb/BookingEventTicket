@@ -299,7 +299,8 @@
         "success": "Cập nhật ảnh đại diện thành công",
         "error": "Cập nhật ảnh đại diện thất bại"
     },
-    "revenue": "Doanh thu",
+    "usdRevenue": "Doanh thu USD",
+    "vndRevenue": "Doanh thu VND",
     "ticketSold": "Vé đã bán",
     "payment": {
         "vndbalanceLock": "Doanh thu tạm tính (VND)",
@@ -310,7 +311,9 @@
     },
     "stats": {
         "ticket": "Thống kê vé đã bán được các mốc thời gian",
-        "period": "Thời gian"
+        "period": "Thời gian",
+        "numTickets": "Số lượng vé",
+        "revenue": "Doanh thu"
     },
     "time": {
         "day": {
@@ -336,5 +339,8 @@
             "nov": "Tháng 11",
             "dec": "Tháng 12"
         }
-    }
+    },
+    "goodMorning": "Chào buổi sáng,",
+    "goodAfternoon": "Chào buổi chiều,",
+    "goodEvening": "Chào buổi tối,"
 }

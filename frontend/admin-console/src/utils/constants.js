@@ -7,8 +7,8 @@ export const TicketStatus = {
 };
 export const AccountStatus = {
   accepted: "ACCEPTED",
-  disabled: "DISABLED"
-}
+  disabled: "DISABLED",
+};
 export const comparisonStatus = {
   EQUAL: "equal",
   MORE: "more",

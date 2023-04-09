@@ -10,10 +10,12 @@ import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.mapper.OrganizationMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
+import com.hcmute.bookingevent.models.OrderStats;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.models.organization.Organization;
+import com.hcmute.bookingevent.models.organization.Statistics;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.OrganizationProfileReq;
 import com.hcmute.bookingevent.payload.request.OrganizationSubmitReq;
@@ -22,15 +24,26 @@ import com.hcmute.bookingevent.repository.*;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +58,12 @@ public class OrganizationService implements IOrganizationService {
 
     private final AccountRepository accountRepository;
     private final MailService mailService;
+    private final EventService eventService;
+    private final OrderService orderService;
     private final EventMapper eventMapper;
+
+    private MongoTemplate mongoTemplate;
+
     private final PasswordEncoder encoder;
     private final OrganizationMapper organizationMapper;
     private final CustomerRepository customerRepository;
@@ -401,6 +419,56 @@ public class OrganizationService implements IOrganizationService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ResponseObject(false, "statistic fail ",  "", 200));
 
+    }
+    @Override
+    public ResponseEntity<?> getStatistics(String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        Map<String, Object> statistics = new HashMap<>();
+        List<String> eventNameList = organization.get().getEventList();
+        List<Order> orderList = new ArrayList<>();
+        List<Integer> numTicketList= new ArrayList<>();
+        List<BigDecimal> usdRevenueList= new ArrayList<>();
+        List<BigDecimal> vndRevenueList= new ArrayList<>();
+        for(String eventName: eventNameList){
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            orderList.addAll(orderRepository.findAllByIdEvent(event.get().getId()));
+            for(Order order : orderRepository.findAllByIdEvent(event.get().getId())){
+                numTicketList.add(order.getTotalQuantity());
+                BigDecimal totalPrice = new BigDecimal(order.getTotalPrice());
+                if(order.getCurrency().equals("USD")){
+                    usdRevenueList.add(totalPrice);
+                } else {
+                    vndRevenueList.add(totalPrice);
+                }
+
+            }
+        }
+        // Get number of events
+        int numEvents = eventNameList.size();
+        statistics.put("numEvents", numEvents);
+
+
+
+        // Get number of orders
+        int numOrders = orderList.size();
+        statistics.put("numOrders", numOrders);
+
+        // Get number of tickets
+        int numTickets = numTicketList.stream().mapToInt(Integer::intValue).sum();
+        statistics.put("numTickets", numTickets);
+
+        // Get revenue
+        BigDecimal usdRevenue = usdRevenueList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal vndRevenue = vndRevenueList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        statistics.put("vndRevenue", vndRevenue);
+        statistics.put("usdRevenue", usdRevenue);
+        // TODO: Calculate change from yesterday's statistics
+        int numEventsChange = numEvents - eventService.getPreviousDayEventCount(email);
+        int numOrderChange = numOrders - orderService.getPreviousDayOrderCount(email);
+        statistics.put("eventsSizeChange", numEventsChange);
+        statistics.put("ordersSizeChange", numOrderChange);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(false, "statistic successful ",  statistics, 200));
     }
     @Override
     public ResponseEntity<?> findCustomerListByEventId(String eventId,String email) {

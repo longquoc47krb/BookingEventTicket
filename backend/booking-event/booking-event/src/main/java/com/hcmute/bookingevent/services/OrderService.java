@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -195,6 +193,29 @@ public class OrderService implements IOrderService {
 
         }
 
+    }
+    public int getPreviousDayOrderCount(String email) {
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        List<Order> orders = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
+        for(String eventId : organization.get().getEventList()){
+            events.add(eventRepository.findEventById(eventId).get());
+            orders.addAll(orderRepository.findAllByIdEvent(eventId));
+        }
+
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDateTime startOfYesterday = yesterday.atStartOfDay();
+        LocalDateTime startOfPast = LocalDateTime.of(2000, 1, 1, 0, 0, 0);
+
+        Date startOfYesterdayDate = Date.from(startOfYesterday.atZone(ZoneId.systemDefault()).toInstant());
+        Date startOfPastDate = Date.from(startOfPast.atZone(ZoneId.systemDefault()).toInstant());
+
+        long orderCount = orders.stream()
+                .filter(order -> order.getCreatedDate().after(startOfPastDate) &&
+                        order.getCreatedDate().before(startOfYesterdayDate))
+                .count();
+
+        return (int) orderCount;
     }
 
 }

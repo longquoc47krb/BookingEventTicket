@@ -604,4 +604,16 @@ export function nFormatter(num, digits) {
 }
 export const reverseArray = (array) => {
   return [...array].reverse();
+};
+export function Greeting() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+
+  if (currentHour < 12) {
+    return "goodMorning";
+  } else if (currentHour < 18) {
+    return "goodAfternoon";
+  } else {
+    return "goodEvening";
+  }
 }

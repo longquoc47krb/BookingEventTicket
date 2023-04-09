@@ -32,6 +32,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -369,5 +373,26 @@ public class EventService implements IEventService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Successfully query data", eventRes,200));
 
+    }
+    public int getPreviousDayEventCount(String email) {
+
+        Optional<Organization> organization = organizationRepository.findByEmail(email);
+        List<Event> events = new ArrayList<>();
+        for(String eventId : organization.get().getEventList()){
+            events.add(eventRepository.findEventById(eventId).get());
+        }
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDateTime startOfYesterday = yesterday.atStartOfDay();
+        LocalDateTime startOfPast = LocalDateTime.of(2000, 1, 1, 0, 0, 0);
+
+        Date startOfYesterdayDate = Date.from(startOfYesterday.atZone(ZoneId.systemDefault()).toInstant());
+        Date startOfPastDate = Date.from(startOfPast.atZone(ZoneId.systemDefault()).toInstant());
+
+        long eventCount = events.stream()
+                .filter(event -> event.getCreatedDate().after(startOfPastDate) &&
+                        event.getCreatedDate().before(startOfYesterdayDate))
+                .count();
+
+        return (int) eventCount;
     }
 }
