@@ -1,83 +1,72 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import { Tooltip } from "antd";
+import moment from "moment";
+import React, { useEffect } from "react";
+import { BiMoney } from "react-icons/bi";
 import {
   BsCalendarEventFill,
   BsCaretDownFill,
   BsCaretUpFill,
   BsCartFill,
 } from "react-icons/bs";
-import moment from "moment";
-import { t } from "i18next";
-import { has } from "lodash";
-import { Tooltip } from "antd";
-import { useEffect } from "react";
-import { BiMoney } from "react-icons/bi";
 import { IoTicketSharp } from "react-icons/io5";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetStatisticByID } from "../api/services/organizationServices";
-import { userInfoSelector, roleSelector } from "../redux/slices/accountSlice";
+import { OrderStatistics } from "../components/charts/OrderStatistics";
+import { roleSelector, userInfoSelector } from "../redux/slices/accountSlice";
 import {
-  eventStatsSelector,
-  orderStatsSelector,
-  revenueStatsSelector,
   setEventStats,
   setOrderStats,
   setRevenueStats,
   setTicketStats,
-  ticketStatsSelector,
 } from "../redux/slices/statisticSlice";
-import { isNotEmpty, nFormatter, formatter } from "../utils/utils";
-import { OrderStatistics } from "../components/charts/OrderStatistics";
+import { Greeting, formatter, nFormatter } from "../utils/utils";
+import { useTranslation } from "react-i18next";
 
 const Overview = () => {
   const user = useSelector(userInfoSelector);
-  const eventStats = useSelector(eventStatsSelector);
   const role = useSelector(roleSelector);
-  const ticketStats = useSelector(ticketStatsSelector);
-  const orderStats = useSelector(orderStatsSelector);
-  const revenueStats = useSelector(revenueStatsSelector);
-  const { data, status } = useGetStatisticByID(user.id);
+  const { data, status } = useGetStatisticByID(user.email);
   const dispatch = useDispatch();
   const today = moment().format("DD/MM/YYYY");
   const randomDay = moment("29/12/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
+  const greeting = Greeting();
+  const { t } = useTranslation();
   useEffect(() => {
     if (status === "success") {
       dispatch(
         setEventStats({
           date: today,
-          eventQuantity: data.eventSize,
+          eventQuantity: data.numEvents,
         })
       );
       dispatch(
         setTicketStats({
           date: today,
-          ticketQuantity: data.totalTicketSold,
+          ticketQuantity: data.numTickets,
         })
       );
       dispatch(
         setOrderStats({
           date: today,
-          orderQuantity: data.totalOrder,
+          orderQuantity: data.numOrders,
         })
       );
       dispatch(
         setRevenueStats({
           date: randomDay,
-          revenue: 1500,
+          revenue: data.revenue,
         })
       );
     }
   }, [data]);
-  const handleVariability = (state, stateQuantity) => {
-    if (isNotEmpty(state)) {
-      if (has(state, "previous") && has(state.previous, stateQuantity)) {
-        const variability =
-          state.current[stateQuantity] - state.previous[stateQuantity];
-        return variability < 0
-          ? { status: "-", variability, color: "red" }
-          : { status: "+", variability, color: "green" };
-      }
+  const handleVariability = (variability, stateQuantity) => {
+    if (variability < 0) {
+      return { status: "-", variability, color: "red" };
+    } else if (variability > 0) {
+      return { status: "+", variability, color: "green" };
+    } else {
       return { status: "", variability: "", color: "" };
     }
   };
@@ -85,88 +74,99 @@ const Overview = () => {
     var earningData = [
       {
         icon: <BsCalendarEventFill />,
-        amount: data.eventSize,
-        rawAmount: data.eventSize,
-        variability: handleVariability(eventStats, "eventQuantity").variability,
+        amount: data.numEvents,
+        rawAmount: data.numEvents,
+        variability: handleVariability(data.eventsSizeChange, "eventQuantity")
+          .variability,
         title: t("sider.event"),
         iconColor: "#03C9D7",
         iconBg: "#E5FAFB",
-        pcColor: handleVariability(eventStats, "eventQuantity").color,
+        pcColor: handleVariability(data.eventsSizeChange, "eventQuantity")
+          .color,
       },
       {
         icon: <IoTicketSharp />,
-        amount: data.totalTicketSold,
-        rawAmount: data.totalTicketSold,
-        variability: handleVariability(ticketStats, "ticketQuantity")
-          .variability,
+        amount: data.numTickets,
+        rawAmount: data.numTickets,
+        // variability: handleVariability(data.eventsSizeChange, "ticketQuantity")
+        //   .variability,
         title: t("ticketSold"),
         iconColor: "rgb(0, 148, 91)",
         iconBg: "#b2ebd5",
-        pcColor: handleVariability(ticketStats, "ticketQuantity").color,
+        // pcColor: handleVariability(ticketStats, "ticketQuantity").color,
       },
       {
         icon: <BsCartFill />,
-        amount: data.totalOrder,
-        rawAmount: data.totalOrder,
-        variability: handleVariability(orderStats, "orderQuantity").variability,
+        amount: data.numOrders,
+        rawAmount: data.numOrders,
+        variability: handleVariability(data.ordersSizeChange, "orderQuantity")
+          .variability,
         title: t("sider.order"),
         iconColor: "rgb(255, 244, 229)",
         iconBg: "rgb(254, 201, 15)",
-        pcColor: handleVariability(orderStats, "orderQuantity").color,
+        pcColor: handleVariability(data.ordersSizeChange, "orderQuantity")
+          .color,
       },
       {
         icon: <BiMoney />,
-        amount: `$${nFormatter(data.usdrevenue, 2)}`,
-        rawAmount: formatter("USD").format(data.usdrevenue),
-        variability: handleVariability(revenueStats, "revenue").variability
-          ? `$${nFormatter(
-              handleVariability(revenueStats, "revenue").variability,
-              2
-            )}`
-          : "",
-        title: t("revenue"),
+        amount: `$${nFormatter(data.usdRevenue, 2)}`,
+        rawAmount: formatter("USD").format(data.usdRevenue),
+        // variability: handleVariability(revenueStats, "revenue").variability
+        //   ? `$${nFormatter(
+        //       handleVariability(revenueStats, "revenue").variability,
+        //       2
+        //     )}`
+        //   : "",
+        title: t("usdRevenue"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
-        pcColor: handleVariability(revenueStats, "revenue").color,
+        // pcColor: handleVariability(revenueStats, "revenue").color,
+      },
+      {
+        icon: <BiMoney />,
+        amount: `${nFormatter(data.vndRevenue, 2)}`,
+        rawAmount: formatter("VND").format(data.vndRevenue),
+        // variability: handleVariability(revenueStats, "revenue").variability
+        //   ? `$${nFormatter(
+        //       handleVariability(revenueStats, "revenue").variability,
+        //       2
+        //     )}`
+        //   : "",
+        title: t("vndRevenue"),
+        iconColor: "rgb(228, 106, 118)",
+        iconBg: "rgb(255, 244, 229)",
+        // pcColor: handleVariability(revenueStats, "revenue").color,
       },
     ];
   }
-
   return (
     <div className="mt-8">
+      <h1 className="px-8 mb-4">
+        <p className="text-2xl text-gray-500 mb-2">{t(greeting)}</p>
+        <p className="text-3xl text-[#1F3E82] font-bold">{user.name}</p>
+      </h1>
       {role !== "ROLE_ADMIN" && (
-        <div className="grid grid-cols-2 gap-y-4 gap-x-4 justify-center px-8">
+        <div className="flex flex-wrap items-center gap-x-4 px-8">
           {status === "success" &&
             earningData.map((item) => (
               <div
                 key={item.title}
-                className="bg-white h-44 w-full dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
+                className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
               >
-                <button
-                  type="button"
-                  style={{
-                    color: item.iconColor,
-                    backgroundColor: item.iconBg,
-                  }}
-                  className="text-3xl opacity-0.9 rounded-lg  p-4 hover:drop-shadow-xl w-[100px] h-[100px] flex justify-center items-center"
-                >
-                  {item.icon}
-                </button>
                 <p className="mt-3">
                   <div className="flex items-end gap-x-4">
-                    {" "}
                     <Tooltip
                       placement="rightBottom"
                       title={
-                        <span className="text-4xl font-bold">
+                        <span className="text-2xl font-bold">
                           {item.rawAmount}
                         </span>
                       }
                     >
-                      <span className="text-4xl font-bold">{item.amount}</span>
+                      <span className="text-3xl font-bold">{item.amount}</span>
                     </Tooltip>
                     <span
-                      className={`text-sm ml-2`}
+                      className="text-md ml-2 flex"
                       style={{ color: item.pcColor, display: "flex" }}
                     >
                       {item.pcColor === "red" ? (
@@ -177,7 +177,7 @@ const Overview = () => {
                       <span>{item.variability}</span>
                     </span>
                   </div>
-                  <p className="text-xl font-semibold text-primary  mt-1">
+                  <p className="text-sm font-semibold text-primary  mt-1">
                     {item.title}
                   </p>
                 </p>
@@ -185,7 +185,10 @@ const Overview = () => {
             ))}
         </div>
       )}
-      <OrderStatistics organizationEmail={user.email} />
+      <OrderStatistics
+        organizationEmail={user.email}
+        chartName="stats.ticket"
+      />
     </div>
   );
 };

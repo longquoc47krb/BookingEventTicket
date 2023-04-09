@@ -199,34 +199,7 @@ function AddEditEvent(props) {
       }
     },
   });
-  const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
-  useEffect(() => {
-    // console.log({ values, errors });
-    // console.group();
-    // console.log({ eventId });
-    // console.log({ errors });
-    // console.log("ticketList:", handleTicketList(values.ticketList));
-    // console.log("useTemplate:", useTemplate);
-    // console.log("saveTemplate:", saveTemplate);
-    // console.log("handleTemplateTicket:", handleTemplateTicket());
-    // console.log({
-    //   name: values.name,
-    //   description: encode(values.description),
-    //   endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
-    //   endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
-    //   startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
-    //   startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
-    //   eventCategoryList: handleEventCategoryList(values.eventCategoryList),
-    //   province: values.province,
-    //   venue: values.venue,
-    //   venue_address: values.venue_address,
-    //   organizationTickets: handleTicketList(values.ticketList),
-    //   totalTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
-    //   remainingTicket: sumBy(handleTicketList(values.ticketList), "quantity"),
-    //   host_id: user.id,
-    // });
-    // console.groupEnd();
-  }, [values, errors]);
+  const { handleSubmit, setFieldValue, values, setValues, errors } = formik; 
 
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));

@@ -47,12 +47,12 @@ export const OrganizationAPI = {
     method: "POST",
     data,
   }),
-  statistic: (userId) => ({
-    url: `/organization/statistic/${userId}`,
-    method: "GET"
+  statistic: (email) => ({
+    url: `/organization/statistics-change/${email}`,
+    method: "GET",
   }),
   getPaymentListByOrganizerID: (userId) => ({
     url: `/organization/payment/${userId}`,
-    method: "GET"
-  })
+    method: "GET",
+  }),
 };

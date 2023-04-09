@@ -21,25 +21,35 @@ const findOrderWithUniqueAccount = async (eventId, userId) => {
     return error.response.data.data;
   }
 };
-const getTicketrStatisticsForDate = async (organizerEmail, period) => {
+export const getDailyTicketStatistics = async (email) => {
   try {
     const response = await httpRequest(
-      OrderAPI.getTicketStatisticsForDate(organizerEmail, period)
+      OrderAPI.getDailyTicketStatistics(email)
     );
     return response.data;
   } catch (error) {
     return error.response.data.data;
   }
 };
-export const useGetTicketStatisticsForDate = (organizerEmail, period) => {
-  return useQuery(
-    ["getTicketStatisticsForDate", (organizerEmail, period)],
-    () => getTicketrStatisticsForDate(organizerEmail, period),
-    {
-      staleTime: 0,
-      refetchInterval: 5000,
-    }
-  );
+export const getLastFourWeeksTicketStatistics = async (email) => {
+  try {
+    const response = await httpRequest(
+      OrderAPI.getLastFourWeeksTicketStatistics(email)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data.data;
+  }
+};
+export const getMonthlyTicketStatistics = async (email) => {
+  try {
+    const response = await httpRequest(
+      OrderAPI.getMonthlyTicketStatistics(email)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data.data;
+  }
 };
 export const useFetchOrdersByEventId = (eventId, userId) => {
   return useQuery(

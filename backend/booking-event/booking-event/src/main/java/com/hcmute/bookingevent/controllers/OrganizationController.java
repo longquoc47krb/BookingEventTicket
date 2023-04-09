@@ -180,4 +180,8 @@ public class OrganizationController {
     public ResponseEntity<?> PaymentStatus() {
         return iOrganizationService.findAllPaymentStatus();
     }
+    @GetMapping("/organization/statistics-change/{email}")
+    public ResponseEntity<?> getStatistics(@PathVariable String email){
+        return iOrganizationService.getStatistics(email);
+    }
 }

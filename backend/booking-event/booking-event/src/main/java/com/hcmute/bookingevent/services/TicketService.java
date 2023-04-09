@@ -14,16 +14,21 @@ import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrderRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
+
+import java.time.*;
+import java.time.format.TextStyle;
+import java.time.temporal.WeekFields;
+
+import com.hcmute.bookingevent.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalField;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,22 +37,12 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class TicketService implements ITicketService {
 
-
     private final OrganizationRepository organizationRepository;
     private final OrderRepository orderRepository;
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final TicketMapper ticketMapper;
-//    @Override
-//    public ResponseEntity<?> findAll()
-//    {
-//        List<Ticket> list = ticketRepository.findAll();
-//
-//        if (list.size() > 0)
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject(true, "Get all ticket", list,200));
-//        throw new NotFoundException("Can not found any ticket");
-//    }
+    private final TicketRepository ticketRepository;
     @Override
     public ResponseEntity<?> createTicket(String email, OrganizationTicketReq organizationTicketReq, String eventId)
     {
@@ -122,55 +117,152 @@ public class TicketService implements ITicketService {
         }
     }
     @Override
-    public ResponseEntity<?> getListOrderPerDay(String email, String period) {
-        Organization organization = organizationRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
-        int numOrders = 0;
-        List<Event> events = new ArrayList<>();
-        List<Order> orders = new ArrayList<>();
+    public ResponseEntity<?> getLastFourWeeksTicketStatistics(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
 
-        // Get the start and end dates for the desired period
-        LocalDate startDate, endDate;
-        switch (period) {
-            case "week":
-                startDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-                endDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-                break;
-            case "month":
-                startDate = LocalDate.now().withDayOfMonth(1);
-                endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
-                break;
-            case "year":
-                startDate = LocalDate.now().withDayOfYear(1);
-                endDate = LocalDate.now().withDayOfYear(LocalDate.now().lengthOfYear());
-                break;
-            default:
-                // If no period is specified, default to counting orders for all time
-                startDate = LocalDate.MIN;
-                endDate = LocalDate.MAX;
+        List<Event> events = new ArrayList<>();
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            event.ifPresent(events::add);
         }
-        // Iterate over all events and orders and count the number of orders for each date
-        Map<LocalDate, Integer> orderCountsByDate = new HashMap<>();
-        for(String eventName: organization.getEventList() ){
+
+        LocalDate currentDate = LocalDate.now().minusWeeks(3);
+        Map<String, Integer> weekCounts = new LinkedHashMap<>();
+        while (!currentDate.isAfter(LocalDate.now())) {
+            String weekName = "Week " + currentDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+            weekCounts.put(weekName, 0);
+            currentDate = currentDate.plusWeeks(1);
+        }
+
+        for (String eventName: organization.getEventList()) {
             Optional<Event> event = eventRepository.findEventById(eventName);
             for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
                 LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if (orderDate.isAfter(startDate) && orderDate.isBefore(endDate)) {
-                    orderCountsByDate.put(orderDate, orderCountsByDate.getOrDefault(orderDate, 0) + order.getTotalQuantity());
-                }   }
+                if (orderDate.isAfter(LocalDate.now().minusWeeks(4))) {
+                    String weekName = "Week " + orderDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());;
+                    weekCounts.put(weekName, weekCounts.getOrDefault(weekName, 0) + order.getTotalQuantity());
+                }
+            }
         }
 
-        // Convert the order counts map to an array of objects
-        List<Map<String, Object>> orderStatistics = new ArrayList<>();
-        for (Map.Entry<LocalDate, Integer> entry : orderCountsByDate.entrySet()) {
-            Map<String, Object> orderStat = new HashMap<>();
-            orderStat.put("date", entry.getKey());
-            orderStat.put("numOrders", entry.getValue());
-            orderStatistics.add(orderStat);
+        List<Map<String, Object>> weekStatistics = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : weekCounts.entrySet()) {
+            Map<String, Object> weekStat = new HashMap<>();
+            weekStat.put("date", entry.getKey());
+            weekStat.put("numberTickets", entry.getValue());
+            weekStatistics.add(weekStat);
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "getListOrderPerDay successfully ", orderStatistics, 200));
-
+                new ResponseObject(true, "Ticket statistics for last 4 weeks", weekStatistics, 200));
     }
+    @Override
+    public ResponseEntity<?> getDailyTicketStatistics(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
 
+        List<Event> events = new ArrayList<>();
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            event.ifPresent(events::add);
+        }
+
+        Map<LocalDate, Integer> orderCountsByDate = new HashMap<>();
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusDays(6);
+
+        for (String eventName: organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
+                LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (orderDate.isAfter(startDate.minusDays(1)) && orderDate.isBefore(endDate.plusDays(1))) {
+                    orderCountsByDate.put(orderDate, orderCountsByDate.getOrDefault(orderDate, 0) + order.getTotalQuantity());
+                }
+            }
+        }
+
+        List<Map<String, Object>> orderStatistics = new ArrayList<>();
+        LocalDate currentDate = startDate;
+        while (!currentDate.isAfter(endDate)) {
+            Map<String, Object> orderStat = new HashMap<>();
+            orderStat.put("date", currentDate.getDayOfWeek().toString());
+            orderStat.put("numberTickets", orderCountsByDate.getOrDefault(currentDate, 0));
+            orderStatistics.add(orderStat);
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Ticket statistics for the last 7 days", orderStatistics, 200));
+    }
+    @Override
+    public ResponseEntity<?> getMonthlyTicketStatistics(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        Map<String, Integer> orderCountsByMonth = new HashMap<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startDate = currentDate.minusMonths(11);
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
+                LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (orderDate.isAfter(startDate.minusDays(1)) && orderDate.isBefore(currentDate.plusDays(1))) {
+                    String monthName = orderDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+                    orderCountsByMonth.put(monthName, orderCountsByMonth.getOrDefault(monthName, 0) + order.getTotalQuantity());
+                }
+            }
+        }
+
+        List<Map<String, Object>> orderStatistics = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            String monthName = startDate.plusMonths(i).getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) ;
+            int year = startDate.plusMonths(i).getYear() ;
+            Map<String, Object> orderStat = new HashMap<>();
+            orderStat.put("date", monthName + " " + year);
+            orderStat.put("numberTickets", orderCountsByMonth.getOrDefault(monthName, 0));
+            orderStatistics.add(orderStat);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Ticket statistics for the past 12 months", orderStatistics, 200));
+    }
+    public ResponseEntity<?> getTicketsLast5Years(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        int currentYear = LocalDate.now().getYear();
+
+        Map<Integer, Integer> ticketCountsByYear = IntStream.rangeClosed(currentYear - 4, currentYear)
+                .boxed()
+                .collect(Collectors.toMap(year -> year, year -> 0));
+
+        for (String eventName : organization.getEventList()) {
+            Event event = eventRepository.findEventById(eventName)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Event not found"));
+
+            List<Order> orders = orderRepository.findAllByIdEvent(event.getId());
+            for (Order order : orders) {
+                int orderYear = order.getCreatedDate().getYear();
+                if (orderYear >= currentYear - 4 && orderYear <= currentYear) {
+                    ticketCountsByYear.merge(orderYear, order.getTotalQuantity(), Integer::sum);
+                }
+            }
+        }
+
+        List<Map<String, Object>> ticketStatistics = IntStream.rangeClosed(currentYear - 4, currentYear)
+                .boxed()
+                .map(year -> {
+                    Map<String, Object> ticketStat = new HashMap<>();
+                    ticketStat.put("date", year);
+                    ticketStat.put("numberTickets", ticketCountsByYear.get(year));
+                    return ticketStat;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Ticket statistics for last 5 years", ticketStatistics, 200));
+    }
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
+    }
 
 }

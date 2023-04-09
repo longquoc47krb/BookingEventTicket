@@ -8,9 +8,15 @@ import com.hcmute.bookingevent.services.TicketService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 import java.util.List;
 
 @AllArgsConstructor
@@ -42,11 +48,21 @@ public class TicketController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
-    @GetMapping(path = "/organization/{userId}/ticket-statistics")
-    public ResponseEntity<?> getOrderStatisticsForDate(
-            @PathVariable String userId, @RequestParam(required = false) String period
-    ){
-        return ticketService.getListOrderPerDay(userId, period);
+    @GetMapping("/organization/{email}/ticket-statistics/last-four-weeks")
+    public ResponseEntity<?> getLastFourWeeksTicketStatistics(@PathVariable String email) {
+        return ticketService.getLastFourWeeksTicketStatistics(email);
+    }
+    @GetMapping("/organization/{email}/ticket-statistics/last-seven-days")
+    public ResponseEntity<?> getDailyTicketStatistics(@PathVariable String email) {
+        return ticketService.getDailyTicketStatistics(email);
+    }
+    @GetMapping("/organization/{email}/ticket-statistics/monthly")
+    public ResponseEntity<?> getMonthlyTicketStatistics(@PathVariable String email) {
+        return ticketService.getMonthlyTicketStatistics(email);
+    }
+    @GetMapping("/organization/{email}/ticket-statistics/last-five-years")
+    public ResponseEntity<?> getTicketsLast5Years(@PathVariable String email) {
+        return ticketService.getTicketsLast5Years(email);
     }
 
 }
