@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isNotEmpty } from "../../utils/utils";
 const RatingStats = ({ reviewList }) => {
-  const [ratingCounts, setRatingCounts] = useState([]);
   console.log({ reviewList });
-  useEffect(() => {
-    if (isNotEmpty(reviewList)) {
-      const ratingArray = [
+  const ratingArray = isNotEmpty(reviewList)
+    ? [
         reviewList.data.reduce(
           (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
           0
@@ -29,14 +27,12 @@ const RatingStats = ({ reviewList }) => {
           (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
           0
         ),
-      ];
-      setRatingCounts(ratingArray || []);
-    }
-  }, [reviewList]);
+      ]
+    : [];
 
-  const totalRatings = ratingCounts.reduce((total, count) => total + count, 0);
+  const totalRatings = ratingArray.reduce((total, count) => total + count, 0);
   const { t } = useTranslation();
-  const percentageRatings = ratingCounts.map((count) =>
+  const percentageRatings = ratingArray.map((count) =>
     Math.round((count / totalRatings) * 100)
   );
   const stars = {
@@ -63,16 +59,16 @@ const RatingStats = ({ reviewList }) => {
   let totalCount = 0;
   let sum = 0;
 
-  for (let i = 0; i < ratingCounts.length; i++) {
-    totalCount += ratingCounts[i];
-    sum += ratingCounts[i] * (i + 1);
+  for (let i = 0; i < ratingArray.length; i++) {
+    totalCount += ratingArray[i];
+    sum += ratingArray[i] * (i + 1);
   }
 
-  const averageRating = totalCount != 0 ? (sum / totalCount).toFixed(1) : 0;
+  const averageRating = totalCount !== 0 ? (sum / totalCount).toFixed(1) : 0;
   return (
     <div className="rating-stats">
       <div className="font-bold text-2xl mb-2">{t("rating-review")}</div>
-      <div className="flex gap-x-16">
+      <div className="flex sm:gap-x-16 gap-x-4">
         <div>
           <p className="text-6xl font-bold mt-4">{averageRating}</p>
           <Rating
@@ -93,4 +89,4 @@ const RatingStats = ({ reviewList }) => {
   );
 };
 
-export default RatingStats;
+export default React.memo(RatingStats);

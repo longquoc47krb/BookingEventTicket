@@ -56,6 +56,11 @@ public class ReviewService implements IReviewService {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Review List by EventId", reviewPage.getContent(), 200));
         }
+        else if(reviewPage.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Review List is Empty", new ArrayList<>(), 200));
+
+        }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ResponseObject(false, "List is empty", new ArrayList<>(), 404));
     }
@@ -66,6 +71,11 @@ public class ReviewService implements IReviewService {
         if (!reviewList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Review List by EventId", reviewList, 200));
+        }
+        else if(reviewList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "Review List is Empty", new ArrayList<>(), 200));
+
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ResponseObject(false, "List is empty", new ArrayList<>(), 404));

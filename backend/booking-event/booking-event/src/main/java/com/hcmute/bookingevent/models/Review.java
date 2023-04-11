@@ -24,6 +24,7 @@ public class Review {
     private String name;
     @NotBlank(message = "email is required")
     private String email;
+
     @NotBlank(message = "avatar is required")
     private String avatar;
     @NotBlank(message = "idEvent is required")

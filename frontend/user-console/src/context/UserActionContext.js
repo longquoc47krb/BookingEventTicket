@@ -77,11 +77,16 @@ export const UserActionContextProvider = ({ children }) => {
         const response = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
         );
-        localStorage.setItem(
-          "city",
-          response.data.results[0].address_components[3].short_name
-        );
-        return response.data;
+        const addressComponents = response.data.results[0].address_components;
+        for (let i = 0; i < addressComponents.length; i++) {
+          const component = addressComponents[i];
+          if (component.types.includes("administrative_area_level_1")) {
+            localStorage.setItem("city", component.long_name);
+            return component.long_name;
+          }
+        }
+
+        return null;
       };
       getCityName();
     });
