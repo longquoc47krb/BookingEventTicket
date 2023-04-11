@@ -1046,7 +1046,7 @@
   display: grid;
   height: auto;
   grid-template-columns: auto 3fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr 2fr;
   padding: 1rem;
   grid-auto-rows: auto;
   gap: 0 1rem;
@@ -2052,7 +2052,13 @@
   background-color: #e4e4e4;
 }
 .rating-bar-container {
+  flex-wrap: wrap;
   grid-template-columns: 1fr 8fr 3rem;
+}
+@media (max-width: 767px) {
+  .rating-bar-container {
+    grid-template-columns: 3fr 8fr 3rem;
+  }
 }
 
 .rating-bar-inner {

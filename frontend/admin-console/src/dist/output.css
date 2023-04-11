@@ -32,18 +32,12 @@
   background-color: white;
   position: relative;
   border-radius: 5px;
-  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02), 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028), 12.5px 12.5px 10px rgba(0, 0, 0, 0.035), 22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042), 41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05), 100px 100px 80px rgba(0, 0, 0, 0.07);
-  /*button {
-      background: $primary-color;
-      padding: 0.5rem;
-      color: white;
-      font-weight: 700;
-      font-size: 1.2rem;
-      border-radius: 5px;
-      &:hover {
-        filter: brightness(80%);
-      }
-    }*/
+  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
 }
 .auth-form-forget-password {
   position: absolute;
@@ -55,7 +49,7 @@
 .auth-form input {
   font-family: Verdana;
 }
-.auth-form input[type=password] {
+.auth-form input[type="password"] {
   font-family: Verdana;
   letter-spacing: 0.125em;
 }
@@ -215,7 +209,7 @@
     transform: rotate(1turn);
   }
 }
-/* Loading three dots */
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -277,7 +271,7 @@
     transform: translate(24px, 0);
   }
 }
-/* SK LOADING */
+
 .sk-chase {
   width: 40px;
   height: 40px;
@@ -358,7 +352,8 @@
   }
 }
 @keyframes sk-chase-dot {
-  80%, 100% {
+  80%,
+  100% {
     transform: rotate(360deg);
   }
 }
@@ -366,7 +361,8 @@
   50% {
     transform: scale(0.4);
   }
-  100%, 0% {
+  100%,
+  0% {
     transform: scale(1);
   }
 }
@@ -475,22 +471,26 @@
 @font-face {
   font-family: "SVN-Gilroy";
   font-weight: 400;
-  src: local("SVN-Gilroy"), url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Regular.otf) format("opentype");
 }
 @font-face {
   font-family: "SVN-Gilroy";
   font-weight: 500;
-  src: local("SVN-Gilroy"), url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Medium.otf) format("opentype");
 }
 @font-face {
   font-family: "SVN-Gilroy";
   font-weight: 600;
-  src: local("SVN-Gilroy"), url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-SemiBold.otf) format("opentype");
 }
 @font-face {
   font-family: "SVN-Gilroy";
   font-weight: 700;
-  src: local("SVN-Gilroy"), url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
+  src: local("SVN-Gilroy"),
+    url(../assets/fonts/Gilroy/SVN-Gilroy-Bold.otf) format("opentype");
 }
 * {
   font-family: SVN-Gilroy, sans-serif !important;
@@ -517,7 +517,11 @@ body {
 .primary-button {
   width: 100%;
   padding: 0.5rem 1.5rem;
-  background: linear-gradient(53deg, rgb(31, 62, 130) 0%, rgb(0, 39, 125) 100%) !important;
+  background: linear-gradient(
+    53deg,
+    rgb(31, 62, 130) 0%,
+    rgb(0, 39, 125) 100%
+  ) !important;
   border-radius: 0.25rem;
   z-index: 10;
   color: white;
@@ -556,5 +560,3 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/*# sourceMappingURL=output.css.map */

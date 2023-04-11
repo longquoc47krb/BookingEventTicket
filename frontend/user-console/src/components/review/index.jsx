@@ -15,12 +15,13 @@ import reviewServices, {
   useFetchReviewListPagin,
 } from "../../api/services/reviewServices";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   setIsFeedback,
   isFeedbackSelector,
   updateRating,
   ratingSelector,
+  setIsCompleted,
 } from "../../redux/slices/eventSlice";
 import FeedbackComment from "../feedback-item";
 import { useTranslation } from "react-i18next";
@@ -32,6 +33,9 @@ import {
 } from "../common/alert";
 import { hideBadWords } from "../../utils/badwords";
 import { Pagination } from "antd";
+import { isNotEmpty } from "../../utils/utils";
+import { useMemo } from "react";
+import { EventStatus } from "../../utils/constants";
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {
@@ -40,28 +44,19 @@ function Review() {
   const ratingInfo = useSelector(ratingSelector);
   const [isEdit, setIsEdit] = useState(false);
   const user = useSelector(userInfoSelector);
+  const [reviewList, setReviewList] = useState([]);
+  const [fullReviews, setFullReviews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [userFeedback, setUserFeedback] = useState([]);
   const dispatch = useDispatch();
   const { eventId } = useParams();
-  const [state, updateState] = useReducer(
-    (prev, next) => {
-      const newEvent = { ...prev, ...next };
-      return newEvent;
-    },
-    {
-      currentPage: 0,
-      reviews: [],
-      feedbackInfo: [],
-      allReviews: [],
-      reviewsWithoutYours: [],
-    }
-  );
   const {
     data: reviewsPaging,
     status,
     isLoading,
   } = useFetchReviewListPagin({
     id: eventId,
-    pageNumber: state.currentPage,
+    pageNumber: currentPage,
     pageSize: 10,
   });
   const { data: allReviews, status: allReviewsStatus } =
@@ -74,46 +69,37 @@ function Review() {
       allReviewsStatus === "success" &&
       allReviews?.status !== 404
     ) {
-      updateState({
-        reviews: reviewsPaging.data,
-        allReviews: allReviews.data,
-      });
+      setFullReviews(allReviews.data);
     } else {
-      updateState({
-        reviews: [],
-        allReviews: [],
-      });
+      setFullReviews([]);
     }
   }, [status, allReviewsStatus]);
   useEffect(() => {
-    const checkExistFeedback = async () => {
-      const response = await checkExistReview(user.id, eventId);
-      const isFeedBackTemp = response.status === 400 ? true : false;
-      dispatch(setIsFeedback(isFeedBackTemp));
-    };
-    checkExistFeedback();
+    if (token) {
+      const checkExistFeedback = async () => {
+        const response = await checkExistReview(user.id, eventId);
+        const isFeedBackTemp = response.status === 400 ? true : false;
+        dispatch(setIsFeedback(isFeedBackTemp));
+      };
+      checkExistFeedback();
+    }
   }, [reviewsPaging, status]);
 
   // count stars
-
-  const reviewsWithoutYours =
-    user && isLoading === false && reviewsPaging?.data.length > 0
-      ? reviewsPaging?.data.filter((e) => e.email !== user.email)
-      : [];
-  const feedbackInfo =
-    user && isLoading === false && reviewsPaging?.data.length > 0
-      ? reviewsPaging?.data.filter((e) => e.email === user.email)
-      : [];
   useEffect(() => {
-    if (isEdit) {
-      dispatch(
-        updateRating({
-          star: state.feedbackInfo[0]?.rate,
-          message: hideBadWords(state.feedbackInfo[0]?.message || ""),
-        })
-      );
+    if (user && isNotEmpty(reviewsPaging)) {
+      const reviewListTemp =
+        reviewsPaging.data.length > 0
+          ? reviewsPaging?.data.filter((e) => e.email !== user.email)
+          : [];
+      const feedbackInfo =
+        reviewsPaging.data.length > 0
+          ? reviewsPaging?.data.filter((e) => e.email === user.email)
+          : [];
+      setReviewList(reviewListTemp);
+      setUserFeedback(feedbackInfo);
     }
-  }, [isEdit, state]);
+  }, [user, isLoading, reviewsPaging]);
   // delete review
   const handleDelete = () => {
     AlertQuestion({
@@ -187,83 +173,64 @@ function Review() {
     );
     setIsEdit(false);
   };
+  console.log({
+    token: !!token,
+    isFeedback: !!isFeedback,
+    userFeedback: !!userFeedback,
+    isEdit: !!isEdit,
+    allReviews,
+    fullReviews,
+    reviewList,
+  });
   return (
     <div className="w-full h-full review-container mr-6">
       <RatingStats reviewList={allReviews} />
+      <div className="mx-4">{!token && <Unauthenticated />}</div>
       <div className="mx-4">
-        {token ? (
-          isFeedback && feedbackInfo ? (
-            <div>
-              <p className="text-[#1f3e82] font-bold text-2xl py-2">
-                {t("your-feedback")}
-              </p>
-              {!isEdit ? (
-                <>
-                  <FeedbackComment
-                    avatar={user.avatar}
-                    name={user.name}
-                    message={hideBadWords(feedbackInfo[0]?.message || "")}
-                    rate={feedbackInfo[0]?.rate}
-                    isCurrentUser={isFeedback}
-                    setIsEditing={setIsEdit}
-                    onDelete={handleDelete}
-                    time={moment(feedbackInfo[0]?.createdAt).fromNow()}
-                  />
-                  <hr className="mb-4" />
-                </>
-              ) : (
-                <Feedback
-                  message={ratingInfo.message}
-                  star={ratingInfo.star}
-                  isEditting={isEdit}
-                  onCancel={setIsEdit}
-                  onUpdate={handleUpdate}
-                  user={user}
-                />
-              )}
-            </div>
-          ) : (
-            <>
-              <p className="text-[#1f3e82] font-bold text-2xl py-2">
-                {t("your-feedback")}
-              </p>
-              <Feedback
-                isEditting={isEdit}
-                star={ratingInfo.star}
-                message={ratingInfo.message}
-                onCancel={setIsEdit}
-                onSubmit={handleSubmit}
-                user={user}
-              />
-            </>
-          )
-        ) : (
-          <Unauthenticated />
-        )}
-        {!isLoading ? (
-          state.reviews && (
-            <FeedbackList
-              feedbacks={reviewsWithoutYours || state.reviews}
-              isFeedbackByCurrentUser={isFeedback}
+        {token && isFeedback && userFeedback && !isEdit && (
+          <>
+            <p className="text-[#1f3e82] font-bold text-2xl py-2">
+              {t("your-feedback")}
+            </p>
+            <FeedbackComment
+              avatar={user.avatar}
+              name={user.name}
+              message={hideBadWords(userFeedback[0]?.message || "")}
+              rate={userFeedback[0]?.rate}
+              isCurrentUser={isFeedback}
+              setIsEditing={setIsEdit}
+              onDelete={handleDelete}
+              time={moment(userFeedback[0]?.createdAt).fromNow()}
             />
-          )
-        ) : (
-          <p>Loading</p>
+            <hr className="mb-4" />
+          </>
         )}
-        {!isFeedback && state.reviews.length > 0 && (
-          <Pagination
-            className="my-4"
-            current={state.currentPage + 1}
-            onChange={(page) => {
-              updateState({
-                currentPage: page - 1,
-              });
-            }}
-            total={state.allReviews.length}
-            pageSize={10}
-            defaultCurrent={1}
+        {token && isFeedback && userFeedback && isEdit && (
+          <Feedback
+            message={ratingInfo.message}
+            star={ratingInfo.rate}
+            isEditting={isEdit}
+            onCancel={setIsEdit}
+            onUpdate={handleUpdate}
+            user={user}
           />
         )}
+        {token && !isFeedback && userFeedback && !isEdit && (
+          <Feedback
+            isEditting={isEdit}
+            star={ratingInfo.star}
+            message={ratingInfo.message}
+            onCancel={setIsEdit}
+            onSubmit={handleSubmit}
+            user={user}
+          />
+        )}
+      </div>
+      <div className="mx-4">
+        <FeedbackList
+          feedbacks={token && !isLoading ? reviewList : fullReviews}
+          isFeedbackByCurrentUser={isFeedback}
+        />
       </div>
     </div>
   );

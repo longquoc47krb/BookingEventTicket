@@ -52,7 +52,6 @@ import {
   isNotEmpty,
   titleCase,
 } from "../../utils/utils";
-const { followOrg, unfollowOrg } = customerServices;
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
   const { eventId } = useParams();
@@ -76,10 +75,6 @@ function EventDetail(props) {
   } else {
     moment.locale("vi");
   }
-  useEffect(() => {
-    event &&
-      dispatch(setIsCompleted(!!(event["status"] === EventStatus.COMPLETED)));
-  }, [eventId, event]);
   // display date
   const eventStartingDate = displayDate(event?.startingDate);
   const eventEndingDate = displayDate(event?.endingDate);
@@ -211,7 +206,7 @@ function EventDetail(props) {
           </div>
           <div className="event-detail-wrapper" ref={reviewRef}>
             {activeButton === "review" ? (
-              isCompleted ? (
+              event.status === EventStatus.COMPLETED ? (
                 <Review />
               ) : (
                 <EventIncompleted />

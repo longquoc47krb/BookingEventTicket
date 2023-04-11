@@ -46,7 +46,11 @@
   overflow: hidden;
   background-color: #e4e4e4;
   &-container {
+    flex-wrap: wrap;
     grid-template-columns: 1fr 8fr 3rem;
+    @include for-phone {
+      grid-template-columns: 3fr 8fr 3rem;
+    }
   }
 }
 

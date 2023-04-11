@@ -71,6 +71,9 @@ public class Account {
     {
         this.otp = otp;
     }
+    public Account(String avatar) {
+        this.avatar = avatar;
+    }
 
 
 }

@@ -2,7 +2,10 @@ import { Rating } from "@mui/material";
 import { Popover } from "antd";
 import moment from "moment";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { updateRating } from "../../redux/slices/eventSlice";
+import { hideBadWords } from "../../utils/badwords";
 function FeedbackComment({
   name,
   rate,
@@ -14,6 +17,7 @@ function FeedbackComment({
   onDelete,
 }) {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   return (
     <div className="flex mb-4 relative">
       <div className="flex gap-x-4 items-start w-full">
@@ -48,7 +52,15 @@ function FeedbackComment({
               <ul>
                 <li
                   className="py-2 px-3 hover:bg-slate-400 hover:text-white rounded-sm cursor-pointer"
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    setIsEditing(true);
+                    dispatch(
+                      updateRating({
+                        star: rate,
+                        message: hideBadWords(message),
+                      })
+                    );
+                  }}
                 >
                   Edit
                 </li>
