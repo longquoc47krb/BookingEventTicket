@@ -1,11 +1,18 @@
 package com.hcmute.bookingevent.mapper;
 
+import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.response.LoginRes;
+import com.hcmute.bookingevent.repository.AccountRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+@AllArgsConstructor
 @Service
 public class AccountMapper {
+    private final AccountRepository accountRepository;
+
     public LoginRes toLoginRes(Account account) {
         LoginRes loginRes = new LoginRes();
         if (account != null) {
@@ -18,5 +25,11 @@ public class AccountMapper {
 
         }
         return loginRes;
+    }
+    public Account toAccount(Customer customer)
+    {
+        Optional<Account>account =  accountRepository.findByEmail(customer.getEmail());
+        return account.get();
+
     }
 }

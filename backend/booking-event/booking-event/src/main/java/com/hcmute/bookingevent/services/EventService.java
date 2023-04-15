@@ -2,6 +2,9 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
+import com.hcmute.bookingevent.mapper.AccountMapper;
+import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
@@ -16,8 +19,10 @@ import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
+import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
+import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
@@ -36,10 +41,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -58,7 +60,10 @@ public class EventService implements IEventService {
     private final IEventSlugGeneratorService slugGeneratorService;
     private final CloudinaryConfig cloudinary;
     private final PaymentService paymentService;
+    private final CustomerRepository customerRepository;
+    private final MailService mailService;
 
+    private final AccountMapper accountMapper;
     @SneakyThrows
     @Override
     public ResponseEntity<?> createEvent(EventReq eventReq, String email) {
@@ -81,6 +86,13 @@ public class EventService implements IEventService {
             organization.get().getPaymentPendings().add(paymentPending);
             //save organization
             organizationRepository.save(organization.get());
+            //send email
+            List<String> ids = Arrays.asList(email);
+            List<Customer> customerListForSending =  customerRepository.findByFollowList(ids);
+            List<Account> accountList = customerListForSending.stream().map(accountMapper::toAccount).collect(Collectors.toList());
+            mailService.sendMailByAccountList(accountList,"", EMailType.NEW_EVENT);
+           // mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
+
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save event successfully ", idSlung, 200));
 
