@@ -25,6 +25,11 @@ public class EventController {
     private final JwtTokenProvider jwtUtils;
 
 
+
+    @GetMapping("/event/upcoming")
+    public  ResponseEntity<?> findUpcomingEvents() {
+        return iEventService.upcomingEvents();
+    }
     //get all events
     @GetMapping("/event/findAll")
     public ResponseEntity<?> findAllEvents() {

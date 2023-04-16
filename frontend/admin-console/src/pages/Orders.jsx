@@ -14,7 +14,8 @@ import Table from "../components/Table";
 import { orderColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { eventIdSelector } from "../redux/slices/eventSlice";
-import { isNotEmpty } from "../utils/utils";
+import { getCurrentDatetime, isNotEmpty } from "../utils/utils";
+import ExportExcelButton from "../components/common/excel-button";
 
 const Orders = () => {
   const user = useSelector(userInfoSelector);
@@ -159,6 +160,26 @@ const Orders = () => {
     }
   }, [events, eventId]);
 
+  // columns for Excel
+  const columns = [
+    { header: "ID", key: "id", width: 10 },
+    { header: "Name", key: "name", width: 32 },
+    { header: "Total tickets", key: "ticketTotal", width: 15, outlineLevel: 1 },
+    { header: "Remaining tickets", key: "ticketRemaining", width: 15 },
+    { header: "Date", key: "date", width: 10 },
+    { header: "Status", key: "status", width: 10 },
+  ];
+  const data = orderByEventData?.map((item) => ({
+    id: item.id,
+    name: item.name,
+    ticketTotal: item.ticketTotal,
+    ticketRemaining: item.ticketRemaining,
+    date: item.date,
+    status:
+      item.status === "event.completed"
+        ? t("event.status.completed")
+        : t("event.status.available"),
+  }));
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       {/* <BreadCrumbs
@@ -166,7 +187,13 @@ const Orders = () => {
         className="absolute top-10 right-10"
       /> */}
       <Header category={t("sider.management")} title={t("sider.order")} />
-
+      <div className="flex justify-end w-full">
+        <ExportExcelButton
+          data={data}
+          columns={columns}
+          filename={`Orders-${getCurrentDatetime()}`}
+        />
+      </div>
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />

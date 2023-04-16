@@ -317,6 +317,35 @@ public class EventService implements IEventService {
 
 
     }
+
+    @Override
+    public ResponseEntity<?> upcomingEvents() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate nextOneWeek = currentDate.plusDays(7);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        // Tạo query để lấy các sự kiện có startingDate trong khoảng thời gian từ hôm nay đến 7 ngày tiếp theo
+        Query query = new Query();
+        Criteria criteria = Criteria.where("startingDate")
+                .gte(currentDate.format(formatter))
+                .andOperator(Criteria.where("startingDate").lte(nextOneWeek.format(formatter)));
+        query.addCriteria(criteria);
+        // Lấy danh sách các sự kiện
+        List<Event> eventPreviews = mongoTemplate.find(query, Event.class);
+        List<EventPreviewDto> upcomingEvents = eventPreviews.stream()
+                .map(event -> new EventPreviewDto(event.getName(), event.getBackground(), event.getStartingDate(), event.getTicketTotal(), event.getTicketRemaining(), event.getEventCategoryList()))
+                .collect(Collectors.toList());
+        if(!upcomingEvents.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(false, "Upcoming events fetched successfully" , upcomingEvents, 200));
+
+        } else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Upcoming event is empty" , new ArrayList<>(), 404));
+
+        }
+    }
+
     @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria

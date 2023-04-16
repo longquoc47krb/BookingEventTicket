@@ -65,3 +65,18 @@ body {
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+
+.gradient-button {
+  background-color: #4caf50; /* Màu nền của nút */
+  color: white; /* Màu chữ của nút */
+  border: none; /* Bỏ viền của nút */
+  padding: 0.5rem; /* Khoảng cách giữa nội dung của nút và viền của nút */
+  font-size: 16px; /* Cỡ chữ của nút */
+  margin-bottom: 0.5rem;
+  border-radius: 5px; /* Đường cong của góc nút */
+  position: relative; /* Tạo một không gian tương đối cho phần tử con */
+  background: linear-gradient(to right, #4caf50 0%, #2e8b57 100%);
+}
+.gradient-button:hover {
+  opacity: 0.5; /* Giảm độ trong suốt của phần tử con khi nút được bấm */
+}

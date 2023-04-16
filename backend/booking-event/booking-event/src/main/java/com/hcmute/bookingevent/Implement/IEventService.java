@@ -26,5 +26,7 @@ public interface IEventService {
                                    String status);
     ResponseEntity<?> updateEventBackground(String id, MultipartFile file);
 
+    ResponseEntity<?> upcomingEvents();
+
 
 }

@@ -64,6 +64,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-scroll-to-top": "^3.0.0",
+    "react-share": "^4.4.1",
     "react-simple-star-rating": "^5.1.7",
     "react-use": "^17.4.0",
     "react-use-fuse": "^0.5.2",

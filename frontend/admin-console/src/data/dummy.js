@@ -683,6 +683,16 @@ export const OrganizerRoute = [
 ];
 export const AdminRoute = [
   {
+    title: "sider.dashboard",
+    links: [
+      {
+        name: "sider.overview",
+        route: "overview",
+        icon: <FiShoppingBag />,
+      },
+    ],
+  },
+  {
     title: "sider.management",
     links: [
       {
