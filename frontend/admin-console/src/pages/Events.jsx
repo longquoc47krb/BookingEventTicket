@@ -15,6 +15,7 @@ import Table from "../components/Table";
 import { eventColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { reverseArray } from "../utils/utils";
+import ExportExcelButton from "../components/common/excel-button";
 const Events = () => {
   const user = useSelector(userInfoSelector);
   const { data: events, status } = useFetchEventsByOrgID(user.id);
@@ -144,19 +145,45 @@ const Events = () => {
         text
       ),
   });
+  // columns for Excel
+  const columns = [
+    { header: "ID", key: "id", width: 10 },
+    { header: "Name", key: "name", width: 32 },
+    { header: "Categories", key: "categories", width: 32, outlineLevel: 1 },
+    { header: "Date", key: "date", width: 15 },
+    { header: "Status", key: "status", width: 10 },
+  ];
+  const data = eventData?.map((item) => ({
+    id: item.id,
+    background: item.background,
+    name: item.name,
+    categories: item.categories?.map((item) => t(item.name)),
+    date: item.date,
+    status:
+      item.status === "event.completed"
+        ? t("event.status.completed")
+        : t("event.status.available"),
+  }));
+  console.log({ data });
   // end for table
   const nameColumn = eventColumns.find((e) => e.dataIndex === "name");
   Object.assign(nameColumn, getColumnSearchProps("name"));
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category={t("sider.management")} title={t("sider.event")} />
-      <div className="flex w-full justify-end">
+      <div className="flex w-full justify-end gap-x-4">
         <button
           className="p-2 bg-primary rounded-md mb-2 text-white text-lg"
           onClick={() => navigate("/event/create")}
         >
           {t("event.create")}
         </button>
+        <ExportExcelButton
+          data={data}
+          columns={columns}
+          filename="Event-Sheet"
+          firstRow={`${user.name} - Event List ${new Date()}`}
+        />
       </div>
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">

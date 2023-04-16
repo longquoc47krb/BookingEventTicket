@@ -28,6 +28,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "eslint-config-react-app": "^7.0.1",
+    "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "html-react-parser": "^3.0.4",
