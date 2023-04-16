@@ -19,7 +19,7 @@ import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
 
-import com.hcmute.bookingevent.repository.TicketRepository;
+//import com.hcmute.bookingevent.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,7 @@ public class TicketService implements ITicketService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final TicketMapper ticketMapper;
-    private final TicketRepository ticketRepository;
+    //private final TicketRepository ticketRepository;
     @Override
     public ResponseEntity<?> createTicket(String email, OrganizationTicketReq organizationTicketReq, String eventId)
     {
@@ -261,8 +261,6 @@ public class TicketService implements ITicketService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Ticket statistics for last 5 years", ticketStatistics, 200));
     }
-    public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
-    }
+
 
 }
