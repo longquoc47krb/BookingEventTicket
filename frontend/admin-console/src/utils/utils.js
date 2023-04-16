@@ -609,11 +609,22 @@ export function Greeting() {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
 
-  if (currentHour < 12) {
+  if (currentHour < 12 && currentHour >= 4) {
     return "goodMorning";
   } else if (currentHour < 18) {
     return "goodAfternoon";
   } else {
     return "goodEvening";
   }
+}
+
+export function getCurrentDatetime() {
+  var now = new Date();
+  return now
+    .toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+    .replace(/\//g, "");
 }

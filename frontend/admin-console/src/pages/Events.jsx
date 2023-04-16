@@ -14,7 +14,7 @@ import { useState } from "react";
 import Table from "../components/Table";
 import { eventColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
-import { reverseArray } from "../utils/utils";
+import { getCurrentDatetime, reverseArray } from "../utils/utils";
 import ExportExcelButton from "../components/common/excel-button";
 const Events = () => {
   const user = useSelector(userInfoSelector);
@@ -181,8 +181,7 @@ const Events = () => {
         <ExportExcelButton
           data={data}
           columns={columns}
-          filename="Event-Sheet"
-          firstRow={`${user.name} - Event List ${new Date()}`}
+          filename={`Event-${getCurrentDatetime()}`}
         />
       </div>
       {status === "loading" ? (

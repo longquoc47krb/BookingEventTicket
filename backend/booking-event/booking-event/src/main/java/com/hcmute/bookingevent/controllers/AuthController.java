@@ -5,9 +5,7 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
-import com.hcmute.bookingevent.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +20,8 @@ public class AuthController {
     private final JwtTokenProvider jwtUtils;
 
 
-    private final UserService userService;
 
     private  final IAuthService iAuthService;
-    @PostMapping("/auth/generate-random-accounts")
-    public void registerRandomUser() {
-        userService.registerRandomUser();
-    }
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
         return iAuthService.login(loginReq);

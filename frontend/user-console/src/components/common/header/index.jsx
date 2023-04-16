@@ -12,6 +12,7 @@ import Avatar from "react-avatar";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { RiBookmark3Fill } from "react-icons/ri";
+import { IoNotifications } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
