@@ -100,7 +100,7 @@ public class AccountService implements IAccountService {
         Optional<Account> account = accountRepository.findByEmail(email);
         if (account.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Save data successfully ", account,200));
+                    new ResponseObject(true, "show data successfully ", account,200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
