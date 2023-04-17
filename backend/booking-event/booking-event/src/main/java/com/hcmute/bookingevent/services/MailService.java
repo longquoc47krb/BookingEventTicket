@@ -17,6 +17,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -42,6 +43,8 @@ public class MailService {
             "<br>Please use this password below to sign in your account in our system. Click <a href=\"https://lotusticket-admin.netlify.app\">here</a> to login " +
             "<br>Regards,";
     final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
+            "<br>Regards,";
+    final String NEW_EVENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
             "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
 
@@ -88,6 +91,11 @@ public class MailService {
                 model.put("header", "Refuse for organization successfully");
                 model.put("content", REFUSE_ORGANIZATION_CONTENT);
             }
+            else if(type.equals(EMailType.NEW_EVENT))
+            {
+                model.put("header", "Upcoming event");
+                model.put("content", NEW_EVENT);
+            }
 
             model.put("title", "LOTUS TICKET");
             model.put("name", account.getName());
@@ -112,5 +120,11 @@ public class MailService {
         }
 
 
+    }
+    public void sendMailByAccountList(List<Account> accountList, String messageContent , EMailType type) throws MessagingException, TemplateException, IOException {
+        for(Account account : accountList)
+        {
+            sendMail(account,messageContent,type);
+        }
     }
 }
