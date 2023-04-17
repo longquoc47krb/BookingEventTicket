@@ -4,8 +4,10 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
+import com.hcmute.bookingevent.payload.request.EmailReq;
 import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
+import com.hcmute.bookingevent.services.AdminService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
@@ -24,11 +26,16 @@ import javax.servlet.http.HttpServletRequest;
 public class AccountController {
     private final IAccountService iAccountService;
     private final JwtTokenProvider jwtUtils;
+    private final AdminService adminService;
 
     @GetMapping(path = "/admin/accounts")
     public ResponseEntity<?> findAll (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "5") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         return iAccountService.findAll(pageable);
+    }
+    @GetMapping(path = "/admin/profile")
+    public ResponseEntity<?> getAdminProfile (@RequestBody EmailReq emailReq  ){
+        return  adminService.findAccountByEmail(emailReq.getEmail());
     }
     @GetMapping("/account/findAll")
     public ResponseEntity<?> findAll() {
