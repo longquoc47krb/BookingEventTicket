@@ -44,12 +44,12 @@ public class MailService {
             "<br>Regards,";
     final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
             "<br>Regards,";
-    final String NEW_EVENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
-            "<br>Regards,";
+//    final String NEW_EVENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
+//            "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
 
 
-    public void sendMail(Account account, String messageContent , EMailType type) throws MessagingException, TemplateException, IOException
+    public void sendMail(Account account, String content,String messageContent , EMailType type) throws MessagingException, TemplateException, IOException
     {
         log.info(Thread.currentThread().getName()+ "- send email start");
         try
@@ -94,7 +94,7 @@ public class MailService {
             else if(type.equals(EMailType.NEW_EVENT))
             {
                 model.put("header", "Upcoming event");
-                model.put("content", NEW_EVENT);
+                model.put("content", content);
             }
 
             model.put("title", "LOTUS TICKET");
@@ -121,10 +121,12 @@ public class MailService {
 
 
     }
-    public void sendMailByAccountList(List<Account> accountList, String messageContent , EMailType type) throws MessagingException, TemplateException, IOException {
+    public void sendMailByAccountList(List<Account> accountList, String eventName, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
+        String NEW_EVENT ="We notify you that "+organizationName +"  just created new event is "  +eventName +
+                "<br>Regards,";
         for(Account account : accountList)
         {
-            sendMail(account,messageContent,type);
+            sendMail(account,NEW_EVENT,"",type);
         }
     }
 }

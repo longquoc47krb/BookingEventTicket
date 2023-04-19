@@ -84,7 +84,7 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
                 , Constants.ROLE_USER);
         account.setLoginType(EAccount.GOOGLE);
         Customer customer = new Customer(oAuth2User.getEmail());
-        mailService.sendMail(account, "", EMailType.REGISTER);
+        mailService.sendMail(account, "","", EMailType.REGISTER);
         customerRepository.save(customer);
         accountRepository.save(account);
         return  jwtTokenProvider.generateJwtToken(oAuth2User.getEmail(),account.getId());
