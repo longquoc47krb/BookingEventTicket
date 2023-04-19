@@ -66,7 +66,7 @@
   },
   "scripts": {
     "start": "set PORT=3001 && craco start",
-    "build": "craco build",
+    "build": "react-scripts build --max-old-space-size=8192",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "yarn build && netlify deploy --prod",
