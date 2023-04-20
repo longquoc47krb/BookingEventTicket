@@ -5,6 +5,7 @@ import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
 import com.hcmute.bookingevent.mapper.AccountMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.dto.EventPreviewDto;
 import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
@@ -41,6 +42,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -322,16 +324,14 @@ public class EventService implements IEventService {
     public ResponseEntity<?> upcomingEvents() {
         LocalDate currentDate = LocalDate.now();
         LocalDate nextOneWeek = currentDate.plusDays(7);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<Event> eventPreviews = new ArrayList<>();
+        for(Event event : eventRepository.findAll()){
+            if(LocalDate.parse(event.getStartingDate(), formatter).isBefore(currentDate) && LocalDate.parse(event.getStartingDate(), formatter).isAfter(nextOneWeek)){
+                eventPreviews.add(event);
+            }
+        }
 
-        // Tạo query để lấy các sự kiện có startingDate trong khoảng thời gian từ hôm nay đến 7 ngày tiếp theo
-        Query query = new Query();
-        Criteria criteria = Criteria.where("startingDate")
-                .gte(currentDate.format(formatter))
-                .andOperator(Criteria.where("startingDate").lte(nextOneWeek.format(formatter)));
-        query.addCriteria(criteria);
-        // Lấy danh sách các sự kiện
-        List<Event> eventPreviews = mongoTemplate.find(query, Event.class);
         List<EventPreviewDto> upcomingEvents = eventPreviews.stream()
                 .map(event -> new EventPreviewDto(event.getName(), event.getBackground(), event.getStartingDate(), event.getTicketTotal(), event.getTicketRemaining(), event.getEventCategoryList()))
                 .collect(Collectors.toList());
