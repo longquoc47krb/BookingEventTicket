@@ -53,6 +53,10 @@ const NewPasswordPage = Loadable({
   loader: () => import("../pages/NewPassword"),
   loading: Loading,
 });
+const AdminDashboardPage = Loadable({
+  loader: () => import("../pages/AdminDashboard"),
+  loading: Loading,
+});
 export const routes = [
   {
     element: <LoginPage />,
@@ -68,6 +72,14 @@ export const routes = [
   },
 ];
 export const adminRoutes = [
+  {
+    element: <AdminDashboardPage />,
+    path: "/",
+  },
+  {
+    element: <AdminDashboardPage />,
+    path: "/overview",
+  },
   {
     element: <AccountPage />,
     path: "/accounts",
