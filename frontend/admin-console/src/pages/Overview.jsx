@@ -226,10 +226,12 @@ const Overview = () => {
             ))}
         </div>
       )}
-      <OrderStatistics
-        organizationEmail={user.email}
-        chartName="stats.ticket"
-      />
+      {role !== "ROLE_ADMIN" && (
+        <OrderStatistics
+          organizationEmail={user.email}
+          chartName="stats.ticket"
+        />
+      )}
     </div>
   );
 };

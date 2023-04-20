@@ -30,18 +30,9 @@ const routePersistConfig = {
   version: 1,
   storage,
 };
-const statisticPersistConfig = {
-  key: "statistic",
-  version: 1,
-  storage,
-};
 const accountPersistedReducer = persistReducer(
   accountPersistConfig,
   accountReducer
-);
-const statisticPersistedReducer = persistReducer(
-  statisticPersistConfig,
-  statisticReducer
 );
 const routePersistedReducer = persistReducer(routePersistConfig, routeReducer);
 const reducer = combineReducers({

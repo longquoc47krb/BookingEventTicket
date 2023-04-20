@@ -67,11 +67,25 @@ export const routes = [
     path: "/new-password",
   },
 ];
-export const privateRoutes = [
+export const adminRoutes = [
   {
     element: <AccountPage />,
     path: "/accounts",
   },
+  {
+    element: <ChangePasswordPage />,
+    path: "/update-password",
+  },
+  {
+    element: <CategoriesPage />,
+    path: "/categories",
+  },
+  {
+    element: <ProfilePage />,
+    path: "/profile",
+  },
+];
+export const organizerRoutes = [
   {
     element: <AddEditEventPage />,
     path: "/event/create",
@@ -99,10 +113,6 @@ export const privateRoutes = [
   {
     element: <OverviewPage />,
     path: "/overview",
-  },
-  {
-    element: <CategoriesPage />,
-    path: "/categories",
   },
   {
     element: <OrderPage />,

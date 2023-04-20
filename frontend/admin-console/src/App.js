@@ -13,7 +13,7 @@ import "antd/dist/antd.css";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { useStateContext } from "./contexts/ContextProvider";
-import routes, { privateRoutes } from "./helper/routes";
+import routes from "./helper/routes";
 import Editor from "./pages/Editor";
 import Layout from "./pages/Layout";
 import { tokenSelector } from "./redux/slices/accountSlice";
@@ -63,9 +63,9 @@ function App() {
 
               <Route element={<PrivateRoute isAuth={token} />}>
                 <Route element={<Layout />} path="/">
-                  {privateRoutes.map((route) => (
+                  {/* {privateRoutes.map((route) => (
                     <Route path={route.path} element={route.element} />
-                  ))}
+                  ))} */}
                 </Route>
               </Route>
               <Route element={<Editor />} path="/test" />
