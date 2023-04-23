@@ -11,14 +11,12 @@ import {
 } from "chart.js";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   getDailyTicketStatistics,
   getLastFourWeeksTicketStatistics,
   getMonthlyTicketStatistics,
 } from "../../api/services/orderServices";
-import SpinnerLoading from "../spinner-loading";
-import { faker } from "@faker-js/faker";
 import { Spin } from "antd";
 ChartJS.register(
   CategoryScale,

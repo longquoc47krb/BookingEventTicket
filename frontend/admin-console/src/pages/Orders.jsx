@@ -1,5 +1,5 @@
 // import for table
-import { SearchOutlined } from "@ant-design/icons";
+import { BsSearchHeart } from "react-icons/bs";
 import { Button, Input, Space, Spin } from "antd";
 import { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
@@ -77,7 +77,7 @@ const Orders = () => {
           <Button
             type="primary"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
+            icon={<BsSearchHeart />}
             size="small"
             style={{
               width: 90,
@@ -120,7 +120,7 @@ const Orders = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined
+      <BsSearchHeart
         style={{
           color: filtered ? "#1890ff" : undefined,
         }}

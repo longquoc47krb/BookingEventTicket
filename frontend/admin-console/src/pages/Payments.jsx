@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetPaymentListByOrganizerID } from "../api/services/organizationServices";
 import { Header } from "../components";
 // import for table
-import { SearchOutlined } from "@ant-design/icons";
+import { BsSearchHeart } from "react-icons/bs";
 import { Spin, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
 import { useRef } from "react";
@@ -65,7 +65,7 @@ const Payments = () => {
           <Button
             type="primary"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
+            icon={<BsSearchHeart />}
             size="small"
             style={{
               width: 90,
@@ -108,7 +108,7 @@ const Payments = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined
+      <BsSearchHeart
         style={{
           color: filtered ? "#1890ff" : undefined,
         }}
