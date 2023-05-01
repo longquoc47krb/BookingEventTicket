@@ -330,16 +330,14 @@ public class EventService implements IEventService {
     public ResponseEntity<?> upcomingEvents() {
         LocalDate currentDate = LocalDate.now();
         LocalDate nextOneWeek = currentDate.plusDays(7);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<Event> eventPreviews = new ArrayList<>();
+        for(Event event : eventRepository.findAll()){
+            if(LocalDate.parse(event.getStartingDate(), formatter).isBefore(currentDate) && LocalDate.parse(event.getStartingDate(), formatter).isAfter(nextOneWeek)){
+                eventPreviews.add(event);
+            }
+        }
 
-        // Tạo query để lấy các sự kiện có startingDate trong khoảng thời gian từ hôm nay đến 7 ngày tiếp theo
-        Query query = new Query();
-        Criteria criteria = Criteria.where("startingDate")
-                .gte(currentDate.format(formatter))
-                .andOperator(Criteria.where("startingDate").lte(nextOneWeek.format(formatter)));
-        query.addCriteria(criteria);
-        // Lấy danh sách các sự kiện
-        List<Event> eventPreviews = mongoTemplate.find(query, Event.class);
         List<EventPreviewDto> upcomingEvents = eventPreviews.stream()
                 .map(event -> new EventPreviewDto(event.getName(), event.getBackground(), event.getStartingDate(), event.getTicketTotal(), event.getTicketRemaining(), event.getEventCategoryList()))
                 .collect(Collectors.toList());

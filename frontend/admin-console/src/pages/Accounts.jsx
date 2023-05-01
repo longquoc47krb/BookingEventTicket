@@ -12,6 +12,8 @@ import { Header } from "../components";
 import Table from "../components/Table";
 import { accountColumns, pendingAccountsColumns } from "../data/dummy";
 import { AccountStatus } from "../utils/constants";
+import ExportExcelButton from "../components/common/excel-button";
+import { getCurrentDatetime } from "../utils/utils";
 const { Group } = Radio;
 const Accounts = () => {
   const toolbarOptions = ["Search"];
@@ -28,6 +30,7 @@ const Accounts = () => {
     id: item.id,
     name: item.name,
     email: item.email,
+    phone: item.phone,
     loginTime: item.loginTime,
     role: item.role,
   }));
@@ -40,14 +43,30 @@ const Accounts = () => {
     status: item.organization.status,
   }));
 
+  // export excel
+
+  const columns = [
+    { header: "ID", key: "id", width: 10 },
+    { header: "Name", key: "name", width: 32 },
+    { header: "Email", key: "email", width: 32 },
+    { header: "Phone", key: "phone", width: 20 },
+    { header: "Role", key: "role", width: 32 },
+  ];
+  const data = accountData?.map((item) => ({
+    id: item.id,
+    name: item.name,
+    email: item.email,
+    phone: item.phone,
+    role: item.role,
+  }));
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
       <Header category={t("sider.management")} title={t("sider.account")} />
-      {/* <div className="flex w-full justify-end">
-        <button className="p-2 bg-primary rounded-md mb-2 text-white text-lg">
-          {t("account.export-excel")}
-        </button>
-      </div> */}
+      <ExportExcelButton
+        data={data}
+        columns={columns}
+        filename={`Account-${getCurrentDatetime()}`}
+      />
       <div className="absolute top-[4.5rem] right-10">
         <Group onChange={onChange} value={value} defaultValue="all">
           <Radio value="all">{t("account.all")}</Radio>

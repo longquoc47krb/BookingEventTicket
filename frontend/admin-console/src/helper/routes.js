@@ -53,6 +53,10 @@ const NewPasswordPage = Loadable({
   loader: () => import("../pages/NewPassword"),
   loading: Loading,
 });
+const AdminDashboardPage = Loadable({
+  loader: () => import("../pages/AdminDashboard"),
+  loading: Loading,
+});
 export const routes = [
   {
     element: <LoginPage />,
@@ -67,11 +71,33 @@ export const routes = [
     path: "/new-password",
   },
 ];
-export const privateRoutes = [
+export const adminRoutes = [
+  {
+    element: <AdminDashboardPage />,
+    path: "/",
+  },
+  {
+    element: <AdminDashboardPage />,
+    path: "/overview",
+  },
   {
     element: <AccountPage />,
     path: "/accounts",
   },
+  {
+    element: <ChangePasswordPage />,
+    path: "/update-password",
+  },
+  {
+    element: <CategoriesPage />,
+    path: "/categories",
+  },
+  {
+    element: <ProfilePage />,
+    path: "/profile",
+  },
+];
+export const organizerRoutes = [
   {
     element: <AddEditEventPage />,
     path: "/event/create",
@@ -99,10 +125,6 @@ export const privateRoutes = [
   {
     element: <OverviewPage />,
     path: "/overview",
-  },
-  {
-    element: <CategoriesPage />,
-    path: "/categories",
   },
   {
     element: <OrderPage />,

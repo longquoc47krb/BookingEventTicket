@@ -8,7 +8,7 @@ import xorWith from "lodash/xorWith";
 import { DateTime, Duration } from "luxon";
 import moment from "moment";
 import constants from "./constants";
-const { comparisonStatus, PATTERNS } = constants;
+const { PATTERNS } = constants;
 const timeFormat = "HH:mm";
 export const LOCALE = "en-US";
 export const CURRENCY = "USD";
@@ -201,7 +201,20 @@ export const formatNumber = (input, options = {}) => {
   };
   return new Intl.NumberFormat(locale, { ...defaults, ...rest }).format(input);
 };
-
+export function getThreeFirstLetters(word) {
+  return word.substring(0, 3);
+}
+export function removeSlash(string) {
+  const [day, month, year] = string.split("/");
+  return `${day}${month}${year}`;
+}
+export function generateId(name, date) {
+  return (
+    getThreeFirstLetters(toNonAccentVietnamese(name)) +
+    removeSlash(date) +
+    Math.floor(Math.random() * 10000)
+  ).toUpperCase();
+}
 export const formatCurrency = (number, options = {}) => {
   const { locale, ...rest } = {
     locale: LOCALE,
@@ -448,57 +461,6 @@ export const toSlug = (str) => {
   // return
   return str;
 };
-export const debounce = (callback, delay = 200) => {
-  let timeId;
-  return (...args) => {
-    clearTimeout(timeId);
-    timeId = setTimeout(() => callback(...args), delay);
-  };
-};
-//* FILTER AN ARRAY OF OBJECTS WITH MULTIPLE CHAINED CONDITIONS.
-export function evaluate(expr) {
-  switch (expr?.type) {
-    case "filter":
-      return (v) => evaluateFilter(v, expr);
-    case "and":
-      return (v) => expr.filters.every((e) => evaluate(e)(v));
-    case "or":
-      return (v) => expr.filters.some((e) => evaluate(e)(v));
-    //case ...:
-    //  implement any other filters you wish to support
-    default:
-      throw Error(`unsupported filter expression: ${JSON.stringify(expr)}`);
-  }
-}
-function evaluateFilter(t, { key, condition, value }) {
-  switch (condition) {
-    case comparisonStatus.EQUAL:
-      return t?.[key] === value;
-    case comparisonStatus.MORE:
-      return t?.[key] > value;
-    case comparisonStatus.LESS:
-      return t?.[key] < value;
-    case comparisonStatus.DIFFERENT:
-      return t?.[key] !== value;
-    //case ...:
-    //  implement other supported conditions here
-    default:
-      throw Error(`Unsupported filter condition: ${condition}`);
-  }
-}
-export function Base64() {
-  var BASE64 = {
-    encode: function (str) {
-      let Base64 = require("js-base64").Base64;
-      return Base64.encode(str);
-    },
-    decode: function (str) {
-      let Base64 = require("js-base64").Base64;
-      return Base64.decode(str);
-    },
-  };
-  return BASE64;
-}
 export default function fakeDelay(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -529,17 +491,6 @@ export const formatter = (currency) => {
     });
   }
 };
-export function convertToYearMonthDayFormat(dateString) {
-  const [day, month, year] = dateString.split("/");
-  return `${year}-${month}-${day}`;
-}
-export function getThreeFirstLetters(word) {
-  return word.substring(0, 3);
-}
-export function removeSlash(string) {
-  const [day, month, year] = string.split("/");
-  return `${day}${month}${year}`;
-}
 export function toNonAccentVietnamese(str) {
   str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -559,13 +510,6 @@ export function toNonAccentVietnamese(str) {
   str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng
   str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
   return str;
-}
-export function generateId(name, date) {
-  return (
-    getThreeFirstLetters(toNonAccentVietnamese(name)) +
-    removeSlash(date) +
-    Math.floor(Math.random() * 10000)
-  ).toUpperCase();
 }
 export function CommaFormatted(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

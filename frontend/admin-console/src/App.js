@@ -13,10 +13,11 @@ import "antd/dist/antd.css";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { useStateContext } from "./contexts/ContextProvider";
-import routes, { privateRoutes } from "./helper/routes";
+import routes, { adminRoutes } from "./helper/routes";
 import Editor from "./pages/Editor";
 import Layout from "./pages/Layout";
-import { tokenSelector } from "./redux/slices/accountSlice";
+import { roleSelector, tokenSelector } from "./redux/slices/accountSlice";
+import { organizerRoutes } from "./helper/routes";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -48,6 +49,7 @@ function App() {
       setCurrentMode(currentThemeMode);
     }
   }, []);
+  const role = useSelector(roleSelector);
   const token = useSelector(tokenSelector);
   return (
     <QueryClientProvider client={queryClient}>
@@ -63,9 +65,13 @@ function App() {
 
               <Route element={<PrivateRoute isAuth={token} />}>
                 <Route element={<Layout />} path="/">
-                  {privateRoutes.map((route) => (
-                    <Route path={route.path} element={route.element} />
-                  ))}
+                  {role !== "ROLE_ADMIN"
+                    ? organizerRoutes.map((route) => (
+                        <Route path={route.path} element={route.element} />
+                      ))
+                    : adminRoutes.map((route) => (
+                        <Route path={route.path} element={route.element} />
+                      ))}
                 </Route>
               </Route>
               <Route element={<Editor />} path="/test" />

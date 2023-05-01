@@ -1,42 +1,30 @@
-// import for table
-import { BsSearchHeart } from "react-icons/bs";
-import { Button, Input, Space, Spin } from "antd";
-import { useEffect, useRef, useState } from "react";
-import Highlighter from "react-highlight-words";
-// end import for table
-import { has } from "lodash";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useFetchEventsByOrgID } from "../api/services/organizationServices";
+import { useNavigate } from "react-router-dom";
+import { useGetPaymentListByOrganizerID } from "../api/services/organizationServices";
 import { Header } from "../components";
-import OrdersByEventModal from "../components/OrdersByEventModal";
+// import for table
+import { BsSearchHeart } from "react-icons/bs";
+import { Spin, Input, Button, Space } from "antd";
+import Highlighter from "react-highlight-words";
+import { useRef } from "react";
+import { useState } from "react";
+// end import for table
 import Table from "../components/Table";
-import { orderColumns } from "../data/dummy";
+import { paymentColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
-import { eventIdSelector } from "../redux/slices/eventSlice";
-import { getCurrentDatetime, isNotEmpty } from "../utils/utils";
-import ExportExcelButton from "../components/common/excel-button";
-
-const Orders = () => {
+import { reverseArray } from "../utils/utils";
+const Payments = () => {
   const user = useSelector(userInfoSelector);
-  const openModal = useSelector((state) => state.event.openModal);
-  const { data: events, status } = useFetchEventsByOrgID(user.id);
+  const { data: payments, status } = useGetPaymentListByOrganizerID(user.id);
   const { t } = useTranslation();
-  const orderByEventData = events?.map((item) => ({
-    id: item.id,
-    background: item.background,
-    name: item.name,
-    ticketTotal: item.ticketTotal,
-    ticketRemaining: item.ticketRemaining,
-    date: item.startingDate,
-    status: item.status,
-  }));
-  const [title, setTitle] = useState("");
+  const navigate = useNavigate();
+  console.log({ payments });
   // for table
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
-  const eventId = useSelector(eventIdSelector);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -149,63 +137,19 @@ const Orders = () => {
       ),
   });
   // end for table
-  const nameColumn = orderColumns.find((e) => e.dataIndex === "name");
-  Object.assign(nameColumn, getColumnSearchProps("name"));
-
-  useEffect(() => {
-    if (isNotEmpty(events) && eventId) {
-      const obj = events.find((e) => e.id === eventId);
-      const titleTemp = has(obj, "name") ? obj.name : "";
-      setTitle(titleTemp);
-    }
-  }, [events, eventId]);
-
-  // columns for Excel
-  const columns = [
-    { header: "ID", key: "id", width: 10 },
-    { header: "Name", key: "name", width: 32 },
-    { header: "Total tickets", key: "ticketTotal", width: 15, outlineLevel: 1 },
-    { header: "Remaining tickets", key: "ticketRemaining", width: 15 },
-    { header: "Date", key: "date", width: 10 },
-    { header: "Status", key: "status", width: 10 },
-  ];
-  const data = orderByEventData?.map((item) => ({
-    id: item.id,
-    name: item.name,
-    ticketTotal: item.ticketTotal,
-    ticketRemaining: item.ticketRemaining,
-    date: item.date,
-    status:
-      item.status === "event.completed"
-        ? t("event.status.completed")
-        : t("event.status.available"),
-  }));
+  // const nameColumn = paymentColumns.find((e) => e.dataIndex === "name");
+  // Object.assign(nameColumn, getColumnSearchProps("name"));
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl relative">
-      {/* <BreadCrumbs
-        breadcrumbs={breadcrumbs}
-        className="absolute top-10 right-10"
-      /> */}
-      <Header category={t("sider.management")} title={t("sider.order")} />
-      <div className="flex justify-end w-full">
-        <ExportExcelButton
-          data={data}
-          columns={columns}
-          filename={`Orders-${getCurrentDatetime()}`}
-        />
-      </div>
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <Header category={t("sider.management")} title={t("sider.payment")} />
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />
         </div>
       ) : (
-        <Table columns={orderColumns} dataSource={orderByEventData} />
+        <Table columns={paymentColumns} dataSource={reverseArray(payments)} />
       )}
-      <OrdersByEventModal
-        open={openModal}
-        title={t("orders-of-event", { val: title ?? "" })}
-      />
     </div>
   );
 };
-export default Orders;
+export default Payments;

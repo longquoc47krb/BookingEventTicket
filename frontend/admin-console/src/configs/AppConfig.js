@@ -13,7 +13,7 @@ import { IoIosApps } from "react-icons/io";
 import { IoLogoFacebook, IoWineOutline } from "react-icons/io5";
 import { MdOutlineAccountCircle, MdSportsSoccer } from "react-icons/md";
 import { RiCustomerServiceFill, RiLockPasswordLine } from "react-icons/ri";
-import { TbPlaneInflight } from "react-icons/tb";
+import { MdTravelExplore } from "react-icons/md";
 // import UnitedKingdomFlag from "../assets/united-kingdom-flag.png";
 // import VietnamFlag from "../assets/vietnam-flag.png";
 import theme from "../shared/theme";
@@ -78,7 +78,7 @@ const MENU = [
     label: "category.travel",
     key: "travel",
     link: "/events?category=category.travel",
-    icon: <TbPlaneInflight fontSize={16} />,
+    icon: <MdTravelExplore fontSize={16} />,
   },
 ];
 const USER_PROFILE_MENU = [
