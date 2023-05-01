@@ -117,7 +117,7 @@ public class AuthService implements IAuthService {
             customerRepository.save(customer);
 
 
-            mailService.sendMail(account, "", EMailType.REGISTER);
+            mailService.sendMail(account, "","", EMailType.REGISTER);
             return ResponseEntity.ok(new ResponseObject(true,"User registered successfully!",account.getEmail(),200));
         }
         catch (Exception e)
@@ -141,7 +141,7 @@ public class AuthService implements IAuthService {
                 //
                 account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
                 accountRepository.save(account.get());
-                mailService.sendMail(account.get(),otp, EMailType.OTP );
+                mailService.sendMail(account.get(),"",otp, EMailType.OTP );
                 return ResponseEntity.ok(new ResponseObject(true,"Sent OTP successfully",account.get().getEmail(),200));
 
             }
@@ -260,7 +260,7 @@ public class AuthService implements IAuthService {
                 String randomPassword = Constants.getAlphaNumericString(8);
                 account.get().setPassWord(encoder.encode(randomPassword));
                 accountRepository.save(account.get());
-                mailService.sendMail(account.get(), randomPassword, EMailType.NEW_PASSWORD);
+                mailService.sendMail(account.get(),"", randomPassword, EMailType.NEW_PASSWORD);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Generate new passWord for organization successfully", "", 200));
             } else {

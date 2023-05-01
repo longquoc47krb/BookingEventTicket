@@ -198,7 +198,7 @@ public class OrganizationService implements IOrganizationService {
             Account account = new Account(organizationSubmitReq.getName(), organizationSubmitReq.getEmail(), organizationSubmitReq.getPhoneNumber(), "", Constants.AVATAR_DEFAULT, Constants.ROLE_ORGANIZATION);
             accountRepository.save(account);
             // gửi mail
-            mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
+            mailService.sendMail(account, "","", EMailType.BECOME_ORGANIZATION);
 
             //
             Organization organization = new Organization(account.getEmail(), EOrganization.DISABLED);
@@ -224,7 +224,7 @@ public class OrganizationService implements IOrganizationService {
             organization.get().setUSDBalance("0");
             organization.get().setVNDBalance("0");
             organizationRepository.save(organization.get());
-            mailService.sendMail(account.get(), randomPassword, EMailType.OFFICIAL_ORGANIZATION);
+            mailService.sendMail(account.get(),"", randomPassword, EMailType.OFFICIAL_ORGANIZATION);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Create organization account successfully", "", 200));
 
@@ -242,7 +242,7 @@ public class OrganizationService implements IOrganizationService {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         Optional<Account> account = accountRepository.findByEmail(email);
         if (account.isPresent() && organization.isPresent()) {
-            mailService.sendMail(account.get(), "", EMailType.REFUSE_ORGANIZATION);
+            mailService.sendMail(account.get(), "","", EMailType.REFUSE_ORGANIZATION);
 
             accountRepository.delete(account.get());
             organizationRepository.delete(organization.get());

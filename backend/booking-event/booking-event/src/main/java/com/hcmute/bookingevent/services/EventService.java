@@ -20,6 +20,7 @@ import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
+import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.repository.OrganizationRepository;
@@ -66,6 +67,8 @@ public class EventService implements IEventService {
     private final MailService mailService;
 
     private final AccountMapper accountMapper;
+    private final AccountRepository accountRepository;
+
     @SneakyThrows
     @Override
     public ResponseEntity<?> createEvent(EventReq eventReq, String email) {
@@ -92,7 +95,10 @@ public class EventService implements IEventService {
             List<String> ids = Arrays.asList(email);
             List<Customer> customerListForSending =  customerRepository.findByFollowList(ids);
             List<Account> accountList = customerListForSending.stream().map(accountMapper::toAccount).collect(Collectors.toList());
-            mailService.sendMailByAccountList(accountList,"", EMailType.NEW_EVENT);
+            //get account information of organizer
+            Optional<Account> account = accountRepository.findByEmail(email);
+
+            mailService.sendMailByAccountList(accountList, eventReq.getName(),account.get().getName() ,EMailType.NEW_EVENT);
            // mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
 
             return ResponseEntity.status(HttpStatus.OK).body(
