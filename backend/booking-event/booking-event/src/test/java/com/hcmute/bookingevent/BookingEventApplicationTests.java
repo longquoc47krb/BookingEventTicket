@@ -5,7 +5,7 @@ import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.repository.CustomerRepository;
 import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.services.PaymentService;
-import com.hcmute.bookingevent.models.Admin;
+import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;

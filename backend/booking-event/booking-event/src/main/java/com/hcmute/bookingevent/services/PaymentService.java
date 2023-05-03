@@ -1,7 +1,7 @@
 package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.exception.NotFoundException;
-import com.hcmute.bookingevent.models.Admin;
+import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;

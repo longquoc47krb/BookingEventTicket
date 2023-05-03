@@ -340,5 +340,15 @@
     },
     "goodMorning": "Good Morning,",
     "goodAfternoon": "Good Afternoon,",
-    "goodEvening": "Good Evening,"
+    "goodEvening": "Good Evening,",
+    "title": {
+        "account": "Statistics accounts by role",
+        "event": "Statistics events by province"
+    },
+    "province": {
+        "hcm": "Ho Chi Minh city",
+        "hn": "Ha Noi",
+        "ld": "Lam Dong",
+        "others": "Other provinces"
+    }
 }

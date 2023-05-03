@@ -24,6 +24,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
+
     @Id
     private String id;
     @NotBlank(message = "Name is required")

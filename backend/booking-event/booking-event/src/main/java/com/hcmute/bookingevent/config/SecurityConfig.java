@@ -84,7 +84,8 @@ public class SecurityConfig {
             "/api/organization/findAll",
             //"/api/organization/test/**",
             "/api/organization",
-            "/api/email/organization/**"
+            "/api/email/organization/**",
+            "/api/admin/**"
     };
     private final String[] ALLOWED_POST_LIST_URLS = {
             "/api/form/organization"

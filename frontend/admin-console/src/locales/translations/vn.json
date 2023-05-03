@@ -342,5 +342,15 @@
     },
     "goodMorning": "Chào buổi sáng,",
     "goodAfternoon": "Chào buổi chiều,",
-    "goodEvening": "Chào buổi tối,"
+    "goodEvening": "Chào buổi tối,",
+    "title": {
+        "account": "Thống kê tài khoản theo vai trò",
+        "event": "Thống kê sự kiện theo tỉnh/tp"
+    },
+    "province": {
+        "hcm": "TP. Hồ Chí Minh",
+        "hn": "Hà Nội",
+        "ld": "Lâm Đồng",
+        "others": "Tỉnh thành khác"
+    }
 }
