@@ -34,7 +34,6 @@ const Overview = () => {
   const randomDay = moment("29/12/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
   const greeting = Greeting();
   const { t } = useTranslation();
-  var adminData = [];
   useEffect(() => {
     if (status === "success") {
       dispatch(
@@ -147,85 +146,44 @@ const Overview = () => {
         <p className="text-2xl text-gray-500 mb-2">{t(greeting)}</p>
         <p className="text-3xl text-[#1F3E82] font-bold">{user.name}</p>
       </h1>
-      {role !== "ROLE_ADMIN" ? (
-        <div className="flex flex-wrap items-center gap-x-4 px-8">
-          {status === "success" &&
-            earningData.map((item) => (
-              <div
-                key={item.title}
-                className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
-              >
-                <p className="mt-3">
-                  <div className="flex items-end gap-x-4">
-                    <Tooltip
-                      placement="rightBottom"
-                      title={
-                        <span className="text-2xl font-bold">
-                          {item.rawAmount}
-                        </span>
-                      }
-                    >
-                      <span className="text-3xl font-bold">{item.amount}</span>
-                    </Tooltip>
-                    <span
-                      className="text-md ml-2 flex"
-                      style={{ color: item.pcColor, display: "flex" }}
-                    >
-                      {item.pcColor === "red" ? (
-                        <BsCaretDownFill />
-                      ) : item.pcColor === "green" ? (
-                        <BsCaretUpFill />
-                      ) : null}
-                      <span>{item.variability}</span>
-                    </span>
-                  </div>
-                  <p className="text-sm font-semibold text-primary  mt-1">
-                    {item.title}
-                  </p>
+      <div className="flex flex-wrap items-center gap-x-4 px-8">
+        {status === "success" &&
+          earningData.map((item) => (
+            <div
+              key={item.title}
+              className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
+            >
+              <p className="mt-3">
+                <div className="flex items-end gap-x-4">
+                  <Tooltip
+                    placement="rightBottom"
+                    title={
+                      <span className="text-2xl font-bold">
+                        {item.rawAmount}
+                      </span>
+                    }
+                  >
+                    <span className="text-3xl font-bold">{item.amount}</span>
+                  </Tooltip>
+                  <span
+                    className="text-md ml-2 flex"
+                    style={{ color: item.pcColor, display: "flex" }}
+                  >
+                    {item.pcColor === "red" ? (
+                      <BsCaretDownFill />
+                    ) : item.pcColor === "green" ? (
+                      <BsCaretUpFill />
+                    ) : null}
+                    <span>{item.variability}</span>
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-primary  mt-1">
+                  {item.title}
                 </p>
-              </div>
-            ))}
-        </div>
-      ) : (
-        <div className="flex flex-wrap items-center gap-x-4 px-8">
-          {status === "success" &&
-            adminData.map((item) => (
-              <div
-                key={item.title}
-                className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
-              >
-                <p className="mt-3">
-                  <div className="flex items-end gap-x-4">
-                    <Tooltip
-                      placement="rightBottom"
-                      title={
-                        <span className="text-2xl font-bold">
-                          {item.rawAmount}
-                        </span>
-                      }
-                    >
-                      <span className="text-3xl font-bold">{item.amount}</span>
-                    </Tooltip>
-                    {/* <span
-                      className="text-md ml-2 flex"
-                      style={{ color: item.pcColor, display: "flex" }}
-                    >
-                      {item.pcColor === "red" ? (
-                        <BsCaretDownFill />
-                      ) : item.pcColor === "green" ? (
-                        <BsCaretUpFill />
-                      ) : null}
-                      <span>{item.variability}</span>
-                    </span> */}
-                  </div>
-                  <p className="text-sm font-semibold text-primary  mt-1">
-                    {item.title}
-                  </p>
-                </p>
-              </div>
-            ))}
-        </div>
-      )}
+              </p>
+            </div>
+          ))}
+      </div>
       {role !== "ROLE_ADMIN" && (
         <OrderStatistics
           organizationEmail={user.email}

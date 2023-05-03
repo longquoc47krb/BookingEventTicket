@@ -7,4 +7,11 @@ export const AdminAPI = {
     url: "/customer/findAll",
     method: "GET",
   },
+  getAdminProfile: (email) => ({
+    url: `/admin/profile`,
+    method: "GET",
+    params: {
+      email,
+    },
+  }),
 };

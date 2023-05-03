@@ -1,7 +1,6 @@
 package com.hcmute.bookingevent.services;
 
-import com.hcmute.bookingevent.models.Admin;
-import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,4 +27,17 @@ public class AdminService  {
                     new ResponseObject(false, "Cannot find data with gmail:" + email, "",404));
         }
     }
+    public ResponseEntity<?> findAccountById(String id) {
+        Optional<Admin> account = adminRepository.findById(id);
+        if(account.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject(true, "show data successfully", account, 200));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject(false, "Cannot find data with id:" + id , new Object(),404));
+        }
+    }
+
+
+
 }
