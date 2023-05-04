@@ -4,7 +4,6 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 
 import com.hcmute.bookingevent.Implement.IAccountService;
-import com.hcmute.bookingevent.payload.request.EmailReq;
 import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.AdminService;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @RestController
@@ -34,8 +34,8 @@ public class AccountController {
         return iAccountService.findAll(pageable);
     }
     @GetMapping(path = "/admin/profile")
-    public ResponseEntity<?> getAdminProfile (@RequestBody EmailReq emailReq  ){
-        return  adminService.findAccountByEmail(emailReq.getEmail());
+    public ResponseEntity<?> getAdminProfile (@RequestParam(value = "email", defaultValue = "lotusticket.vn@gmail.com") String email ){
+        return  adminService.findAccountByEmail(email);
     }
     @GetMapping("/account/findAll")
     public ResponseEntity<?> findAll() {
@@ -86,6 +86,6 @@ public class AccountController {
 
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
-
+ 
 
 }

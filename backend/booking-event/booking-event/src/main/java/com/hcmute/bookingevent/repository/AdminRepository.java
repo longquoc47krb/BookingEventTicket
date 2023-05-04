@@ -1,7 +1,6 @@
 package com.hcmute.bookingevent.repository;
 
-import com.hcmute.bookingevent.models.Admin;
-import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.admin.Admin;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

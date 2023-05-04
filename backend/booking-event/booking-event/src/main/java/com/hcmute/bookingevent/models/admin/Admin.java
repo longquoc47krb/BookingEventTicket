@@ -1,4 +1,4 @@
-package com.hcmute.bookingevent.models;
+package com.hcmute.bookingevent.models.admin;
 
 import com.hcmute.bookingevent.models.account.Account;
 import lombok.AllArgsConstructor;
