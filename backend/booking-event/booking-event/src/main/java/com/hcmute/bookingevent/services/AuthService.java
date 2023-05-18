@@ -137,12 +137,18 @@ public class AuthService implements IAuthService {
             if(account.isPresent())
             {
 
-                String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
+
+                if ( account.get().getLoginType() != null && account.get().getLoginType().equals(EAccount.GOOGLE)   ) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                            new ResponseObject(false, "Can not retrieve password for google account", "", 404));
+                }
+                String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 //
                 account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
+                mailService.sendMail(account.get(), "", otp, EMailType.OTP);
                 accountRepository.save(account.get());
-                mailService.sendMail(account.get(),"",otp, EMailType.OTP );
-                return ResponseEntity.ok(new ResponseObject(true,"Sent OTP successfully",account.get().getEmail(),200));
+                return ResponseEntity.ok(new ResponseObject(true, "Sent OTP successfully", account.get().getEmail(), 200));
+
 
             }
             else
