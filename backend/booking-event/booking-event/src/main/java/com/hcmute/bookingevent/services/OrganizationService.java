@@ -196,12 +196,14 @@ public class OrganizationService implements IOrganizationService {
             }
 
             Account account = new Account(organizationSubmitReq.getName(), organizationSubmitReq.getEmail(), organizationSubmitReq.getPhoneNumber(), "", Constants.AVATAR_DEFAULT, Constants.ROLE_ORGANIZATION);
-            accountRepository.save(account);
+            //accountRepository.save(account);
             // gửi mail
             mailService.sendMail(account, "","", EMailType.BECOME_ORGANIZATION);
 
             //
             Organization organization = new Organization(account.getEmail(), EOrganization.DISABLED);
+            //
+            accountRepository.save(account);
             organizationRepository.save(organization);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Create organization account successfully", "", 200));
