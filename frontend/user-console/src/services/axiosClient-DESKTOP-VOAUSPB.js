@@ -1,8 +1,8 @@
 import axios from "axios";
 import { store } from "../redux/store";
 const axiosClient = axios.create({
-  // baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
-  baseURL: `${process.env.REACT_APP_API_URL_BASE}/api/`,
+  baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
+  // baseURL: `${process.env.REACT_APP_API_URL_BASE}/api/`,
   // withCredentials: true,
   timeout: 10000,
   headers: {
