@@ -1,16 +1,16 @@
 package com.hcmute.bookingevent;
 
+import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
-import com.hcmute.bookingevent.repository.CustomerRepository;
-import com.hcmute.bookingevent.repository.EventRepository;
+import com.hcmute.bookingevent.models.organization.EOrganization;
+import com.hcmute.bookingevent.repository.*;
 import com.hcmute.bookingevent.services.PaymentService;
 import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
-import com.hcmute.bookingevent.repository.AdminRepository;
-import com.hcmute.bookingevent.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,9 @@ import java.util.Optional;
 class BookingEventApplicationTests {
 	@Autowired
 	private  OrganizationRepository organizationRepository;
+	@Autowired
+	private  AccountRepository accountRepository;
+
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
@@ -208,6 +211,16 @@ class BookingEventApplicationTests {
 			System.out.println("khong "); // Output: 3.33
 
 		}
+	}
+	@Test
+	void testSubmitOrg()
+	{
+		Account account = new Account("SonTung Agency", "18110152@student.hcmute.edu.vn", "0911452369", "", Constants.AVATAR_DEFAULT, Constants.ROLE_ORGANIZATION);
+
+		Organization organization = new Organization(account.getEmail(), EOrganization.DISABLED);
+		organizationRepository.save(organization);
+		accountRepository.save(account);
+
 	}
 
 }

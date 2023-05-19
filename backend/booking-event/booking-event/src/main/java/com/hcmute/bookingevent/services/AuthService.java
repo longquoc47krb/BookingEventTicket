@@ -143,8 +143,8 @@ public class AuthService implements IAuthService {
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 //
                 account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
+                mailService.sendMail(account.get(),"",otp, EMailType.OTP );
                 accountRepository.save(account.get());
-                mailService.sendMail(account.get(), "", otp, EMailType.OTP);
                 return ResponseEntity.ok(new ResponseObject(true, "Sent OTP successfully", account.get().getEmail(), 200));
 
             }
