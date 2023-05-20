@@ -55,7 +55,7 @@ function Footer() {
             <div className="flex items-center gap-2">
               <MdEmail className="text-sm font-semibold text-gray-200" />
               <span className="text-sm text-gray-200">
-                lotusticket.vn@gmail.com
+                lotusticketvn2gmail.com
               </span>
             </div>
           </div>
