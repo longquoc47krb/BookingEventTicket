@@ -12,8 +12,13 @@ function SelectTicket({ data }) {
   const tickets = useSelector(ticketTypeSelector);
   const dispatch = useDispatch();
   useEffect(() => {
-    const newArr = data.map((v) => ({ ...v, ticketInCartQuantity: 0 }));
-    dispatch(setTicketTypeArray(newArr));
+    if (data.length === 1) {
+      const newArr = data.map((v) => ({ ...v, ticketInCartQuantity: 1 }));
+      dispatch(setTicketTypeArray(newArr));
+    } else {
+      const newArr = data.map((v) => ({ ...v, ticketInCartQuantity: 0 }));
+      dispatch(setTicketTypeArray(newArr));
+    }
   }, [data]);
   return (
     <div className="flex">
