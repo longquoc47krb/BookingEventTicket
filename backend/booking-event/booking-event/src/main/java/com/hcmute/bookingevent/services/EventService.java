@@ -205,7 +205,7 @@ public class EventService implements IEventService {
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
-            if(isAfterToday(event.getStartingDate()) && isAfterToday(event.getEndingDate()) && !event.getStatus().equals(EventStatus.DELETED)){
+            if(isAfterToday(event.getEndingDate()) && !event.getStatus().equals(EventStatus.DELETED)){
                 eventList.add(event);
             }
         }
