@@ -16,7 +16,7 @@ public class VNPayConfig {
     public static String vnp_HashSecret = "EQCQGZHANETTRMXKRTPUYZAGPXTSVLUU";
     public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
     public static String vnp_orderType = "200000";
-    public static String vnp_TmnCode = "HU9APPS9";//LDASSMNX
+    public static String vnp_TmnCode = "8EWZZEH6";//"HU9APPS9"
     public static String vnp_currCode = "VND";
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
