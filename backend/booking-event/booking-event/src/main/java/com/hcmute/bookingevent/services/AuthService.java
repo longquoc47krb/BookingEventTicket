@@ -2,9 +2,10 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IAuthService;
 import com.hcmute.bookingevent.common.Constants;
-import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.OTP.OTP;
+import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.account.EAccount;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.payload.response.JwtResponse;
 import com.hcmute.bookingevent.payload.response.MessageResponse;
@@ -47,21 +48,21 @@ public class AuthService implements IAuthService {
         try
         {
 
-        // Xác thực từ gmail và password.
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
-        // Set thông tin authentication vào Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        //
-         Optional<Account> account=  accountRepository.findByEmail(userDetails.getEmail());
-        // Trả về jwt cho người dùng.
+            // Xác thực từ gmail và password.
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+            // Set thông tin authentication vào Security Context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            //
+            Optional<Account> account=  accountRepository.findByEmail(userDetails.getEmail());
+            // Trả về jwt cho người dùng.
             String jwt;
             if(account.isPresent())
             {
-                 account.get().setLoginTime(new Date());
-                 accountRepository.save(account.get());
-                 jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail(),account.get().getId());
+                account.get().setLoginTime(new Date());
+                accountRepository.save(account.get());
+                jwt = jwtTokenProvider.generateJwtToken(userDetails.getEmail(),account.get().getId());
 
             }
             else
@@ -71,9 +72,9 @@ public class AuthService implements IAuthService {
             }
 
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Logged in successfully", new JwtResponse(jwt,
@@ -129,26 +130,22 @@ public class AuthService implements IAuthService {
 
     }
     @Override
-    public ResponseEntity<?> forgetPassword(EmailReq emailReq)
-    {
-        try
-        {
-            Optional<Account> account= accountRepository.findByEmail(emailReq.getEmail());
-            if(account.isPresent())
-            {
+    public ResponseEntity<?> forgetPassword(EmailReq emailReq) {
+        try {
+            // thiếu trường hợp nếu người dùng gmail quên mật khẩu
+            Optional<Account> account = accountRepository.findByEmail(emailReq.getEmail());
+            if (account.isPresent()) {
 
-
-                if ( account.get().getLoginType() != null && account.get().getLoginType().equals(EAccount.GOOGLE)   ) {
+                if (account.get().getLoginType().equals(EAccount.GOOGLE)) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                             new ResponseObject(false, "Can not retrieve password for google account", "", 404));
                 }
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 //
                 account.get().setOtp(new OTP(otp, LocalDateTime.now().plusMinutes(5)));
-                mailService.sendMail(account.get(), "", otp, EMailType.OTP);
+                mailService.sendMail(account.get(),"",otp, EMailType.OTP );
                 accountRepository.save(account.get());
                 return ResponseEntity.ok(new ResponseObject(true, "Sent OTP successfully", account.get().getEmail(), 200));
-
 
             }
             else

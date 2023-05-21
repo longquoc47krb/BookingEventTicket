@@ -25,8 +25,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class VNPayService {
-//    public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
-        public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
+    public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
+    //public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
     @SneakyThrows
     //@Override
     public ResponseEntity<?> createPayment(HttpServletRequest request, PriceRes priceRes) {
