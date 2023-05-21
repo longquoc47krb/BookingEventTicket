@@ -25,8 +25,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class VNPayService {
-    //public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
-    public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
+    public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
+    //public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
     @SneakyThrows
     //@Override
     public ResponseEntity<?> createPayment(HttpServletRequest request, PriceRes priceRes) {
@@ -87,7 +87,8 @@ public class VNPayService {
         SimpleDateFormat formatter = new SimpleDateFormat(VNPayConfig.yyyyMMddHHmmss);
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_CreateDate, vnp_CreateDate);
-        cld.add(Calendar.MINUTE, 10);
+        cld.add(Calendar.MINUTE, 30);
+        //Add Params of 2.1.0 Version
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_ExpireDate, vnp_ExpireDate);
         //get email order
