@@ -1,20 +1,14 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Affix } from "antd";
 
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
-import Nav from "react-bootstrap/Nav";
 import { useTranslation } from "react-i18next";
-import { AiOutlineMail } from "react-icons/ai";
 import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { CustomerAPI } from "../../api/configs/customer";
-import customerServices from "../../api/services/customerServices";
 import eventServices, {
   useEventDetails,
 } from "../../api/services/eventServices";
@@ -37,13 +31,10 @@ import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 import {
   isCompletedSelector,
-  organizerInfoSelector,
-  setIsCompleted,
   updateOrganizerInfo,
 } from "../../redux/slices/eventSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
-import httpRequest from "../../services/httpRequest";
 import { EventStatus } from "../../utils/constants";
 import {
   displayDate,
@@ -51,6 +42,7 @@ import {
   isEmpty,
   isNotEmpty,
   titleCase,
+  compareDates,
 } from "../../utils/utils";
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {
@@ -59,7 +51,6 @@ function EventDetail(props) {
   const navigate = useNavigate();
   const { user } = useUserAuth();
   const { t } = useTranslation();
-  const isCompleted = useSelector(isCompletedSelector);
   const { wishlist, addToWishlist, removeFromWishlist } =
     useUserActionContext();
   const reviewRef = useRef(null);
@@ -87,6 +78,7 @@ function EventDetail(props) {
         title: t("user.unauthenticated.title"),
         text: t("user.unauthenticated.text"),
       });
+      navigate("/login");
     } else {
       navigate(`/ticket-booking/${eventId}`);
     }
@@ -150,7 +142,8 @@ function EventDetail(props) {
                 }
                 className={
                   event.status === EventStatus.SOLDOUT ||
-                  event.status === EventStatus.COMPLETED
+                  event.status === EventStatus.COMPLETED ||
+                  compareDates(event.startingDate)
                     ? "disabled-button"
                     : "book-now"
                 }
