@@ -25,8 +25,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class VNPayService {
-    public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
-    //public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
+    //public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
+    public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
     @SneakyThrows
     //@Override
     public ResponseEntity<?> createPayment(HttpServletRequest request, PriceRes priceRes) {
@@ -80,7 +80,7 @@ public class VNPayService {
         vnp_Params.put(VNPayConfig.vnp_Locale, VNPayConfig.vn);
         vnp_Params.put(VNPayConfig.vnp_ReturnUrl, StringUtils.getBaseURL(request) + VNPayConfig.vnp_Returnurl);
         vnp_Params.put(VNPayConfig.vnp_IpAddr, vnp_IpAddr);
-        vnp_Params.put("vnp_Locale", "vn");
+        //vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put(VNPayConfig.vnp_Amount, total);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone(VNPayConfig.GMT));
