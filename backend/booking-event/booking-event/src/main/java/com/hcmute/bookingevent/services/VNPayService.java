@@ -87,7 +87,7 @@ public class VNPayService {
         SimpleDateFormat formatter = new SimpleDateFormat(VNPayConfig.yyyyMMddHHmmss);
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_CreateDate, vnp_CreateDate);
-        cld.add(Calendar.MINUTE, 1000);
+        cld.add(Calendar.MINUTE, 590 ); // default : 580
         //Add Params of 2.1.0 Version
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put(VNPayConfig.vnp_ExpireDate, vnp_ExpireDate);
