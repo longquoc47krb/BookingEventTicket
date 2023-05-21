@@ -37,7 +37,7 @@ public class VNPayConfig {
     public static final String vnp_ExpireDate = "vnp_ExpireDate";
     public static final String vnp_Bill_FirstName = "vnp_Bill_FirstName";
     public static final String vnp_Bill_LastName = "vnp_Bill_LastName";
-    public static final String GMT = "Etc/GMT -5";//"Etc/GMT+7";
+    public static final String GMT = "Etc/GMT+7";
     public static final String vnp_SecureHash = "&vnp_SecureHash=";
     public static final String responseSuccessCode = "00";
     public static final String responseCancelCode = "24";
