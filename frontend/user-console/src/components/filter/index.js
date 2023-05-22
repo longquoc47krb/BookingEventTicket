@@ -38,29 +38,27 @@ const EventFilter = () => {
 
   return (
     <div className="filter-container">
-      {status === "success" && (
-        <>
-          <Select
-            icon={DataMapping[0].icon}
-            data={DataMapping[0].data}
-            type={DataMapping[0].type}
-            defaultValue={DataMapping[0].defaultValue}
-          />
-          <Select
-            icon={DataMapping[1].icon}
-            data={DataMapping[1].data}
-            type={DataMapping[1].type}
-            defaultValue={DataMapping[1].defaultValue}
-          />
-          <DateSelect />
-          <Select
-            icon={DataMapping[2].icon}
-            data={DataMapping[2].data}
-            type={DataMapping[2].type}
-            defaultValue={DataMapping[2].defaultValue}
-          />
-        </>
-      )}
+      <>
+        <Select
+          icon={DataMapping[0].icon}
+          data={DataMapping[0].data}
+          type={DataMapping[0].type}
+          defaultValue={DataMapping[0].defaultValue}
+        />
+        <Select
+          icon={DataMapping[1].icon}
+          data={DataMapping[1].data}
+          type={DataMapping[1].type}
+          defaultValue={DataMapping[1].defaultValue}
+        />
+        <DateSelect />
+        <Select
+          icon={DataMapping[2].icon}
+          data={DataMapping[2].data}
+          type={DataMapping[2].type}
+          defaultValue={DataMapping[2].defaultValue}
+        />
+      </>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.models.ticket.TicketStatus;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import com.hcmute.bookingevent.payload.response.EventViewResponse;
+import com.hcmute.bookingevent.payload.response.PaginationResponse;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.payload.response.ResponseObjectWithPagination;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -27,8 +28,8 @@ import com.hcmute.bookingevent.repository.OrganizationRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import net.bytebuddy.asm.Advice;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -39,18 +40,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static com.hcmute.bookingevent.utils.DateUtils.*;
-import static com.hcmute.bookingevent.utils.Utils.toPage;
-import static com.hcmute.bookingevent.utils.Utils.toSlug;
+import static com.hcmute.bookingevent.utils.Utils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +70,7 @@ public class EventService implements IEventService {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
 
+    private static final int PAGE_SIZE = 6; // Kích thước trang
     @SneakyThrows
     @Override
     public ResponseEntity<?> createEvent(EventReq eventReq, String email) {
@@ -182,13 +184,6 @@ public class EventService implements IEventService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Handling data successfully", "",200));
     }
-
-
-    static void setStatusForEvent(Event event, int ticketRemaining, int ticketTotal) {
-        List<Ticket> tickets = event.getOrganizationTickets();
-
-    }
-
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
@@ -200,8 +195,41 @@ public class EventService implements IEventService {
     }
 
     @Override
+    public ResponseEntity<?> findEventAfterToday(Pageable pageable) {
+        List<Event> eventList = getEventAfterTodayList();
+        // get all highlight events
+        getEventAfterTodayList();
+        // Create a Page object with the eventList and pageable
+        Page<Event> eventPage = (Page<Event>) toPage(eventList, pageable);
+
+        // Retrieve the content and pagination information from the Page object
+        List<Event> paginatedEvents = eventPage.getContent();
+        int totalPages = eventPage.getTotalPages();
+        long totalElements = eventPage.getTotalElements();
+
+        // Create a custom response object with pagination information
+        PaginationResponse<EventViewResponse> paginationResponse = new PaginationResponse<>();
+        paginationResponse.setContent(paginatedEvents.stream().map(eventMapper::toEventRes).collect(Collectors.toList()));
+        paginationResponse.setPage(pageable.getPageNumber());
+        paginationResponse.setSize(pageable.getPageSize());
+        paginationResponse.setTotalElements(totalElements);
+        paginationResponse.setTotalPages(totalPages);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", paginationResponse, 200));
+  }
+
+    @Override
     public ResponseEntity<?> findEventAfterToday() {
         // get all highlight events
+        List<Event> eventList = getEventAfterTodayList();
+        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Show data successfully", eventRes,200));
+
+    }
+
+    private List<Event> getEventAfterTodayList() {
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
@@ -209,9 +237,7 @@ public class EventService implements IEventService {
                 eventList.add(event);
             }
         }
-        List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
-         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Show data successfully", eventRes,200));
+        return eventList;
     }
 
     @Override
@@ -417,10 +443,92 @@ public class EventService implements IEventService {
 
         List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
 
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Successfully query data", eventRes,200));
 
     }
+
+    @Override
+    public ResponseEntity<?> findByProvinceAndCategoryIdAndStatusAndDate(String province, String categoryId, String status, String date, Integer pageNumber) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<Criteria> andCriteria = new ArrayList<>();
+        if(province != null){
+            if (!province.equals("others")){
+                andCriteria.add(Criteria.where("province").is(province));
+            } else{
+                andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
+                andCriteria.add(Criteria.where("province").ne("Hà Nội"));
+            }
+        }
+        if( categoryId != null){
+            andCriteria.add(Criteria.where("eventCategoryList.id").is(categoryId));
+        }
+        if( status != null) {
+            andCriteria.add(Criteria.where("status").is(status));
+        }
+        criteria.andOperator(andCriteria.toArray(new Criteria[andCriteria.size()]));
+        query.addCriteria(criteria);
+        List<Event> eventList;
+        if(province == null && categoryId == null && status == null){
+            eventList = sortEventByDateAsc(eventRepository.findAll());
+        }else{
+
+            eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
+        }
+        if (date != null) {
+            if (date.equals("this_week")) {
+                LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                LocalDate endOfWeek = startOfWeek.plusDays(6);
+                eventList = filterEventsByDateRange(eventList, startOfWeek, endOfWeek);
+            } else if (date.equals("this_month")) {
+                LocalDate startOfMonth = now.with(TemporalAdjusters.firstDayOfMonth());
+                LocalDate endOfMonth = now.with(TemporalAdjusters.lastDayOfMonth());
+                eventList = filterEventsByDateRange(eventList, startOfMonth, endOfMonth);
+            } else if (date.startsWith("range:")) {
+                String[] range = date.split(":");
+                if (range.length == 3) {
+                    String startDate = range[1];
+                    String endDate = range[2];
+                    eventList = filterEventsByDateRange(eventList, LocalDate.parse(startDate, formatter), LocalDate.parse(endDate, formatter));
+                }
+            } else {
+                String startDate = "01/01/1000";
+                String endDate = "31/12/2999";
+                eventList = filterEventsByDateRange(eventList, LocalDate.parse(startDate, formatter), LocalDate.parse(endDate, formatter));
+
+            }
+        }
+        List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
+
+        // pagination
+
+//        int startIndex = (pageNumber - 1) * PAGE_SIZE;
+//        int endIndex = Math.min(startIndex + PAGE_SIZE, eventRes.size());
+//
+//        List<EventViewResponse> paginatedList = eventRes.subList(startIndex, endIndex);
+//
+//        int totalElements = eventRes.size();
+//        int totalPages = (int) Math.ceil((double) totalElements / PAGE_SIZE);
+//
+//
+//
+//        // Create a custom response object with pagination information
+//        PaginationResponse<EventViewResponse> paginationResponse = new PaginationResponse<>();
+//        paginationResponse.setContent(sortEventViewResponseByDateAsc(paginatedList));
+//        paginationResponse.setPage(pageNumber);
+//        paginationResponse.setSize(PAGE_SIZE);
+//        paginationResponse.setTotalElements(totalElements);
+//        paginationResponse.setTotalPages(totalPages);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Successfully query data", eventRes,200));
+
+    }
+
     public int getPreviousDayEventCount(String email) {
 
         Optional<Organization> organization = organizationRepository.findByEmail(email);
@@ -441,5 +549,14 @@ public class EventService implements IEventService {
                 .count();
 
         return (int) eventCount;
+    }
+
+
+    // filter by date
+
+    public List<Event> filterEventsByDateRange(List<Event> events, LocalDate startDate, LocalDate endDate) {
+        return events.stream()
+                .filter(event -> convertStringToDate(event.getStartingDate()).isAfter(startDate) && convertStringToDate(event.getStartingDate()).isBefore(endDate))
+                .collect(Collectors.toList());
     }
 }

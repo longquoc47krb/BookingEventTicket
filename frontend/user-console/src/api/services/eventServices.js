@@ -81,18 +81,16 @@ export const useCheckEventsStatus = () => {
     refetchInterval: 1000 * 10,
   });
 };
-export const useFetchFeaturedEvents = (staleTime = 30000) => {
+export const useFetchFeaturedEvents = () => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
-    staleTime: 0,
+    staleTime: 1000 * 30,
     cacheTime: 1000 * 60 * 60,
-    refetchInterval: 30000,
   });
 };
-export const useFetchBestSellerEvents = (staleTime = 30000) => {
+export const useFetchBestSellerEvents = () => {
   return useQuery(["fetchBestSellerEvents"], fetchBestSellerEvents, {
     staleTime: 0,
     cacheTime: 1000 * 60 * 60,
-    refetchInterval: 30000,
   });
 };
 export const useFetchEventsForPagination = (params) => {
@@ -127,7 +125,6 @@ export const useFetchEventsByProvince = (params) => {
     {
       staleTime: 0,
       cacheTime: 1000 * 60 * 60,
-      refetchInterval: 30000,
     }
   );
 };

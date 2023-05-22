@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.models.event.Event;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,4 +26,7 @@ public interface EventRepository extends MongoRepository<Event,String> {
     Boolean existsAllByEventCategoryList_Name(String name);
 
     List<Event> findByCreatedDateBetween(LocalDate currentDate,  LocalDate endDate);
+
+    // findByProvinceAndCategoryIdAndStatusAndDateBetween
+    List<Event> findByProvinceAndEventCategoryListContainsAndStatusAndStartingDateBetween(String province, String categoryId, String status, String string, String string1);
 }

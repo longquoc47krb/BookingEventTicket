@@ -10,6 +10,7 @@ import {
   setDateType,
   setProvince,
   setStatus,
+  setDate,
 } from "../../../redux/slices/filterSlice";
 import { isNotEmpty } from "../../../utils/utils";
 import { useFetchCategories } from "../../../api/services/categoryServices";
@@ -21,9 +22,6 @@ export function Select(props) {
   const { data: categories, status } = useFetchCategories();
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.filter.filter);
-  const filterByDateType = useSelector(
-    (state) => state.filter.filterByDateType
-  );
   function handleValue(value) {
     if (type === "location") return dispatch(setProvince(value));
     if (type === "category") {
@@ -38,8 +36,7 @@ export function Select(props) {
     }
 
     if (type === "status") return dispatch(setStatus(value));
-
-    return dispatch(setDateType(value));
+    return dispatch(setDate(value));
   }
   const validatedData = orderBy(
     data,
@@ -62,7 +59,7 @@ export function Select(props) {
             ? filter.categoryId
             : type === "status"
             ? filter.status
-            : filterByDateType
+            : filter.date
         }
         onChange={handleValue}
       >

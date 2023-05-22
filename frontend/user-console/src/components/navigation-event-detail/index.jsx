@@ -19,9 +19,7 @@ function Navigation({
         activeButton === "review" ? null : infoRef.current.offsetTop;
       const organizationOffsetTop =
         activeButton === "review" ? null : organizationRef.current.offsetTop;
-      const reviewOffsetTop = reviewRef.current.offsetTop;
       const currentScrollY = window.scrollY;
-      console.log({ currentScrollY });
       if (
         currentScrollY >= introduceOffsetTop - 30 &&
         currentScrollY < infoOffsetTop - 30 &&
@@ -76,7 +74,6 @@ function Navigation({
         break;
     }
   };
-  console.log({ activeButton });
   return (
     <Nav
       variant="tabs"

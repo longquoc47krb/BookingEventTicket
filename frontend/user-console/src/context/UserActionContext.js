@@ -19,7 +19,6 @@ const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
   const [eventId, setEventId] = useState("");
-  console.log({ eventId });
   const [wishlist, setWishlist] = useState([]);
   const [followingList, setFollowingList] = useState([]);
   const [followingOrganizerList, setFollowingOrganizerList] = useState([]);

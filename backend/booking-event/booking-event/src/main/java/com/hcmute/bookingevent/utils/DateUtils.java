@@ -1,21 +1,31 @@
 package com.hcmute.bookingevent.utils;
 
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.payload.response.EventViewResponse;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DateUtils {
 
-    public static List<Event> sortEventByDateAsc(List<Event> events) {
+    public static <T> List<T> sortListByDateAsc(List<T> objects, Function<T, String> dateExtractor) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Comparator<Event> comparator = Comparator.comparing(e -> LocalDate.parse(e.getStartingDate(), formatter));
-        List<Event> eventList = events.stream().sorted(comparator).collect(Collectors.toList());
-        return eventList;
+        Comparator<T> comparator = Comparator.comparing(obj -> LocalDate.parse(dateExtractor.apply(obj), formatter));
+        return objects.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Event> sortEventByDateAsc(List<Event> events) {
+        return sortListByDateAsc(events, Event::getStartingDate);
+    }
+    public static List<EventViewResponse> sortEventViewResponseByDateAsc(List<EventViewResponse> events) {
+        return sortListByDateAsc(events, EventViewResponse::getStartingDate);
     }
     /**
      * get current time

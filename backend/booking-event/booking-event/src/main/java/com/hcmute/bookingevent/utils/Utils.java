@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.text.Normalizer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,10 +25,14 @@ public class Utils {
         return slug.toLowerCase(Locale.ENGLISH);
     }
     public static Page<?> toPage(List<?> list, Pageable pageable) {
-        int start = (int) pageable.getOffset();
+        int start = (int) pageable.getOffset() - 1;
         int end = Math.min((start + pageable.getPageSize()), list.size());
         if(start > list.size())
             return new PageImpl<>(new ArrayList<>(), pageable, list.size());
         return new PageImpl<>(list.subList(start, end), pageable, list.size());
+    }
+    public static LocalDate convertStringToDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(dateString, formatter);
     }
 }
