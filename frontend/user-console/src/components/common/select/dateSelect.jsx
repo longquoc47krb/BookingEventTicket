@@ -1,4 +1,4 @@
-import { Modal, Select as AntSelect } from "antd";
+import { Button, Modal, Select as AntSelect } from "antd";
 import { useTranslation } from "react-i18next";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -64,13 +64,20 @@ export function DateSelect(props) {
           <button onClick={handleOpenModal}>{t("date.range")}</button>
         </AntSelect.Option>
       </AntSelect>
-      <Modal
-        title={t("date.range")}
-        visible={modalVisible}
-        onOk={handleApply}
-        onCancel={handleCloseModal}
-      >
-        <RangePicker value={selectedRange} onChange={handleDateChange} />
+      <Modal title={t("date.range")} visible={modalVisible} footer={null}>
+        <RangePicker
+          value={selectedRange}
+          onChange={handleDateChange}
+          style={{ width: "100%" }}
+        />
+        <button
+          key="submit"
+          className="primary-button mt-4"
+          onClick={handleApply}
+          style={{ backgroundColor: "#FF0000", borderColor: "#FF0000" }}
+        >
+          Submit
+        </button>
       </Modal>
     </div>
   );
