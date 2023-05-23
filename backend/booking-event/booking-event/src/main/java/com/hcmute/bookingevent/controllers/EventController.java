@@ -11,10 +11,12 @@ import com.hcmute.bookingevent.repository.EventRepository;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.EventService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,8 +33,9 @@ import java.util.List;
 public class EventController {
     private final IEventService iEventService;
     private final JwtTokenProvider jwtUtils;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
-    private final EventRepository eventRepository;
 
     @GetMapping("/event/upcoming")
     public  ResponseEntity<?> findUpcomingEvents() {
@@ -48,6 +51,7 @@ public class EventController {
     public ResponseEntity<?> createEvent(@RequestBody EventReq eventReq, @PathVariable String userId, HttpServletRequest request) {
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        checkEventStatus();
         if(account.getId().equals(userId)) {
             return iEventService.createEvent(eventReq, account.getEmail());
         }
@@ -56,6 +60,8 @@ public class EventController {
     @DeleteMapping("/organization/event/{id}/{userId}")
     public ResponseEntity<?> deleteEvent(@PathVariable String id,@PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        // Call the checkEventStatus API after handling the other API
+        checkEventStatus();
         if(account.getId().equals(userId)) {
             return iEventService.deleteEvent(id,account.getEmail());
         }
@@ -88,6 +94,8 @@ public class EventController {
     }
     @GetMapping("/event/checkEventStatus")
     public ResponseEntity<?> checkEventStatus(){
+        messagingTemplate.convertAndSend("/topic/eventStatus", "Data updated");
+        System.out.println("caught checkEventStatus api");
         return iEventService.checkEventStatus();
 
     }
@@ -122,6 +130,8 @@ public class EventController {
     @PutMapping("/organization/event/{id}/{userId}")
     public ResponseEntity<?> updateEvent(@PathVariable String id, @PathVariable String userId,@RequestBody EventReq eventReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        // Call the checkEventStatus API after handling the other API
+        checkEventStatus();
         if(account.getId().equals(userId)) {
             return iEventService.updateEvent(id, eventReq);
         }
@@ -135,6 +145,8 @@ public class EventController {
                                                    @RequestParam MultipartFile file){
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        // Call the checkEventStatus API after handling the other API
+        checkEventStatus();
         if(account.getId().equals(userId)) {
             return iEventService.updateEventBackground(id, file);
         }

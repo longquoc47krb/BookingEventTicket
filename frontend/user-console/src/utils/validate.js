@@ -10,7 +10,7 @@ export const YupValidations = {
     .required("validate.name.required")
     .max(64, "validate.name.max")
     .matches(PATTERNS.NAME_PATTERN, "validate.name.number-not-allowed"),
-  phone: Yup.string().phone("VN", true, "validate.phone.error").notRequired(),
+  phone: Yup.string().phone("VN", true, "validate.phone.error"),
   password: Yup.string()
     .required("validate.password.required")
     .matches(PATTERNS.PASSWORD_PATTERN, "validate.password.min")

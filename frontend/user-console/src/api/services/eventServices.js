@@ -6,7 +6,7 @@ const fetchAllEvents = async () => {
   const response = await httpRequest(EventAPI.getAllEvents);
   return response.data;
 };
-const setEventStatus = async () => {
+export const setEventStatus = async () => {
   const response = await httpRequest(EventAPI.checkEventStatus);
   return response.data;
 };
@@ -77,14 +77,14 @@ export const useFetchOrganizerByEventId = (id) => {
 export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
     staleTime: 0,
-    cacheTime: 0,
-    refetchInterval: 1000 * 10,
+    cacheTime: 24 * 60 * 60 * 1000, // 24 giờ
   });
 };
 export const useFetchFeaturedEvents = () => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
-    staleTime: 1000 * 30,
+    staleTime: 0,
     cacheTime: 1000 * 60 * 60,
+    refetchInterval: 1000 * 60,
   });
 };
 export const useFetchBestSellerEvents = () => {
@@ -114,7 +114,6 @@ export const useFetchEventsByFilter = (params) => {
     () => fetchEventByFilter(params),
     {
       staleTime: 0,
-      cacheTime: 1000 * 60 * 60,
     }
   );
 };

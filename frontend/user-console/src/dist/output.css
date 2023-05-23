@@ -1718,6 +1718,10 @@
   position: relative;
   background: linear-gradient(53deg, rgb(0, 0, 0) 0%, rgb(65, 65, 65) 100%);
 }
+.organization-profile__container {
+  width: 100%;
+  padding: 0 2rem;
+}
 .organization-background {
   width: 100vw;
   height: 100vh;

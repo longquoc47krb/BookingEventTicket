@@ -14,11 +14,11 @@ function Navigation({
   useEffect(() => {
     const handleScroll = () => {
       const introduceOffsetTop =
-        activeButton === "review" ? null : introduceRef.current.offsetTop;
+        activeButton === "review" ? null : introduceRef.current?.offsetTop;
       const infoOffsetTop =
-        activeButton === "review" ? null : infoRef.current.offsetTop;
+        activeButton === "review" ? null : infoRef.current?.offsetTop;
       const organizationOffsetTop =
-        activeButton === "review" ? null : organizationRef.current.offsetTop;
+        activeButton === "review" ? null : organizationRef.current?.offsetTop;
       const currentScrollY = window.scrollY;
       if (
         currentScrollY >= introduceOffsetTop - 30 &&
@@ -57,15 +57,15 @@ function Navigation({
     switch (section) {
       case "introduce":
         setActiveButton("introduce");
-        introduceRef.current.scrollIntoView({ behavior: "smooth" });
+        introduceRef?.current?.scrollIntoView({ behavior: "smooth" });
         break;
       case "info":
         setActiveButton("info");
-        infoRef.current.scrollIntoView({ behavior: "smooth" });
+        infoRef?.current?.scrollIntoView({ behavior: "smooth" });
         break;
       case "organization":
         setActiveButton("organization");
-        organizationRef.current.scrollIntoView({ behavior: "smooth" });
+        organizationRef?.current?.scrollIntoView({ behavior: "smooth" });
         break;
       case "review":
         setActiveButton("review");

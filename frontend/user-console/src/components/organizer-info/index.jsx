@@ -9,6 +9,8 @@ import customerServices, {
 import { useSelector } from "react-redux";
 import { organizerInfoSelector } from "../../redux/slices/eventSlice";
 import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
+import FollowButton from "../follow-button";
 const { unfollowOrg, followOrg } = customerServices;
 
 const OrganizerInfo = forwardRef((props, ref) => {
@@ -19,28 +21,7 @@ const OrganizerInfo = forwardRef((props, ref) => {
     user?.email,
     organizer?.email
   );
-  const followButtonTheme = {
-    false: {
-      theme:
-        "bg-white px-2 py-1 text-[#1F3E82] border-[#1F3E82] border-2 rounded-2xl flex gap-x-2 items-center text-sm",
-      title: (
-        <>
-          <SlUserFollow />
-          <span>{t("org.follow")}</span>
-        </>
-      ),
-    },
-    true: {
-      theme:
-        "bg-[#1F3E82] px-2 py-1 text-white border-white border-2 rounded-2xl flex gap-x-2 items-center text-sm",
-      title: (
-        <>
-          <SlUserFollowing />
-          <span>{t("org.followed")}</span>
-        </>
-      ),
-    },
-  };
+  const navigate = useNavigate();
   useEffect(() => {
     if (!isLoading) {
       setShowFollowed(isFollowed);
@@ -49,6 +30,7 @@ const OrganizerInfo = forwardRef((props, ref) => {
       setShowFollowed(false);
     }
   }, [isFollowed, isLoading, user]);
+
   const handleFollowClick = () => {
     const email = organizer.email;
     async function handleFollowOrganizer() {
@@ -80,13 +62,16 @@ const OrganizerInfo = forwardRef((props, ref) => {
           className="rounded-md border-3 border-white border-solid drop-shadow-md"
         />
         <div className="flex gap-x-4 items-start">
-          <h1>{organizer?.name}</h1>
-          <button
-            className={followButtonTheme[!!showFollowed].theme}
-            onClick={handleFollowClick}
+          <h1
+            onClick={() => navigate(`/organizer-profile/${organizer.id}`)}
+            className="hover:underline hover:cursor-pointer"
           >
-            {followButtonTheme[!!showFollowed].title}
-          </button>
+            {organizer?.name}
+          </h1>
+          <FollowButton
+            handleFollowClick={handleFollowClick}
+            showFollowed={showFollowed}
+          />
         </div>
         <p>{parse(String(organizer?.biography))}</p>
         <button

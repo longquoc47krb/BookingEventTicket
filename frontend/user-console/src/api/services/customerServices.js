@@ -75,6 +75,14 @@ const unfollowOrg = async (userId, organizerEmail) => {
     return error.response.data;
   }
 };
+const findAllCustomer = async () => {
+  try {
+    const response = await httpRequest(CustomerAPI.findAllCustomer);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 export const useFetchWishlist = (userId) => {
   return useQuery(["wishlist", userId], () => fetchWishlist(userId), {
     staleTime: 30000,
@@ -109,6 +117,7 @@ const customerServices = {
   findFollowedOrganizerList,
   followOrg,
   unfollowOrg,
+  findAllCustomer,
 };
 
 export default customerServices;
