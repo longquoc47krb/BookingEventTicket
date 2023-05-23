@@ -64,6 +64,10 @@ const NotFoundPage = Loadable({
   loader: () => import("../views/not-found"),
   loading: Loading,
 });
+const OrganizerProfile = Loadable({
+  loader: () => import("../views/organizer-profile"),
+  loading: Loading,
+});
 export const unauthorizedRoute = [
   {
     element: <LoginPage />,
@@ -154,6 +158,10 @@ const routes = [
   {
     element: <Payment />,
     path: "/payment/redirect",
+  },
+  {
+    element: <OrganizerProfile />,
+    path: "/organizer-profile/:organizerId",
   },
 ];
 export {

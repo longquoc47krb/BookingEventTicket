@@ -2,14 +2,13 @@
 import { Col, Row, Switch } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import styled from "styled-components";
-import { t } from "i18next";
 import { decode, encode } from "js-base64";
 import { has, map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFetchCategories } from "../api/services/categoryServices";
 import eventServices from "../api/services/eventServices";
@@ -26,7 +25,6 @@ import ThreeDotsLoading from "../components/ThreeLoading";
 import UploadImage from "../components/Upload";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { setInitialBackground } from "../redux/slices/eventSlice";
-import theme from "../shared/theme";
 import constants, { TicketStatus } from "../utils/constants";
 import { provinces } from "../utils/provinces";
 import {
@@ -39,6 +37,7 @@ import Editor from "./Editor";
 import organizationServices, {
   useFetchTemplateTicket,
 } from "../api/services/organizationServices";
+import { useTranslation } from "react-i18next";
 const { getEventById, createEvent, uploadEventBackground, updateEvent } =
   eventServices;
 const { createTemplateTicket } = organizationServices;
@@ -55,9 +54,12 @@ export const StyledSwitch = styled(Switch)`
 
 function AddEditEvent(props) {
   const { eventId } = useParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [useTemplate, setUseTemplate] = useState(false);
   const [saveTemplate, setSaveTemplate] = useState(false);
   const [useDefaultAddress, setUseDefaultAddress] = useState(false);
+  const [isOneDay, setIsOneDay] = useState(true);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format(PATTERNS.DATE_FORMAT));
@@ -127,28 +129,45 @@ function AddEditEvent(props) {
     formData.append("file", value);
     return formData;
   };
+  // single day
+  const EventSchema = isOneDay
+    ? Yup.object().shape({
+        name: YupValidations.name,
+        startingDate: YupValidations.startingDateSingleDay,
+        startingTime: YupValidations.startingTime,
+        eventCategoryList: YupValidations.categories,
+        endingTime: YupValidations.endingTime,
+        description: YupValidations.description,
+        venue: YupValidations.venue,
+        province: YupValidations.province,
+        venue_address: YupValidations.address,
+        ticketList: YupValidations.ticketList,
+      })
+    : Yup.object().shape({
+        name: YupValidations.name,
+        startingDate: YupValidations.startingDate,
+        startingTime: YupValidations.startingTime,
+        eventCategoryList: YupValidations.categories,
+        endingDate: YupValidations.endingDate,
+        endingTime: YupValidations.endingTime,
+        description: YupValidations.description,
+        venue: YupValidations.venue,
+        province: YupValidations.province,
+        venue_address: YupValidations.address,
+        ticketList: YupValidations.ticketList,
+      });
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: Yup.object().shape({
-      name: YupValidations.name,
-      startingDate: YupValidations.startingDate,
-      startingTime: YupValidations.startingTime,
-      eventCategoryList: YupValidations.categories,
-      endingDate: YupValidations.endingDate,
-      endingTime: YupValidations.endingTime,
-      description: YupValidations.description,
-      venue: YupValidations.venue,
-      province: YupValidations.province,
-      venue_address: YupValidations.address,
-      ticketList: YupValidations.ticketList,
-    }),
+    validationSchema: EventSchema,
     onSubmit: async (values) => {
       setLoading(true);
       const request = {
         name: values.name,
         description: encode(values.description),
-        endingDate: moment(values.endingDate).format(PATTERNS.DATE_FORMAT),
+        endingDate: moment(
+          isOneDay ? values.startingDate : values.endingDate
+        ).format(PATTERNS.DATE_FORMAT),
         endingTime: moment(values.endingTime).format(PATTERNS.TIME_FORMAT),
         startingDate: moment(values.startingDate).format(PATTERNS.DATE_FORMAT),
         startingTime: moment(values.startingTime).format(PATTERNS.TIME_FORMAT),
@@ -196,10 +215,11 @@ function AddEditEvent(props) {
         showNotification(
           responseUpdate.status === 200 || uploadBackgroundUpdate.status === 200
         );
+        navigate("/events");
       }
     },
   });
-  const { handleSubmit, setFieldValue, values, setValues, errors } = formik; 
+  const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
 
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
@@ -234,7 +254,6 @@ function AddEditEvent(props) {
           background: res.background,
           name: res.name,
           currency: res.organizationTickets[0].currency,
-          // currency: "USD",
           startingDate: moment(res.startingDate, PATTERNS.DATE_FORMAT),
           startingTime: moment(res.startingTime, PATTERNS.TIME_FORMAT),
           endingDate: moment(res.endingDate, PATTERNS.DATE_FORMAT),
@@ -338,31 +357,45 @@ function AddEditEvent(props) {
                 />
               </Col>
             </Row>
+            <div className="flex gap-x-3 items-center mb-4">
+              <h1 className="text-primary text-xl font-semibold">
+                {t("one-day")}
+              </h1>
+              <StyledSwitch
+                defaultChecked={false}
+                checked={isOneDay}
+                onChange={(checked) => setIsOneDay(checked)}
+              />
+            </div>
             <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={16}>
+              <Col span={12}>
                 <Field
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
                 />
               </Col>
-              <Col span={8}>
+              <Col span={12}>
+                {!isOneDay && (
+                  <Field
+                    name="endingDate"
+                    component={DatePicker}
+                    label={t("event.endingDate")}
+                  />
+                )}
+              </Col>
+            </Row>
+
+            <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
+              <Col span={12}>
                 <Field
                   name="startingTime"
                   component={TimePicker}
                   label={t("event.startingTime")}
                 />
               </Col>
-            </Row>
-            <Row gutter={[8, 40]} style={{ lineHeight: "2rem" }}>
-              <Col span={16}>
-                <Field
-                  name="endingDate"
-                  component={DatePicker}
-                  label={t("event.endingDate")}
-                />
-              </Col>
-              <Col span={8}>
+
+              <Col span={12}>
                 <Field
                   name="endingTime"
                   component={TimePicker}

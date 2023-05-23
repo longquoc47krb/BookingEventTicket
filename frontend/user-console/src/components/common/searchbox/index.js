@@ -1,28 +1,23 @@
 import { Empty, Input } from "antd";
 import { motion } from "framer-motion";
 import Fuse from "fuse.js";
-import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
 import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useClickAway, useDebounce } from "react-use";
-import Highlighter from "react-highlight-words";
-import {
-  setResult,
-  setSearchResults,
-  setResultSplit,
-  resultSplitSelector,
-} from "../../../redux/slices/searchSlice";
+import { useClickAway } from "react-use";
+import { setSearchResults } from "../../../redux/slices/searchSlice";
 import { isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { data, placeholder } = props;
-  const result = useSelector((state) => state.search.result);
-  const keywordsArray = useSelector(resultSplitSelector);
-  const [expand, setExpand] = useState(true);
+  const location = useLocation();
+  const [result, setResult] = useState("");
+  const [keywordsArray, setResultSplit] = useState([]);
+  const [expand, setExpand] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -65,11 +60,8 @@ const SearchBox = (props) => {
   const results = data ? fuse.search(result) : [];
   useEffect(() => {
     dispatch(setSearchResults(results));
-    if (result) {
-      setExpand(true);
-    }
     const arraySplit = result.split(" ");
-    dispatch(setResultSplit(arraySplit));
+    setResultSplit(arraySplit);
   }, [result]);
   return (
     <div className="SearchBox" ref={ref}>
@@ -79,8 +71,11 @@ const SearchBox = (props) => {
         value={result}
         placeholder={placeholder}
         onChange={({ currentTarget }) => {
-          debounce(dispatch(setResult(currentTarget.value)), 1500);
-          navigate(`/events?search=${currentTarget.value}`);
+          setExpand(true);
+          setResult(currentTarget.value);
+          if (location.pathname === "/events") {
+            navigate(`/events?search=${currentTarget.value}`);
+          }
         }}
         style={{ padding: "0.5rem" }}
         allowClear

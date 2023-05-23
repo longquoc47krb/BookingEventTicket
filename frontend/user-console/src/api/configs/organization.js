@@ -11,4 +11,8 @@ export const OrganizationAPI = {
       id,
     },
   }),
+  findOrganizerEventList: (email) => ({
+    url: `/event/list/${email}`,
+    method: "GET",
+  })
 };

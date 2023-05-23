@@ -49,7 +49,11 @@ function TicketComponent(props) {
           <div className="flex items-center justify-end gap-x-2">
             {renderTicketStatus(ticket.status)}
             <ListItemText
-              primary={formatter(ticket.currency).format(ticket.price)}
+              primary={
+                ticket.price === "0"
+                  ? t("free-ticket")
+                  : formatter(ticket.currency).format(ticket.price)
+              }
             />
           </div>
         </div>

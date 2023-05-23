@@ -1,13 +1,18 @@
 package com.hcmute.bookingevent.Implement;
 
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+import java.util.List;
+
 public interface IEventService {
     ResponseEntity<?> createEvent(EventReq eventReq, String email);
     ResponseEntity<?> findAllEvents();
+    ResponseEntity<?> findEventAfterToday(Pageable pageable);
     ResponseEntity<?> findEventAfterToday();
     ResponseEntity<?> findBestSellerEvent();
     ResponseEntity<?> findEventsByProvince(String province);
@@ -24,9 +29,9 @@ public interface IEventService {
     ResponseEntity<?> filterEvents(String province,
                                    String categoryId,
                                    String status);
+    ResponseEntity<?> findByProvinceAndCategoryIdAndStatusAndDate(String province, String categoryId, String status, String date, Integer currentPage);
     ResponseEntity<?> updateEventBackground(String id, MultipartFile file);
 
     ResponseEntity<?> upcomingEvents();
-
 
 }

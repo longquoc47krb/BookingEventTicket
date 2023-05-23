@@ -81,6 +81,19 @@ public class OrganizationController {
     {
         return iOrganizationService.submitOrganization(organizationSubmitReq);
     }
+    @GetMapping("/event/list/{email}")
+    public ResponseEntity<?> findOrganizerEventList(@PathVariable String email, HttpServletRequest request)
+    {
+        try
+        {
+            return iOrganizationService.findEventsByOrganization(email);
+        }
+        catch (IllegalArgumentException e)
+        {
+            throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "JWT String argument cannot be null or empty");
+
+        }
+    }
     @GetMapping("/organization/event/list/{userid}")
     public ResponseEntity<?> findEventList(@PathVariable String userid, HttpServletRequest request)
     {

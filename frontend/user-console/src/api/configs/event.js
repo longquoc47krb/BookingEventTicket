@@ -30,13 +30,14 @@ export const EventAPI = {
       name,
     },
   }),
-  getEventByFilter: ({ province, categoryId, status }) => ({
+  getEventByFilter: ({ province, categoryId, status, date }) => ({
     url: `/event/filter`,
     method: "GET",
     params: {
       province,
       categoryId,
       status,
+      date,
     },
   }),
   findEventsByProvince: (province) => ({

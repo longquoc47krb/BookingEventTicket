@@ -26,9 +26,8 @@ import HelmetHeader from "../../components/helmet";
 import HomeDrawer from "../../components/home-drawer";
 import { setProvince, setStatus } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
-import constants, { EventStatus } from "../../utils/constants";
+import { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
-const { translateProvinceMap } = constants;
 function Home() {
   // eslint-disable-next-line no-unused-vars
   const [toggleDrawer, setToggleDrawer] = useState(false);
@@ -45,7 +44,6 @@ function Home() {
           : cityName
         : "TP. Hồ Chí Minh"
     );
-  console.log({ eventsByProvince });
   const successStatus = featuredEventStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -137,7 +135,7 @@ function Home() {
                   val: cityName,
                 })}
               </SectionTitle>
-              (
+
               <motion.div
                 className="home-popular-content"
                 variants={container}
@@ -151,7 +149,6 @@ function Home() {
                       .slice(0, 16)
                       .map((event, index) => <EventHomeItem event={event} />)}
               </motion.div>
-              )
               <ViewMoreButton
                 onClick={() => {
                   dispatch(setStatus(EventStatus.AVAILABLE));

@@ -57,6 +57,9 @@ export const YupValidations = {
     .required("validate.startingDate.required")
     .min(today, "validate.startingDate.min")
     .max(Yup.ref("endingDate"), "validate.startingDate.max"),
+  startingDateSingleDay: Yup.date()
+    .required("validate.startingDate.required")
+    .min(today, "validate.startingDate.min"),
   endingDate: Yup.date()
     .required("validate.endingDate.required")
     .when(
@@ -82,7 +85,7 @@ export const YupValidations = {
         price: Yup.number()
           .typeError("validate.ticket.price.number")
           .required("validate.ticket.price.required")
-          .min(0.1, "validate.ticket.price.min"),
+          .min(0, "validate.ticket.price.min"),
         ticketName: Yup.string().required("validate.ticket.name.required"),
         quantity: Yup.number()
           .typeError("validate.ticket.quantity.number")

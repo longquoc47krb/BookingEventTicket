@@ -51,4 +51,8 @@ export const CustomerAPI = {
       organizerEmail,
     },
   }),
+  findAllCustomer: {
+    url: "/customer/findAll",
+    method: "GET",
+  },
 };

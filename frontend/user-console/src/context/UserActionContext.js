@@ -12,6 +12,7 @@ import eventServices, {
 } from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
 import { userInfoSelector } from "../redux/slices/accountSlice";
+
 const UserActionContext = createContext();
 const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
   customerServices;
@@ -19,7 +20,6 @@ const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
 const { getEventById } = eventServices;
 export const UserActionContextProvider = ({ children }) => {
   const [eventId, setEventId] = useState("");
-  console.log({ eventId });
   const [wishlist, setWishlist] = useState([]);
   const [followingList, setFollowingList] = useState([]);
   const [followingOrganizerList, setFollowingOrganizerList] = useState([]);
@@ -29,14 +29,14 @@ export const UserActionContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   const cityName = localStorage.getItem("city");
-  const { data: checkedEvents } = useCheckEventsStatus();
+  // const { data: checkedEvents } = useCheckEventsStatus();
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");
 
   const getWishlist = async () => {
     setWishlistEvent([]);
 
     const list = userInfo ? await fetchWishlist(userInfo?.id) : [];
-    localStorage.setItem("userWishlist", JSON.stringify(list.data));
+    localStorage.setItem("userWishlist", JSON.stringify(list?.data));
     // const list = JSON.parse(localStorage.getItem("userWishlist"));
     const userWishlist = JSON.parse(localStorage.getItem("userWishlist")) ?? [];
     setWishlist(userWishlist);
@@ -44,7 +44,7 @@ export const UserActionContextProvider = ({ children }) => {
       userWishlist.forEach((eventId) => {
         getEventById(eventId).then((response) => {
           setWishlistEvent((prev) => {
-            return [...prev, response.data];
+            return [...prev, response?.data];
           });
         });
       });
@@ -137,7 +137,7 @@ export const UserActionContextProvider = ({ children }) => {
         clearWishlist,
         activeDrawer,
         toggleDrawer,
-        checkedEvents,
+        // checkedEvents,
         user,
         eventId,
         setEventId,

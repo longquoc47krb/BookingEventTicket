@@ -5,11 +5,9 @@ const initialState = {
     province: null,
     categoryId: null,
     status: "event.available",
-  },
-  filterByDateType: null,
-  dateRange: {
-    start: "",
-    end: "",
+    date: null,
+    page: 1,
+    size: 6,
   },
 };
 
@@ -35,17 +33,13 @@ const filterSlice = createSlice({
     setEndDate: (state, { payload }) => {
       state.dateRange.end = payload;
     },
+    setDate: (state, { payload }) => {
+      state.filter.date = payload;
+    },
   },
 });
 
-export const {
-  setProvince,
-  setCategoryId,
-  setStatus,
-  setDateType,
-  setStartDate,
-  setEndDate,
-} = filterSlice.actions;
+export const { setProvince, setCategoryId, setStatus, setDate } =
+  filterSlice.actions;
 export const filterSelector = (state) => state.filter.filter;
-export const dateRangeSelector = (state) => state.filter.dateRange;
 export default filterSlice.reducer;

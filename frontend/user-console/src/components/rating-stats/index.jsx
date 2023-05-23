@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isNotEmpty } from "../../utils/utils";
 const RatingStats = ({ reviewList }) => {
-  console.log({ reviewList });
   const ratingArray = isNotEmpty(reviewList)
     ? [
         reviewList.data.reduce(

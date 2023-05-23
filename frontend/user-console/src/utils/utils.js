@@ -510,3 +510,6 @@ export function compareDates(date2) {
 
   return isBefore(parsedDate2, currentDate);
 }
+export function htmlToPlainText(html) {
+  return html?.replace(/<[^>]+>/g, "")?.replace(/&nbsp;/g, "\n");
+}
