@@ -104,7 +104,7 @@ public class OrganizationService implements IOrganizationService {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
-                    new ResponseObject(true, e.getMessage(), "", 400));
+                    new ResponseObject(true, e.getMessage(), new ArrayList<>(), 400));
         }
     }
     @Override
