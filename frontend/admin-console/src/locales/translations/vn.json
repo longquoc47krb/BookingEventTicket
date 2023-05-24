@@ -353,5 +353,6 @@
         "ld": "Lâm Đồng",
         "others": "Tỉnh thành khác"
     },
-    "one-day": "Sự kiện diễn ra trong 1 ngày"
+    "one-day": "Sự kiện diễn ra trong 1 ngày",
+    "sold-ticket": "Đã bán: {{val, number}}"
 }
