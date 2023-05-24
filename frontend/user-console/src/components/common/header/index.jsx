@@ -60,7 +60,7 @@ function Header(props) {
       if (user) {
         const response = await findUser(user.email);
         return (
-          response.status === 200 && dispatch(setUserProfile(response.data))
+          response.status === 200 && dispatch(setUserProfile(response?.data))
         );
       }
     };

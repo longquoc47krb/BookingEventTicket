@@ -1,41 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useReducer } from "react";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  tokenSelector,
-  userInfoSelector,
-} from "../../redux/slices/accountSlice";
-import Feedback from "../feedback-box";
-import FeedbackList from "../feedback-list";
-import RatingStats from "../rating-stats";
-import Unauthenticated from "../unauthenticated";
+import { useParams } from "react-router-dom";
 import reviewServices, {
   useFetchReviewList,
-  useFetchReviewListPagin,
+  useFetchReviewListPagin
 } from "../../api/services/reviewServices";
-import { useParams } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
 import {
-  setIsFeedback,
-  isFeedbackSelector,
-  updateRating,
-  ratingSelector,
-  setIsCompleted,
+  tokenSelector,
+  userInfoSelector
+} from "../../redux/slices/accountSlice";
+import {
+  isFeedbackSelector, ratingSelector, setIsFeedback, updateRating
 } from "../../redux/slices/eventSlice";
-import FeedbackComment from "../feedback-item";
-import { useTranslation } from "react-i18next";
+import { hideBadWords } from "../../utils/badwords";
+import { isNotEmpty } from "../../utils/utils";
 import {
   AlertError,
   AlertErrorPopup,
   AlertPopup,
-  AlertQuestion,
+  AlertQuestion
 } from "../common/alert";
-import { hideBadWords } from "../../utils/badwords";
-import { Pagination } from "antd";
-import { isNotEmpty } from "../../utils/utils";
-import { useMemo } from "react";
-import { EventStatus } from "../../utils/constants";
+import Feedback from "../feedback-box";
+import FeedbackComment from "../feedback-item";
+import FeedbackList from "../feedback-list";
+import RatingStats from "../rating-stats";
+import Unauthenticated from "../unauthenticated";
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {

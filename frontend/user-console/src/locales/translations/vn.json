@@ -294,6 +294,7 @@
     "best-seller": "Bán chạy",
     "sold-out": "Hết vé"
   },
+  "ticket.cart.empty": "Giỏ hàng không được trống",
   "Ho Chi Minh City": "Sài Gòn",
   "Hanoi": "Hà Nội",
   "price-from": "Từ ",

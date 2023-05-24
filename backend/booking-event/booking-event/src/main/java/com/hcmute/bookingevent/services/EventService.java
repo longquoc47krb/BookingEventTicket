@@ -379,6 +379,11 @@ public class EventService implements IEventService {
     }
 
     @Override
+    public ResponseEntity<?> newEventsInFollowList(String email) {
+        return  null;
+    }
+
+    @Override
     public ResponseEntity<?> searchEvents(String key) {
         List<Event> eventList = eventRepository.findAllBy(TextCriteria
                 .forDefaultLanguage().matchingAny(key)
