@@ -29,7 +29,7 @@ export const UserActionContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(userInfoSelector);
   const cityName = localStorage.getItem("city");
-  // const { data: checkedEvents } = useCheckEventsStatus();
+  const { data: checkedEvents } = useCheckEventsStatus();
   const { data: user } = useFetchUserInfo(userInfo ? userInfo.email : "");
 
   const getWishlist = async () => {

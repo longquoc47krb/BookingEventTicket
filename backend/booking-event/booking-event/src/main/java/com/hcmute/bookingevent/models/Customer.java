@@ -31,9 +31,6 @@ public class Customer  {
     @Indexed(unique = true)
     private String email;
 
-    //private int role;
-    //private List<String> ticketList;
-
     private List<String> eventWishList = new ArrayList<>();
     private List<String> followList = new ArrayList<>();
     //private List<Order> orderList = new ArrayList<>();

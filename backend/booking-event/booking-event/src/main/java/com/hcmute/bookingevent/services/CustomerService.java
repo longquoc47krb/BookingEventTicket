@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -133,6 +134,7 @@ public class CustomerService  implements ICustomerService {
 
         }
     }
+
     public ResponseEntity<?> addWishList(String idItem,String email)
     {
         Optional<Customer> customer =  customerRepository.findByEmail(email);

@@ -12,6 +12,7 @@ import {
   ticketTypeSelector,
 } from "../../redux/slices/ticketSlice";
 import { formatter } from "../../utils/utils";
+import { AlertErrorPopup } from "../common/alert";
 import ThreeDotsLoading from "../loading/three-dots";
 import TicketCartItem from "../ticket-cart-item";
 const { payOrder, checkOrderAvailability, payOrderVNPay } = paymentServices;
@@ -33,45 +34,56 @@ function TicketCart() {
 
   const handlePayOrder = async () => {
     setLoading(true);
-    dispatch(
-      createOrderRequest({
+    if (
+      cartTotalQuantity === 0 ||
+      cartTotalPrice === null ||
+      cartTotalPrice === undefined
+    ) {
+      AlertErrorPopup({
+        text: t("ticket.cart.empty"),
+      });
+      setLoading(false);
+    } else {
+      dispatch(
+        createOrderRequest({
+          currency: map(ticketCart, "currency")[0],
+          customerTicketList: handleTicketCart(ticketCart),
+          email: user.email,
+          idEvent: eventId,
+          totalPrice: String(cartTotalPrice),
+          totalQuantity: cartTotalQuantity,
+        })
+      );
+      const checkOrderResponse = await checkOrderAvailability(user.id, {
         currency: map(ticketCart, "currency")[0],
         customerTicketList: handleTicketCart(ticketCart),
         email: user.email,
         idEvent: eventId,
         totalPrice: String(cartTotalPrice),
         totalQuantity: cartTotalQuantity,
-      })
-    );
-    const checkOrderResponse = await checkOrderAvailability(user.id, {
-      currency: map(ticketCart, "currency")[0],
-      customerTicketList: handleTicketCart(ticketCart),
-      email: user.email,
-      idEvent: eventId,
-      totalPrice: String(cartTotalPrice),
-      totalQuantity: cartTotalQuantity,
-    });
+      });
 
-    dispatch(
-      setErrors(
-        checkOrderResponse.status === 200
-          ? []
-          : Object.keys(checkOrderResponse.data)
-      )
-    );
-    setLoading(checkOrderResponse.status ? false : true);
-    if (checkOrderResponse.status === 200) {
-      if (currency === "USD") {
-        const response = await payOrder({ price: cartTotalPrice.toString() });
-        if (response.status === 200) {
-          window.open(response.data, "_self");
-        }
-      } else {
-        const response = await payOrderVNPay({
-          price: cartTotalPrice.toString(),
-        });
-        if (response.status === 200) {
-          window.open(response.data, "_self");
+      dispatch(
+        setErrors(
+          checkOrderResponse.status === 200
+            ? []
+            : Object.keys(checkOrderResponse.data)
+        )
+      );
+      setLoading(checkOrderResponse.status ? false : true);
+      if (checkOrderResponse.status === 200) {
+        if (currency === "USD") {
+          const response = await payOrder({ price: cartTotalPrice.toString() });
+          if (response.status === 200) {
+            window.open(response.data, "_self");
+          }
+        } else {
+          const response = await payOrderVNPay({
+            price: cartTotalPrice.toString(),
+          });
+          if (response.status === 200) {
+            window.open(response.data, "_self");
+          }
         }
       }
     }

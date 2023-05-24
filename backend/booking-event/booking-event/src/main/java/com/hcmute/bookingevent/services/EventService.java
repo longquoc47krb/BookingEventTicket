@@ -39,6 +39,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -70,7 +71,6 @@ public class EventService implements IEventService {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
 
-    private static final int PAGE_SIZE = 6; // Kích thước trang
     @SneakyThrows
     @Override
     public ResponseEntity<?> createEvent(EventReq eventReq, String email) {
@@ -102,7 +102,6 @@ public class EventService implements IEventService {
 
             mailService.sendMailByAccountList(accountList, eventReq.getName(),account.get().getName() ,EMailType.NEW_EVENT);
            // mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
-
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save event successfully ", idSlung, 200));
 
@@ -412,42 +411,6 @@ public class EventService implements IEventService {
         throw new NotFoundException("Can not found any product with id: " + id);
     }
 
-    @Override
-    public ResponseEntity<?> filterEvents(String province, String categoryId, String status) {
-        Query query = new Query();
-        Criteria criteria = new Criteria();
-        List<Criteria> andCriteria = new ArrayList<>();
-        if(province != null){
-            if (!province.equals("others")){
-                andCriteria.add(Criteria.where("province").is(province));
-            } else{
-                andCriteria.add(Criteria.where("province").ne("TP. Hồ Chí Minh"));
-                andCriteria.add(Criteria.where("province").ne("Hà Nội"));
-            }
-        }
-        if( categoryId != null){
-            andCriteria.add(Criteria.where("eventCategoryList.id").is(categoryId));
-        }
-        if( status != null) {
-            andCriteria.add(Criteria.where("status").is(status));
-        }
-        criteria.andOperator(andCriteria.toArray(new Criteria[andCriteria.size()]));
-        query.addCriteria(criteria);
-        List<Event> eventList;
-        if(province == null && categoryId == null && status == null){
-            eventList = sortEventByDateAsc(eventRepository.findAll());
-        }else{
-
-        eventList = sortEventByDateAsc(mongoTemplate.find(query, Event.class));
-        }
-
-        List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Successfully query data", eventRes,200));
-
-    }
 
     @Override
     public ResponseEntity<?> findByProvinceAndCategoryIdAndStatusAndDate(String province, String categoryId, String status, String date, Integer pageNumber) {
