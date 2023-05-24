@@ -42,8 +42,8 @@ public class MailService {
     final String OFFICIAL_ORGANIZATION_CONTENT ="We have reviewed your application form. After taking into consideration based on our term conditions. We officially inform that you have full authorization of organization role." +
             "<br>Please use this password below to sign in your account in our system. Click <a href=\"https://lotusticket-admin.netlify.app\">here</a> to login " ;
         //    "<br>Regards,";
-    final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
-            "<br>Regards,";
+    final String REFUSE_ORGANIZATION_CONTENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" ;
+           // "<br>Regards,";
 //    final String NEW_EVENT ="After reviewing your application form thoroughly, We have to refuse your form. This is because you may not satisfy one of our strict criteria" +
 //            "<br>Regards,";
     final String TYPE_EMAIL = "text/html";
@@ -63,6 +63,12 @@ public class MailService {
             template = configuration.getTemplate(MAIL_TEMPLATE);
             if(type.equals(EMailType.OTP))
             {
+//                String testHtml = " Click  <a href=\"https://lotusticket-vn.netlify.app/event/" + "gm-vietnam---vietnam-blockchain-week-28120" + "\">here</a> to visit new event";
+//                String NEW_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ "ST.319 Entertainment" +"</span> has just created a new event called "  +" <span style=\"color:black;font-weight: 700;\"> ILIZA SHLESINGER - Back In Action Tour - Standup Comedy in HCMC </span>" + "<br>" + testHtml;
+//
+//                model.put("header", "Upcoming event");
+//                model.put("content", NEW_EVENT);
+//                model.put("contentColor", "1234");
                 model.put("header", "Verify your account");
                 model.put("content", OTP_CONTENT);
                 model.put("contentColor", messageContent);
@@ -127,9 +133,10 @@ public class MailService {
 
         }
     }
-    public void sendMailByAccountList(List<Account> accountList, String eventName, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
-        String NEW_EVENT ="We notify you that "+ organizationName +"  just created new event is "  +eventName +
-                "<br>Regards,";
+    public void sendMailByAccountList(List<Account> accountList, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
+        //<span style="color:black;font-weight: 900;"> ${name}</span>
+        String testHtml = " Click  <a href=\"https://lotusticket-vn.netlify.app/event/" + map.get("id") + "\">here</a> to visit new event";
+        String NEW_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just created a new event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" + testHtml;
         for(Account account : accountList)
         {
             sendMail(account,NEW_EVENT,"",type);
