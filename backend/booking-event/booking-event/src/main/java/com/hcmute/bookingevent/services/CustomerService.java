@@ -7,7 +7,6 @@ import com.hcmute.bookingevent.mapper.TicketMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.event.Event;
-import com.hcmute.bookingevent.models.event.EventInfo;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.request.CustomerTicketReq;
 import com.hcmute.bookingevent.payload.request.OrderReq;
@@ -134,70 +133,6 @@ public class CustomerService  implements ICustomerService {
                     new ResponseObject(false, "fail to deleteFollowOrganizerItem with email:" + email, "",404));
 
         }
-    }
-
-    @Override
-    public ResponseEntity<?> removeEventInFollowList(String eventId, String email) {
-        Optional<Customer> customer = customerRepository.findByEmail(email);
-        List<EventInfo> events = customer.get().getNewEventInFollowList();
-        if(customer.isPresent())
-        {
-            Iterator<EventInfo> iterator = events.iterator();
-            while (iterator.hasNext()) {
-                EventInfo event = iterator.next();
-                if (event.getId().equals(eventId)) {
-                    iterator.remove();
-                    break;
-                }
-            }
-            customer.get().setNewEventInFollowList(events);
-            customerRepository.save(customer.get());
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "delete removeEventInFollowList successfully ", "",200));
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "fail to removeEventInFollowList with email:" + email, "",404));
-
-        }
-
-
-    }
-
-    @Override
-    public ResponseEntity<?> markEventAsRead(String eventId, String email) {
-        Optional<Customer> customerOptional = customerRepository.findByEmail(email);
-        if (customerOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Customer not found", "", 404));
-        }
-
-        Customer customer = customerOptional.get();
-        List<EventInfo> events = customer.getNewEventInFollowList();
-
-        Optional<EventInfo> foundEvent = events.stream()
-                .filter(event -> event.getId().equals(eventId))
-                .findFirst();
-
-        if (foundEvent.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject(false, "Event not found", "", 404));
-        }
-
-        EventInfo eventInfo = foundEvent.get();
-        eventInfo.setRead(true);
-        for (int i = 0; i < events.size(); i++) {
-            EventInfo event = events.get(i);
-            if (event.getId().equals(eventId)) {
-                events.set(i, eventInfo);
-                break; // Assuming the event ID is unique, we can break out of the loop once found
-            }
-        }
-        customer.setNewEventInFollowList(events);
-        customerRepository.save(customer);
-
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, "Event marked as read successfully", "", 200));
     }
 
     public ResponseEntity<?> addWishList(String idItem,String email)
