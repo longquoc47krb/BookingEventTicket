@@ -9,7 +9,7 @@ import { userInfoSelector } from "../redux/slices/accountSlice";
 const Tickets = () => {
   const { t } = useTranslation();
   const user = useSelector(userInfoSelector);
-  const { data: events, isLoading } = useFetchEventsByOrgID(user.id);
+  const { data: events } = useFetchEventsByOrgID(user.id);
   console.log(
     sortBy(events, [
       { startingDate: (event) => new Date(event.startingDate) },
