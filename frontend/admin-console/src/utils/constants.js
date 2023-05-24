@@ -58,7 +58,11 @@ const PATTERNS = {
   BLANK_SPACES: /[^\s*]/g,
   RE_DIGIT: /^\d+$/,
 };
-
+export const EventStatus = {
+  COMPLETED: "event.completed",
+  SOLDOUT: "event.sold-out",
+  AVAILABLE: "event.available",
+};
 const constants = {
   provinceMapping,
   TicketStatus,

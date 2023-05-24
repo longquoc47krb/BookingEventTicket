@@ -351,5 +351,6 @@
         "ld": "Lam Dong",
         "others": "Other provinces"
     },
-    "one-day": "Event held on a Single day"
+    "one-day": "Event held on a Single day",
+    "sold-ticket": "Sold: {{val, number}}"
 }
