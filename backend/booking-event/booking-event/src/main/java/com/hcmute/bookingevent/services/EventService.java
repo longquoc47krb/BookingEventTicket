@@ -99,8 +99,11 @@ public class EventService implements IEventService {
             List<Account> accountList = customerListForSending.stream().map(accountMapper::toAccount).collect(Collectors.toList());
             //get account information of organizer
             Optional<Account> account = accountRepository.findByEmail(email);
-
-            mailService.sendMailByAccountList(accountList, eventReq.getName(),account.get().getName() ,EMailType.NEW_EVENT);
+            event.getId();
+            Map<String, String> map = new HashMap<>();
+            map.put("id",event.getId());
+            map.put("eventName",event.getName());
+            mailService.sendMailByAccountList(accountList, map,account.get().getName() ,EMailType.NEW_EVENT);
            // mailService.sendMail(account, "", EMailType.BECOME_ORGANIZATION);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(true, "Save event successfully ", idSlung, 200));

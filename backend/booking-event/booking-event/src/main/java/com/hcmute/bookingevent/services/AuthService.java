@@ -136,7 +136,7 @@ public class AuthService implements IAuthService {
             Optional<Account> account = accountRepository.findByEmail(emailReq.getEmail());
             if (account.isPresent()) {
 
-                if (account.get().getLoginType().equals(EAccount.GOOGLE)) {
+                if (account.get().getLoginType() != null && account.get().getLoginType().equals(EAccount.GOOGLE)) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                             new ResponseObject(false, "Can not retrieve password for google account", "", 404));
                 }

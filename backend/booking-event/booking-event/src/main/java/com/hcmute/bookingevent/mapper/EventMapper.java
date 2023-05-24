@@ -36,7 +36,8 @@ public class EventMapper {
             return new EventOrderViewResponse(event.get().getId(),event.get().getName(),event.get().getStartingDate(),event.get().getEndingDate(),event.get().getBackground(),event.get().getStatus(), event.get().getTicketTotal(),event.get().getTicketRemaining(),event.get().getCreatedDate(),event.get().getUpdatedDate(), event.get().getEventCategoryList(), event.get().getOrganizationTickets());
 
         }
-        throw new NotFoundException("Can not find any event");
+            throw new NotFoundException("Can not find any event");
+
 
     }
 //    public Event toCreateEvent(EventReq eventReq) {
