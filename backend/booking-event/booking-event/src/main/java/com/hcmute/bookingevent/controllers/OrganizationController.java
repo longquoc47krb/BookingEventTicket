@@ -97,6 +97,7 @@ public class OrganizationController {
     @GetMapping("/organization/event/list/{userid}")
     public ResponseEntity<?> findEventList(@PathVariable String userid, HttpServletRequest request)
     {
+
         try
         {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
@@ -108,7 +109,6 @@ public class OrganizationController {
         catch (IllegalArgumentException e)
         {
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "JWT String argument cannot be null or empty");
-
         }
     }
 

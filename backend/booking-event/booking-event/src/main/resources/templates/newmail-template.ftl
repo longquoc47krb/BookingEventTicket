@@ -107,7 +107,7 @@
                                                                     Hi,  <span style="color:black;font-weight: 900;"> ${name}</span><br>
                                                                     ${content} <br>
 <#--                                                                    <span style="color:black;font-weight: 900; position: relative; left: 30px">${contentColor}</span>-->
-                                                                    <div style="display:flex; justify-content: center;"> <div style="color:black;font-weight: 900;"> ${contentColor}</div></div>
+                                                                    <div style="display:flex; justify-content: center;font-size: 20px"> <div style="color:black;font-weight: 900;"> ${contentColor}</div></div>
                                                                 </p>
                                                                 <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Imprima, Arial, sans-serif;line-height:27px;color:#2D3142;font-size:18px"><br></p>
                                                                 <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Imprima, Arial, sans-serif;line-height:27px;color:#2D3142;font-size:18px">Regards,</p>
