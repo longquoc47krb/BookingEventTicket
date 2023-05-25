@@ -9,8 +9,8 @@ const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    setShowCategoryModal: (state) => {
-      state.showCategoryModal = !state.showCategory;
+    setShowCategoryModal: (state, { payload }) => {
+      state.showCategoryModal = payload;
     },
     setCategory: (state, { payload }) => {
       state.selectedCategory = payload;
@@ -19,5 +19,7 @@ const categorySlice = createSlice({
 });
 
 export const { setShowCategoryModal } = categorySlice.actions;
+export const showCategorySelection = (state) =>
+  state.category.showCategoryModal;
 
 export default categorySlice.reducer;

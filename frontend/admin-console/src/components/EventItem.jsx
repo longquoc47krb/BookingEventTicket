@@ -11,7 +11,7 @@ import { minBy } from "lodash";
 import { formatter, isNotEmpty } from "../utils/utils";
 
 function Event(props) {
-  const { event } = props;
+  const { event, onClick } = props;
   const { t } = useTranslation();
   let categoriesArr = event?.eventCategoryList;
   const dispatch = useDispatch();
@@ -23,12 +23,7 @@ function Event(props) {
   }
   console.log();
   return (
-    <div
-      className="event-item-container"
-      onClick={(e) => {
-        e.preventDefault();
-      }}
-    >
+    <div className="event-item-container" onClick={onClick}>
       <img
         src={event?.background || PlaceholderCover}
         className="event-item-image"

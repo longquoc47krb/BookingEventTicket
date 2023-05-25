@@ -26,7 +26,7 @@ const UserProfile = ({ setOpen }) => {
   };
 
   return (
-    <div className="nav-item bg-white dark:bg-[#42464D] p-2 rounded-lg w-96">
+    <div className="nav-item bg-white dark:bg-[#42464D] p-2  w-96">
       <div className="flex justify-end items-center">
         <MdOutlineCancel
           className="text-2xl rounded-full text-gray-500"
@@ -36,7 +36,7 @@ const UserProfile = ({ setOpen }) => {
       <div className="flex gap-4 items-start border-color border-b-1 pb-6 relative">
         {role === ROLE.Organizer ? (
           <img
-            className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
+            className="h-[100px] w-[100px] object-cover border-4 border-solid border-gray-200 shadow-md rounded-md"
             src={user.avatar}
             alt="user-profile"
           />
@@ -44,7 +44,7 @@ const UserProfile = ({ setOpen }) => {
           <img
             src={process.env.PUBLIC_URL + "/logo.png"}
             alt="logo"
-            className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
+            className="h-[100px] w-auto object-fit marker:shadow-md"
           />
         )}
         <div>

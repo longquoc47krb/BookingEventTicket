@@ -67,7 +67,7 @@ export function OrderStatistics({ organizationEmail, chartName }) {
     refetch();
   }, [organizationEmail, period, refetch]);
   return (
-    <div className="w-[70vw] min-h-590 mt-4 mx-8 py-4 sm:px-6 lg:px-8 bg-white rounded-md relative">
+    <div className="min-h-590 mt-4 mx-8 p-6 sm:px-6 lg:px-8 card relative">
       <h2 className="text-xl font-bold mb-4">{t(chartName)}</h2>
       <div className="flex flex-col sm:flex-row items-center">
         <label htmlFor="period" className="mr-2 font-medium">
