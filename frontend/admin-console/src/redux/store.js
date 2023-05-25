@@ -20,6 +20,7 @@ import categoryReducer from "./slices/categorySlice";
 import eventReducer from "./slices/eventSlice";
 import routeReducer from "./slices/routeSlice";
 import statisticReducer from "./slices/statisticSlice";
+import ticketReducer from "./slices/ticketSlice";
 const accountPersistConfig = {
   key: "account",
   version: 1,
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   route: routePersistedReducer,
   category: categoryReducer,
   statistic: statisticReducer,
+  ticket: ticketReducer,
 });
 export const store = configureStore({
   reducer,

@@ -78,13 +78,13 @@ export const useCheckEventsStatus = () => {
   return useQuery(["checkEventStatus"], setEventStatus, {
     staleTime: 0,
     cacheTime: 24 * 60 * 60 * 1000, // 24 giờ
+    refetchInterval: 1000 * 60 * 10,
   });
 };
 export const useFetchFeaturedEvents = () => {
   return useQuery(["featuredEvents"], fetchFeaturedEvents, {
     staleTime: 0,
-    cacheTime: 1000 * 60 * 60,
-    refetchInterval: 1000 * 60,
+    cacheTime: 1000 * 60 * 60    
   });
 };
 export const useFetchBestSellerEvents = () => {

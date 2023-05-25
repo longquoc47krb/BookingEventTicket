@@ -1,14 +1,24 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { t } from "i18next";
 import React from "react";
-import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
-import { BiCategory } from "react-icons/bi";
-import { BsCheckLg, BsFillEyeFill, BsXLg } from "react-icons/bs";
-import { FaTrashAlt } from "react-icons/fa";
+import {
+  AiOutlineCalendar,
+  AiOutlinePicture,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+import { BiBookBookmark, BiCategory } from "react-icons/bi";
+import { BsCheckLg, BsFillEyeFill, BsPeopleFill, BsXLg } from "react-icons/bs";
+import { FaMusic, FaTheaterMasks, FaTrashAlt } from "react-icons/fa";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoTicketOutline } from "react-icons/io5";
-import { MdOutlineAccountCircle } from "react-icons/md";
-import { RiEditFill } from "react-icons/ri";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineNightlife,
+  MdOutlineTravelExplore,
+  MdSportsSoccer,
+} from "react-icons/md";
+import { RiEditFill, RiSuitcaseFill } from "react-icons/ri";
+import { TbWorld } from "react-icons/tb";
 import eventServices from "../api/services/eventServices";
 import organizationServices from "../api/services/organizationServices";
 import {
@@ -46,7 +56,9 @@ export const orderByEventColumns = [
     onFilter: (value, record) => record.totalPrice.indexOf(value) === 0,
     sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
     sortDirections: ["descend"],
-    render: (price) => <span>{formatter("USD").format(price)}</span>,
+    render: (text, record) => (
+      <span>{formatter(record.currency).format(record.price)}</span>
+    ),
     width: 200,
   },
   {
@@ -135,8 +147,10 @@ export const ticketColumns = [
   },
   {
     title: t("ticket.price"),
-    dataIndex: "price",
-    render: (price) => <span>{formatter("USD").format(price)}</span>,
+    dataIndex: ["price", "currency"],
+    render: (text, record) => (
+      <span>{formatter(record.currency).format(record.price)}</span>
+    ),
   },
   {
     title: t("ticket.totalQuantity"),
@@ -209,6 +223,7 @@ export const eventColumns = [
   {
     title: t("event.status.title"),
     dataIndex: "status",
+    width: 150,
     filters: [
       {
         text: t("event.status.available"),
@@ -708,3 +723,29 @@ export const AdminRoute = [
     ],
   },
 ];
+export const categoryIcon = (categoryName) => {
+  switch (categoryName) {
+    case "category.exhibition":
+      return <AiOutlinePicture color="white" fontSize={64} />;
+    case "category.music":
+      return <FaMusic color="white" fontSize={64} />;
+    case "category.travel":
+      return <MdOutlineTravelExplore color="white" fontSize={64} />;
+    case "category.seminar":
+      return <RiSuitcaseFill color="white" fontSize={64} />;
+    case "category.courses":
+      return <BiBookBookmark color="white" fontSize={64} />;
+    case "category.theater":
+      return <FaTheaterMasks color="white" fontSize={64} />;
+    case "category.sport":
+      return <MdSportsSoccer color="white" fontSize={64} />;
+    case "category.nightlife":
+      return <MdOutlineNightlife color="white" fontSize={64} />;
+    case "category.conference":
+      return <BsPeopleFill color="white" fontSize={64} />;
+    case "category.community":
+      return <TbWorld color="white" fontSize={64} />;
+    default:
+      return <FaMusic color="white" fontSize={64} />;
+  }
+};

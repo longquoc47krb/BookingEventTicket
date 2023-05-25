@@ -141,18 +141,19 @@ const Overview = () => {
     ];
   }
   return (
-    <div className="mt-8">
+    <div className="m-6">
       <h1 className="px-8 mb-4">
         <p className="text-2xl text-gray-500 mb-2">{t(greeting)}</p>
         <p className="text-3xl text-[#1F3E82] font-bold">{user.name}</p>
       </h1>
-      <div className="flex flex-wrap items-center gap-x-4 px-8">
+      <div className="grid grid-cols-5 items-center gap-x-4 px-8">
         {status === "success" &&
           earningData.map((item) => (
             <div
               key={item.title}
-              className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
+              className=" dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 flex gap-x-4 card"
             >
+              <div class="card-overlay"></div>
               <p className="mt-3">
                 <div className="flex items-end gap-x-4">
                   <Tooltip

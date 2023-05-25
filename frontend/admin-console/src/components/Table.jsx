@@ -1,4 +1,4 @@
-import { Table as AntdTable, Input, Button, Space } from "antd";
+import { Table as AntdTable } from "antd";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -14,9 +14,6 @@ const Table = (props) => {
       width={"100%"}
       pagination={{
         pageSize: 5,
-      }}
-      scroll={{
-        y: 240,
       }}
     />
   );
