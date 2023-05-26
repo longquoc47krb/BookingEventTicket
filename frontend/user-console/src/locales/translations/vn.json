@@ -62,7 +62,10 @@
     "faq": "Câu hỏi thường gặp",
     "become-an-org": "Trở thành nhà tổ chức",
     "follow": "Theo dõi",
-    "followed": "Đang theo dõi"
+    "followed": "Đang theo dõi",
+    "all-events": "Tất cả sự kiện",
+    "completed-events": "Sự kiện đã kết thúc",
+    "featured-events": "Sự kiện nổi bật"
   },
   "home": "Trang chủ",
   "signin": "Đăng nhập",

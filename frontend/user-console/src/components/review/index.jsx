@@ -6,14 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import reviewServices, {
   useFetchReviewList,
-  useFetchReviewListPagin
+  useFetchReviewListPagin,
 } from "../../api/services/reviewServices";
 import {
   tokenSelector,
-  userInfoSelector
+  userInfoSelector,
 } from "../../redux/slices/accountSlice";
 import {
-  isFeedbackSelector, ratingSelector, setIsFeedback, updateRating
+  isFeedbackSelector,
+  ratingSelector,
+  setIsFeedback,
+  updateRating,
 } from "../../redux/slices/eventSlice";
 import { hideBadWords } from "../../utils/badwords";
 import { isNotEmpty } from "../../utils/utils";
@@ -21,7 +24,7 @@ import {
   AlertError,
   AlertErrorPopup,
   AlertPopup,
-  AlertQuestion
+  AlertQuestion,
 } from "../common/alert";
 import Feedback from "../feedback-box";
 import FeedbackComment from "../feedback-item";
@@ -42,30 +45,28 @@ function Review() {
   const [userFeedback, setUserFeedback] = useState([]);
   const dispatch = useDispatch();
   const { eventId } = useParams();
+  // const {
+  //   data: reviewsPaging,
+  //   status,
+  //   isLoading,
+  // } = useFetchReviewListPagin({
+  //   id: eventId,
+  //   pageNumber: currentPage,
+  //   pageSize: 10,
+  // });
   const {
-    data: reviewsPaging,
-    status,
+    data: allReviews,
+    status: allReviewsStatus,
     isLoading,
-  } = useFetchReviewListPagin({
-    id: eventId,
-    pageNumber: currentPage,
-    pageSize: 10,
-  });
-  const { data: allReviews, status: allReviewsStatus } =
-    useFetchReviewList(eventId);
+  } = useFetchReviewList(eventId);
   const { t } = useTranslation();
   useEffect(() => {
-    if (
-      status === "success" &&
-      reviewsPaging?.status !== 404 &&
-      allReviewsStatus === "success" &&
-      allReviews?.status !== 404
-    ) {
+    if (allReviewsStatus === "success" && allReviews?.status !== 404) {
       setFullReviews(allReviews.data);
     } else {
       setFullReviews([]);
     }
-  }, [status, allReviewsStatus]);
+  }, [allReviewsStatus]);
   useEffect(() => {
     if (token) {
       const checkExistFeedback = async () => {
@@ -75,23 +76,23 @@ function Review() {
       };
       checkExistFeedback();
     }
-  }, [reviewsPaging, status]);
+  }, [allReviews, allReviewsStatus]);
 
   // count stars
   useEffect(() => {
-    if (user && isNotEmpty(reviewsPaging)) {
+    if (user && isNotEmpty(allReviews)) {
       const reviewListTemp =
-        reviewsPaging.data.length > 0
-          ? reviewsPaging?.data.filter((e) => e.email !== user.email)
+        allReviews.data.length > 0
+          ? allReviews?.data.filter((e) => e.email !== user.email)
           : [];
       const feedbackInfo =
-        reviewsPaging.data.length > 0
-          ? reviewsPaging?.data.filter((e) => e.email === user.email)
+        allReviews.data.length > 0
+          ? allReviews?.data.filter((e) => e.email === user.email)
           : [];
       setReviewList(reviewListTemp);
       setUserFeedback(feedbackInfo);
     }
-  }, [user, isLoading, reviewsPaging]);
+  }, [user, isLoading, allReviews]);
   // delete review
   const handleDelete = () => {
     AlertQuestion({
