@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
 import com.hcmute.bookingevent.repository.AdminRepository;
@@ -64,7 +65,7 @@ public class PaymentService {
                 admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
-                //element.setVNDBalanceLock(result.toString());
+
 
                 return;
             }
@@ -94,7 +95,7 @@ public class PaymentService {
 
         try {
             for (Organization element : organizationList) {
-                if (element.getEventList().contains(event.getId())) {
+                if (!event.getStatus().equals(EventStatus.COMPLETED) && element.getEventList().contains(event.getId())) {
                     for (PaymentPending elementPayment : element.getPaymentPendings()) {
                         if (elementPayment.getIdEvent().equals(event.getId())) {
                             //get adminAccount
