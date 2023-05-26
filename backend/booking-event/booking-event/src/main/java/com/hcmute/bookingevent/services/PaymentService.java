@@ -95,10 +95,11 @@ public class PaymentService {
 
         try {
             for (Organization element : organizationList) {
-                if (!event.getStatus().equals(EventStatus.COMPLETED) && element.getEventList().contains(event.getId())) {
+                if (element.getEventList().contains(event.getId())) {
                     for (PaymentPending elementPayment : element.getPaymentPendings()) {
                         if (elementPayment.getIdEvent().equals(event.getId())) {
                             //get adminAccount
+                            System.out.println("event name payment: "+ event.getName());
                             Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
                             elementPayment.setStatus(EPaymentStatus.COMPLETED);
 

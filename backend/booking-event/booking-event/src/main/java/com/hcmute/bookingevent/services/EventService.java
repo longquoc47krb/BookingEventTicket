@@ -2,16 +2,16 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.Implement.IEventSlugGeneratorService;
-import com.hcmute.bookingevent.mapper.AccountMapper;
-import com.hcmute.bookingevent.models.Customer;
-import com.hcmute.bookingevent.models.account.Account;
-import com.hcmute.bookingevent.models.dto.EventPreviewDto;
-import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.config.CloudinaryConfig;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.exception.NotFoundException;
+import com.hcmute.bookingevent.mapper.AccountMapper;
 import com.hcmute.bookingevent.mapper.EventMapper;
+import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.dto.EventPreviewDto;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
 import com.hcmute.bookingevent.models.ticket.Ticket;
@@ -28,8 +28,8 @@ import com.hcmute.bookingevent.repository.OrganizationRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.bytebuddy.asm.Advice;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -39,7 +39,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -164,18 +163,26 @@ public class EventService implements IEventService {
             if (ticketRemaining == 0 && !isBeforeToday(event.getEndingDate())) {
                 event.setStatus(EventStatus.SOLD_OUT);
             } else {
-                if(event.getStatus().equals(EventStatus.DELETED)){
+                if (event.getStatus().equals(EventStatus.DELETED)) {
                     event.setStatus(EventStatus.DELETED);
-                }
-                else if (!event.getStatus().equals(EventStatus.COMPLETED) && !event.getStatus().equals(EventStatus.DELETED) && isBeforeToday(event.getEndingDate()) ) {
-                    event.setStatus(EventStatus.COMPLETED);
+                } else if (isBeforeToday(event.getEndingDate()) && event.getStatus().equals(EventStatus.AVAILABLE)) {
+                    System.out.println("status: " + event.getStatus() + " event name: " + event.getName());
+                    if (event.getStatus().equals(EventStatus.COMPLETED)) {
+
+                    } else {
+                        event.setStatus(EventStatus.COMPLETED);
+                        paymentService.setPaymentToCompleted(event);
+                        //System.out.println("status: "+ event.getStatus() + " event name: "+ event.getName());
+
+                    }
                     //set status of payment when completed
-                    paymentService.setPaymentToCompleted(event);
+                    //System.out.println("status: "+ event.getStatus() + " event name: "+ event.getName());
+
+                    //paymentService.setPaymentToCompleted(event);
                 } else if (event.getTicketRemaining() == 0) {
                     event.setStatus(EventStatus.SOLD_OUT);
-                }
-                else {
-                    event.setStatus(EventStatus.AVAILABLE);
+                } else {
+                    //event.setStatus(EventStatus.AVAILABLE);
                 }
 
             }
