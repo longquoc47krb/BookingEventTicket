@@ -1,3 +1,4 @@
+import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { hideBadWords } from "../../utils/badwords";
@@ -5,6 +6,17 @@ import { displayFeedbackTime } from "../../utils/utils";
 import FeedbackComment from "../feedback-item";
 function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
   const { t } = useTranslation();
+  const [currentPage, setCurrentPage] = useState(0);
+  // Change page
+  const onChange = (page) => {
+    setCurrentPage(page - 1);
+  };
+  // if filter change, set current page equal 0 ( page 1)
+  useEffect(() => {
+    setCurrentPage(0);
+  }, []);
+  const firstIndex = currentPage * 6;
+  const lastIndex = (currentPage + 1) * 6;
   return (
     <div className="feedback-list-container">
       {feedbacks.length > 0 ? (
@@ -24,6 +36,17 @@ function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
           {t("empty-feedbacks")}
         </p>
       )}
+      <div className="flex justify-between">
+        {!feedbacks ? null : feedbacks.length > 0 ? (
+          <Pagination
+            current={currentPage + 1}
+            onChange={onChange}
+            total={feedbacks.length}
+            pageSize={10}
+            defaultCurrent={1}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

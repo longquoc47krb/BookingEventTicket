@@ -41,7 +41,6 @@ function Review() {
   const user = useSelector(userInfoSelector);
   const [reviewList, setReviewList] = useState([]);
   const [fullReviews, setFullReviews] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
   const [userFeedback, setUserFeedback] = useState([]);
   const dispatch = useDispatch();
   const { eventId } = useParams();

@@ -110,7 +110,7 @@ const Overview = () => {
       },
       {
         icon: <BiMoney />,
-        amount: `$${nFormatter(data.usdRevenue, 2)}`,
+        amount: `$${nFormatter(data.revenueUSD, 2)}`,
         rawAmount: formatter("USD").format(data.usdRevenue),
         // variability: handleVariability(revenueStats, "revenue").variability
         //   ? `$${nFormatter(
@@ -125,7 +125,7 @@ const Overview = () => {
       },
       {
         icon: <BiMoney />,
-        amount: `${nFormatter(data.vndRevenue, 2)}`,
+        amount: `${nFormatter(data.revenueVND, 2)}`,
         rawAmount: formatter("VND").format(data.vndRevenue),
         // variability: handleVariability(revenueStats, "revenue").variability
         //   ? `$${nFormatter(

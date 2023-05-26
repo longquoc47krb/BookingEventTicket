@@ -8,6 +8,7 @@ import AppConfig from "../../../configs/AppConfig";
 import { Rating } from "@mui/material";
 import { useFetchReviewList } from "../../../api/services/reviewServices";
 import { EventStatus } from "../../../utils/constants";
+import { isNotEmpty } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, key, variants } = props;
   const { data: reviewList, isLoading } = useFetchReviewList(event?.id);
@@ -59,7 +60,8 @@ function EventHomeItem(props) {
           })}
         </span>
       </div>
-      {reviewList.data.length !== 0 &&
+      {!isLoading &&
+        isNotEmpty(reviewList?.data) &&
         event?.status === EventStatus.COMPLETED && (
           <div className="flex items-center gap-x-2">
             <span>{averageRating}/5</span>

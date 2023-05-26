@@ -17,6 +17,7 @@ import OrderTable from "../../../components/common/table/order-table";
 import Download from "../../../components/export";
 import AppConfig from "../../../configs/AppConfig";
 import { userInfoSelector } from "../../../redux/slices/accountSlice";
+import { useNavigate } from "react-router-dom";
 import { convertMongodbTimeToString } from "../../../utils/utils";
 import TicketItem from "../ticket";
 import { useMedia } from "react-use";
@@ -30,6 +31,7 @@ function PurchaseTicketItem(props) {
   const { data: organizer, status: organizerStatus } =
     useFetchOrganizerByEventId(data.idEvent);
   const isMobile = useMedia("(max-width: 767px)");
+  const navigate = useNavigate();
   const HeadingList = [
     {
       icon: <HiIdentification />,
@@ -110,7 +112,10 @@ function PurchaseTicketItem(props) {
                 <p className="text-base text-[#1f3e82] uppercase tracking-[0.5rem] mb-1">
                   {organizerStatus === "success" && organizer.name}
                 </p>
-                <p className="font-medium text-3xl text-ellipsis overflow-hidden text-[#1f3e82] mb-2">
+                <p
+                  className="font-medium text-3xl text-ellipsis overflow-hidden text-[#1f3e82] mb-2 hover:underline"
+                  onClick={() => navigate(`/event/${event.id}`)}
+                >
                   {event.name}
                 </p>
                 <p className="text-base text-[#1f3e82] text-ellipsis overflow-hidden flex items-center gap-x-3">
