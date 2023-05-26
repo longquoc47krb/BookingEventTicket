@@ -782,7 +782,7 @@
   font-size: 1.125rem;
   font-weight: 800;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

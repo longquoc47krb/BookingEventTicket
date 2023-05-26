@@ -73,16 +73,26 @@ function TicketCart() {
       setLoading(checkOrderResponse.status ? false : true);
       if (checkOrderResponse.status === 200) {
         if (currency === "USD") {
-          const response = await payOrder({ price: cartTotalPrice.toString() });
-          if (response.status === 200) {
-            window.open(response.data, "_self");
+          if (cartTotalPrice > 0) {
+            const response = await payOrder({
+              price: cartTotalPrice.toString(),
+            });
+            if (response.status === 200) {
+              window.open(response.data, "_self");
+            }
+          } else {
+            window.open(process.env.REACT_APP_PAYMENT_RESPONSE_URL, "_self");
           }
         } else {
-          const response = await payOrderVNPay({
-            price: cartTotalPrice.toString(),
-          });
-          if (response.status === 200) {
-            window.open(response.data, "_self");
+          if (cartTotalPrice > 0) {
+            const response = await payOrderVNPay({
+              price: cartTotalPrice.toString(),
+            });
+            if (response.status === 200) {
+              window.open(response.data, "_self");
+            }
+          } else {
+            window.open(process.env.REACT_APP_PAYMENT_RESPONSE_URL, "_self");
           }
         }
       }
