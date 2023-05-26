@@ -7,6 +7,7 @@ import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import AppConfig from "../../../configs/AppConfig";
 import { Rating } from "@mui/material";
 import { useFetchReviewList } from "../../../api/services/reviewServices";
+import { EventStatus } from "../../../utils/constants";
 function EventHomeItem(props) {
   const { event, key, variants } = props;
   const { data: reviewList, isLoading } = useFetchReviewList(event?.id);
@@ -18,9 +19,9 @@ function EventHomeItem(props) {
   var totalCount = 0;
   var sum = 0;
   if (!isLoading && reviewList) {
-    for (let i = 0; i < reviewList.length; i++) {
-      totalCount += reviewList[i].rate;
-      sum += reviewList[i].rate * (i + 1);
+    for (let i = 0; i < reviewList.data.length; i++) {
+      totalCount += reviewList.data[i].rate;
+      sum += reviewList.data[i].rate * (i + 1);
     }
   }
   console.log({ reviewList });
@@ -40,7 +41,7 @@ function EventHomeItem(props) {
         style={{ height: 130, width: 360 }}
         className="event-home-item-image"
       />
-      <h1 className="w-full mb- event-home-item-name">{event.name}</h1>
+      <h1 className="w-full mb-2 event-home-item-name">{event.name}</h1>
       <div class="flex justify-start gap-x-8 items-end">
         <div>
           <span className="font-medium text-sm">{event.startingDate}</span>
@@ -58,13 +59,19 @@ function EventHomeItem(props) {
           })}
         </span>
       </div>
-      <Rating
-        name="size-small"
-        value={averageRating}
-        precision={0.5}
-        readOnly
-        size="small"
-      />
+      {reviewList.data.length !== 0 &&
+        event?.status === EventStatus.COMPLETED && (
+          <div className="flex items-center gap-x-2">
+            <span>{averageRating}/5</span>
+            <Rating
+              name="size-small"
+              value={averageRating}
+              precision={0.5}
+              readOnly
+              size="small"
+            />
+          </div>
+        )}
       <div>
         <strong className="text-xl">{event.price}</strong>
       </div>
