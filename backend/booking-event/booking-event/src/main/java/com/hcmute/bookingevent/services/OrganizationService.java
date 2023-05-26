@@ -188,7 +188,6 @@ public class OrganizationService implements IOrganizationService {
             }
 
             Account account = new Account(organizationSubmitReq.getName(), organizationSubmitReq.getEmail(), organizationSubmitReq.getPhoneNumber(), "", Constants.AVATAR_DEFAULT, Constants.ROLE_ORGANIZATION);
-            //accountRepository.save(account);
             // gửi mail
             mailService.sendMail(account, "","", EMailType.BECOME_ORGANIZATION);
 

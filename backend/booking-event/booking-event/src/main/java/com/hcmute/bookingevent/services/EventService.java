@@ -99,7 +99,6 @@ public class EventService implements IEventService {
             List<Account> accountList = customerListForSending.stream().map(accountMapper::toAccount).collect(Collectors.toList());
             //get account information of organizer
             Optional<Account> account = accountRepository.findByEmail(email);
-            event.getId();
             Map<String, String> map = new HashMap<>();
             map.put("id",event.getId());
             map.put("eventName",event.getName());
