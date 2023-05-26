@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.models.organization.EOrganization;
 import com.hcmute.bookingevent.repository.*;
 import com.hcmute.bookingevent.services.PaymentService;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.hcmute.bookingevent.utils.DateUtils.isBeforeToday;
+import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 
 @SpringBootTest
 @RequiredArgsConstructor
@@ -122,8 +124,8 @@ class BookingEventApplicationTests {
 
 		//admin1.get().setUSDBalance("0");
 		//admin1.get().setVNDBalance("0");
-		admin1.get().setUSDPendingProfit("0");
-		admin1.get().setVNDPendingProfit("0");
+		//admin1.get().setUSDPendingProfit("0");
+		//admin1.get().setVNDPendingProfit("0");
 		admin1.get().setUSDBalance("0");
 		admin1.get().setVNDBalance("0");
 		adminRepository.save(admin1.get());
@@ -157,8 +159,8 @@ class BookingEventApplicationTests {
 							BigDecimal totalPaymentOfOrganizerUSD = new BigDecimal(element.getUSDBalance());
 							BigDecimal usdBlock = new BigDecimal(elementPayment.getUSDBalanceLock());
 							BigDecimal addMoneyForAdmin = usdBlock.multiply(num5).divide(num100);
-							BigDecimal totalPendingUSD = new BigDecimal(admin.get().getUSDPendingProfit());
-							admin.get().setVNDPendingProfit(totalPendingUSD.subtract(usdBlock).toString());
+							//BigDecimal totalPendingUSD = new BigDecimal(admin.get().getUSDPendingProfit());
+							//admin.get().setVNDPendingProfit(totalPendingUSD.subtract(usdBlock).toString());
 							//add vào tài khoản admin
 							admin.get().setVNDBalance(addMoneyForAdmin.toString());
 							adminRepository.save(admin.get());
@@ -173,8 +175,8 @@ class BookingEventApplicationTests {
 							//lấy số khóa chia cho 5
 							BigDecimal addMoneyForAdmin = vndBlock.multiply(num5).divide(num100);
 							//trừ tiền pending profit của admin
-							BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit());
-							admin.get().setVNDPendingProfit(totalPendingVND.subtract(vndBlock).toString());
+							//BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit());
+							//admin.get().setVNDPendingProfit(totalPendingVND.subtract(vndBlock).toString());
 							//add vào tài khoản admin
 							admin.get().setVNDBalance(addMoneyForAdmin.toString());
 							adminRepository.save(admin.get());
@@ -233,13 +235,16 @@ class BookingEventApplicationTests {
 	@Test
 	void testBeforeDate()
 	{
-		if (isBeforeToday("25/05/2023"))
-		{
-			System.out.println("True");
+		List<Event> events = sortEventByDateAsc(eventRepository.findAll());
 
+		for(Event event : events) {
+			if (isBeforeToday(event.getEndingDate()))
+			{
+				event.setStatus(EventStatus.COMPLETED);
+			}
 		}
-		else
-			System.out.println("false");
+		eventRepository.saveAll(events);
+
 //		List<Payment> elementPayment =
 //		elementPayment.setStatus(EPaymentStatus.COMPLETED);
 	}
