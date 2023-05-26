@@ -4,6 +4,7 @@ import com.hcmute.bookingevent.exception.NotFoundException;
 import com.hcmute.bookingevent.models.admin.Admin;
 import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.event.Event;
+import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
 import com.hcmute.bookingevent.repository.AdminRepository;
@@ -59,13 +60,11 @@ public class PaymentService {
                 BigDecimal vndBlock = new BigDecimal(element.getVNDBalanceLock());
                 //no rounded
                 BigDecimal result = vndBlock.add(valueVND);
-                BigDecimal adminVND = new BigDecimal(admin.get().getVNDPendingProfit());
+                BigDecimal adminVND = new BigDecimal(admin.get().getVNDBalanceLock());
                 //add
-                admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
+                admin.get().setVNDBalanceLock(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
-                element.setVNDBalanceLock(result.toString());
-
                 return;
             }
         }
@@ -76,14 +75,16 @@ public class PaymentService {
         Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
         for (PaymentPending element : organization.getPaymentPendings()) {
             if (element.getIdEvent().equals(idEvent)) {
+                //get USDBlock previous
                 BigDecimal usdBlock = new BigDecimal(element.getUSDBalanceLock());
-                BigDecimal result = usdBlock.add(valueUSD).setScale(2, RoundingMode.DOWN);
                 //
-                BigDecimal adminUSD = new BigDecimal(admin.get().getUSDPendingProfit());
-                admin.get().setUSDPendingProfit(adminUSD.add(valueUSD).toString() );
-                element.setVNDBalanceLock(result.toString());
+                BigDecimal result = usdBlock.add(valueUSD).setScale(2, RoundingMode.DOWN);
+                BigDecimal adminUSD = new BigDecimal(admin.get().getUSDBalanceLock());
+                //
+                admin.get().setUSDBalanceLock(adminUSD.add(valueUSD).toString() );
+                //add
+                element.setUSDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
-                element.setVNDBalanceLock(result.toString());
                 return;
             }
         }
@@ -94,7 +95,7 @@ public class PaymentService {
 
         try {
             for (Organization element : organizationList) {
-                if (element.getEventList().contains(event.getId())) {
+                if (!event.getStatus().equals(EventStatus.COMPLETED) && element.getEventList().contains(event.getId())) {
                     for (PaymentPending elementPayment : element.getPaymentPendings()) {
                         if (elementPayment.getIdEvent().equals(event.getId())) {
                             //get adminAccount
@@ -108,14 +109,20 @@ public class PaymentService {
                             if (event.getOrganizationTickets().get(0).getCurrency().equals("USD")) {
                                 BigDecimal totalPaymentOfOrganizerUSD = new BigDecimal(element.getUSDBalance());
                                 BigDecimal usdBlock = new BigDecimal(elementPayment.getUSDBalanceLock());
-                                //
+                                //tiền đã chia
                                 BigDecimal addMoneyForAdmin = usdBlock.multiply(five).divide(hundred);
                                 BigDecimal realMoneyForOrganizer = usdBlock.subtract(addMoneyForAdmin);
-                                admin.get().setUSDBalance(addMoneyForAdmin.toString());
+                                //
+                                //BigDecimal adminBalance = new BigDecimal(element.getUSDBalance());
+                                //admin.get().setUSDBalance(adminBalance.add(addMoneyForAdmin).toString());
+                                admin.get().setUSDBalance(new BigDecimal(element.getUSDBalance())
+                                        .add(addMoneyForAdmin)
+                                        .toString());
+                                //
                                 BigDecimal result = totalPaymentOfOrganizerUSD.add(realMoneyForOrganizer).setScale(2, RoundingMode.DOWN);
                                 //
-                                BigDecimal adminmoney = new BigDecimal(admin.get().getUSDPendingProfit());
-                                admin.get().setUSDPendingProfit(adminmoney.subtract(usdBlock).toString());
+                                BigDecimal adminpending = new BigDecimal(admin.get().getUSDBalanceLock());
+                                admin.get().setUSDBalanceLock(adminpending.subtract(usdBlock).toString());
                                 adminRepository.save(admin.get());
                                 element.setUSDBalance(result.toString());
 
@@ -128,11 +135,14 @@ public class PaymentService {
                                 //lấy số khóa chia cho 5 và divide 100
                                 BigDecimal addMoneyForAdmin = vndBlock.multiply(five).divide(hundred);
                                 BigDecimal realMoneyForOrganizer = vndBlock.subtract(addMoneyForAdmin);
-                                admin.get().setVNDBalance(addMoneyForAdmin.toString());
+                                //
+                                BigDecimal adminBalance = new BigDecimal(element.getVNDBalance());
+                                admin.get().setVNDBalance(adminBalance.add(addMoneyForAdmin).toString());
+                                //
                                 BigDecimal result = totalPaymentOfOrganizerVND.add(realMoneyForOrganizer).setScale(2, RoundingMode.DOWN);
                                 //
-                                BigDecimal adminmoney = new BigDecimal(admin.get().getUSDPendingProfit());
-                                admin.get().setVNDPendingProfit(adminmoney.subtract(vndBlock).toString());
+                                BigDecimal adminmoney = new BigDecimal(admin.get().getVNDBalanceLock());
+                                admin.get().setVNDBalanceLock(adminmoney.subtract(vndBlock).toString());
                                 adminRepository.save(admin.get());
                                 element.setVNDBalance(result.toString());
 

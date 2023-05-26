@@ -167,7 +167,7 @@ public class EventService implements IEventService {
                 if(event.getStatus().equals(EventStatus.DELETED)){
                     event.setStatus(EventStatus.DELETED);
                 }
-                else if (isBeforeToday(event.getEndingDate())) {
+                else if (!event.getStatus().equals(EventStatus.COMPLETED) && !event.getStatus().equals(EventStatus.DELETED) && isBeforeToday(event.getEndingDate()) ) {
                     event.setStatus(EventStatus.COMPLETED);
                     //set status of payment when completed
                     paymentService.setPaymentToCompleted(event);
