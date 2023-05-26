@@ -79,6 +79,7 @@
         "community": "Cộng đồng"
     },
     "popup": {
+        "export-excel": "Không có dữ liệu",
         "email": {
             "title": "Đã gửi email",
             "content": "OTP đã được gửi đến email của bạn. Kiểm tra lại hộp thư (xem xét mục spam)!"
