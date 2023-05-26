@@ -203,7 +203,7 @@ function OrganizerProfile() {
         );
       default:
         return (
-          isArray(events) &&
+          isNotEmpty(events) &&
           events?.map((event, index) => (
             <EventHomeItem event={event} key={index} />
           ))
