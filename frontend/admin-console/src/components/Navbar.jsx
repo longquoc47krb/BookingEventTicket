@@ -115,12 +115,12 @@ const Navbar = () => {
           >
             {role === ROLE.Admin ? null : (
               <img
-                className="rounded-full w-8 h-8 object-cover"
+                className="rounded-sm w-8 h-8 object-cover"
                 src={user.avatar}
                 alt="user-profile"
               />
             )}
-            <p className="flex items-center gap-x-1">
+            <p className="flex items-center gap-x-1 mb-0">
               <span className="text-gray-400 text-14">Hi,</span>{" "}
               <span className="text-primary font-bold ml-1 text-14">
                 {user.name}

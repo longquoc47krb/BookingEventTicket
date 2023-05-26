@@ -37,7 +37,7 @@
         "date": "Thời gian",
         "status": {
             "title": "Trạng thái",
-            "available": "Có sẵn",
+            "available": "Chưa diễn ra",
             "completed": "Đã kết thúc",
             "soldout": "Hết vé"
         },
@@ -354,5 +354,6 @@
         "others": "Tỉnh thành khác"
     },
     "one-day": "Sự kiện diễn ra trong 1 ngày",
-    "sold-ticket": "Đã bán: {{val, number}}"
+    "sold-ticket": "Đã bán: {{val, number}}",
+    "eventsByCategory": "Thống kê sự kiện theo từng thể loại"
 }

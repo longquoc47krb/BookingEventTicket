@@ -19,6 +19,7 @@ import ExportExcelButton from "../components/common/excel-button";
 const Events = () => {
   const user = useSelector(userInfoSelector);
   const { data: events, status } = useFetchEventsByOrgID(user.id);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const eventData = events?.map((item) => ({
@@ -169,7 +170,7 @@ const Events = () => {
   const nameColumn = eventColumns.find((e) => e.dataIndex === "name");
   Object.assign(nameColumn, getColumnSearchProps("name"));
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 card">
       <Header category={t("sider.management")} title={t("sider.event")} />
       <div className="flex w-full justify-end gap-x-4">
         <button

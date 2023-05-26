@@ -140,7 +140,7 @@ const Payments = () => {
   // const nameColumn = paymentColumns.find((e) => e.dataIndex === "name");
   // Object.assign(nameColumn, getColumnSearchProps("name"));
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 card">
       <Header category={t("sider.management")} title={t("sider.payment")} />
       {status === "loading" ? (
         <div className="w-full h-full flex items-center justify-center">

@@ -297,8 +297,8 @@
         "success": "Upload avatar successfully",
         "error": "Upload avatar failed"
     },
-    "usdRevenue": "USD Revenue",
-    "vndRevenue": "VND Revenue",
+    "usdRevenue": "Revenue in USD",
+    "vndRevenue": "Revenue in VND",
     "ticketSold": "Tickets sold",
     "payment": {
         "vndbalanceLock": "VND Balance Lock",
@@ -352,5 +352,6 @@
         "others": "Other provinces"
     },
     "one-day": "Event held on a Single day",
-    "sold-ticket": "Sold: {{val, number}}"
+    "sold-ticket": "Sold: {{val, number}}",
+    "eventsByCategory": "Statistic Events by Category"
 }

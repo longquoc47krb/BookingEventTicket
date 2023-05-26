@@ -735,4 +735,64 @@ body {
   opacity: 0.5; /* Giảm độ trong suốt của phần tử con khi nút được bấm */
 }
 
+.btn-grad {
+  background-image: linear-gradient(to right, #1a2980 0%, #002249 51%, #1a2980 100%);
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.neumorphism {
+  border-radius: 10px;
+  background: #ededed;
+  box-shadow: 5px 5px 20px #c9c9c9, -5px -5px 20px #414141;
+}
+
+.card {
+  --bg: #ffffff;
+  --contrast: #e2e0e0;
+  --grey: #c9cfcf;
+  position: relative;
+  padding: 1rem;
+  background-color: var(--bg);
+  border-radius: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(var(--bg) 0.0000001%, var(--grey) 0.000104%) 60% 60%/600% 600%;
+  filter: opacity(10%) contrast(105%);
+}
+
+.card-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 190px;
+  height: 254px;
+  background-color: var(--contrast);
+  border-radius: 30px;
+  /* Content style */
+  font-size: 30px;
+  font-weight: 900;
+  color: #c7c4c4;
+  text-align: center;
+  font-family: monospace;
+}
+
 /*# sourceMappingURL=output.css.map */

@@ -15,7 +15,7 @@ import { Greeting, formatter, nFormatter } from "../utils/utils";
 import { ROLE } from "../utils/constants";
 import PieChart from "../components/charts/PieChart";
 import { useFetchEvents } from "../api/services/eventServices";
-
+import EventsByCategoryChart from "../components/charts/EventsByCategoryChart";
 function AdminDashboard() {
   const user = useSelector(userInfoSelector);
   const { t } = useTranslation();
@@ -120,17 +120,17 @@ function AdminDashboard() {
     ];
   }
   return (
-    <div className="mt-8">
+    <div className="m-8">
       <h1 className="px-8 mb-4">
         <p className="text-2xl text-gray-500 mb-2">{t(greeting)}</p>
         <p className="text-3xl text-[#1F3E82] font-bold">{user.name}</p>
       </h1>
-      <div className="flex flex-wrap items-center gap-x-4 px-8">
+      <div className="grid grid-cols-4 items-center justify-between gap-x-4 px-4">
         {AdminStatus === "success" &&
-          earningData.map((item) => (
+          earningData.map((item, index) => (
             <div
-              key={item.title}
-              className="bg-white w-[13vw] dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 rounded-2xl flex gap-x-4"
+              key={index}
+              className="card w-full dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 flex gap-x-4"
             >
               <p className="mt-3">
                 <div className="flex items-end gap-x-4">
@@ -163,13 +163,16 @@ function AdminDashboard() {
             </div>
           ))}
       </div>
-      <div className="m-8 flex gap-x-4">
+      <div className="m-4 grid grid-cols-2 gap-x-4">
         {accountStatus === "success" && (
           <PieChart data={accountData} title={t("title.account")} />
         )}
         {eventStatus === "success" && (
           <PieChart data={eventData} title={t("title.event")} />
         )}
+      </div>
+      <div className="p-4 card mx-4">
+        <EventsByCategoryChart events={events} />
       </div>
     </div>
   );
