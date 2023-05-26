@@ -63,7 +63,10 @@
     "faq": "FAQs",
     "become-an-org": "Be an Event Organizer",
     "follow": "Follow",
-    "followed": "Followed"
+    "followed": "Followed",
+    "all-events": "All Events",
+    "completed-events": "Completed Events",
+    "featured-events": "Feature Events"
   },
   "home": "Home",
   "signin": "Sign in",

@@ -21,6 +21,7 @@ public interface IEventService {
     ResponseEntity<?> findEventListById(String id);
     ResponseEntity<?> eventPagination(Pageable pageable);
     ResponseEntity<?> checkEventStatus();
+    void handleEventStatus();
     ResponseEntity<?> updateEvent(String id,EventReq eventReq);
     ResponseEntity<?> findAllbyPage(Pageable pageable);
 

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/common/header";
 import HelmetHeader from "../../components/helmet";
+import { Pagination } from "antd";
 import { motion } from "framer-motion";
 import organizationServices, {
+  useFindOrganizerById,
   useFindOrganizerEventList,
 } from "../../api/services/organizationServices";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +13,12 @@ import {
   organizerInfoSelector,
   updateOrganizerInfo,
 } from "../../redux/slices/eventSlice";
-import { htmlToPlainText, isArray, isEmpty } from "../../utils/utils";
+import {
+  htmlToPlainText,
+  isArray,
+  isEmpty,
+  isNotEmpty,
+} from "../../utils/utils";
 import customerServices, {
   useCheckFollowedOrg,
 } from "../../api/services/customerServices";
@@ -22,30 +29,46 @@ import { useTranslation } from "react-i18next";
 import FollowButton from "../../components/follow-button";
 import EventHomeSkeletonItem from "../../components/event-home-skeleton";
 import EventHomeItem from "../../components/common/event-home-item";
-const { findOrganizerById, findOrganizerEventList } = organizationServices;
+import TabSection from "./tab-section";
+import constants from "../../utils/constants";
+import FooterComponent from "../../components/FooterComponent";
+const { findOrganizerById } = organizationServices;
+const { EventStatus } = constants;
 const { unfollowOrg, followOrg, findAllCustomer } = customerServices;
 function OrganizerProfile() {
   const { organizerId } = useParams();
   const dispatch = useDispatch();
-  const organizer = useSelector(organizerInfoSelector);
+  const { data: organizer, isLoading: organizerLoading } =
+    useFindOrganizerById(organizerId);
+  const [activeTab, setActiveTab] = useState("all-events");
   const user = useSelector(userInfoSelector);
+  const [toggleDrawer, setToggleDrawer] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [showFollowed, setShowFollowed] = useState(false);
   const [numberFollowers, setNumberFollowers] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const { data: events, isLoading: eventLoading } = useFindOrganizerEventList(
-    organizer.email
+    organizer?.email
   );
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [activeTab]);
+  const firstIndex = currentPage * 12;
+  const lastIndex = (currentPage + 1) * 12;
+  // changePage
+  const onChangePage = (page) => {
+    setCurrentPage(page - 1);
+  };
   useEffect(() => {
     async function fetchOrganizerFollower() {
       const customerList = await findAllCustomer();
       const itemsWithFollowEmail =
         isArray(customerList) &&
         filter(customerList, (item) =>
-          includes(item.followList, organizer.email)
+          includes(item.followList, organizer?.email)
         );
       setNumberFollowers(itemsWithFollowEmail.length);
-      console.log({ itemsWithFollowEmail });
     }
     async function fetchOrganizerInfo() {
       const organizer = await findOrganizerById(organizerId);
@@ -78,7 +101,7 @@ function OrganizerProfile() {
     }
   };
   const handleFollowClick = () => {
-    const email = organizer.email;
+    const email = organizer?.email;
     async function handleFollowOrganizer() {
       if (isEmpty(user)) {
         handleCheckAuthenticated();
@@ -87,7 +110,7 @@ function OrganizerProfile() {
           await unfollowOrg(user.id, email);
           setShowFollowed(false);
         }
-        // Otherwise, follow the organizer.
+        // Otherwise, follow the organizer?.
         else {
           await followOrg(user.id, email);
           setShowFollowed(true);
@@ -108,7 +131,85 @@ function OrganizerProfile() {
       },
     },
   };
-
+  const completedEvents = isNotEmpty(events)
+    ? events?.filter((event) => event.status === EventStatus.COMPLETED)
+    : [];
+  const featuredEvents = isNotEmpty(events)
+    ? events?.filter((event) => event.status === EventStatus.AVAILABLE)
+    : [];
+  function EventListSection(activeTab) {
+    switch (activeTab) {
+      case "all-events":
+        return (
+          isArray(events) &&
+          events
+            ?.slice(firstIndex, lastIndex)
+            .map((event, index) => <EventHomeItem event={event} key={index} />)
+        );
+      case "completed-events":
+        return completedEvents
+          ?.slice(firstIndex, lastIndex)
+          .map((event, index) => <EventHomeItem event={event} key={index} />);
+      case "featured-events":
+        return featuredEvents
+          ?.slice(firstIndex, lastIndex)
+          .map((event, index) => <EventHomeItem event={event} key={index} />);
+      default:
+        return (
+          isArray(events) &&
+          events?.map((event, index) => (
+            <EventHomeItem event={event} key={index} />
+          ))
+        );
+    }
+  }
+  function EventPagination(activeTab) {
+    switch (activeTab) {
+      case "all-events":
+        return (
+          isNotEmpty(events) && (
+            <Pagination
+              current={currentPage + 1}
+              onChange={onChangePage}
+              total={events.length}
+              pageSize={12}
+              defaultCurrent={1}
+            />
+          )
+        );
+      case "completed-events":
+        return (
+          isNotEmpty(completedEvents) && (
+            <Pagination
+              current={currentPage + 1}
+              onChange={onChangePage}
+              total={completedEvents.length}
+              pageSize={12}
+              defaultCurrent={1}
+            />
+          )
+        );
+      case "featured-events":
+        return (
+          isNotEmpty(featuredEvents) && (
+            <Pagination
+              current={currentPage + 1}
+              onChange={onChangePage}
+              total={featuredEvents.length}
+              pageSize={12}
+              defaultCurrent={1}
+            />
+          )
+        );
+      default:
+        return (
+          isArray(events) &&
+          events?.map((event, index) => (
+            <EventHomeItem event={event} key={index} />
+          ))
+        );
+    }
+  }
   return (
     <>
       <HelmetHeader title={"Organizer Profile"} />
@@ -123,7 +224,7 @@ function OrganizerProfile() {
         />
         <div className="absolute top-[45vh] z-[999] w-full flex justify-center ">
           <img
-            src={organizer.avatar}
+            src={organizer?.avatar}
             className="object-cover rounded-full border-gray-400 border-4 border-solid shadow-lg shadow-black"
             style={{ width: "200px", height: "200px" }}
             alt="avatar"
@@ -131,8 +232,10 @@ function OrganizerProfile() {
         </div>
         <div className="mt-32 flex justify-center flex-col items-center relative">
           <div className="relative">
-            <h1 className="font-bold text-3xl">{organizer.name} </h1>
-            <div className="absolute top-[0] right-[-8vw]">
+            <h1 className="font-bold text-3xl flex items-center gap-x-4 mb-2">
+              <span className="golden-badge">{organizer?.name}</span>
+            </h1>
+            <div className="flex justify-center">
               <FollowButton
                 handleFollowClick={handleFollowClick}
                 showFollowed={showFollowed}
@@ -140,7 +243,7 @@ function OrganizerProfile() {
             </div>
           </div>
           <p className="w-[50vw] text-center mt-2">
-            {htmlToPlainText(organizer.biography)}
+            {htmlToPlainText(organizer?.biography)}
           </p>
         </div>
         <div className="flex justify-center items-center gap-x-4 my-4">
@@ -154,6 +257,8 @@ function OrganizerProfile() {
           </div>
         </div>
       </div>
+      <hr className="mt-4 mx-8" />
+      <TabSection activeTab={activeTab} setActiveTab={setActiveTab} />
       <motion.div
         className="home-popular-content"
         style={{ padding: "0 4rem", justifyContent: "center" }}
@@ -163,11 +268,13 @@ function OrganizerProfile() {
       >
         {eventLoading
           ? [...Array(16)].map((i) => <EventHomeSkeletonItem />)
-          : isArray(events) &&
-            events?.map((event, index) => (
-              <EventHomeItem event={event} key={index} />
-            ))}
+          : EventListSection(activeTab)}
       </motion.div>
+      <div className="event-pagination my-4">{EventPagination(activeTab)}</div>
+      <FooterComponent
+        toggleDrawer={toggleDrawer}
+        setToggleDrawer={setToggleDrawer}
+      />
     </>
   );
 }
