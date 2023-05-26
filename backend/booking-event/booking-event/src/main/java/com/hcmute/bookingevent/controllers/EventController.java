@@ -36,13 +36,12 @@ public class EventController {
 
     @GetMapping("/event/upcoming")
     public  ResponseEntity<?> findUpcomingEvents() {
-        checkEventStatus();
+
         return iEventService.upcomingEvents();
     }
     //get all events
     @GetMapping("/event/findAll")
     public ResponseEntity<?> findAllEvents() {
-        checkEventStatus();
         return iEventService.findAllEvents();
     }
 
@@ -50,7 +49,7 @@ public class EventController {
     public ResponseEntity<?> createEvent(@RequestBody EventReq eventReq, @PathVariable String userId, HttpServletRequest request) {
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        checkEventStatus();
+
         if(account.getId().equals(userId)) {
             return iEventService.createEvent(eventReq, account.getEmail());
         }
@@ -60,7 +59,7 @@ public class EventController {
     public ResponseEntity<?> deleteEvent(@PathVariable String id,@PathVariable String userId, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         // Call the checkEventStatus API after handling the other API
-        checkEventStatus();
+
         if(account.getId().equals(userId)) {
             return iEventService.deleteEvent(id,account.getEmail());
         }
@@ -70,12 +69,11 @@ public class EventController {
     @GetMapping(path = "/event/findAllByPage")
     public ResponseEntity<?> findAllEventByPage (@RequestParam(value = "currentPage", defaultValue = "0") int currentPage,@RequestParam(value="pageSize", defaultValue = "6") int pageSize   ){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
-        checkEventStatus();
         return iEventService.findAllbyPage(pageable);
     }
     @GetMapping("/event/findEventsByProvince")
     public ResponseEntity<?> findEventsByProvince(@RequestParam(value="province", required = false) String province){
-        checkEventStatus();
+
         return iEventService.findEventsByProvince(province);
     }
     @GetMapping("/event/findEventAfterToday")
@@ -83,7 +81,7 @@ public class EventController {
                                                  @RequestParam(value = "size", required = false) Integer size){
         if(page != null && size != null){
             Pageable pageable = PageRequest.of(page, size);
-            checkEventStatus();
+
             return iEventService.findEventAfterToday(pageable);
         }
         return iEventService.findEventAfterToday();
@@ -91,13 +89,13 @@ public class EventController {
     }
     @GetMapping("/event/findBestSellerEvent")
     public ResponseEntity<?> findBestSellerEvent(){
-        checkEventStatus();
+
         return iEventService.findBestSellerEvent();
 
     }
     @GetMapping("/event/checkEventStatus")
     public ResponseEntity<?> checkEventStatus(){
-        System.out.println("caught checkEventStatus api");
+        System.out.println("Checked event status");
         return iEventService.checkEventStatus();
 
     }
@@ -118,7 +116,7 @@ public class EventController {
                                                     @RequestParam(required = false) String date,
                                                     @RequestParam(value = "page", required = false) Integer page){
         // If no special date option is provided, filter by the exact date
-        checkEventStatus();
+
             return iEventService.findByProvinceAndCategoryIdAndStatusAndDate(province, categoryId, status, date, page);
 
     }
@@ -133,7 +131,7 @@ public class EventController {
     public ResponseEntity<?> updateEvent(@PathVariable String id, @PathVariable String userId,@RequestBody EventReq eventReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         // Call the checkEventStatus API after handling the other API
-        checkEventStatus();
+
         if(account.getId().equals(userId)) {
             return iEventService.updateEvent(id, eventReq);
         }
@@ -148,7 +146,7 @@ public class EventController {
 
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         // Call the checkEventStatus API after handling the other API
-        checkEventStatus();
+
         if(account.getId().equals(userId)) {
             return iEventService.updateEventBackground(id, file);
         }
