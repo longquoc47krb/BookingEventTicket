@@ -23,13 +23,11 @@ function Footer() {
                 alt="Lotus Ticket Logo"
                 onClick={() => navigate("/")}
               />
-              <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">
                 Lotus Ticket
               </span>
             </a>
-            <h1 class="self-center mt-2 dark:text-white">
-              {t("lotus.slogan")}
-            </h1>
+            <h1 class="self-center mt-2 text-white">{t("lotus.slogan")}</h1>
             {/* <img src={Lincense} className="w-40 my-4 h-auto " alt="lincense" /> */}
           </div>
           <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
@@ -60,10 +58,10 @@ function Footer() {
             </div>
           </div>
           <div>
-            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 class="mb-6 text-sm font-semibold uppercase text-white">
               {t("org.menu")}
             </h2>
-            <ul class="text-gray-600 dark:text-gray-400">
+            <ul class="text-gray-200 dark:text-gray-400">
               {MENU_ORG.map((item, index) => (
                 <li class="mb-4">
                   <a href={item.link} class="hover:underline" target={"_blank"}>
@@ -74,10 +72,10 @@ function Footer() {
             </ul>
           </div>
           <div>
-            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 class="mb-6 text-sm font-semibold uppercase text-white">
               {t("lotus.follow-us")}
             </h2>
-            <ul class="text-gray-600 dark:text-gray-400 flex gap-x-2">
+            <ul class="text-gray-600 text-gray-400 flex gap-x-2">
               {SOCIAL_MENU.map((item, index) => (
                 <a href={item.link}>{item.icon}</a>
               ))}

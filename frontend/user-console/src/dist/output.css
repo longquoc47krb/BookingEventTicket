@@ -1973,6 +1973,49 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#f09433", endColorstr="#bc1888",GradientType=1 );
 }
 
+.tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 0 4px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 2rem;
+}
+
+.tab {
+  text-align: center;
+}
+
+.tablinks {
+  background-color: #f2f2f2;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.tablinks.active {
+  background-color: #132f6b;
+  color: white;
+  font-weight: bold;
+  border-bottom: 2px solid #132f6b;
+}
+
+.golden-badge {
+  background: radial-gradient(ellipse farthest-corner at right bottom, #fedb37 0%, #fdb931 8%, #9f7928 30%, #8a6e2f 40%, transparent 80%), radial-gradient(ellipse farthest-corner at left top, #ffffff 0%, #ffffac 8%, #d1b464 25%, #5d4a1f 62.5%, #5d4a1f 100%) !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.icon-with-gradient {
+  background: linear-gradient(to bottom, #ff0000, #00ff00);
+  -webkit-background-clip: text; /* Ensures the gradient is only applied to the text */
+  -webkit-text-fill-color: transparent; /* Makes the text transparent, showing only the gradient */
+}
+
 .readmore {
   position: relative;
   max-height: 20rem;

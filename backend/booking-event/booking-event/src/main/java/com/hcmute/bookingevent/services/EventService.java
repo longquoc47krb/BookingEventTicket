@@ -185,6 +185,57 @@ public class EventService implements IEventService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Handling data successfully", "",200));
     }
+
+    @Override
+    public void handleEventStatus() {
+        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
+        for(Event event : events) {
+            List<Ticket> tickets = event.getOrganizationTickets();
+            int ticketRemaining = 0;
+            int ticketTotal = 0;
+            for (Ticket ticket : tickets) {
+                int quantityRemaining = ticket.getQuantityRemaining();
+                if (quantityRemaining == 0) {
+                    ticket.setStatus(TicketStatus.SOLD_OUT);
+                } else {
+                    float soldTicket = ticket.getQuantity() - ticket.getQuantityRemaining();
+                    float totallyTicket = ticket.getQuantity();
+                    if (soldTicket / totallyTicket > 0.7) {
+                        ticket.setStatus(TicketStatus.BEST_SELLER);
+                    } else {
+                        ticket.setStatus(TicketStatus.AVAILABLE);
+                    }
+
+                }
+                ticketRemaining += ticket.getQuantityRemaining();
+                ticketTotal += ticket.getQuantity();
+            }
+            event.setTicketRemaining(ticketRemaining);
+            event.setTicketTotal(ticketTotal);
+            if (ticketRemaining == 0 && !isBeforeToday(event.getEndingDate())) {
+                event.setStatus(EventStatus.SOLD_OUT);
+            } else {
+                if(event.getStatus().equals(EventStatus.DELETED)){
+                    event.setStatus(EventStatus.DELETED);
+                }
+                else if (isBeforeToday(event.getEndingDate())) {
+                    event.setStatus(EventStatus.COMPLETED);
+                    //set status of payment when completed
+                    paymentService.setPaymentToCompleted(event);
+                } else if (event.getTicketRemaining() == 0) {
+                    event.setStatus(EventStatus.SOLD_OUT);
+                }
+                else {
+                    event.setStatus(EventStatus.AVAILABLE);
+                }
+
+            }
+            event.setOrganizationTickets(tickets);
+            eventRepository.save(event);
+            System.out.println("Handling event status successfully");
+        }
+    }
+
     @Override
     public ResponseEntity<?> findAllEvents() {
         // Sorting events by starting date
@@ -197,6 +248,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventAfterToday(Pageable pageable) {
+
         List<Event> eventList = getEventAfterTodayList();
         // get all highlight events
         getEventAfterTodayList();
@@ -222,6 +274,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventAfterToday() {
+
         // get all highlight events
         List<Event> eventList = getEventAfterTodayList();
         List<EventViewResponse> eventRes = eventList.stream().map(eventMapper::toEventRes ).collect(Collectors.toList());
@@ -231,6 +284,7 @@ public class EventService implements IEventService {
     }
 
     private List<Event> getEventAfterTodayList() {
+
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
@@ -243,6 +297,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findBestSellerEvent() {
+
         List<Event> events = sortEventByDateAsc(eventRepository.findAll());
         List<Event> eventList = new ArrayList<>();
         for(Event event : events){
@@ -257,6 +312,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventsByProvince(String province) {
+
         List<Event> eventList = sortEventByDateAsc(eventRepository.findAllByProvince(province));
         List<EventViewResponse> eventRes = eventList.stream().filter(event ->  !event.getStatus().equals(EventStatus.DELETED)).map(eventMapper::toEventRes ).collect(Collectors.toList());
 
@@ -294,6 +350,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> updateEvent(String id, EventReq eventReq) {
+
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             event.get().setName(eventReq.getName());
@@ -355,6 +412,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> upcomingEvents() {
+
         LocalDate currentDate = LocalDate.now();
         LocalDate nextOneWeek = currentDate.plusDays(7);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -393,6 +451,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventById(String id) {
+
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -404,6 +463,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findEventListById(String id) {
+
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -416,6 +476,7 @@ public class EventService implements IEventService {
 
     @Override
     public ResponseEntity<?> findByProvinceAndCategoryIdAndStatusAndDate(String province, String categoryId, String status, String date, Integer pageNumber) {
+
         Query query = new Query();
         Criteria criteria = new Criteria();
         LocalDate now = LocalDate.now();

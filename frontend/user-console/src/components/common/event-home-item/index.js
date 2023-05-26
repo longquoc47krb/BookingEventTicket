@@ -1,18 +1,30 @@
 /* eslint-disable jsx-a11y/alt-text */
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
 import AppConfig from "../../../configs/AppConfig";
+import { Rating } from "@mui/material";
+import { useFetchReviewList } from "../../../api/services/reviewServices";
 function EventHomeItem(props) {
   const { event, key, variants } = props;
-
+  const { data: reviewList, isLoading } = useFetchReviewList(event?.id);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
+  var totalCount = 0;
+  var sum = 0;
+  if (!isLoading && reviewList) {
+    for (let i = 0; i < reviewList.length; i++) {
+      totalCount += reviewList[i].rate;
+      sum += reviewList[i].rate * (i + 1);
+    }
+  }
+  console.log({ reviewList });
+  const averageRating = totalCount !== 0 ? (sum / totalCount).toFixed(1) : 0;
   return (
     <div
       key={key}
@@ -46,7 +58,13 @@ function EventHomeItem(props) {
           })}
         </span>
       </div>
-
+      <Rating
+        name="size-small"
+        value={averageRating}
+        precision={0.5}
+        readOnly
+        size="small"
+      />
       <div>
         <strong className="text-xl">{event.price}</strong>
       </div>
