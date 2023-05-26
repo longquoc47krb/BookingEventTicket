@@ -64,7 +64,7 @@ public class PaymentService {
                 admin.get().setVNDPendingProfit(adminVND.add(valueVND).toString() );
                 element.setVNDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
-                element.setVNDBalanceLock(result.toString());
+                //element.setVNDBalanceLock(result.toString());
 
                 return;
             }
@@ -81,9 +81,9 @@ public class PaymentService {
                 //
                 BigDecimal adminUSD = new BigDecimal(admin.get().getUSDPendingProfit());
                 admin.get().setUSDPendingProfit(adminUSD.add(valueUSD).toString() );
-                element.setVNDBalanceLock(result.toString());
+                element.setUSDBalanceLock(result.toString());
                 adminRepository.save(admin.get());
-                element.setVNDBalanceLock(result.toString());
+                //element.setVNDBalanceLock(result.toString());
                 return;
             }
         }
