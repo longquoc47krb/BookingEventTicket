@@ -100,44 +100,43 @@ public class PaymentService {
                             //get adminAccount
                             Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
                             elementPayment.setStatus(EPaymentStatus.COMPLETED);
+
                             //devide 5
-                            BigDecimal num5 = new BigDecimal("5");
+                            //BigDecimal num5 = new BigDecimal("5");
+                            BigDecimal hundred = new BigDecimal("100");
+                            BigDecimal five = new BigDecimal("5");
                             if (event.getOrganizationTickets().get(0).getCurrency().equals("USD")) {
                                 BigDecimal totalPaymentOfOrganizerUSD = new BigDecimal(element.getUSDBalance());
                                 BigDecimal usdBlock = new BigDecimal(elementPayment.getUSDBalanceLock());
-                                //lấy số khóa chia cho 5
-                                BigDecimal addMoneyForAdmin = usdBlock.divide(num5);
-                                addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
-                                //trừ tiền pending của admin
-                                BigDecimal totalPendingUSD = new BigDecimal(admin.get().getUSDPendingProfit()) ;
-                                admin.get().setUSDPendingProfit(totalPendingUSD.subtract(totalPaymentOfOrganizerUSD).toString());
-                                //admin.get().setUSDPendingProfit();
-                                //add vào tài khoản admin
+                                //
+                                BigDecimal addMoneyForAdmin = usdBlock.multiply(five).divide(hundred);
+                                BigDecimal realMoneyForOrganizer = usdBlock.subtract(addMoneyForAdmin);
                                 admin.get().setUSDBalance(addMoneyForAdmin.toString());
+                                BigDecimal result = totalPaymentOfOrganizerUSD.add(realMoneyForOrganizer).setScale(2, RoundingMode.DOWN);
+                                //
+                                BigDecimal adminmoney = new BigDecimal(admin.get().getUSDPendingProfit());
+                                admin.get().setUSDPendingProfit(adminmoney.subtract(usdBlock).toString());
                                 adminRepository.save(admin.get());
-                                //số tiền thực mà organizer nhận được
-                                BigDecimal subtractResult = usdBlock.subtract(addMoneyForAdmin);
-                                //cộng vào số dư sau khi đã trừ đi tiền mà admin nhận
-                                BigDecimal result = totalPaymentOfOrganizerUSD.add(subtractResult).setScale(2, RoundingMode.DOWN);
                                 element.setUSDBalance(result.toString());
+
+
                             } else {
+
+                                // new
                                 BigDecimal totalPaymentOfOrganizerVND = new BigDecimal(element.getVNDBalance());
                                 BigDecimal vndBlock = new BigDecimal(elementPayment.getVNDBalanceLock());
-                                //lấy số khóa chia cho 5
-                                BigDecimal addMoneyForAdmin = vndBlock.divide(num5);
-                                //k cần làm tròn
-                                //addMoneyForAdmin = addMoneyForAdmin.setScale(2, RoundingMode.DOWN);
-                                //trừ tiền pending profit của admin
-                                BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit()) ;
-                                admin.get().setVNDPendingProfit(totalPendingVND.subtract(totalPaymentOfOrganizerVND).toString());
-                                //add vào tài khoản admin
+                                //lấy số khóa chia cho 5 và divide 100
+                                BigDecimal addMoneyForAdmin = vndBlock.multiply(five).divide(hundred);
+                                BigDecimal realMoneyForOrganizer = vndBlock.subtract(addMoneyForAdmin);
                                 admin.get().setVNDBalance(addMoneyForAdmin.toString());
+                                BigDecimal result = totalPaymentOfOrganizerVND.add(realMoneyForOrganizer).setScale(2, RoundingMode.DOWN);
+                                //
+                                BigDecimal adminmoney = new BigDecimal(admin.get().getUSDPendingProfit());
+                                admin.get().setVNDPendingProfit(adminmoney.subtract(vndBlock).toString());
                                 adminRepository.save(admin.get());
-                                //số tiền thực mà organizer nhận được
-                                BigDecimal subtractResult = vndBlock.subtract(addMoneyForAdmin);
-                                //cộng vào số dư sau khi đã trừ đi tiền mà admin nhận
-                                BigDecimal result = totalPaymentOfOrganizerVND.add(subtractResult).setScale(2, RoundingMode.DOWN);
                                 element.setVNDBalance(result.toString());
+
+
                             }
                             organizationRepository.save(element);
                         }
