@@ -461,6 +461,9 @@ public class OrganizationService implements IOrganizationService {
             int numOrderChange = numOrders - orderService.getPreviousDayOrderCount(email);
             statistics.put("eventsSizeChange", numEventsChange);
             statistics.put("ordersSizeChange", numOrderChange);
+
+            statistics.put("revenueVND", organization.get().getVNDBalance());
+            statistics.put("revenueUSD", organization.get().getUSDBalance());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject(false, "statistic successful ",  statistics, 200));
 
