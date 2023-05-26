@@ -78,9 +78,6 @@ const Categories = () => {
           columns={eventColumns}
         />
       </Modal>
-      {/* <EventChart events={events} /> */}
-      <hr className="my-4" />
-      <EventsByCategoryChart events={events} />
     </div>
   );
 };
