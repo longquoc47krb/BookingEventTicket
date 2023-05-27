@@ -48,7 +48,7 @@ public class Event {
     private Date createdDate;
     private Date updatedDate;
 
-
+    private int modifyTimes;
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList ;

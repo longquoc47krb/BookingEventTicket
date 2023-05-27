@@ -37,6 +37,7 @@ public class Organization {
     private List<String> eventList;
     private List<PaymentPending> paymentPendings= new ArrayList<>();
     private List<Ticket> templateTickets = new ArrayList<>();
+
     //private List
 
     private String province;
