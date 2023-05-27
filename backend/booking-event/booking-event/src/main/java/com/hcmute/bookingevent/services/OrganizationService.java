@@ -297,8 +297,9 @@ public class OrganizationService implements IOrganizationService {
     {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         if (organization.isPresent()) {
+            List<PaymentPendingResponse> paymentStatusRes = organization.get().getPaymentPendings().stream().map(organizationMapper::toPaymentPending ).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "show PaymentStatus successfully ", organization.get().getPaymentPendings(), 200));
+                    new ResponseObject(true, "show PaymentStatus successfully ", paymentStatusRes, 200));
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
