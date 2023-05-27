@@ -47,6 +47,8 @@ public class Event {
     private int ticketRemaining;
     private Date createdDate;
     private Date updatedDate;
+
+
     //@JsonIgnore
     @DBRef
     private List<EventCategory> eventCategoryList ;
