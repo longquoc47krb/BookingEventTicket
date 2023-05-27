@@ -82,7 +82,7 @@ public class EventService implements IEventService {
             event.setId(idSlung);
             event.setCreatedDate(new Date());
             event.setStatus(EventStatus.AVAILABLE);
-
+            event.setModifyTimes(0);
             //
             eventRepository.save(event);
             //add event in organization
@@ -360,6 +360,10 @@ public class EventService implements IEventService {
 
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
+            if (event.get().getModifyTimes() >= 2) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject(false, "Exceed modifyTime ", "", 404));
+            }
             event.get().setName(eventReq.getName());
             event.get().setUpdatedDate(new Date());
             event.get().setProvince(eventReq.getProvince());
@@ -374,6 +378,7 @@ public class EventService implements IEventService {
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
             event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
             event.get().setCreatedDate(event.get().getCreatedDate());
+            event.get().setModifyTimes(event.get().getModifyTimes() + 1);
             //
             int count=0;
             for (Ticket ticket : eventReq.getOrganizationTickets()) {

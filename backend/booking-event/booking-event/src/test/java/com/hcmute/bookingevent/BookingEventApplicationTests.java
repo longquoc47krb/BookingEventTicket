@@ -238,14 +238,12 @@ class BookingEventApplicationTests {
 		List<Event> events = sortEventByDateAsc(eventRepository.findAll());
 
 		for(Event event : events) {
-			if (isBeforeToday(event.getEndingDate()))
-			{
-				event.setStatus(EventStatus.COMPLETED);
-			}
+
+
+				event.setModifyTimes(0);
+
 		}
 		eventRepository.saveAll(events);
 
-//		List<Payment> elementPayment =
-//		elementPayment.setStatus(EPaymentStatus.COMPLETED);
 	}
 }
