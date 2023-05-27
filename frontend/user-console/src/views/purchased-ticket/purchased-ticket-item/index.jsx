@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import React from "react";
 import { BsFillCalendarCheckFill, BsPersonLinesFill } from "react-icons/bs";
+import VNPayLogo from "../../../assets/vnpay.svg";
 import { GrPaypal } from "react-icons/gr";
 import { HiIdentification } from "react-icons/hi2";
 import { IoLocationSharp, IoTicket } from "react-icons/io5";
@@ -67,7 +68,14 @@ function PurchaseTicketItem(props) {
             Paypal
           </p>
         ) : (
-          "VNPay"
+          <p className="flex items-center gap-x-4">
+            <img
+              src={VNPayLogo}
+              style={{ height: 48, width: "auto" }}
+              alt="vnpay"
+            />
+            VNPay
+          </p>
         ),
     },
   ];

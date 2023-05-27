@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import orderServices from "../../api/services/orderServices";
 import reviewServices, {
   useFetchReviewList,
-  useFetchReviewListPagin,
 } from "../../api/services/reviewServices";
 import {
   tokenSelector,
@@ -31,6 +31,7 @@ import FeedbackComment from "../feedback-item";
 import FeedbackList from "../feedback-list";
 import RatingStats from "../rating-stats";
 import Unauthenticated from "../unauthenticated";
+const { getOrderListByUserId } = orderServices;
 const { checkExistReview, deleteReview, submitReview, editReview } =
   reviewServices;
 function Review() {
@@ -38,27 +39,31 @@ function Review() {
   const isFeedback = useSelector(isFeedbackSelector);
   const ratingInfo = useSelector(ratingSelector);
   const [isEdit, setIsEdit] = useState(false);
+  const [paidTicket, setPaidTicket] = useState(false);
   const user = useSelector(userInfoSelector);
   const [reviewList, setReviewList] = useState([]);
   const [fullReviews, setFullReviews] = useState([]);
   const [userFeedback, setUserFeedback] = useState([]);
   const dispatch = useDispatch();
   const { eventId } = useParams();
-  // const {
-  //   data: reviewsPaging,
-  //   status,
-  //   isLoading,
-  // } = useFetchReviewListPagin({
-  //   id: eventId,
-  //   pageNumber: currentPage,
-  //   pageSize: 10,
-  // });
   const {
     data: allReviews,
     status: allReviewsStatus,
     isLoading,
   } = useFetchReviewList(eventId);
   const { t } = useTranslation();
+  useEffect(() => {
+    async function fetchOrderListByUser() {
+      if (user) {
+        const fetchOrderListByUser = await getOrderListByUserId(user.id);
+        const idEventExists = fetchOrderListByUser.some(
+          (item) => item.idEvent === eventId
+        );
+        setPaidTicket(idEventExists);
+      }
+    }
+    fetchOrderListByUser();
+  }, [user]);
   useEffect(() => {
     if (allReviewsStatus === "success" && allReviews?.status !== 404) {
       setFullReviews(allReviews.data);
@@ -165,21 +170,13 @@ function Review() {
     );
     setIsEdit(false);
   };
-  console.log({
-    token: !!token,
-    isFeedback: !!isFeedback,
-    userFeedback: !!userFeedback,
-    isEdit: !!isEdit,
-    allReviews,
-    fullReviews,
-    reviewList,
-  });
   return (
     <div className="w-full h-full review-container mr-6">
-      <RatingStats reviewList={allReviews} />
+      <RatingStats reviewList={allReviews} paidTicket={paidTicket} />
       <div className="mx-4">{!token && <Unauthenticated />}</div>
+
       <div className="mx-4">
-        {token && isFeedback && userFeedback && !isEdit && (
+        {token && isFeedback && userFeedback && paidTicket && !isEdit && (
           <>
             <p className="text-[#1f3e82] font-bold text-2xl py-2">
               {t("your-feedback")}
@@ -197,7 +194,7 @@ function Review() {
             <hr className="mb-4" />
           </>
         )}
-        {token && isFeedback && userFeedback && isEdit && (
+        {token && isFeedback && userFeedback && paidTicket && isEdit && (
           <Feedback
             message={ratingInfo.message}
             star={ratingInfo.rate}
@@ -207,7 +204,7 @@ function Review() {
             user={user}
           />
         )}
-        {token && !isFeedback && userFeedback && !isEdit && (
+        {token && !isFeedback && paidTicket && userFeedback && !isEdit && (
           <Feedback
             isEditting={isEdit}
             star={ratingInfo.star}
@@ -218,7 +215,7 @@ function Review() {
           />
         )}
       </div>
-      <div className="mx-4">
+      <div className="mx-10">
         <FeedbackList
           feedbacks={token && !isLoading ? reviewList : fullReviews}
           isFeedbackByCurrentUser={isFeedback}

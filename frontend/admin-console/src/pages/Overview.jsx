@@ -3,6 +3,7 @@ import { Tooltip } from "antd";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { Spin } from "antd";
+import Skeleton from "@mui/material/Skeleton";
 import { BiMoney } from "react-icons/bi";
 import {
   BsCalendarEventFill,
@@ -11,7 +12,6 @@ import {
   BsCartFill,
 } from "react-icons/bs";
 import { IoTicketSharp } from "react-icons/io5";
-import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetStatisticByID } from "../api/services/organizationServices";
 import { OrderStatistics } from "../components/charts/OrderStatistics";
@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 const Overview = () => {
   const user = useSelector(userInfoSelector);
   const role = useSelector(roleSelector);
-  const { data, status } = useGetStatisticByID(user.email);
+  const { data, status, isLoading } = useGetStatisticByID(user.email);
   const dispatch = useDispatch();
   const today = moment().format("DD/MM/YYYY");
   const randomDay = moment("29/12/2022", "DD/MM/YYYY").format("DD/MM/YYYY");
@@ -147,43 +147,46 @@ const Overview = () => {
         <p className="text-3xl text-[#1F3E82] font-bold">{user.name}</p>
       </h1>
       <div className="grid grid-cols-5 items-center gap-x-4 px-8">
-        {status === "success" &&
-          earningData.map((item) => (
-            <div
-              key={item.title}
-              className=" dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 flex gap-x-4 card"
-            >
-              <div class="card-overlay"></div>
-              <p className="mt-3">
-                <div className="flex items-end gap-x-4">
-                  <Tooltip
-                    placement="rightBottom"
-                    title={
-                      <span className="text-2xl font-bold">
-                        {item.rawAmount}
-                      </span>
-                    }
-                  >
-                    <span className="text-3xl font-bold">{item.amount}</span>
-                  </Tooltip>
-                  <span
-                    className="text-md ml-2 flex"
-                    style={{ color: item.pcColor, display: "flex" }}
-                  >
-                    {item.pcColor === "red" ? (
-                      <BsCaretDownFill />
-                    ) : item.pcColor === "green" ? (
-                      <BsCaretUpFill />
-                    ) : null}
-                    <span>{item.variability}</span>
-                  </span>
-                </div>
-                <p className="text-sm font-semibold text-primary  mt-1">
-                  {item.title}
+        {isLoading
+          ? [...Array(5)].map((item) => (
+              <Skeleton variant="rectangular" height={100} />
+            ))
+          : earningData.map((item) => (
+              <div
+                key={item.title}
+                className=" dark:text-gray-200 dark:bg-secondary-dark-bg p-4 pt-9 flex gap-x-4 card"
+              >
+                <div class="card-overlay"></div>
+                <p className="mt-3">
+                  <div className="flex items-end gap-x-4">
+                    <Tooltip
+                      placement="rightBottom"
+                      title={
+                        <span className="text-2xl font-bold">
+                          {item.rawAmount}
+                        </span>
+                      }
+                    >
+                      <span className="text-3xl font-bold">{item.amount}</span>
+                    </Tooltip>
+                    <span
+                      className="text-md ml-2 flex"
+                      style={{ color: item.pcColor, display: "flex" }}
+                    >
+                      {item.pcColor === "red" ? (
+                        <BsCaretDownFill />
+                      ) : item.pcColor === "green" ? (
+                        <BsCaretUpFill />
+                      ) : null}
+                      <span>{item.variability}</span>
+                    </span>
+                  </div>
+                  <p className="text-sm font-semibold text-primary  mt-1">
+                    {item.title}
+                  </p>
                 </p>
-              </p>
-            </div>
-          ))}
+              </div>
+            ))}
       </div>
       {role !== "ROLE_ADMIN" && (
         <OrderStatistics

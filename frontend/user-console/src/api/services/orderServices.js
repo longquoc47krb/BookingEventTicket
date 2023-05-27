@@ -50,5 +50,5 @@ export const useGetOrderListByUserId = (id) => {
     }
   );
 };
-const orderServices = { createOrder };
+const orderServices = { createOrder, getOrderListByUserId };
 export default orderServices;

@@ -12,6 +12,7 @@ import eventServices, {
 } from "../api/services/eventServices";
 import { AlertPopup } from "../components/common/alert";
 import { userInfoSelector } from "../redux/slices/accountSlice";
+import { isNotEmpty } from "../utils/utils";
 
 const UserActionContext = createContext();
 const { addWishlistItem, clearAllWishlist, removeWishlistItem, fetchWishlist } =
@@ -34,11 +35,14 @@ export const UserActionContextProvider = ({ children }) => {
 
   const getWishlist = async () => {
     setWishlistEvent([]);
-
-    const list = userInfo ? await fetchWishlist(userInfo?.id) : [];
-    localStorage.setItem("userWishlist", JSON.stringify(list?.data));
+    if (userInfo) {
+      const list = await fetchWishlist(userInfo.id);
+      localStorage.setItem("userWishlist", JSON.stringify(list.data));
+    } else {
+      localStorage.setItem("userWishlist", JSON.stringify([]));
+    }
     // const list = JSON.parse(localStorage.getItem("userWishlist"));
-    const userWishlist = JSON.parse(localStorage.getItem("userWishlist")) ?? [];
+    const userWishlist = JSON.parse(localStorage.getItem("userWishlist"));
     setWishlist(userWishlist);
     userWishlist &&
       userWishlist.forEach((eventId) => {

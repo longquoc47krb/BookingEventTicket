@@ -325,5 +325,6 @@
   "empty-feedbacks": "Chưa có đánh giá nào.",
   "cancel": "Hủy bỏ",
   "free-ticket": "Miễn phí",
-  "followers": "Người theo dõi"
+  "followers": "Người theo dõi",
+  "only-comment-orders": "Chỉ người dùng mua vé mới có thể đánh giá sự kiện."
 }

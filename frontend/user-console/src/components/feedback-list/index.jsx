@@ -38,13 +38,15 @@ function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
       )}
       <div className="flex justify-between">
         {!feedbacks ? null : feedbacks.length > 0 ? (
-          <Pagination
-            current={currentPage + 1}
-            onChange={onChange}
-            total={feedbacks.length}
-            pageSize={10}
-            defaultCurrent={1}
-          />
+          <div className="my-4">
+            <Pagination
+              current={currentPage + 1}
+              onChange={onChange}
+              total={feedbacks.length}
+              pageSize={10}
+              defaultCurrent={1}
+            />
+          </div>
         ) : null}
       </div>
     </div>

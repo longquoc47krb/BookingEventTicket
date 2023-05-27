@@ -327,5 +327,6 @@
   "empty-feedbacks": "There are no reviewers yet",
   "cancel": "Cancel",
   "free-ticket": "Free",
-  "followers": "Followers"
+  "followers": "Followers",
+  "only-comment-orders": "Only customers bought tickets from this event can send feedback"
 }

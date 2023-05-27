@@ -513,3 +513,15 @@ export function compareDates(date2) {
 export function htmlToPlainText(html) {
   return html?.replace(/<[^>]+>/g, "")?.replace(/&nbsp;/g, "\n");
 }
+export function sortEventsByStartingDate(events) {
+  events.sort(function (a, b) {
+    // Convert the starting date strings to Date objects for comparison
+    var dateA = new Date(a.startingDate);
+    var dateB = new Date(b.startingDate);
+
+    // Compare the date values
+    return dateA - dateB;
+  });
+
+  return events;
+}
