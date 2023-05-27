@@ -38,7 +38,7 @@ function FeedbackList({ feedbacks, isFeedbackByCurrentUser }) {
       )}
       <div className="flex justify-between">
         {!feedbacks ? null : feedbacks.length > 0 ? (
-          <div className="m-4">
+          <div className="my-4">
             <Pagination
               current={currentPage + 1}
               onChange={onChange}

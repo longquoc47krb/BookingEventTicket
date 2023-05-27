@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GoClock, GoLocation } from "react-icons/go";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import eventServices, {
   useEventDetails,
@@ -29,20 +29,17 @@ import Review from "../../components/review";
 import TicketComponent from "../../components/ticket-collapse";
 import { useUserActionContext } from "../../context/UserActionContext";
 import { useUserAuth } from "../../context/UserAuthContext";
-import {
-  isCompletedSelector,
-  updateOrganizerInfo,
-} from "../../redux/slices/eventSlice";
+import { updateOrganizerInfo } from "../../redux/slices/eventSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
 import { setCurrentStep } from "../../redux/slices/ticketSlice";
 import { EventStatus } from "../../utils/constants";
 import {
+  compareDates,
   displayDate,
   displayTime,
   isEmpty,
   isNotEmpty,
   titleCase,
-  compareDates,
 } from "../../utils/utils";
 const { fetchOrganizerByEventId } = eventServices;
 function EventDetail(props) {

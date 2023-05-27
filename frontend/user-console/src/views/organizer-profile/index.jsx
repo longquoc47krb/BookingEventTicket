@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/common/header";
@@ -18,6 +19,7 @@ import {
   isArray,
   isEmpty,
   isNotEmpty,
+  sortEventsByStartingDate,
 } from "../../utils/utils";
 import customerServices, {
   useCheckFollowedOrg,
@@ -32,7 +34,7 @@ import EventHomeItem from "../../components/common/event-home-item";
 import TabSection from "./tab-section";
 import constants from "../../utils/constants";
 import FooterComponent from "../../components/FooterComponent";
-const { findOrganizerById } = organizationServices;
+const { findOrganizerEventList } = organizationServices;
 const { EventStatus } = constants;
 const { unfollowOrg, followOrg, findAllCustomer } = customerServices;
 function OrganizerProfile() {
@@ -46,11 +48,10 @@ function OrganizerProfile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [showFollowed, setShowFollowed] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [eventLoading, setEventLoading] = useState(false);
   const [numberFollowers, setNumberFollowers] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const { data: events, isLoading: eventLoading } = useFindOrganizerEventList(
-    organizer?.email
-  );
   useEffect(() => {
     setCurrentPage(0);
   }, [activeTab]);
@@ -70,13 +71,21 @@ function OrganizerProfile() {
         );
       setNumberFollowers(itemsWithFollowEmail.length);
     }
-    async function fetchOrganizerInfo() {
-      const organizer = await findOrganizerById(organizerId);
-      dispatch(updateOrganizerInfo(organizer));
+    if (organizer) {
+      async function fetchEventsByOrganizerEmail() {
+        setEventLoading(true);
+        const response = await findOrganizerEventList(organizer.email);
+        setEventLoading(false);
+        if (isArray(response)) {
+          setEvents(response);
+        }
+      }
+      fetchEventsByOrganizerEmail();
     }
+
     fetchOrganizerFollower();
-    fetchOrganizerInfo();
-  }, [showFollowed]);
+  }, [showFollowed, organizer]);
+  console.log({ events });
   const { data: isFollowed, isLoading } = useCheckFollowedOrg(
     user?.email,
     organizer?.email
@@ -137,27 +146,28 @@ function OrganizerProfile() {
   const featuredEvents = isNotEmpty(events)
     ? events?.filter((event) => event.status === EventStatus.AVAILABLE)
     : [];
+  console.log(sortEventsByStartingDate(events));
   function EventListSection(activeTab) {
     switch (activeTab) {
       case "all-events":
         return (
           isArray(events) &&
-          events
+          sortEventsByStartingDate(events)
             ?.slice(firstIndex, lastIndex)
             .map((event, index) => <EventHomeItem event={event} key={index} />)
         );
       case "completed-events":
-        return completedEvents
+        return sortEventsByStartingDate(completedEvents)
           ?.slice(firstIndex, lastIndex)
           .map((event, index) => <EventHomeItem event={event} key={index} />);
       case "featured-events":
-        return featuredEvents
+        return sortEventsByStartingDate(featuredEvents)
           ?.slice(firstIndex, lastIndex)
           .map((event, index) => <EventHomeItem event={event} key={index} />);
       default:
         return (
           isArray(events) &&
-          events?.map((event, index) => (
+          sortEventsByStartingDate(events)?.map((event, index) => (
             <EventHomeItem event={event} key={index} />
           ))
         );
@@ -253,7 +263,9 @@ function OrganizerProfile() {
           </div>
           <div className="text-center pl-4 border-l-[1px] border-solid border-gray-200">
             <h2 className=" text-gray-500">{t("event.list")}</h2>
-            <h1 className="font-bold text-2xl">{events?.length}</h1>
+            <h1 className="font-bold text-2xl">
+              {isArray(events) ? events?.length : 0}
+            </h1>
           </div>
         </div>
       </div>
