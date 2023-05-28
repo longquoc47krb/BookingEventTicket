@@ -1,6 +1,8 @@
 package com.hcmute.bookingevent.services;
 
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -16,10 +18,8 @@ import freemarker.template.Configuration;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,8 @@ public class MailService {
 
     private final JavaMailSender emailSender;
     private final Configuration configuration;
+    private final AccountRepository accountRepository;
+
 
     final String MAIL_TEMPLATE = "newmail-template.ftl";
 
@@ -108,6 +110,17 @@ public class MailService {
                 model.put("header", "Upcoming event");
                 model.put("content", content);
             }
+            else if(type.equals(EMailType.UPDATE_EVENT))
+            {
+                model.put("header", "Updating event");
+                model.put("content", content);
+            }
+            else if(type.equals(EMailType.DELETE_EVENT))
+            {
+                model.put("header", "Remove event");
+                model.put("content", content);
+                model.put("contentColor", messageContent);
+            }
             model.put("title", "LOTUS TICKET");
             model.put("name", account.getName());
             if(messageContent.equals(""))
@@ -133,13 +146,30 @@ public class MailService {
 
         }
     }
-    public void sendMailByAccountList(List<Account> accountList, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
-        //<span style="color:black;font-weight: 900;"> ${name}</span>
+    public void sendMailWhenCreatingEvent(List<Account> accountList, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
         String testHtml = " Click  <a href=\"https://lotusticket-vn.netlify.app/event/" + map.get("id") + "\">here</a> to visit new event";
         String NEW_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just created a new event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" + testHtml;
         for(Account account : accountList)
         {
             sendMail(account,NEW_EVENT,"",type);
+        }
+    }
+    public void sendMailWhenUpdatingEvent(List<Account> accountList, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
+        String testHtml = " Click  <a href=\"https://lotusticket-vn.netlify.app/event/" + map.get("id") + "\">here</a> to visit this event";
+        String UPDATE_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just changed a event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" + testHtml;
+        for(Account account : accountList)
+        {
+            sendMail(account,UPDATE_EVENT,"",type);
+        }
+    }
+    //send mail và hoàn tiền
+    public void sendMailWhenDeletingEvent( List<Order> orders, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
+        String moneyRefund= "We will refund the amount you paid for the order, which is ";
+        String DELETE_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just deleted a event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" ;
+        for(Order order : orders)
+        {
+            Optional<Account> account = accountRepository.findByEmail(order.getEmail());
+            sendMail(account.get(),DELETE_EVENT + moneyRefund + order.getTotalPrice() + order.getCurrency(),"",type);
         }
     }
 }

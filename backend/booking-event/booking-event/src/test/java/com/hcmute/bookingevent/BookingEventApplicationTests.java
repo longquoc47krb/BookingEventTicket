@@ -16,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
@@ -108,10 +111,10 @@ class BookingEventApplicationTests {
 		Optional<Organization> organization = organizationRepository.findByEmail("admin@amazingshow.com");
 
 		//paymentMapper.setPaymentToCancel();
-		List<PaymentPending> pendingList= organization.get().getPaymentPendings();
-		paymentService.setPaymentToCancel(pendingList,"sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063");
-		organizationRepository.save(organization.get());
-		System.out.println("ket qua");
+//		List<PaymentPending> pendingList= organization.get().getPaymentPendings();
+//		paymentService.setPaymentToCancel(pendingList,"sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063");
+//		organizationRepository.save(organization.get());
+//		System.out.println("ket qua");
 
 
 	}
@@ -245,5 +248,27 @@ class BookingEventApplicationTests {
 		}
 		eventRepository.saveAll(events);
 
+	}
+	@Test
+	void testOrgForEventList()
+	{
+		Optional<Organization> organization = organizationRepository.findByEventList("may-saigon-livestage-liveshow-lam-thuy-van-24887");
+		if (organization.isPresent())
+		{
+			System.out.println(organization.get().getId());
+			System.out.println("true");
+
+		}
+		else
+			System.out.println("false");
+
+
+	}
+	private MongoOperations mongoOperations;
+	public Organization findElementInList(String listElement) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("a").is(listElement));
+
+		return mongoOperations.findOne(query, Organization.class);
 	}
 }

@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.mapper;
 
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.response.LoginRes;
 import com.hcmute.bookingevent.repository.AccountRepository;
@@ -29,6 +30,12 @@ public class AccountMapper {
     public Account toAccount(Customer customer)
     {
         Optional<Account>account =  accountRepository.findByEmail(customer.getEmail());
+        return account.get();
+
+    }
+    public Account fromOrder(Order order)
+    {
+        Optional<Account>account =  accountRepository.findByEmail(order.getEmail());
         return account.get();
 
     }
