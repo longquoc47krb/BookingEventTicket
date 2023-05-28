@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const contrastColors = ["#3c2a4d", "#503a65", "#574f7d", "#95adbe", "#1b052f"];
+const contrastColors = ["#38182F", "#2F394D", "#56666B", "#EEE1B3", "#30314A"];
 const theme = {
   main: "#1F3E82",
   text: "white",

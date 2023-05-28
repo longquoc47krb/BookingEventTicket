@@ -1817,8 +1817,9 @@
 }
 .organization-section-2 {
   width: 100%;
-  height: 20rem;
   background: #1f3e82;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
   position: relative;
   overflow: hidden;
 }
@@ -1859,9 +1860,6 @@
   align-items: center;
   gap: 0 2rem;
 }
-.organization-partners-content img {
-  filter: brightness(0) invert(100%);
-}
 .organization-section-3 {
   width: 100%;
   height: 100vh;
@@ -1896,56 +1894,6 @@
   }
 }
 
-/* Marquee */
-.marquee {
-  width: var(--marquee-width);
-  height: var(--marquee-height);
-  overflow: hidden;
-  position: relative;
-}
-.marquee::before, .marquee::after {
-  position: absolute;
-  top: 0;
-  width: 10rem;
-  height: 100%;
-  content: "";
-  z-index: 1;
-}
-.marquee-content {
-  list-style: none;
-  margin-top: 4rem;
-  height: 100%;
-  display: flex;
-  animation: scrolling var(--marquee-animation-duration) linear infinite;
-}
-.marquee-content li {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: var(--marquee-element-width);
-  height: auto;
-  font-size: calc(var(--marquee-height) * 3 / 4); /* 5rem; */
-  white-space: nowrap;
-}
-.marquee-content li img {
-  height: 65%;
-  width: auto;
-}
-@media (max-width: 767px) {
-  .marquee-content li img {
-    height: 40% !important;
-  }
-}
-
-@keyframes scrolling {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements)));
-  }
-}
 .facebook,
 .instagram {
   color: white;
@@ -2010,12 +1958,33 @@
   -webkit-text-fill-color: transparent !important;
 }
 
-.icon-with-gradient {
-  background: linear-gradient(to bottom, #ff0000, #00ff00);
-  -webkit-background-clip: text; /* Ensures the gradient is only applied to the text */
-  -webkit-text-fill-color: transparent; /* Makes the text transparent, showing only the gradient */
+.marquee {
+  width: 100%; /* Adjust the width as needed */
+  height: 100%;
+  padding: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0 2rem;
+  animation: marqueeAnimation 40s linear infinite;
 }
 
+.marquee img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100px; /* Adjust the height as needed */
+}
+
+@keyframes marqueeAnimation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
 .readmore {
   position: relative;
   max-height: 20rem;

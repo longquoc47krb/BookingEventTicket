@@ -64,7 +64,7 @@ function AdminDashboard() {
           theme.contrastColors[4],
           theme.contrastColors[4],
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
@@ -120,7 +120,7 @@ function AdminDashboard() {
           theme.contrastColors[4],
           theme.contrastColors[4],
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
@@ -135,7 +135,6 @@ function AdminDashboard() {
         title: t("usdbalance"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
-        // pcColor: handleVariability(revenueStats, "revenue").color,
       },
       {
         icon: <BiMoney />,
@@ -152,7 +151,6 @@ function AdminDashboard() {
         title: t("usdbalanceLock"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
-        // pcColor: handleVariability(revenueStats, "revenue").color,
       },
       {
         icon: <BiMoney />,

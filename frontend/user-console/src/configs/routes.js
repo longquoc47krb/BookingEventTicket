@@ -16,10 +16,6 @@ const MyTicket = Loadable({
   loader: () => import("../views/purchased-ticket"),
   loading: Loading,
 });
-const AdminLoginPage = Loadable({
-  loader: () => import("../views/auth/AdminLogin"),
-  loading: Loading,
-});
 const OAuthLoginPage = Loadable({
   loader: () => import("../views/auth/OAuthLogin"),
   loading: Loading,
@@ -165,7 +161,6 @@ const routes = [
   },
 ];
 export {
-  AdminLoginPage,
   BeAnOrganizerPage,
   EventDashBoardPage,
   EventDetailPage,

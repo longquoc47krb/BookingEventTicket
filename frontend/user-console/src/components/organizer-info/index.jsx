@@ -8,7 +8,6 @@ import customerServices, {
 } from "../../api/services/customerServices";
 import { useSelector } from "react-redux";
 import { organizerInfoSelector } from "../../redux/slices/eventSlice";
-import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import FollowButton from "../follow-button";
 const { unfollowOrg, followOrg } = customerServices;

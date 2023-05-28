@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
+import { isBefore, parse } from "date-fns";
 import cloneDeep from "lodash/cloneDeep";
-import { format, isBefore, parse } from "date-fns";
 import forOwn from "lodash/forOwn";
 import isEqual from "lodash/isEqual";
 import memoize from "lodash/memoize";
@@ -504,14 +504,10 @@ export const displayFeedbackTime = (time) => {
 };
 export function compareDates(date2) {
   const currentDate = new Date(); // Ngày hiện tại
-  const currentDateFormatted = format(currentDate, "dd/MM/yyyy"); // Định dạng ngày hiện tại thành 'dd/MM/yyyy'
 
   const parsedDate2 = parse(date2, "dd/MM/yyyy", new Date()); // Chuyển đổi ngày 2 thành đối tượng Date
 
   return isBefore(parsedDate2, currentDate);
-}
-export function htmlToPlainText(html) {
-  return html?.replace(/<[^>]+>/g, "")?.replace(/&nbsp;/g, "\n");
 }
 export function sortEventsByStartingDate(events) {
   events.sort(function (a, b) {

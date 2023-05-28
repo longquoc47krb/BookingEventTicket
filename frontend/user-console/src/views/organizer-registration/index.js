@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable no-unused-vars */
 import { Field, Form, FormikProvider, useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import Footer from "../../components/common/footer";
 import Header from "../../components/common/header";
+import Marquee from "react-fast-marquee";
 import { YupValidations } from "../../utils/validate";
 import AppConfig from "../../configs/AppConfig";
 import { useTranslation } from "react-i18next";
@@ -12,8 +14,13 @@ import Organizer from "../../assets/Approved.svg";
 import { Col, Row } from "antd";
 import { Input } from "../../components/common/input/customField";
 import organizationServices from "../../api/services/organizationServices";
+import { useNavigate } from "react-router-dom";
 import { AlertErrorPopup, AlertPopup } from "../../components/common/alert";
 import ThreeDotsLoading from "../../components/loading/three-dots";
+import accountServices, {
+  useFindAllOrganizers,
+} from "../../api/services/accountServices";
+import Skeleton from "react-loading-skeleton";
 const {
   ORGANIZER_CAROUSEL,
   ORGANIZER_LANDINGPAGE_PICTURE,
@@ -23,7 +30,10 @@ const {
 const { submitOrganizer } = organizationServices;
 function OrganizeRegistration() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { data: organizers, isLoading } = useFindAllOrganizers();
+  console.log({ organizers });
   useEffect(() => {
     new wowjs.WOW().init();
   }, []);
@@ -66,25 +76,6 @@ function OrganizeRegistration() {
     },
   });
   const { handleSubmit } = formik;
-  useEffect(() => {
-    const marqueeScrolling = () => {
-      const root = document.documentElement;
-      const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue(
-        "--marquee-elements-displayed"
-      );
-      const marqueeContent = document.querySelector("ul.marquee-content");
-
-      root.style.setProperty(
-        "--marquee-elements",
-        marqueeContent.children.length
-      );
-
-      for (let i = 0; i < marqueeElementsDisplayed * 100; i++) {
-        marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
-      }
-    };
-    marqueeScrolling();
-  }, []);
   return (
     <>
       <Header />
@@ -137,15 +128,23 @@ function OrganizeRegistration() {
           >
             {t("lotus.partners")}
           </h1>
-          <div class="organization-partners-content marquee">
-            <ul className="marquee-content">
-              {ORGANIZATION_PARTNERS.map((item) => (
-                <li>
-                  <img src={item.image} alt={item.title} />
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Marquee>
+            <div class="flex w-screen items-center justify-around">
+              {isLoading
+                ? [...Array(10)].map((item) => (
+                    <Skeleton width={100} height={100} />
+                  ))
+                : organizers?.map((item, index) => (
+                    <img
+                      key={index}
+                      src={item.avatar}
+                      alt={`Image-${index}`}
+                      className="inline-block mr-8 hover:cursor-pointer rounded-lg"
+                      onClick={() => navigate(`/organizer-profile/${item.id}`)}
+                    />
+                  ))}
+            </div>
+          </Marquee>
         </section>
         <section className="organization-section-3">
           <div

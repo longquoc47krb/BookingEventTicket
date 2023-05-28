@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PlaceholderCover from "../../../assets/cover-fallback.jpg";
