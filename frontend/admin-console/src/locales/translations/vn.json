@@ -356,5 +356,9 @@
     },
     "one-day": "Sự kiện diễn ra trong 1 ngày",
     "sold-ticket": "Đã bán: {{val, number}}",
-    "eventsByCategory": "Thống kê sự kiện theo từng thể loại"
+    "eventsByCategory": "Thống kê sự kiện theo từng thể loại",
+    "vndbalanceLock": "Số tiền đang chờ xử lý (VND)",
+    "usdbalanceLock": "Số tiền đang chờ xử lý (USD)",
+    "vndbalance": "Số dư thực tế (VND)",
+    "usdbalance": "Số dư thực tế (USD)"
 }

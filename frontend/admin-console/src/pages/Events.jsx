@@ -14,7 +14,11 @@ import { useState } from "react";
 import Table from "../components/Table";
 import { eventColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
-import { getCurrentDatetime, reverseArray } from "../utils/utils";
+import {
+  convertToCommaSeparatedString,
+  getCurrentDatetime,
+  reverseArray,
+} from "../utils/utils";
 import ExportExcelButton from "../components/common/excel-button";
 const Events = () => {
   const user = useSelector(userInfoSelector);
@@ -148,24 +152,22 @@ const Events = () => {
   });
   // columns for Excel
   const columns = [
-    { header: "ID", key: "id", width: 10 },
     { header: "Name", key: "name", width: 32 },
     { header: "Categories", key: "categories", width: 32, outlineLevel: 1 },
     { header: "Date", key: "date", width: 15 },
     { header: "Status", key: "status", width: 10 },
   ];
-  const data = eventData?.map((item) => ({
-    id: item.id,
-    background: item.background,
+  const eventDataForExcel = eventData?.map((item) => ({
     name: item.name,
-    categories: item.categories?.map((item) => t(item.name)),
+    categories: convertToCommaSeparatedString(
+      item.categories?.map((item) => t(item.name))
+    ),
     date: item.date,
     status:
       item.status === "event.completed"
         ? t("event.status.completed")
         : t("event.status.available"),
   }));
-  console.log({ data });
   // end for table
   const nameColumn = eventColumns.find((e) => e.dataIndex === "name");
   Object.assign(nameColumn, getColumnSearchProps("name"));
@@ -180,7 +182,7 @@ const Events = () => {
           {t("event.create")}
         </button>
         <ExportExcelButton
-          data={data}
+          data={eventDataForExcel}
           columns={columns}
           filename={`Event-${getCurrentDatetime()}`}
         />

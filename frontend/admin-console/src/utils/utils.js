@@ -511,6 +511,24 @@ export function toNonAccentVietnamese(str) {
   str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+export function addFileExtension(filename) {
+  const extension = ".xlsx";
+  return filename + extension;
+}
+export function convertToCommaSeparatedString(array) {
+  return array.join(", ");
+}
+
+export function removeSpecialSymbolsExceptDot(text) {
+  // Create a regular expression pattern to match any special symbol except the dot
+  const nonAccentedText = toNonAccentVietnamese(text);
+  const pattern = /[^a-zA-Z0-9.]/g;
+
+  // Use the replace() function with the pattern to remove the characters
+  const result = nonAccentedText.replace(pattern, "");
+
+  return result;
+}
 export function CommaFormatted(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -291,21 +291,28 @@ export const eventColumns = [
 ];
 export const paymentColumns = [
   {
-    title: t("event.id"),
-    dataIndex: "idEvent",
+    title: t("event.name"),
+    dataIndex: "name",
   },
   {
     title: t("payment.vndbalanceLock"),
     dataIndex: "vndbalanceLock",
+    render: (vndbalanceLock) => (
+      <span>{formatter("VND").format(vndbalanceLock)}</span>
+    ),
   },
   {
     title: t("payment.usdbalanceLock"),
     dataIndex: "usdbalanceLock",
+    render: (usdbalanceLock) => (
+      <span>{formatter("USD").format(usdbalanceLock)}</span>
+    ),
   },
   {
     title: "status",
     key: "status",
     dataIndex: "status",
+    width: 150,
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     render: (status) =>
       status === "COMPLETED" ? (

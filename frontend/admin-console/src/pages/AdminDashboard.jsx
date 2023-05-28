@@ -9,13 +9,13 @@ import {
   useGetAdminProfile,
 } from "../api/services/adminServices";
 import { filter } from "lodash";
-
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { Greeting, formatter, nFormatter } from "../utils/utils";
 import { ROLE } from "../utils/constants";
 import PieChart from "../components/charts/PieChart";
 import { useFetchEvents } from "../api/services/eventServices";
 import EventsByCategoryChart from "../components/charts/EventsByCategoryChart";
+import theme from "../shared/theme";
 function AdminDashboard() {
   const user = useSelector(userInfoSelector);
   const { t } = useTranslation();
@@ -46,12 +46,54 @@ function AdminDashboard() {
     datasets: [
       {
         data: [hochiminhCount, hanoiCount, lamdongCount, otherCount],
-        backgroundColor: ["#b3b7ba", "#394867", "#212A3E", "#9BA4B5"],
-        hoverBackgroundColor: ["#b3b7ba", "#394867", "#212A3E", "#9BA4B5"],
-        borderColor: ["#b3b7ba", "#394867", "#212A3E", "#9BA4B5"],
+        backgroundColor: [
+          theme.contrastColors[0],
+          theme.contrastColors[1],
+          theme.contrastColors[2],
+          theme.contrastColors[3],
+        ],
+        hoverBackgroundColor: [
+          theme.contrastColors[0],
+          theme.contrastColors[1],
+          theme.contrastColors[2],
+          theme.contrastColors[3],
+        ],
+        borderColor: [
+          theme.contrastColors[4],
+          theme.contrastColors[4],
+          theme.contrastColors[4],
+          theme.contrastColors[4],
+        ],
         borderWidth: 1,
       },
     ],
+  };
+  const pieOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 20, // Adjust the font size as desired
+          },
+        },
+        position: "right",
+      },
+    },
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const dataset = data.datasets[tooltipItem.datasetIndex];
+          const total = dataset.data.reduce(
+            (accumulator, currentValue) => accumulator + currentValue
+          );
+          const value = dataset.data[tooltipItem.index];
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${dataset.label}: ${percentage}%`;
+        },
+      },
+    },
   };
   // count number of accounts by role
   const userCount = filter(accounts, { role: ROLE.Customer }).length;
@@ -63,31 +105,34 @@ function AdminDashboard() {
     datasets: [
       {
         data: [userCount, organizerCount, adminCount],
-        backgroundColor: ["#394867", "#212A3E", "#9BA4B5"],
-        hoverBackgroundColor: ["#394867", "#212A3E", "#9BA4B5"],
-        borderColor: ["#394867", "#212A3E", "#9BA4B5"],
+        backgroundColor: [
+          theme.contrastColors[0],
+          theme.contrastColors[1],
+          theme.contrastColors[2],
+        ],
+        hoverBackgroundColor: [
+          theme.contrastColors[0],
+          theme.contrastColors[1],
+          theme.contrastColors[2],
+        ],
+        borderColor: [
+          theme.contrastColors[4],
+          theme.contrastColors[4],
+          theme.contrastColors[4],
+        ],
         borderWidth: 1,
       },
     ],
   };
   console.log({ accountData });
   const greeting = Greeting();
-  const handleVariability = (variability, stateQuantity) => {
-    if (variability < 0) {
-      return { status: "-", variability, color: "red" };
-    } else if (variability > 0) {
-      return { status: "+", variability, color: "green" };
-    } else {
-      return { status: "", variability: "", color: "" };
-    }
-  };
   if (AdminStatus === "success") {
     var earningData = [
       {
         icon: <BiMoney />,
         amount: `$${nFormatter(AdminProfile.usdbalance, 2)}`,
         rawAmount: formatter("USD").format(AdminProfile.usdbalance),
-        title: t("usdRevenue"),
+        title: t("usdbalance"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
         // pcColor: handleVariability(revenueStats, "revenue").color,
@@ -102,18 +147,18 @@ function AdminDashboard() {
       },
       {
         icon: <BiMoney />,
-        amount: `$${nFormatter(AdminProfile.usdpendingProfit, 2)}`,
-        rawAmount: formatter("USD").format(AdminProfile.usdpendingProfit),
-        title: t("usdRevenue"),
+        amount: `$${nFormatter(AdminProfile.usdbalanceLock, 2)}`,
+        rawAmount: formatter("USD").format(AdminProfile.usdbalanceLock),
+        title: t("usdbalanceLock"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
         // pcColor: handleVariability(revenueStats, "revenue").color,
       },
       {
         icon: <BiMoney />,
-        amount: `${nFormatter(AdminProfile.vndpendingProfit, 2)}`,
-        rawAmount: formatter("VND").format(AdminProfile.vndpendingProfit),
-        title: t("vndbalance"),
+        amount: `${nFormatter(AdminProfile.vndbalanceLock, 2)}`,
+        rawAmount: formatter("VND").format(AdminProfile.vndbalanceLock),
+        title: t("vndbalanceLock"),
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
       },
@@ -165,10 +210,18 @@ function AdminDashboard() {
       </div>
       <div className="m-4 grid grid-cols-2 gap-x-4">
         {accountStatus === "success" && (
-          <PieChart data={accountData} title={t("title.account")} />
+          <PieChart
+            data={accountData}
+            title={t("title.account")}
+            options={pieOptions}
+          />
         )}
         {eventStatus === "success" && (
-          <PieChart data={eventData} title={t("title.event")} />
+          <PieChart
+            data={eventData}
+            title={t("title.event")}
+            options={pieOptions}
+          />
         )}
       </div>
       <div className="p-4 card mx-4">

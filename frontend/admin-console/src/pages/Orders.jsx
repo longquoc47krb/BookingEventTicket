@@ -201,10 +201,7 @@ const Orders = () => {
       ) : (
         <Table columns={orderColumns} dataSource={orderByEventData} />
       )}
-      <OrdersByEventModal
-        open={openModal}
-        title={t("orders-of-event", { val: title ?? "" })}
-      />
+      <OrdersByEventModal open={openModal} title={title} />
     </div>
   );
 };
