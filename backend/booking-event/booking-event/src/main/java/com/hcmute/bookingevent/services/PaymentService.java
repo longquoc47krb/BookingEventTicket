@@ -39,11 +39,30 @@ public class PaymentService {
 
     }
 
-    public void setPaymentToCancel(List<PaymentPending> pendingList, String idEvent) {
+    public void setPaymentToCancel(List<PaymentPending> pendingList, String currency, String idEvent) {
+
+        Optional<Admin> admin= adminRepository.findByEmail("lotusticket.vn@gmail.com");
 
         for (PaymentPending element : pendingList) {
             if (element.getIdEvent().equals(idEvent)) {
                 element.setStatus(EPaymentStatus.CANCEL);
+                if(currency.equals("USD"))
+                {
+                    BigDecimal usdBlock = new BigDecimal(element.getUSDBalanceLock());
+                    BigDecimal adminUSD = new BigDecimal(admin.get().getVNDBalanceLock());
+                    //subtract
+                    admin.get().setVNDBalanceLock(adminUSD.subtract(usdBlock).toString() );
+                }
+                else
+                {
+                    BigDecimal vndBlock = new BigDecimal(element.getVNDBalanceLock());
+                    BigDecimal adminVND = new BigDecimal(admin.get().getUSDBalanceLock());
+                    //subtract
+                    admin.get().setVNDBalanceLock(adminVND.subtract(vndBlock).toString() );
+
+                }
+                adminRepository.save(admin.get());
+
                 return;
             }
         }
@@ -113,9 +132,6 @@ public class PaymentService {
                                 //tiền đã chia
                                 BigDecimal addMoneyForAdmin = usdBlock.multiply(five).divide(hundred);
                                 BigDecimal realMoneyForOrganizer = usdBlock.subtract(addMoneyForAdmin);
-                                //
-                                //BigDecimal adminBalance = new BigDecimal(element.getUSDBalance());
-                                //admin.get().setUSDBalance(adminBalance.add(addMoneyForAdmin).toString());
                                 admin.get().setUSDBalance(new BigDecimal(element.getUSDBalance())
                                         .add(addMoneyForAdmin)
                                         .toString());
