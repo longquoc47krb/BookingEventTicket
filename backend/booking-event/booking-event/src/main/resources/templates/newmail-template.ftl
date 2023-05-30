@@ -17,7 +17,8 @@
             <o:PixelsPerInch>96</o:PixelsPerInch>
         </o:OfficeDocumentSettings>
     </xml>
-    <![endif]--><!--[if !mso]><!-- -->
+    <![endif]--><!--[if !mso]>
+    <!-- -->
     <link href="https://fonts.googleapis.com/css2?family=Imprima&display=swap" rel="stylesheet"><!--<![endif]-->
     <style type="text/css">
         #outlook a {

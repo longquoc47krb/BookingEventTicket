@@ -13,6 +13,8 @@ import com.hcmute.bookingevent.models.EPaymentStatus;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.organization.PaymentPending;
 import lombok.RequiredArgsConstructor;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -238,15 +240,11 @@ class BookingEventApplicationTests {
 	@Test
 	void testBeforeDate()
 	{
-		List<Event> events = sortEventByDateAsc(eventRepository.findAll());
-
-		for(Event event : events) {
-
-
-				event.setModifyTimes(0);
+		if(isBeforeToday("29/5/2023"))
+		{
+			System.out.println("true");
 
 		}
-		eventRepository.saveAll(events);
 
 	}
 	@Test
@@ -270,5 +268,13 @@ class BookingEventApplicationTests {
 		query.addCriteria(Criteria.where("a").is(listElement));
 
 		return mongoOperations.findOne(query, Organization.class);
+	}
+	@Test
+	public void testString()
+	{
+		String html = "<span style=3D\"color:black;font-weight:700;font-family:Calibri \">[M=C2Y LANG THANG] LIVESHOW ?NG HO=\r\n=C0NG PH=DAC & KH=C1CH M?I : QUANG ??NG TR?N</span>";
+
+		String decodedHtml = StringEscapeUtils.unescapeHtml4(html);
+		System.out.println(decodedHtml);
 	}
 }
