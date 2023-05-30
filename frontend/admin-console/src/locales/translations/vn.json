@@ -360,5 +360,7 @@
     "vndbalanceLock": "Số tiền đang chờ xử lý (VND)",
     "usdbalanceLock": "Số tiền đang chờ xử lý (USD)",
     "vndbalance": "Số dư thực tế (VND)",
-    "usdbalance": "Số dư thực tế (USD)"
+    "usdbalance": "Số dư thực tế (USD)",
+    "limited-modify-times": "Xin lưu ý rằng bạn chỉ có một số lần chỉnh sửa giới hạn đặc biệt để chỉnh sửa ngày của sự kiện này. Bạn còn lại <b className='text-2xl'>{{remainingTimes}}</b> lần chỉnh sửa cho ngày sự kiện.\nSau khi bạn đã sử dụng hết tất cả các lần chỉnh sửa cho phép, sẽ không thể tiến hành thay đổi ngày sự kiện nữa.",
+    "edit-event-info": "Thông tin về việc chỉnh sửa Sự kiện"
 }

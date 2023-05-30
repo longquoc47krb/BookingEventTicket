@@ -23,7 +23,7 @@ import ExportExcelButton from "../components/common/excel-button";
 const Events = () => {
   const user = useSelector(userInfoSelector);
   const { data: events, status } = useFetchEventsByOrgID(user.id);
-
+  console.log({ events });
   const { t } = useTranslation();
   const navigate = useNavigate();
   const eventData = events?.map((item) => ({
