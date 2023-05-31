@@ -57,7 +57,7 @@ export const orderByEventColumns = [
     sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
     sortDirections: ["descend"],
     render: (text, record) => (
-      <span>{formatter(record.currency).format(record.price)}</span>
+      <span>{formatter(record.currency).format(record.totalPrice)}</span>
     ),
     width: 200,
   },

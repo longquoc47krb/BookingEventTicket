@@ -502,6 +502,12 @@ export const displayFeedbackTime = (time) => {
   const diff = now.diff(date, "days");
   return diff >= 1 ? date.calendar() : date.fromNow();
 };
+export const countRemainingDays = (time) => {
+  const now = moment();
+  const date = moment(time);
+  const countdown = date.diff(now, "days");
+  return countdown;
+};
 export function compareDates(date2) {
   const currentDate = new Date(); // Ngày hiện tại
 

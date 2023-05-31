@@ -52,7 +52,11 @@ function OrdersByEventModal(props) {
   return (
     <div>
       <Modal
-        title={t("orders-of-event", { val: title ?? "" })}
+        title={
+          <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[20vw]">
+            {t("orders-of-event", { val: title ?? "" })}
+          </p>
+        }
         visible={open}
         width={"100%"}
         closable={false}
