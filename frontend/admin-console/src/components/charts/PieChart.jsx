@@ -5,12 +5,12 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = (props) => {
-  const { data, title } = props;
+  const { data, title, options } = props;
 
   return (
     <div className="p-4 card shadow-md block">
-      <Pie data={data} />
-      <h1 className="font-semibold text-xl mt-4 text-center">{title}</h1>
+      <h1 className="font-bold text-2xl text-center my-4">{title}</h1>
+      <Pie data={data} options={options} />
     </div>
   );
 };

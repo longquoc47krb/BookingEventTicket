@@ -1,7 +1,10 @@
 $primary-color: #1f3e82;
 $primary-footer-color: #002944;
 $gray-background: rgb(211, 208, 208);
-
+$badge-background: #b30000;
+$badge-color: #fff;
+$badge-min-size: 16px;
+$badge-max-size: 24px;
 :root {
   --marquee-width: 100vw;
   --marquee-height: 25vh;

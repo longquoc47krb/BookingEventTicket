@@ -1,10 +1,13 @@
 import React from "react";
-
+import LotusTicketLogo from "../logo";
 const Loading = () => {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="loading-container loading-custom">
-      <div className="flex items-center justify-center w-full h-full">
-        <div class="spinner-3"></div>
+    <div className="loading-container">
+      <div class="loading-page">
+        <LotusTicketLogo />
       </div>
     </div>
   );

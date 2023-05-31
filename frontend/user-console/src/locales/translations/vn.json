@@ -32,7 +32,9 @@
     "remain": "Còn lại",
     "ticket": "vé",
     "not-found": "Không có sự kiện nào !?",
-    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!"
+    "not-found-description": "Tụi mình không tìm thấy bất kỳ kết quả nào phù hợp, bạn thử chỉnh sửa lại bộ lọc nhé!",
+    "remaining-days": "Còn {{remainingDays}} ngày nữa",
+    "feedback-avalable": "Có thể nhận định về sự kiện này."
   },
   "search": {
     "result": "Kết quả tìm kiếm: {{val, number}} sự kiện",

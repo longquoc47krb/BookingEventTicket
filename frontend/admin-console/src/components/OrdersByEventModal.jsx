@@ -19,6 +19,11 @@ import {
   ticketsInOrderSelector,
 } from "../redux/slices/eventSlice";
 import Table from "./Table";
+import ExportExcelButton from "./common/excel-button";
+import {
+  addFileExtension,
+  removeSpecialSymbolsExceptDot,
+} from "../utils/utils";
 function OrdersByEventModal(props) {
   const { title, open } = props;
   const dispatch = useDispatch();
@@ -36,10 +41,22 @@ function OrdersByEventModal(props) {
     eventId,
     user.id
   );
+  // columns for Excel
+  const columns = [
+    { header: "ID", key: "id", width: 10 },
+    { header: "Email", key: "email", width: 32 },
+    { header: "Total price", key: "totalPrice", width: 32, outlineLevel: 1 },
+    { header: "Total quantity", key: "totalQuantity", width: 32 },
+    { header: "Date", key: "createdDate", width: 10, width: 64 },
+  ];
   return (
     <div>
       <Modal
-        title={title}
+        title={
+          <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[20vw]">
+            {t("orders-of-event", { val: title ?? "" })}
+          </p>
+        }
         visible={open}
         width={"100%"}
         closable={false}
@@ -57,7 +74,17 @@ function OrdersByEventModal(props) {
             <Spin />
           </div>
         ) : value === "by-event" ? (
-          <Table dataSource={data ? data : []} columns={orderByEventColumns} />
+          <>
+            <ExportExcelButton
+              data={data}
+              columns={columns}
+              filename={addFileExtension(removeSpecialSymbolsExceptDot(title))}
+            />
+            <Table
+              dataSource={data ? data : []}
+              columns={orderByEventColumns}
+            />
+          </>
         ) : (
           <Table
             dataSource={data2 ? data2 : []}

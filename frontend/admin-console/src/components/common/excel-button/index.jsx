@@ -10,6 +10,14 @@ function ExportExcelButton({ data, columns, filename }) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(filename);
 
+    // Add table name as the first row
+    worksheet.addRow([filename]);
+    worksheet.getRow(1).font = { bold: true, size: 14 };
+    worksheet.getRow(1).alignment = { horizontal: "center" };
+
+    // Skip a row before adding the data
+    worksheet.addRow([]);
+
     worksheet.columns = columns;
     if (data.length === 0) {
       AlertErrorPopup({
@@ -19,10 +27,11 @@ function ExportExcelButton({ data, columns, filename }) {
       data.forEach((row) => {
         worksheet.addRow(row);
       });
-      worksheet.getRow(1).font = { bold: true };
-      worksheet.getRow(1).alignment = { horizontal: "center" };
-      workbook.xlsx.writeBuffer().then((data) => {
-        const blob = new Blob([data], {
+      worksheet.getRow(2).font = { bold: true }; // Apply formatting to the second row (after the title row)
+      worksheet.getRow(2).alignment = { horizontal: "center" };
+
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        const blob = new Blob([buffer], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
         saveAs(blob, filename);
