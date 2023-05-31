@@ -191,53 +191,7 @@ public class EventService implements IEventService {
                 new ResponseObject(true, "Handling data successfully", "", 200));
     }
 
-    @Override
-    public void handleEventStatus() {
-        List<Event> events = sortEventByDateAsc(eventRepository.findAll());
-        for (Event event : events) {
-            List<Ticket> tickets = event.getOrganizationTickets();
-            int ticketRemaining = 0;
-            int ticketTotal = 0;
-            for (Ticket ticket : tickets) {
-                int quantityRemaining = ticket.getQuantityRemaining();
-                if (quantityRemaining == 0) {
-                    ticket.setStatus(TicketStatus.SOLD_OUT);
-                } else {
-                    float soldTicket = ticket.getQuantity() - ticket.getQuantityRemaining();
-                    float totallyTicket = ticket.getQuantity();
-                    if (soldTicket / totallyTicket > 0.7) {
-                        ticket.setStatus(TicketStatus.BEST_SELLER);
-                    } else {
-                        ticket.setStatus(TicketStatus.AVAILABLE);
-                    }
 
-                }
-                ticketRemaining += ticket.getQuantityRemaining();
-                ticketTotal += ticket.getQuantity();
-            }
-            event.setTicketRemaining(ticketRemaining);
-            event.setTicketTotal(ticketTotal);
-            if (ticketRemaining == 0 && !isBeforeToday(event.getEndingDate())) {
-                event.setStatus(EventStatus.SOLD_OUT);
-            } else {
-                if (event.getStatus().equals(EventStatus.DELETED)) {
-                    event.setStatus(EventStatus.DELETED);
-                } else if (isBeforeToday(event.getEndingDate())) {
-                    event.setStatus(EventStatus.COMPLETED);
-                    //set status of payment when completed
-                    paymentService.setPaymentToCompleted(event);
-                } else if (event.getTicketRemaining() == 0) {
-                    event.setStatus(EventStatus.SOLD_OUT);
-                } else {
-                    event.setStatus(EventStatus.AVAILABLE);
-                }
-
-            }
-            event.setOrganizationTickets(tickets);
-            eventRepository.save(event);
-            System.out.println("Handling event status successfully");
-        }
-    }
 
     @Override
     public ResponseEntity<?> findAllEvents() {
@@ -331,7 +285,6 @@ public class EventService implements IEventService {
         Optional<Organization> organization = organizationRepository.findByEmail(email);
         Optional<Event> event = eventRepository.findEventById(id);
         if (organization.isPresent() && event.isPresent()) {
-            //paymentService.setPaymentToCancel(organization.get().getPaymentPendings(), id);
             //remove 1 item Id in listEvent
             List<String> eventList = organization.get().getEventList();
             eventList.remove(id);
@@ -339,15 +292,16 @@ public class EventService implements IEventService {
             //change status when deleted by organizer
             event.get().setStatus(EventStatus.DELETED);
             //transfer Order to account
-            List<Order> orders = orderRepository.findAllByIdEvent(id);
             Optional<Account> organizerAccount = accountRepository.findByEmail(organization.get().getEmail());
-            if (organizerAccount.isPresent()) {
+            if (organizerAccount.isPresent() && !isBeforeToday(event.get().getEndingDate())) //29/05/2023
+            {
+                List<Order> orders = orderRepository.findAllByIdEvent(id);
+                paymentService.setPaymentToCancel(organization.get().getPaymentPendings(), orders.get(0).getCurrency(), id);
                 Map<String, String> map = new HashMap<>();
                 map.put("id", event.get().getId());
                 map.put("eventName", event.get().getName());
                 mailService.sendMailWhenDeletingEvent(orders, map, organizerAccount.get().getName(), EMailType.DELETE_EVENT);
             }
-            paymentService.setPaymentToCancel(organization.get().getPaymentPendings(), orders.get(0).getCurrency(), id);
             organizationRepository.save(organization.get());
             eventRepository.save(event.get());
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -376,10 +330,12 @@ public class EventService implements IEventService {
             event.get().setProvince(eventReq.getProvince());
             event.get().setVenue(eventReq.getVenue());
             event.get().setVenue_address(eventReq.getVenue_address());
+            //
             event.get().setStartingTime(eventReq.getStartingTime());
             event.get().setEndingTime(eventReq.getEndingTime());
             event.get().setStartingDate(eventReq.getStartingDate());
             event.get().setEndingDate(eventReq.getEndingDate());
+            //
             event.get().setHost_id(eventReq.getHost_id());
             event.get().setDescription(eventReq.getDescription());
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
