@@ -29,7 +29,6 @@ const Tickets = () => {
     } else if (event.status === "event.completed") {
       return 2;
     }
-    // Handle other cases if needed
   });
   // Change page
   const onChange = (page) => {

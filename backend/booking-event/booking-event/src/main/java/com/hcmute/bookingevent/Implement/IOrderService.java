@@ -13,4 +13,9 @@ public interface IOrderService {
     ResponseEntity<?> findAll();
     ResponseEntity<?> checkOrderAvailability( Order order);
 
+    ResponseEntity<?> getLastFourWeeksOrderStatistics(String email);
+    ResponseEntity<?> getDailyOrderStatistics(String email);
+    ResponseEntity<?> getMonthlyOrderStatistics(String email);
+    ResponseEntity<?> getOrdersLast5Years(String email);
+
 }

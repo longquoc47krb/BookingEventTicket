@@ -40,4 +40,16 @@ export const OrderAPI = {
     url: `/organization/${organinzationEmail}/ticket-statistics/monthly`,
     method: "GET",
   }),
+  getDailyOrderStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/order-statistics/last-seven-days`,
+    method: "GET",
+  }),
+  getLastFourWeeksOrderStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/order-statistics/last-four-weeks`,
+    method: "GET",
+  }),
+  getMonthlyOrderStatistics: (organinzationEmail) => ({
+    url: `/organization/${organinzationEmail}/order-statistics/monthly`,
+    method: "GET",
+  }),
 };

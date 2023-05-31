@@ -314,7 +314,8 @@
         "ticket": "Thống kê vé đã bán được các mốc thời gian",
         "period": "Thời gian",
         "numTickets": "Số lượng vé",
-        "revenue": "Doanh thu"
+        "revenue": "Doanh thu",
+        "order": "Tổng số tiền của các đơn hàng theo các mốc thời gian"
     },
     "time": {
         "day": {

@@ -20,8 +20,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
 
@@ -124,7 +128,147 @@ public class OrderService implements IOrderService {
                 new ResponseObject(true, "check  Order availability successfully" , new ArrayList<>(), 200));
     }
 
+    @Override
+    public ResponseEntity<?> getLastFourWeeksOrderStatistics(String email) {
+        return null;
+    }
 
+    @Override
+    public ResponseEntity<?> getDailyOrderStatistics(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        List<Event> events = new ArrayList<>();
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            event.ifPresent(events::add);
+        }
+
+        Map<LocalDate, Double> orderTotalUSDPriceByDate = new HashMap<>();
+        Map<LocalDate, Double> orderTotalVNDPriceByDate = new HashMap<>();
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusDays(6);
+
+        for (String eventName: organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
+                LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (orderDate.isAfter(startDate.minusDays(1)) && orderDate.isBefore(endDate.plusDays(1))) {
+                    if(order.getCurrency().equals("VND")){
+                        orderTotalVNDPriceByDate.put(orderDate, orderTotalVNDPriceByDate.getOrDefault(orderDate, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    } else {
+                        orderTotalUSDPriceByDate.put(orderDate, orderTotalUSDPriceByDate.getOrDefault(orderDate, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    }
+
+                }
+            }
+        }
+
+        List<Map<String, Object>> orderStatistics = new ArrayList<>();
+        LocalDate currentDate = startDate;
+        while (!currentDate.isAfter(endDate)) {
+            BigDecimal USDValue = new BigDecimal(String.valueOf(orderTotalUSDPriceByDate.getOrDefault(currentDate, 0.0)));
+            BigDecimal VNDValue = new BigDecimal(String.valueOf(orderTotalVNDPriceByDate.getOrDefault(currentDate, 0.0)));
+            Map<String, Object> orderStat = new HashMap<>();
+            orderStat.put("date", currentDate.getDayOfWeek().toString());
+            orderStat.put("orderTotalPriceByUSD", USDValue.toPlainString());
+            orderStat.put("orderTotalPriceByVND", VNDValue.toPlainString());
+            orderStatistics.add(orderStat);
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Order statistics for the last 7 days", orderStatistics, 200));
+
+    }
+
+    @Override
+    public ResponseEntity<?> getMonthlyOrderStatistics(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        Map<String, Double> orderTotalUSDPriceByDate = new HashMap<>();
+        Map<String, Double> orderTotalVNDPriceByDate = new HashMap<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startDate = currentDate.minusMonths(11);
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
+                LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (orderDate.isAfter(startDate.minusDays(1)) && orderDate.isBefore(currentDate.plusDays(1))) {
+                    String monthName = orderDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+                     if(order.getCurrency().equals("VND")){
+                        orderTotalVNDPriceByDate.put(monthName, orderTotalVNDPriceByDate.getOrDefault(monthName, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    } else {
+                        orderTotalUSDPriceByDate.put(monthName, orderTotalUSDPriceByDate.getOrDefault(monthName, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    }
+                }
+            }
+        }
+
+        List<Map<String, Object>> orderStatistics = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            String monthName = startDate.plusMonths(i).getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) ;
+            int year = startDate.plusMonths(i).getYear() ;
+            BigDecimal USDValue = new BigDecimal(String.valueOf(orderTotalUSDPriceByDate.getOrDefault(monthName, 0.0)));
+            BigDecimal VNDValue = new BigDecimal(String.valueOf(orderTotalVNDPriceByDate.getOrDefault(monthName, 0.0)));
+            Map<String, Object> orderStat = new HashMap<>();
+            orderStat.put("date", monthName + " " + year);
+            orderStat.put("orderTotalPriceByUSD", USDValue.toPlainString());
+            orderStat.put("orderTotalPriceByVND", VNDValue.toPlainString());
+            orderStatistics.add(orderStat);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Order statistics for the past 12 months", orderStatistics, 200));
+
+    }
+
+    @Override
+    public ResponseEntity<?> getOrdersLast5Years(String email) {
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        int currentYear = LocalDate.now().getYear();
+
+        Map<Integer, Double> orderTotalPriceByUSDCountsByYear = IntStream.rangeClosed(currentYear - 4, currentYear)
+                .boxed()
+                .collect(Collectors.toMap(year -> year, year -> (double) 0));
+        Map<Integer, Double> orderTotalPriceByVNDCountsByYear = IntStream.rangeClosed(currentYear - 4, currentYear)
+                .boxed()
+                .collect(Collectors.toMap(year -> year, year -> (double) 0));
+
+        for (String eventName : organization.getEventList()) {
+            Event event = eventRepository.findEventById(eventName)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Event not found"));
+
+            List<Order> orders = orderRepository.findAllByIdEvent(event.getId());
+            for (Order order : orders) {
+                int orderYear = order.getCreatedDate().getYear();
+                if (orderYear >= currentYear - 4 && orderYear <= currentYear) {
+                    if(order.getCurrency().equals("VND")){
+                        orderTotalPriceByVNDCountsByYear.merge(orderYear, Double.parseDouble(order.getTotalPrice()), Double::sum);
+                    } else {
+                        orderTotalPriceByUSDCountsByYear.merge(orderYear, Double.parseDouble(order.getTotalPrice()), Double::sum);
+                    }
+                }
+            }
+        }
+
+        List<Map<String, Object>> orderStatistics = IntStream.rangeClosed(currentYear - 4, currentYear)
+                .boxed()
+                .map(year -> {
+                    Map<String, Object> orderStats = new HashMap<>();
+                    orderStats.put("date", year);
+                    orderStats.put("orderTotalPriceByUSD", orderTotalPriceByUSDCountsByYear.get(year));
+                    orderStats.put("orderTotalPriceByVND",  orderTotalPriceByVNDCountsByYear.get(year));
+                    return orderStats;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Ticket statistics for last 5 years", orderStatistics, 200));
+
+    }
 
 
     @Override

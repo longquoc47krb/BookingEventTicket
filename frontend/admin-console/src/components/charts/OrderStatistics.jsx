@@ -11,11 +11,11 @@ import {
 } from "chart.js";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
-  getDailyTicketStatistics,
-  getLastFourWeeksTicketStatistics,
-  getMonthlyTicketStatistics,
+  getDailyOrderStatistics,
+  getLastFourWeeksOrderStatistics,
+  getMonthlyOrderStatistics,
 } from "../../api/services/orderServices";
 import { Spin } from "antd";
 import { useQuery } from "@tanstack/react-query";
@@ -37,28 +37,41 @@ export function OrderStatistics({ organizationEmail, chartName }) {
   };
   const options = {
     responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Date",
+        },
       },
-      title: {
-        display: true,
-        text: t(chartName),
+      y: {
+        title: {
+          display: true,
+          text: "Revenue",
+        },
+        ticks: {
+          callback: (value) => {
+            if (value >= 1000000) {
+              return (value / 1000000).toFixed(1) + "M";
+            }
+            return value;
+          },
+        },
       },
     },
   };
   const {
     isLoading,
-    data: ticketStatistics,
+    data: orderStatistics,
     refetch,
-  } = useQuery(["ticketStatistics", organizationEmail, period], async () => {
+  } = useQuery(["orderStatistics", organizationEmail, period], async () => {
     switch (period) {
       case "daily":
-        return getDailyTicketStatistics(organizationEmail);
+        return getDailyOrderStatistics(organizationEmail);
       case "weekly":
-        return getLastFourWeeksTicketStatistics(organizationEmail);
+        return getLastFourWeeksOrderStatistics(organizationEmail);
       case "monthly":
-        return getMonthlyTicketStatistics(organizationEmail);
+        return getMonthlyOrderStatistics(organizationEmail);
       default:
         return null;
     }
@@ -84,50 +97,53 @@ export function OrderStatistics({ organizationEmail, chartName }) {
           <option value="monthly">Monthly</option>
         </select>
       </div>
-      {/* {period === "custom" && (
-        <div className="flex flex-col sm:flex-row items-center">
-          <label htmlFor="startDate" className="mr-2 font-medium">
-            Start Date:
-          </label>
-          <DatePicker
-            className="ml-2 py-2 px-3 border rounded"
-            selected={startDate}
-            onChange={handleStartDateChange}
-          />
-          <label htmlFor="endDate" className="mr-2 font-medium">
-            End Date:
-          </label>
-          <DatePicker
-            className="ml-2 py-2 px-3 border rounded"
-            selected={endDate}
-            onChange={handleEndDateChange}
-          />
-        </div>
-      )} */}
       {isLoading ? (
         <div className="inset-0 absolute z-50 flex justify-center items-center">
           <Spin />
         </div>
       ) : (
         <div className="w-full relative">
-          {ticketStatistics && (
-            <Bar
-              data={{
-                labels:
-                  ticketStatistics.map((dataPoint) => dataPoint.date) ?? [],
-                datasets: [
-                  {
-                    label: t("stats.numTickets"),
-                    data:
-                      ticketStatistics.map(
-                        (dataPoint) => dataPoint.numberTickets
-                      ) ?? [],
-                    backgroundColor: "#1F3E82",
-                  },
-                ],
-              }}
-              options={options}
-            />
+          {orderStatistics && (
+            <div>
+              <Line
+                data={{
+                  labels:
+                    orderStatistics.map((dataPoint) => dataPoint.date) ?? [],
+                  datasets: [
+                    {
+                      label: "VND",
+                      data:
+                        orderStatistics.map(
+                          (dataPoint) => dataPoint.orderTotalPriceByVND
+                        ) ?? [],
+                      borderColor: "blue",
+                      fill: false,
+                    },
+                  ],
+                }}
+                options={options}
+              />
+              <div className="w-full">
+                <Line
+                  data={{
+                    labels:
+                      orderStatistics.map((dataPoint) => dataPoint.date) ?? [],
+                    datasets: [
+                      {
+                        label: "USD",
+                        data:
+                          orderStatistics.map(
+                            (dataPoint) => dataPoint.orderTotalPriceByUSD
+                          ) ?? [],
+                        borderColor: "red",
+                        fill: false,
+                      },
+                    ],
+                  }}
+                  options={options}
+                />
+              </div>
+            </div>
           )}
         </div>
       )}

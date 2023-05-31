@@ -312,7 +312,8 @@
         "ticket": "Ticket statistics of events by period",
         "period": "Period",
         "numTickets": "Number of tickets",
-        "revenue": "Revenue"
+        "revenue": "Revenue",
+        "order": "Total amount of orders by period"
     },
     "time": {
         "day": {
