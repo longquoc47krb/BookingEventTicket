@@ -144,33 +144,27 @@ public class EventService implements IEventService {
 
         for (Event event : events) {
             List<Ticket> tickets = event.getOrganizationTickets();
-            int ticketRemaining = 0;
-            int ticketTotal = 0;
+            //check ticket type status
             for (Ticket ticket : tickets) {
-                int quantityRemaining = ticket.getQuantityRemaining();
-                if (quantityRemaining == 0) {
+                //int quantityRemaining = ticket.getQuantityRemaining();
+                if (ticket.getQuantityRemaining() == 0)
+                {
                     ticket.setStatus(TicketStatus.SOLD_OUT);
                 } else {
                     float soldTicket = ticket.getQuantity() - ticket.getQuantityRemaining();
                     float totallyTicket = ticket.getQuantity();
                     if (soldTicket / totallyTicket > 0.7) {
                         ticket.setStatus(TicketStatus.BEST_SELLER);
-                    } else {
-                        ticket.setStatus(TicketStatus.AVAILABLE);
                     }
-
                 }
-                ticketRemaining += ticket.getQuantityRemaining();
-                ticketTotal += ticket.getQuantity();
+
             }
-            event.setTicketRemaining(ticketRemaining);
-            event.setTicketTotal(ticketTotal);
-            if (ticketRemaining == 0 && !isBeforeToday(event.getEndingDate())) {
+            event.setOrganizationTickets(tickets);
+
+            //check event status
+            if (event.getTicketRemaining() == 0) {
                 event.setStatus(EventStatus.SOLD_OUT);
             } else {
-//                if (event.getStatus().equals(EventStatus.DELETED)) {
-//                    event.setStatus(EventStatus.DELETED);
-//                } else
                 if (isBeforeToday(event.getEndingDate()) && event.getStatus().equals(EventStatus.AVAILABLE)) {
                     System.out.println("status: " + event.getStatus() + " event name: " + event.getName());
                     if (event.getStatus().equals(EventStatus.COMPLETED)) {
@@ -179,12 +173,8 @@ public class EventService implements IEventService {
                         event.setStatus(EventStatus.COMPLETED);
                         paymentService.setPaymentToCompleted(event);
                     }
-                } else if (event.getTicketRemaining() == 0) {
-                    event.setStatus(EventStatus.SOLD_OUT);
                 }
-
             }
-            event.setOrganizationTickets(tickets);
             eventRepository.save(event);
         }
         return ResponseEntity.status(HttpStatus.OK).body(
