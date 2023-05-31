@@ -8,6 +8,9 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -155,11 +158,11 @@ public class MailService {
         }
     }
     public void sendMailWhenUpdatingEvent(List<Account> accountList, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
-        String testHtml = " Click  <a href=\"https://lotusticket-vn.netlify.app/event/" + map.get("id") + "\">here</a> to visit this event";
-        String UPDATE_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just changed a event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" + testHtml;
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("We want to notify you that <span style=\"color:black;font-weight: 700;\">").append(organizationName).append("</span> has just changed a event called <span style=\"color:black;font-weight: 700; font-family:Calibri \">").append(map.get("eventName")).append("</span> <br>").append(" Click  <a href=\"https://lotusticket-vn.netlify.app/event/").append(map.get("id")).append("\">here</a> to visit this event");
         for(Account account : accountList)
         {
-            sendMail(account,UPDATE_EVENT,"",type);
+            sendMail(account,htmlBuilder.toString(),"",type);
         }
     }
     //send mail và hoàn tiền
