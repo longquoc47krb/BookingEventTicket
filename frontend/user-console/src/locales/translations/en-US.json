@@ -33,7 +33,9 @@
     "remain": "Remaing",
     "ticket": "tickets",
     "not-found": "Oops..! Data not found",
-    "not-found-description": "We can't find any appropriate results, try to edit the filter!"
+    "not-found-description": "We can't find any appropriate results, try to edit the filter!",
+    "remaining-days": "Remaining {{remainingDays}} days",
+    "feedback-avalable": "You can send a feedback for this event."
   },
   "search": {
     "result": "Search results: {{val, number}} events",

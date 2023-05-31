@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { convertMongodbTimeToString } from "../../../utils/utils";
 import TicketItem from "../ticket";
 import { useMedia } from "react-use";
+import EventBadge from "../../../components/event-badge";
 const { ORDER_HEADER, BUYER_HEADER, ORDER_TABLE_HEADER } = AppConfig;
 
 function PurchaseTicketItem(props) {
@@ -91,23 +92,25 @@ function PurchaseTicketItem(props) {
       <div
         className={
           isMobile
-            ? "flex gap-x-4 items-center text-white text-base font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mb-4 mt-8"
-            : "flex gap-x-4 items-center text-white text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mb-4 mt-8"
+            ? "text-white text-base font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mt-8 card"
+            : " text-white text-2xl font-medium w-[calc(100%-2rem)] bg-[#1f3e82] px-4 py-2 mt-8 card"
         }
       >
-        <MdAccessTime />
-        <span className={isMobile ? "font-thin text-base" : "font-thin"}>
-          {t("ticket.createdAt")}
-        </span>
-        {convertMongodbTimeToString(data.createdDate)}
+        <div className="flex items-center gap-x-4 flex-row">
+          <MdAccessTime />
+          <p className={isMobile ? "font-thin text-base" : "font-thin"}>
+            {t("ticket.createdAt")}
+          </p>
+          <p>{convertMongodbTimeToString(data.createdDate)}</p>
+        </div>
       </div>
       {eventStatus === "success" && (
-        <div className="mb-4 w-[calc(100%-2rem)] min-h-[25rem] relative p-4 rounded-[1rem] ticket-item flex">
+        <div className="mb-4 w-[calc(100%-2rem)] min-h-[25rem] relative p-4 rounded-[1rem] card">
           <div className="flex flex-col w-full">
             <div
               className={
                 isMobile
-                  ? "block border-b-[1px] border-[#aa9f9f] border-dashed"
+                  ? "block border-b-[1px] car border-[#aa9f9f] border-dashed"
                   : "flex items-center justify-start border-b-[1px] border-[#aa9f9f] border-dashed"
               }
             >
@@ -115,17 +118,24 @@ function PurchaseTicketItem(props) {
                 src={organizerStatus === "success" && organizer.avatar}
                 className="h-[10rem] w-auto p-4 rounded-full"
                 alt="logo event"
+                onClick={() => navigate(`/organizer-profile/${organizer.id}`)}
               />
               <div>
-                <p className="text-base text-[#1f3e82] uppercase tracking-[0.5rem] mb-1">
+                <p
+                  className="text-base text-[#1f3e82] uppercase tracking-[0.5rem] mb-1 hover:underline hover:cursor-pointer"
+                  onClick={() => navigate(`/organizer-profile/${organizer.id}`)}
+                >
                   {organizerStatus === "success" && organizer.name}
                 </p>
-                <p
-                  className="font-medium text-3xl text-ellipsis overflow-hidden text-[#1f3e82] mb-2 hover:underline"
-                  onClick={() => navigate(`/event/${event.id}`)}
+                <h1
+                  className="font-medium text-3xl  text-[#1f3e82] mb-2  gap-x-3 flex items-center"
+                  onClick={() => navigate(`/event/${data.idEvent}`)}
                 >
-                  {event.name}
-                </p>
+                  <span className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[80vw] hover:underline hover:cursor-pointer">
+                    {event.name}
+                  </span>{" "}
+                  {/* <EventBadge status={event.status} date={event.startingDate} /> */}
+                </h1>
                 <p className="text-base text-[#1f3e82] text-ellipsis overflow-hidden flex items-center gap-x-3">
                   <BsFillCalendarCheckFill />
                   <p>

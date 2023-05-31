@@ -1,47 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Header from "../../components/common/header";
-import HelmetHeader from "../../components/helmet";
 import { Pagination } from "antd";
 import { motion } from "framer-motion";
+import parse from "html-react-parser";
+import { filter, includes } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import customerServices, {
+  useCheckFollowedOrg,
+} from "../../api/services/customerServices";
 import organizationServices, {
   useFindOrganizerById,
-  useFindOrganizerEventList,
 } from "../../api/services/organizationServices";
-import { useDispatch, useSelector } from "react-redux";
+import { AlertErrorPopup } from "../../components/common/alert";
+import EventHomeItem from "../../components/common/event-home-item";
+import Header from "../../components/common/header";
+import EmptyData from "../../components/empty";
+import EventHomeSkeletonItem from "../../components/event-home-skeleton";
+import FollowButton from "../../components/follow-button";
+import FooterComponent from "../../components/FooterComponent";
+import HelmetHeader from "../../components/helmet";
+import { userInfoSelector } from "../../redux/slices/accountSlice";
+import constants from "../../utils/constants";
 import {
-  organizerInfoSelector,
-  updateOrganizerInfo,
-} from "../../redux/slices/eventSlice";
-import {
-  htmlToPlainText,
   isArray,
   isEmpty,
   isNotEmpty,
   sortEventsByStartingDate,
 } from "../../utils/utils";
-import customerServices, {
-  useCheckFollowedOrg,
-} from "../../api/services/customerServices";
-import { filter, includes } from "lodash";
-import { userInfoSelector } from "../../redux/slices/accountSlice";
-import { AlertErrorPopup } from "../../components/common/alert";
-import { useTranslation } from "react-i18next";
-import FollowButton from "../../components/follow-button";
-import EventHomeSkeletonItem from "../../components/event-home-skeleton";
-import EventHomeItem from "../../components/common/event-home-item";
 import TabSection from "./tab-section";
-import constants from "../../utils/constants";
-import FooterComponent from "../../components/FooterComponent";
 const { findOrganizerEventList } = organizationServices;
 const { EventStatus } = constants;
 const { unfollowOrg, followOrg, findAllCustomer } = customerServices;
 function OrganizerProfile() {
   const { organizerId } = useParams();
-  const dispatch = useDispatch();
-  const { data: organizer, isLoading: organizerLoading } =
-    useFindOrganizerById(organizerId);
+  const { data: organizer } = useFindOrganizerById(organizerId);
   const [activeTab, setActiveTab] = useState("all-events");
   const user = useSelector(userInfoSelector);
   const [toggleDrawer, setToggleDrawer] = useState(false);
@@ -71,6 +66,9 @@ function OrganizerProfile() {
         );
       setNumberFollowers(itemsWithFollowEmail.length);
     }
+    fetchOrganizerFollower();
+  }, [showFollowed]);
+  useEffect(() => {
     if (organizer) {
       async function fetchEventsByOrganizerEmail() {
         setEventLoading(true);
@@ -82,9 +80,7 @@ function OrganizerProfile() {
       }
       fetchEventsByOrganizerEmail();
     }
-
-    fetchOrganizerFollower();
-  }, [showFollowed, organizer]);
+  }, [organizer]);
   console.log({ events });
   const { data: isFollowed, isLoading } = useCheckFollowedOrg(
     user?.email,
@@ -150,26 +146,44 @@ function OrganizerProfile() {
   function EventListSection(activeTab) {
     switch (activeTab) {
       case "all-events":
-        return (
-          isArray(events) &&
+        return isArray(events) && isNotEmpty(events) ? (
           sortEventsByStartingDate(events)
             ?.slice(firstIndex, lastIndex)
             .map((event, index) => <EventHomeItem event={event} key={index} />)
+        ) : (
+          <div className="flex justify-center w-screen my-4">
+            <EmptyData />
+          </div>
         );
       case "completed-events":
-        return sortEventsByStartingDate(completedEvents)
-          ?.slice(firstIndex, lastIndex)
-          .map((event, index) => <EventHomeItem event={event} key={index} />);
+        return isNotEmpty(completedEvents) ? (
+          sortEventsByStartingDate(completedEvents)
+            ?.slice(firstIndex, lastIndex)
+            .map((event, index) => <EventHomeItem event={event} key={index} />)
+        ) : (
+          <div className="flex justify-center w-screen my-4">
+            <EmptyData />
+          </div>
+        );
       case "featured-events":
-        return sortEventsByStartingDate(featuredEvents)
-          ?.slice(firstIndex, lastIndex)
-          .map((event, index) => <EventHomeItem event={event} key={index} />);
+        return isNotEmpty(featuredEvents) ? (
+          sortEventsByStartingDate(featuredEvents)
+            ?.slice(firstIndex, lastIndex)
+            .map((event, index) => <EventHomeItem event={event} key={index} />)
+        ) : (
+          <div className="flex justify-center w-screen my-4">
+            <EmptyData />
+          </div>
+        );
       default:
-        return (
-          isArray(events) &&
+        return isArray(events) && isNotEmpty(events) ? (
           sortEventsByStartingDate(events)?.map((event, index) => (
             <EventHomeItem event={event} key={index} />
           ))
+        ) : (
+          <div className="flex justify-center w-screen my-4">
+            <EmptyData />
+          </div>
         );
     }
   }
@@ -235,7 +249,7 @@ function OrganizerProfile() {
         <div className="absolute top-[45vh] z-[999] w-full flex justify-center ">
           <img
             src={organizer?.avatar}
-            className="object-cover rounded-full border-gray-400 border-4 border-solid shadow-lg shadow-black"
+            className="object-cover rounded-full border-gray-400 border-4 border-solid shadow-lg shadow-black bg-white"
             style={{ width: "200px", height: "200px" }}
             alt="avatar"
           />
@@ -253,7 +267,7 @@ function OrganizerProfile() {
             </div>
           </div>
           <p className="w-[50vw] text-center mt-2">
-            {htmlToPlainText(organizer?.biography)}
+            {parse(String(organizer?.biography))}
           </p>
         </div>
         <div className="flex justify-center items-center gap-x-4 my-4">

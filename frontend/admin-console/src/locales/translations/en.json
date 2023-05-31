@@ -354,5 +354,11 @@
     },
     "one-day": "Event held on a Single day",
     "sold-ticket": "Sold: {{val, number}}",
-    "eventsByCategory": "Statistic Events by Category"
+    "eventsByCategory": "Statistic Events by Category",
+    "vndbalanceLock": "Pending processing of VND amount",
+    "usdbalanceLock": "Pending processing of USD amount",
+    "vndbalance": "Actual account balance in VND",
+    "usdbalance": "Actual account balance in USD",
+    "limited-modify-times": "Please note that you have a limited number of modification allowances specifically for editing the date of this event. You have <b className='text-2xl'>{{remainingTimes}}</b> modifications remaining for the event date.\nOnce you have used up all the modification allowances, further changes to the event date will not be possible.",
+    "edit-event-info": "Information about modify Event."
 }

@@ -2,7 +2,7 @@ import { Pagination } from "antd";
 import { t } from "i18next";
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFetchEventsByFilter } from "../../../api/services/eventServices";
 import SectionTitle from "../../../components/common/section-title";
 import EmptyData from "../../../components/empty";

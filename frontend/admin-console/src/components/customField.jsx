@@ -64,7 +64,7 @@ function Input(props) {
 }
 function DatePicker(props) {
   const dateFormat = "DD/MM/YYYY";
-  const { form, field, label } = props;
+  const { form, field, label, disabled } = props;
   const { value, onBlur, name } = field;
   const { t } = useTranslation();
   const { setFieldValue, errors, touched } = form;
@@ -79,6 +79,7 @@ function DatePicker(props) {
           value={value}
           onChange={(value) => setFieldValue(name, value)}
           onBlur={onBlur}
+          disabled={disabled}
         />
         <p className="text-red-600 font-medium text-lg mb-0">
           {touched[name] && t(errors[name])}
@@ -88,7 +89,7 @@ function DatePicker(props) {
   );
 }
 function TimePicker(props) {
-  const { form, field, label, ...rest } = props;
+  const { form, field, label, disabled } = props;
   const { value, onBlur, name } = field;
   const { t } = useTranslation();
   const { setFieldValue, errors, touched } = form;
@@ -108,7 +109,7 @@ function TimePicker(props) {
           status={errors[name] ? "error" : ""}
           onChange={(value) => setFieldValue(name, value)}
           onBlur={onBlur}
-          {...rest}
+          disabled={disabled}
         />
         <p className="text-red-600 font-medium text-lg mb-0">
           {touched[name] && t(errors[name])}

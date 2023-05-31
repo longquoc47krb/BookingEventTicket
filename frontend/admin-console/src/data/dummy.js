@@ -57,7 +57,7 @@ export const orderByEventColumns = [
     sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
     sortDirections: ["descend"],
     render: (text, record) => (
-      <span>{formatter(record.currency).format(record.price)}</span>
+      <span>{formatter(record.currency).format(record.totalPrice)}</span>
     ),
     width: 200,
   },
@@ -289,23 +289,91 @@ export const eventColumns = [
     ),
   },
 ];
+export const eventByCategoryColumns = [
+  {
+    title: t("event.background"),
+    dataIndex: "background",
+    render: (background) => (
+      <img src={background} className="h-[2rem] w-auto" />
+    ),
+  },
+  {
+    title: t("event.name"),
+    dataIndex: "name",
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ["descend"],
+  },
+  {
+    title: t("event.category"),
+    dataIndex: "categories",
+    render: (categories) =>
+      categories.map((item) => (
+        <span className="p-2 bg-gray-100 border-2 text-xs rounded-md border-gray-500 text-gray-500 font-medium mr-2">
+          {t(item.name)}
+        </span>
+      )),
+    width: 250,
+  },
+  {
+    title: t("event.status.title"),
+    dataIndex: "status",
+    width: 150,
+    filters: [
+      {
+        text: t("event.status.available"),
+        value: "event.available",
+      },
+      {
+        text: t("event.status.completed"),
+        value: "event.completed",
+      },
+      {
+        text: t("event.status.soldout"),
+        value: "event.sold-out",
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    render: (status) =>
+      status === "event.available" ? (
+        <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
+          {t("event.status.available")}
+        </span>
+      ) : status === "event.completed" ? (
+        <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
+          {t("event.status.completed")}
+        </span>
+      ) : (
+        <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
+          {t("event.status.soldout")}
+        </span>
+      ),
+  },
+];
 export const paymentColumns = [
   {
-    title: t("event.id"),
-    dataIndex: "idEvent",
+    title: t("event.name"),
+    dataIndex: "name",
   },
   {
     title: t("payment.vndbalanceLock"),
     dataIndex: "vndbalanceLock",
+    render: (vndbalanceLock) => (
+      <span>{formatter("VND").format(vndbalanceLock)}</span>
+    ),
   },
   {
     title: t("payment.usdbalanceLock"),
     dataIndex: "usdbalanceLock",
+    render: (usdbalanceLock) => (
+      <span>{formatter("USD").format(usdbalanceLock)}</span>
+    ),
   },
   {
     title: "status",
     key: "status",
     dataIndex: "status",
+    width: 150,
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     render: (status) =>
       status === "COMPLETED" ? (
@@ -506,16 +574,6 @@ export const accountColumns = [
       </>
     ),
     onFilter: (value, record) => record.role.indexOf(value) === 0,
-  },
-  {
-    title: t("event.modify"),
-    key: "action",
-    render: (_, record) => (
-      <div className="flex items-center gap-x-2 cursor-pointer">
-        <BsFillEyeFill color="#1f3e82" />
-        <span className="text-[#1f3e82] font-medium">{t("view-detail")}</span>
-      </div>
-    ),
   },
 ];
 export const orderByAccountColumns = [

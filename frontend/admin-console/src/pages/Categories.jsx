@@ -9,7 +9,7 @@ import { Header } from "../components";
 import CategoryItem from "../components/CategoryItem";
 import Table from "../components/Table";
 import EventsByCategoryChart from "../components/charts/EventsByCategoryChart";
-import { eventColumns } from "../data/dummy";
+import { eventByCategoryColumns } from "../data/dummy";
 import {
   setShowCategoryModal,
   showCategorySelection,
@@ -75,7 +75,7 @@ const Categories = () => {
               // Handle other cases if needed
             })
           }
-          columns={eventColumns}
+          columns={eventByCategoryColumns}
         />
       </Modal>
     </div>

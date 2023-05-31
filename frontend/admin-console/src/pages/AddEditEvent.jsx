@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { Col, Row, Switch } from "antd";
+import { Alert, Col, Row, Switch } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
 import styled from "styled-components";
 import { decode, encode } from "js-base64";
@@ -95,6 +95,7 @@ function AddEditEvent(props) {
         quantityRemaining: 0,
       },
     ],
+    modifyTimes: 0,
   };
   const handleTemplateTicket = () => {
     let newArr = [];
@@ -179,7 +180,9 @@ function AddEditEvent(props) {
         ticketTotal: sumBy(handleTicketList(values.ticketList), "quantity"),
         ticketRemaining: sumBy(handleTicketList(values.ticketList), "quantity"),
         host_id: user.id,
+        modifyTimes: values.modifyTimes < 2 ? values.modifyTimes + 1 : 2,
       };
+      console.log("modifyTimes in request: ", request.modifyTimes);
       if (saveTemplate) {
         await createTemplateTicket(user.id, request.organizationTickets);
       }
@@ -220,7 +223,7 @@ function AddEditEvent(props) {
     },
   });
   const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
-
+  console.log("modifyTimes: ", values.modifyTimes);
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
   }, [values.startingDate]);
@@ -264,6 +267,7 @@ function AddEditEvent(props) {
           venue: res.venue,
           venue_address: res.venue_address,
           ticketList: res.organizationTickets,
+          modifyTimes: res.modifyTimes,
         });
       }
       fetchEvent();
@@ -320,6 +324,21 @@ function AddEditEvent(props) {
               : null}
           </h1>
         </div>
+        <Alert
+          message={
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t("limited-modify-times", {
+                  remainingTimes: 2 - values.modifyTimes,
+                }),
+              }}
+            />
+          }
+          type="info"
+          showIcon
+          closable
+          style={{ marginBottom: 24 }}
+        />
         <FormikProvider value={formik}>
           <Form
             style={{
@@ -373,6 +392,7 @@ function AddEditEvent(props) {
                   name="startingDate"
                   component={DatePicker}
                   label={t("event.startingDate")}
+                  disabled={values.modifyTimes >= 2 ? true : false}
                 />
               </Col>
               <Col span={12}>
@@ -381,6 +401,7 @@ function AddEditEvent(props) {
                     name="endingDate"
                     component={DatePicker}
                     label={t("event.endingDate")}
+                    disabled={values.modifyTimes >= 2 ? true : false}
                   />
                 )}
               </Col>
@@ -392,6 +413,7 @@ function AddEditEvent(props) {
                   name="startingTime"
                   component={TimePicker}
                   label={t("event.startingTime")}
+                  disabled={values.modifyTimes >= 2 ? true : false}
                 />
               </Col>
 
@@ -400,6 +422,7 @@ function AddEditEvent(props) {
                   name="endingTime"
                   component={TimePicker}
                   label={t("event.endingTime")}
+                  disabled={values.modifyTimes >= 2 ? true : false}
                 />
               </Col>
             </Row>

@@ -123,7 +123,7 @@ export const useFetchEventsByOrgID = (id) => {
     ["getEventsByOrganizationId", id],
     () => getEventsByOrganizationId(id),
     {
-      staleTime: 30000,
+      staleTime: 0,
       refetchInterval: 5000,
     }
   );
