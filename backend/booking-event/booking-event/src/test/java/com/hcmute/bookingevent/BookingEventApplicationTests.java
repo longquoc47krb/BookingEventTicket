@@ -2,10 +2,13 @@ package com.hcmute.bookingevent;
 
 import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Customer;
+import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.event.EventStatus;
 import com.hcmute.bookingevent.models.organization.EOrganization;
+import com.hcmute.bookingevent.models.ticket.Ticket;
+import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.*;
 import com.hcmute.bookingevent.services.PaymentService;
 import com.hcmute.bookingevent.models.admin.Admin;
@@ -21,14 +24,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+//import static com.hcmute.bookingevent.services.TicketService.setStatusForTicketType;
 import static com.hcmute.bookingevent.utils.DateUtils.isBeforeToday;
 import static com.hcmute.bookingevent.utils.DateUtils.sortEventByDateAsc;
 
@@ -48,6 +55,9 @@ class BookingEventApplicationTests {
 	private PaymentService paymentService;
 	@Autowired
 	private EventRepository eventRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+
 	private final PasswordEncoder encoder = new PasswordEncoder() {
 		@Override
 		public String encode(CharSequence rawPassword) {
@@ -276,5 +286,48 @@ class BookingEventApplicationTests {
 
 		String decodedHtml = StringEscapeUtils.unescapeHtml4(html);
 		System.out.println(decodedHtml);
+	}
+	@Test
+	public void testOrder() {
+//		Ticket ticket = new Ticket("2665","test ticket","3.5","test",100,99,"USD","ticket.available");
+//		List<Ticket> organizationTicket = new ArrayList<>();
+//		organizationTicket.add(ticket);
+//		System.out.println(ticket);
+//		for(Ticket ticketI : organizationTicket)
+//		{
+//			ticketI.setQuantity(ticketI.getQuantity()-1);
+//		}
+//		System.out.println(ticket);
+		//
+		Optional<Customer> customer = customerRepository.findByEmail("tuantuan3455@gmail.com");
+		//Optional<Order> order = orderRepository.findAllByEmail("tuantuan3455@gmail.com");
+
+		Optional<Event> event = eventRepository.findEventById("may-lang-thang-liveshow-ung-hoang-phuc--khach-moi--quang-dang-tran-22556");
+		if (customer.isPresent() && event.isPresent()) {
+			//int resultTicketRemaining = event.get().getTicketRemaining() - order.getTotalQuantity();
+			event.get().setTicketRemaining(event.get().getTicketRemaining() -1);
+			//for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
+			//for (Ticket ticket : event.get().getOrganizationTickets()) {
+			//if (event.get().getOrganizationTickets().get(0)) {
+//						if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() <0)
+//						{
+//							return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+//									new ResponseObject(false, "No more ticket", "", 501));
+//						}
+			//int resultQuantityRemaining = ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity();
+			event.get().getOrganizationTickets().get(0).setQuantityRemaining( event.get().getOrganizationTickets().get(0).getQuantityRemaining()-1 );
+			//ticket.setQuantityRemaining(99 );
+			//setStatusForTicketType(ticket);
+			//}
+			//}
+			//}
+			System.out.println(event.get().getOrganizationTickets());
+
+			List<Ticket> clonedList = new ArrayList<>(event.get().getOrganizationTickets());
+			//event.get().setOrganizationTickets(clonedList);
+			System.out.println(clonedList);
+
+			eventRepository.save(event.get());
+		}
 	}
 }

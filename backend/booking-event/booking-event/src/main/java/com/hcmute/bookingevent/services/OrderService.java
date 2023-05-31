@@ -49,7 +49,8 @@ public class OrderService implements IOrderService {
             Optional<Customer> customer = customerRepository.findByEmail(email);
             Optional<Event> event = eventRepository.findEventById(order.getIdEvent());
             if (customer.isPresent() && event.isPresent()) {
-                event.get().setTicketRemaining(event.get().getTicketRemaining() - order.getTotalQuantity());
+                int resultTicketRemaining = event.get().getTicketRemaining() - order.getTotalQuantity();
+                event.get().setTicketRemaining(resultTicketRemaining);
                 for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
                     for (Ticket ticket : event.get().getOrganizationTickets()) {
                         if (ticket.getId().equals(ticketOfCustomer.getId())) {
@@ -58,11 +59,16 @@ public class OrderService implements IOrderService {
                                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                                         new ResponseObject(false, "No more ticket", "", 501));
                             }
-                            ticket.setQuantityRemaining(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() );
+                            int resultQuantityRemaining = ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity();
+                            ticket.setQuantityRemaining(resultQuantityRemaining );
                             setStatusForTicketType(ticket);
                         }
                     }
                 }
+                //List<Ticket> clonedList = new ArrayList<>(event.get().getOrganizationTickets());
+                //event.get().setOrganizationTickets(clonedList);
+                eventRepository.save(event.get());
+
                 //cap nhat o organization  (cong tien)
                 Optional<Organization> organization = organizationRepository.findOrganizationByEventId(order.getIdEvent());
                 if (organization.isPresent()) {
@@ -78,8 +84,6 @@ public class OrderService implements IOrderService {
                     }
                     organizationRepository.save(organization.get());
                 }
-                eventRepository.save(event.get());
-
                 orderRepository.save(order);
                 customerRepository.save(customer.get());
 
