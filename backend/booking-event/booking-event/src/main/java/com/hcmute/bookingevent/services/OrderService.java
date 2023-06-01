@@ -70,10 +70,7 @@ public class OrderService implements IOrderService {
                         }
                     }
                 }
-                //List<Ticket> clonedList = new ArrayList<>(event.get().getOrganizationTickets());
-                //event.get().setOrganizationTickets(clonedList);
                 eventRepository.save(event.get());
-
                 //cap nhat o organization  (cong tien)
                 Optional<Organization> organization = organizationRepository.findOrganizationByEventId(order.getIdEvent());
                 if (organization.isPresent()) {

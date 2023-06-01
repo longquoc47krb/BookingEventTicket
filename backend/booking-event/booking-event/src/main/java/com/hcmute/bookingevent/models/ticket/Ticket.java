@@ -28,7 +28,7 @@ public class Ticket {
     @NotBlank(message = "currency is required")
     private String currency;
 
-    @NotBlank(message = "currency is required")
+    @NotBlank(message = "status is required")
     public String status;
     public Ticket(OrganizationTicketReq organizationTicketReq)
     {
