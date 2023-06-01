@@ -24,7 +24,7 @@
         "updateDate": "Cập nhật lần cuối lúc ",
         "background": "Ảnh bìa",
         "name": "Tiêu đề",
-        "currency": "Select currency:",
+        "currency": "Chọn loại tiền:",
         "category": "Thể loại",
         "startingDate": "Ngày bắt đầu",
         "endingDate": "Ngày kết thúc",
@@ -315,7 +315,7 @@
         "period": "Thời gian",
         "numTickets": "Số lượng vé",
         "revenue": "Doanh thu",
-        "order": "Tổng số tiền của các đơn hàng theo các mốc thời gian"
+        "order": "Doanh thu từ các đơn hàng theo các mốc thời gian"
     },
     "time": {
         "day": {

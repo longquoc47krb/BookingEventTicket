@@ -31,16 +31,20 @@ ChartJS.register(
 );
 export function OrderStatistics({ organizationEmail, chartName }) {
   const [period, setPeriod] = useState("daily");
+  const [currency, setCurrency] = useState("VND");
   const handlePeriodChange = async (event) => {
     setPeriod(event.target.value);
     // Reset the start and end dates when period changes
+  };
+  const handleCurrencyChange = async (event) => {
+    setCurrency(event.target.value);
   };
   const options = {
     responsive: true,
     scales: {
       x: {
         title: {
-          display: true,
+          display: false,
           text: "Date",
         },
       },
@@ -96,6 +100,17 @@ export function OrderStatistics({ organizationEmail, chartName }) {
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </select>
+        <label htmlFor="currency" className="mr-2 font-medium  ml-4">
+          {t("event.currency")}
+        </label>
+        <select
+          className="rounded-md px-3 py-1 mb-2 sm:mb-0"
+          value={currency}
+          onChange={handleCurrencyChange}
+        >
+          <option value="USD">USD</option>
+          <option value="VND">VND</option>
+        </select>
       </div>
       {isLoading ? (
         <div className="inset-0 absolute z-50 flex justify-center items-center">
@@ -105,25 +120,26 @@ export function OrderStatistics({ organizationEmail, chartName }) {
         <div className="w-full relative">
           {orderStatistics && (
             <div>
-              <Line
-                data={{
-                  labels:
-                    orderStatistics.map((dataPoint) => dataPoint.date) ?? [],
-                  datasets: [
-                    {
-                      label: "VND",
-                      data:
-                        orderStatistics.map(
-                          (dataPoint) => dataPoint.orderTotalPriceByVND
-                        ) ?? [],
-                      borderColor: "blue",
-                      fill: false,
-                    },
-                  ],
-                }}
-                options={options}
-              />
-              <div className="w-full">
+              {currency === "VND" ? (
+                <Line
+                  data={{
+                    labels:
+                      orderStatistics.map((dataPoint) => dataPoint.date) ?? [],
+                    datasets: [
+                      {
+                        label: "VND",
+                        data:
+                          orderStatistics.map(
+                            (dataPoint) => dataPoint.orderTotalPriceByVND
+                          ) ?? [],
+                        borderColor: "blue",
+                        fill: false,
+                      },
+                    ],
+                  }}
+                  options={options}
+                />
+              ) : (
                 <Line
                   data={{
                     labels:
@@ -142,7 +158,7 @@ export function OrderStatistics({ organizationEmail, chartName }) {
                   }}
                   options={options}
                 />
-              </div>
+              )}
             </div>
           )}
         </div>

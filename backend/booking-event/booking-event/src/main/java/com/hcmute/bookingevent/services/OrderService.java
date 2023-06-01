@@ -23,6 +23,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -134,7 +135,53 @@ public class OrderService implements IOrderService {
 
     @Override
     public ResponseEntity<?> getLastFourWeeksOrderStatistics(String email) {
-        return null;
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found"));
+
+        List<Event> events = new ArrayList<>();
+        for (String eventName : organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            event.ifPresent(events::add);
+        }
+
+        LocalDate currentDate = LocalDate.now().minusWeeks(3);
+        Map<String, Double> orderTotalUSDPriceByDate = new HashMap<>();
+        Map<String, Double> orderTotalVNDPriceByDate = new HashMap<>();
+        while (!currentDate.isAfter(LocalDate.now())) {
+            String weekName = "Week " + currentDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+            orderTotalUSDPriceByDate.put(weekName, 0.0);
+            orderTotalVNDPriceByDate.put(weekName, 0.0);
+            currentDate = currentDate.plusWeeks(1);
+        }
+
+        for (String eventName: organization.getEventList()) {
+            Optional<Event> event = eventRepository.findEventById(eventName);
+            for (Order order : orderRepository.findAllByIdEvent(event.get().getId())) {
+                LocalDate orderDate = order.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (orderDate.isAfter(LocalDate.now().minusWeeks(4))) {
+                    String weekName = "Week " + orderDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());;
+                    if(order.getCurrency().equals("VND")){
+                        orderTotalVNDPriceByDate.put(weekName, orderTotalVNDPriceByDate.getOrDefault(weekName, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    } else {
+                        orderTotalUSDPriceByDate.put(weekName, orderTotalUSDPriceByDate.getOrDefault(weekName, 0.0) + Double.parseDouble(order.getTotalPrice()));
+                    }
+              }
+            }
+        }
+
+        List<Map<String, Object>> weekStatistics = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : orderTotalVNDPriceByDate.entrySet()) {
+            Map<String, Object> weekStat = new HashMap<>();
+            BigDecimal USDValue = new BigDecimal(String.valueOf(orderTotalUSDPriceByDate.getOrDefault(entry.getKey(), 0.0)));
+            BigDecimal VNDValue = new BigDecimal(String.valueOf(orderTotalVNDPriceByDate.getOrDefault(entry.getKey(), 0.0)));
+            weekStat.put("date", entry.getKey());
+            weekStat.put("orderTotalPriceByUSD", USDValue.toPlainString());
+            weekStat.put("orderTotalPriceByVND", VNDValue.toPlainString());
+            weekStatistics.add(weekStat);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, "Ticket statistics for last 4 weeks", weekStatistics, 200));
+
     }
 
     @Override
