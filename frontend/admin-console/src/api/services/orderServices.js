@@ -51,6 +51,34 @@ export const getMonthlyTicketStatistics = async (email) => {
     return error.response.data.data;
   }
 };
+export const getDailyOrderStatistics = async (email) => {
+  try {
+    const response = await httpRequest(OrderAPI.getDailyOrderStatistics(email));
+    return response.data;
+  } catch (error) {
+    return error.response.data.data;
+  }
+};
+export const getLastFourWeeksOrderStatistics = async (email) => {
+  try {
+    const response = await httpRequest(
+      OrderAPI.getLastFourWeeksOrderStatistics(email)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data.data;
+  }
+};
+export const getMonthlyOrderStatistics = async (email) => {
+  try {
+    const response = await httpRequest(
+      OrderAPI.getMonthlyOrderStatistics(email)
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data.data;
+  }
+};
 export const useFetchOrdersByEventId = (eventId, userId) => {
   return useQuery(
     ["findOrdersByEventId", (eventId, userId)],

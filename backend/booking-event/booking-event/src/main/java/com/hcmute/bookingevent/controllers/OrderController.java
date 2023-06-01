@@ -74,5 +74,22 @@ public class OrderController {
 
     }
 
+    @GetMapping("/organization/{email}/order-statistics/last-seven-days")
+    public ResponseEntity<?> getDailyOrderStatistics(@PathVariable String email) {
+        return iOrderService.getDailyOrderStatistics(email);
+    }
+    @GetMapping("/organization/{email}/order-statistics/last-four-weeks")
+    public ResponseEntity<?> getLastFourWeeksOrderStatistics(@PathVariable String email) {
+        return iOrderService.getLastFourWeeksOrderStatistics(email);
+    }
+    @GetMapping("/organization/{email}/order-statistics/monthly")
+    public ResponseEntity<?> getMonthlyOrderStatistics(@PathVariable String email) {
+        return iOrderService.getMonthlyOrderStatistics(email);
+    }
+    @GetMapping("/organization/{email}/order-statistics/last-five-years")
+    public ResponseEntity<?> getTOrderLast5Years(@PathVariable String email) {
+        return iOrderService.getOrdersLast5Years(email);
+    }
+
 
 }
