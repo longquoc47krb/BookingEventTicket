@@ -4,7 +4,7 @@ import { Button, Input, Space, Spin } from "antd";
 import { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 // end import for table
-import { has } from "lodash";
+import { has, sortBy } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
@@ -31,6 +31,13 @@ const Orders = () => {
     date: item.startingDate,
     status: item.status,
   }));
+  const sortedOrderByEventData = sortBy(orderByEventData, (event) => {
+    if (event.status === "event.available") {
+      return 1;
+    } else if (event.status === "event.completed") {
+      return 2;
+    }
+  });
   const [title, setTitle] = useState("");
   // for table
   const [searchText, setSearchText] = useState("");
@@ -169,7 +176,7 @@ const Orders = () => {
     { header: "Date", key: "date", width: 10 },
     { header: "Status", key: "status", width: 10 },
   ];
-  const data = orderByEventData?.map((item) => ({
+  const data = sortedOrderByEventData?.map((item) => ({
     id: item.id,
     name: item.name,
     ticketTotal: item.ticketTotal,
@@ -199,7 +206,7 @@ const Orders = () => {
           <Spin />
         </div>
       ) : (
-        <Table columns={orderColumns} dataSource={orderByEventData} />
+        <Table columns={orderColumns} dataSource={sortedOrderByEventData} />
       )}
       <OrdersByEventModal open={openModal} title={title} />
     </div>

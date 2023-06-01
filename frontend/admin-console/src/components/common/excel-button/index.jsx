@@ -37,8 +37,8 @@ function ExportExcelButton({ data, columns, filename }) {
         saveAs(blob, filename);
       });
     }
+    console.log({ worksheet });
   };
-
   return (
     <button
       className="gradient-button gap-x-2 flex items-center"

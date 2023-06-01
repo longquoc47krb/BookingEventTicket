@@ -14,6 +14,7 @@ import {
 import { IoTicketSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetStatisticByID } from "../api/services/organizationServices";
+import { TicketStatistics } from "../components/charts/TicketStatistics";
 import { OrderStatistics } from "../components/charts/OrderStatistics";
 import { roleSelector, userInfoSelector } from "../redux/slices/accountSlice";
 import {
@@ -111,7 +112,7 @@ const Overview = () => {
       {
         icon: <BiMoney />,
         amount: `$${nFormatter(data.revenueUSD, 2)}`,
-        rawAmount: formatter("USD").format(data.usdRevenue),
+        rawAmount: formatter("USD").format(data.revenueUSD),
         // variability: handleVariability(revenueStats, "revenue").variability
         //   ? `$${nFormatter(
         //       handleVariability(revenueStats, "revenue").variability,
@@ -126,7 +127,7 @@ const Overview = () => {
       {
         icon: <BiMoney />,
         amount: `${nFormatter(data.revenueVND, 2)}`,
-        rawAmount: formatter("VND").format(data.vndRevenue),
+        rawAmount: formatter("VND").format(data.revenueVND),
         // variability: handleVariability(revenueStats, "revenue").variability
         //   ? `$${nFormatter(
         //       handleVariability(revenueStats, "revenue").variability,
@@ -189,9 +190,15 @@ const Overview = () => {
             ))}
       </div>
       {role !== "ROLE_ADMIN" && (
-        <OrderStatistics
+        <TicketStatistics
           organizationEmail={user.email}
           chartName="stats.ticket"
+        />
+      )}
+      {role !== "ROLE_ADMIN" && (
+        <OrderStatistics
+          organizationEmail={user.email}
+          chartName="stats.order"
         />
       )}
     </div>
