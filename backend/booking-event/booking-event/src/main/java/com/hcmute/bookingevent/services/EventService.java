@@ -144,23 +144,6 @@ public class EventService implements IEventService {
 
         for (Event event : events) {
             List<Ticket> tickets = event.getOrganizationTickets();
-            //check ticket type status
-            for (Ticket ticket : tickets) {
-                //int quantityRemaining = ticket.getQuantityRemaining();
-                if (ticket.getQuantityRemaining() == 0)
-                {
-                    ticket.setStatus(TicketStatus.SOLD_OUT);
-                } else {
-                    float soldTicket = ticket.getQuantity() - ticket.getQuantityRemaining();
-                    float totallyTicket = ticket.getQuantity();
-                    if (soldTicket / totallyTicket > 0.7) {
-                        ticket.setStatus(TicketStatus.BEST_SELLER);
-                    }
-                }
-
-            }
-            event.setOrganizationTickets(tickets);
-
             //check event status
             if (event.getTicketRemaining() == 0) {
                 event.setStatus(EventStatus.SOLD_OUT);
