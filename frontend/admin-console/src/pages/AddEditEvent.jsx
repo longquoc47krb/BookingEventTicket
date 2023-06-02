@@ -1,19 +1,27 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable quotes */
 import { Alert, Col, Row, Switch } from "antd";
 import { Field, FieldArray, Form, FormikProvider, useFormik } from "formik";
-import styled from "styled-components";
 import { decode, encode } from "js-base64";
 import { has, map, sumBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
 import * as Yup from "yup";
 import { useFetchCategories } from "../api/services/categoryServices";
 import eventServices from "../api/services/eventServices";
+import organizationServices, {
+  useFetchTemplateTicket,
+} from "../api/services/organizationServices";
 import { Header } from "../components";
 import { AlertErrorPopup, AlertPopup } from "../components/Alert";
+import ThreeDotsLoading from "../components/ThreeLoading";
+import UploadImage from "../components/Upload";
 import {
   DatePicker,
   Input,
@@ -21,8 +29,6 @@ import {
   SelectHorizonal,
   TimePicker,
 } from "../components/customField";
-import ThreeDotsLoading from "../components/ThreeLoading";
-import UploadImage from "../components/Upload";
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import { setInitialBackground } from "../redux/slices/eventSlice";
 import constants, { TicketStatus } from "../utils/constants";
@@ -34,10 +40,6 @@ import {
 } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 import Editor from "./Editor";
-import organizationServices, {
-  useFetchTemplateTicket,
-} from "../api/services/organizationServices";
-import { useTranslation } from "react-i18next";
 const { getEventById, createEvent, uploadEventBackground, updateEvent } =
   eventServices;
 const { createTemplateTicket } = organizationServices;
@@ -222,7 +224,7 @@ function AddEditEvent(props) {
       }
     },
   });
-  const { handleSubmit, setFieldValue, values, setValues, errors } = formik;
+  const { handleSubmit, setFieldValue, values, setValues } = formik;
   console.log("modifyTimes: ", values.modifyTimes);
   useEffect(() => {
     setDate(moment(values.startingDate).format(PATTERNS.DATE_FORMAT));
@@ -473,7 +475,6 @@ function AddEditEvent(props) {
               {(fieldArrayProps) => {
                 const { push, remove, form } = fieldArrayProps;
                 const { values } = form;
-                const { ticketList } = values;
                 return (
                   <>
                     <Row gutter={[8, 40]}>
