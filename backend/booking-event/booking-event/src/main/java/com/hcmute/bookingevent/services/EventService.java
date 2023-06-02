@@ -312,16 +312,52 @@ public class EventService implements IEventService {
             event.get().setHost_id(eventReq.getHost_id());
             event.get().setDescription(eventReq.getDescription());
             event.get().setEventCategoryList(eventReq.getEventCategoryList());
-            event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
+            //event.get().setOrganizationTickets(eventReq.getOrganizationTickets());
             event.get().setCreatedDate(event.get().getCreatedDate());
             event.get().setModifyTimes(event.get().getModifyTimes() + 1);
             //
-            int count = 0;
-            for (Ticket ticket : eventReq.getOrganizationTickets()) {
-                count += ticket.getQuantity();
+            //int updateTotal = 0;
+
+
+            for (Ticket ticket : eventReq.getOrganizationTickets())
+            {
+                for(Ticket eventTicketType: event.get().getOrganizationTickets())
+                {
+                    int fluctutation = 0;
+                    if(ticket.getId().equals(eventTicketType.getId()))
+                    {
+                        if(ticket.getQuantity() > eventTicketType.getQuantity())
+                        {
+                            fluctutation = ticket.getQuantity()- eventTicketType.getQuantity();
+                            eventTicketType.setQuantityRemaining( eventTicketType.getQuantityRemaining() + fluctutation);
+                            eventTicketType.setQuantity( ticket.getQuantity());
+                        }
+                        else if(ticket.getQuantity() < eventTicketType.getQuantity())
+                        {
+                            fluctutation = eventTicketType.getQuantity()- ticket.getQuantity();
+                            eventTicketType.setQuantityRemaining( eventTicketType.getQuantityRemaining() - fluctutation);
+                            eventTicketType.setQuantity( ticket.getQuantity());
+                        }
+                    }
+                }
+                //updateTotal += ticket.getQuantity();
             }
-            event.get().setTicketTotal(count);
-            event.get().setTicketRemaining(eventReq.getTicketTotal() - event.get().getTicketRemaining());
+            if(event.get().getTicketTotal() != eventReq.getTicketTotal() )
+            {
+                int fluctutation = 0;
+                if(eventReq.getTicketTotal() > event.get().getTicketTotal())
+                {
+                    fluctutation = eventReq.getTicketTotal() - event.get().getTicketTotal();
+                    event.get().setTicketRemaining(event.get().getTicketRemaining() + fluctutation);
+                }
+                else
+                {
+                    fluctutation = event.get().getTicketTotal()- eventReq.getTicketTotal() ;
+                    event.get().setTicketRemaining(event.get().getTicketRemaining() - fluctutation);
+                }
+                event.get().setTicketTotal(eventReq.getTicketTotal());
+            }
+
             //transfer Order to account
             List<Order> orders = orderRepository.findAllByIdEvent(id);
             List<Account> accountOfCustomerBoughtList = orders.stream().map(orderMapper::toAccount).collect(Collectors.toList());

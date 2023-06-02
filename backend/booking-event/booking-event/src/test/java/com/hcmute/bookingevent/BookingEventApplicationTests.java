@@ -330,4 +330,39 @@ class BookingEventApplicationTests {
 			eventRepository.save(event.get());
 		}
 	}
+	@Test
+	public void testAddPayment()
+	{
+		try {
+
+			Optional<Organization> organization = organizationRepository.findByEmail("luffy@onepiece.com");
+		PaymentPending paymentPending = new PaymentPending("ebox-successman---tu-ap-luc-toi-thanh-cong-2107","0","0",EPaymentStatus.COMPLETED);
+		organization.get().getPaymentPendings().add(paymentPending);
+		organizationRepository.save(organization.get());
+
+//			for (PaymentPending  element: organization.get().getPaymentPendings())
+//			{
+//				if(organization.get().getEventList().contains(element.getIdEvent()))
+//				{
+//						//System.out.println(element.getIdEvent());
+//
+//					//PaymentPending paymentPending = new PaymentPending(element.getIdEvent(),"0","0",EPaymentStatus.COMPLETED);
+//					//organization.get().getPaymentPendings().add(paymentPending);
+//				}
+//				else
+//				{
+//					System.out.println(element.getIdEvent());
+//
+//				}
+//			}
+			//organizationRepository.save(organization.get());
+
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+
+		}
+
+	}
 }

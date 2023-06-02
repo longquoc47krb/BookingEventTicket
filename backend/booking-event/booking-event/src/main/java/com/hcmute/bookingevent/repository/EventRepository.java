@@ -14,7 +14,10 @@ import java.util.Optional;
 
 public interface EventRepository extends MongoRepository<Event,String> {
     List<Event> findAllBy(TextCriteria textCriteria);
+    @Query(value="{'host_id': ?0}")
+    List<Event> findAllByHost_id(String host_id);
 
+    //List<Event> findEventByHost_id(String hostId);
     List<Event> findAllByCreatedDateBetween(Date start, Date end);
     @Query(value="{'province': ?0, 'status' : 'event.available'}")
     List<Event> findAllByProvince(String province);
