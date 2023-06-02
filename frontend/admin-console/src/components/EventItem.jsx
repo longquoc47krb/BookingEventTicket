@@ -32,21 +32,6 @@ function Event(props) {
       <h1 className="w-[calc(100%-80px)] font-bold event-title cursor-pointer mt-1">
         {event.name}
       </h1>
-      <h1 className="absolute bottom-3 left-3 text-gray-500 font-bold text-xl">
-        {event.status === EventStatus.AVAILABLE ? (
-          <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
-            {t("event.status.available")}
-          </span>
-        ) : event.status === EventStatus.COMPLETED ? (
-          <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
-            {t("event.status.completed")}
-          </span>
-        ) : (
-          <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
-            {t("event.status.soldout")}
-          </span>
-        )}
-      </h1>
       <div className="flex items-center w-[calc(100%-80px)]">
         {event.province ? (
           <Tag
@@ -71,6 +56,21 @@ function Event(props) {
           })}
         </span>
       </div>
+      <h1 className="text-gray-500 font-bold text-xl">
+        {event.status === EventStatus.AVAILABLE ? (
+          <span className="p-2 border-2 rounded-md text-xs bg-green-500 text-white font-medium mr-2">
+            {t("event.status.available")}
+          </span>
+        ) : event.status === EventStatus.COMPLETED ? (
+          <span className="p-2 bg-yellow-500 text-xs text-white rounded-md font-medium mr-2">
+            {t("event.status.completed")}
+          </span>
+        ) : (
+          <span className="p-2 rounded-md bg-red-500 text-xs  text-white font-medium mr-2">
+            {t("event.status.soldout")}
+          </span>
+        )}
+      </h1>
     </div>
   );
 }

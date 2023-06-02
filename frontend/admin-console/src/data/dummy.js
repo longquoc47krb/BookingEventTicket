@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { t } from "i18next";
 import React from "react";
+import { VscOpenPreview } from "react-icons/vsc";
 import {
   AiOutlineCalendar,
   AiOutlinePicture,
@@ -28,9 +29,12 @@ import {
 } from "../components/Alert";
 import {
   setEventId,
-  setOpenModal,
+  setOpenOrderModal,
   setOpenTicketModal,
   setTickets,
+  setPreviewEvent,
+  setOrderEmail,
+  setOpenTicketByUniqueAccountModal,
 } from "../redux/slices/eventSlice";
 import { store } from "../redux/store";
 import { AccountStatus, ROLE } from "../utils/constants";
@@ -104,11 +108,19 @@ export const orderByEventWithUniqueAccountColumns = [
   },
   {
     title: t("event.totalPrice"),
-    dataIndex: "usdrevenue",
-    onFilter: (value, record) => record.usdrevenue.indexOf(value) === 0,
+    dataIndex: ["usdrevenue", "vndrevenue", "currency"],
+    onFilter: (value, record) =>
+      record.currency === "USD"
+        ? record.usdrevenue.indexOf(value) === 0
+        : record.vndrevenue.indexOf(value) === 0,
     sorter: (a, b) => a.usdrevenue.length - b.usdrevenue.length,
     sortDirections: ["descend"],
-    render: (price) => <span>{formatter("USD").format(price)}</span>,
+    render: (_, record) =>
+      record.currency === "VND" ? (
+        <span>{formatter("VND").format(record.vndrevenue)}</span>
+      ) : (
+        <span>{formatter("USD").format(record.usdrevenue)}</span>
+      ),
     width: 200,
   },
   {
@@ -125,10 +137,10 @@ export const orderByEventWithUniqueAccountColumns = [
     render: (_, record) => (
       <div
         className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
-        // onClick={() => {
-        //   store.dispatch(setEventId(record.id));
-        //   store.dispatch(setOpenModal(true));
-        // }}
+        onClick={() => {
+          store.dispatch(setOrderEmail(record.email));
+          store.dispatch(setOpenTicketByUniqueAccountModal(true));
+        }}
       >
         <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}
       </div>
@@ -155,10 +167,6 @@ export const ticketColumns = [
   {
     title: t("ticket.totalQuantity"),
     dataIndex: "quantity",
-  },
-  {
-    title: t("ticket.totalRemaining"),
-    dataIndex: "quantityRemaining",
   },
   {
     title: t("ticket.status"),
@@ -198,9 +206,23 @@ export const eventColumns = [
   {
     title: t("event.background"),
     dataIndex: "background",
-    render: (background) => (
-      <img src={background} className="h-[2rem] w-auto" />
+    render: (_, record) => (
+      <div class="image-container">
+        <img
+          src={record.background}
+          className="h-[60px] w-[156px] object-cover hover:cursor-pointer"
+          onClick={() => {
+            store.dispatch(setEventId(record.id));
+            store.dispatch(setPreviewEvent(true));
+          }}
+        />
+        <div class="overlay flex items-center gap-x-2">
+          <VscOpenPreview />
+          <span>{t("event.preview-text")}</span>
+        </div>
+      </div>
     ),
+    width: 200,
   },
   {
     title: t("event.name"),
@@ -214,11 +236,11 @@ export const eventColumns = [
     dataIndex: "categories",
     render: (categories) =>
       categories.map((item) => (
-        <span className="p-2 bg-gray-100 border-2 text-xs rounded-md border-gray-500 text-gray-500 font-medium mr-2">
+        <span className="px-2 py-1 bg-gray-100 border-2 text-xs rounded-sm border-gray-400 text-gray-400 font-medium mr-1">
           {t(item.name)}
         </span>
       )),
-    width: 250,
+    width: 200,
   },
   {
     title: t("event.status.title"),
@@ -370,10 +392,20 @@ export const paymentColumns = [
     ),
   },
   {
-    title: "status",
+    title: t("event.status.title"),
     key: "status",
     dataIndex: "status",
     width: 150,
+    filters: [
+      {
+        text: t("payment.completed"),
+        value: "COMPLETED",
+      },
+      {
+        text: t("payment.inprogress"),
+        value: "INPROGRESS",
+      },
+    ],
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     render: (status) =>
       status === "COMPLETED" ? (
@@ -396,8 +428,9 @@ export const orderColumns = [
     title: t("event.background"),
     dataIndex: "background",
     render: (background) => (
-      <img src={background} className="h-[2rem] w-auto" />
+      <img src={background} className="h-[60px] w-[156px] object-cover" />
     ),
+    width: 200,
   },
   {
     title: t("event.name"),
@@ -405,15 +438,16 @@ export const orderColumns = [
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ["descend"],
-    width: 250,
   },
   {
     title: t("event.ticketTotal"),
     dataIndex: "ticketTotal",
+    width: 100,
   },
   {
     title: t("event.ticketRemaining"),
     dataIndex: "ticketRemaining",
+    width: 100,
   },
   {
     title: t("event.status.title"),
@@ -447,6 +481,7 @@ export const orderColumns = [
           {t("event.status.soldout")}
         </span>
       ),
+    width: 150,
   },
   {
     title: t("event.modify"),
@@ -456,7 +491,7 @@ export const orderColumns = [
         className="text-[#1f3e82] font-medium flex items-center gap-x-2 cursor-pointer"
         onClick={() => {
           store.dispatch(setEventId(record.id));
-          store.dispatch(setOpenModal(true));
+          store.dispatch(setOpenOrderModal(true));
         }}
       >
         <span>{t("view-detail")}</span> <BsFillEyeFill />{" "}

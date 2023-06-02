@@ -590,3 +590,10 @@ export function getCurrentDatetime() {
     })
     .replace(/\//g, "");
 }
+export const displayFeedbackTime = (time) => {
+  const now = moment();
+  const date = moment(time);
+
+  const diff = now.diff(date, "days");
+  return diff >= 1 ? date.calendar() : date.fromNow();
+};

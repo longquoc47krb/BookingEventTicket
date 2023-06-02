@@ -1,26 +1,30 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useGetPaymentListByOrganizerID } from "../api/services/organizationServices";
 import { Header } from "../components";
 // import for table
-import { BsSearchHeart } from "react-icons/bs";
-import { Spin, Input, Button, Space } from "antd";
+import { Button, Input, Space, Spin } from "antd";
+import { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { useRef } from "react";
-import { useState } from "react";
+import { BsSearchHeart } from "react-icons/bs";
 // end import for table
 import Table from "../components/Table";
 import { paymentColumns } from "../data/dummy";
 import { userInfoSelector } from "../redux/slices/accountSlice";
-import { reverseArray } from "../utils/utils";
+import { sortBy } from "lodash";
 const Payments = () => {
   const user = useSelector(userInfoSelector);
   const { data: payments, status } = useGetPaymentListByOrganizerID(user.id);
   const { t } = useTranslation();
-  const navigate = useNavigate();
   console.log({ payments });
+  const sortedPayments = sortBy(payments, (payment) => {
+    if (payment.status === "INPROGRESS") {
+      return 1;
+    } else if (payment.status === "COMPLETED") {
+      return 2;
+    }
+  });
   // for table
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -147,7 +151,7 @@ const Payments = () => {
           <Spin />
         </div>
       ) : (
-        <Table columns={paymentColumns} dataSource={reverseArray(payments)} />
+        <Table columns={paymentColumns} dataSource={sortedPayments} />
       )}
     </div>
   );

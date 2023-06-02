@@ -1,10 +1,10 @@
 import { Modal, Radio, Spin } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  useFetchOrdersByEventId,
-  useFetchOrdersWithUniqueAccount,
+  findOrderWithUniqueAccount,
+  findOrdersByEventId,
 } from "../api/services/orderServices";
 import {
   orderByEventColumns,
@@ -14,9 +14,11 @@ import {
 import { userInfoSelector } from "../redux/slices/accountSlice";
 import {
   eventIdSelector,
-  setOpenModal,
+  setOpenOrderModal,
   setOpenTicketModal,
   ticketsInOrderSelector,
+  orderEmailSelector,
+  setOpenTicketByUniqueAccountModal,
 } from "../redux/slices/eventSlice";
 import Table from "./Table";
 import ExportExcelButton from "./common/excel-button";
@@ -30,38 +32,63 @@ function OrdersByEventModal(props) {
   const eventId = useSelector(eventIdSelector);
   const user = useSelector(userInfoSelector);
   const [value, setValue] = useState("by-event");
+  const orderEmail = useSelector(orderEmailSelector);
   const ticketsInOrder = useSelector(ticketsInOrderSelector);
   const openTicketModal = useSelector((state) => state.event.openTicketModal);
+  const openTicketByUniqueAccountModal = useSelector(
+    (state) => state.event.openTicketByUniqueAccountModal
+  );
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
   const onChange = (e) => {
     setValue(e.target.value);
   };
   const { t } = useTranslation();
-  const { data, status } = useFetchOrdersByEventId(eventId, user.id);
-  const { data: data2, status: status2 } = useFetchOrdersWithUniqueAccount(
-    eventId,
-    user.id
-  );
+  useEffect(() => {
+    async function fetchOrderByEvent() {
+      setLoading(true);
+      const response = await findOrdersByEventId(eventId, user.id);
+      setData(response);
+      setLoading(false);
+    }
+    fetchOrderByEvent();
+  }, [eventId]);
+  useEffect(() => {
+    async function fetchOrdersWithUniqueAccount() {
+      setLoading(true);
+      const response = await findOrderWithUniqueAccount(eventId, user.id);
+      setData2(response);
+      setLoading(false);
+    }
+    fetchOrdersWithUniqueAccount();
+  }, [eventId]);
+  const ticketsByUniqueAccount = data?.filter((o) => o.email === orderEmail);
   // columns for Excel
+  console.log({ data, data2, ticketsByUniqueAccount });
   const columns = [
     { header: "ID", key: "id", width: 10 },
     { header: "Email", key: "email", width: 32 },
     { header: "Total price", key: "totalPrice", width: 32, outlineLevel: 1 },
     { header: "Total quantity", key: "totalQuantity", width: 32 },
-    { header: "Date", key: "createdDate", width: 10, width: 64 },
+    { header: "Date", key: "createdDate", width: 64 },
   ];
   return (
     <div>
       <Modal
         title={
-          <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[20vw]">
-            {t("orders-of-event", { val: title ?? "" })}
-          </p>
+          <p
+            className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[40vw]"
+            dangerouslySetInnerHTML={{
+              __html: t("orders-of-event", { val: title ?? "" }),
+            }}
+          />
         }
         visible={open}
         width={"100%"}
         closable={false}
-        onCancel={() => dispatch(setOpenModal(false))}
-        onOk={() => dispatch(setOpenModal(false))}
+        onCancel={() => dispatch(setOpenOrderModal(false))}
+        onOk={() => dispatch(setOpenOrderModal(false))}
       >
         <div className="absolute top-4 right-4">
           <Radio.Group onChange={onChange} value={value} defaultValue="all">
@@ -69,11 +96,22 @@ function OrdersByEventModal(props) {
             <Radio value="by-account">{t("order.by-account")}</Radio>
           </Radio.Group>
         </div>
-        {status === "loading" || status2 === "loading" ? (
+        {loading && (
           <div className="w-full h-full flex items-center justify-center">
             <Spin />
           </div>
-        ) : value === "by-event" ? (
+        )}
+        {!loading && value === "by-event" && (
+          <>
+            <ExportExcelButton
+              data={data}
+              columns={columns}
+              filename={addFileExtension(removeSpecialSymbolsExceptDot(title))}
+            />
+            <Table dataSource={data} columns={orderByEventColumns} />
+          </>
+        )}
+        {!loading && value === "by-account" && (
           <>
             <ExportExcelButton
               data={data}
@@ -81,15 +119,10 @@ function OrdersByEventModal(props) {
               filename={addFileExtension(removeSpecialSymbolsExceptDot(title))}
             />
             <Table
-              dataSource={data ? data : []}
-              columns={orderByEventColumns}
+              dataSource={data2}
+              columns={orderByEventWithUniqueAccountColumns}
             />
           </>
-        ) : (
-          <Table
-            dataSource={data2 ? data2 : []}
-            columns={orderByEventWithUniqueAccountColumns}
-          />
         )}
       </Modal>
       <Modal
@@ -99,6 +132,17 @@ function OrdersByEventModal(props) {
         onOk={() => dispatch(setOpenTicketModal(false))}
       >
         <Table dataSource={ticketsInOrder} columns={ticketColumns} />
+      </Modal>
+      <Modal
+        visible={openTicketByUniqueAccountModal}
+        width={"80vw"}
+        onCancel={() => dispatch(setOpenTicketByUniqueAccountModal(false))}
+        onOk={() => dispatch(setOpenTicketByUniqueAccountModal(false))}
+      >
+        <Table
+          dataSource={ticketsByUniqueAccount}
+          columns={orderByEventColumns}
+        />
       </Modal>
     </div>
   );

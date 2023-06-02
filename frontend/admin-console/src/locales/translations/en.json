@@ -16,6 +16,8 @@
         "profile": "Organizer Profile"
     },
     "event": {
+        "preview-text": "Preview",
+        "preview": "Preview: <b>{{name}}</b>",
         "totalPrice": "Total Price",
         "totalQuantity": "Total Quantity",
         "ticketTotal": "Ticket total",
@@ -293,7 +295,7 @@
         "by-event": "Orders by event",
         "by-account": "Orders by event (unique accounts)"
     },
-    "orders-of-event": "Orders of {{val, string}}",
+    "orders-of-event": "Orders of <b>{{val, string}}</b>",
     "update-avatar": {
         "success": "Upload avatar successfully",
         "error": "Upload avatar failed"
@@ -361,5 +363,11 @@
     "vndbalance": "Actual account balance in VND",
     "usdbalance": "Actual account balance in USD",
     "limited-modify-times": "Please note that you have a limited number of modification allowances specifically for editing the date of this event. You have <b className='text-2xl'>{{remainingTimes}}</b> modifications remaining for the event date.\nOnce you have used up all the modification allowances, further changes to the event date will not be possible.",
-    "edit-event-info": "Information about modify Event."
+    "edit-event-info": "Information about modify Event.",
+    "introduce": "Introduction",
+    "ticket-info": "Ticket information",
+    "rating-review": "Ratings and reviews",
+    "review": "Review",
+    "empty-feedbacks": "There are no reviewers yet",
+    "review-event-incompleted": "There is no review because this event hasn't been completed."
 }

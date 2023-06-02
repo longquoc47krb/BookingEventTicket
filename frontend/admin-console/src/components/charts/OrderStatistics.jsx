@@ -19,6 +19,7 @@ import {
 } from "../../api/services/orderServices";
 import { Spin } from "antd";
 import { useQuery } from "@tanstack/react-query";
+import theme from "../../shared/theme";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -132,8 +133,8 @@ export function OrderStatistics({ organizationEmail, chartName }) {
                           orderStatistics.map(
                             (dataPoint) => dataPoint.orderTotalPriceByVND
                           ) ?? [],
-                        borderColor: "blue",
-                        fill: false,
+                        borderColor: theme.main,
+                        fill: true,
                       },
                     ],
                   }}
