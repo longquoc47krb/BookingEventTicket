@@ -14,7 +14,7 @@ import HeroBanner from "../../components/hero";
 import HomeDrawer from "../../components/home-drawer";
 import { setCategoryId } from "../../redux/slices/filterSlice";
 import { setPathName } from "../../redux/slices/routeSlice";
-import { resultSelector } from "../../redux/slices/searchSlice";
+import { resultsSelector } from "../../redux/slices/searchSlice";
 import { isEmpty } from "../../utils/utils";
 import FilterEventFragment from "./filterEvent";
 import SearchResults from "./searchResults";
@@ -24,7 +24,7 @@ function EventDashBoard() {
   const [categoryParams, setCategoryParams] = useSearchParams();
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const dispatch = useDispatch();
-  const searchResults = useSelector(resultSelector);
+  const searchResults = useSelector(resultsSelector);
   const { data: category } = useFetchCategories();
   const categoryId =
     category && categoryParams.get("category")

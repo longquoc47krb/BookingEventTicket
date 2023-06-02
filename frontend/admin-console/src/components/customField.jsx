@@ -8,7 +8,7 @@ import {
 import moment from "moment";
 import { ErrorMessage } from "formik";
 import { useTranslation } from "react-i18next";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 const { Item } = Form;
 const { Option } = AntdSelect;
 function Input(props) {
@@ -24,6 +24,13 @@ function Input(props) {
   const { t } = useTranslation();
   const { value, onChange, onBlur, name } = field;
   const { errors, touched } = form;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
   const handleChange = (e) => {
     const { value } = e.target;
     var customEvent = {
@@ -49,6 +56,7 @@ function Input(props) {
         onChange={handleChange}
         style={{ width: width }}
         className="p-[0.5rem]"
+        ref={inputRef}
       />
       {/* <p className="text-red-600 font-medium text-lg mb-0">
         {touched[name] && t(errors.name)}
@@ -68,6 +76,13 @@ function DatePicker(props) {
   const { value, onBlur, name } = field;
   const { t } = useTranslation();
   const { setFieldValue, errors, touched } = form;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
   return (
     <>
       <Item>
@@ -80,6 +95,7 @@ function DatePicker(props) {
           onChange={(value) => setFieldValue(name, value)}
           onBlur={onBlur}
           disabled={disabled}
+          ref={inputRef}
         />
         <p className="text-red-600 font-medium text-lg mb-0">
           {touched[name] && t(errors[name])}
@@ -94,7 +110,13 @@ function TimePicker(props) {
   const { t } = useTranslation();
   const { setFieldValue, errors, touched } = form;
   const format = "HH:mm";
+  const inputRef = useRef(null);
 
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
   return (
     <>
       <Item>
@@ -110,6 +132,7 @@ function TimePicker(props) {
           onChange={(value) => setFieldValue(name, value)}
           onBlur={onBlur}
           disabled={disabled}
+          ref={inputRef}
         />
         <p className="text-red-600 font-medium text-lg mb-0">
           {touched[name] && t(errors[name])}
@@ -131,7 +154,14 @@ function Select(props) {
       },
     };
     onChange(customEvent);
-  };
+  };const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
+
   return (
     <>
       <Item>
@@ -143,6 +173,7 @@ function Select(props) {
           status={errors[name] ? "error" : ""}
           onChange={handleChange}
           mode={mode}
+          ref={inputRef}
         >
           {options.map((item, index) => (
             <Option key={index + 1} value={item.value}>
@@ -171,6 +202,13 @@ function SelectHorizonal(props) {
     };
     onChange(customEvent);
   };
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
   return (
     <>
       <Item>
@@ -184,6 +222,7 @@ function SelectHorizonal(props) {
             status={errors[name] ? "error" : ""}
             onChange={handleChange}
             mode={mode}
+            ref={inputRef}
           >
             {options.map((item, index) => (
               <Option key={index + 1} value={item.value}>
@@ -217,6 +256,13 @@ function InputPassword(props) {
       onChangeCustom(value);
     }
   };
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
   return (
     <>
       <h1 className="font-medium text-black text-lg my-2">{label}</h1>
@@ -227,6 +273,7 @@ function InputPassword(props) {
         onChange={handleChange}
         status={errors[name] ? "error" : ""}
         className="p-[0.5rem]"
+        ref={inputRef}
       />
 
       <p className="text-red-600 font-medium text-lg mb-0">

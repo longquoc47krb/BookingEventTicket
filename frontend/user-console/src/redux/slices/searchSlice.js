@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   searchResults: [],
   resultSplitArray: [],
-  result: "",
+  keyword: "",
 };
 
 const searchSlice = createSlice({
@@ -16,14 +16,15 @@ const searchSlice = createSlice({
     setResultSplit: (state, { payload }) => {
       state.resultSplitArray = payload;
     },
-    setResult: (state, { payload }) => {
-      state.result = payload;
+    setKeyword: (state, { payload }) => {
+      state.keyword = payload;
     },
   },
 });
 
-export const { setSearchResults, setResult, setResultSplit } =
+export const { setSearchResults, setResult, setResultSplit, setKeyword } =
   searchSlice.actions;
-export const resultSelector = (state) => state.search.searchResults;
+export const resultsSelector = (state) => state.search.searchResults;
+export const keywordsSelector = (state) => state.search.keyword;
 export const resultSplitSelector = (state) => state.search.resultSplitArray;
 export default searchSlice.reducer;
