@@ -40,8 +40,7 @@
     overflow: hidden;
   }
   &-item-container {
-    width: auto;
-    height: 260px;
+    width: 20vw;
     padding: 0.5rem;
     position: relative;
     border-radius: 0.5rem;
@@ -179,4 +178,95 @@ ssssssss .ant-pagination-item-active {
   color: white !important;
   background: $primary-color !important;
   border-color: $primary-color !important;
+}
+.readmore {
+  position: relative;
+  max-height: 20rem;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  transition: max-height 0.15s ease-out;
+}
+
+.readmore.expand {
+  max-height: 500rem !important;
+  transition: max-height 0.35s ease-in-out;
+}
+
+.readmore-link {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  color: rgb(53, 53, 53);
+  font-weight: bold;
+  font-size: 1.2rem;
+  background-image: linear-gradient(to bottom, transparent, rgb(255, 255, 255));
+  cursor: pointer;
+}
+
+.readmore-link.expand {
+  position: relative;
+  background-image: none;
+  height: 1.5rem;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.image-container:hover .overlay {
+  opacity: 1;
+}
+.rating-stats {
+  padding: 1rem;
+}
+.rating-bar {
+  height: 1rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background-color: #e4e4e4;
+  &-container {
+    flex-wrap: wrap;
+    grid-template-columns: 1fr 6fr 4rem;
+  }
+}
+
+.rating-bar-inner {
+  height: 100%;
+  background-color: #ffbe63;
+}
+.review {
+  &-container {
+    background: white;
+    margin-right: 1.5rem;
+    border-radius: 5px;
+    width: calc(100% - 1.5rem);
+    height: auto;
+    box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+    -webkit-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+    -moz-box-shadow: 0px 4px 5px -1px rgba(82, 82, 82, 1);
+  }
 }

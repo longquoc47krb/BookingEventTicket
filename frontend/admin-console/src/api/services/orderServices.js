@@ -1,7 +1,7 @@
 import httpRequest from "../../services/httpRequest";
 import { OrderAPI } from "../configs/order";
 import { useQuery } from "@tanstack/react-query";
-const findOrdersByEventId = async (eventId, userId) => {
+export const findOrdersByEventId = async (eventId, userId) => {
   try {
     const response = await httpRequest(
       OrderAPI.findOrderByEventId(eventId, userId)
@@ -11,7 +11,7 @@ const findOrdersByEventId = async (eventId, userId) => {
     return error.response.data.data;
   }
 };
-const findOrderWithUniqueAccount = async (eventId, userId) => {
+export const findOrderWithUniqueAccount = async (eventId, userId) => {
   try {
     const response = await httpRequest(
       OrderAPI.findOrderWithUniqueAccount(eventId, userId)

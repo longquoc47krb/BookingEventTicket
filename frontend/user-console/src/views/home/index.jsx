@@ -128,7 +128,7 @@ function Home() {
               }}
             />
           </div>
-          {isNotEmpty(eventsByProvince) && (
+          {isNotEmpty(eventsByProvince) && cityName && (
             <div className="home-popular">
               <SectionTitle>
                 {t("event.near-you", {

@@ -16,6 +16,8 @@
         "profile": "Hồ sơ tổ chức"
     },
     "event": {
+        "preview-text": "Xem trước",
+        "preview": "Xem trước: <b>{{name}}</b>",
         "totalPrice": "Tổng tiền",
         "totalQuantity": "Tổng lượng",
         "ticketTotal": "Tổng vé",
@@ -295,7 +297,7 @@
         "by-event": "Danh sách hóa đơn",
         "by-account": "Danh sách hóa đơn (không trùng tài khoản)"
     },
-    "orders-of-event": "Danh sách hóa đơn của {{val, string}}",
+    "orders-of-event": "Danh sách hóa đơn của <b>{{val, string}}</b>",
     "update-avatar": {
         "success": "Cập nhật ảnh đại diện thành công",
         "error": "Cập nhật ảnh đại diện thất bại"
@@ -363,5 +365,11 @@
     "vndbalance": "Số dư thực tế (VND)",
     "usdbalance": "Số dư thực tế (USD)",
     "limited-modify-times": "Xin lưu ý rằng bạn chỉ có một số lần chỉnh sửa giới hạn đặc biệt để chỉnh sửa ngày của sự kiện này. Bạn còn lại <b className='text-2xl'>{{remainingTimes}}</b> lần chỉnh sửa cho ngày sự kiện.\nSau khi bạn đã sử dụng hết tất cả các lần chỉnh sửa cho phép, sẽ không thể tiến hành thay đổi ngày sự kiện nữa.",
-    "edit-event-info": "Thông tin về việc chỉnh sửa Sự kiện"
+    "edit-event-info": "Thông tin về việc chỉnh sửa Sự kiện",
+    "introduce": "GiớI thiệu",
+    "ticket-info": "Thông tin vé",
+    "rating-review": "Đánh giá và xếp hạng",
+    "review": "Đánh giá",
+    "empty-feedbacks": "Chưa có đánh giá nào.",
+    "review-event-incompleted": "Chưa có phản hồi vì sự kiện chưa kết thúc"
 }

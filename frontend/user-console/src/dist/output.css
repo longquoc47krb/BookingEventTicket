@@ -583,7 +583,15 @@
   max-height: 100px;
   text-align: center;
   border-radius: 7px;
-  box-shadow: 5px 5px 6px #bebebe, -5px -5px 6px #ffffff;
+  --bg: #ffffff;
+  --contrast: #e2e0e0;
+  --grey: #c9cfcf;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  border-radius: 0.5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .calendar-upper {
   height: 1.5rem;
@@ -591,6 +599,7 @@
   width: auto;
   background: red;
   padding: 0.25rem;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .calendar-day {
   font-size: 2.5rem;
@@ -602,6 +611,44 @@
   bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.card {
+  --bg: #ffffff;
+  --contrast: #e2e0e0;
+  --grey: #c9cfcf;
+  position: relative;
+  padding: 1rem;
+  background-color: var(--bg);
+  border-radius: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(var(--bg) 0.0000001%, var(--grey) 0.000104%) 60% 60%/600% 600%;
+  filter: opacity(10%) contrast(105%);
+}
+
+.card-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 190px;
+  height: 254px;
+  background-color: var(--contrast);
+  border-radius: 30px;
+  /* Content style */
+  font-size: 30px;
+  font-weight: 900;
+  color: #c7c4c4;
+  text-align: center;
+  font-family: monospace;
 }
 
 .carousel-indicators [data-bs-target] {

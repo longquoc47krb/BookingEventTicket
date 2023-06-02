@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFetchEventsByOrgID } from "../api/services/organizationServices";
 import { Header } from "../components";
@@ -20,9 +20,18 @@ import {
   reverseArray,
 } from "../utils/utils";
 import ExportExcelButton from "../components/common/excel-button";
+import {
+  previewEventSelector,
+  eventIdSelector,
+  setPreviewEvent,
+} from "../redux/slices/eventSlice";
+import PreviewEventModal from "../components/common/preview-event-modal";
 const Events = () => {
   const user = useSelector(userInfoSelector);
-  const { data: events, status } = useFetchEventsByOrgID(user.id);
+  const { data: events, isLoading } = useFetchEventsByOrgID(user.id);
+  const previewEvent = useSelector(previewEventSelector);
+  const eventId = useSelector(eventIdSelector);
+  const dispatch = useDispatch();
   console.log({ events });
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -34,6 +43,9 @@ const Events = () => {
     date: item.startingDate,
     status: item.status,
   }));
+  const closeModal = () => {
+    dispatch(setPreviewEvent(false));
+  };
 
   // for table
   const [searchText, setSearchText] = useState("");
@@ -79,10 +91,10 @@ const Events = () => {
           <Button
             type="primary"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<BsSearchHeart />}
+            // icon={<BsSearchHeart />}
             size="small"
             style={{
-              width: 90,
+              width: 140,
             }}
           >
             Search
@@ -187,13 +199,18 @@ const Events = () => {
           filename={`Event-${getCurrentDatetime()}`}
         />
       </div>
-      {status === "loading" ? (
+      {isLoading ? (
         <div className="w-full h-full flex items-center justify-center">
           <Spin />
         </div>
       ) : (
         <Table columns={eventColumns} dataSource={reverseArray(eventData)} />
       )}
+      <PreviewEventModal
+        visible={previewEvent}
+        onCancel={closeModal}
+        eventId={eventId}
+      />
     </div>
   );
 };

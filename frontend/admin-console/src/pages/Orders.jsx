@@ -64,6 +64,7 @@ const Orders = () => {
       <div
         style={{
           padding: 8,
+          width: "100%",
         }}
         onKeyDown={(e) => e.stopPropagation()}
       >
@@ -84,10 +85,10 @@ const Orders = () => {
           <Button
             type="primary"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<BsSearchHeart />}
+            // icon={<BsSearchHeart />}
             size="small"
             style={{
-              width: 90,
+              width: 140,
             }}
           >
             Search
@@ -169,7 +170,6 @@ const Orders = () => {
 
   // columns for Excel
   const columns = [
-    { header: "ID", key: "id", width: 10 },
     { header: "Name", key: "name", width: 32 },
     { header: "Total tickets", key: "ticketTotal", width: 15, outlineLevel: 1 },
     { header: "Remaining tickets", key: "ticketRemaining", width: 15 },
@@ -177,7 +177,6 @@ const Orders = () => {
     { header: "Status", key: "status", width: 10 },
   ];
   const data = sortedOrderByEventData?.map((item) => ({
-    id: item.id,
     name: item.name,
     ticketTotal: item.ticketTotal,
     ticketRemaining: item.ticketRemaining,
