@@ -7,15 +7,19 @@ import Highlighter from "react-highlight-words";
 import { useTranslation } from "react-i18next";
 import { BiSearchAlt } from "react-icons/bi";
 import { GrMore } from "react-icons/gr";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useClickAway } from "react-use";
-import { setSearchResults } from "../../../redux/slices/searchSlice";
+import {
+  setKeyword,
+  setSearchResults,
+  keywordsSelector,
+} from "../../../redux/slices/searchSlice";
 import { isEmpty } from "../../../utils/utils";
 const SearchBox = (props) => {
   const { data, placeholder } = props;
   const location = useLocation();
-  const [result, setResult] = useState("");
+  const keyword = useSelector(keywordsSelector);
   const [keywordsArray, setResultSplit] = useState([]);
   const [expand, setExpand] = useState(false);
   const navigate = useNavigate();
@@ -57,22 +61,22 @@ const SearchBox = (props) => {
       "province",
     ],
   });
-  const results = data ? fuse.search(result) : [];
+  const results = data ? fuse.search(keyword) : [];
   useEffect(() => {
     dispatch(setSearchResults(results));
-    const arraySplit = result.split(" ");
+    const arraySplit = keyword.split(" ");
     setResultSplit(arraySplit);
-  }, [result]);
+  }, [keyword]);
   return (
     <div className="SearchBox" ref={ref}>
       <Input
         className="relative rounded w-full h-full py-[10px] px-4"
         prefix={<BiSearchAlt fontSize={20} className="cursor-pointer mr-3" />}
-        value={result}
+        value={keyword}
         placeholder={placeholder}
         onChange={({ currentTarget }) => {
           setExpand(true);
-          setResult(currentTarget.value);
+          dispatch(setKeyword(currentTarget.value));
           if (location.pathname === "/events") {
             navigate(`/events?search=${currentTarget.value}`);
           }
@@ -80,7 +84,7 @@ const SearchBox = (props) => {
         style={{ padding: "0.5rem" }}
         allowClear
       />
-      {result && expand ? (
+      {keyword && expand ? (
         <motion.ul
           className="SearchBox_Results_List"
           variants={container}
@@ -155,7 +159,7 @@ const SearchBox = (props) => {
             <li
               className="SearchBox_Results_List_Item flex gap-x-2 items-end"
               onClick={() => {
-                navigate(`/events?search=${result}`);
+                navigate(`/events?search=${keyword}`);
               }}
             >
               {t("search.view-all")}

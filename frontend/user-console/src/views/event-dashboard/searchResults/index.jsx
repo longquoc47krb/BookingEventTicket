@@ -5,10 +5,10 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import EmptyData from "../../../components/empty";
 import Event from "../../../components/event";
-import { resultSelector } from "../../../redux/slices/searchSlice";
+import { resultsSelector } from "../../../redux/slices/searchSlice";
 
 function SearchResults() {
-  const searchResults = useSelector(resultSelector);
+  const searchResults = useSelector(resultsSelector);
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   // Change page
