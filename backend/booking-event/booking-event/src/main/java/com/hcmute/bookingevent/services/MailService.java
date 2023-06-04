@@ -2,27 +2,23 @@ package com.hcmute.bookingevent.services;
 
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
+import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.repository.AccountRepository;
 import com.hcmute.bookingevent.services.mail.EMailType;
+import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import freemarker.template.Configuration;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -113,14 +109,15 @@ public class MailService {
                 model.put("header", "Upcoming event");
                 model.put("content", content);
             }
-            else if(type.equals(EMailType.UPDATE_EVENT))
-            {
+            else if (type.equals(EMailType.UPDATE_EVENT)) {
                 model.put("header", "Updating event");
                 model.put("content", content);
-            }
-            else if(type.equals(EMailType.DELETE_EVENT))
-            {
+            } else if (type.equals(EMailType.DELETE_EVENT)) {
                 model.put("header", "Remove event");
+                model.put("content", content);
+                model.put("contentColor", messageContent);
+            } else if (type.equals(EMailType.CHECK_OUT)) {
+                model.put("header", "Thank you for your purchase");
                 model.put("content", content);
                 model.put("contentColor", messageContent);
             }
@@ -165,14 +162,70 @@ public class MailService {
             sendMail(account,htmlBuilder.toString(),"",type);
         }
     }
+
     //send mail và hoàn tiền
-    public void sendMailWhenDeletingEvent( List<Order> orders, Map<String, String> map, String organizationName , EMailType type) throws MessagingException, TemplateException, IOException {
-        String moneyRefund= "We will refund the amount you paid for the order, which is ";
-        String DELETE_EVENT ="We want to notify you that <span style=\"color:black;font-weight: 700;\">"+ organizationName +"</span> has just deleted a event called <span style=\"color:black;font-weight: 700;\">"  + map.get("eventName") + "</span> <br>" ;
-        for(Order order : orders)
-        {
+    public void sendMailWhenDeletingEvent(List<Order> orders, Map<String, String> map, String organizationName, EMailType type) throws MessagingException, TemplateException, IOException {
+        String moneyRefund = "We will refund the amount you paid for the order, which is ";
+        String DELETE_EVENT = "We want to notify you that <span style=\"color:black;font-weight: 700;\">" + organizationName + "</span> has just deleted a event called <span style=\"color:black;font-weight: 700;\">" + map.get("eventName") + "</span> <br>";
+        for (Order order : orders) {
             Optional<Account> account = accountRepository.findByEmail(order.getEmail());
-            sendMail(account.get(),DELETE_EVENT + moneyRefund + order.getTotalPrice() + order.getCurrency(),"",type);
+            sendMail(account.get(), DELETE_EVENT + moneyRefund + order.getTotalPrice() + order.getCurrency(), "", type);
         }
+    }
+
+    public void sendMailCheckOut(Order order, Map<String, String> map, String organizationName, EMailType type) throws MessagingException, TemplateException, IOException {
+        StringBuilder htmlBuilder = new StringBuilder("You have just purchased a type of event ticket called <span style=\"color:black;font-weight: 700;\">" + map.get("eventName") + "</span> .Below is the detailed information about your order <br>");
+        htmlBuilder.append("Your order number is <strong>").append(order.getId()).append("</strong> <br>");
+        htmlBuilder.append("<table style=\"border: 1px solid black; border-collapse: collapse;width:100%;\">\n" +
+                "                                        <tbody>\n" +
+                "                                          <tr>\n" +
+                "                                            <td\n" +
+                "                                              style=\"border: 2px solid black; padding: 8px; background-color: #2d3142; color: white; font-weight: 600;\">\n" +
+                "                                              ID</td>\n" +
+                "                                            <td\n" +
+                "                                              style=\"border: 2px solid black; padding: 8px; background-color: #2d3142; color: white; font-weight: 600;\">\n" +
+                "                                              Ticket name</td>\n" +
+                "                                            <td\n" +
+                "                                              style=\"border: 2px solid black; padding: 8px; background-color: #2d3142; color: white; font-weight: 600;\">\n" +
+                "                                              Price</td>\n" +
+                "                                            <td\n" +
+                "                                              style=\"border: 2px solid black; padding: 8px; background-color: #2d3142; color: white; font-weight: 600;\">\n" +
+                "                                              Quantity</td>\n" +
+                "                                          </tr>");
+        for (Ticket ticket : order.getCustomerTicketList()) {
+            String test ="<tr>  <td style=\"border: 1px solid black; padding: 8px;\">" + ticket.getId() + "</td>";
+            test += "<td style=\"border: 1px solid black; padding: 8px;\">"+ticket.getTicketName()+"</td>";
+            test += "<td style=\"border: 1px solid black; padding: 8px;display: flex;\">";
+            test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
+            test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
+//            if(ticket.getCurrency().equals("USD"))
+//            {
+//                test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
+//                test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
+//            }
+//            else
+//            {
+//                test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
+//            }
+            test += "</td>";
+            test += "<td style=\"border: 1px solid black; padding: 8px; text-align: center;\">"+ticket.getQuantity()+"</td>";
+            test += "</tr>";
+            htmlBuilder.append(test);
+        }
+        htmlBuilder.append("</tbody>" +
+                "        </table>");
+        String totalPriceOfOrder ="<div style=\"margin-top: 10px; display: flex;\">"
+                + "<strong>Total price of order: </strong> <div class=\"myDIV\"> "+order.getTotalPrice()+"</div>đ"
+                +"</div>";
+
+        if(order.getCurrency().equals("USD"))
+        {
+            totalPriceOfOrder ="<div style=\"margin-top: 10px; display: flex;\">"
+                    + "<strong>Total price of order: </strong>  $<div class=\"myDIV\">"+order.getTotalPrice()+"</div>"
+                    +"</div>";
+        }
+        htmlBuilder.append(totalPriceOfOrder);
+        Optional<Account> account = accountRepository.findByEmail(order.getEmail());
+        sendMail(account.get(),htmlBuilder.toString(),"",type);
     }
 }
