@@ -184,7 +184,10 @@ function AddEditEvent(props) {
         host_id: user.id,
         modifyTimes: values.modifyTimes < 2 ? values.modifyTimes + 1 : 2,
       };
-      console.log("modifyTimes in request: ", request.modifyTimes);
+      console.log(
+        "organizationTickets in request: ",
+        request.organizationTickets
+      );
       if (saveTemplate) {
         await createTemplateTicket(user.id, request.organizationTickets);
       }
@@ -303,6 +306,10 @@ function AddEditEvent(props) {
         : t("popup.edit-event.error"),
     });
   };
+  console.log(
+    "organizationTickets in request: ",
+    handleTicketList(values.ticketList)
+  );
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header

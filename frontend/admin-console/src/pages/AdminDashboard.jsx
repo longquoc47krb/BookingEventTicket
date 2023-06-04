@@ -26,12 +26,12 @@ function AdminDashboard() {
   const { data: events, status: eventStatus } = useFetchEvents();
 
   // count number of events by province
-  const hochiminhCount = filter(events, { province: "TP. Hồ Chí Minh" }).length;
+  const hochiminhCount = filter(events, { province: "Thành phố Hồ Chí Minh" }).length;
   const hanoiCount = filter(events, { province: "Hà Nội" }).length;
   const lamdongCount = filter(events, { province: "Lâm Đồng" }).length;
   const otherCount = filter(events, function (o) {
     return (
-      o.province !== "TP. Hồ Chí Minh" &&
+      o.province !== "Thành phố Hồ Chí Minh" &&
       o.province !== "Hà Nội" &&
       o.province !== "Lâm Đồng"
     );

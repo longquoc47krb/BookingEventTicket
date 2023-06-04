@@ -29,7 +29,6 @@ import { setPathName } from "../../redux/slices/routeSlice";
 import { EventStatus } from "../../utils/constants";
 import { isNotEmpty } from "../../utils/utils";
 function Home() {
-  // eslint-disable-next-line no-unused-vars
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const cityName = localStorage.getItem("city");
   const { data: featuredEvents, status: featuredEventStatus } =
@@ -37,13 +36,7 @@ function Home() {
   const { data: bestSellerEvents, status: bestSellerEventsStatus } =
     useFetchBestSellerEvents();
   const { data: eventsByProvince, status: eventsByProvinceStatus } =
-    useFetchEventsByProvince(
-      cityName
-        ? cityName === "Thành phố Hồ Chí Minh"
-          ? "TP. Hồ Chí Minh"
-          : cityName
-        : "TP. Hồ Chí Minh"
-    );
+    useFetchEventsByProvince(cityName);
   const successStatus = featuredEventStatus === "success";
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -156,9 +149,9 @@ function Home() {
                     setProvince(
                       cityName
                         ? cityName === "Thành phố Hồ Chí Minh"
-                          ? "TP. Hồ Chí Minh"
+                          ? "Thành phố Hồ Chí Minh"
                           : cityName
-                        : "TP. Hồ Chí Minh"
+                        : "Thành phố Hồ Chí Minh"
                     )
                   );
                   navigate("/events");

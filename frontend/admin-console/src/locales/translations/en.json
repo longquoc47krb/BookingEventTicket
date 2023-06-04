@@ -315,7 +315,7 @@
         "period": "Period",
         "numTickets": "Number of tickets",
         "revenue": "Revenue",
-        "order": "Total amount of orders by period"
+        "order": "Total pending revenue by period"
     },
     "time": {
         "day": {

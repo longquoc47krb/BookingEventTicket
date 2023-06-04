@@ -38,7 +38,7 @@ function PaymentPage() {
   useEffect(() => {
     dispatch(setSuccess(isSuccess));
     dispatch(setCancel(isCancel));
-    if (isSuccess) {
+    if (isSuccess && !isCancel) {
       dispatch(setCurrentStep(2));
       const createOrderAsync = async () => {
         const createOrderResponse = await createOrder(user.id, createOrderReq);
@@ -51,10 +51,14 @@ function PaymentPage() {
         }
       };
       createOrderAsync();
+    } else {
+      setTimeout(() => {
+        navigate(`/event/${eventId}`);
+      }, 300);
     }
   }, []);
   const pageRendering = (success, cancel) => {
-    if (success) {
+    if (success && !cancel) {
       return <h1 className="text-2xl">{t("user.payment.success")}</h1>;
     } else {
       return <h1 className="text-2xl">{t("user.payment.error")}</h1>;

@@ -6,7 +6,7 @@ export const provinces = [
   },
   {
     code: "79",
-    name: "TP. Hồ Chí Minh",
+    name: "Thành phố Hồ Chí Minh",
     unit: "Thành phố Trung ương",
   },
   {
