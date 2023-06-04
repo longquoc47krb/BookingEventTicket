@@ -20,6 +20,7 @@ public interface OrderRepository extends MongoRepository<Order,String> {
     List<Order> findAllByEmail(String email);
     List<Order> findAllByCreatedDateBetween(LocalDateTime start, LocalDateTime end);
     Optional<Order> findOrderByCreatedDateBetween(Date date);
+    Optional<Order> findByCreatedDate(Date date);
 
     List<Order> findAllByIdEventAndEmail(String EventId,String email);
     @Query("{ 'idEvent' : ?0 }")
