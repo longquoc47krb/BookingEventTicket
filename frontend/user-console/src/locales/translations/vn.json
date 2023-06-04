@@ -277,6 +277,7 @@
     }
   },
   "ticket": {
+    "placeholder-searchbox": "Tìm kiếm vé bằng tên sự kiện",
     "download": "Tải vé xuống",
     "ticket-detail": "Chi tiết vé",
     "print-your-ticket": "In vé",

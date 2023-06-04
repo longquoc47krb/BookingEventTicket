@@ -1,36 +1,39 @@
 import { t } from "i18next";
 import React from "react";
 import { BsFillCalendarCheckFill, BsPersonLinesFill } from "react-icons/bs";
-import VNPayLogo from "../../../assets/vnpay.svg";
 import { GrPaypal } from "react-icons/gr";
 import { HiIdentification } from "react-icons/hi2";
 import { IoLocationSharp, IoTicket } from "react-icons/io5";
 import { MdAccessTime } from "react-icons/md";
 import { TbFileInvoice } from "react-icons/tb";
+import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useMedia } from "react-use";
 import {
   useEventDetails,
   useFetchOrganizerByEventId,
 } from "../../../api/services/eventServices";
-import InfoCollapse from "../../../components/info-collapse";
+import VNPayLogo from "../../../assets/vnpay.svg";
 import Table from "../../../components/common/table";
 import OrderTable from "../../../components/common/table/order-table";
 import Download from "../../../components/export";
+import InfoCollapse from "../../../components/info-collapse";
 import AppConfig from "../../../configs/AppConfig";
 import { userInfoSelector } from "../../../redux/slices/accountSlice";
-import { useNavigate } from "react-router-dom";
 import { convertMongodbTimeToString } from "../../../utils/utils";
 import TicketItem from "../ticket";
-import { useMedia } from "react-use";
-import EventBadge from "../../../components/event-badge";
 const { ORDER_HEADER, BUYER_HEADER, ORDER_TABLE_HEADER } = AppConfig;
 
 function PurchaseTicketItem(props) {
   const { data } = props;
   const { customerTicketList } = data;
+  console.log({ customerTicketList });
   const user = useSelector(userInfoSelector);
-  const { data: event, status: eventStatus } = useEventDetails(data.idEvent);
-  const { data: organizer, status: organizerStatus } =
+  const { data: event, isLoading: eventLoading } = useEventDetails(
+    data.idEvent
+  );
+  const { data: organizer, isLoading: organizerLoading } =
     useFetchOrganizerByEventId(data.idEvent);
   const isMobile = useMedia("(max-width: 767px)");
   const navigate = useNavigate();
@@ -104,7 +107,9 @@ function PurchaseTicketItem(props) {
           <p>{convertMongodbTimeToString(data.createdDate)}</p>
         </div>
       </div>
-      {eventStatus === "success" && (
+      {eventLoading || organizerLoading ? (
+        <Skeleton width={"90vw"} height={"25rem"} />
+      ) : (
         <div className="mb-4 w-[calc(100%-2rem)] min-h-[25rem] relative p-4 rounded-[1rem] card">
           <div className="flex flex-col w-full">
             <div
@@ -115,7 +120,7 @@ function PurchaseTicketItem(props) {
               }
             >
               <img
-                src={organizerStatus === "success" && organizer.avatar}
+                src={organizer.avatar}
                 className="h-[10rem] w-auto p-4 rounded-full"
                 alt="logo event"
                 onClick={() => navigate(`/organizer-profile/${organizer.id}`)}
@@ -125,14 +130,14 @@ function PurchaseTicketItem(props) {
                   className="text-base text-[#1f3e82] uppercase tracking-[0.5rem] mb-1 hover:underline hover:cursor-pointer"
                   onClick={() => navigate(`/organizer-profile/${organizer.id}`)}
                 >
-                  {organizerStatus === "success" && organizer.name}
+                  {organizer.name}
                 </p>
                 <h1
                   className="font-medium text-3xl  text-[#1f3e82] mb-2  gap-x-3 flex items-center"
                   onClick={() => navigate(`/event/${data.idEvent}`)}
                 >
                   <span className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[80vw] hover:underline hover:cursor-pointer">
-                    {event.name}
+                    {event?.name}
                   </span>{" "}
                   {/* <EventBadge status={event.status} date={event.startingDate} /> */}
                 </h1>
