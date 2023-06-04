@@ -233,5 +233,36 @@
         </tr>
     </table>
 </div>
+<#--<script>-->
+<#--    let x = document.querySelectorAll(".myDIV");-->
+<#--    for (let i = 0, len = x.length; i < len; i++) {-->
+<#--        let num = Number(x[i].innerHTML)-->
+<#--            .toLocaleString('en');-->
+<#--        x[i].innerHTML = num;-->
+<#--        x[i].classList.add("currSign");-->
+<#--    }-->
+<#--</script>-->
+
+<script>
+    const currencyElements = document.querySelectorAll('.currency');
+
+    // Loop through each currency element
+    currencyElements.forEach(currencyElement => {
+        // Get the currency type
+        const currency = currencyElement.innerText;
+
+        // Get the corresponding myDiv element
+        const myDivElement = currencyElement.nextElementSibling;
+
+        // Get the amount from the myDiv element
+        const amount = parseFloat(myDivElement.innerText);
+
+        // Format the currency based on the currency type
+        const formattedAmount = currency === "USD" ? amount.toLocaleString('en-US', { style: 'currency', currency: "USD" }) : amount.toLocaleString('vi-VN', { style: 'currency', currency: "VND" });
+
+        // Update the inner text with the formatted currency
+        myDivElement.innerText = formattedAmount;
+    });
+</script>
 </body>
 </html>

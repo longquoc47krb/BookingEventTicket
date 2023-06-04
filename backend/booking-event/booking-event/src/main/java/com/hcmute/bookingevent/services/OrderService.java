@@ -6,11 +6,13 @@ import com.hcmute.bookingevent.mapper.EventMapper;
 import com.hcmute.bookingevent.models.Customer;
 import com.hcmute.bookingevent.models.Order;
 //import com.hcmute.bookingevent.models.OrderStats;
+import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.models.organization.Organization;
 import com.hcmute.bookingevent.models.ticket.Ticket;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.repository.*;
+import com.hcmute.bookingevent.services.mail.EMailType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,7 @@ public class OrderService implements IOrderService {
     private final MongoTemplate mongoTemplate;
     private final EventRepository eventRepository;
     private final PaymentService paymentService;
+    private final MailService mailService;
 
 
     //handle order after meeting all secure criteria
@@ -70,9 +73,21 @@ public class OrderService implements IOrderService {
                         }
                     }
                 }
-                eventRepository.save(event.get());
-                //cap nhat o organization  (cong tien)
                 Optional<Organization> organization = organizationRepository.findOrganizationByEventId(order.getIdEvent());
+                orderRepository.save(order);
+                Optional<Order> updatedOrder = orderRepository.findByCreatedDate(order.getCreatedDate());
+                eventRepository.save(event.get());
+
+                //sendmail
+                Optional<Account> account = accountRepository.findByEmail(organization.get().getEmail());
+                if (account.isPresent()) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("id", event.get().getId());
+                    map.put("eventName", event.get().getName());
+                    mailService.sendMailCheckOut(updatedOrder.get(), map, account.get().getName(), EMailType.CHECK_OUT);
+                }
+
+                //cap nhat o organization  (cong tien)
                 if (organization.isPresent()) {
                     BigDecimal orderPrice = new BigDecimal(order.getTotalPrice());
                     if (order.getCurrency().equals("USD")) {
@@ -86,7 +101,7 @@ public class OrderService implements IOrderService {
                     }
                     organizationRepository.save(organization.get());
                 }
-                orderRepository.save(order);
+                //orderRepository.save(order);
                 customerRepository.save(customer.get());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
