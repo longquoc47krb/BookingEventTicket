@@ -317,7 +317,7 @@
         "period": "Thời gian",
         "numTickets": "Số lượng vé",
         "revenue": "Doanh thu",
-        "order": "Doanh thu từ các đơn hàng theo các mốc thời gian"
+        "order": "Tổng doanh thu đang chờ xử lý theo các mốc thời gian"
     },
     "time": {
         "day": {
@@ -352,7 +352,7 @@
         "event": "Thống kê sự kiện theo tỉnh/tp"
     },
     "province": {
-        "hcm": "TP. Hồ Chí Minh",
+        "hcm": "Thành phố Hồ Chí Minh",
         "hn": "Hà Nội",
         "ld": "Lâm Đồng",
         "others": "Tỉnh thành khác"

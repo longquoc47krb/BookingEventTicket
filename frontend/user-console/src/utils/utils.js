@@ -527,3 +527,40 @@ export function sortEventsByStartingDate(events) {
 
   return events;
 }
+export const displayRatingStar = (reviewList) => {
+
+  const ratingArray = isNotEmpty(reviewList)
+    ? [
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 1 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 2 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 3 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 4 ? acc + 1 : acc),
+          0
+        ),
+        reviewList.data.reduce(
+          (acc, obj) => (obj.rate === 5 ? acc + 1 : acc),
+          0
+        ),
+      ]
+    : [];
+  let totalCount = 0;
+  let sum = 0;
+
+  for (let i = 0; i < ratingArray.length; i++) {
+    totalCount += ratingArray[i];
+    sum += ratingArray[i] * (i + 1);
+  }
+  const averageRating = totalCount !== 0 ? (sum / totalCount).toFixed(1) : 0;
+
+  return averageRating;
+};

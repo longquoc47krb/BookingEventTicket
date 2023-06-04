@@ -114,7 +114,7 @@
   },
   "location": {
     "all": "Tất cả địa điểm",
-    "HCM": "TP. Hồ Chí Minh",
+    "HCM": "Thành phố Hồ Chí Minh",
     "HN": "Hà Nội",
     "others": "Các địa điểm khác"
   },
@@ -197,7 +197,7 @@
     "introduce": "Lotus Ticket cung cấp giải pháp cho việc quản lý và bán vé trực tuyến sự kiện",
     "hotline-title": "Đường dây nóng",
     "email-title": "Email hỗ trợ",
-    "hotline": "TP. Hồ Chí Minh: T.2 - T.6 (8:30 ~ 18:30)",
+    "hotline": "Thành phố Hồ Chí Minh: T.2 - T.6 (8:30 ~ 18:30)",
     "intro": {
       "1": {
         "title": "Soát vé tại cổng",
@@ -277,6 +277,7 @@
     }
   },
   "ticket": {
+    "placeholder-searchbox": "Tìm kiếm vé bằng tên sự kiện",
     "download": "Tải vé xuống",
     "ticket-detail": "Chi tiết vé",
     "print-your-ticket": "In vé",

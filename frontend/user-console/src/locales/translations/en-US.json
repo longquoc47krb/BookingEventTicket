@@ -278,6 +278,7 @@
     }
   },
   "ticket": {
+    "placeholder-searchbox": "Search ticket by event name",
     "download": "Download ticket",
     "ticket-detail": "Ticket detail",
     "print-your-ticket": "Print your ticket",

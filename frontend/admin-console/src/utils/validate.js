@@ -82,10 +82,22 @@ export const YupValidations = {
     .of(
       Yup.object().shape({
         currency: Yup.string().required("validate.ticket.currency.required"),
-        price: Yup.number()
-          .typeError("validate.ticket.price.number")
-          .required("validate.ticket.price.required")
-          .min(0, "validate.ticket.price.min"),
+        // price: Yup.number()
+        //   .typeError("validate.ticket.price.number")
+        //   .required("validate.ticket.price.required")
+        //   .min(0, "validate.ticket.price.min"),
+        price: Yup.string().test("valid-number", "Invalid number", (value) => {
+          const parsedValue = parseInt(value.replace(/,/g, ""), 10); // Remove commas and parse the number
+
+          // Validate if the parsed value is a number
+          if (isNaN(parsedValue)) {
+            return false;
+          }
+
+          // Additional validation rules if needed
+
+          return true;
+        }),
         ticketName: Yup.string().required("validate.ticket.name.required"),
         quantity: Yup.number()
           .typeError("validate.ticket.quantity.number")

@@ -4,7 +4,7 @@ export const locationSelect = [
     label: "location.all",
   },
   {
-    value: "TP. Hồ Chí Minh",
+    value: "Thành phố Hồ Chí Minh",
     label: "location.HCM",
   },
   {

@@ -70,6 +70,65 @@ function Input(props) {
     </>
   );
 }
+function InputCurrency(props) {
+  const {
+    field,
+    form,
+    label,
+    width,
+    uppercase,
+    onChange: onChangeCustom,
+    disabled,
+  } = props;
+  const { t } = useTranslation();
+  const { value, onChange, onBlur, name } = field;
+  const { errors, touched } = form;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (touched[name] && errors[name]) {
+      inputRef.current.focus();
+    }
+  }, [errors, name, touched]);
+  const handleChange = (e) => {
+    const { value } = e.target;
+    var customEvent = {
+      target: {
+        value: uppercase ? value.toUpperCase() : value,
+        name,
+      },
+    };
+    onChange(customEvent);
+    if (onChangeCustom) {
+      onChangeCustom(value);
+    }
+  };
+  return (
+    <>
+      <h1 className="font-medium text-black text-lg my-2">{label}</h1>
+      <AntdInput
+        disabled={disabled}
+        name={name}
+        value={value.toLocaleString()}
+        onBlur={onBlur}
+        status={errors[name] ? "error" : ""}
+        onChange={handleChange}
+        style={{ width: width }}
+        className="p-[0.5rem]"
+        ref={inputRef}
+      />
+      {/* <p className="text-red-600 font-medium text-lg mb-0">
+        {touched[name] && t(errors.name)}
+      </p> */}
+      <ErrorMessage
+        name={name}
+        render={(msg) => (
+          <p className="text-red-600 font-medium text-lg mb-0">{t(msg)}</p>
+        )}
+      />
+    </>
+  );
+}
 function DatePicker(props) {
   const dateFormat = "DD/MM/YYYY";
   const { form, field, label, disabled } = props;
@@ -154,7 +213,8 @@ function Select(props) {
       },
     };
     onChange(customEvent);
-  };const inputRef = useRef(null);
+  };
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (touched[name] && errors[name]) {
@@ -286,6 +346,7 @@ function InputPassword(props) {
 export {
   Input,
   InputPassword,
+  InputCurrency,
   DatePicker,
   TimePicker,
   Select,

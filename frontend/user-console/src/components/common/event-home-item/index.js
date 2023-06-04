@@ -8,7 +8,7 @@ import AppConfig from "../../../configs/AppConfig";
 import { Rating } from "@mui/material";
 import { useFetchReviewList } from "../../../api/services/reviewServices";
 import { EventStatus } from "../../../utils/constants";
-import { isNotEmpty } from "../../../utils/utils";
+import { displayRatingStar, isNotEmpty } from "../../../utils/utils";
 function EventHomeItem(props) {
   const { event, key, variants } = props;
   const { data: reviewList, isLoading } = useFetchReviewList(event?.id);
@@ -17,16 +17,7 @@ function EventHomeItem(props) {
   const goToEventDetail = () => {
     navigate(`/event/${event.id}`);
   };
-  var totalCount = 0;
-  var sum = 0;
-  if (!isLoading && reviewList) {
-    for (let i = 0; i < reviewList.data.length; i++) {
-      totalCount += reviewList.data[i].rate;
-      sum += reviewList.data[i].rate * (i + 1);
-    }
-  }
-  console.log({ reviewList });
-  const averageRating = totalCount !== 0 ? (sum / totalCount).toFixed(1) : 0;
+  console.log("display rating star:", displayRatingStar(reviewList));
   return (
     <div
       key={key}
@@ -64,10 +55,10 @@ function EventHomeItem(props) {
         isNotEmpty(reviewList?.data) &&
         event?.status === EventStatus.COMPLETED && (
           <div className="flex items-center gap-x-2">
-            <span>{averageRating}/5</span>
+            <span>{displayRatingStar(reviewList)}/5</span>
             <Rating
               name="size-small"
-              value={averageRating}
+              value={displayRatingStar(reviewList)}
               precision={0.5}
               readOnly
               size="small"
