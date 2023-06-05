@@ -109,10 +109,7 @@ public class TicketService implements ITicketService {
             {
                 ticket.setStatus(TicketStatus.BEST_SELLER);
             }
-            else
-            {
-                ticket.setStatus(TicketStatus.AVAILABLE);
-            }
+
 
         }
     }
