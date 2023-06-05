@@ -27,11 +27,20 @@ public class OrderController {
     @PostMapping(path = "/customer/order/{userId}")
     public ResponseEntity<?> createCustomerOrder(@PathVariable String userId, @Valid @RequestBody Order order, HttpServletRequest request) throws Exception {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if (account.getId().equals(userId)) {
-            return iOrderService.createCustomerOrder(account.getEmail(), order);
+        try
+        {
+            if (account.getId().equals(userId)) {
+                System.out.println("Order process");
+                return iOrderService.createCustomerOrder(account.getEmail(), order);
+            }
+            throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
         }
-        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
-        //throw new Exception(" You don't have permission! Token is invalid or fall by order");
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        throw new Exception(" You don't have permission! Token is invalid or fall by order");
     }
     @GetMapping(path = "/order/all")
     public ResponseEntity<?> findAll() {

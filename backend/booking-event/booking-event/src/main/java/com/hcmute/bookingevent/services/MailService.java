@@ -52,7 +52,7 @@ public class MailService {
 
     public void sendMail(Account account, String content,String messageContent , EMailType type) throws MessagingException, TemplateException, IOException
     {
-        log.info(Thread.currentThread().getName()+ "- send email start");
+        //log.info(Thread.currentThread().getName()+ "- send email start");
         try
         {
             Map<String, Object> model = new HashMap<>();
@@ -137,12 +137,12 @@ public class MailService {
             helper.setSubject((String) model.get("header"));
 
             emailSender.send(mimeMailMessage);
-            log.info(Thread.currentThread().getName()+ "- send email end");
+            //log.info(Thread.currentThread().getName()+ "- send email end");
 
         }
         catch (TemplateException ex)
         {
-            log.info("Error : {}",ex.toString());
+            //log.info("Error : {}",ex.toString());
 
         }
     }

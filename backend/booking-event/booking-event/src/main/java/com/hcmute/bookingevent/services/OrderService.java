@@ -76,7 +76,6 @@ public class OrderService implements IOrderService {
                 Optional<Organization> organization = organizationRepository.findOrganizationByEventId(order.getIdEvent());
                 orderRepository.save(order);
                 Optional<Order> updatedOrder = orderRepository.findByCreatedDate(order.getCreatedDate());
-                eventRepository.save(event.get());
 
                 //sendmail
                 Optional<Account> account = accountRepository.findByEmail(organization.get().getEmail());
@@ -101,8 +100,8 @@ public class OrderService implements IOrderService {
                     }
                     organizationRepository.save(organization.get());
                 }
-                //orderRepository.save(order);
-                customerRepository.save(customer.get());
+
+                eventRepository.save(event.get());
 
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject(true, "Create Order for Customer successfully ", orderRepository.findById(order.getId()), 200));
