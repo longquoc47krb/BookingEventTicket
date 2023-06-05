@@ -18,6 +18,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.*;
 
 @Service
@@ -196,8 +197,8 @@ public class MailService {
             String test ="<tr>  <td style=\"border: 1px solid black; padding: 8px;\">" + ticket.getId() + "</td>";
             test += "<td style=\"border: 1px solid black; padding: 8px;\">"+ticket.getTicketName()+"</td>";
             test += "<td style=\"border: 1px solid black; padding: 8px;display: flex;\">";
-            test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
-            test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
+//            test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
+            test+="<div class=\"myDIV\">"+convertCurrencyFormat(formatCurrency(ticket.getCurrency(),ticket.getPrice()), ticket.getCurrency() )+"</div>";
 //            if(ticket.getCurrency().equals("USD"))
 //            {
 //                test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
@@ -215,7 +216,7 @@ public class MailService {
         htmlBuilder.append("</tbody>" +
                 "        </table>");
         String totalPriceOfOrder ="<div style=\"margin-top: 10px; display: flex;\">"
-                + "<strong>Total price of order: </strong> <div class=\"myDIV\"> "+order.getTotalPrice()+"</div>đ"
+                + "<strong>Total price of order: </strong> <div class=\"myDIV\"> "+convertCurrencyFormat(formatCurrency(order.getCurrency(),order.getTotalPrice()), order.getCurrency())+"</div>"
                 +"</div>";
 
         if(order.getCurrency().equals("USD"))
@@ -227,5 +228,19 @@ public class MailService {
         htmlBuilder.append(totalPriceOfOrder);
         Optional<Account> account = accountRepository.findByEmail(order.getEmail());
         sendMail(account.get(),htmlBuilder.toString(),"",type);
+    }
+    public static String formatCurrency(String currencyCode, String price) {
+        Double priceDouble = Double.parseDouble(price);
+        Currency currency = Currency.getInstance(currencyCode);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        formatter.setCurrency(currency);
+        return formatter.format(priceDouble);
+    }
+    public static String convertCurrencyFormat(String formattedCurrency, String currencyCode) {
+        String convertedCurrency = formattedCurrency
+                .replace("$", "")
+                .replace("₫", "")
+                .trim();
+        return convertedCurrency + " " + currencyCode;
     }
 }
