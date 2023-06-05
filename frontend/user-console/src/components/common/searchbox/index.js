@@ -48,9 +48,9 @@ const SearchBox = (props) => {
     includeScore: false,
     useExtendedSearch: false,
     ignoreLocation: true,
-    minMatchCharLength: 1,
+    minMatchCharLength: 3,
     shouldSort: true,
-    threshold: 0.5,
+    threshold: 0.4,
     location: 0,
     distance: 100,
     keys: [
