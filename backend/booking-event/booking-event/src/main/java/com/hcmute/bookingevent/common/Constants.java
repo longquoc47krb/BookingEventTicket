@@ -1,5 +1,9 @@
 package com.hcmute.bookingevent.common;
 
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
+
 public class Constants {
     public static final String MY_EMAIL = "lotusticketvn2@gmail.com";
     public static final String ROLE_USER = "ROLE_USER";
@@ -32,6 +36,20 @@ public class Constants {
         }
 
         return sb.toString();
+    }
+    public static String formatCurrency(String currencyCode, String price) {
+        Double priceDouble = Double.parseDouble(price);
+        Currency currency = Currency.getInstance(currencyCode);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        formatter.setCurrency(currency);
+        return formatter.format(priceDouble);
+    }
+    public static String convertCurrencyFormat(String formattedCurrency, String currencyCode) {
+        String convertedCurrency = formattedCurrency
+                .replace("$", "")
+                .replace("₫", "")
+                .trim();
+        return convertedCurrency + " " + currencyCode;
     }
 }
 
