@@ -1,17 +1,18 @@
 package com.hcmute.bookingevent.services;
 
+import com.hcmute.bookingevent.Implement.IPaymentService;
 import com.hcmute.bookingevent.config.paypal.VNPayConfig;
 import com.hcmute.bookingevent.exception.AppException;
-import com.hcmute.bookingevent.exception.NotFoundException;
-import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.payload.request.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +24,17 @@ import java.util.*;
 
 
 @RequiredArgsConstructor
-@Service
-public class VNPayService {
+@Service("VNPayService")
+//@Component
+//@Qualifier("VNPayService")
+public class VNPayService implements IPaymentService {
+
     public static final String MAIN_URL = "https://lotusticket-vn.netlify.app/payment/redirect?";
     //public static final String MAIN_URL = "http://localhost:3000/payment/redirect?";
     @SneakyThrows
-    //@Override
-    public ResponseEntity<?> createPayment(HttpServletRequest request, PriceRes priceRes) {
+    @Override
+    //@Qualifier("VNPayService")
+    public ResponseEntity<?> createPayment(PriceRes priceRes, HttpServletRequest request) {
         //Config.getIpAddress(req)
         Map<String, Object> vnp_Params = mapVnPayParam(priceRes, request);
         //Build data to hash and querystring
@@ -63,7 +68,6 @@ public class VNPayService {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, "Payment Complete", paymentUrl, 200));
     }
-
     public Map<String, Object> mapVnPayParam(PriceRes priceRes, HttpServletRequest request) {
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
         String vnp_TxnRef = String.valueOf(System.currentTimeMillis());
@@ -109,15 +113,18 @@ public class VNPayService {
     }
 
     @SneakyThrows
+    @Override
+    //@Qualifier("VNPayService")
     public ResponseEntity<?> cancelPayPalPayment(HttpServletRequest request, HttpServletResponse response) {
         //response.sendRedirect(MAIN_URL + "success=false&cancel=true");
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(
                 new ResponseObject(true, "cancel payment", "", 200));
 
     }
-
     @SneakyThrows
-    public ResponseEntity<?> executePayment(String responseCode, String id, HttpServletRequest request, HttpServletResponse response) {
+    @Override
+    //@Qualifier("VNPayService")
+    public ResponseEntity<?> executePayPalPayment(String responseCode, String id, HttpServletRequest request, HttpServletResponse response) {
         if (responseCode.equals(VNPayConfig.responseSuccessCode)) {
             response.sendRedirect(MAIN_URL + "success=true&cancel=false");
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -132,6 +139,4 @@ public class VNPayService {
             throw new AppException(HttpStatus.EXPECTATION_FAILED.value(), "Failed when payment");
         }
     }
-
-
 }

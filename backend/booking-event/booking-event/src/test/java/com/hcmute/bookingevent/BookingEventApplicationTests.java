@@ -398,4 +398,15 @@ class BookingEventApplicationTests {
 		}
 		return fn;
 	}
+	@Test
+	public void testStringf()
+	{
+		String a="fasd";
+		String b="fasd";
+		if(a==b)
+		{
+			System.out.println("bang nhau");
+
+		}
+	}
 }

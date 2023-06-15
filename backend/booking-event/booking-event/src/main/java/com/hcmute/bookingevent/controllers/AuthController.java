@@ -5,6 +5,7 @@ import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.payload.request.*;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
+import com.hcmute.bookingevent.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,6 @@ import javax.validation.Valid;
 @RequestMapping(path = "/api")
 public class AuthController {
     private final JwtTokenProvider jwtUtils;
-
-
-
-
     private  final IAuthService iAuthService;
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq loginReq) {
