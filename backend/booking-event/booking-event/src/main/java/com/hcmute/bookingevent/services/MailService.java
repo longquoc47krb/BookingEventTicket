@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.services;
 
+import com.hcmute.bookingevent.common.Constants;
 import com.hcmute.bookingevent.models.Order;
 import com.hcmute.bookingevent.models.account.Account;
 import com.hcmute.bookingevent.models.ticket.Ticket;
@@ -20,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.*;
+import com.hcmute.bookingevent.common.Constants;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +31,7 @@ public class MailService {
     private final JavaMailSender emailSender;
     private final Configuration configuration;
     private final AccountRepository accountRepository;
-
-
+    //private final Constants constants;
     final String MAIL_TEMPLATE = "newmail-template.ftl";
 
     final String OTP_CONTENT ="Please enter this code to verify your action with LotusTicket. This code use only once. Please do not share this code to with anyone else due to security for yourself. The code is only valid for 5 minutes. " ;
@@ -176,6 +177,7 @@ public class MailService {
 
     public void sendMailCheckOut(Order order, Map<String, String> map, String organizationName, EMailType type) throws MessagingException, TemplateException, IOException {
         StringBuilder htmlBuilder = new StringBuilder("You have just purchased a type of event ticket called <span style=\"color:black;font-weight: 700;\">" + map.get("eventName") + "</span> .Below is the detailed information about your order <br>");
+        htmlBuilder.append("Click  <a href=\"https://lotusticket-vn.netlify.app/event/").append(map.get("id")).append("\">here</a> for more details <br>");
         htmlBuilder.append("Your order number is <strong>").append(order.getId()).append("</strong> <br>");
         htmlBuilder.append("<table style=\"border: 1px solid black; border-collapse: collapse;width:100%;\">\n" +
                 "                                        <tbody>\n" +
@@ -197,17 +199,7 @@ public class MailService {
             String test ="<tr>  <td style=\"border: 1px solid black; padding: 8px;\">" + ticket.getId() + "</td>";
             test += "<td style=\"border: 1px solid black; padding: 8px;\">"+ticket.getTicketName()+"</td>";
             test += "<td style=\"border: 1px solid black; padding: 8px;display: flex;\">";
-//            test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
-            test+="<div class=\"myDIV\">"+convertCurrencyFormat(formatCurrency(ticket.getCurrency(),ticket.getPrice()), ticket.getCurrency() )+"</div>";
-//            if(ticket.getCurrency().equals("USD"))
-//            {
-//                test+="<span style=\"display: none\" class=\"currency\">"+ticket.getCurrency()+"</span>";
-//                test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
-//            }
-//            else
-//            {
-//                test+="<div class=\"myDIV\">"+ticket.getPrice()+"</div>";
-//            }
+            test+="<div class=\"myDIV\">"+Constants.convertCurrencyFormat(Constants.formatCurrency(ticket.getCurrency(),ticket.getPrice()), ticket.getCurrency() )+"</div>";
             test += "</td>";
             test += "<td style=\"border: 1px solid black; padding: 8px; text-align: center;\">"+ticket.getQuantity()+"</td>";
             test += "</tr>";
@@ -216,7 +208,7 @@ public class MailService {
         htmlBuilder.append("</tbody>" +
                 "        </table>");
         String totalPriceOfOrder ="<div style=\"margin-top: 10px; display: flex;\">"
-                + "<strong>Total price of order: </strong> <div class=\"myDIV\"> "+convertCurrencyFormat(formatCurrency(order.getCurrency(),order.getTotalPrice()), order.getCurrency())+"</div>"
+                + "<strong>Total price of order: </strong> <div class=\"myDIV\"> "+Constants.convertCurrencyFormat(Constants.formatCurrency(order.getCurrency(),order.getTotalPrice()), order.getCurrency())+"</div>"
                 +"</div>";
 
         if(order.getCurrency().equals("USD"))
@@ -228,19 +220,5 @@ public class MailService {
         htmlBuilder.append(totalPriceOfOrder);
         Optional<Account> account = accountRepository.findByEmail(order.getEmail());
         sendMail(account.get(),htmlBuilder.toString(),"",type);
-    }
-    public static String formatCurrency(String currencyCode, String price) {
-        Double priceDouble = Double.parseDouble(price);
-        Currency currency = Currency.getInstance(currencyCode);
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        formatter.setCurrency(currency);
-        return formatter.format(priceDouble);
-    }
-    public static String convertCurrencyFormat(String formattedCurrency, String currencyCode) {
-        String convertedCurrency = formattedCurrency
-                .replace("$", "")
-                .replace("₫", "")
-                .trim();
-        return convertedCurrency + " " + currencyCode;
     }
 }

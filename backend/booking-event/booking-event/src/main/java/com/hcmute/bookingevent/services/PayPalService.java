@@ -1,6 +1,6 @@
 package com.hcmute.bookingevent.services;
 
-import com.hcmute.bookingevent.Implement.IPayPayService;
+import com.hcmute.bookingevent.Implement.IPaymentService;
 import com.hcmute.bookingevent.payload.request.PriceRes;
 import com.hcmute.bookingevent.payload.response.ResponseObject;
 import com.hcmute.bookingevent.utils.StringUtils;
@@ -10,8 +10,11 @@ import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +25,11 @@ import java.math.RoundingMode;
 import java.util.*;
 
 @Slf4j
-@Service
+@Service("PayPalService")
 @RequiredArgsConstructor
-public class PayPalService implements IPayPayService {
+//@Component("PayPalService")
+//@Qualifier("PayPalService")
+public class PayPalService implements IPaymentService {
     //public static final String MAIN_URL ="http://localhost:3000";
     //public static final String MAIN_URL ="http://localhost:3000/payment/redirect?";
     //https://lotusticket-vn.netlify.app/
@@ -35,9 +40,11 @@ public class PayPalService implements IPayPayService {
 
     private final APIContext apiContext;
 
+
     @Override
     //@Transactional
-    public ResponseEntity<?> createPayPalPayment(PriceRes priceRes, HttpServletRequest request) {
+    //@Qualifier("PayPalService")
+    public ResponseEntity<?> createPayment(PriceRes priceRes, HttpServletRequest request) {
         String cancelUrl = StringUtils.getBaseURL(request) + CANCEL_URL;
         String successUrl = StringUtils.getBaseURL(request) + SUCCESS_URL;
         // HttpSession session = request.getSession();
@@ -76,6 +83,7 @@ public class PayPalService implements IPayPayService {
 
     @SneakyThrows
     @Override
+    //@Qualifier("PayPalService")
     public ResponseEntity<?> executePayPalPayment(String paymentId, String payerId,   HttpServletRequest request, HttpServletResponse response)
     {
         try {
@@ -107,7 +115,10 @@ public class PayPalService implements IPayPayService {
         );
     }
 
+
+
     @SneakyThrows
+    //@Qualifier("PayPalService")
     public   ResponseEntity<?> cancelPayPalPayment(HttpServletRequest request, HttpServletResponse response)
     {
         response.sendRedirect(MAIN_URL + "success=false&cancel=true");

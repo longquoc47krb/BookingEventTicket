@@ -1,8 +1,9 @@
 package com.hcmute.bookingevent.controllers;
 
+import com.hcmute.bookingevent.Implement.IPaymentService;
 import com.hcmute.bookingevent.payload.request.PriceRes;
-import com.hcmute.bookingevent.services.PayPalService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,20 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @RestController
 @RequestMapping(path = "/api/payment")
 public class PayPalController {
+    @Autowired
+    @Qualifier("PayPalService")
+    private IPaymentService iPaymentService;
 
-    private final PayPalService service;
     @PostMapping("/payOrder")
     public ResponseEntity<?> payment(@Valid @RequestBody PriceRes priceRes, HttpServletRequest request) {
-        return service.createPayPalPayment(priceRes,request);
+        return iPaymentService.createPayment(priceRes,request);
 
     }
     @GetMapping(value = "/pay/cancel")
     public ResponseEntity<?> cancelPay(HttpServletRequest request, HttpServletResponse response) {
-        return service.cancelPayPalPayment(request,response);
+        return iPaymentService.cancelPayPalPayment(request,response);
     }
 
     @GetMapping(value = "/pay/success")
@@ -31,7 +34,7 @@ public class PayPalController {
                                         @RequestParam("PayerID") String payerId,
                                         HttpServletRequest request,
                              HttpServletResponse response) {
-        return service.executePayPalPayment(paymentId,payerId,request,response);
+        return iPaymentService.executePayPalPayment(paymentId,payerId,request,response);
 
     }
 
