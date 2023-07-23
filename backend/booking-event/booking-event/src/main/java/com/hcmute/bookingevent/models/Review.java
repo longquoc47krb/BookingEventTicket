@@ -1,10 +1,7 @@
 package com.hcmute.bookingevent.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,7 +13,10 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Review {
+
+
     @Id
     @JsonIgnore
     private String id;
@@ -34,5 +34,17 @@ public class Review {
     @NotBlank(message = "rate is required")
     private int rate;
     private Date createdAt;
-
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", idEvent='" + idEvent + '\'' +
+                ", message='" + message + '\'' +
+                ", rate=" + rate +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

@@ -131,7 +131,11 @@
 			<artifactId>commons-text</artifactId>
 			<version>1.10.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.22</version>
+		</dependency>
 
 
 	</dependencies>
@@ -161,15 +165,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!--		<resources>-->
-		<!--			<resource>-->
-		<!--				<filtering>true</filtering>-->
-		<!--				<directory>src/main/resources</directory>-->
-		<!--				<includes>-->
-		<!--					<include>**/*.properties</include>-->
-		<!--				</includes>-->
-		<!--			</resource>-->
-		<!--		</resources>-->
+				<resources>
+					<resource>
+						<filtering>true</filtering>
+						<directory>src/main/resources</directory>
+						<includes>
+							<include>**/*.properties</include>
+						</includes>
+					</resource>
+				</resources>
 	</build>
 
 </project>

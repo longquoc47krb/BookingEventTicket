@@ -1,5 +1,6 @@
 package com.hcmute.bookingevent.controllers;
 
+import com.hcmute.bookingevent.Implement.IEventService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
 
@@ -7,6 +8,7 @@ import com.hcmute.bookingevent.Implement.IAccountService;
 import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.AdminService;
+import com.hcmute.bookingevent.services.EventService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
