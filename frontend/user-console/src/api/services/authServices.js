@@ -28,6 +28,7 @@ const forgotPassword = async (body) => {
 const changePassword = async (id, body) => {
   try {
     const response = await httpRequest(AuthAPI.changePassword(id, body));
+    console.log(response);
     return response;
   } catch (err) {
     return err.response.data;

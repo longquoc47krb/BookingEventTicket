@@ -24,6 +24,8 @@ public class JwtTokenProvider {
     private final String JWT_HEADER = "authorization";
 
     public String getJwtFromHeader(HttpServletRequest request) {
+        String ContentType = request.getContentType();
+        System.out.println(ContentType);
         String header = request.getHeader(JWT_HEADER);
         if (header != null)
         {

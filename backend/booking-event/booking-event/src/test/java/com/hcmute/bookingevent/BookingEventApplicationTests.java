@@ -401,12 +401,13 @@ class BookingEventApplicationTests {
 	@Test
 	public void testStringf()
 	{
-		String a="fasd";
+		String a="Fasd";
 		String b="fasd";
 		if(a==b)
 		{
 			System.out.println("bang nhau");
-
 		}
 	}
+
+
 }

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -47,7 +48,12 @@ public class AuthController {
     }
     @PostMapping("/account/changePassword/{id}")
     public ResponseEntity<?> changePassword(@PathVariable String id, @Valid @RequestBody ChangePasswordReq changePasswordReq, HttpServletRequest request) {
+        //WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext()).getServletContext();
+        System.out.println("Bean" + WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext()).getBean("changePassword"));
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+        System.out.println(request.getContextPath());
+        //System.out.println(request.get);
+
         if(account.getId().equals(id)) {
             return iAuthService.changePassword(changePasswordReq);
         }
