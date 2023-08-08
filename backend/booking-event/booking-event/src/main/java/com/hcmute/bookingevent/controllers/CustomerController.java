@@ -48,7 +48,8 @@ public class CustomerController {
 
     }
     @GetMapping(path = "/customer/wishlist/{userId}")
-    public ResponseEntity<?> viewWishList (@PathVariable String userId, HttpServletRequest request   ){
+    public ResponseEntity<?> viewWishList (@PathVariable String userId, HttpServletRequest request   )
+    {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
         if(account.getId().equals(userId)) {
             return iCustomerService.viewWishList(account.getEmail());

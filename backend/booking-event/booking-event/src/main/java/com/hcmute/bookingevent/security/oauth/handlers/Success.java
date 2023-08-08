@@ -69,10 +69,6 @@ public class Success extends SavedRequestAwareAuthenticationSuccessHandler {
 
 
         }
-        System.out.println(oauth2User.getEmail());
-        System.out.println(oauth2User.getName());
-        System.out.println(oauth2User.getAuthorities());
-        System.out.println(oauth2User.getProfilePicture());
         //super.onAuthenticationSuccess(request, response, authentication);
     }
     @SneakyThrows
