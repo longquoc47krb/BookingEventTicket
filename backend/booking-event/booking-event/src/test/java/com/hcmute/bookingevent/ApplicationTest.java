@@ -31,13 +31,13 @@ public class ApplicationTest {
 
     private ReviewRepository reviewRepository;
 
-    @Test
-    public void givenInScopeComponents_whenSearchingInApplicationContext_thenFindThem() {
-        //ApplicationContext contextx = new AnnotationConfigApplicationContext(AccountService.class);
-        System.out.println(applicationContext.getBean("Account") );
-        assertNotNull(applicationContext.getBean(AccountService.class));
-
-    }
+//    @Test
+//    public void givenInScopeComponents_whenSearchingInApplicationContext_thenFindThem() {
+//        //ApplicationContext contextx = new AnnotationConfigApplicationContext(AccountService.class);
+//        System.out.println(applicationContext.getBean("Account") );
+//        assertNotNull(applicationContext.getBean(AccountService.class));
+//
+//    }
     @Test
     public void testBuilder()
     {

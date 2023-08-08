@@ -340,23 +340,6 @@ class BookingEventApplicationTests {
 		organization.get().getPaymentPendings().add(paymentPending);
 		organizationRepository.save(organization.get());
 
-//			for (PaymentPending  element: organization.get().getPaymentPendings())
-//			{
-//				if(organization.get().getEventList().contains(element.getIdEvent()))
-//				{
-//						//System.out.println(element.getIdEvent());
-//
-//					//PaymentPending paymentPending = new PaymentPending(element.getIdEvent(),"0","0",EPaymentStatus.COMPLETED);
-//					//organization.get().getPaymentPendings().add(paymentPending);
-//				}
-//				else
-//				{
-//					System.out.println(element.getIdEvent());
-//
-//				}
-//			}
-			//organizationRepository.save(organization.get());
-
 		}
 		catch (Exception e)
 		{
@@ -364,39 +347,6 @@ class BookingEventApplicationTests {
 
 		}
 
-	}
-	@Test
-	public void testJava()
-	{
-		System.out.println(fibonacci(1000000L));
-	}
-	public static Long fibonacci(Long n) {
-		Long f0 = 4L;
-		Long f1 = 5L;
-		Long f2 = 7L;
-		Long fn = 0L;
-		if (n < 0) {
-			return (long) -1;
-		} else if (n == 0 ) {
-			return 4L;
-		}
-		else if( n==1)
-		{
-			return 7L;
-		}
-		else if (n==2)
-		{
-			return 5L;
-		}
-		else {
-			for (int i = 3; i <= n; i++) {
-				fn = f0 + f1 + f2;
-				f0 = f1;
-				f1 = f2;
-				f2 = fn;
-			}
-		}
-		return fn;
 	}
 	@Test
 	public void testStringf()

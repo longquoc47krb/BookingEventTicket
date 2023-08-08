@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +31,7 @@ public class Event {
     //private String idEvent;
     @TextIndexed
     private String name;
+    @Size(min = 2)
     private String province;
     private String venue; // địa điểm tổ chức
     private String venue_address; // địa chỉ của địa điểm tổ chức
@@ -43,6 +46,7 @@ public class Event {
     private String status;
     private int ticketTotal;
     private int ticketRemaining;
+
     private Date createdDate;
     private Date updatedDate;
 
