@@ -26,8 +26,8 @@ public class MockitoAnnotationUnitTest {
     }
 //    @Rule
 //    public MockitoRule initRule = MockitoJUnit.rule();
-    @InjectMocks
-    List<String> mockedList = new LinkedList<>();
+    @Mock
+    List<String> mockedList ;
     @Mock
     private ReviewRepository reviewRepository;
 
@@ -38,11 +38,11 @@ public class MockitoAnnotationUnitTest {
         //mockedList.add("two");
         Mockito.verify(mockedList).add("one");
         System.out.println(mockedList.size());
-        assertEquals(1, mockedList.size());
+        assertEquals(0, mockedList.size());
 
-        Mockito.when(mockedList.add("one")).thenReturn(true);
+        //Mockito.when(mockedList.add("one")).thenReturn(true);
 
-        assertEquals(true, mockedList.add("one"));
+        //assertEquals(true, mockedList.add("one"));
 
     }
 

@@ -27,14 +27,8 @@ public class BookingEventApplication {
 
 
 	public static void main(String[] args) throws ParseException {
-		//SpringApplication.run(BookingEventApplication.class, args);
-		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BookingEventApplication.class);
-		AnnotationConfigApplicationContext  applicationContext = new AnnotationConfigApplicationContext(BookingEventApplication.class);
+		SpringApplication.run(BookingEventApplication.class, args);
 
-		String[] beanNames = applicationContext.getBeanDefinitionNames();
-		for (String beanName : beanNames) {
-			System.out.println(beanName);
-		}
 
 	}
 
