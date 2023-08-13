@@ -83,8 +83,6 @@ class BookingEventApplicationTests {
 	@Test
 	void setPaymentCompleted()
 	{
-		//Optional<Organization> organization = organizationRepository.findByEventList("amazing-show-trung-quan-idol---hien-thuc-15271");
-		//System.out.println(organization.get().getPaymentPendings().size());
 		List<Organization> organizationList = organizationRepository.findAll();
 
 		for (Organization element : organizationList)
@@ -117,30 +115,11 @@ class BookingEventApplicationTests {
 	}
 
 
-	@Test
-	void setPaymentCancel()
-	{
-		Optional<Organization> organization = organizationRepository.findByEmail("admin@amazingshow.com");
 
-		//paymentMapper.setPaymentToCancel();
-//		List<PaymentPending> pendingList= organization.get().getPaymentPendings();
-//		paymentService.setPaymentToCancel(pendingList,"sai-gon-tren-nhung-dam-may---chillies-concert-tour-14063");
-//		organizationRepository.save(organization.get());
-//		System.out.println("ket qua");
-
-
-	}
 	@Test
 	void testAdmin()
 	{
-//		Admin admin = new Admin();
-//		admin.getUSDBalance();
 		Optional<Admin> admin1= adminRepository.findByEmail("lotusticket.vn@gmail.com");
-
-		//admin1.get().setUSDBalance("0");
-		//admin1.get().setVNDBalance("0");
-		//admin1.get().setUSDPendingProfit("0");
-		//admin1.get().setVNDPendingProfit("0");
 		admin1.get().setUSDBalance("0");
 		admin1.get().setVNDBalance("0");
 		adminRepository.save(admin1.get());
@@ -174,8 +153,6 @@ class BookingEventApplicationTests {
 							BigDecimal totalPaymentOfOrganizerUSD = new BigDecimal(element.getUSDBalance());
 							BigDecimal usdBlock = new BigDecimal(elementPayment.getUSDBalanceLock());
 							BigDecimal addMoneyForAdmin = usdBlock.multiply(num5).divide(num100);
-							//BigDecimal totalPendingUSD = new BigDecimal(admin.get().getUSDPendingProfit());
-							//admin.get().setVNDPendingProfit(totalPendingUSD.subtract(usdBlock).toString());
 							//add vào tài khoản admin
 							admin.get().setVNDBalance(addMoneyForAdmin.toString());
 							adminRepository.save(admin.get());
@@ -189,9 +166,6 @@ class BookingEventApplicationTests {
 							BigDecimal vndBlock = new BigDecimal(elementPayment.getVNDBalanceLock());
 							//lấy số khóa chia cho 5
 							BigDecimal addMoneyForAdmin = vndBlock.multiply(num5).divide(num100);
-							//trừ tiền pending profit của admin
-							//BigDecimal totalPendingVND = new BigDecimal(admin.get().getVNDPendingProfit());
-							//admin.get().setVNDPendingProfit(totalPendingVND.subtract(vndBlock).toString());
 							//add vào tài khoản admin
 							admin.get().setVNDBalance(addMoneyForAdmin.toString());
 							adminRepository.save(admin.get());
@@ -272,13 +246,6 @@ class BookingEventApplicationTests {
 
 
 	}
-	private MongoOperations mongoOperations;
-	public Organization findElementInList(String listElement) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("a").is(listElement));
-
-		return mongoOperations.findOne(query, Organization.class);
-	}
 	@Test
 	public void testString()
 	{
@@ -289,42 +256,13 @@ class BookingEventApplicationTests {
 	}
 	@Test
 	public void testOrder() {
-//		Ticket ticket = new Ticket("2665","test ticket","3.5","test",100,99,"USD","ticket.available");
-//		List<Ticket> organizationTicket = new ArrayList<>();
-//		organizationTicket.add(ticket);
-//		System.out.println(ticket);
-//		for(Ticket ticketI : organizationTicket)
-//		{
-//			ticketI.setQuantity(ticketI.getQuantity()-1);
-//		}
-//		System.out.println(ticket);
-		//
 		Optional<Customer> customer = customerRepository.findByEmail("tuantuan3455@gmail.com");
-		//Optional<Order> order = orderRepository.findAllByEmail("tuantuan3455@gmail.com");
-
 		Optional<Event> event = eventRepository.findEventById("may-lang-thang-liveshow-ung-hoang-phuc--khach-moi--quang-dang-tran-22556");
 		if (customer.isPresent() && event.isPresent()) {
-			//int resultTicketRemaining = event.get().getTicketRemaining() - order.getTotalQuantity();
 			event.get().setTicketRemaining(event.get().getTicketRemaining() -1);
-			//for (Ticket ticketOfCustomer : order.getCustomerTicketList()) {
-			//for (Ticket ticket : event.get().getOrganizationTickets()) {
-			//if (event.get().getOrganizationTickets().get(0)) {
-//						if(ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity() <0)
-//						{
-//							return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-//									new ResponseObject(false, "No more ticket", "", 501));
-//						}
-			//int resultQuantityRemaining = ticket.getQuantityRemaining() - ticketOfCustomer.getQuantity();
 			event.get().getOrganizationTickets().get(0).setQuantityRemaining( event.get().getOrganizationTickets().get(0).getQuantityRemaining()-1 );
-			//ticket.setQuantityRemaining(99 );
-			//setStatusForTicketType(ticket);
-			//}
-			//}
-			//}
 			System.out.println(event.get().getOrganizationTickets());
-
 			List<Ticket> clonedList = new ArrayList<>(event.get().getOrganizationTickets());
-			//event.get().setOrganizationTickets(clonedList);
 			System.out.println(clonedList);
 
 			eventRepository.save(event.get());
@@ -346,18 +284,8 @@ class BookingEventApplicationTests {
 			System.out.println(e);
 
 		}
+	}
 
-	}
-	@Test
-	public void testStringf()
-	{
-		String a="Fasd";
-		String b="fasd";
-		if(a==b)
-		{
-			System.out.println("bang nhau");
-		}
-	}
 
 
 }

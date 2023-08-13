@@ -9,3 +9,4 @@ COPY target/booking-event-0.0.1-SNAPSHOT.jar app.jar
 
 # Chạy ứng dụng Spring Boot khi container được khởi chạy
 CMD ["java", "-jar", "app.jar"]
+
