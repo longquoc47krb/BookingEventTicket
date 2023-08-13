@@ -451,12 +451,20 @@ public class EventService implements IEventService {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject(true, "Can not find data with name:" + id, eventRepository.findById(id), 200));
+                    new ResponseObject(true, "find data successfully with name:" + id, eventRepository.findById(id), 200));
 
         }
         throw new NotFoundException("Can not found any product with id: " + id);
     }
+    @Override
+    public Event findEventById_Object(String id) {
 
+        Optional<Event> event = eventRepository.findById(id);
+        if (event.isPresent()) {
+            return event.get();
+        }
+        throw new NotFoundException("Can not found any product with id: " + id);
+    }
     @Override
     public ResponseEntity<?> findEventListById(String id) {
 

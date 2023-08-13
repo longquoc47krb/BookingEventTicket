@@ -127,6 +127,10 @@ public class EventController {
     public ResponseEntity<?>  findEventById(@PathVariable("id") String id) {
         return iEventService.findEventById(id);
     }
+    @GetMapping("/event/find/object/{id}")
+    public Event  findEventById_Object(@PathVariable("id") String id) {
+        return iEventService.findEventById_Object(id);
+    }
     @PutMapping("/organization/event/{id}/{userId}")
     public ResponseEntity<?> updateEvent(@PathVariable String id, @PathVariable String userId,@RequestBody EventReq eventReq, HttpServletRequest request) {
         Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
