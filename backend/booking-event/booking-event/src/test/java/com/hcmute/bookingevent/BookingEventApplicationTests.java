@@ -264,7 +264,6 @@ class BookingEventApplicationTests {
 			System.out.println(event.get().getOrganizationTickets());
 			List<Ticket> clonedList = new ArrayList<>(event.get().getOrganizationTickets());
 			System.out.println(clonedList);
-
 			eventRepository.save(event.get());
 		}
 	}
@@ -285,7 +284,4 @@ class BookingEventApplicationTests {
 
 		}
 	}
-
-
-
 }
