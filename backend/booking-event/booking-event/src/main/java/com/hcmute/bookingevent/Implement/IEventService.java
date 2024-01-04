@@ -1,6 +1,7 @@
 package com.hcmute.bookingevent.Implement;
 
 
+import com.hcmute.bookingevent.models.event.Event;
 import com.hcmute.bookingevent.payload.request.EventReq;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public interface IEventService {
     ResponseEntity<?> updateEventBackground(String id, MultipartFile file);
 
     ResponseEntity<?> upcomingEvents();
+    //
+    Event findEventById_Object(String id);
 
 
 }

@@ -1,16 +1,12 @@
 package com.hcmute.bookingevent.controllers;
 
-import com.hcmute.bookingevent.Implement.IEventService;
+import com.hcmute.bookingevent.Implement.IAccountService;
 import com.hcmute.bookingevent.exception.AppException;
 import com.hcmute.bookingevent.models.account.Account;
-
-import com.hcmute.bookingevent.Implement.IAccountService;
 import com.hcmute.bookingevent.payload.request.UpdateInforRes;
 import com.hcmute.bookingevent.security.jwt.JwtTokenProvider;
 import com.hcmute.bookingevent.services.AdminService;
-import com.hcmute.bookingevent.services.EventService;
 import lombok.AllArgsConstructor;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 @RestController
@@ -58,14 +53,20 @@ public class AccountController {
         throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
 
     }
+//    @GetMapping("/account/{id}")
+//    public ResponseEntity<?> findAccountById(@PathVariable String id,HttpServletRequest request) {
+//        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
+//        if(account.getId().equals(id)) {
+//            return iAccountService.findAccountById(id);
+//        }
+//        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
+//    }
+    //test RestTemplate
     @GetMapping("/account/{id}")
-    public ResponseEntity<?> findAccountById(@PathVariable String id,HttpServletRequest request) {
-        Account account = jwtUtils.getGmailFromJWT(jwtUtils.getJwtFromHeader(request));
-        if(account.getId().equals(id)) {
+    public ResponseEntity<?> findAccountById(@PathVariable String id) {
             return iAccountService.findAccountById(id);
-        }
-        throw new AppException(HttpStatus.FORBIDDEN.value(), "You don't have permission! Token is invalid");
     }
+
     @PostMapping(path = "/account/avatar/{id}")
     public ResponseEntity<?> updateAvatarUser (@PathVariable String id,
                                          HttpServletRequest request,

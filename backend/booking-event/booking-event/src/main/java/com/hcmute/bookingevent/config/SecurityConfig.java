@@ -69,7 +69,9 @@ public class SecurityConfig {
             "/webjars/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/ws/**"
+            "/ws/**",
+            "/users/feign",
+            "/api/restTemplate/event/**"
     };
 
     private final String[] ALLOWED_GET_LIST_URLS = {
